@@ -1,0 +1,167 @@
+
+@media only screen and (max-width:600px){
+
+    #content{
+        display:flex;
+        flex-direction: column-reverse;
+        width: 100%;
+       text-align: center;
+       
+    }
+    #visit-card-1{
+    margin-left: 10%;
+
+        width:800px;
+        background-color: #fff;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+    }
+    #visit-card-2{
+        margin-left:8%;
+        width:800px;
+        background-color: #fff;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+    }
+    #exercise-card{
+      
+   margin-left: 11%;
+        width: 800px;
+        font-size: 24px;
+    }
+
+   
+    #exercise-card2{
+    position: relative;
+    left: 11%;
+    margin-bottom: 20px;
+        justify-content: center;
+        background-color: #fff;
+        width: 800px;
+       
+        font-size: 24px;
+        text-align: center;
+    }
+}
+
+
+.visit-col{
+    background-color: white;
+    border-radius: 10px;
+    height: 40px;
+    min-width:50%;
+    margin-right: 5px;
+    padding-top: 5px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.visit-card-1{
+    position:relative;
+    min-width:500px;
+    background-color: #fff;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+margin-right: 30px;
+border-radius: 0px;
+}
+.visit-card-2{
+    
+    min-width:500px;
+    background-color: #fff;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+margin-right: 30px;
+}
+
+.content{
+    width:90%;
+ 
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.exercises-cards{
+   min-width: 500px;
+    margin-top: 10px;
+    text-align: start;
+    
+}
+.upper-visit-row{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.video-conference-detail{
+    text-align:left;
+    margin-top: 10px;
+    border-radius: 10px;
+    height:80px;
+    padding: 10px 10px 10px 10px;
+    width:100%;
+    background-color: white;
+}
+
+.prescription-row{
+    border-radius: 10px;
+    padding:10px 10px 10px 10px;
+    padding-top: 15px;
+    width:100%;
+    text-align: left;
+    background-color: white;
+    height: 60px; 
+    margin-top: 5px;
+}
+.main-card{
+    position: relative;
+   
+}
+
+.exercise-card{
+    position: relative;
+    left: 00px;
+    background-color: #fff;
+    max-width: 100%;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+margin-bottom:20px;
+}
+.exercise-card2{
+ position: relative;
+ 
+  text-align: center;
+width:80%;
+
+
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+-moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+margin-top: 20px;
+}
+
+.nothing-present{
+    margin-left: 30px;
+    height: 80px;
+    width:50%;
+    font-size: 90%;
+    padding-top: 20px;
+    background-color: #fff;
+    box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+    -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+    -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+}
+
+.time-slot-buttons{
+    text-align: center;
+}

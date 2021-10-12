@@ -1,0 +1,11 @@
+export const FETCH_DATA = "fectchData";
+export const FILTER_DATA = "filterData";
+export const RECEIVED_DATA = "receivedData";
+export const CARE_PLAN_STATE_CHANGE = "carePlanState";
+export const CARE_PLAN_REP_CHANGE = "carePlanRepState";
+export const CARE_PLAN_ROM_CHANGE = "carePlanRomState";
+export const CARE_PLAN_TIME_CHANGE = "carePlanTimeState";
+export const CARE_PLAN_POST_DATA = "carePlanPostData";
+export const CARE_PLAN_SUCCESS = "carePlanTimeSuccess";
+export const CARE_PLAN_FAILURE = "carePlanTimeFailure";
+export const CARE_PLAN_CLEAR_STATE = "carePlanClearState";

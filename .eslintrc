@@ -1,0 +1,9 @@
+{
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "rules":{
+        "no-unused-vars":"off",
+        "array-callback-return":"off",
+        "no-undef":"off"
+    }
+}
