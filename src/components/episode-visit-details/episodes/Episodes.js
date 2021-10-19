@@ -149,8 +149,17 @@ const Episodes = ({ handleClick2 }) => {
                 value: newData.end_date,
             }
         })
+  // aswin 10/17/2021 start //
+  dispatch({
+    type: EPISODE_STATECHANGE,
+    payload: {
+        key: 'file',
+        value: newData.files,
+    }
+})
+// aswin 10/17/2021 stop //
 
-        history.push("/add-episode")
+     history.push("/add-episode")
     }
 
     //ChangeShow

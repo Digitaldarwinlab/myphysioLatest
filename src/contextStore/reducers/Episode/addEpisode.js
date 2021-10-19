@@ -68,7 +68,7 @@ export const episodeReducer = (state = episodeInitialState, action) => {
                  patient_main_code:state.patient_main_code,
                 patient_code: state.patient_code,
                 patient_name: state.patient_name,
-                Patient_no: state.Patient_no,
+                Patient_no: state.Patient_no
             }
         default:
             return {

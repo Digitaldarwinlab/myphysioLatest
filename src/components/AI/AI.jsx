@@ -587,7 +587,7 @@ class AI extends Component {
                                         </Row>
                                     </div>
                                     <div className="detail" id="detail">
-                                    <h5  className="mt-1">Patient Name: {this.props.history.location.state.stateName.carePlanRedcucer.patient_name} </h5>
+                                    <h5  className="mt-1">Patient Name: {this.props.history.location.state.stateName.patient_name} </h5>
                                     <h5>Excercise Name: {this.state.ExcerciseName}</h5>
                                     <h5 className="mt-1">Joints: </h5>
                                     </div>

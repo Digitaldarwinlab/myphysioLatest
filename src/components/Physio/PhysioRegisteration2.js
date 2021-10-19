@@ -110,14 +110,28 @@ const PhysioRegisteration2 = (props) => {
             }, 10000);
         }
         else  if (validation.checkAddrValidation(data.Address_1).error) {
-            dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            setTimeout(() => {
-                dispatch({ type: VALIDATION, payload: { error: "" } });
-            }, 10000);
+            // dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
+            // window.scrollTo({
+            //     top: 0,
+            //     behavior: 'smooth'
+            // });
+            // setTimeout(() => {
+            //     dispatch({ type: VALIDATION, payload: { error: "" } });
+            // }, 10000);
+
+               {/* aswin 10/14/2021 start*/}
+               let err= validation.checkAddrValidation(data.email)
+               dispatch({ type: VALIDATION, payload: { error: err.error } });
+               {/* aswin 10/14/2021 end*/}
+               window.scrollTo({
+                   top: 0,
+                   behavior: 'smooth'
+               });
+               {/* aswin 10/14/2021 start*/}
+               // setTimeout(() => {
+               //     dispatch({ type: VALIDATION, payload: { error: "" } });
+               // }, 10000);
+               {/* aswin 10/14/2021 stop*/}
         }
         else {
             const checkError = state.Validation.error;
@@ -130,21 +144,67 @@ const PhysioRegisteration2 = (props) => {
         }
     }
     const handleReset = () => {
-        if (state.physioRegisterReducer.id) {
+        // if (state.physioRegisterReducer.id) {
+        //     if (window.confirm("Confirm, Do You want to Cancel Update?")) {
+        //         dispatch({ type: CLEAR_STATE });
+        //        // history.push("/physio/list");
+                
+        //     }
+        // } else {
+        //     if (window.confirm("Confirm, Do You want to Reset all fields?")) {
+        //         dispatch({ type: CLEAR_STATE });
+        //         form.resetFields()
+        //         props.back()
+                
+                
+        //     }
+        // }
+
+
+          {/* aswin 10/14/2021 start*/}
+    if (state.physioRegisterReducer.id) {
+        {/* aswin 10/14/2021 stop*/}
             if (window.confirm("Confirm, Do You want to Cancel Update?")) {
                 dispatch({ type: CLEAR_STATE });
                // history.push("/physio/list");
                 
             }
-        } else {
+       } else {
+           {/* aswin 10/14/2021 start*/}
             if (window.confirm("Confirm, Do You want to Reset all fields?")) {
-                dispatch({ type: CLEAR_STATE });
-                form.resetFields()
-                props.back()
-                
-                
+                state.physioRegisterReducer.Address_1=""
+                state.physioRegisterReducer.Address_2=""
+                state.physioRegisterReducer.Address_3=""
+                state.physioRegisterReducer.city=""
+                state.physioRegisterReducer.state=""
+                state.physioRegisterReducer.email=""
+                state.physioRegisterReducer.country=""
+                state.physioRegisterReducer.facebook=""
+                state.physioRegisterReducer.linkedin=""
+                state.physioRegisterReducer.regd_no_1=""
+                state.physioRegisterReducer.regd_no_2=""
+                state.physioRegisterReducer.degree=""
+                state.physioRegisterReducer.expertise_1=""
+                state.physioRegisterReducer.expertise_2=""
+                state.physioRegisterReducer.expertise_3=""
+                form.setFieldsValue({ Address_1: "" })
+                form.setFieldsValue({ Address_2: "" })
+                form.setFieldsValue({ Address_3: "" })
+                form.setFieldsValue({ city: "" })
+                form.setFieldsValue({ state: "" })
+                form.setFieldsValue({ country: "" })
+                form.setFieldsValue({ email: "" })
+                form.setFieldsValue({ facebook:"" })
+                form.setFieldsValue({ linkedin: "" })
+                form.setFieldsValue({ regd_no_1: "" })
+                form.setFieldsValue({ regd_no_2: "" })
+                form.setFieldsValue({ degree:"" });
+                form.setFieldsValue({ expertise_1: "" });
+                form.setFieldsValue({ expertise_2: "" });
+                form.setFieldsValue({ expertise_3: "" });
             }
-        }
+       }
+       {/* aswin 10/14/2021 stop*/}
     }
     const Back = () => {
         props.back();

@@ -49,155 +49,346 @@ const Register3 = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [tableData, setTableData] = useState([]);
 
-    const handleBlur = (e) => {
-        const key = e.target.name;
-        console.log(key)
-        let error = {};
-        if (key === "Allergies") {
-            error = validation.checkNullValidation(e.target.value);
-        }
-        if (key === "MedicalHistory") {
-          //  console.log('erroring  medical history')
-            error = validation.checkNullValidation(e.target.value);
+    // const handleBlur = (e) => {
+    //     const key = e.target.name;
+    //     console.log(key)
+    //     let error = {};
+    //     if (key === "Allergies") {
+    //         error = validation.checkNullValidation(e.target.value);
+    //     }
+    //     if (key === "MedicalHistory") {
+    //       //  console.log('erroring  medical history')
+    //         error = validation.checkNullValidation(e.target.value);
 
-        }if (key === "FamilyHistory") {
-            error = validation.checkNullValidation(e.target.value);
-        }
-        if (error.error) {
-            dispatch({ type: VALIDATION, payload: { error: error.error } });
-            setTimeout(() => {
-                dispatch({ type: VALIDATION, payload: { error: "" } });
-            }, 10000);
-        }
-    }
+    //     }if (key === "FamilyHistory") {
+    //         error = validation.checkNullValidation(e.target.value);
+    //     }
+    //     if (error.error) {
+    //         dispatch({ type: VALIDATION, payload: { error: error.error } });
+    //         setTimeout(() => {
+    //             dispatch({ type: VALIDATION, payload: { error: "" } });
+    //         }, 10000);
+    //     }
+    // }
 
-    const showModal = () => {
-        const checkError = state.Validation.error;
-        if (checkError) {
-            alert("please check all the fields")
-        }
-        else {
-            let tempData = [];
-            let keys = Object.keys(state.BasicDetails);
-            let index = 0;
-            keys.forEach(key => {
-                if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
-                    if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
-                        tempData.push({
-                            key: index,
-                            Field: MappingKey[key],
-                            Value: state.BasicDetails[key]
-                        });
-                        index += 1;
-                    }
-                }
-            });
-            setTableData(tempData);
-            setIsModalVisible(true);
-        }
+    // const showModal = () => {
+    //     const checkError = state.Validation.error;
+    //     if (checkError) {
+    //         alert("please check all the fields")
+    //     }
+    //     else {
+    //         let tempData = [];
+    //         let keys = Object.keys(state.BasicDetails);
+    //         let index = 0;
+    //         keys.forEach(key => {
+    //             if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
+    //                 if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
+    //                     tempData.push({
+    //                         key: index,
+    //                         Field: MappingKey[key],
+    //                         Value: state.BasicDetails[key]
+    //                     });
+    //                     index += 1;
+    //                 }
+    //             }
+    //         });
+    //         setTableData(tempData);
+    //         setIsModalVisible(true);
+    //     }
 
-    };
+    // };
 
-    const handleOk = async () => {
-        setIsModalVisible(false);
-        let result;
-        if (state.BasicDetails.pp_patm_id === "") {
-            result = await Patient_Register(state.BasicDetails, dispatch);
-        } else {
-            result = await Patient_Update(state.BasicDetails, dispatch);
-        }
-        if (result && result[0]) {
-            if(JSON.parse(localStorage.getItem("user")).role=='patient')
-                {
-                    window.location.href = "/patient/profile";
-                }
-                else
-                {
-                    window.location.href = "/pateints";
-                }
-            window.location.href = "/pateints";
-        } else {
-            dispatch({ type: PATIENT_REG_FAILURE });
-            dispatch({ type: VALIDATION, payload: { error: result[1] } }); 
+    // const handleOk = async () => {
+    //     setIsModalVisible(false);
+    //     let result;
+    //     if (state.BasicDetails.pp_patm_id === "") {
+    //         result = await Patient_Register(state.BasicDetails, dispatch);
+    //     } else {
+    //         result = await Patient_Update(state.BasicDetails, dispatch);
+    //     }
+    //     if (result && result[0]) {
+    //         if(JSON.parse(localStorage.getItem("user")).role=='patient')
+    //             {
+    //                 window.location.href = "/patient/profile";
+    //             }
+    //             else
+    //             {
+    //                 window.location.href = "/pateints";
+    //             }
+    //         window.location.href = "/pateints";
+    //     } else {
+    //         dispatch({ type: PATIENT_REG_FAILURE });
+    //         dispatch({ type: VALIDATION, payload: { error: result[1] } }); 
             
-        }
-    };
+    //     }
+    // };
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-
-
-
-    useEffect(() => {
-        const data = state.BasicDetails;
-        form.setFieldsValue({ Allergies: data.Allergies });
-        form.setFieldsValue({ MedicalHistory: data.MedicalHistory });
-        form.setFieldsValue({ FamilyHistory: data.FamilyHistory });
-    }, [props.clearState])
+    // const handleCancel = () => {
+    //     setIsModalVisible(false);
+    // };
 
 
-    const Back = () => {
-        props.back();
-    }
 
-    const handleChange = (key, value, id = 0) => {
+    // useEffect(() => {
+    //     const data = state.BasicDetails;
+    //     form.setFieldsValue({ Allergies: data.Allergies });
+    //     form.setFieldsValue({ MedicalHistory: data.MedicalHistory });
+    //     form.setFieldsValue({ FamilyHistory: data.FamilyHistory });
+    // }, [props.clearState])
 
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
+
+    // const Back = () => {
+    //     props.back();
+    // }
+
+    // const handleChange = (key, value, id = 0) => {
+
+    //     dispatch({
+    //         type: STATECHANGE,
+    //         payload: {
+    //             key,
+    //             value
+    //         }
+    //     });
+    //     dispatch({ type: "NOERROR" });
+    // }
+
+    // const onFinish = (values) => {
+    //     // console.log('Success:', values);
+    // };
+
+    // const onFinishFailed = (errorInfo) => {
+    //     // console.log('Failed:', errorInfo);
+    // };
+
+    // const reset = () => {
+    //     if (state.BasicDetails.pp_patm_id) {
+    //         if (window.confirm("Confirm, Do You want to Cancel Update?")) {
+    //            // dispatch({ type: CLEAR_STATE });
+    //            if(JSON.parse(localStorage.getItem("user")).role=='patient')
+    //             {
+    //                 history.push('patient/profile')
+    //             }
+    //             else
+    //             {
+    //                 history.push("/physio/register");
+    //             }
+    //         }
+    //     } else {
+    //         if (window.confirm("Confirm, Do You want to Reset all ?")) {
+    //            // dispatch({type: BASIC_CLEARSTATE,})
+    //            if(JSON.parse(localStorage.getItem("user")).role=='patient')
+    //            {
+    //                history.push('patient/profile')
+    //            }
+    //            else
+    //            {
+    //                history.push("/dashboard");
+    //            }
+    //         }
+    //     }
+    // }
+
+    // return (
+    //     <>     <div style={{ minHeight: "20px" }}></div>
+    //         {state.BasicDetails.isLoading && <Loading />}
+    //         <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b> {JSON.parse(localStorage.getItem("user")).role=='patient' ? 'Update Profile' : 'Patient'}</b></h1>
+    //         <StepBar src={svg} />
+    //         <Title level={3} className="border mb-0 p-2 my-2">History</Title>
+
+    //         <Form onFinish={onFinish} style={{marginTop:'2%'}} layout="vertical" onFinishFailed={onFinishFailed} form={form} name="control-hooks">
+    //             <div className="border p-3">
+
+ /* aswin on 10/13/2021 start */
+ const [allergyErr, setAllergyErr] = useState(false);
+ const [medicalErr, setMedicalErr] = useState(false);
+ const [familiyErr, setFamilyErr] = useState(false);
+ const checkFirstCharSpecial=(name,value)=>{
+     //var specialFormat = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/g;
+     var specialFormat = /^[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/g;
+     var numFormat = /^[0-9]+/g;
+     if(name==="Allergies"){
+         if(specialFormat.test(value)||numFormat.test(value)){
+             setAllergyErr(true)
+         }else{
+             setAllergyErr(false)
+         }
+     }else if(name==="MedicalHistory"){
+         if(specialFormat.test(value)||numFormat.test(value)){
+             setMedicalErr(true)
+         }else{
+             setMedicalErr(false)
+         }
+     }else if(name==="FamilyHistory"){
+         if(specialFormat.test(value)||numFormat.test(value)){
+             setFamilyErr(true)
+         }else{
+             setFamilyErr(false)
+         }
+     }
+ }
+ const handleBlur = (e) => {
+     const key = e.target.name;
+     console.log(key)
+     let error = {};
+
+     if (key === "Allergies") {
+         error = validation.checkNullValidation(e.target.value);
+         checkFirstCharSpecial(key,e.target.value)
+     }
+     if (key === "MedicalHistory") {
+       //  console.log('erroring  medical history')
+         error = validation.checkNullValidation(e.target.value);
+         checkFirstCharSpecial(key,e.target.value)
+
+     }if (key === "FamilyHistory") {
+         error = validation.checkNullValidation(e.target.value);
+         checkFirstCharSpecial(key,e.target.value)
+     }
+     if (error.error) {
+         dispatch({ type: VALIDATION, payload: { error: error.error } });
+         setTimeout(() => {
+             dispatch({ type: VALIDATION, payload: { error: "" } });
+         }, 10000);
+     }
+ }
+
+ const showModal = () => {
+     const checkError = state.Validation.error;
+     if (checkError||allergyErr||medicalErr||familiyErr) {
+         alert("please check all the fields")
+     }
+     else {
+         let tempData = [];
+         let keys = Object.keys(state.BasicDetails);
+         let index = 0;
+         keys.forEach(key => {
+             if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
+                 if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
+                     tempData.push({
+                         key: index,
+                         Field: MappingKey[key],
+                         Value: state.BasicDetails[key]
+                     });
+                     index += 1;
+                 }
+             }
+         });
+         setTableData(tempData);
+         setIsModalVisible(true);
+     }
+
+ };
+
+ const handleOk = async () => {
+     setIsModalVisible(false);
+     let result;
+     if (state.BasicDetails.pp_patm_id === "") {
+         result = await Patient_Register(state.BasicDetails, dispatch);
+     } else {
+         result = await Patient_Update(state.BasicDetails, dispatch);
+     }
+     if (result && result[0]) {
+         if(JSON.parse(localStorage.getItem("user")).role=='patient')
+             {
+                 window.location.href = "/patient/profile";
+             }
+             else
+             {
+                 window.location.href = "/pateints";
+             }
+         window.location.href = "/pateints";
+     } else {
+         dispatch({ type: PATIENT_REG_FAILURE });
+         dispatch({ type: VALIDATION, payload: { error: result[1] } });
+         
+     }
+ };
+
+ const handleCancel = () => {
+     setIsModalVisible(false);
+ };
+
+
+
+ useEffect(() => {
+     const data = state.BasicDetails;
+     form.setFieldsValue({ Allergies: data.Allergies });
+     form.setFieldsValue({ MedicalHistory: data.MedicalHistory });
+     form.setFieldsValue({ FamilyHistory: data.FamilyHistory });
+ }, [props.clearState])
+
+
+ const Back = () => {
+     props.back();
+ }
+
+ const handleChange = (key, value, id = 0) => {
+     if(key==="Allergies"){
+         checkFirstCharSpecial(key,value)
+     }else if(key==="MedicalHistory"){
+         checkFirstCharSpecial(key,value)
+     }else if(key==="FamilyHistory"){
+         checkFirstCharSpecial(key,value)
+     }
+     dispatch({
+         type: STATECHANGE,
+         payload: {
+             key,
+             value
+         }
+     });
+     dispatch({ type: "NOERROR" });
+ }
+
+ const onFinish = (values) => {
+     // console.log('Success:', values);
+ };
+
+ const onFinishFailed = (errorInfo) => {
+     // console.log('Failed:', errorInfo);
+ };
+
+ const reset = () => {
+     if (state.BasicDetails.pp_patm_id) {
+         if (window.confirm("Confirm, Do You want to Cancel Update?")) {
+            // dispatch({ type: CLEAR_STATE });
+            if(JSON.parse(localStorage.getItem("user")).role=='patient')
+             {
+                 history.push('patient/profile')
+             }
+             else
+             {
+                 history.push("/physio/register");
+             }
+         }
+     } else {
+         if (window.confirm("Confirm, Do You want to Reset all ?")) {
+            // dispatch({type: BASIC_CLEARSTATE,})
+            if(JSON.parse(localStorage.getItem("user")).role=='patient')
+            {
+                history.push('patient/profile')
             }
-        });
-        dispatch({ type: "NOERROR" });
-    }
-
-    const onFinish = (values) => {
-        // console.log('Success:', values);
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        // console.log('Failed:', errorInfo);
-    };
-
-    const reset = () => {
-        if (state.BasicDetails.pp_patm_id) {
-            if (window.confirm("Confirm, Do You want to Cancel Update?")) {
-               // dispatch({ type: CLEAR_STATE });
-               if(JSON.parse(localStorage.getItem("user")).role=='patient')
-                {
-                    history.push('patient/profile')
-                }
-                else
-                {
-                    history.push("/physio/register");
-                }
+            else
+            {
+                history.push("/dashboard");
             }
-        } else {
-            if (window.confirm("Confirm, Do You want to Reset all ?")) {
-               // dispatch({type: BASIC_CLEARSTATE,})
-               if(JSON.parse(localStorage.getItem("user")).role=='patient')
-               {
-                   history.push('patient/profile')
-               }
-               else
-               {
-                   history.push("/dashboard");
-               }
-            }
-        }
-    }
+         }
+     }
+ }
 
-    return (
-        <>     <div style={{ minHeight: "20px" }}></div>
-            {state.BasicDetails.isLoading && <Loading />}
-            <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b> {JSON.parse(localStorage.getItem("user")).role=='patient' ? 'Update Profile' : 'Patient'}</b></h1>
-            <StepBar src={svg} />
-            <Title level={3} className="border mb-0 p-2 my-2">History</Title>
+ return (
+     <>     <div style={{ minHeight: "20px" }}></div>
+         {state.BasicDetails.isLoading && <Loading />}
+         <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b> {JSON.parse(localStorage.getItem("user")).role=='patient' ? 'Update Profile' : 'Patient'}</b></h1>
+         <StepBar src={svg} />
+         <Title level={3} className="border mb-0 p-2 my-2">History</Title>
 
-            <Form onFinish={onFinish} style={{marginTop:'2%'}} layout="vertical" onFinishFailed={onFinishFailed} form={form} name="control-hooks">
-                <div className="border p-3">
+         <Form onFinish={onFinish} style={{marginTop:'2%'}} layout="vertical" onFinishFailed={onFinishFailed} form={form} name="control-hooks">
+             <div className="border p-3">
+                 {allergyErr||medicalErr||familiyErr&&(<Error error={'First cannot be special character'}/>)}
+     {/* aswin on 10/13/2021 start */}
+
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     {state.BasicDetails.success && (<Success success={state.BasicDetails.success} />)}
                     <Row>

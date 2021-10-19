@@ -2,8 +2,12 @@ import { Value } from "devextreme-react/range-selector";
 
 const checkNullValidation = (value) => {
     let error = {};
-    var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/;
-    var matches = value.match(/\d+/g);
+     /* aswin on 10/13/2021 start*/
+     var format = /^[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/;
+     var matches = value.match(/^[0-9]+/g);
+     /* aswin on 10/13/2021 stop*/
+    // var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/;
+    // var matches = value.match(/\d+/g);
 
     if(format.test(value))
     {

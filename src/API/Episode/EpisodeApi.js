@@ -9,34 +9,77 @@ import {
 //@Add Episode 
 //@param Episode details
 //@return- Message.
-export const EpisodeApi = async (details, dispatch) => {
-    console.log('inside detail')
-    console.log(details)
-    dispatch({ type: EPISODE_BOOK_REQUEST });
-    let EpisodeDetails = {};
-    EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
-    EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
-    EpisodeDetails["pp_pm_id"] = details.patient_code;
-    EpisodeDetails["Operative_Types"] = details.Operative_Types;
+// export const EpisodeApi = async (details, dispatch) => {
+//     console.log('inside detail')
+//     console.log(details)
+//     dispatch({ type: EPISODE_BOOK_REQUEST });
+//     let EpisodeDetails = {};
+//     EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
+//     EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
+//     EpisodeDetails["pp_pm_id"] = details.patient_code;
+//     EpisodeDetails["Operative_Types"] = details.Operative_Types;
     
-    EpisodeDetails["primary_complaint"] = details.complaint;
-    EpisodeDetails["start_date"] = details.start_date;
-    EpisodeDetails["end_date"] = details.end_date;
-    EpisodeDetails["Patient_History"] = details.Patient_History;
-    EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
-    EpisodeDetails["file"] = details.file;
-    const headers = {
-        Accept: 'application/json',
-        "Content-type": "application/json"
-    }
-    try {
-        const response = await fetch(process.env.REACT_APP_API + "/add_episode/", {
-            headers: headers,
-            method: "POST",
-            body: JSON.stringify(EpisodeDetails)
-        });
-        const data = await response.json();
+//     EpisodeDetails["primary_complaint"] = details.complaint;
+//     EpisodeDetails["start_date"] = details.start_date;
+//     EpisodeDetails["end_date"] = details.end_date;
+//     EpisodeDetails["Patient_History"] = details.Patient_History;
+//     EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
+//     EpisodeDetails["file"] = details.file;
+//     const headers = {
+//         Accept: 'application/json',
+//         "Content-type": "application/json"
+//     }
+//     try {
+//         const response = await fetch(process.env.REACT_APP_API + "/add_episode/", {
+//             headers: headers,
+//             method: "POST",
+//             body: JSON.stringify(EpisodeDetails)
+//         });
+//         const data = await response.json();
      
+//         if (response.status !== 200 && response.status !== 201) {
+//             return [false, `Error ${response.status}: ` + " " + response.statusText];
+//         }
+//         if (data && data.message === "episode added") {
+//             return [true];
+//         } else {
+//             return [false, data.message];
+//         }
+//     } catch (err) {
+//         return [false, "Error: 501" + " " + "Internal Server Error."];
+//     }
+// }
+
+export const EpisodeApi = async (details, dispatch) => {
+    // aswin 10/16/2021 //
+      let formdata = new FormData();
+ 
+    formdata.append("treating_doc_details",JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID }))
+    formdata.append("PP_Patient_Details",JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no }))
+    formdata.append("pp_pm_id",parseInt(details.patient_code))
+    formdata.append("Operative_Types",details.Operative_Types)
+    formdata.append("primary_complaint",details.complaint)
+    formdata.append("start_date",details.start_date)
+    formdata.append("end_date",details.end_date)
+    formdata.append("Patient_History",details.Patient_History)
+    formdata.append("Closure_Notes",details.Closure_Notes)
+ 
+    for (const file of details.file) { 
+        formdata.append('files', file, file.name); 
+    }
+  
+    dispatch({ type: EPISODE_BOOK_REQUEST });
+  
+    try {
+       
+        console.log(formdata)
+        const response = await fetch(process.env.REACT_APP_API + "/add_episode/", {
+            method: "POST",
+            body: formdata
+        });
+        console.log(response)
+        const data = await response.json();
+     // aswin 10/16/2021 //
         if (response.status !== 200 && response.status !== 201) {
             return [false, `Error ${response.status}: ` + " " + response.statusText];
         }
@@ -49,6 +92,8 @@ export const EpisodeApi = async (details, dispatch) => {
         return [false, "Error: 501" + " " + "Internal Server Error."];
     }
 }
+
+
 
 // get episode
 export const getEpisode = async (patientID) => {

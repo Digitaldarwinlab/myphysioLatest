@@ -142,7 +142,9 @@ export const AddVisit = async (details) => {
     console.log('Add   :')
    console.log(details)
 
-
+ // aswin 10/16/2021 //
+ sessionStorage.removeItem('newDate')
+ // aswin 10/16/2021 //
     
    
 
