@@ -16,7 +16,10 @@ import "./Calendar.css";
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 //TimeColors
-
+const activeArr = [
+  true,false,false,false,false,
+  false,false,false,false,false,
+  false,false,false,false,false]
 const timeColors = [
   "#17BD9C",
   "#00294C",
@@ -69,12 +72,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [todaysdate, Settodaysdate] = useState(new Date());
   const [chosenTime, SetchoosenTime] = useState(0);
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
- var activeCalVal=true;
- function onTodoChange(value){
-  activeCalVal=value;
- //this.setState({[name]: value});
-
-}
+ 
+ 
 
   //  console.log('date is : ' + todaysdate.getDate())
   function convert(str) {
@@ -208,20 +207,27 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     return current && current < moment(yesterday, "YYYY-MM-DD");
   };
 
-  const onSelectedDay = async (val) => {
-    //  console.log(val)
-   // activeCalVal=true;
-   onTodoChange(true);
-   // setState({ activeCalVal: true })
-    console.log("BBBBBBBBB",activeCalVal);
+  const onSelectedDay = async (val,idx) => {
+ 
+   activeArr.map((data,index) => {
+     if (index===idx) {
+      activeArr[index] = true;
+     }
+     else {
+      activeArr[index] = false;
+     }
+    
+   })
+
+   
     SetcustomisedDate(convert(val));
-   // setActiveCal(true);
+
     setLoading(true);
     setExercises([]);
     setTimes([]);
-    //    console.log('on selecting : ' + convert(val))
+  
     let result = await GetPatientCarePlan(currentEpissode, convert(val));
-    // console.log(result)
+ 
     setLoading(false);
     if (result[0]) {
       try {
@@ -513,7 +519,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     );
   };
   const CalStrip = (data) => {
-    console.log("CCCCCCCC",activeCalVal);
+
     let val=data.dayName.substr(0, 3);
     return (
     
@@ -526,11 +532,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   };
 
   const CalStripActive = (data) => {
-    console.log("AAAAAA",activeCalVal);
- //activeCalVal=false;
+ 
  let val=data.dayName.substr(0, 3);
- onTodoChange(false);
- //setState({ activeCalVal: false })
     return (
      
         <li class="active">
@@ -679,100 +682,23 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             ? calendarData.map((data,index) => {
                 console.log(data);
              
-                //setActiveCal(false);
-             //   activeCalVal=false;
+                
                return (
+   
+     <a onClick={() => onSelectedDay(data.date,index)}>
 
-           // CalStrip(data.date,activeCalVal)    
-     <a onClick={() => onSelectedDay(data.date)}>
-     {activeCalVal ? CalStripActive(data) : CalStrip(data)}
+     {activeArr[index] ? CalStripActive(data) : CalStrip(data)}
      
               </a>       
            )
               })
             : Visits(false)}
-{/*             
-              <li>
-                <p>Tue </p>
-                <p>19</p>
-              </li>
-              <li class="active">
-                <p>Wed </p>
-                <p>20</p>
-              </li>
-              <li>
-                <p>Thu </p>
-                <p>21</p>
-              </li>
-              <li>
-                <p>Fri </p>
-                <p>22</p>
-              </li>
-              <li>
-                <p>Sat </p>
-                <p>23</p>
-              </li>
-              <li>
-                <p>Sun </p>
-                <p>24</p>
-              </li>
-              <li>
-                <p>Mon </p>
-                <p>25</p>
-              </li>
-              <li>
-                <p>Tue </p>
-                <p>26</p>
-              </li>
-              <li>
-                <p>Wed </p>
-                <p>27</p>
-              </li>
-              <li>
-                <p>Thur </p>
-                <p>28</p>
-              </li>
-              <li>
-                <p>Fri </p>
-                <p>29</p>
-              </li>
-              <li>
-                <p>Sat </p>
-                <p>30</p>
-              </li>
-              <li>
-                <p>Sun </p>
-                <p>31</p>
-              </li>
-              <li>
-                <p>Mon </p>
-                <p>01</p>
-              </li>
-              <li>
-                <p>Tue </p>
-                <p>02</p>
-              </li> */}
+
               <li></li>
             </ul>
             <div class="nextBTN">next</div>
           </div>
 
-          {/* {calendarData.length > 0
-            ? calendarData.map((data) => {
-                console.log(data);
-
-                // return (<a  style={{color: "blue"}} onClick={() => onSelectedDay(data.date)}> {data.dayName} - {data.displayDay} - {data.displayMonth} - {data.displayYear} | </a>)
-              })
-            : Visits(false)} */}
-
-          {/* { <Col>
-             <DatePicker getSelectedDay={onSelectedDay}
-                  enableScroll={true}
-                    endDate={15}
-                  labelFormat={"MMMM yyyy"}
-                  color={"#374e8c"}                      
-/>
-</Col> } */}
         </Row>
       </center>
       {loading && (
