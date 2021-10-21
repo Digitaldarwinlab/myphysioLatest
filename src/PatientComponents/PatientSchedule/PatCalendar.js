@@ -65,6 +65,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [calendarData, SetcalendarData] = useState(0);
   const [allvisits, Setvisits] = useState([]);
   const [choosencareplan, Setchoosencareplan] = useState(0);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("")
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
   );
@@ -280,7 +282,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       }
     }
     var isDisabled = checkDisablitiy(val);
-    setButtonDisabled(isDisabled);
+    setButtonDisabled(isDisabled),
     setSelectedDate(val);
   };
   //Update Care Plan State
@@ -543,6 +545,12 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
    
     );
   };
+  const Heading = (data) => {
+    let val = data.displayMonth;
+    return (
+      <p>{val}</p>
+    )
+  }
   const Prescriptions = () => {
     return (
       <div className="p-2  border visit-card-2" id="visit-card-2">
@@ -674,19 +682,23 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         <Row justify="center">
           <div class="calenderView">
             <div class="monthName">
-              <h2>Oct - 2021</h2>
+              <h2>{selectedMonth} - {selectedYear}</h2>
             </div>
             <div class="pervsBTN">Prves</div>
             <ul class="daysName">
             {calendarData.length > 0
             ? calendarData.map((data,index) => {
                 console.log(data);
+
              
                 
                return (
    
-     <a onClick={() => onSelectedDay(data.date,index)}>
-
+     <a onClick={() => {onSelectedDay(data.date,index)
+     setSelectedMonth(data.displayMonth) 
+     setSelectedYear(data.displayYear)}}
+    
+     >
      {activeArr[index] ? CalStripActive(data) : CalStrip(data)}
      
               </a>       

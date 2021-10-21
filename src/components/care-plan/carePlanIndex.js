@@ -283,7 +283,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 <Col className="text-center cart-plan" onClick={() => { setState(!state) }}>
                     <i className="fas fa-running iconClass3"></i>
                     <p style={{ fontSize: "10px" }}>Plan</p>
-                    <span className="cart-plan-item-count">{length}</span>
+                    <span className="cart-plan-item-count" style={{marginRight:'-5px', marginTop:'15px'}}>{length}</span>
                 </Col>
             </Row>
         </React.Fragment>
