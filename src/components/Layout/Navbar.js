@@ -63,7 +63,7 @@ const Navigationbar = (props) => {
 				{userInfo.role =='admin' || userInfo.role=='physio'
 				?
 
-				<Menu className={`d-md-inline  hamburgerMenu `} id="hamburgerMenu" >
+				<Menu className={`d-md-inline  hamburgerMenu `}  id="hamburgerMenu" >
 					<Menu.Item key="1" style={{backgroundColor:'transparent',color:'white'}} onClick={() => { props.SideNavbarCollpased() }}>
                 {props.isSideNavbarCollpased
                     ? <GiHamburgerMenu style={{marginTop:'5px'}} size={25}  />
@@ -103,14 +103,13 @@ const Navigationbar = (props) => {
 						</Dropdown>)
 					}
 					<div>
-						<CgProfile style={{ margin: "auto 5px 0px", fontSize: "26px", marginTop:'0px' }} />
 						<Dropdown overlay={LogoutMenu()}
 							type="button"
 							trigger={['hover']}>
-							<a style={{position:'relative',bottom:'0px' }} className="ant-dropdown-link text-white" onClick={e => {
+							<a style={{position:'relative',bottom:'0px'}} className="ant-dropdown-link text-white" onClick={e => {
 								e.preventDefault()
 							}}>
-								<CgProfile style={{ margin: "auto 20px 0px", fontSize: "26px", marginTop:'0px' }} />	Hello {userInfo.info.first_name}
+								<CgProfile style={{ margin: "auto 10px 0px", fontSize: "26px", marginTop:'0px' }} />	Hello {userInfo.info.first_name}
 							</a>
 						</Dropdown>   
 					</div>
