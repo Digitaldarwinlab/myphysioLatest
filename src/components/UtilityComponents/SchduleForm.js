@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import { Form, Select, Button, Row, Col, Collapse,Typography,Modal,Upload} from "antd";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import FormDate from './../UI/antInputs/FormDate';
 import { InboxOutlined } from '@ant-design/icons';
@@ -42,23 +42,39 @@ const SchduleForm = (props) => {
     const [issubmit,Setissubmit]=useState(false)
     const [isclosuredisabled,Setisclosurediabled]=useState(false)
     const [starteDate,SetstartDate]=useState()
-    useEffect(() => {
+    {/* aswin 10/20/2021 start */}
+    const [resData, setResData]= useState({patient_code:'',first_name:'',last_name:'',mobile_no:''})
+    useEffect(async() => {
         const data = state;
-
+        if(state.patient_code){
+          const body={
+            id:state.patient_code
+          }
+          const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+          const res = await fetch("https://myphysio.digitaldarwin.in/api/basic_detail/",{
+            headers:headers,
+            method:"POST",
+            body:JSON.stringify(body)
+          })
+          const responseData = await res.json()
+          console.log("user data",responseData)
+          setResData(responseData)
+        }
+        
         form.setFieldsValue({ Ref_Dr_Name: data.Ref_Dr_Name });
         form.setFieldsValue({ Ref_Dr_ID: data.Ref_Dr_ID });
         form.setFieldsValue({ complaint: data.complaint });
         form.setFieldsValue({ Operative_Types: data.Operative_Types });
-      //  form.setFieldsValue({ file: data.file });
-         {/* aswin 10/17/2021 start */}
-         form.setFieldsValue({ file: data.files });
-         {/* aswin 10/17/2021 stop */}
+        form.setFieldsValue({ file: data.file });
         form.setFieldsValue({ Patient_History: data.Patient_History });
         form.setFieldsValue({ start_date: data.start_date ? moment(data.start_date, "YYYY-MM-DD") : props.startDateState });
         console.log(data)
       SetstartDate(data.start_date)
      
-    }, [])
+    }, [state.patient_code])
     
     const [form] = Form.useForm();
 
@@ -254,17 +270,18 @@ const SchduleForm = (props) => {
       </Modal>
                 <Row className="border ps-2 pe-2 pt-2 mb-2">
                     <Col span={8}>
-                        <p className="fw-bold p" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
+                        <p className="fw-bold p" style={font}><b>Patient Code: </b> {resData.patient_code} </p>
                     </Col>
                     <Col span={8}>
                         <p className="fw-bold p" style={font}>
-                        <b>Patient Name: </b>{state.patient_name}
+                        <b>Patient Name: </b>{resData.first_name} {resData.last_name}
                         </p>
                     </Col>
                     <Col span={8}> 
                     <p className="fw-bold p" style={font}>
-                    <b>Contact No: </b>{state.Patient_no}
+                    <b>Contact No: </b>{resData.mobile_no}
                     </p>
+                    {/* aswin 10/20/2021 stop */}
                     </Col>
                 </Row>
                 <Collapse style={{fontSize:'18px',fontWeight:'bold'}} defaultActiveKey={['1']} >
@@ -408,7 +425,7 @@ const SchduleForm = (props) => {
                 </Row>
                 <Col span={24}>
 
-                {/* <Dragger className="my-3 w-100" {...props} id="myPdf"
+                <Dragger className="my-3 w-100" {...props} id="myPdf"
                 listType="picture-card"
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
@@ -421,49 +438,7 @@ const SchduleForm = (props) => {
                 </p>
                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
               </Dragger>
-  */}
-
-
-      {/* aswin 10/17/2021 start */}
-      {props.opacity1=='0'&& !props.isupdating || !Colsure ?
-              <React.Fragment>
-              <br/>
-             <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/>
-             
-            
-
-  {state.file === undefined  ? state.file.map(fil=>(
-  <React.Fragment>
-  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
-  </a> <br/>
-    </React.Fragment>
-//)) : "no files"}
-             )): "no files"}
-             
-              </React.Fragment>
-              : 
-              <Dragger {...props} id="myPdf"
-              listType="picture-card"
-              accept="application/pdf,image/*,application/msword"
-              multiple="true"
-              customRequest={dummyRequest}
-              // aswin 10/16/2021 start //
-              
-              onChange={ async (e)=>{
-               let files=[]
-               await  e.fileList.map(data=>files.push(data.originFileObj))
-               console.log(files)
-               props.handleChange('file',files)
-              }}
-             
-            >
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            </Dragger> 
-              }
-              {/* aswin 10/17/2021 start */}
+ 
                 </Col>
                 
 
