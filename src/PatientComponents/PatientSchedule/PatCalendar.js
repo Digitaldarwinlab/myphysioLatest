@@ -612,6 +612,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             <span className="visit-col" span={12}>
               <b>Visit Type : </b> {data ? data.visit_type : "No Visit today"}
             </span>
+            <span className="visit-col" span={12}>
+              <b>Location : </b> {data ? data.visit_type : "No Visit today"}
+            </span>
           </div>
 
           <div className="video-conference-detail">

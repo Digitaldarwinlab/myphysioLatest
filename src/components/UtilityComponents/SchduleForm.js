@@ -430,13 +430,9 @@ const SchduleForm = (props) => {
               <br/>
              <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/>
              
-              {/* {state.file.length>0&&state.file.map(fil=>(
-                <React.Fragment>
-                <a href={fil} target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
-                </a> <br/>
-                  </React.Fragment> */}
+            
 
-{state.file !== undefined ? state.file.map(fil=>(
+  {state.file === undefined  ? state.file.map(fil=>(
   <React.Fragment>
   <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
   </a> <br/>
