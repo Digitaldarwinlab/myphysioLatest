@@ -452,7 +452,7 @@ const dispatch = useDispatch();
             <Modal
                 title=""
                 closable
-                visible={true}
+                visible={visible}
                 footer={null}
                 onCancel={() => setVisible(false)}
             >

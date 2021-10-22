@@ -36,29 +36,62 @@ const Assesment1 = (props1) => {
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   // console.log(state.episodeReducer.patient_code +'patient_code')
-  const [episodedata, SetepisodeData] = useState()
+  const [episodedata, SetepisodeData] = useState({patient_name:'',patient_main_code:'',episodeId:'',complaintId:'',start_date:''})
   useEffect(async () => {
     if (props1.history.location.state) {
       state.FirstAssesment.Type = props1.history.location.state.type
     }
     const data = await getEpisode(state.episodeReducer.patient_code)
-    if (data[0]) {
-      state.FirstAssesment.episode_id = data[0].pp_ed_id;
-      SetepisodeData({
-        episodeId: data[0].pp_ed_id,
-        complaintId: data[0].primary_complaint,
-        start_date: data[0].start_date
-      })
+    // aswin 10/22/2021 start
+    if(state.episodeReducer.patient_code){
+      const body={
+        id:state.episodeReducer.patient_code
+      }
+      const headers = {
+        Accept: 'application/json',
+        "Content-type": "application/json"
     }
-    else {
+      const res = await fetch("https://myphysio.digitaldarwin.in/api/basic_detail/",{
+        headers:headers,
+        method:"POST",
+        body:JSON.stringify(body)
+      })
+      const responseData = await res.json()
+      console.log("user data",responseData)
+      
+      state.FirstAssesment.episode_id = responseData.pp_ed_id;
+      SetepisodeData({
+        patient_name:responseData.first_name +" "+responseData.last_name,
+        patient_main_code:responseData.patient_code,
+        episodeId: responseData.pp_ed_id,
+        complaintId: responseData.primary_complaint,
+        start_date: responseData.start_date
+      })
+     
+    }else{
       SetepisodeData({
         episodeId: 'No data',
         complaintId: 'no data',
         start_date: 'no data'
       })
     }
+    // if (data[0]) {
+    //   state.FirstAssesment.episode_id = data[0].pp_ed_id;
+    //   SetepisodeData({
+    //     episodeId: data[0].pp_ed_id,
+    //     complaintId: data[0].primary_complaint,
+    //     start_date: data[0].start_date
+    //   })
+    // }
+    // else {
+    //   SetepisodeData({
+    //     episodeId: 'No data',
+    //     complaintId: 'no data',
+    //     start_date: 'no data'
+    //   })
+    // }
 
-  }, [])
+  }, [state])
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -68,6 +101,10 @@ const Assesment1 = (props1) => {
         location.pathname != '/assesment/Questions' &&
         location.pathname != '/care-plan' &&
         state.FirstAssesment.episode_id != "") {
+          if(sessionStorage.getItem('submit')){
+            sessionStorage.removeItem('submit')
+            return ;  
+          }
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           return true;
@@ -276,8 +313,10 @@ console.log(state.FirstAssesment.Type)
           <Col md={12} lg={12} sm={12} xs={12} >
             <div className="border">
               <p className="ps-1 py-2">
-                <b> Patient Name </b> {state.episodeReducer.patient_name} <br/>
-                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br/>
+              {/*  aswin 10/22/2021 start */}
+              <b> Patient Name </b> {episodedata.patient_name?episodedata.patient_name:'no patient selected'} <br/>
+                <b> Patient Code </b> {episodedata.patient_main_code?episodedata.patient_main_code:'no patient selected'} <br/>
+                {/*  aswin 10/22/2021 stop */}
                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
               <b>  Complaint : </b> {episodedata ? episodedata.complaintId : null} <br />
               <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
