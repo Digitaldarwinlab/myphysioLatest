@@ -46,7 +46,7 @@ const PatientSchedule = () => {
     return (
         <>
             <h3 className="fw-bold mt-2 ms-2"><BackButton /></h3>
-            <Row className="m-2"  justify="space-around">
+            <Row className="m-0"  justify="space-around">
              
                 <Col span={24} className="text-center" >
                     <center>
