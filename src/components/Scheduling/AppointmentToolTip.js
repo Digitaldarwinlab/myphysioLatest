@@ -32,13 +32,22 @@ export default class AppointmentTooltip extends React.Component {
           <div>
             Location : {movieData.location}
           </div>
-          {
+          {/* {
             movieData.video_link && (
             <a href={movieData.video_link}>
               {movieData.video_link}
             </a>
             )
+          } */}
+          {/* aswin 10/23/2021 start */}
+           {
+            movieData.video_link && (
+            <div>
+              {movieData.video_link}
+            </div>
+            )
           }
+          {/* aswin 10/23/2021 stop */}
           <div>
             {(new Date(movieData.startDate)).toLocaleTimeString('en-US')}
             {' - '}
