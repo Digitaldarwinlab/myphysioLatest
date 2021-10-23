@@ -146,7 +146,7 @@ console.log(Joints)
           </div>
         );
       })}
-      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px'}}>
+      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px', marginLeft:"-22px"}}>
       <Button className="ant-btn-cart me-1" onClick={AddRom}>
         Start
       </Button>
