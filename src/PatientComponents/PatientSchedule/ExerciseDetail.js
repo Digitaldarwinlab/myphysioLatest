@@ -64,7 +64,7 @@ const ExerciseDetail=(props)=>{
         <Col className="left-box m-1">
             <div className="top-heading" id="top-heading">
                 <h2 className="heading" id="heading"><b>{exercise.name} - {exercise.Rom.joint}</b></h2>
-                <h4 className="subtext" id="subtext"> lasdksao asdlasdpslap asdpasldpldaspd lpasldpasdlpasdl aspldapsld</h4>
+                <h3 className="subtext" id="subtext"><b style={{ color: "teal"}}> Find the Fun in Exercise and Track your Progress.......</b> </h3>
             </div>
             <div className="video">
             <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/${video_url}`} />

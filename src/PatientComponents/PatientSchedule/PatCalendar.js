@@ -74,8 +74,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [calendarData, SetcalendarData] = useState(0);
   const [allvisits, Setvisits] = useState([]);
   const [choosencareplan, Setchoosencareplan] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedYear, setSelectedYear] = useState("")
+  const [selectedMonth, setSelectedMonth] = useState("Oct");
+  const [selectedYear, setSelectedYear] = useState("2021")
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
   );
@@ -556,12 +556,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
    
     );
   };
-  const Heading = (data) => {
-    let val = data.displayMonth;
-    return (
-      <p>{val}</p>
-    )
-  }
   const Prescriptions = () => {
     return (
       <div className="p-2  border visit-card-2" id="visit-card-2">

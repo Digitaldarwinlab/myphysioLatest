@@ -510,13 +510,18 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 {   
                     countArray.length !== 0 && (
                         countArray.map((val, index) => {
-                            return <TimePickerComp showWatch={true} state={state} handleChange={handleChange} key={index} index={index} />
-                        })
+
+                            return (
+                                <Button style={{ display:"flex", justifyContent:"space-between", marginRight: "10px", marginLeft: "6px"}}>
+                             <TimePickerComp showWatch={true} state={state} handleChange={handleChange} key={index} index={index} />
+                             </Button>
+                         )
+                         })
                     )
                 }
             </Row>
 
-            <Button size="large" className="mb-3 btncolor" htmlType="submit">Submit</Button>
+            <Button style={{ marginTop:"22px"}} size="large" className="mb-3 btncolor" htmlType="submit">Submit</Button>
         </Form>
     )
 }

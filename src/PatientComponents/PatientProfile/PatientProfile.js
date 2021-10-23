@@ -250,13 +250,14 @@ const PatientProfile = () => {
                                className="input-field "
                                value={newstate.BasicDetails.LandlineNo}
                                placeholder="Enter Patient Landline Number"
-                               required={false}
+                               required={true}
+                               onBlur={handleBlur}
                                onChange={handleChange}
                                defaultValue={newstate.BasicDetails.LandlineNo}
                                />:  patientData.landline} </span>
                             </Col>
                             <Col span={8}>
-                               <b>whatsapp number:  </b>  <span className="edit-value" id="whatsapp"> {isupdating ? 
+                               <b>whatsapp number:</b>  <span className="edit-value" id="whatsapp"> {isupdating ? 
                                
                                <FormInput 
                                 name="WhatsAppNo"

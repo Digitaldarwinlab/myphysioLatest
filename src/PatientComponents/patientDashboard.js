@@ -256,11 +256,13 @@ const PatientDashboard = () => {
                 </Col>
             </Row>
 
-            <div class="row m-3" style={{ height: 500}}>
-                <div class="col mr-1 card">
+           
+                <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
+               <div class="col mr-1 card dashboardChart">
                     <Pie data={pie_data1}/>
                 </div>     
-                <div class="col ml-1 card">
+            
+                <div class="col ml-1 card dashboardChart">
                     <Pie data={pie_data2}/>
                 </div>     
             </div>
@@ -279,13 +281,14 @@ const PatientDashboard = () => {
                         <h4 className="fw-bold p-2 text-center">Koos Score</h4>
                 </Col>
             </Row>
-                <div class="row m-0" style={{ height: 400}}>
-                    <div class="col mr-1 card">
+           
+                    <div class="row m-0 dashboardChartMain" style={{ height: 400}}>
+                  <div class="col mr-1 card dashboardChart">
                         <Line data={line_data1} 
                         min={40} max={190}
                         ylegend={"Angles"}/>
                     </div>     
-                    <div class="col ml-1 card">
+                    <div class="col ml-1 card dashboardChart " >
                     <Bar data={bar_data}/>
                     </div> 
                 </div>  

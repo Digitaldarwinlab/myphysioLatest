@@ -6,9 +6,8 @@
     text-align: center;
   }
   #visit-card-1 {
-    margin-left: 10%;
-
-    width: 800px;
+     margin-left: 0%;    
+     width: 100%;
     background-color: #fff;
     padding: 10px 10px 10px 10px;
     box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
@@ -16,8 +15,9 @@
     -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   }
   #visit-card-2 {
-    margin-left: 8%;
-    width: 800px;
+   
+    margin: 0% 0px 20px;
+  width: 100%;
     background-color: #fff;
     padding: 10px 10px 10px 10px;
     box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
@@ -55,30 +55,44 @@
 }
 
 .visit-card-1 {
+  width: 100%;
   position: relative;
-  min-width: 500px;
+  
   background-color: #fff;
   padding: 10px 10px 10px 10px;
   box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
-  margin-right: 30px;
+  margin-right: 0px;
   border-radius: 0px;
 }
 .visit-card-2 {
-  min-width: 500px;
+  width: 100%;
   background-color: #fff;
   padding: 10px 10px 10px 10px;
   box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
-  margin-right: 30px;
+  margin-right: 0px;
 }
+ .pervsBTN, .nextBTN {
+      width: 96% !important;
+     display: block;
+      float: left;
+      margin: 10px  2% !important;
+  }
+    ul.daysName {
+      width: 96% !important;
+      margin-left: 2% !important;
+  }
+  ul.daysName li p {  
+    font-size: 9px !important;
+  }
 
 .content {
   width: 90%;
 
-  display: flex;
+  display: inline-block;
   justify-content: center;
   margin-top: 30px;
 }
