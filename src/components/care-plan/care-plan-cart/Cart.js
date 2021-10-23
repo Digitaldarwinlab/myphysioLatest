@@ -122,27 +122,31 @@ console.log(Joints)
       }).map((item, index) => {
         return (
           <div key={item.ex_em_id}>
-            <Row>
-              <Col lg={2} className="">
+            <Row style={{width: "700px"}}>
+              <Col lg={1} className="">
                 <i className="fas fa-running iconClass3"></i>
               </Col>
-              <Col >{item.title}</Col>
+              <Col lg={6} style={{position: "relative", marginLeft: "2px"}} >{item.title}
               
-              <Col  style={{position:'absolute',right:'0px'}}>
-                <AiOutlineMinusCircle
+               <AiOutlineMinusCircle
                   onClick={() => {
                     UpdateCart(item.ex_em_id);
                   }}
                   className="iconClass3"
-                  style={{ color: "#fa5f7f" }}
+                  style={{ marginLeft: "10px", color: "#fa5f7f" }}
                 />
+                
+                </Col>
+              
+              <Col >
+               
               </Col>
             </Row>
             <hr />
           </div>
         );
       })}
-      <div className="all-buttons" style={{display:'flex',flexDirection:'row',justifyContent:'space-between',marginBottom:'50px'}}>
+      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px'}}>
       <Button className="ant-btn-cart me-1" onClick={AddRom}>
         Start
       </Button>
