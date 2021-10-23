@@ -33,12 +33,18 @@ const selectedStyle = {
   backgroundColor: "#00294C",
   color: "white",
   cursor: "pointer",
+  // aswin 10/23/2021 start 
+  marginLeft:"20px"
+  // aswin 10/23/2021 stop
 };
 //Unselected Style
 const UnselectedStyle = {
   backgroundColor: "white",
   color: "black",
   cursor: "pointer",
+  // aswin 10/23/2021 start 
+  marginLeft:"20px"
+  // aswin 10/23/2021 stop
 };
 //button Style
 const btnStyle = {
@@ -46,6 +52,9 @@ const btnStyle = {
   border: "none",
   borderRadius: "10px",
   fontSize: "1rem",
+  // aswin 10/23/2021 start 
+  marginLeft:"20px",
+  // aswin 10/23/2021 stop
 };
 
 const PatCalendar = ({ onChangeVideoUrl }) => {
@@ -429,10 +438,12 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             {selectedDate ? customisedDate : customisedDate}
           </h3>
         </div>
+        {/* aswin 10/23/2021 start */}
         <div
           className="time-slot-buttons"
-          style={{ display: "flex", justifyContent: "space-around" }}
+          style={{ display: "flex" ,paddingBottom:'20px'}}
         >
+          {/* aswin 10/23/2021 stop */}
           {times.map((time, index) => {
             return (
               <Button
@@ -613,6 +624,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <div className="upper-visit-row">
             <span className="visit-col" span={12}>
               <b>Visit Type : </b> {data ? data.visit_type : "No Visit today"}
+            </span>
+            <span className="visit-col" span={12}>
+              <b>Location : </b> {data ? data.visit_type : "No Visit today"}
             </span>
           </div>
 

@@ -19,7 +19,7 @@ const episodeInitialState = {
     complaint: "",
     Operative_Types: "",
     file: "",
-    Patient_History: "",
+    patient_History: "",
     Closure_Notes: "",
     episode_id: "",
     isLoading: false,

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import "../../styles/Layout/ActiveSearch.css"
-import { getPatientList } from '../../API/PatientRegistration/Patient';
+{/*  aswin 10/22/2021 start */}
+import { getPatientList, searchPatient } from '../../API/PatientRegistration/Patient';
+{/*  aswin 10/22/2021 stop */}
 import { ASSESSMENT_STATE_CHANGE, EPISODE_STATECHANGE } from "../../contextStore/actions/episode.js"
 import { getEpisodeDetails } from './../care-plan/carePlanIndex';
 import {BsSearch} from 'react-icons/bs'
@@ -40,19 +42,25 @@ const ActiveSearch = (props) => {
 
    
    // console.log(PatientData)
-    const handleChange = (text) => {
-        Setinputtextvalue(text)
-        let matches = [];
-        if (text.length >= 2) {
-            matches = users.filter(user => {
-                const regex = new RegExp(`${text}`, "gi")
-                return user.match(regex);
-            })
-        }
-        setSuggestions(matches);
-        setText(text);
-    }
-
+   {/*  aswin 10/22/2021 start */}
+   const handleChange = async (text) => {
+    const searchData = await searchPatient(text);
+    const searchFilterData = searchData.map(val=>val.first_name + " " + val.last_name + " " + val.pp_patm_id + " " + val.mobile_no + " " + val.pin)
+    console.log('search found ',searchFilterData)
+    setSuggestions(searchFilterData)
+    Setinputtextvalue(text)
+    // let matches = [];
+    // if (text.length >= 2) {
+    //     matches = users.filter(user => {
+    //         const regex = new RegExp(`${text}`, "gi")
+    //         return user.match(regex);
+    //     })
+    // }
+    // setSuggestions(matches);
+    // console.log('match found ', matches)
+    setText(text);
+}
+{/*  aswin 10/22/2021 stop */}
 
     const focus=(e)=>{
         // console.log(e.target.id)
@@ -63,79 +71,108 @@ const ActiveSearch = (props) => {
     
     //    document.getElementById(`spanid + ${e.target.id}`).innerHTML= ''
     }
-
-    const SuggestionHandler = (text) => {
+{/*  aswin 10/22/2021 start */}
+    const SuggestionHandler = async (text) => {
+            sessionStorage.setItem('typeofvalue',typeof(text))
+            const body={
+              id:parseInt(text)
+            }
+          const headers = {
+              Accept: 'application/json',
+              "Content-type": "application/json"
+          }
+            const res = await fetch("https://myphysio.digitaldarwin.in/api/basic_detail/",{
+              headers:headers,
+              method:"POST",
+              body:JSON.stringify(body)
+            })
+            const responseData = await res.json()
+            console.log("user data",responseData)
+            
+          
+           
+        //   Setprofiledetail({
+        //   patientName:responseData.first_name + responseData.last_name,
+        //   patientCode:responseData.patient_code,
+        //   episodeId: responseData.pp_ed_id,
+        //   startDate :responseData.start_date,
+        //   PrimaryComplaint : responseData.primary_complaint
+        //       })
+          
 
         let pdata = PatientData.filter((val, ind) => {
             return (
                 val.pp_patm_id.toString() === text
             )
         })
+       // console.log(pdata[0])
 
         Setinputtextvalue('')
 
         if (props.carePlan) {
             // alert("Inside 1");
-            props.handleActiveSearchResult(pdata[0]);
+            props.handleActiveSearchResult(responseData);
         } else if (props.prescreption && !props.dashboard) {
             // alert("Inside 2");
             dispatch({
                 type: ASSESSMENT_STATE_CHANGE,
                 payload: {
                     key: "patient_name",
-                    value: pdata[0].first_name + " " + pdata[0].last_name
+                    value: responseData.first_name + " " + responseData.last_name
                 }
             });
             dispatch({
                 type: ASSESSMENT_STATE_CHANGE,
                 payload: {
                     key: "patient_code",
-                    value: pdata[0].pp_patm_id
+                    value: responseData.pp_patm_id
                 }
             });
             dispatch({
                 type: ASSESSMENT_STATE_CHANGE,
                 payload: {
                     key: "patient_main_code",
-                    value: pdata[0].patient_code
+                    value: responseData.patient_code
                 }
             });
-            props.getPrescreptioEpisode(pdata[0]);
+            props.getPrescreptioEpisode(responseData);
         } else {
             // alert("Inside 3");
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "patient_code",
-                    value: pdata[0].pp_patm_id
+                    value: responseData.pp_patm_id
                 }
             })
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "patient_main_code",
-                    value: pdata[0].patient_code 
+                    value: responseData.patient_code 
                 }
             })
 
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "patient_name",
-                    value: pdata[0].first_name + " " + pdata[0].last_name
+                    value: responseData.first_name + " " + responseData.last_name
                 }
             })
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "Patient_no",
-                    value: pdata[0].mobile_no
+                    value: responseData.mobile_no
                 }
             })
             if (props.UpdateHhistory) {
-                props.UpdateHhistory(pdata[0].patient_medical_history);
+                props.UpdateHhistory(responseData.patient_medical_history);
             }
             if (props.updatePatientState) {
-                props.updatePatientState(pdata[0]);
+                props.updatePatientState(responseData);
             }
-            getEpisodeDetails(pdata[0], dispatch)
+            getEpisodeDetails(responseData, dispatch)
         }
+        sessionStorage.setItem('patient_code',responseData.pp_patm_id)
+        {/*  aswin 10/22/2021 stop */}
         setSuggestions([]);
     }
     return (
@@ -144,6 +181,9 @@ const ActiveSearch = (props) => {
             <input type="text"  value={text} className="w-100 px-4 py-2 input-field "
                 placeholder=" Search Patients.."
                 onChange={e => handleChange(e.target.value)}
+                // aswin 10/22/2021 start
+                autoComplete={false}
+                // aswin 10/22/2021 stop
                 value={inputtextvalue}
                 id="input-search"
             />
