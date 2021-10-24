@@ -626,7 +626,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               <b>Visit Type : </b> {data ? data.visit_type : "No Visit today"}
             </span>
             <span className="visit-col" span={12}>
-              <b>Location : </b> {data ? data.location : "No Visit today"}
+              {/* aswin 10/24/2021 start */}
+              <b>Location : </b> {data ? data.location : "No Location"}
+              {/* aswin 10/24/2021 stop */}
             </span>
           </div>
 

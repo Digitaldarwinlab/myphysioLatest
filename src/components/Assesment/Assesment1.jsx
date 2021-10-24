@@ -344,7 +344,9 @@ console.log(state.FirstAssesment.Type)
                 onChange={(value) => handleChange("Type", value)}
                 value={state.FirstAssesment.Type}
                 defaultValue={state.FirstAssesment.Type}>
+                  {/* aswin 10/24/2021 start */}
                 <Option value="First">{state.FirstAssesment.Type==="First"&&"First Assesment"}</Option>
+                {/* aswin 10/24/2021 start */}
                 <Option value="Periodic">Periodic</Option>
                 <Option value="Consultation">Consultation</Option>
               </Select>

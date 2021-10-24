@@ -32,11 +32,17 @@ export const getEpisodeDetails = async (pData, dispatch) => {
 
         let episode = await getEpisode(pData.pp_patm_id);
         const profile=await Patient_profile(pData.pp_patm_id)
-        {/*  aswin 10/22/2021 start */}
+        {/*  aswin 10/24/2021 start */}
         console.log(profile)
+        // dispatch({
+        //     type: EPISODE_STATECHANGE,
+        //     payload: {
+        //         key: "patient_code",
+        //         value: profile.pp_patm_id
+        //     }
+        // });
 
-
-        {/*  aswin 10/22/2021 stop */}
+        {/*  aswin 10/24/2021 start */}
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -51,7 +57,7 @@ export const getEpisodeDetails = async (pData, dispatch) => {
                 value: profile.patient_code 
             }
         })
-        {/*  aswin 10/22/2021 start */}
+        {/*  aswin 10/24/2021 start */}
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -66,7 +72,7 @@ export const getEpisodeDetails = async (pData, dispatch) => {
                 value: ""
             }
         })
-        {/*  aswin 10/22/2021 stop */}
+        {/*  aswin 10/24/2021 stop */}
         if (episode.length !== 0) {
             episode.map((item,index)=>{
                 if(item.end_date=='')
