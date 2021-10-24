@@ -53,7 +53,7 @@ const btnStyle = {
   borderRadius: "10px",
   fontSize: "1rem",
   // aswin 10/23/2021 start 
-  marginLeft:"20px",
+ // marginLeft:"20px",
   // aswin 10/23/2021 stop
 };
 
@@ -626,7 +626,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               <b>Visit Type : </b> {data ? data.visit_type : "No Visit today"}
             </span>
             <span className="visit-col" span={12}>
-              <b>Location : </b> {data ? data.visit_type : "No Visit today"}
+              <b>Location : </b> {data ? data.location : "No Visit today"}
             </span>
           </div>
 

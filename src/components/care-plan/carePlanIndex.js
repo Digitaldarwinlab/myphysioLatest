@@ -35,13 +35,7 @@ export const getEpisodeDetails = async (pData, dispatch) => {
         {/*  aswin 10/22/2021 start */}
         console.log(profile)
 
-        dispatch({
-            type: EPISODE_STATECHANGE,
-            payload: {
-                key: "patient_code",
-                value: profile.pp_patm_id
-            }
-        });
+
         {/*  aswin 10/22/2021 stop */}
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
@@ -63,6 +57,13 @@ export const getEpisodeDetails = async (pData, dispatch) => {
             payload: {
                 key: "patient_code",
                 value: profile.pp_patm_id
+            }
+        })
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "pp_ed_id",
+                value: ""
             }
         })
         {/*  aswin 10/22/2021 stop */}
@@ -138,7 +139,69 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             sessionStorage.removeItem('patient_code')
         }
     },[])
-   
+   useEffect(async() => {
+       if(reduxState.episodeReducer.patient_code){
+        let episode = await getEpisode(reduxState.episodeReducer.patient_code);
+        const profile= await Patient_profile(reduxState.episodeReducer.patient_code)
+        console.log('episode data ',episode)
+        console.log("profile data ",profile)
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "patient_name",
+                value: profile.first_name + " " + profile.last_name 
+            }
+        })
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "patient_main_code",
+                value: profile.patient_code
+            }
+        })
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "patient_code",
+                value: profile.pp_patm_id
+            }
+        })
+        if(episode.length !== 0){
+            episode.map(item=>{
+                if(item.end_date===""){
+                    dispatch({
+                        type: CARE_PLAN_STATE_CHANGE,
+                        payload: {
+                            key: "endDate",
+                            value: item.end_date
+                        }
+                    })   
+                    dispatch({
+                        type: CARE_PLAN_STATE_CHANGE,
+                        payload: {
+                            key: "pp_ed_id",
+                            value: item.pp_ed_id
+                        }
+                    })
+                    dispatch({
+                        type: CARE_PLAN_STATE_CHANGE,
+                        payload: {
+                            key: "startDate",
+                            value: item.start_date
+                        }
+                    })    
+                    dispatch({
+                        type: CARE_PLAN_STATE_CHANGE,
+                        payload: {
+                            key: "complaint",
+                            value: item.primary_complaint
+                        }
+                    })    
+                }
+            })
+        }
+       }
+   }, [])
     useEffect( async ()=>{
         const p_code = reduxState.episodeReducer.patient_code|| reduxState.carePlanRedcucer.pp_patm_id
         if(p_code){

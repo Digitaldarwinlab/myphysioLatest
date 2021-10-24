@@ -19,7 +19,7 @@ const FirstAssesmentIniState ={
     joint2score:20,
     ScareFile:"",
     TraumaFile:"",
-    Type:"",
+    Type:"First",
     Scars:"",
     Swelling:"",
     Numbness:"",
