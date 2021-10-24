@@ -3,6 +3,7 @@ import FormTextArea from './../UI/antInputs/FormTextArea';
 import { Form, Button, Row, Spin, Pagination } from "antd";
 import Success from './../UtilityComponents/SuccessHandler';
 import Error from './../UtilityComponents/ErrorHandler';
+import '../../styles/Layout/Episode.css';
 import { Add_Notes, getNotes } from './../../API/Notes/Notes';
 
 const Notes = (props) => {
@@ -101,7 +102,8 @@ const Notes = (props) => {
                     required={true}
                 />
                 <div className="text-end">
-                    <Button className="btncolor m-2" htmlType="submit">Submit</Button>
+                    {/* Dipsikha 23/10 */}
+                    <Button className="button1" id="bnid" style={{ color: "white"}} htmlType="submit">Submit</Button>
                 </div>
             </Form>
             <Row className="mt-3 px-2 py-2">

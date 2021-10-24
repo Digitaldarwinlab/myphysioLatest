@@ -238,7 +238,8 @@ const dispatch = useDispatch();
     useEffect(() => {
         
         const unblock = history.block((location, action) => {
-            if (window.confirm("Do You really want to go back?")) {
+            // Dipsikha start 23/10
+            if (window.confirm("Thank you for completing !!! Click on OK to continue")) {
                 window.darwin.stop();
                 const video = document.getElementById('video');
                 const mediaStream = video.srcObject;

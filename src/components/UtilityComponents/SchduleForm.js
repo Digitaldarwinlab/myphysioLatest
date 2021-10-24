@@ -277,7 +277,7 @@ const SchduleForm = (props) => {
 
 
                                     label={<span style={{fontSize:'16px',fontWeight:'semibold'}}>{'Doctor Name'}</span>}
-                                    placeholder="Docter Name"
+                                    placeholder="Doctor Name"
                                     name="Ref_Dr_Name"
                                     onBlur={props.handleBlur}
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
@@ -291,7 +291,7 @@ const SchduleForm = (props) => {
                                 <FormInput size="large"
                                  className="input-field"
                                     label={<span style={{fontSize:'16px',fontWeight:'semibold'}}>{'Doctor ID'}</span>}
-                                    placeholder="Docter ID"
+                                    placeholder="Doctor ID"
                                     name="Ref_Dr_ID"
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                                     value={props.state.Ref_Dr_ID}
@@ -475,17 +475,18 @@ const SchduleForm = (props) => {
                 
                 
                 ">
-                <Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#41A0A2',}} onClick={Cancel} >Cancel</Button>
+                  {/* Dipsikha start 23/10 */}
+                <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button>
                 { console.log('opacity' + props.opacity1)}
                    {
-                     props.opacity1=='1' ?  <Button htmlType="submit" style={{opacity: props.opacity1} } className="me-2 btncolor" >Submit</Button> : null
+                     props.opacity1=='1' ?  <Button htmlType="submit" style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="SchForm" disabled={isclosuredisabled} style={{ opacity: props.opacity2 }}>Closure</Button> : null 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="button1" id="bnid" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
                    }
                   
-                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<button type="button" className="SchForm" style={{width:'80px',height:'30px',cursor:'pointer'}} onClick={Setupdating1}  >Edit</button>  : null}
+                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<Button type="button" className="button1" id="bnid" style={{color:"white", marginLeft:"5px"}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
                    
                 </Form.Item>
             </Form>

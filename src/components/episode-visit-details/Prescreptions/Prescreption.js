@@ -3,6 +3,7 @@ import {get_prescription} from '../../../API/Prescription/PresriptionApi'
 import { Button,Row,Col } from 'antd';
 import { ImPlus } from 'react-icons/im';
 import { useHistory } from 'react-router-dom';
+import "../../../styles/Layout/Episode.css"
 import { useSelector } from 'react-redux';
 import { getEpisode } from '../../../API/Episode/EpisodeApi';
 const Prescreptions = () => {
@@ -47,7 +48,8 @@ console.log(typeof(prescriptions))
                     <h4 className="fw-bold">Prescreptions</h4>
                 </Col>
                 <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                    <Button className="btncolor" 
+                    {/* Dipsikha start 23/10 */}
+                    <Button className="button1" style={{color: "white"}} id="bnid"
                         onClick={()=>onClick()}><ImPlus className="me-2"/> {"  "}Add</Button>
                 </Col>
             </Row>
