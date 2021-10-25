@@ -307,7 +307,9 @@ const AssessmentList = () => {
             history.push({
                 pathname: "/assessment/1",
                 state: {
-                  type: "First",
+                    //aswin 10/25/2021 start
+                  type: "",
+                  //aswin 10/25/2021 stop
                 },
               });
             }
@@ -315,7 +317,9 @@ const AssessmentList = () => {
             history.push({
                 pathname: "/assessment/1",
                 state: {
-                    type: "Periodic",
+                    //aswin 10/25/2021 start
+                    type: "",
+                    //aswin 10/25/2021 stop
                 },
                   });
             }
@@ -412,7 +416,9 @@ const AssessmentList = () => {
         
             {
                          AssesmentData.map((data, index) =>
-                        index >= paginationState.minIndex && index < paginationState.maxIndex
+                         //aswin 10/25/2021 start
+                        index >= paginationState.minIndex || index+1==paginationState.minIndex && index < paginationState.maxIndex
+                        //aswin 10/25/2021 stop
                         && (
                             <div key={index} className="px-1 py-1">
             <Col span={24} className="px-3">

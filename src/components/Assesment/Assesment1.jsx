@@ -41,9 +41,11 @@ const Assesment1 = (props1) => {
   // console.log(state.episodeReducer.patient_code +'patient_code')
   const [episodedata, SetepisodeData] = useState({patient_name:'',patient_main_code:'',episodeId:'',complaintId:'',start_date:''})
   useEffect(async () => {
-    if (props1.history.location.state) {
-      state.FirstAssesment.Type = props1.history.location.state.type
-    }
+    //aswin 10/25/2021 start
+    // if (props1.history.location.state) {
+    //   state.FirstAssesment.Type = props1.history.location.state.type
+    // }
+    //aswin 10/25/2021 stop
     const data = await getEpisode(state.episodeReducer.patient_code)
     // aswin 10/22/2021 start
     if(state.episodeReducer.patient_code){
