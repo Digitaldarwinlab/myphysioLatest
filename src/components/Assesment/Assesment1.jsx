@@ -10,6 +10,9 @@ import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormDate from "../UI/antInputs/FormDate";
 import Body from './Body';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
+{/* aswin 10/25/2021 start */}
+import moment from 'moment'
+{/* aswin 10/25/2021 start */}
 const { Dragger } = Upload;
 
  var pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -153,9 +156,9 @@ console.log(state.FirstAssesment.Type)
   }, [state.FirstAssesment.Type])
 
   
-
-  const [Date, setDate] = useState("");
-
+{/* aswin 10/25/2021 start */}
+  const [date, setDate] = useState();
+{/* aswin 10/25/2021 stop */}
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
@@ -318,7 +321,9 @@ console.log(state.FirstAssesment.Type)
                 <b> Patient Code </b> {episodedata.patient_main_code?episodedata.patient_main_code:'no patient selected'} <br/>
                 {/*  aswin 10/22/2021 stop */}
                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
-              <b>  Complaint : </b> {episodedata ? episodedata.complaintId : null} <br />
+               {/* aswin 10/25/2021 start */}
+              <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
+              {/* aswin 10/25/2021 stop */}
               <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
               </p>
             </div>
@@ -332,7 +337,10 @@ console.log(state.FirstAssesment.Type)
               name="Date"
               // reverse ="true"
               className="input-field w-100"
-              value={Date}
+              //aswin 10/25/2021 start
+              value={moment(state.FirstAssesment.Date.dateString,'YYYY-MM-DD')}
+              defaultValue={state.FirstAssesment.Date.dateString && moment(state.FirstAssesment.Date.dateString, "YYYY-MM-DD") }
+              //aswin 10/25/2021 stop
               required={true}
               onChange={handleChange}
             />
