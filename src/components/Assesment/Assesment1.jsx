@@ -10,6 +10,9 @@ import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormDate from "../UI/antInputs/FormDate";
 import Body from './Body';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
+{/* aswin 10/25/2021 start */}
+import moment from 'moment'
+{/* aswin 10/25/2021 start */}
 const { Dragger } = Upload;
 
  var pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -38,9 +41,11 @@ const Assesment1 = (props1) => {
   // console.log(state.episodeReducer.patient_code +'patient_code')
   const [episodedata, SetepisodeData] = useState()
   useEffect(async () => {
-    if (props1.history.location.state) {
-      state.FirstAssesment.Type = props1.history.location.state.type
-    }
+    //aswin 10/25/2021 start
+    // if (props1.history.location.state) {
+    //   state.FirstAssesment.Type = props1.history.location.state.type
+    // }
+    //aswin 10/25/2021 stop
     const data = await getEpisode(state.episodeReducer.patient_code)
     if (data[0]) {
       state.FirstAssesment.episode_id = data[0].pp_ed_id;
@@ -116,9 +121,9 @@ console.log(state.FirstAssesment.Type)
   }, [state.FirstAssesment.Type])
 
   
-
-  const [Date, setDate] = useState("");
-
+{/* aswin 10/25/2021 start */}
+  const [date, setDate] = useState();
+{/* aswin 10/25/2021 stop */}
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
@@ -279,7 +284,9 @@ console.log(state.FirstAssesment.Type)
                 <b> Patient Name </b> {state.episodeReducer.patient_name} <br/>
                 <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br/>
                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
-              <b>  Complaint : </b> {episodedata ? episodedata.complaintId : null} <br />
+               {/* aswin 10/25/2021 start */}
+              <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
+              {/* aswin 10/25/2021 stop */}
               <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
               </p>
             </div>
@@ -293,7 +300,10 @@ console.log(state.FirstAssesment.Type)
               name="Date"
               // reverse ="true"
               className="input-field w-100"
-              value={Date}
+              //aswin 10/25/2021 start
+              value={moment(state.FirstAssesment.Date.dateString,'YYYY-MM-DD')}
+              defaultValue={state.FirstAssesment.Date.dateString && moment(state.FirstAssesment.Date.dateString, "YYYY-MM-DD") }
+              //aswin 10/25/2021 stop
               required={true}
               onChange={handleChange}
             />
@@ -305,7 +315,9 @@ console.log(state.FirstAssesment.Type)
                 onChange={(value) => handleChange("Type", value)}
                 value={state.FirstAssesment.Type}
                 defaultValue={state.FirstAssesment.Type}>
-                <Option value="First">First Assesment</Option>
+                  {/* aswin 10/24/2021 start */}
+                <Option value="First">{state.FirstAssesment.Type==="First"&&"First Assesment"}</Option>
+                {/* aswin 10/24/2021 start */}
                 <Option value="Periodic">Periodic</Option>
                 <Option value="Consultation">Consultation</Option>
               </Select>

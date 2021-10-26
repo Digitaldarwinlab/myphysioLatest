@@ -7,8 +7,9 @@ import { RECEIVED_DATA ,ASSESMENT_CLEARSTATE,STATECHANGE} from '../../contextSto
 import { useDispatch, useSelector } from "react-redux";
 import JointData from "../UtilityComponents/dummyData/MuscleMap.json";
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
-import { Switch, Button, Row, Col, notification, Descriptions,Rate, Slider,Form,Table,Modal,Space} from "antd";
-
+// aswin 10/24/2021 start
+import { Switch, Button, Row, Col, notification, Descriptions,Rate, Slider,Form,Table,Modal,Space, message} from "antd";
+// aswin 10/24/2021 stop
 import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
 import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
 import DeltoidsA from "./../../assets/Crops/07.A-Deltoids.png";
@@ -463,13 +464,22 @@ const Body = () => {
       }
     
     useEffect(()=>{
-
+        console.log(state.carePlanRedcucer.pp_ed_id)
      //   console.log('errorshow in useEffect')
     //    console.log(errorshow)
-    })
+    },[])
 
 
     const Finalsubmit =async ()=>{
+        // aswin 10/24/2021 start
+        if(state.carePlanRedcucer.pp_ed_id===""){
+            return notification.warning({
+                message: "Patient don't have an open episode",
+                placement: 'bottomRight',
+                duration: 2
+            });
+        }
+        // aswin 10/24/2021 stop
         const data = await AssesmentAPI(state.FirstAssesment, dispatch)
         dispatch({ type: RECEIVED_DATA })
         if (data === true) {
