@@ -28,9 +28,7 @@ import { useSelector } from 'react-redux';
 import Utils from './../UtilityComponents/SchedularDataRender/Utils';
 import './style.css'
 import '../../styles/Layout/Heading.css'
-// aswin 10/23/2021 start
-import { getEpisode } from "../../API/Episode/EpisodeApi";
-// aswin 10/23/2021 stop
+
 export const parseVisits = (visits) => {
     let newVisits = [];
     for (let i = 0; i < visits.length; i++) {
@@ -503,19 +501,7 @@ const Appointments = () => {
                     <Button
                         className="border  text-white"
                         style={{ backgroundColor: "#273647",borderRadius:'10px' }}
-                        // aswin 10/23/2021 start
-                        onClick={async()=>{
-                            if(state.episodeReducer.patient_code!==''){
-                                const epiData = await getEpisode(state.episodeReducer.patient_code)
-                                if(epiData[0].end_date!==''||epiData.length<0){
-                                    return alert("You don't have and open episode")
-                                }
-                                            showNewAppointment()
-                            }else{
-                                alert('Please select a patient')
-                            }
-                            // aswin 10/23/2021 start
-                        }}>
+                        onClick={showNewAppointment}>
                         <ImPlus style={{marginRight:'5px',position:'relative',bottom:'2px'}} />New Visit
                     </Button>
                 </Col>

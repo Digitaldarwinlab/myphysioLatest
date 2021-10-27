@@ -5,6 +5,7 @@ import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { ImPlus } from "react-icons/im";
 import Loading from './../../UtilityComponents/Loading';
 import { useHistory } from "react-router-dom";
+import "../../../styles/Layout/Episode.css"
 import { getAssesment } from "../../../API/Assesment/getAssesment";
 import { Pagination } from "antd";
 const AssessmentList = () => {
@@ -405,7 +406,7 @@ const AssessmentList = () => {
                         <h4 className="fw-bold">Assessments</h4>
                     </Col>
                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                        <Button className="btncolor" onClick={onClick}>
+                        <Button className="button1" style={{color: "white"}} id="bnid" onClick={onClick}>
                             <ImPlus className="me-2" /> {"  "}Add
                         </Button>
                     </Col>

@@ -40,55 +40,31 @@ patientCode:''
 useEffect(async ()=>{
     
     const data = await getEpisode(state.episodeReducer.patient_code)
-    if(state.episodeReducer.patient_code){
-        const body={
-          id:state.episodeReducer.patient_code
-        }
-        const headers = {
-          Accept: 'application/json',
-          "Content-type": "application/json"
-      }
-        const res = await fetch("https://myphysio.digitaldarwin.in/api/basic_detail/",{
-          headers:headers,
-          method:"POST",
-          body:JSON.stringify(body)
+    if(data.length>0)
+    {
+        data.map((item,index)=>{
+          //  alert(item.end_date + " : " + item.pp_ed_id)
+            if(item.end_date=='')
+            {
+                
+                dispatch({ type : ASSESSMENT_EPISODE_NAME, payload:{key: "pp_ed_id", value: item.pp_ed_id}  } )
+                SetepisodeData({episodeId:item.pp_ed_id,
+                  primary_complaint:item.primary_complaint,
+              start_date:item.start_date,
+              patientName:state.episodeReducer.patient_name,
+              patientCode:state.episodeReducer.patient_main_code
+          })
+            }
+
+
         })
-        const responseData = await res.json()
-        console.log("user data",responseData)
-        
-        SetepisodeData({episodeId:responseData.pp_ed_id,
-                      primary_complaint:responseData.primary_complaint,
-                  start_date:responseData.start_date,
-                  patientName:responseData.first_name + ' ' + responseData.last_name,
-                  patientCode:responseData.patient_code
-              })
+      //  alert('epsiode iss' + episodedata.pp_ed_id)
+
+    
        
-        if(data.length>0)
-        {
-            data.map((item,index)=>{
-              //  alert(item.end_date + " : " + item.pp_ed_id)
-                if(item.end_date=='')
-                {
-                    
-                    dispatch({ type : ASSESSMENT_EPISODE_NAME, payload:{key: "pp_ed_id", value: item.pp_ed_id}  } )
-            //         SetepisodeData({episodeId:item.pp_ed_id,
-            //           primary_complaint:item.primary_complaint,
-            //       start_date:item.start_date,
-            //       patientName:state.episodeReducer.patient_name,
-            //       patientCode:state.episodeReducer.patient_main_code
-            //   })
-                }
-    
-    
-            })
-          //  alert('epsiode iss' + episodedata.pp_ed_id)
-    
-        
-           
-    console.log('state is')
-    console.log(state.labsAndMedicRedu)
-        }
-      }
+console.log('state is')
+console.log(state.labsAndMedicRedu)
+    }
 
      
     

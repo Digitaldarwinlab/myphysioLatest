@@ -6,6 +6,7 @@ import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
 import svg from "././../../assets/step1.png";
+import "../../styles/Layout/Episode.css";
 import FormInput from '../UI/antInputs/FormInput';
 import FormDate from "../UI/antInputs/FormDate"
 import { Typography, Select, Row, Col, Button, Form } from 'antd';
@@ -374,7 +375,8 @@ const Register1 = (props) => {
                     <Button size="large" className="me-2" style={{backgroundColor:'#41A0A2',borderRadius:"10px"}}  onClick={handleReset}>Reset</Button>
                     </Col>
                     <Col >
-                    <Button size="large" className="me-2 btncolor"  htmlType="submit">Next</Button>
+                    {/* Dipsikha start 23/10 */}
+                    <Button size="large" className="button1" id="bnid" style={{color: "white"}}  htmlType="submit">Next</Button>
                     </Col>
                 </Row>
 

@@ -3,6 +3,7 @@ import { Spin, Pagination, Row, Col, Button } from "antd";
 import Careplan from "../../care-plan/carePlanIndex";
 import CarePlanCardView from './carePlanCardView';
 import { ImPlus } from 'react-icons/im';
+import '../../../styles/Layout/Episode.css';
 import { fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
 
@@ -83,7 +84,7 @@ const CarePlanView = (props) => {
                             <h4 className="fw-bold">All CarePlan</h4>
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                            {!ChangeView && <Button className="btncolor me-2" onClick={() => setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
+                            {!ChangeView && <Button className="button1" id="bnid" style={{color:"white"}} onClick={() => setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
                             {ChangeView && <Button className="btncolor2" onClick={() => setChangeView(false)}>Cancel</Button>}
                         </Col>
                     </Row>

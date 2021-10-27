@@ -483,7 +483,6 @@ const Body = () => {
         const data = await AssesmentAPI(state.FirstAssesment, dispatch)
         dispatch({ type: RECEIVED_DATA })
         if (data === true) {
-            sessionStorage.setItem('submit',true)
             setTimeout(() => {
                 dispatch({ type: ASSESMENT_CLEARSTATE });
             }, 1000);

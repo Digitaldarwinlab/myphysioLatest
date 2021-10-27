@@ -6,6 +6,7 @@ import Loading from './../../UtilityComponents/Loading';
 import { EPISODE_STATECHANGE, ASSESSMENT_EPISODE_NAME, ASSESSMENT_STATE_CHANGE } from "../../../contextStore/actions/episode";
 import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { getEpisode } from "./../../../API/Episode/EpisodeApi";
+import "../../../styles/Layout/Episode.css";
 import SingleEpisode from './single-episode';
 import { RiPencilFill } from 'react-icons/ri';
 import { useHistory } from "react-router-dom";
@@ -150,15 +151,13 @@ const Episodes = ({ handleClick2 }) => {
             }
         })
   // aswin 10/17/2021 start //
-  if(newData.files){
-    dispatch({
-        type: EPISODE_STATECHANGE,
-        payload: {
-            key: 'file',
-            value: newData.files,
-        }
-    })   
-  }
+  dispatch({
+    type: EPISODE_STATECHANGE,
+    payload: {
+        key: 'file',
+        value: newData.files,
+    }
+})
 // aswin 10/17/2021 stop //
 
      history.push("/add-episode")
@@ -241,8 +240,9 @@ const Episodes = ({ handleClick2 }) => {
                                     <p className="p"><b> Operative Types:</b> {episode.Operative_Types}</p>
                                     { episode.end_date ? <p><b>End Date : </b>  {episode.end_date} </p> : null}
                                                                 <div className="text-end me-5">
-                                        <Button className="me-1 rounded fw-bold" onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}>Assesment</Button>
-                                        <Button className="rounded fw-bold" onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}>Prescription</Button>
+                                                                    {/* Dipsikha 23/10 */}
+                                        <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
+                                        <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
                                     </div>
                                 </div>
                             </div>)

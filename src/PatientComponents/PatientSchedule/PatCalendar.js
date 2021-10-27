@@ -33,18 +33,12 @@ const selectedStyle = {
   backgroundColor: "#00294C",
   color: "white",
   cursor: "pointer",
-  // aswin 10/23/2021 start 
-  marginLeft:"20px"
-  // aswin 10/23/2021 stop
 };
 //Unselected Style
 const UnselectedStyle = {
   backgroundColor: "white",
   color: "black",
   cursor: "pointer",
-  // aswin 10/23/2021 start 
-  marginLeft:"20px"
-  // aswin 10/23/2021 stop
 };
 //button Style
 const btnStyle = {
@@ -52,9 +46,6 @@ const btnStyle = {
   border: "none",
   borderRadius: "10px",
   fontSize: "1rem",
-  // aswin 10/23/2021 start 
- // marginLeft:"20px",
-  // aswin 10/23/2021 stop
 };
 
 const PatCalendar = ({ onChangeVideoUrl }) => {
@@ -438,12 +429,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             {selectedDate ? customisedDate : customisedDate}
           </h3>
         </div>
-        {/* aswin 10/23/2021 start */}
         <div
           className="time-slot-buttons"
-          style={{ display: "flex" ,paddingBottom:'20px'}}
+          style={{ display: "flex", justifyContent: "space-around" }}
         >
-          {/* aswin 10/23/2021 stop */}
           {times.map((time, index) => {
             return (
               <Button
@@ -704,6 +693,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                 
                return (
    
+                // Dipsikha 24/10
      <a onClick={() => {onSelectedDay(data.date,index)
      setSelectedMonth(data.displayMonth) 
      setSelectedYear(data.displayYear)}}

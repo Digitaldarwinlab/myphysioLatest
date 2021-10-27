@@ -60,7 +60,7 @@ let data = "";
 
 //Component
 const PatientAI = (props) => {
-    const [checkOk, setCheckOk] = useState()
+    
 const Separator = styled.div`
 height: 0px;
 margin-top: 30px;
@@ -236,38 +236,29 @@ const dispatch = useDispatch();
     console.log('exericse time')
     console.log(exerciseTime)
     useEffect(() => {
-        // aswin 10/22/2021 start
+        
         const unblock = history.block((location, action) => {
-            if(sessionStorage.getItem('checkOk')==="true"){
-                sessionStorage.removeItem('checkOk')
-            }else{
-                if (window.confirm("Do You really want to go back?")) {
-                    window.darwin.stop();
-                    const video = document.getElementById('video');
-                    const mediaStream = video.srcObject;
-                    try{
-                        const tracks = mediaStream.getTracks();
-                    tracks[0].stop();
-                    tracks.forEach(track => track.stop())
-                    }
-                    catch(err)
-                    {
-                        console.log(err)
-                    }
-                    return true;
-                } else {
-                    return false;
+            // Dipsikha start 23/10
+            if (window.confirm("Thank you for completing !!! Click on OK to continue")) {
+                window.darwin.stop();
+                const video = document.getElementById('video');
+                const mediaStream = video.srcObject;
+                try{
+                    const tracks = mediaStream.getTracks();
+                tracks[0].stop();
+                tracks.forEach(track => track.stop())
                 }
+                catch(err)
+                {
+                    console.log(err)
+                }
+                return true;
+            } else {
+                return false;
             }
-            
         });
         return () => {
-            if(sessionStorage.getItem('checkOk')!=="true"){
-                unblock();
-            }else{
-                sessionStorage.removeItem('checkOk')
-            }
-            // aswin 10/22/2021 stop
+            unblock();
         };
         
        
@@ -379,15 +370,12 @@ const dispatch = useDispatch();
         )
     }
     const finish=async ()=>{
-        sessionStorage.setItem('checkOk',"true")
+      
         const response =await  update_careplan(exerciseData,currentexercise,pain,exerciseTime,careplanId)
         console.log('response')
          console.log(response)
 
-        //  if(response){
-        //     history.push('/patient/schedule')   
-        //  }
-         history.push('/patient/schedule')  
+        history.push('/patient/schedule')
     }
     //Green Channel 
     const Statistics = () => {
