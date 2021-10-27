@@ -204,7 +204,7 @@ const PatientProfile = () => {
                     <Row className="right-row" id="right-row">
                         <Col  className="border" style={styles.notesView}>
                             <h4 className="fw-bold px-1 py-1">Track Progress</h4>
-                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                            <div className="TrackProgress" style={{ display: "flex", justifyContent: "space-around" }}>
                                 {TrackProgress(2500, 6000, "#df916b", "Current")}
                                 {TrackProgress(5000, 6000, "#76c0b1", "Last Week")}
                                 {TrackProgress(3000, 6000, "#e8dc38", "Progress")}

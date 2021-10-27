@@ -75,23 +75,14 @@
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   margin-right: 0px;
 }
- .pervsBTN, .nextBTN {
-      width: 96% !important;
-     display: block;
-      float: left;
-      margin: 10px  2% !important;
-  }
-    ul.daysName {
-      width: 96% !important;
-      margin-left: 2% !important;
-  }
+
+  
   ul.daysName li p {  
     font-size: 9px !important;
   }
 
 .content {
-  width: 90%;
-
+  width: 100%;
   display: inline-block;
   justify-content: center;
   margin-top: 30px;
@@ -130,6 +121,7 @@
 }
 .main-card {
   position: relative;
+  padding-top: 0px !important;
 }
 
 .exercise-card {
@@ -145,7 +137,7 @@
 .exercise-card2 {
   position: relative;
   text-align: center;
-  width: 23%;
+  width: 33%;
   float: left;
   /* box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
@@ -253,7 +245,7 @@ ul.daysName li p {
   color: #fff;
   padding: 6px;
   border-radius: 30px;
-  margin-top: 7px;
+  margin-top: 0px;
 }
 .pervsBTN {
   margin-left: 18%;
@@ -268,3 +260,17 @@ div#exercise-card2 h4 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+/* 
+.pervsBTN, .nextBTN {
+  width: 96% !important;
+ display: block;
+  float: left;
+  margin: 10px  2% !important;
+}
+
+ul.daysName {
+  width: 96% !important;
+  margin-left: 2% !important;
+} */

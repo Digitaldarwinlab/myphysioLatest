@@ -116,6 +116,7 @@ body {
 .ant-tabs-card .ant-tabs-btn {
   width: calc(62vw / 7) !important;
   text-align: center;
+  min-width: 100px;
 }
 .ant-tabs-tab-active .ant-tabs-btn {
   color: white !important;
@@ -605,7 +606,7 @@ body {
   border: 0px !important;
 }
 .btncolor {
-  background-color: #120e43 !important;
+  background-color: #1bbc9b !important ;
   color: white !important;
   border: none !important;
   cursor: pointer !important;
@@ -1140,6 +1141,8 @@ button.ant-modal-close .ant-modal-close-x {
 }
 button.ant-btn {
   border-radius: 0px !important;
+  min-width: 80px;
+  text-align: center !important;
 }
 .ant-picker {
   width: 100%;
@@ -1195,8 +1198,8 @@ button.ant-btn {
   background: #fff !important;
 }
 .CarePlan svg {
-  top: 80px !important;
-  left: 10px !important;
+  top: 35px !important;
+  left: 26px !important;
 }
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
 .ant-tabs-tab:hover {
@@ -1272,8 +1275,22 @@ body .ant-checkbox-checked::after {
 .PatientDetails .ant-col {
   width: 100%;
 }
-.ant-input[disabled] {
-  background-color: #fff !important;
+.ant-input,
+input,
+select,
+.ant-select,
+.ant-form-item-control-input,
+.ant-picker-input,
+.ant-form-item .ant-select,
+.ant-form-item .ant-cascader-picker,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-picker {
+  background-color: #f5f5f5 !important;
+  height: 40px !important;
+}
+form#control-hooks {
+  background: #fff;
+  margin: 0 10px;
 }
 i.fas.fa-user-plus {
   margin-right: 10px;
@@ -1318,7 +1335,7 @@ i.fas.fa-user-plus {
 }
 .padT-0 {
   max-width: 100%;
-  display: flex;
+  display: inline-block;
   width: 100% !important;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -1343,6 +1360,12 @@ i.fas.fa-user-plus {
   }
 }
 @media only screen and (max-width: 1024px) {
+  .ant-col.exercises-cards {
+    float: left;
+    width: 50%;
+    max-width: 50% !important;
+    min-width: 50% !important;
+  }
   .left-side.border {
     width: 100% !important;
   }
@@ -1358,7 +1381,56 @@ i.fas.fa-user-plus {
     padding: 20px;
   }
 }
+
+@media (max-width: 992px) {
+  .lefting-box,
+  .current-therapy,
+  .righting-box {
+    width: 100% !important;
+  }
+  div#exercise-detail div#main-container {
+    display: flex;
+    flex-direction: column;
+  }
+  div#exercise-detail div#main-container .left-box,
+  div#exercise-detail div#main-container .right-box {
+    width: 100%;
+  }
+  div#exercise-detail div#main-container .instructions {
+    padding: 20px 15px 10px 16px;
+    border-radius: 10px;
+  }
+  body #content .ant-col.exercises-cards {
+    width: 100%;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+  .main-content {
+    min-width: 100%;
+  }
+  .pervsBTN {
+    margin-left: 6% !important;
+  }
+  ul.daysName {
+    width: 70% !important;
+  }
+  .pervsBTN,
+  .nextBTN {
+    width: 8% !important;
+  }
+}
+
 @media only screen and (max-width: 700px) {
+  div#right-box .detail-row {
+    padding : 0px !important;
+  }
+  div#right-box .detail-row .ant-col-8 {
+    display: block;
+    flex: 0 0 100%;
+    max-width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
   .progress,
   .ant-col.treating-doctor.card {
     width: 100% !important;
@@ -1377,18 +1449,57 @@ i.fas.fa-user-plus {
   }
 }
 @media only screen and (max-width: 650px) {
+  .pervsBTN,
+  .nextBTN {
+    width: 100% !important;
+    margin: 15px 0px !important;
+  }
+  ul.daysName li {
+    width: 11.45% !important;
+    margin: 9px 0.5% 0px !important;
+  }
+  ul.daysName {
+    width: 100% !important;
+  }
   .progress {
     width: 98% !important;
     margin-bottom: 20px;
   }
   .ant-col {
     max-width: 98% !important;
+    width: 98% !important;
     margin-left: 1%;
   }
   .main-card {
     padding: 0px !important;
     margin-top: 10px;
   }
+  .CarePlan .ant-tabs-nav {
+    display: inline-block !important;
+  }
+  .CarePlan .ant-tabs-extra-content {
+    margin-top: 20px;
+    float: right;
+    min-width: 160px;
+    margin-bottom: 20px;
+  }
+  .CarePlan .ant-col-sm-12 {
+    flex: 0 0 49%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #exercise-card {
+    margin-left: 0px !important;
+    width: 100% !important;
+  }
+  .exercise-card2 {
+    width: 100% !important;
+    left: 0px !important;
+  }
+  .TrackProgress {
+    display: flex;
+    flex-direction: column;
+}
 }
 
 @media only screen and (max-width: 575px) {
@@ -1399,10 +1510,146 @@ i.fas.fa-user-plus {
     max-width: 100% !important;
     flex: 0 0 100%;
   }
-  .visit-card-2, .exercises-cards {
+  .visit-card-2,
+  .exercises-cards {
     min-width: 100px !important;
   }
+  #navlink {
+    right: -30px;
+  }
+  .CarePlan .ant-col-sm-12 {
+    flex: 0 0 100%;
+  }
 }
+@media only screen and (max-width: 500px) {
+  .time-slot-buttons {
+    display: block !important;
+  }
+  div#exercise-card button.ant-btn.time-button {
+    max-width: 31% !important;
+    width: 31% !important;
+    margin: 1% !important;
+  }
+}
+@media only screen and (max-width: 400px) {
+  #page-heading {
+    font-size: 18px;
+  }
+
+  element.style {
+  }
+  [class^="ant-"],
+  [class*="ant-"],
+  [class^="ant-"] *,
+  [class*="ant-"] *,
+  [class^="ant-"] *::before,
+  [class*="ant-"] *::before,
+  [class^="ant-"] *::after,
+  [class*="ant-"] *::after {
+    box-sizing: border-box;
+  }
+  .today-progress .status-box {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .today-progress .status-box > div {
+    margin: 10px 0px;
+  }
+}
+
+.sideNavbar.position-fixed
+  .ant-menu-submenu-title
+  i.fas.fa-notes-medical.iconClass1 {
+  /* color: #fff; */
+}
+button {
+  color: #fff !important;
+}
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  text-decoration: none;
+  background: #1bbc9b !important;
+  color: #fff !important;
+}
+.main-content {
+  padding: 0px 15px !important;
+}
+.whiteBG,
+form.ClinicRegisteration {
+  background: #fff;
+}
+
 /* Responsinator CSS */
 
 /* Neeraj Pathania CSS */
+
+form#control-hooks {
+  padding: 10px 20px;
+  margin: 0px !important;
+}
+.AssesmentConsultation,
+.CarePlan {
+  background: #fff;
+  margin-top: 20px;
+  padding: 20px !important;
+  position: relative;
+}
+.EpisodeDate:first-child {
+  padding-right: 10px;
+}
+.Physiotherapist_Main {
+  background: #fff !important;
+}
+.PhysioList {
+  width: 100px;
+  float: right;
+}
+ul#hamburgerMenu li:hover svg {
+  color: #fff !important;
+}
+.LoginMain
+  .ant-row.ant-form-item:last-child
+  .ant-col.ant-form-item-control
+  .ant-form-item-control-input {
+  background: transparent !important;
+}
+span.forgotPassword {
+  display: inline-block;
+  width: 100% !important;
+  margin-top: 20px;
+}
+
+.ant-col.exercises-cards {
+  float: left;
+  width: 50%;
+}
+div#exercise-card button.ant-btn.time-button {
+  max-width: 10%;
+  width: 10%;
+  font-size: 10px !important;
+  padding: 0px !important;
+}
+.ant-col.exercises-cards .main-card {
+  margin-top: 0px !important;
+}
+div#exercise-card2 {
+  background: #fff;
+}
+div#main-exercise-card button {
+  min-width: 100px;
+}
+div#profile-col img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+div#right-box .detail-row b {
+  width: 100% !important;
+  display: inline-block;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

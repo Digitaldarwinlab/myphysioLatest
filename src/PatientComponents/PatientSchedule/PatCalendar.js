@@ -719,7 +719,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         </div>
       )}
       <div className="content" id="content">
-        <Col>
+        <Col className="exercises-cards">
           <Row className="p-2 main-card">
             <ol>
               {sortedVisits.length > 0
