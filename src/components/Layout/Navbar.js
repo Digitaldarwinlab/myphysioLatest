@@ -64,7 +64,9 @@ const Navigationbar = (props) => {
 				?
 
 				<Menu className={`d-md-inline  hamburgerMenu `}  id="hamburgerMenu" >
-					<Menu.Item key="1" style={{backgroundColor:'transparent',color:'white'}} onClick={() => { props.SideNavbarCollpased() }}>
+					{/* aswin 10/27/2021 start */}
+					<Menu.Item key="1" className="ant-menu-item-selected" style={{backgroundColor:'transparent',color:'white'}} onClick={() => { props.SideNavbarCollpased() }}>
+						{/* aswin 10/27/2021 stop */}
                 {props.isSideNavbarCollpased
                     ? <GiHamburgerMenu style={{marginTop:'5px'}} size={25}  />
                     : <GiHamburgerMenu  style={{marginTop:'5px'}} size={25} />}

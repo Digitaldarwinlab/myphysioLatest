@@ -1607,9 +1607,11 @@ form#control-hooks {
   width: 100px;
   float: right;
 }
-ul#hamburgerMenu li:hover svg {
+/* aswin 10/27/2021 start */
+/* ul#hamburgerMenu li:hover svg {
   color: #fff !important;
-}
+} */
+/* aswin 10/27/2021 stop */
 .LoginMain
   .ant-row.ant-form-item:last-child
   .ant-col.ant-form-item-control
