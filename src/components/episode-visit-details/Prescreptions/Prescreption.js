@@ -86,7 +86,7 @@ console.log(typeof(prescriptions))
                              null
                         }
 
-                    <h4> <b> Instructions  </b> :   {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ?  prescriptions.medication_detail[0].instruction : 'No MEdication' : 'No MEdication'} </h4>
+                    <h4> <b> Instructions  </b> :   {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ?  prescriptions.medication_detail[0].instruction : 'No MEdication' : 'No MEdication'}{prescriptions.medication_detail[0].instruction.length===0&&"No Instruction Available"}</h4>
                     <h4> <b> Medicine  </b> :    {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ? prescriptions.medication_detail.map(item=>{return item.medic_notes})  : null : null} </h4>
                     <h4> <b> Medication Note  </b> :    {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ? prescriptions.medication_detail.map(item=>{return item.medic_notes}) : null : null} </h4>
                     </p>  

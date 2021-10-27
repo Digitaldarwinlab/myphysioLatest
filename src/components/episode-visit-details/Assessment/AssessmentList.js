@@ -244,9 +244,7 @@ const AssessmentList = () => {
 
  })
     
- console.log('page number')
- console.log(AssesmentData)
- console.log(dataArray)
+ 
  const tableNOdata1=[
     {
         key: '1',
@@ -423,7 +421,7 @@ const AssessmentList = () => {
                             <div key={index} className="px-1 py-1">
             <Col span={24} className="px-3">
                 {loading && <Loading />}
-                
+                                {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
                                 {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                     <>
                         <div className=" border mb-3 mt-3">

@@ -154,7 +154,7 @@ export const labsAndMedicRedu = (state = labsAndMedicState, action) => {
                 }
             }
             case NO_OF_MEDICATION:
-                alert('nope')
+                //aswin 10/27/2021 start removed alert 
                 return {
                     ...state,
                     medicationList: getNewLabList(state.medicationList, action.payload.key, action.payload.value, action.payload.id)
