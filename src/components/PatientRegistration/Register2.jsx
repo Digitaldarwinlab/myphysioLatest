@@ -70,9 +70,7 @@ const Register2 = (props) => {
         }
         else if (key === "pincode") {
             error = validation.checkPincodeValidation(e.target.value);
-        }
-        else if (key === "Address") {
-            error = validation.checkAddrValidation(e.target.value);
+            // aswin 10/30/2021 email validation removed
         } else if (key === "EmergencyContact") {
             error = validation.checkMobNoValidation(e.target.value);
             if (error.error)
@@ -180,12 +178,14 @@ const Register2 = (props) => {
 
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={8} sm={24} xs={24}>
+                            {/* aswin start 10/30/2021 start */}
                             <Form.Item
-                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Countrys'}</span>}
+                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="Country"
                                 rules={[{ required: true, message: `Please Select Country.` }]}
                                 className="input-field w-100"
                             >
+                                {/* aswin start 10/30/2021 stop */}
                                 <Select
                                     showSearch
                                     optionFilterProp="children"

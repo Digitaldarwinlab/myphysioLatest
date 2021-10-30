@@ -4,13 +4,16 @@ import { AiFillMedicineBox } from 'react-icons/ai';
 import Questions from "./Questions";
 import { getQuestions } from './../../API/Assesment/questionApi';
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
-import { useDispatch } from "react-redux";
-
+// aswin start 10/30/2021 start
+import { useDispatch, useSelector } from "react-redux";
+// aswin start 10/30/2021 stop
 const AddQuestions = () => {
 
   const { Option } = Select;
   const [showQuestion, setShowQuestion] = useState(false)
-
+  // aswin start 10/30/2021 start
+  const state = useSelector(state=>state)
+  // aswin start 10/30/2021 stop
   const dispatch = useDispatch();
 
   async function handleChange(value) {
@@ -45,9 +48,11 @@ const AddQuestions = () => {
             </Form.Item>
           </Col>
           <Col md={8} lg={8} sm={24} xs={24}>
-            <p className="border p-2">Episode No: 12dg <br />
-              Start Date:12/12/2021 <br />
-              Primary Complaint: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, iure?</p>
+          {/* aswin start 10/30/2021 start */}
+            <p className="border p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br />
+              Start Date : {state.carePlanRedcucer.episode_start_date} <br />
+              Episode Type : {state.carePlanRedcucer.complaint}</p>
+              {/* aswin start 10/30/2021 stop */}
           </Col>
         </Row>
         <div className="border mb-3">

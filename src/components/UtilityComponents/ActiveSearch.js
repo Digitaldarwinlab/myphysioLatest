@@ -73,7 +73,9 @@ const ActiveSearch = (props) => {
         })
 
         Setinputtextvalue('')
-
+        // aswin start 10/30/2021 start 
+        sessionStorage.removeItem('patient_code')
+        // aswin start 10/30/2021
         if (props.carePlan) {
             // alert("Inside 1");
             props.handleActiveSearchResult(pdata[0]);
@@ -93,6 +95,7 @@ const ActiveSearch = (props) => {
                     value: pdata[0].pp_patm_id
                 }
             });
+            sessionStorage.setItem('patient_code',pdata[0].pp_patm_id)
             dispatch({
                 type: ASSESSMENT_STATE_CHANGE,
                 payload: {
@@ -109,6 +112,9 @@ const ActiveSearch = (props) => {
                     value: pdata[0].pp_patm_id
                 }
             })
+            // aswin 10/30/2021 start
+            sessionStorage.setItem('patient_code',pdata[0].pp_patm_id)
+            // aswin 10/30/2021 stop
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "patient_main_code",

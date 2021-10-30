@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RiLayout6Fill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
-import { Row, Col, Tabs, Input, Drawer, Pagination, Spin } from 'antd';
+import { Row, Col, Tabs, Input, Drawer, Pagination, Spin, notification, Button } from 'antd';
 import CarePlanCard from './care-plan-card/Card';
 import Filter from './care-plan-Filters/Filter';
 import EpisodeDetail from './../patientEpisode/Prescription/EpisodeDetail';
@@ -32,6 +32,9 @@ export const getEpisodeDetails = async (pData, dispatch) => {
 
         let episode = await getEpisode(pData.pp_patm_id);
         const profile=await Patient_profile(pData.pp_patm_id)
+        {/* aswin start 10/30/2021 start */}
+        sessionStorage.setItem('patient_code',pData.pp_patm_id)
+        {/* aswin start 10/30/2021 stop */}
         {/*  aswin 10/24/2021 start */}
         console.log(profile)
         // dispatch({
@@ -237,7 +240,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
         }
         {/*  aswin 10/22/2021 stop */}
-    },[reduxState])
+        {/* aswin start 10/30/2021 start */}
+    },[reduxState.carePlanRedcucer])
+    {/* aswin start 10/30/2021 stop */}
 
     
     const dispatch = useDispatch();
@@ -249,6 +254,64 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const [visible, setVisible] = useState(false);
     const [length, setLength] = useState(0);
     const [allocatePlan, setAllocatePlan] = useState(false);
+    // aswin 10/30/2021 start 
+    const checkEpisodeId = async () => {
+        if(reduxState.carePlanRedcucer.patient_code){
+            const res = await getEpisode(reduxState.carePlanRedcucer.patient_code)
+            if(res.length>0){
+                if(res[0].end_date.length===0){
+                    return 'true';
+                }
+                notification.warning({
+                    message: "Patient don't have an open episode",
+                    placement: 'topRight',
+                    duration: 10,
+                    key:1,
+                    style: {
+                        marginTop: '10vh',
+                      },
+                    btn:<Button size="small" onClick={() => {
+                        history.push('/add-episode') 
+                        notification.close(1)
+                      }}>
+                      Add-episode
+                    </Button>,
+                })
+                return false;
+            }else{
+                notification.warning({
+                    message: "Patient don't have an open episode",
+                    placement: 'topRight',
+                    duration: 10,
+                    key:1,
+                    style: {
+                        marginTop: '10vh',
+                      },
+                    btn:<Button size="small" onClick={() => {
+                        history.push('/add-episode') 
+                        notification.close(1)
+                      }}>
+                      Add-episode
+                    </Button>,
+                })
+            }
+           // message.error("Patient don't have an open episode");
+          //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+        }else{
+            notification.warning({
+                message: "Please select a patient",
+                placement: 'bottomLeft',
+                duration: 5,
+                style:'margin-top:20px'
+            });
+            return false;
+        }
+    }
+    useEffect(() => {
+        checkEpisodeId()
+    }, [reduxState.carePlanRedcucer.patient_code])
+
+// aswin 10/30/2021 stop
     //Checked List to Filter
     const [checkedList, setCheckedList] = useState({
         muscels: [],
@@ -393,7 +456,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     <FaHeart className="iconClass3" />
                     <p style={{ fontSize: "10px" }}>Wishlist</p>
                 </Col>
-                <Col className="text-center cart-plan" onClick={() => { setState(!state) }}>
+                {/* aswin start 10/30/2021 start */}
+                <Col className="text-center cart-plan" onClick={async() => { 
+                    await checkEpisodeId() == 'true' && setState(!state)
+
+                    }}>
+                        {/* aswin start 10/30/2021 stop */}
                     <i className="fas fa-running iconClass3"></i>
                     <p style={{ fontSize: "10px" }}>Plan</p>
                     <span className="cart-plan-item-count">{length}</span>
@@ -469,11 +537,13 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                             // primary_complaint: profiledetail.PrimaryComplaint
                         }} /> */}
                         <>  
-                <p><strong> Patient Name : </strong>{profiledetail.patientName}</p>
-                <p><strong> Patient Code : </strong>{profiledetail.patientCode}</p>
-            <p><strong> Episode No:  </strong>{profiledetail.episodeId }</p>
-            <p> <strong>Start Date : </strong> {profiledetail.startDate}</p>
-            <p> <strong>Primary Complaint:  </strong>{profiledetail.PrimaryComplaint}</p>
+                        {/* aswin start 10/30/2021 start */}
+                <p><strong> Patient Name : </strong>{reduxState.carePlanRedcucer.patient_name}</p>
+                <p><strong> Patient Code : </strong>{reduxState.carePlanRedcucer.patient_main_code}</p>
+            <p><strong> Episode No:  </strong>{reduxState.carePlanRedcucer.episodeId }</p>
+            <p> <strong>Start Date : </strong> {reduxState.carePlanRedcucer.startDate?reduxState.carePlanRedcucer.startDate:'no episode'}</p>
+            <p> <strong>Primary Complaint:  </strong>{reduxState.carePlanRedcucer.PrimaryComplaint}</p>
+            {/* aswin start 10/30/2021 start */}
         </>
         {/*  aswin 10/22/2021 stop */}
                 </Col>

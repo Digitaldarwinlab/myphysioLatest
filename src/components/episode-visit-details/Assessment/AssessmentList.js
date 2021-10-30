@@ -8,8 +8,12 @@ import { useHistory } from "react-router-dom";
 import "../../../styles/Layout/Episode.css"
 import { getAssesment } from "../../../API/Assesment/getAssesment";
 import { Pagination } from "antd";
-const AssessmentList = () => {
+{/* aswin start 10/30/2021 start */}
+import { BsFillEyeFill } from "react-icons/bs";
+import moment from 'moment'
 
+const AssessmentList = ({assesmentClick}) => {
+    {/* aswin start 10/30/2021 stop */}
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -395,9 +399,83 @@ const AssessmentList = () => {
 //   console.log('assesment datssa iss')
   // console.log(AssesmentData)
 
-
-
-
+{/* aswin start 10/30/2021 stop */}
+    const updateAssesment=(data)=>{
+        console.log(data)
+        let assesmentDate = moment(data.assesmentdate)
+        dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Type',
+              value:data.types
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Scars',
+              value:data.physical_assessement.Scars
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'RecentHistory',
+              value:data.physical_assessement.RecentHistory
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Trauma',
+              value:data.physical_assessement.Trauma
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Test',
+              value:data.physical_assessement.Test
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'PainMeter',
+              value:data.physical_assessement.PainMeter
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Swelling',
+              value:data.physical_assessement.Swelling
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Numbness',
+              value:data.Numbmess
+            }
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'Date',
+              value:{
+                  date:data.assesmentdate,
+                  dateString:assesmentDate.format('YYYY-MM-DD')
+              }
+            }
+          });
+         // dispatch({ type: "NOERROR" });
+        history.push({
+            pathname: "/assessment/1",
+            state: {update:true}
+          });
+    }
+{/* aswin start 10/30/2021 stop */}
     return (
         <React.Fragment>
              <Col span={24} className="px-3 py-3">
@@ -406,18 +484,22 @@ const AssessmentList = () => {
                         <h4 className="fw-bold">Assessments</h4>
                     </Col>
                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                        <Button className="button1" style={{color: "white"}} id="bnid" onClick={onClick}>
+                        {/* aswin start 10/30/2021 start */}
+                        <Button className="button1" style={{color: "white"}} id="bnid" onClick={assesmentClick}>
+                            {/* aswin start 10/30/2021 stop */}
                             <ImPlus className="me-2" /> {"  "}Add
                         </Button>
                     </Col>
                 </Row>
 
-        
             {
                          AssesmentData.map((data, index) =>
-                         //aswin 10/25/2021 start
-                        index >= paginationState.minIndex || index+1==paginationState.minIndex && index < paginationState.maxIndex
-                        //aswin 10/25/2021 stop
+                         //aswin 10/30/2021 start
+                        ( AssesmentData.length===1 ?
+                         index >= paginationState.minIndex || index+1==paginationState.minIndex : index >= paginationState.minIndex && index < paginationState.maxIndex )&& index < paginationState.maxIndex
+                        //  index >= paginationState.minIndex || index+1==paginationState.minIndex && index < paginationState.maxIndex
+                        //  : index >= paginationState.minIndex && index < paginationState.maxIndex
+                        //aswin 10/30/2021 stop
                         && (
                             <div key={index} className="px-1 py-1">
             <Col span={24} className="px-3">
@@ -427,9 +509,14 @@ const AssessmentList = () => {
                     <>
                         <div className=" border mb-3 mt-3">
                             <Row className="border">
-                                <Col md={24} lg={24} sm={24} xs={24}>
+                                {/* aswin start 10/30/2021 start */}
+                            <Col lg={18} md={18} sm={18} xs={24}>
                                     <h4 className="p-2">Physical Assesment</h4>
                                 </Col>
+                                <Col lg={6} md={6} sm={6} xs={24} className="text-end">
+                                <BsFillEyeFill className="iconClass3" onClick={()=>updateAssesment(data)}/>
+                                </Col>
+                                {/* aswin start 10/30/2021 stop */}
                             </Row>
                             <Row gutter={[10, 10]} className="px-4 py-2">
                                 <Descriptions>

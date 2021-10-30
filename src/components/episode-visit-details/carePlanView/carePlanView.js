@@ -84,7 +84,9 @@ const CarePlanView = (props) => {
                             <h4 className="fw-bold">All CarePlan</h4>
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                            {!ChangeView && <Button className="button1" id="bnid" style={{color:"white"}} onClick={() => setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
+                            {/* aswin start 10/30/2021 start */}
+                            {!ChangeView && <Button className="button1" id="bnid" style={{color:"white"}} onClick={ () => props.carePlanClick() && setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
+                            {/* aswin start 10/30/2021 stop */}
                             {ChangeView && <Button className="btncolor2" onClick={() => setChangeView(false)}>Cancel</Button>}
                         </Col>
                     </Row>
@@ -120,7 +122,9 @@ const CarePlanView = (props) => {
                         <Col lg={18} md={18} sm={18} xs={24}>
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                            {!ChangeView && <Button className="btncolor me-2" onClick={() => setChangeView(true)}>Add</Button>}
+                            {/* aswin start 10/30/2021 start */}
+                            {!ChangeView && <Button className="btncolor me-2" onClick={() => props.carePlanClick()==="true" ? setChangeView(true):null}>Add</Button>}
+                            {/* aswin start 10/30/2021 stop */}
                             {ChangeView && <Button className="btncolor2" onClick={() => {
                                 setChangeView(false)
                                 localStorage.setItem("care-plan-cart", JSON.stringify([]));

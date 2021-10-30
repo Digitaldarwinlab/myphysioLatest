@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Row, Col, Tabs } from 'antd';
+import { Row, Col, Tabs, notification, message, Button } from 'antd';
 import Episodes from './episodes/Episodes';
 import Visits from './visits/visit';
 import { useSelector, useDispatch } from "react-redux";
@@ -18,13 +18,50 @@ import CarePlanView from './carePlanView/carePlanView';
 import '../../styles/Layout/Heading.css'
 import Tempdashboard from "./PatientGraph/Tempdashboard";
 import Exercise from './ExerciseDetail/Exercise'
+{/* aswin start 10/30/2021 stop */}
+import { getEpisode } from "../../API/Episode/EpisodeApi";
+//import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
 
 const EpisodeVisitDetails = () => {
     const episodeDetail=useSelector(state=>state)
-
     const history = useHistory();
+    const checkEpisodeId = async () => {
+        if(episodeDetail.episodeReducer.patient_code){
+            const res = await getEpisode(episodeDetail.episodeReducer.patient_code)
+            if(res[0].end_date.length===0){
+                return 'true';
+            }
+            notification.warning({
+                message: "Patient don't have an open episode",
+                placement: 'topRight',
+                duration: 10,
+                key:1,
+                style: {
+                    marginTop: '10vh',
+                  },
+                btn:<Button size="small" onClick={() => {
+                    history.push('/add-episode') 
+                    notification.close(1)
+                  }}>
+                  Add-episode
+                </Button>,
+            })
+            return false;
+           // message.error("Patient don't have an open episode");
+          //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+        }else{
+            notification.warning({
+                message: "Please select a patient",
+                placement: 'bottomLeft',
+                duration: 5,
+                style:'margin-top:20px'
+            });
+            return false;
+        }
+    }
+    //aswin 10/30/2021 start
     const state = useSelector(state => state.episodeReducer)
     const carePlanState = useSelector(state => state.carePlanRedcucer)
     //  console.log(state)
@@ -119,17 +156,22 @@ const EpisodeVisitDetails = () => {
 
         
     }
-
-    const handleClick = () => {
-        history.push({
-            pathname: "/appointments",
-            state: {
-                patient: [{ name: state.patient_name, code: state.patient_code }]
-            }
-        })
+    // aswin 10/30/2021 start
+    const handleClick = async () => {
+        const res = await checkEpisodeId()
+        if(res==='true'){
+            return history.push({
+                pathname: "/appointments",
+                state: {
+                    patient: [{ name: state.patient_name, code: state.patient_code }]
+                }
+            })
+        }
     }
 
-    const assesmentClick = () => {
+    const assesmentClick = async () => {
+        const res = await checkEpisodeId()
+        if(res==='true'){
         history.push({
             pathname: "/assessment/1",
             state: {
@@ -138,7 +180,26 @@ const EpisodeVisitDetails = () => {
             }
         })
     }
-
+}
+    const prescriptionClick = async () => {
+        const res = await checkEpisodeId()
+        if(res==='true'){
+            history.push({
+                pathname: "/notes"
+            })
+        }
+    }
+    const carePlanClick = async () => {
+        const res = await checkEpisodeId()
+        if(res==='true'){
+            history.push({
+                pathname: "/care-plan"
+            })
+            return true;
+        }
+        return false;
+    }
+    // aswin 10/30/2021 start
     //Header 
     const Header = () => {
         return (
@@ -226,7 +287,9 @@ const EpisodeVisitDetails = () => {
                         }
                         key="4"
                     >
-                        <AssessmentList handleAssesment={assesmentClick} patientId={state.patient_code} />
+                        {/* aswin start 10/30/2021 start */}
+                        <AssessmentList assesmentClick={assesmentClick} patientId={state.patient_code} />
+                        {/* aswin start 10/30/2021 stop */}
                     </TabPane>
                     <TabPane
                         tab={
@@ -234,7 +297,9 @@ const EpisodeVisitDetails = () => {
                         }
                         key="5"
                     >
-                        <Prescriptions dashboard={true} eid={carePlanState.pp_ed_id} />
+                        {/* aswin start 10/30/2021 start */}
+                        <Prescriptions prescriptionClick={prescriptionClick} dashboard={true} eid={carePlanState.pp_ed_id} />
+                        {/* aswin start 10/30/2021 stop */}
                     </TabPane>
                     <TabPane
                         tab={
@@ -242,7 +307,9 @@ const EpisodeVisitDetails = () => {
                         }
                         key="6"
                     >
-                        <CarePlanView eid={carePlanState.pp_ed_id} searchBar={false} />
+                        {/* aswin start 10/30/2021 start */}
+                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
+                        {/* aswin start 10/30/2021 stop */}
                     </TabPane>
                     <TabPane
                         tab={
