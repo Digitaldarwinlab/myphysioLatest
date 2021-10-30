@@ -29,6 +29,7 @@ const font = {
 }
 
 const SchduleForm = (props) => {
+  console.log(props)
     const { Dragger } = Upload;
     const state = useSelector(state => state.episodeReducer)
     const [visibility, setVisibility] = useState("none");
@@ -483,10 +484,10 @@ const SchduleForm = (props) => {
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="button1" id="bnid" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
                    }
                   
-                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<Button type="button" className="button1" id="bnid" style={{color:"white", marginLeft:"5px"}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
+                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<button htmlType="button" className="button1" id="bnid" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></button>  : null}
                    
                 </Form.Item>
             </Form>
