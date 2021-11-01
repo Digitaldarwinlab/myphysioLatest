@@ -102,6 +102,16 @@ export const getEpisodeDetails = async (pData, dispatch) => {
                     value: item.primary_complaint
                 }
             })
+            //aswin 11/1/2021 start
+            sessionStorage.setItem('testvalue',item.episode_number)
+            dispatch({
+                type: CARE_PLAN_STATE_CHANGE,
+                payload: {
+                    key: "episode_number",
+                    value: item.episode_number
+                }
+            })
+        //aswin 11/1/2021 stop
         }
 
     })
@@ -185,6 +195,15 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                             value: item.end_date
                         }
                     })   
+                    //aswin 11/1/2021 start
+                    dispatch({
+                        type: CARE_PLAN_STATE_CHANGE,
+                        payload: {
+                            key: "episode_number",
+                            value: item.episode_number
+                        }
+                    })   
+                    //aswin 11/1/2021 stop
                     dispatch({
                         type: CARE_PLAN_STATE_CHANGE,
                         payload: {
@@ -540,9 +559,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         {/* aswin start 10/30/2021 start */}
                 <p><strong> Patient Name : </strong>{reduxState.carePlanRedcucer.patient_name}</p>
                 <p><strong> Patient Code : </strong>{reduxState.carePlanRedcucer.patient_main_code}</p>
-            <p><strong> Episode No:  </strong>{reduxState.carePlanRedcucer.episodeId }</p>
+            <p><strong> Episode No:  </strong>{reduxState.carePlanRedcucer.episode_number }</p>
             <p> <strong>Start Date : </strong> {reduxState.carePlanRedcucer.startDate?reduxState.carePlanRedcucer.startDate:'no episode'}</p>
-            <p> <strong>Primary Complaint:  </strong>{reduxState.carePlanRedcucer.PrimaryComplaint}</p>
+            <p> <strong>Primary Complaint:  </strong>{reduxState.carePlanRedcucer.complaint}</p>
             {/* aswin start 10/30/2021 start */}
         </>
         {/*  aswin 10/22/2021 stop */}

@@ -31,7 +31,7 @@ const EpisodeVisitDetails = () => {
         if(episodeDetail.episodeReducer.patient_code){
             const res = await getEpisode(episodeDetail.episodeReducer.patient_code)
             if(res[0].end_date.length===0){
-                return 'true';
+                return true;
             }
             notification.warning({
                 message: "Patient don't have an open episode",
@@ -156,10 +156,10 @@ const EpisodeVisitDetails = () => {
 
         
     }
-    // aswin 10/30/2021 start
+    // aswin 11/1/2021 start
     const handleClick = async () => {
         const res = await checkEpisodeId()
-        if(res==='true'){
+        if(res===true){
             return history.push({
                 pathname: "/appointments",
                 state: {
@@ -171,7 +171,7 @@ const EpisodeVisitDetails = () => {
 
     const assesmentClick = async () => {
         const res = await checkEpisodeId()
-        if(res==='true'){
+        if(res===true){
         history.push({
             pathname: "/assessment/1",
             state: {
@@ -183,7 +183,7 @@ const EpisodeVisitDetails = () => {
 }
     const prescriptionClick = async () => {
         const res = await checkEpisodeId()
-        if(res==='true'){
+        if(res===true){
             history.push({
                 pathname: "/notes"
             })
@@ -191,7 +191,7 @@ const EpisodeVisitDetails = () => {
     }
     const carePlanClick = async () => {
         const res = await checkEpisodeId()
-        if(res==='true'){
+        if(res===true){
             history.push({
                 pathname: "/care-plan"
             })
@@ -199,7 +199,7 @@ const EpisodeVisitDetails = () => {
         }
         return false;
     }
-    // aswin 10/30/2021 start
+    // aswin 11/1/2021 start
     //Header 
     const Header = () => {
         return (

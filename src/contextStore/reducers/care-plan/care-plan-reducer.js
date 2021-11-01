@@ -27,7 +27,8 @@ const initialState = {
     timeSlots: [],
     isLoading: false,
     count_time_slots: 3,
-    success: ""
+    success: "",
+    episode_number:''
 }
 //Exercise Change 
 const ExerciseUpdate = (list, key1, key2, value, index) => {

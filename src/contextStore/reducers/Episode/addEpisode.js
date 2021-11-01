@@ -18,7 +18,9 @@ const episodeInitialState = {
     end_date: "",
     complaint: "",
     Operative_Types: "",
-    file: "",
+    //aswin 11/1/2021 start
+    file: [],
+    //aswin 11/1/2021 stop
     Patient_History: "",
     Closure_Notes: "",
     episode_id: "",
