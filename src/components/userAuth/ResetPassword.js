@@ -32,6 +32,7 @@ const ResetPassword = () => {
 
     //Submit Form 
     const handleSubmitForm = async () =>{
+        console.log("AK");
         var format =  /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
        const is_special=format.test(new_password)
        let userid=localStorage.getItem('userId')
@@ -76,7 +77,8 @@ const ResetPassword = () => {
             }, 3000);
         }
         else {
-            let result = await admin_password_reset({userid ,temp_uid, new_password });
+           // let result = await admin_password_reset({userid ,temp_uid, new_password });
+           let result = await postNewPassword({ token, new_password });
             setLoading(false);
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");

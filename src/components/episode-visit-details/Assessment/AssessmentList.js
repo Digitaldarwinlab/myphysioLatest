@@ -117,13 +117,13 @@ const AssessmentList = ({assesmentClick}) => {
                                  table :[
                             {
                                 key: '1',
-                                angles: 'Left Shoulder(ver)',
+                                angles: 'Left Shoulder',
                                 min: item.AI_data[exercise].angles['Left Shoulder(ver)'].min,
                                 max: item.AI_data[exercise].angles['Left Shoulder(ver)'].max
                             },
                             {
                                 key: '2',
-                                angles: 'Right Shoulder(ver)',
+                                angles: 'Right Shoulder',
                                 min: item.AI_data[exercise].angles['Right Shoulder(ver)'].min,
                                 max: item.AI_data[exercise].angles['Right Shoulder(ver)'].max
                             },
@@ -139,33 +139,61 @@ const AssessmentList = ({assesmentClick}) => {
                                 min: item.AI_data[exercise].angles['Right Elbow'].min,
                                 max: item.AI_data[exercise].angles['Right Elbow'].max
                             },
-                    
-                        ],
-
-                        table2:[
                             {
                                 key: '5',
+                                angles: 'Neck Left',
+                                min: item.AI_data[exercise].angles['Neck Left'].min,
+                                max: item.AI_data[exercise].angles['Neck Left'].max
+                            },
+                            {
+                                key: '6',
+                                angles: 'Neck Right',
+                                min: item.AI_data[exercise].angles['Neck Right'].min,
+                                max: item.AI_data[exercise].angles['Neck Right'].max
+                            },
+                    
+                        ],
+                       
+                        
+                        
+                       
+                       
+                        table2:[
+                            {
+                                key: '7',
                                 angles: 'Left Hip',
                                 min: item.AI_data[exercise].angles['Left Hip'].min,
                                 max: item.AI_data[exercise].angles['Left Hip'].max
                             },
                             {
-                                key: '6',
+                                key: '8',
                                 angles: 'Right Hip',
                                 min: item.AI_data[exercise].angles['Right Hip'].min,
                                 max: item.AI_data[exercise].angles['Right Hip'].max
                             },
                             {
-                                key: '7',
+                                key: '9',
                                 angles: 'Left Knee',
                                 min: item.AI_data[exercise].angles['Left Knee'].min,
                                 max: item.AI_data[exercise].angles['Left Knee'].max
                             },
                             {
-                                key: '8',
+                                key: '10',
                                 angles: 'Right Knee',
                                 min: item.AI_data[exercise].angles['Right Knee'].min,
                                 max: item.AI_data[exercise].angles['Right Knee'].max
+                            },
+                            {
+                                key: '11',
+                                angles: 'Pelvic Left',
+                                min: item.AI_data[exercise].angles['Pelvic Left'].min,
+                                max: item.AI_data[exercise].angles['Pelvic Left'].max
+                            },
+                            {
+                                key: '12',
+                                angles: 'Pelvic Right',
+                                min: item.AI_data[exercise].angles['Pelvic Right'].min,
+                                max: item.AI_data[exercise].angles['Pelvic Right'].max
                             },
                         ]
                     }
@@ -187,13 +215,13 @@ const AssessmentList = ({assesmentClick}) => {
                 table :[
                     {
                         key: '1',
-                        angles: 'Left Shoulder(ver)',
+                        angles: 'Left Shoulder',
                         min:'No Data',
                         max: 'No Data'
                     },
                     {
                         key: '2',
-                        angles: 'Right Shoulder(ver)',
+                        angles: 'Right Shoulder',
                         min:'No Data',
                         max: 'No Data'
                     },
@@ -209,31 +237,55 @@ const AssessmentList = ({assesmentClick}) => {
                         min:'No Data',
                         max: 'No Data'
                     },
+                    {
+                        key: '5',
+                        angles: 'Neck Left',
+                        min:'No Data',
+                        max: 'No Data'
+                    },
+                    {
+                        key: '6',
+                        angles: 'Neck Right',
+                        min:'No Data',
+                        max: 'No Data'
+                    },
             
                 ],
 
                 table2:[
                     {
-                        key: '5',
+                        key: '7',
                         angles: 'Left Hip',
                         min:'No Data',
                         max:'No Data'
                     },
                     {
-                        key: '6',
+                        key: '8',
                         angles: 'Right Hip',
                         min:'No Data',
                         max: 'No Data'
                     },
                     {
-                        key: '7',
+                        key: '9',
                         angles: 'Left Knee',
                         min:'No Data',
                         max: 'No Data'
                     },
                     {
-                        key: '8',
+                        key: '10',
                         angles: 'Right Knee',
+                        min: 'No Data',
+                        max: 'No Data'
+                    }, 
+                      {
+                        key: '11',
+                        angles: 'Pelvic Left',
+                        min: 'No Data',
+                        max: 'No Data'
+                    },
+                    {
+                        key: '12',
+                        angles: 'Pelvic Right',
                         min: 'No Data',
                         max: 'No Data'
                     },
@@ -253,13 +305,13 @@ const AssessmentList = ({assesmentClick}) => {
  const tableNOdata1=[
     {
         key: '1',
-        angles: 'Left Shoulder(ver)',
+        angles: 'Left Shoulder',
         min:'No Data',
         max: 'No Data'
     },
     {
         key: '2',
-        angles: 'Right Shoulder(ver)',
+        angles: 'Right Shoulder',
         min:'No Data',
         max: 'No Data'
     },
@@ -275,30 +327,55 @@ const AssessmentList = ({assesmentClick}) => {
         min:'No Data',
         max: 'No Data'
     },
+    {
+        key: '5',
+        angles: 'Neck Left',
+        min:'No Data',
+        max: 'No Data'
+    },
+    {
+        key: '6',
+        angles: 'Neck Right',
+        min:'No Data',
+        max: 'No Data'
+    },
+
 
 ]
  const tableNOdata2=[
     {
-        key: '5',
+        key: '7',
         angles: 'Left Hip',
         min:'No Data',
         max:'No Data'
     },
     {
-        key: '6',
+        key: '8',
         angles: 'Right Hip',
         min:'No Data',
         max: 'No Data'
     },
     {
-        key: '7',
+        key: '9',
         angles: 'Left Knee',
         min:'No Data',
         max: 'No Data'
     },
     {
-        key: '8',
+        key: '10',
         angles: 'Right Knee',
+        min: 'No Data',
+        max: 'No Data'
+    }, 
+      {
+        key: '11',
+        angles: 'Pelvic Left',
+        min: 'No Data',
+        max: 'No Data'
+    },
+    {
+        key: '12',
+        angles: 'Pelvic Right',
         min: 'No Data',
         max: 'No Data'
     },
@@ -390,8 +467,8 @@ const AssessmentList = ({assesmentClick}) => {
         pageSize: 1,
         total: AssesmentData.length / 1,
         current: 1,
-        minIndex: (2 - 1) * (1),
-        maxIndex: 1 * (2)
+        minIndex: 0,
+        maxIndex: 1
     })
   
     }, [state.patient_code])
@@ -494,11 +571,11 @@ const AssessmentList = ({assesmentClick}) => {
 
             {
                          AssesmentData.map((data, index) =>
+                        
                          //aswin 10/30/2021 start
-                        ( AssesmentData.length===1 ?
-                         index >= paginationState.minIndex || index+1==paginationState.minIndex : index >= paginationState.minIndex && index < paginationState.maxIndex )&& index < paginationState.maxIndex
-                        //  index >= paginationState.minIndex || index+1==paginationState.minIndex && index < paginationState.maxIndex
-                        //  : index >= paginationState.minIndex && index < paginationState.maxIndex
+                       ( AssesmentData.length===1 ?
+                       index >= paginationState.minIndex || index+1==paginationState.minIndex : index >= paginationState.minIndex && index < paginationState.maxIndex )&& index < paginationState.maxIndex
+                      //  index >= paginationState.minIndex && index < paginationState.maxIndex
                         //aswin 10/30/2021 stop
                         && (
                             <div key={index} className="px-1 py-1">
@@ -546,6 +623,7 @@ const AssessmentList = ({assesmentClick}) => {
                                 <Col md={24} lg={24} sm={24} xs={24}>
                                     <h4 className="p-2">Questionnaire </h4>
                                     <Descriptions bordered>
+                                     <Descriptions.Item label="Index">{index}</Descriptions.Item> 
                                         <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3]}</Descriptions.Item>
                                         <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3]}</Descriptions.Item>
                                         <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3]}</Descriptions.Item>

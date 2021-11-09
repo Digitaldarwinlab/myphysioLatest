@@ -158,9 +158,9 @@ const AuthForm = (props) => {
                         />
                     )
                 }
-                {props.isSignin ? (
+                {/* {props.isSignin ? (
                     <ForgotPassword />)
-                    : null}
+                    : null} */}
                 <Form.Item>
                     <Button
                         disabled={disableState}

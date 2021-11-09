@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, Button, Spin } from "antd";
+import { Modal, Form, Button, Spin,Anchor } from "antd";
 import Success from './../UtilityComponents/SuccessHandler';
 import Error from './../UtilityComponents/ErrorHandler';
 import FormInput from './../UI/antInputs/FormInput';
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
-
+    const { Link } = Anchor;
     //handleSubmit 
     const handleSubmit = async () => {
         setLoading(true);
@@ -39,11 +39,12 @@ const ForgotPassword = () => {
     }
     return (
         <>
-            <span className="forgotPassword"
-                onClick={() => setVisible(true)}
-                style={{ cursor: "pointer" }}>
-                Forgot Password?
-            </span>
+
+<a className="forgotPassword"
+                onClick={() => {
+                setVisible(true)
+               }}> Forgot Password?</a> 
+ 
             <Modal
                 footer={null}
                 visible={visible}

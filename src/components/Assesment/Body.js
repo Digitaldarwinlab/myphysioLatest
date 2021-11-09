@@ -463,23 +463,85 @@ const Body = () => {
         });
       }
     
-    useEffect(()=>{
-        console.log(state.carePlanRedcucer.pp_ed_id)
-     //   console.log('errorshow in useEffect')
-    //    console.log(errorshow)
-    },[])
+    // useEffect(()=>{
+    //    // console.log(state.carePlanRedcucer.pp_ed_id)
+    //  //   console.log('errorshow in useEffect')
+    // //    console.log(errorshow)
+    // },[])
+
+   // aswin 10/30/2021 start 
+   const checkEpisodeId = async () => {
+    if(state.episodeReducer.patient_code){
+        const res = await getEpisode(state.episodeReducer.patient_code)
+        if(res.length>0){
+            if(res[0].end_date.length===0){
+                return 'true';
+            }
+            notification.warning({
+                message: "Patient don't have an open episode",
+                placement: 'topRight',
+                duration: 10,
+                key:1,
+                style: {
+                    marginTop: '10vh',
+                  },
+                btn:<Button size="small" onClick={() => {
+                    history.push('/add-episode') 
+                    notification.close(1)
+                  }}>
+                  Add-episode
+                </Button>,
+            })
+            return false;
+        }else{
+            notification.warning({
+                message: "Patient don't have an open episode",
+                placement: 'topRight',
+                duration: 10,
+                key:1,
+                style: {
+                    marginTop: '10vh',
+                  },
+                btn:<Button size="small" onClick={() => {
+                    history.push('/add-episode') 
+                    notification.close(1)
+                  }}>
+                  Add-episode
+                </Button>,
+            })
+        }
+       // message.error("Patient don't have an open episode");
+      //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+    }else{
+        notification.warning({
+            message: "Please select a patient",
+            placement: 'bottomLeft',
+            duration: 5,
+            style:'margin-top:20px'
+        });
+        return false;
+    }
+}
 
 
+// aswin 10/30/2021 stop
     const Finalsubmit =async ()=>{
         // aswin 10/24/2021 start
-        if(state.carePlanRedcucer.pp_ed_id===""){
-            return notification.warning({
-                message: "Patient don't have an open episode",
-                placement: 'bottomRight',
-                duration: 2
-            });
-        }
+      //  let val=checkEpisodeId();
+      //  if(state.episodeReducer.patient_code){
+            const res = await getEpisode(state.episodeReducer.patient_code)
+          
+        // alert(JSON.stringify(state.episodeReducer))
+        // console.log(JSON.stringify(state.episodeReducer))
+        // if(state.carePlanRedcucer.pp_ed_id===""){
+        //     return notification.warning({
+        //         message: "Patient don't have an open episode1",
+        //         placement: 'bottomRight',
+        //         duration: 2
+        //     });
+        // }
         // aswin 10/24/2021 stop
+        if(res.length>0 && res[0].end_date.length===0){
         const data = await AssesmentAPI(state.FirstAssesment, dispatch)
         dispatch({ type: RECEIVED_DATA })
         if (data === true) {
@@ -494,9 +556,9 @@ const Body = () => {
             });
 
             history.push('/dashboard')
-
-            
         }
+            
+        
         else {
             notification.error({
                 message: 'Form was not submitted',
@@ -504,6 +566,13 @@ const Body = () => {
                 duration: 2
             });
         }
+    }else{
+            return notification.warning({
+                message: "Patient don't have an open episode1",
+                placement: 'bottomRight',
+                duration: 2
+            });
+    }
     }
     const Submit = async () => {
             

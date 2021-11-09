@@ -1,8 +1,12 @@
+import React, { useState } from "react";
 import AuthForm from './Form';
 import loginImage from "./../../assets/loginImage.JPG";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../../styles/userAuth/userAuth.css"; 
 import { Row,Col} from 'antd';
+import ForgotPassword from './ForgotPassword';
+
+//const [visible, setVisible] = useState(false);
 const Login = (props)=>{
     return (
         <>
@@ -13,6 +17,8 @@ const Login = (props)=>{
             <Col xs={20} sm={24} md={12} lg={12} xl={10} className="authFormDiv LoginMain">
                 <MyPhysioLogo page='login' />
                 <h1>Welcome Back!</h1>
+                <ForgotPassword />
+              
                 <AuthForm isSignin={true} />
             </Col>
         </Row>

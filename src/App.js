@@ -76,7 +76,7 @@ const App = () => {
 						<Switch>
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
-							<PublicRoute exact path="/api/password_reset/:token" component={ResetPassword} />
+							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
 							<PrivateRoute exact path="/pateints/new" component={PatientIndex} />
 							<PrivateRoute exact path="/pateints/update" component={PatientIndex} />
