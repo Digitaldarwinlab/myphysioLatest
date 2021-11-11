@@ -60,7 +60,7 @@ const PatientDashboard = () => {
     useEffect( async () => {
         async function getPatientEpisode() {
             let result = await GetPatientCurrentEpisode();
-         
+         console.log(result[1]);
             if (!result[0])
                 console.log(result, "Pat Episode Api For Dashboard Screen");
             let episodeData = result[1];
@@ -68,9 +68,10 @@ const PatientDashboard = () => {
                 episodeData[0].PP_Patient_Details = JSON.parse(episodeData[0].PP_Patient_Details);
                 episodeData[0].treating_doc_details = JSON.parse(episodeData[0].treating_doc_details);
                 let val = episodeData[0].treating_doctor_detail[0];
-                let keys = val ? Object.keys(val) : 0;
+                let keys = val ? Object.keys(val) : null;
                 let index = 0;
                 let tempData = [];
+               if(keys!=null){
                 keys.forEach(key => {
                     if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
                         if (key === "start_date") {
@@ -97,6 +98,7 @@ const PatientDashboard = () => {
                         }
                     }
                 });
+            }
                 setPhysioDetailsData(tempData);
                 dispatch({
                     type: "changeEpisodeId", payload: {
@@ -104,9 +106,12 @@ const PatientDashboard = () => {
                     }
                 })
             }
+           
+           
 
 
-            setEpisode(episodeData);
+            setEpisode(episodeData);    
+            
         }
         getPatientEpisode();
 
@@ -218,7 +223,7 @@ const PatientDashboard = () => {
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
                             <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
-                            {episode.length !== 0 && <h6 className="fw-bold text-center">
+                            {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
                                 {episode[0].treating_doctor_detail[0].first_name + " " + episode[0].treating_doctor_detail[0].last_name}
                             </h6>}
                         </Col>

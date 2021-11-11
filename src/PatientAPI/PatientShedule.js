@@ -32,6 +32,7 @@ export const GetPatientCarePlan = async (episodeId, date) => {
 
 export const  update_careplan=async (object,exercise,pain,exerciseTime,careplanId)=>{
     console.log(exercise)
+    console.log('careplanId ::::::::::::',careplanId)
     var newcareplanId=careplanId
     console.log('careplanId')
 
