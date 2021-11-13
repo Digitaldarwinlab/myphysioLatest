@@ -1,5 +1,6 @@
 import React,{ useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import StateCity from "../../UtilityComponents/dummyData/state_city.json"
 import Error from './../../UtilityComponents/ErrorHandler';
 import { CLINIC_CLEAR_STATE, CLINIC_STATE_CHANGE } from './../../../contextStore/actions/ClinicRegister';
 import { clinicRegisterApi } from './../../../API/Physio/ClinicRegister';
@@ -7,7 +8,7 @@ import ClinicValidation from './../../Validation/clinicValidation/clinicValidati
 import Validation from './../../Validation/authValidation/authValidation';
 import { VALIDATION } from './../../../contextStore/actions/authAction';
 // import apiValidation from './../../../API/apiValidation/apiValidation';
-import { Typography, Row,Button,Col, Form } from 'antd';
+import { Typography, Row,Button,Col, Form ,Select } from 'antd';
 import FormInput from './../../UI/antInputs/FormInput';
 import FormTextArea from './../../UI/antInputs/FormTextArea';
 import FormDate from './../../UI/antInputs/FormDate';
@@ -22,9 +23,21 @@ const PhysioClinic = ()=>{
     const [dateState,setDateState] = useState("");
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+    const [stateList, setStateList] = useState([]);
+    const [cityList, setCityList] = useState([]);
 
     useEffect(()=>{
         dispatch({type:"NOERROR"});
+        const data = state.clinicReg
+        const keys = Object.keys(StateCity);
+        setStateList(keys);
+        if (data.state) {
+            if (StateCity[data.state]) {
+                setCityList(StateCity[data.state])
+            } else {
+                setCityList([])
+            }
+        }
     },[]);
 
     const handleChange = (key,value,id=0) =>{
@@ -37,7 +50,30 @@ const PhysioClinic = ()=>{
                     value:value.dateString
                 }
             })
-        }else{
+        }
+        else if (key === "state") {
+            if (!value){
+                setCityList([]);
+                dispatch({
+                    type: CLINIC_STATE_CHANGE,
+                    payload:{
+                        key,
+                        value
+                    }
+                })
+            }else {
+                let data = StateCity[value];
+                setCityList(data);
+                dispatch({
+                    type: CLINIC_STATE_CHANGE,
+                    payload:{
+                        key,
+                        value
+                    }
+                })
+            }
+        }
+        else{
             dispatch({
                 type: CLINIC_STATE_CHANGE,
                 payload:{
@@ -217,8 +253,111 @@ const PhysioClinic = ()=>{
                     </Row>
 
                     <Row gutter={[20,20]}>
+                    {/* aswin 11/13/2021 start implimented country,state,city */}
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="zip" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pin Code'}</span>}
+                            {/* <FormInput name="zip" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pin Code'}</span>}
+                                value={state.clinicReg.zip}
+                                placeholder="Pin Code" 
+                                onChange={handleChange}
+                                className="input-field"
+                                onBlur = {handleBlur} 
+                                required={true}
+                            />  */}
+                             <Form.Item
+                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
+                                name="country"
+                                rules={[{ required: true, message: `Please Select Country.` }]}
+                            >
+                                <Select
+                                    //showSearch
+                                    optionFilterProp="children"
+                                    placeholder="plaese select country"
+                                    value={state.clinicReg.country}
+                                    onChange={(value) => { handleChange("country", value) }}
+                                    allowClear
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Select.Option value="India">India</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col md={24} lg={8} sm={24} xs={24}>
+                            {/* <FormInput name="city" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
+                                className="input-field"
+                                value={state.clinicReg.city}
+                                placeholder="City" 
+                                onChange={handleChange}
+                                onBlur = {handleBlur} 
+                                required="true"
+                            /> */}
+                            <Form.Item
+                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
+                                name="state"
+                                rules={[{ required: true, message: `Please Select State.` }]}
+                            >
+                                <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    placeholder="plaese select state."
+                                    value={state.clinicReg.state}
+                                    onChange={(value) => { handleChange("state", value) }}
+                                    allowClear
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {
+                                        stateList.map((value, index) => {
+                                            return (
+                                                <Select.Option key={index} value={value}>{value}</Select.Option>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col md={24} lg={8} sm={24} xs={24}>
+                            {/* <FormInput name="state" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
+                                value={state.clinicReg.state}
+                                placeholder="State" 
+                                onChange={handleChange}
+                                className="input-field"
+                                onBlur = {handleBlur} 
+                                required="true"
+                            />  */}
+                            <Form.Item
+                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
+                                name="city"
+                                rules={[{ required: true, message: `Please Select City.` }]}
+                            >
+                                <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    placeholder="plaese select City."
+                                    value={state.clinicReg.city}
+                                    onChange={(value) => { handleChange("city", value) }}
+                                    allowClear
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {cityList.length !== 0 && (
+                                        cityList.map((value, index) => {
+                                            return (
+                                                <Select.Option key={index} value={value}>{value}</Select.Option>
+                                            )
+                                        })
+                                    )}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                
+                    <Row gutter={[20,20]}>
+                         <Col md={24} lg={8} sm={24} xs={24}>
+                             <FormInput name="zip" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pin Code'}</span>}
                                 value={state.clinicReg.zip}
                                 placeholder="Pin Code" 
                                 onChange={handleChange}
@@ -226,39 +365,6 @@ const PhysioClinic = ()=>{
                                 onBlur = {handleBlur} 
                                 required={true}
                             /> 
-                        </Col>
-                        <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="city" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
-                                className="input-field"
-                                value={state.clinicReg.city}
-                                placeholder="City" 
-                                onChange={handleChange}
-                                onBlur = {handleBlur} 
-                                required="true"
-                            />
-                        </Col>
-                        <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="state" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
-                                value={state.clinicReg.state}
-                                placeholder="State" 
-                                onChange={handleChange}
-                                className="input-field"
-                                onBlur = {handleBlur} 
-                                required="true"
-                            /> 
-                        </Col>
-                    </Row>
-                
-                    <Row gutter={[20,20]}>
-                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="country" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
-                                value={state.clinicReg.country}
-                                placeholder="Country" 
-                                onChange={handleChange}
-                                className="input-field"
-                                onBlur = {handleBlur} 
-                                required={true}
-                            />
                          </Col>
                          <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput name="mobile_no" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Mobile No'}</span>}

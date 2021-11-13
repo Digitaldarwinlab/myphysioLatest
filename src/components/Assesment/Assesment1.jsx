@@ -73,6 +73,12 @@ const Assesment1 = (props1) => {
         location.pathname != '/assesment/Questions' &&
         location.pathname != '/care-plan' &&
         state.FirstAssesment.episode_id != "") {
+          //aswin 11/11/2021 start
+          if(sessionStorage.getItem('submit')){
+            sessionStorage.removeItem('submit')
+            return ;  
+          }
+          //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           return true;
