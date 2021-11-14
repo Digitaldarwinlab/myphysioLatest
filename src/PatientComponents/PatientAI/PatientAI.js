@@ -151,6 +151,7 @@ const dispatch = useDispatch();
             if (selectedJoint.includes(joints[i].label)) {
                 primaryAngles.push(joints[i].value)
                 primaryAngles.push((joints[i].value)+1)
+                break;
 
             }
         }
