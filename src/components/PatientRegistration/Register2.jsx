@@ -130,11 +130,12 @@ const Register2 = (props) => {
         } else if (validation.checkMobNoValidation(data.EmergencyContact).error) {
             dispatch({ type: VALIDATION, payload: { error: "Emergency " + validation.checkMobNoValidation(data.EmergencyContact).error } });
         }
-        else if (validation.checkAddrValidation(data.Address).error) {
+        // aswin 11/13/2021 start
+        // else if (validation.checkAddrValidation(data.Address).error) {
                
-            dispatch({ type: VALIDATION, payload: { error: "" +validation.checkAddrValidation(data.Address).error } });
-        }
-        
+        //     dispatch({ type: VALIDATION, payload: { error: "" +validation.checkAddrValidation(data.Address).error } });
+        // }
+        // aswin 11/13/2021 stop
         else {
             const checkError = state.Validation.error;
             if (checkError) {

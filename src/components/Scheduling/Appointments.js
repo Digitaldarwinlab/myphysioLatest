@@ -208,11 +208,14 @@ const Appointments = () => {
                                 patientName = itemData;
                                 return `${itemData}`;
                             },
-                            onFocusOut: async function (e) {
-                                let value = await fetchEpisodeDetail(e.event.target.value);
+                            // aswin 11/13/2021 start
+                            onItemClick: async function(e){
+                                console.log(e.itemData)
+                                let value = await fetchEpisodeDetail(e.itemData);
                                 episodeName = value;
                                 form.updateData("episode", value);
                             }
+                            // aswin 11/13/2021 stop
                         }
                     },
                     {

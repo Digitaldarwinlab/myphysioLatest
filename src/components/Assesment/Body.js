@@ -541,10 +541,13 @@ const Body = () => {
         //     });
         // }
         // aswin 10/24/2021 stop
+        // aswin 11/13/2021 start
         if(res.length>0 && res[0].end_date.length===0){
+      if(window.confirm('Assessment data will be submitted')){
         const data = await AssesmentAPI(state.FirstAssesment, dispatch)
         dispatch({ type: RECEIVED_DATA })
         if (data === true) {
+            sessionStorage.setItem('submit',true)
             setTimeout(() => {
                 dispatch({ type: ASSESMENT_CLEARSTATE });
             }, 1000);
@@ -566,6 +569,8 @@ const Body = () => {
                 duration: 2
             });
         }
+      }
+      // aswin 11/13/2021 stop
     }else{
             return notification.warning({
                 message: "Patient don't have an open episode1",
