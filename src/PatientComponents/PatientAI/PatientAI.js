@@ -148,7 +148,22 @@ const dispatch = useDispatch();
         //Select primary angle based on joint
         let primaryAngles =[]
         for (let i = 0; i < joints.length; i++) {
-            if (selectedJoint.includes(joints[i].label)) {
+            if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && !selectedJoint.includes('Pelvic')) {
+                primaryAngles.push(joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && !selectedJoint.includes('Pelvic')) {
+                primaryAngles.push(joints[i].value)
+                primaryAngles.push((joints[i].value)-1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Pelvic')) {
+                primaryAngles.push(joints[i].value)
+                primaryAngles.push((joints[i].value)-1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Pelvic')) {
                 primaryAngles.push(joints[i].value)
                 primaryAngles.push((joints[i].value)+1)
                 break;
