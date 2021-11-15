@@ -36,7 +36,7 @@ export const getNotes = async (eid) => {
         if (response.status === 200 || response.status === 201) {
             if (data && data[0].notes) {
                 console.log(data)
-                return data;
+                return data.reverse();
             }
             else
                 return [];

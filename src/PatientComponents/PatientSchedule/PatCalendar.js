@@ -512,6 +512,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               },
             }}
             disabled={customisedDate !== convert(new Date()) ? true : false}
+           // disabled={}
             onClick={() => handleClick(exercise)}
           >
             Start Now

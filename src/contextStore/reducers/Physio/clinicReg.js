@@ -40,7 +40,7 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             } 
         case CLINIC_REGISTER_SUCCESS:
             return {
-                ...clinicInitialState,
+                ...state,
                 isLoading:false,
                 success:"Clinic Registered SuccessFully."
             }

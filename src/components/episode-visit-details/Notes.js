@@ -11,7 +11,7 @@ const Notes = (props) => {
     const [form] = Form.useForm();
     const [AllNotes, setAllNotes] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [success, setSuccess] = React.useState("");
+    const [success, setSuccess] = React.useState({state:false,msg:''});
     const [error, setError] = React.useState("");
     const [change, setChange] = React.useState(false);
     const [paginationState, setPaginationState] = React.useState({
@@ -67,10 +67,15 @@ const Notes = (props) => {
         let result = await Add_Notes(data);
         setIsLoading(false);
         if (result && result[0]) {
-            setSuccess("Note Added Successfully.");
+            setSuccess({...success,state:true,msg:'Note Addes Successfully'});
             setNotes("");
             form.resetFields();
             setChange(!change)
+            {/* aswin 11/15/2021 start */}
+            setTimeout(() => {
+                setSuccess({...success,state:false,msg:''})
+            }, 3000);
+            {/* aswin 11/15/2021 start */}
         } else {
             setError(result[1]);
             setTimeout(() => {
@@ -92,7 +97,7 @@ const Notes = (props) => {
     return (
         <>
             <Form onFinish={handleNotesFinish} form={form} name="control-hooks" className="px-2 py-2">
-                {success && <Success success={success} />}
+                {success.state && <Success success={success.msg} />}
                 {error && <Error error={error} />}
                 <FormTextArea
                     name="notes" label=""

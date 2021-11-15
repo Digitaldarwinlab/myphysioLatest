@@ -45,10 +45,10 @@ const Tempdashboard=({viewstate})=>{
         const [selectedexercise1,Setselectedexercise]=useState(0)
         const state = useSelector(state => state.episodeReducer)
         const dispatch=useDispatch()
-        const [finaldata,SetfinalData]=useState()
+        const [finaldata,SetfinalData]=useState({Symptoms_koos_score:''})
  // alert(state.patient_main_code)
         useEffect( async()=>{
-            const data=await get_progress(57)
+            const data=await get_progress(state.patient_code)
             console.log('data  progress')
             console.log(data)
             SetfinalData(data)

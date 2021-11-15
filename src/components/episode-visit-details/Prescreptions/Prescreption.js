@@ -221,6 +221,28 @@ const Prescreptions = ({ prescriptionClick }) => {
                                       : null}{" "}
                                   </h4>
                                   <h4>
+                                    {/* aswin 11/15/2021 start */}
+                                    {" "}
+                                    <b> Medications Per Days </b> :{" "}
+                                    {data.medication_detail
+                                      ? data.medication_detail.length > 0
+                                        ? data.medication_detail.map((item) => {
+                                           // return item.no_of_medications;
+                                           if(item.no_of_medications===1){
+                                            return "1-OD";
+                                           }else if(item.no_of_medications===2){
+                                             return "2-BD"
+                                           }else if(item.no_of_medications===3){
+                                             return "3-TD"
+                                           }else if(item.no_of_medications===4){
+                                             return '4-QD'
+                                           }
+                                          })
+                                        : null
+                                      : null}{" "}
+                                  </h4>
+                                  <h4>
+                                    {/* aswin 11/15/2021 stop */}
                                     {" "}
                                     <b> Medication Note </b> :{" "}
                                     {data.medication_detail
@@ -317,6 +339,28 @@ const Prescreptions = ({ prescriptionClick }) => {
                                     : null}{" "}
                                 </h4>
                                 <h4>
+                                {/* aswin 11/15/2021 start */}
+                                    {" "}
+                                    <b> Medications Per Days </b> :{" "}
+                                    {data.medication_detail
+                                      ? data.medication_detail.length > 0
+                                        ? data.medication_detail.map((item) => {
+                                           // return item.no_of_medications;
+                                           if(item.no_of_medications===1){
+                                            return "1-OD";
+                                           }else if(item.no_of_medications===2){
+                                             return "2-BD"
+                                           }else if(item.no_of_medications===3){
+                                             return "3-TD"
+                                           }else if(item.no_of_medications===4){
+                                             return '4-QD'
+                                           }
+                                          })
+                                        : null
+                                      : null}{" "}
+                                  </h4>
+                                <h4>
+                                  {/* aswin 11/15/2021 stop */}
                                   {" "}
                                   <b> Medication Note </b> :{" "}
                                   {data.medication_detail

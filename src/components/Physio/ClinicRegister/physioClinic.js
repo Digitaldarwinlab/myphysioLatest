@@ -2,7 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import StateCity from "../../UtilityComponents/dummyData/state_city.json"
 import Error from './../../UtilityComponents/ErrorHandler';
-import { CLINIC_CLEAR_STATE, CLINIC_STATE_CHANGE } from './../../../contextStore/actions/ClinicRegister';
+import { CLINIC_CLEAR_STATE, CLINIC_REGISTER_SUCCESS, CLINIC_STATE_CHANGE } from './../../../contextStore/actions/ClinicRegister';
 import { clinicRegisterApi } from './../../../API/Physio/ClinicRegister';
 import ClinicValidation from './../../Validation/clinicValidation/clinicValidation';
 import Validation from './../../Validation/authValidation/authValidation';
@@ -17,9 +17,11 @@ import Success from './../../UtilityComponents/SuccessHandler';
 import { useHistory } from 'react-router-dom';
 import '../../../styles/Layout/Heading.css'
 import { ItemDragging } from 'devextreme-react/list';
+import { useForm } from 'antd/lib/form/Form';
 const { Title } = Typography;
 const PhysioClinic = ()=>{
-    const formRef = React.createRef();
+   // const formRef = React.createRef();
+    const [form] = useForm()
     const [dateState,setDateState] = useState("");
     const state = useSelector(state => state);
     const dispatch = useDispatch();
@@ -135,32 +137,42 @@ const PhysioClinic = ()=>{
           
         
     }
-
-    const handleSubmit = (value) =>{
+    const handleReset = (check) => {
+        if(check){
+            dispatch({type:CLINIC_CLEAR_STATE});
+            form.resetFields()
+            return
+        }
+        if(window.confirm("Confirm, Do you want to clear form?")){
+            dispatch({type:CLINIC_CLEAR_STATE});
+            form.resetFields()
+        }
+    }
+    const handleSubmit = async (value) =>{
         let error
-        if(Validation.checkNameValidation(value.name))
+        if(Validation.checkNameValidation(state.clinicReg.name))
         {
-            error=Validation.checkNameValidation(value.name)
+            error=Validation.checkNameValidation(state.clinicReg.name)
             
             
           
-        }else if(Validation.checkAddrValidation(value.address_1) || Validation.checkAddrValidation(value.address_2) || Validation.checkAddrValidation(value.address_3))
+        }else if(Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3))
         {
-            error=Validation.checkAddrValidation(value.address_1) || Validation.checkAddrValidation(value.address_2) || Validation.checkAddrValidation(value.address_3)
+            error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
         }
-        else if(Validation.checkPincodeValidation(value.zip))
+        else if(Validation.checkPincodeValidation(state.clinicReg.zip))
         {
-            error= Validation.checkPincodeValidation(value.zip)
-        }
-
-        else if(Validation.checkEmailValidation(value.email))
-        {
-            error=Validation.checkEmailValidation(value.email)
+            error= Validation.checkPincodeValidation(state.clinicReg.zip)
         }
 
-        else if(Validation.isValidURL(value.url))
+        else if(Validation.checkEmailValidation(state.clinicReg.email))
         {
-            error=Validation.isValidURL(value.url)
+            error=Validation.checkEmailValidation(state.clinicReg.email)
+        }
+
+        else if(Validation.isValidURL(state.clinicReg.url))
+        {
+            error=Validation.isValidURL(state.clinicReg.url)
         }
     if(error.error)
     {
@@ -178,7 +190,8 @@ const PhysioClinic = ()=>{
             alert("please check all the fields")
         }
         else {
-            clinicRegisterApi(state.clinicReg,dispatch);
+            await clinicRegisterApi(state.clinicReg,dispatch);
+            form.resetFields()
         }
     }
 
@@ -195,12 +208,6 @@ const PhysioClinic = ()=>{
             />
         )
     }
-    const handleReset = () => {
-        if(window.confirm("Confirm, Do you want to clear form?")){
-            dispatch({type:CLINIC_CLEAR_STATE});
-            formRef.current.resetFields();
-        }
-    }
     return(
         <>  
            <div style={{ minHeight: "20px" }}></div>
@@ -208,7 +215,7 @@ const PhysioClinic = ()=>{
                  {state.Validation.error && (<Error error={state.Validation.error} />)}
                 {state.clinicReg.isLoading && (<Loading />)} 
                 {state.clinicReg.success && (<Success success = {state.clinicReg.success}/>)}
-            <Form style={{marginTop:'40px',marginLeft:'1%'}} onFinish={handleSubmit} ref={formRef} layout="vertical">
+            <Form style={{marginTop:'40px',marginLeft:'1%'}} onFinish={handleSubmit} form={form} layout="vertical">
                 <div className="border p-4 mb-4">
                     <Row gutter={[20,20]}>
                         <Col span={24}>
@@ -429,7 +436,7 @@ const PhysioClinic = ()=>{
                 </div>
               
                 <div className="text-end">
-                    <Button className=" m-2"  style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} htmlType="submit">Submit</Button>
+                    <Button className=" m-2"  style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} onClick={handleSubmit}>Submit</Button>
                     <Button className="btncolor m-2" onClick={handleReset}>Reset</Button>
                 </div>
             </Form>

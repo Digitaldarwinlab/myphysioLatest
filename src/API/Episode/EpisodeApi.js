@@ -166,7 +166,8 @@ const MedicationDetailsArray = (medication) => {
         return {
             "medicine_name": val.medication,
             "instruction": val.instructions,
-            "medic_notes": val.medic_notes
+            "medic_notes": val.medic_notes,
+            "no_of_medications":val.no_of_medications,
         }
     });
     return newArray;
