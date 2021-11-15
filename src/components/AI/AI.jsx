@@ -58,6 +58,8 @@ class AI extends Component {
 
         let PreJointKeys = (Object.keys(PreJoints));
         let PreJointValue = (Object.values(PreJoints));
+        console.log('PreJointKeys:'+PreJointKeys);
+        console.log('PreJointValue:'+PreJointValue);
         console.log(this.props.history.location)
        
         
