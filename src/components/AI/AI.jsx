@@ -53,9 +53,10 @@ class AI extends Component {
         console.log(this.props.history)       
         var preveState = this.props.history.location.state.Excercise;
         let preIndices = (Object.keys(preveState))
-
+        console.log('preveState:'+preveState);
+        console.log('preIndices:'+preIndices);
         let PreJoints = this.props.history.location.state.Joints;
-
+        console.log('PreJoints:'+PreJoints);
         let PreJointKeys = (Object.keys(PreJoints));
         let PreJointValue = (Object.values(PreJoints));
         console.log('PreJointKeys:'+PreJointKeys);
