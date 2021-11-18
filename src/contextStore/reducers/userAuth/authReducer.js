@@ -180,6 +180,11 @@ export const Validation = (state = validationState, action) => {
                 ...state,
                 error: action.payload.error
             }
+        case "EPISODE_CHECK":
+            return{
+                ...state,
+                episode_check:"failed"
+            }    
         case "NOERROR":
             return {
                 ...validationState

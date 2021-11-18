@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Row, Col, Tabs, notification, message, Button } from 'antd';
+import { Row, Col, Tabs, notification, message, Button, Alert } from 'antd';
 import Episodes from './episodes/Episodes';
 import Visits from './visits/visit';
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +20,8 @@ import Tempdashboard from "./PatientGraph/Tempdashboard";
 import Exercise from './ExerciseDetail/Exercise'
 {/* aswin start 10/30/2021 stop */}
 import { getEpisode } from "../../API/Episode/EpisodeApi";
+import Error from "../UtilityComponents/ErrorHandler";
+import { VALIDATION } from "../../contextStore/actions/authAction";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -33,21 +35,22 @@ const EpisodeVisitDetails = () => {
             if(res[0].end_date.length===0){
                 return true;
             }
-            notification.warning({
-                message: "Patient don't have an open episode",
-                placement: 'topRight',
-                duration: 10,
-                key:1,
-                style: {
-                    marginTop: '10vh',
-                  },
-                btn:<Button size="small" onClick={() => {
-                    history.push('/add-episode') 
-                    notification.close(1)
-                  }}>
-                  Add-episode
-                </Button>,
-            })
+            // notification.warning({
+            //     message: "Patient don't have an open episode",
+            //     placement: 'topRight',
+            //     duration: 10,
+            //     key:1,
+            //     style: {
+            //         marginTop: '10vh',
+            //       },
+            //     btn:<Button size="small" onClick={() => {
+            //         history.push('/add-episode') 
+            //         notification.close(1)
+            //       }}>
+            //       Add-episode
+            //     </Button>,
+            // })
+            dispatch({ type: "EPISODE_CHECK", payload: { error: "patient don't have open an episode" } });
             return false;
            // message.error("Patient don't have an open episode");
           //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
@@ -336,6 +339,9 @@ const EpisodeVisitDetails = () => {
         <div className="ms-2 me-2" style={{maxWidth:'100%',msOverflowX:'hidden'}}>
             {Header()}
             <div className="rest">
+                {/* aswin 11/15/2021 start */}
+                {episodeDetail.Validation.episode_check==='failed'&&<Error error={"Patient Don't have an open episode"} />}
+                {/* aswin 11/15/2021 start */}
             <div style={{ minHeight: "20px" }}></div>
             {PatientDetails()}
             <div style={{ minHeight: "20px" }}></div>

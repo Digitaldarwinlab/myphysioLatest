@@ -71,7 +71,7 @@ const ActiveSearch = (props) => {
                 val.pp_patm_id.toString() === text
             )
         })
-
+        dispatch({type:'NOERROR'})
         Setinputtextvalue('')
         // aswin start 10/30/2021 start 
         sessionStorage.removeItem('patient_code')

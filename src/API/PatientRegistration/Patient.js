@@ -252,6 +252,13 @@ export const UpdateState = (state, val, dispatch) => {
     dispatch({
         type: STATECHANGE,
         payload: {
+            key: "LandlineNo",
+            value: val.landline
+        }
+    })
+    dispatch({
+        type: STATECHANGE,
+        payload: {
             key: "MiddleName",
             value: val.middle_name
         }
