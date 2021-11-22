@@ -345,7 +345,7 @@ const PhysioList = () => {
             <div style={{ minHeight: "20px" }}></div>
             <div className="top-bar" id="top-bar">
                 <div>
-                <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-md" /><b> Physiotherapist</b></h1>
+                    <h3 className="page-heading" id="page-heading" style={{fontSize:'28px'}}><i className="fas fa-user-md" /><b> Physiotherapist</b></h3>
                 </div>
                 <div>
         

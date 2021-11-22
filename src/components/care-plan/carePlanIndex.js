@@ -712,7 +712,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             refreshHtml()
         }
             {searchBar && <div style={{ minHeight: "20px" }}></div>}
-            <h2 className="fw-bold">
+            <h3 className="fw-bold">
                 <i className="fas fa-arrow-left"
                     style={{ cursor: "pointer" }}
                     title="Go Back"
@@ -725,7 +725,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     }}
                     role="button"></i>
                 {" "}<span  className="CarePlanTitle ml-1"> Care Plan </span>
-            </h2>
+            </h3>
             <div className="CarePlan">
             {(!allocatePlan && searchBar) && (
                 <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}
