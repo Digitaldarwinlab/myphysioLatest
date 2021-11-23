@@ -131,6 +131,11 @@ const Body = () => {
         RightHip: '',
         LeftKnee: '',
         RightKnee: '',
+
+        NeckLeft: '',
+        NeckRight: '',
+        PelvicLeft: '',
+        PelvicRight: '',
     })
 
     
@@ -196,33 +201,59 @@ const Body = () => {
             min: angleValues.RightElbow.min,
             max: angleValues.RightElbow.max
         },
+        {
+            key: '5',
+            angles: 'Neck Left',
+            min: angleValues.NeckLeft.min,
+            max: angleValues.NeckLeft.max
+       
+        },
+        {
+            key: '6',
+            angles: 'Neck Right',
+            min: angleValues.NeckRight.min,
+            max: angleValues.NeckRight.max
+        },
 
     ]
 
     const tableData1 = [
         {
-            key: '5',
+            key: '7',
             angles: 'Left Hip',
             min: angleValues.LeftHip.min,
             max: angleValues.LeftHip.max
         },
         {
-            key: '6',
+            key: '8',
             angles: 'Right Hip',
             min: angleValues.RightHip.min,
             max: angleValues.RightHip.max
         },
         {
-            key: '7',
+            key: '9',
             angles: 'Left Knee',
             min: angleValues.LeftKnee.min,
             max: angleValues.LeftKnee.max
         },
         {
-            key: '8',
+            key: '10',
             angles: 'Right Knee',
             min: angleValues.RightKnee.min,
             max: angleValues.RightKnee.max
+        },
+
+        {
+            key: '11',
+            angles: 'Pelvic Left',
+            min: angleValues.PelvicLeft.min,
+            max: angleValues.PelvicLeft.max
+        },
+        {
+            key: '12',
+            angles: 'Pelvic Right',
+            min: angleValues.PelvicRight.min,
+            max: angleValues.PelvicRight.max
         },
     ]
 
@@ -265,6 +296,11 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
+                
+                ['NeckLeft']: AI_Data["Neck Left"],
+                ['NeckRight']: AI_Data["Neck Right"],
+                ['PelvicLeft']: AI_Data["Pelvic Left"],
+                ['PelvicRight']: AI_Data["Pelvic Right"],
             }))
         }
     }, angleValues)
@@ -292,6 +328,12 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
+
+                ['NeckLeft']: AI_Data["Neck Left"],
+                ['NeckRight']: AI_Data["Neck Right"],
+                ['PelvicLeft']: AI_Data["Pelvic Left"],
+                ['PelvicRight']: AI_Data["Pelvic Right"],
+
             }))
 
         }
