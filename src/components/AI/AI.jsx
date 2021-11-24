@@ -15,11 +15,11 @@ import './Ai.css'
 
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const labels = ['L Shoulder (v)', 'R Shoulder (v)'
+const labels = ['L Shoulder', 'R Shoulder'
     , 'L Elbow', 'R Elbow',
     'L Hip', 'R Hip',
     'L Knee', 'R Knee',
-    'L Shoulder (h)', 'R Shoulder (h)',
+    'L Neck', 'R Neck',
     'L Pelvic', 'R Pelvic'
 ];
 

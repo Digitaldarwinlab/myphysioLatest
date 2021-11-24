@@ -278,7 +278,7 @@ console.log(state.labsAndMedicRedu)
             
                     marks={marks}
                     onChange={(e)=>handleChange('no_of_medications',e,props.index)}
-                    value={state.labsAndMedicRedu.medicationList[0].no_of_medications}
+                    value={state.labsAndMedicRedu.medicationList[props.index].no_of_medications}
                     className="p-1"
                     style={{position:'relative'}}
                     />
@@ -366,7 +366,7 @@ console.log(state.labsAndMedicRedu)
                 <Button type="primary" className="me-1 btncolor" shape="circle" onClick={props.Increase}>
                     +
                 </Button>
-                <Button type="primary" className="btncolor" shape="circle" onClick={props.Decrease}>
+                <Button type="primary" disabled={props.length===1&&true} className="btncolor" shape="circle" onClick={props.Decrease}>
                     -
                 </Button>
             </Row>
@@ -436,6 +436,7 @@ console.log(state.labsAndMedicRedu)
                     state.labsAndMedicRedu.medicationList.length > 0 && (
                         <ButtonComponent
                             Increase={MedicationIncrease}
+                            length={state.labsAndMedicRedu.medicationList.length}
                             Decrease={MedicationDecrease} />
                     )}
                 {Headline("Labs")}
@@ -447,6 +448,7 @@ console.log(state.labsAndMedicRedu)
                     state.labsAndMedicRedu.labsList.length > 0 && (
                         <ButtonComponent
                             Increase={LabsIncrease}
+                            length={state.labsAndMedicRedu.labsList.length}
                             Decrease={LabsDecrease} />
                     )}
                 <Col span={24} className="mt-4">

@@ -131,6 +131,10 @@ const Body = () => {
         RightHip: '',
         LeftKnee: '',
         RightKnee: '',
+        LeftNeck:'',
+        RightNeck:'',
+        LeftPelvic:'',
+        RightPelvic:'',
     })
 
     
@@ -195,23 +199,21 @@ const Body = () => {
             angles: 'Right Elbow',
             min: angleValues.RightElbow.min,
             max: angleValues.RightElbow.max
-        },
-
-    ]
-
-    const tableData1 = [
-        {
+        },{
             key: '5',
             angles: 'Left Hip',
             min: angleValues.LeftHip.min,
             max: angleValues.LeftHip.max
-        },
-        {
+        },{
             key: '6',
             angles: 'Right Hip',
             min: angleValues.RightHip.min,
             max: angleValues.RightHip.max
         },
+
+    ]
+
+    const tableData1 = [
         {
             key: '7',
             angles: 'Left Knee',
@@ -223,6 +225,27 @@ const Body = () => {
             angles: 'Right Knee',
             min: angleValues.RightKnee.min,
             max: angleValues.RightKnee.max
+        },
+        {
+            key: '9',
+            angles: 'Neck Left',
+            min: angleValues.LeftNeck.min,
+            max: angleValues.LeftNeck.max
+        },{
+            key: '10',
+            angles: 'Neck Right',
+            min: angleValues.RightNeck.min,
+            max: angleValues.RightNeck.max
+        },{
+            key: '11',
+            angles: 'Pelvic Left',
+            min: angleValues.LeftPelvic.min,
+            max: angleValues.LeftPelvic.max
+        },{
+            key: '11',
+            angles: 'Pelvic Right',
+            min: angleValues.RightPelvic.min,
+            max: angleValues.RightPelvic.max
         },
     ]
 
@@ -265,6 +288,10 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
+                ['LeftNeck']: AI_Data["Neck Left"],
+                ['RightNeck']: AI_Data["Neck Right"],
+                ['LeftPelvic']: AI_Data["Pelvic Left"],
+                ['RightPelvic']: AI_Data["Pelvic Right"]
             }))
         }
     }, angleValues)
@@ -292,6 +319,10 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
+                ['LeftNeck']:AI_Data["Neck Left"],
+                ['RightNeck']:AI_Data["Neck Right"],
+                ['LeftPelvic']:AI_Data["Pelvic Left"],
+                ['RightPelvic']:AI_Data["Pelvic Right"]
             }))
 
         }
@@ -612,7 +643,7 @@ const Body = () => {
                    return false
                }
 
-               else if(assesmentstate.PainMeter=='')
+               else if(assesmentstate.PainMeter==='')
                {
                 warning()
                    return false
@@ -649,7 +680,7 @@ const Body = () => {
             return false
         }
 
-        else if(assesmentstate.PainMeter=='')
+        else if(assesmentstate.PainMeter==='')
         {
             warning()
             return false
@@ -669,7 +700,7 @@ const Body = () => {
                 return false
             }
 
-            else if(assesmentstate.PainMeter=='')
+            else if(assesmentstate.PainMeter==='')
             {
                 warning()
                 return false
@@ -711,6 +742,7 @@ const Body = () => {
                 <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
                   onChange={(value) => handleChange1("Swelling", desc[value])}
                   defaultValue={desc.indexOf(state.FirstAssesment.Swelling)}
+                  value={desc.indexOf(state.FirstAssesment.Swelling)}
                   style={{ width: 200 }}
                 />
                 {/* <Rate character={({ index }) => customIcons[index + 1]}
@@ -730,6 +762,7 @@ const Body = () => {
                 <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
                   onChange={(value) => handleChange1("Numbness", desc[value])}
                   defaultValue={desc.indexOf(state.FirstAssesment.Numbness)}
+                  value={state.FirstAssesment.Numbness}
                   style={{ width: 200 }}
                 />
                 {/* <Rate character={({ index }) => customIcons[index + 1]}
@@ -754,6 +787,7 @@ const Body = () => {
                 <Slider marks={marks} min={0} max={10} step={2}
                   onChange={(value) => handleChange1("PainMeter", value)}
                   defaultValue={state.FirstAssesment.PainMeter}
+                  value={state.FirstAssesment.PainMeter}
                   style={{ width: 200 }}
                 />
               </Form.Item>

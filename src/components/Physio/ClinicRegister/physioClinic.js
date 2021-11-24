@@ -100,7 +100,12 @@ const PhysioClinic = ()=>{
         }
         else if(name==='name')
         {
-            error=Validation.checkNameValidation(value)
+            if(value){
+                if(value.length<4){
+                 error["error"] = "Name must contain atleast 4 characters."; 
+                }
+             }
+           // error=Validation.checkNameValidation(value,false)
         }
         else if(name=='address_1' || name=='address_2' || name=='address_3')
         {

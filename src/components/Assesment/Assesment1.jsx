@@ -157,15 +157,15 @@ console.log(state.FirstAssesment.Type)
           value: value.dateString
         }
       });
+    }else{
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value
+        }
+      });
     }
-
-    dispatch({
-      type: STATECHANGE,
-      payload: {
-        key,
-        value
-      }
-    });
     dispatch({ type: "NOERROR" });
   }
 

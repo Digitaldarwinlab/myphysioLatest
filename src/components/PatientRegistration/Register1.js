@@ -124,6 +124,11 @@ const Register1 = (props) => {
                 else
                     error.error = "Whatsapp " + error.error;
             }
+        }  else if (key === "LandlineNo") {
+             error = validation.checkLandNoValidation(e.target.value)
+             if(error.error){
+                 error.error = "Landline " + error.error ;
+             }
         }
         if (key === "DOB") {
             error = validation.checkNullValidation(e.target.value);
@@ -170,15 +175,17 @@ const Register1 = (props) => {
             dispatch({ type: VALIDATION, payload: { error: "First" + validation.checkNameValidation(data.FirstName).error } });
         }
         else if (validation.checkNameValidation(data.MiddleName).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.middle_name).error } });
+            dispatch({ type: VALIDATION, payload: { error: "middle " + validation.checkNameValidation(data.MiddleName).error } });
         }
         else if (validation.checkNameValidation(data.LastName).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
+            dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.LastName).error } });
         } else if (validation.checkMobNoValidation(data.MobileNo).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
+            dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
         } else if (validation.checkMobNoValidation(data.WhatsAppNo).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Whatsapp " + validation.checkMobNoValidation(data.whatsapp_no).error } });
-        } else {
+            dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
+        } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
+            dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });
+        }else {
             const checkError = state.Validation.error;
             if (checkError) {
                 let userData = localStorage.setItem('UserData', state.BasicDetails);
@@ -349,6 +356,7 @@ const Register1 = (props) => {
                                 placeholder="Enter Patient Landline Number"
                                 required={false}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.LandlineNo}
                             />
                         </Col>

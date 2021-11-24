@@ -7,6 +7,7 @@ import { getEpisodeDetails } from './../care-plan/carePlanIndex';
 import {BsSearch} from 'react-icons/bs'
 import './Activesearch.css'
 import {Form} from 'antd' 
+import { CARE_PLAN_CLEAR_STATE } from '../../contextStore/actions/care-plan-action';
 const ActiveSearch = (props) => {
     const icon=<BsSearch />
     const [PatientData, setPatientData] = useState([])
@@ -65,7 +66,7 @@ const ActiveSearch = (props) => {
     }
 
     const SuggestionHandler = (text) => {
-
+        dispatch({type: CARE_PLAN_CLEAR_STATE})
         let pdata = PatientData.filter((val, ind) => {
             return (
                 val.pp_patm_id.toString() === text

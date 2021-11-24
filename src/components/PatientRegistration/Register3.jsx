@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
-import { STATECHANGE, VALIDATION, BASIC_CLEARSTATE, PATIENT_REG_FAILURE } from "../../contextStore/actions/authAction";
+import { STATECHANGE, VALIDATION, BASIC_CLEARSTATE3, PATIENT_REG_FAILURE } from "../../contextStore/actions/authAction";
 import { Patient_Register, Patient_Update } from "../../API/PatientRegistration/Patient"
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
@@ -363,20 +363,12 @@ const Register3 = (props) => {
              }
          }
      } else {
-         if (window.confirm("Confirm, Do You want to Reset all ?")) {
-            // dispatch({type: BASIC_CLEARSTATE,})
-            if(JSON.parse(localStorage.getItem("user")).role=='patient')
-            {
-                history.push('patient/profile')
-            }
-            else
-            {
-                history.push("/dashboard");
-            }
-         }
+        if (window.confirm("Confirm, Do You want to Reset all fields?")) {
+            dispatch({ type: BASIC_CLEARSTATE3 });
+            form.resetFields()
      }
+  }
  }
-
  return (
      <>     <div style={{ minHeight: "20px" }}></div>
          {state.BasicDetails.isLoading && <Loading />}

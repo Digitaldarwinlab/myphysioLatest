@@ -58,19 +58,21 @@ const Prescreptions = ({ prescriptionClick }) => {
     //    }
 
     const episode = await getEpisode(state.patient_code);
+   if(episode.length>0){
     if (episode[0].pp_ed_id) {
       const prescriptionData = await get_prescription(episode[0].pp_ed_id);
-      Setprescriptions(prescriptionData);
+      Setprescriptions(prescriptionData.reverse());
       setLoading(false);
       setPaginationState({
         ...paginationState,
         pageSize: 1,
         total: prescriptionData.length / 1,
         current: 1,
-        minIndex: (2 - 1) * 1,
-        maxIndex: 1 * 2,
+        minIndex: 0,
+        maxIndex: 1,
       });
     }
+   }
   }, [state.patient_code]);
 
   console.log("HHHHHHHHHHHHsH");
@@ -96,10 +98,10 @@ const Prescreptions = ({ prescriptionClick }) => {
       </Row>
 
       {/* {
-                
+
                 prescriptions.notes
                 ?
-        
+
                         <div  className="border p-1 m-2">
                             <Row className="p-1" justify="space-between">
                 <Col  >
@@ -108,9 +110,9 @@ const Prescreptions = ({ prescriptionClick }) => {
                 <Col >
                     <p className="fw-bold" style={{fontSize:'18px'}}><b> Note </b>{prescriptions.notes}</p>
                 </Col>
-                
+
                 </Row>
-             <Row> 
+             <Row>
                  <Col lg={18} md={18} sm={18} xs={24}>
             <p>
 
@@ -120,7 +122,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                             prescriptions.lab_tests.map((item,index)=>{
                                 return (
 
-                                    <h4><b>Lab Test {index+1} </b> : {  item.path_lab_test} , <b> Radio Lab Test : </b> { item.radio_lab_test} </h4> 
+                                    <h4><b>Lab Test {index+1} </b> : {  item.path_lab_test} , <b> Radio Lab Test : </b> { item.radio_lab_test} </h4>
                                 )
 
                             })
@@ -132,14 +134,14 @@ const Prescreptions = ({ prescriptionClick }) => {
                     <h4> <b> Instructions  </b> :   {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ?  prescriptions.medication_detail[0].instruction : 'No MEdication' : 'No MEdication'}{prescriptions.medication_detail[0].instruction.length===0&&"No Instruction Available"}</h4>
                     <h4> <b> Medicine  </b> :    {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ? prescriptions.medication_detail.map(item=>{return item.medic_notes})  : null : null} </h4>
                     <h4> <b> Medication Note  </b> :    {prescriptions.medication_detail ? prescriptions.medication_detail.length>0 ? prescriptions.medication_detail.map(item=>{return item.medic_notes}) : null : null} </h4>
-                    </p>  
-                    </Col> 
+                    </p>
+                    </Col>
 
-                    
-                    </Row>  
-                    
+
+                    </Row>
+
             </div>
-                  
+
                 :
                 prescriptions.length==0
                 ?
@@ -147,8 +149,8 @@ const Prescreptions = ({ prescriptionClick }) => {
                <h4>NO prescriptions</h4>
                :
                null
-                
-              
+
+
        } */}
       {/* aswin 11/1/2021 start */}
       {prescriptions.length === 1
@@ -290,44 +292,53 @@ const Prescreptions = ({ prescriptionClick }) => {
                             <Col>
                               <h5 className="fw-bold">Date : {data.date} </h5>
                             </Col>
-                            <Col>
-                              <p
-                                className="fw-bold"
-                                style={{ fontSize: "18px" }}
-                              >
-                                <b> Note : </b>
-                                {data.notes}
-                              </p>
-                            </Col>
                           </Row>
                           <Row>
                             <Col lg={18} md={18} sm={18} xs={24}>
                               <p>
-                                {data.lab_tests && data.lab_tests.length > 0
-                                  ? data.lab_tests.map((item, index) => {
-                                      return (
-                                        <h4>
-                                          <b>Lab Test {index + 1} </b> :{" "}
-                                          {item.path_lab_test} ,{" "}
-                                          <b> Radio Lab Test : </b>{" "}
-                                          {item.radio_lab_test}{" "}
-                                        </h4>
-                                      );
-                                    })
-                                  : null}
-
-                                <h4>
-                                  {" "}
+                              <h4> <u><h3>Lab Test Details</h3></u></h4>
+                                 {data.lab_tests&&data.lab_tests.length>0&&data.lab_tests.map(item=>(
+                                  <React.Fragment>
+                                  <h4>
+                                  <b> Path Lab Test </b> :{" "}
+                                    {item.path_lab_test}
+                                  </h4>
+                                  <h4>
+                                  <b> Radio Lab Test </b> :{" "}
+                                    {item.radio_lab_test}
+                                  </h4>
+                                  <h4>
+                                  <b> Note  </b> :{" "}
+                                  {data.notes}
+                                  </h4>
+                                  </React.Fragment>
+                                ))}
+                              <h4> <u><h3>Medication Details</h3></u></h4>
+                                {data.medication_detail&&data.medication_detail.length>0&&data.medication_detail.map(item=>(
+                                  <React.Fragment>
+                                  <h4>
+                                  <b> Medicine </b> :{" "}
+                                    {item.medicine_name}
+                                  </h4>
+                                  <h4>
                                   <b> Instructions </b> :{" "}
-                                  {data.medication_detail
-                                    ? data.medication_detail.length > 0
-                                      ? data.medication_detail[0].instruction
-                                      : "No MEdication"
-                                    : "No MEdication"}
-                                  {data.medication_detail[0].instruction
-                                    .length === 0 && "No Instruction Available"}
-                                </h4>
-                                <h4>
+                                    {item.instruction}
+                                  </h4>
+                                  <h4>
+                                  <b> Medications Per Days </b> :{" "}
+                                  {item.no_of_medications===1&&"1-OD"}
+                                  {item.no_of_medications===2&&"2-BD"}
+                                  {item.no_of_medications===3&&"3-TD"}
+                                  {item.no_of_medications===4&&"4-QD"}
+                                  </h4>
+                                  <h4>
+                                  <b> Medication Note </b> :{" "}
+                                    {item.medic_notes}
+                                  </h4>
+                                  <br/>
+                                  </React.Fragment>
+                                ))}
+                                {/* <h4>
                                   {" "}
                                   <b> Medicine </b> :{" "}
                                   {data.medication_detail
@@ -337,9 +348,20 @@ const Prescreptions = ({ prescriptionClick }) => {
                                         })
                                       : null
                                     : null}{" "}
-                                </h4>
-                                <h4>
-                                {/* aswin 11/15/2021 start */}
+                                </h4> */}
+                                {/* <h4>
+                                  {" "}
+                                  <b> Instructions </b> :{" "}
+                                  {data.medication_detail
+                                    ? data.medication_detail.length > 0
+                                      ? data.medication_detail[0].instruction
+                                      : "No MEdication"
+                                    : "No MEdication"}
+                                  {data.medication_detail[0].instruction
+                                    .length === 0 && "No Instruction Available"}
+                                </h4> */}
+                                {/* <h4>
+                                aswin 11/15/2021 start
                                     {" "}
                                     <b> Medications Per Days </b> :{" "}
                                     {data.medication_detail
@@ -358,9 +380,9 @@ const Prescreptions = ({ prescriptionClick }) => {
                                           })
                                         : null
                                       : null}{" "}
-                                  </h4>
-                                <h4>
-                                  {/* aswin 11/15/2021 stop */}
+                                  </h4> */}
+                                {/* <h4>
+                                  aswin 11/15/2021 stop
                                   {" "}
                                   <b> Medication Note </b> :{" "}
                                   {data.medication_detail
@@ -370,7 +392,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                                         })
                                       : null
                                     : null}{" "}
-                                </h4>
+                                </h4> */}
                               </p>
                             </Col>
                           </Row>

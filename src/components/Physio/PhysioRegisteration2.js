@@ -92,6 +92,19 @@ const PhysioRegisteration2 = (props) => {
                 
             }
         }
+        else if(key=='regd_no_1' || key=='regd_no_2' || key=='regd_no_3'){
+            error = validation.checkLandNoValidation(e.target.value)
+            if (error.error) {
+                dispatch({ type: VALIDATION, payload: { error: " Regd_no " + error.error } });  
+            }
+        } 
+        else if(key=='expertise_1' || key=='expertise_2' || key=='expertise_3'){
+            error = validation.checkNameValidation(e.target.value);
+            if (error.error) {
+                let newErr = error.error.slice(5)
+                dispatch({ type: VALIDATION, payload: { error:  'Expertise '+newErr } });  
+            }
+        } 
 
         
     }
@@ -132,6 +145,20 @@ const PhysioRegisteration2 = (props) => {
                //     dispatch({ type: VALIDATION, payload: { error: "" } });
                // }, 10000);
                {/* aswin 10/14/2021 stop*/}
+        }else if (validation.checkLandNoValidation(data.regd_no_1).error || validation.checkLandNoValidation(data.regd_no_2).error ) {
+            if(validation.checkLandNoValidation(data.regd_no_1).error){
+                dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_1).error } });
+            }else if(validation.checkLandNoValidation(data.regd_no_2).error){
+                dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_2).error } });
+            }
+        }else if (validation.checkNameValidation(data.expertise_1).error || validation.checkNameValidation(data.expertise_2).error || validation.checkNameValidation(data.expertise_3).error ) {
+            if(validation.checkNameValidation(data.expertise_1).error){
+                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_1).error.slice(5) } });
+            }else if(validation.checkNameValidation(data.expertise_2).error){
+                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_2).error.slice(5) } });
+            }else if(validation.checkNameValidation(data.expertise_3).error){
+                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_3).error.slice(5) } });
+            }
         }
         else {
             const checkError = state.Validation.error;

@@ -32,6 +32,13 @@ const EpisodeVisitDetails = () => {
     const checkEpisodeId = async () => {
         if(episodeDetail.episodeReducer.patient_code){
             const res = await getEpisode(episodeDetail.episodeReducer.patient_code)
+            if(res.length===0){
+                dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an episode" });
+                setTimeout(() => {
+                    dispatch({type:"NOERROR"})
+                }, 10000);
+                return false;
+            }
             if(res[0].end_date.length===0){
                 return true;
             }
@@ -50,17 +57,24 @@ const EpisodeVisitDetails = () => {
             //       Add-episode
             //     </Button>,
             // })
-            dispatch({ type: "EPISODE_CHECK", payload: { error: "patient don't have open an episode" } });
+            dispatch({ type: "EPISODE_CHECK", payload: "patient don't have open an episode"  });
+            setTimeout(() => {
+                dispatch({type:"NOERROR"})
+            }, 10000);
             return false;
            // message.error("Patient don't have an open episode");
           //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
         }else{
-            notification.warning({
-                message: "Please select a patient",
-                placement: 'bottomLeft',
-                duration: 5,
-                style:'margin-top:20px'
-            });
+            // notification.warning({
+            //     message: "Please select a patient",
+            //     placement: 'bottomLeft',
+            //     duration: 5,
+            //     style:'margin-top:20px'
+            // });
+            dispatch({ type: "EPISODE_CHECK", payload: "Please select a patient"  });
+            setTimeout(() => {
+                dispatch({type:"NOERROR"})
+            }, 3000);
             return false;
         }
     }
@@ -340,7 +354,7 @@ const EpisodeVisitDetails = () => {
             {Header()}
             <div className="rest">
                 {/* aswin 11/15/2021 start */}
-                {episodeDetail.Validation.episode_check==='failed'&&<Error error={"Patient Don't have an open episode"} />}
+                {episodeDetail.Validation.episode_check==='failed'&&<Error error={episodeDetail.Validation.msg} />}
                 {/* aswin 11/15/2021 start */}
             <div style={{ minHeight: "20px" }}></div>
             {PatientDetails()}

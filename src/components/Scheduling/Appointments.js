@@ -227,7 +227,8 @@ const Appointments = () => {
                         dataField: "episode",
                         isRequired: true,
                         editorType: "dxAutocomplete",
-                        visible: !UpdationForm,
+                        //visible: !UpdationForm,
+                        visible: true,
                         editorOptions: {
                             placeholder: "Episode..",
                             value: episodeName,
@@ -385,7 +386,7 @@ const Appointments = () => {
                     }, {
                         colCountByScreen: { lg: 3, xs: 3 },
                         itemType: "group",
-                        visible: !UpdationForm,
+                        visible:true,
                         items: [{
                             cssClass: "dx-appointment-form-switch",
                             colSpan: 2,
@@ -450,6 +451,9 @@ const Appointments = () => {
     const onAppointmentAdded = async (e) => {
     //   console.log('add app')
         setLoading(true);
+        if(e.appointmentData.location!=='Video Conference'){
+            e.appointmentData.video_link=''
+        }
         const result = await AddVisit(e.appointmentData);
         setLoading(false);
         if (result && result[0]) {
@@ -531,7 +535,7 @@ const Appointments = () => {
                         onAppointmentFormOpening={onAppointFormOpening}
                         appointmentTooltipComponent={AppointmentTooltip}
                         onAppointmentAdded={onAppointmentAdded}
-                        onAppointmentUpdated={onAppointmentAdded}
+                        onAppointmentUpdated={onAppointmentUpdated}
                         adaptivityEnabled={visible}
                         recurrenceRuleExpr="recurrenceRule"
                         useDropDownViewSwitcher={visible}

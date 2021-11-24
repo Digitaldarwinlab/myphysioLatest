@@ -447,16 +447,17 @@ const SchduleForm = (props) => {
              
               </React.Fragment>
               : 
+              <React.Fragment>
               <Dragger {...props} id="myPdf"
               listType="picture-card"
               accept="application/pdf,image/*,application/msword"
               multiple="true"
               customRequest={dummyRequest}
               // aswin 10/16/2021 start //
-              
+
               onChange={ async (e)=>{
                let files=[]
-               await  e.fileList.map(data=>files.push(data.originFileObj))
+               await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
                console.log(files)
                props.handleChange('file',files)
               }}
@@ -467,6 +468,11 @@ const SchduleForm = (props) => {
               </p>
               <p className="ant-upload-text">Click or drag file to this area to upload</p>
             </Dragger> 
+          {state.file!==""&&state.file.map((fil)=>{<React.Fragment>
+  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
+  </a> <br/>
+    </React.Fragment>})}
+            </React.Fragment>
               }
               {/* aswin 10/17/2021 start */}
                 </Col>

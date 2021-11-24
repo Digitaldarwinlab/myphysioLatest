@@ -12,6 +12,8 @@ export const PATIENT_REG_REQUEST ="patientregREQ";
 export const PATIENT_UPD_SUCCESS ="patientregUPD";
 export const PATIENT_REG_SUCCESS ="patientregSUC";
 export const BASIC_CLEARSTATE = "basic_clearstate";
+export const BASIC_CLEARSTATE2 = "basic_clearstate2";
+export const BASIC_CLEARSTATE3 = "basic_clearstate3";
 export const PATIENT_REG_FAILURE = "patient_reg_failure";
 
 //VALIDATION

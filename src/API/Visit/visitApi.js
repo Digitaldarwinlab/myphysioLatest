@@ -155,7 +155,9 @@ export const AddVisit = async (details) => {
     {  
 
             
-            allVisitData[0].video_link='' 
+            if(allVisitData[0].video_link ){
+                allVisitData[0].video_link='' 
+            }
             console.log(allVisitData)
     }
     try {
@@ -188,10 +190,10 @@ export const UpdateVisit = async (details) => {
    //console.log(details)
    console.log('update')
    
-   if(details)
-   {    alert('update')
-       return false
-   }
+//    if(details)
+//    {    alert('update')
+//        return false
+//    }
     const allVisitData = seperateVisitData(details, true);
     console.log(allVisitData[0])
     try {
