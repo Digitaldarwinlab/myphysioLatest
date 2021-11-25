@@ -9,7 +9,8 @@ import {
     CARE_PLAN_POST_DATA,
     CARE_PLAN_SUCCESS,
     CARE_PLAN_FAILURE,
-    CARE_PLAN_CLEAR_STATE
+    CARE_PLAN_CLEAR_STATE,
+    CARE_PLAN_ADD_TO_CART
 } from './../../actions/care-plan-action';
 
 const initialState = {
@@ -28,8 +29,12 @@ const initialState = {
     isLoading: false,
     count_time_slots: 3,
     success: "",
-    episode_number:''
+    episode_number:'',
+    exercises_cart:[]
 }
+// const setExerise=(exe)=>{
+//     let newList = [...state.exercises_cart]
+// }
 //Exercise Change 
 const ExerciseUpdate = (list, key1, key2, value, index) => {
     let newList = [...list];
@@ -104,6 +109,11 @@ export const carePlanRedcucer = (state = initialState, action) => {
         case CARE_PLAN_CLEAR_STATE:
             return {
                 ...initialState
+            }
+        case CARE_PLAN_ADD_TO_CART:
+            return {
+                ...state,
+                exercises_cart:[...state.exercises_cart,action.payload]
             }
         default:
             return {

@@ -10,7 +10,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
 import { GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
 import { useSelector, useDispatch } from 'react-redux';
-import { CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from './care-plan-allocate-plan/CareAllocatePlan';
 import ActiveSearch from './../UtilityComponents/ActiveSearch';
@@ -547,7 +547,17 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         )
     }
     //UpdateCart 
+    const [basket, setBasket] = useState([])
     const UpdateCart = (id) => {
+        console.log('id is ',id)
+        console.log('id Exerciselist is ',Exerciselist)
+        const check = Exerciselist.filter(it=>it.ex_em_id===id)
+       // setBasket([...basket,...check])
+        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check})
+        console.log('basket id list ',basket)
+        console.log('id with id check rsult',check)
+        const isExist = basket.map(it=>it.ex_em_id===id)
+        console.log('id check exist',isExist)
         const data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         if (!data) {
             data.push(id);

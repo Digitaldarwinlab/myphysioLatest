@@ -157,8 +157,7 @@ const Prescreptions = ({ prescriptionClick }) => {
         ? prescriptions.map(
             (data, index) =>
               //aswin 10/25/2021 start
-              index >= paginationState.minIndex ||
-              (index + 1 == paginationState.minIndex &&
+              index >= paginationState.minIndex &&
                 index < paginationState.maxIndex && (
                   //aswin 10/25/2021 stop
                   <div key={index} className="px-1 py-1">
@@ -272,7 +271,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                       )}
                     </Col>
                   </div>
-                ))
+                )
           )
         : prescriptions.map(
             (data, index) =>
