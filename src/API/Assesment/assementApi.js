@@ -62,6 +62,7 @@ export const AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails["joint2score"] = details.joint2score;
   AssesmentDetails["types"] = details.Type;
   AssesmentDetails["AI_data"] = details.AI_data;
+  AssesmentDetails["assesmentdate"] = details.Date;
   AssesmentDetails["Exercise_Name"] = details.Exercise_Name;
   AssesmentDetails['Numbmess']=details.Numbness
   

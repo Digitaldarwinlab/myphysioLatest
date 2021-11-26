@@ -131,18 +131,11 @@ const Body = () => {
         RightHip: '',
         LeftKnee: '',
         RightKnee: '',
-<<<<<<< HEAD
-        LeftNeck:'',
-        RightNeck:'',
-        LeftPelvic:'',
-        RightPelvic:'',
-=======
 
         NeckLeft: '',
         NeckRight: '',
         PelvicLeft: '',
         PelvicRight: '',
->>>>>>> eb3d6455441c8c3eedde42a6d56dc9283434f69d
     })
 
     
@@ -207,15 +200,6 @@ const Body = () => {
             angles: 'Right Elbow',
             min: angleValues.RightElbow.min,
             max: angleValues.RightElbow.max
-<<<<<<< HEAD
-        },{
-            key: '5',
-            angles: 'Left Hip',
-            min: angleValues.LeftHip.min,
-            max: angleValues.LeftHip.max
-        },{
-            key: '6',
-=======
         },
         {
             key: '5',
@@ -233,22 +217,7 @@ const Body = () => {
 
     ]
 
-    const tableData1 = [
-        {
-            key: '7',
-            angles: 'Left Hip',
-            min: angleValues.LeftHip.min,
-            max: angleValues.LeftHip.max
-        },
-        {
-            key: '8',
->>>>>>> eb3d6455441c8c3eedde42a6d56dc9283434f69d
-            angles: 'Right Hip',
-            min: angleValues.RightHip.min,
-            max: angleValues.RightHip.max
-        },
-
-    ]
+    
 
     const tableData1 = [
         {
@@ -263,28 +232,6 @@ const Body = () => {
             min: angleValues.RightKnee.min,
             max: angleValues.RightKnee.max
         },
-<<<<<<< HEAD
-        {
-            key: '9',
-            angles: 'Neck Left',
-            min: angleValues.LeftNeck.min,
-            max: angleValues.LeftNeck.max
-        },{
-            key: '10',
-            angles: 'Neck Right',
-            min: angleValues.RightNeck.min,
-            max: angleValues.RightNeck.max
-        },{
-            key: '11',
-            angles: 'Pelvic Left',
-            min: angleValues.LeftPelvic.min,
-            max: angleValues.LeftPelvic.max
-        },{
-            key: '11',
-            angles: 'Pelvic Right',
-            min: angleValues.RightPelvic.min,
-            max: angleValues.RightPelvic.max
-=======
 
         {
             key: '11',
@@ -297,7 +244,6 @@ const Body = () => {
             angles: 'Pelvic Right',
             min: angleValues.PelvicRight.min,
             max: angleValues.PelvicRight.max
->>>>>>> eb3d6455441c8c3eedde42a6d56dc9283434f69d
         },
     ]
 
@@ -340,18 +286,11 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
-<<<<<<< HEAD
-                ['LeftNeck']: AI_Data["Neck Left"],
-                ['RightNeck']: AI_Data["Neck Right"],
-                ['LeftPelvic']: AI_Data["Pelvic Left"],
-                ['RightPelvic']: AI_Data["Pelvic Right"]
-=======
                 
                 ['NeckLeft']: AI_Data["Neck Left"],
                 ['NeckRight']: AI_Data["Neck Right"],
                 ['PelvicLeft']: AI_Data["Pelvic Left"],
                 ['PelvicRight']: AI_Data["Pelvic Right"],
->>>>>>> eb3d6455441c8c3eedde42a6d56dc9283434f69d
             }))
         }
     }, angleValues)
@@ -379,19 +318,12 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
-<<<<<<< HEAD
-                ['LeftNeck']:AI_Data["Neck Left"],
-                ['RightNeck']:AI_Data["Neck Right"],
-                ['LeftPelvic']:AI_Data["Pelvic Left"],
-                ['RightPelvic']:AI_Data["Pelvic Right"]
-=======
 
                 ['NeckLeft']: AI_Data["Neck Left"],
                 ['NeckRight']: AI_Data["Neck Right"],
                 ['PelvicLeft']: AI_Data["Pelvic Left"],
                 ['PelvicRight']: AI_Data["Pelvic Right"],
 
->>>>>>> eb3d6455441c8c3eedde42a6d56dc9283434f69d
             }))
 
         }
