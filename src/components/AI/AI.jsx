@@ -288,6 +288,7 @@ class AI extends Component {
         data = window.darwin.getAssesmentData();
         this.setState({ SWITCH: false })
         this.setState({ BACK: false })
+        this.setState({ start_stop: false });
         if (!Object.keys(data).length) {
             notification.error({
                 message: 'Angles not calculated',
@@ -314,7 +315,7 @@ class AI extends Component {
 
     reset = () => {
         console.log("From Reset")
-        this.setState({ start_stop: !this.state.start_stop });
+        this.setState({ start_stop: false });
         this.setState({ SWITCH: false })
         window.darwin.stop();
         window.darwin.resetData();
