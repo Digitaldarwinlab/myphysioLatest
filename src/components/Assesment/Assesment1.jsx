@@ -302,7 +302,7 @@ console.log(state.FirstAssesment.Type)
         {/* <ActiveSearch/>           */}
         <Row className="mt-3 AssesmentConsultationMain">
           <Col className="mt-3 AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
-            <FormDate label="Date"
+            {/* <FormDate label="Date"
               name="Date"
               // reverse ="true"
               className="input-field w-100"
@@ -312,7 +312,7 @@ console.log(state.FirstAssesment.Type)
               //aswin 10/25/2021 stop
               required={true}
               onChange={handleChange}
-            />
+            /> */}
           </Col>
           <Col className="mt-3 AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Type" name="Type" rules={[{ required: true, message: `Please Select Type.` }]} >

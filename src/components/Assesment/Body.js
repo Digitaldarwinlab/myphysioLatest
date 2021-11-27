@@ -606,11 +606,11 @@ const Body = () => {
            // console.log(errorshow)
             return false
         }
-        else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
-        {
-            warning()
-            return false
-        }
+        // else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
+        // {
+        //     warning()
+        //     return false
+        // }
 
         else{
             
