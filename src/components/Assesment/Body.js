@@ -199,38 +199,53 @@ const Body = () => {
             angles: 'Right Elbow',
             min: angleValues.RightElbow.min,
             max: angleValues.RightElbow.max
-        },{
-            key: '5',
-            angles: 'Left Hip',
-            min: angleValues.LeftHip.min,
-            max: angleValues.LeftHip.max
-        },{
-            key: '6',
-            angles: 'Right Hip',
-            min: angleValues.RightHip.min,
-            max: angleValues.RightHip.max
         },
+        {
+            key: '5',
+            angles: 'Neck Left',
+            min: angleValues.LeftNeck.min,
+            max: angleValues.LeftNeck.max
+        },
+        {
+            key: '6',
+            angles: 'Neck Right',
+            min: angleValues.RightNeck.min,
+            max: angleValues.Rightneck.max
+        }
 
     ]
 
     const tableData1 = [
         {
+            key: '7',
+            angles: 'Left Hip',
+            min: angleValues.LeftHip.min,
+            max: angleValues.LeftHip.max
+        },{
+            key: '8',
+            angles: 'Right Hip',
+            min: angleValues.RightHip.min,
+            max: angleValues.RightHip.max
+        },{
             key: '9',
             angles: 'Left Knee',
             min: angleValues.LeftKnee.min,
             max: angleValues.LeftKnee.max
-        },
-        {
+        },{
             key: '10',
             angles: 'Right Knee',
             min: angleValues.RightKnee.min,
             max: angleValues.RightKnee.max
-        },
-        {
+        },{
             key: '11',
             angles: 'Pelvic Left',
             min: angleValues.LeftPelvic.min,
             max: angleValues.LeftPelvic.max
+        },{
+            key: '12',
+            angles: 'Pelvic Right',
+            min: angleValues.RightPelvic.min,
+            max: angleValues.RightPelvic.max
         }
     ]
 
