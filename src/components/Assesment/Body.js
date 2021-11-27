@@ -227,26 +227,11 @@ const Body = () => {
             max: angleValues.RightKnee.max
         },
         {
-            key: '9',
-            angles: 'Neck Left',
-            min: angleValues.LeftNeck.min,
-            max: angleValues.LeftNeck.max
-        },{
-            key: '10',
-            angles: 'Neck Right',
-            min: angleValues.RightNeck.min,
-            max: angleValues.RightNeck.max
-        },{
             key: '11',
             angles: 'Pelvic Left',
             min: angleValues.LeftPelvic.min,
             max: angleValues.LeftPelvic.max
-        },{
-            key: '11',
-            angles: 'Pelvic Right',
-            min: angleValues.RightPelvic.min,
-            max: angleValues.RightPelvic.max
-        },
+        }
     ]
 
     useEffect(() => {

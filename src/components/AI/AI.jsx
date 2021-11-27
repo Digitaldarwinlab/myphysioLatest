@@ -64,7 +64,7 @@ class AI extends Component {
         console.log(this.props.history.location)
        
         
-        
+        //aswin 11/27/2021 start
         this.state = {
             ExcerciseName: preveState,
             ExcerciseIndices: preIndices,
@@ -80,21 +80,22 @@ class AI extends Component {
             data:[],
             patienId: '56',
             exerciseId: this.props.history.location.exerciseId,
-            arrayIndex:0
+            arrayIndex:0,
+            primaryExercise:this.props.history.location.state.exercisePrimary
         };
 
-        window.darwin.setExcersiseParams({
-            "name": preveState,
-            "primaryKeypoint": 0,
-            "angles": this.state.PreKey,
-            "dir": 1,
-            "minAmp": 30,
-            "primaryAngles": [3, 2],
-            "ROMs": [[30, 160], [30, 160]],
-            "totalReps": 3,
-            "totalSets": 2
-        });
-
+        // window.darwin.setExcersiseParams({
+        //     "name": preveState,
+        //     "primaryKeypoint": 0,
+        //     "angles": this.state.PreKey,
+        //     "dir": 1,
+        //     "minAmp": 30,
+        //     "primaryAngles": [3, 2],
+        //     "ROMs": [[30, 160], [30, 160]],
+        //     "totalReps": 3,
+        //     "totalSets": 2
+        // });
+        //aswin 11/27/2021 start
         this.innerHTML2 = this.innerHTML2.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this)
@@ -370,7 +371,38 @@ class AI extends Component {
     }
 
     ExChanges = (e) => {
-
+        //aswin 11/27/2021 start
+        console.log("value is ",e.target.value)
+        console.log("exercise passed are ",this.state.primaryExercise)
+        let priArr
+        this.state.primaryExercise.map(ex=>{
+            if(ex.exercise_shortname==e.target.value){
+                priArr = ex.primary_angles
+            }
+        })
+        console.log("primary  ",priArr)
+        console.log("angles ",priArr)
+        const primaryAnglesValue = []
+        joints.map(jo=>{
+           priArr.map(pr=>{
+               if(pr===jo.label){
+                primaryAnglesValue.push(jo.value)
+               }
+           })
+        })
+        console.log("primaryAnglesValue ",primaryAnglesValue)
+        window.darwin.setExcersiseParams({
+            "name": this.state.ExcerciseName,
+            "primaryKeypoint": 0,
+            "angles": this.state.PreKey,
+            "dir": 1,
+            "minAmp": 30,
+            "primaryAngles": primaryAnglesValue,
+            "ROMs": [[30, 160], [30, 160]],
+            "totalReps": 3,
+            "totalSets": 2
+        });
+        //aswin 11/27/2021 start
         fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
             method: "POST",
             headers: {
