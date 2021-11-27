@@ -403,6 +403,7 @@ class AI extends Component {
             "totalSets": 2
         });
         //aswin 11/27/2021 start
+        
         fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
             method: "POST",
             headers: {
