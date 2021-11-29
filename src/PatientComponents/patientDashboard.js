@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Modal, Table, Button } from "antd";
 import VideoScreen from './shared/VideScreen';
 import BackButton from './shared/BackButton';
@@ -7,7 +7,7 @@ import { FaMedal, FaStopwatch } from "react-icons/fa";
 import CircularBar from './shared/CircularProgress';
 import BottomCard from './shared/BottomCard';
 import PreviousWeekAchievements from './PatientSchedule/PreviousWeekAchievement';
-import { GetPatientCurrentEpisode } from './../PatientAPI/PatientDashboardApi';
+import { GetPatientCurrentEpisode, getPatientProgress } from './../PatientAPI/PatientDashboardApi';
 import { useDispatch } from 'react-redux';
 import { keyMapping } from './../components/Physio/PhysioList/PhysioList';
 import { getAssesment } from "../API/Assesment/getAssesment";
@@ -55,9 +55,20 @@ const PatientDashboard = () => {
     const [visible, setVisible] = React.useState(false);
     const [episode, setEpisode] = React.useState([]);
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
+    const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
     //UseEffect
     useEffect( async () => {
+        const progres = await getPatientProgress();
+        console.log("progress is ",progres)
+        koos_score[0]["score"] = progres.Symptoms_koos_score ;
+        koos_score[1]["score"] = progres.Stiffness_koos_score ;
+        koos_score[2]["score"] = progres.pain_koos_score ;
+        koos_score[3]["score"] = progres.DailyLiving_koos_score ;
+        koos_score[4]["score"] = progres.Sports_koos_score ;
+        console.log('koos upfdate',koos_score)
+        
+        setDataLine1(progres.data_line);
         async function getPatientEpisode() {
             let result = await GetPatientCurrentEpisode();
          console.log(result[1]);
@@ -155,7 +166,40 @@ const PatientDashboard = () => {
        }
         // eslint-disable-next-line
     }, []);
-
+    const [koos_score, setKoosScore] = useState([
+        {
+            koos: "Symptoms",
+            score: 0,
+            scoreColor: "hsl(59, 70%, 50%)"
+        },
+        {
+            koos: "Stiffness",
+            score: 0,
+            scoreColor: "hsl(289, 70%, 50%)"
+        },
+        {
+            koos: "Pain",
+            score: 0,
+            scoreColor: "hsl(319, 70%, 50%)"
+        },
+        {
+            koos: "Daily Living",
+            score: 0,
+            scoreColor: "hsl(25, 70%, 50%)"
+        },
+        {
+            koos: "Sports",
+            score: 0,
+            scoreColor: "hsl(38, 70%, 50%)"
+        },
+        {
+            koos: "QOL",
+            score: 0,
+            scoreColor: "hsl(279, 70%, 50%)"
+        }
+    ])
+    
+    
     //Treating Doctor Details
     const DoctorDetails = () => {
         return (
@@ -289,12 +333,12 @@ const PatientDashboard = () => {
            
                     <div class="row m-0 dashboardChartMain" style={{ height: 400}}>
                   <div class="col mr-1 card dashboardChart">
-                        <Line data={line_data1} 
+                        <Line data={dataLine1} 
                         min={40} max={190}
                         ylegend={"Angles"}/>
                     </div>     
                     <div class="col ml-1 card dashboardChart " >
-                    <Bar data={bar_data}/>
+                    <Bar data={koos_score}/>
                     </div> 
                 </div>  
             </div>

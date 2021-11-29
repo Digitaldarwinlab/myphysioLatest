@@ -373,6 +373,7 @@ class AI extends Component {
     ExChanges = (e) => {
         //aswin 11/27/2021 start
         console.log("value is ",e.target.value)
+        console.log("initial value ",  this.state.PreKey)
         console.log("exercise passed are ",this.state.primaryExercise)
         let priArr
         this.state.primaryExercise.map(ex=>{

@@ -210,7 +210,7 @@ const Body = () => {
             key: '6',
             angles: 'Neck Right',
             min: angleValues.RightNeck.min,
-            max: angleValues.Rightneck.max
+            max: angleValues.RightNeck.max
         }
 
     ]
@@ -408,7 +408,7 @@ const Body = () => {
             warningJoint()
             return false
         }
-
+        console.log("values ",MuscleJoint)
         history.push({
             pathname: "/care-plan", state: {
                 Joints: Object.keys(MuscleJoint),

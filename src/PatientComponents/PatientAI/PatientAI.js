@@ -147,24 +147,82 @@ const dispatch = useDispatch();
         Setstarttimer(true);
         //Select primary angle based on joint
         let primaryAngles =[]
+        console.log("selected joint ",selectedJoint)
         for (let i = 0; i < joints.length; i++) {
-            if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && !selectedJoint.includes('Pelvic')) {
+            if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && !selectedJoint.includes('Wrist')) {
                 primaryAngles.push(joints[i].value)
                 primaryAngles.push((joints[i].value)+1)
                 break;
 
-            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && !selectedJoint.includes('Pelvic')) {
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && !selectedJoint.includes('Shoulder')) {
                 primaryAngles.push(joints[i].value)
+                console.log("joints 1 value",joints[i].value)
                 primaryAngles.push((joints[i].value)-1)
                 break;
 
-            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Pelvic')) {
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Shoulder')) {
                 primaryAngles.push(joints[i].value)
+                console.log("joints 2 value",joints[i].value)
                 primaryAngles.push((joints[i].value)-1)
                 break;
 
             }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Pelvic')) {
                 primaryAngles.push(joints[i].value)
+                console.log("joints 3 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Pelvic')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 4 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Elbow')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 5 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Elbow')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 6 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Hip')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 7 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Hip')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 8 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Knee')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 9 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Knee')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 10 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('right') && selectedJoint.includes('Neck')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 11 value",joints[i].value)
+                primaryAngles.push((joints[i].value)+1)
+                break;
+
+            }else  if (selectedJoint.includes(joints[i].label) && selectedJoint.includes('left') && selectedJoint.includes('Neck')) {
+                primaryAngles.push(joints[i].value)
+                console.log("joints 12 value",joints[i].value)
                 primaryAngles.push((joints[i].value)+1)
                 break;
 
@@ -175,7 +233,7 @@ const dispatch = useDispatch();
                 
         //     }
         // }
-
+        console.log("angles are ",primaryAngles)
         console.log('cheking parameter//')
         console.log(exerciseName)
         console.log(primaryAngles)
@@ -187,7 +245,7 @@ const dispatch = useDispatch();
         window.darwin.setExcersiseParams({
             name: exerciseName,
             minAmp: 30,
-            primaryAngles,
+            primaryAngles:primaryAngles,
             ROMs: [[rom.min, rom.max], [rom.min, rom.max]],
             angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11],
             totalReps: rep_count,
@@ -224,7 +282,7 @@ const dispatch = useDispatch();
     useEffect(() => {
         let exercise = history.location.state;
         console.log('exercise nameeeeeee')
-        console.log(history.location.state.exercise)
+        console.log("check ",history.location.state.exercise)
         SetcareplanId(history.location.state.exercise.careplanId)
         console.log(exercise.exercise)
         SetexerciseTime(exercise.exercise.ChoosenTime)
