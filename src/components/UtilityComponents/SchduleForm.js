@@ -25,7 +25,7 @@ const btnStyle = {
 }
 
 const font = {
-    fontSize: "17px"
+    fontSize: "16px"
 }
 
 const SchduleForm = (props) => {
@@ -228,17 +228,18 @@ const SchduleForm = (props) => {
        }
     return (
         <>
+        <div style={{ background: '#fff' }}>
            <div style={{ minHeight: "20px" }}></div>
-        <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
-            <Col >
-            <h3 className="page-heading" id="page-heading"><strong> Add Episode</strong></h3>
-            </Col>
-            <Col span={8} style={{position:'relative',bottom:'0px', right:'0'}}>
-            <ActiveSearch  />
-            {props.state.isLoading && <Loading />}
-            </Col>
-        </Row>
-        
+          <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
+              <Col >
+              <h3 className="page-heading" id="page-heading"><strong> Add Episode </strong></h3>
+              </Col>
+              <Col span={8} style={{position:'relative',bottom:'0px', right:'0'}}>
+              <ActiveSearch  />
+              {props.state.isLoading && <Loading />}
+              </Col>
+          </Row>
+        </div>
 
             
             <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" form={form} name="control-hooks">
@@ -255,20 +256,20 @@ const SchduleForm = (props) => {
       </Modal>
                 <Row className="border ps-2 pe-2 pt-2 mb-2">
                     <Col span={8}>
-                        <p className="fw-bold p f-15" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
+                        <p className="fw-600 p f-15" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
                     </Col>
                     <Col span={8}>
-                        <p className="fw-bold p f-15" style={font}>
+                        <p className="fw-600 p f-15" style={font}>
                         <b>Patient Name: </b>{state.patient_name}
                         </p>
                     </Col>
                     <Col span={8}> 
-                    <p className="fw-bold p f-15" style={font}>
+                    <p className="fw-600 p f-15" style={font}>
                     <b>Contact No: </b>{state.Patient_no}
                     </p>
                     </Col>
                 </Row>
-                <Collapse style={{fontSize:'16px',fontWeight:'bold'}} defaultActiveKey={['1']} >
+                <Collapse style={{fontSize:'16px'}} defaultActiveKey={['1']} >
 
                     <Panel header="Referring Docter Details" key="1" className="bold">
                         <Row gutter={[10, 10]}>
@@ -277,7 +278,7 @@ const SchduleForm = (props) => {
                                 className="input-field"
 
 
-                                    label={<span style={{fontSize:'15px',fontWeight:'semibold'}}>{'Doctor Name'}</span>}
+                                    label={<span style={{fontSize:'15px'}}>{'Doctor Name'}</span>}
                                     placeholder="Doctor Name"
                                     name="Ref_Dr_Name"
                                     onBlur={props.handleBlur}
@@ -291,7 +292,7 @@ const SchduleForm = (props) => {
                             <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                                 <FormInput size="large"
                                  className="input-field"
-                                    label={<span style={{fontSize:'15px',fontWeight:'semibold'}}>{'Doctor ID'}</span>}
+                                    label={<span style={{fontSize:'15px'}}>{'Doctor ID'}</span>}
                                     placeholder="Doctor ID"
                                     name="Ref_Dr_ID"
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
@@ -305,9 +306,9 @@ const SchduleForm = (props) => {
                     </Panel>
                 </Collapse>
                 
-                <Collapse style={{fontSize:'16px',fontWeight:'bold'}} defaultActiveKey={['1']}>
+                <Collapse style={{fontSize:'16px'}} defaultActiveKey={['1']}>
                 <Panel header="Other Details" key="1" className="bold">
-                <Row>
+                <Row gutter={[10, 10]}>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                         <FormDate
                          className="input-field"
@@ -327,7 +328,7 @@ const SchduleForm = (props) => {
                          className="input-field"
                             value={props.endDateState ? props.endDateState : state.end_date && moment(state.end_date, 'YYYY-MM-DD')}
                             required={!Colsure}
-                            label={<span style={{fontSize:'15px',fontWeight:'semibold'}}>{'End Date'}</span>}
+                            label={<span style={{fontSize:'15px'}}>{'End Date'}</span>}
                             placeholder="End Date"
                             defaultValue={state.end_date && moment(state.end_date, 'YYYY-MM-DD')}
                             name="end_date"
@@ -340,8 +341,8 @@ const SchduleForm = (props) => {
                 </Collapse>
 
                 <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-                    <Col md={24} lg={12} sm={24} xs={24}>
-                    <Form.Item label={<span  style={{fontSize:'15px',fontWeight:'bold'}}>{props.episode ? "Episode Type"  : "Visit Type" }</span> }
+                    <Col md={24} lg={12} sm={12} xs={12}>
+                    <Form.Item label={<span  style={{fontSize:'15px'}}>{props.episode ? "Episode Type"  : "Visit Type" }</span> }
                         name={props.episode ? "complaint" : "type"}
                         rules={[{ required: Colsure, message: `Please Select a ${props.episode ? "Primary Complaint" : "Type"}` }]}>
                         <Select
@@ -362,8 +363,8 @@ const SchduleForm = (props) => {
                         </Select>
                     </Form.Item>
                     </Col>
-                    <Col md={24} lg={12} sm={24} xs={24}>
-                    <Form.Item label={<span style={{fontSize:'15px',fontWeight:'bold'}}>{'Operative Types'}</span>}
+                    <Col md={24} lg={12} sm={12} xs={12}>
+                    <Form.Item label={<span style={{fontSize:'15px'}}>{'Operative Types'}</span>}
                         name="Operative_Types"
                         rules={[{ required: Colsure, message: `Please Select Operative Types` }]}>
                         <Select
@@ -385,7 +386,7 @@ const SchduleForm = (props) => {
 
                 <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                     <Col md={24} lg={12} sm={24} xs={24}>
-                    <FormTextArea label={<span style={{fontSize:'15px',fontWeight:'bold'}}>{'Patient History'}</span>}
+                    <FormTextArea label={<span style={{fontSize:'15px'}}>{'Patient History'}</span>}
                         required={Colsure}
                         value={props.state.Patient_History}
                         className="input-field"
@@ -396,7 +397,7 @@ const SchduleForm = (props) => {
                     />
                     </Col>
                     <Col md={24} lg={12} sm={24} xs={24}>
-                    <FormTextArea label={<span style={{fontSize:'15px',fontWeight:'bold'}}> {'Closure Notes'}</span>}
+                    <FormTextArea label={<span style={{fontSize:'15px'}}> {'Closure Notes'}</span>}
                         value={props.state.Patient_History}
                         name="Closure_Notes"
                         onChange={props.handleChange}

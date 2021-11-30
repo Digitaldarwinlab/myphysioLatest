@@ -150,3 +150,6 @@ nav{
 .menuItem:hover{
     background: none !important;
 }
+.white-backgorund{
+    background-color:#fff ;
+}

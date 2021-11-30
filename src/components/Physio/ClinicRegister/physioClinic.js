@@ -211,12 +211,12 @@ const PhysioClinic = ()=>{
     return(
         <>  
            <div style={{ minHeight: "20px" }}></div>
-                 <h3 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical" style={{fontSize:'28px'}}></i> <b> Clinic Registration </b></h3>
+                 <h3 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical"></i> <b> Clinic Registration </b></h3>
                  {state.Validation.error && (<Error error={state.Validation.error} />)}
                 {state.clinicReg.isLoading && (<Loading />)} 
                 {state.clinicReg.success && (<Success success = {state.clinicReg.success}/>)}
             <Form style={{marginTop:'40px',marginLeft:'1%'}} onFinish={handleSubmit} form={form} name="control-hooks" autoComplete="off" layout="vertical" >
-                <div className="border p-4 mb-4">
+                <div className="border mt-2 mb-4">
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={12} sm={24} xs={24}>
                             {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)}

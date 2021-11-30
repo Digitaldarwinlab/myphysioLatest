@@ -291,15 +291,17 @@ const SearchPatient = () => {
                <div style={{ minHeight: "0px" }}></div>
             <Row justify="space-between" style={{marginBottom:'15px'}}>
                 <Col>
-                <h3 className="page-heading" id="page-heading"> <i className="fa fa-users"></i><b> Patients</b></h3>
+                <h3 className="page-heading" id="page-heading"> 
+                    <i className="fa fa-users"></i><b> Patients</b>
+                </h3>
 
                 </Col> 
                 <Col>
                 <h4 className="text-end">
-                <NavLink to="pateints/new" className="navlink">
-                    New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
-                </NavLink>
-            </h4>
+                    <NavLink to="pateints/new" className="navlink">
+                        New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
+                    </NavLink>
+                </h4>
                 </Col>
             </Row>
 
@@ -307,7 +309,7 @@ const SearchPatient = () => {
                 <div className="PatientsListing">
     
                 <input
-                        className="p-2 input-field  my-3"
+                        className="p-2 input-field my-3"
                     
                         placeholder="Search Patient.."
                         onChange={onSearch}

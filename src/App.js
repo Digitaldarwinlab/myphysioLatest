@@ -72,7 +72,7 @@ const App = () => {
 						</div>)}
 					<div className={
 						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio")) && sidebarshow
-							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content` : "MainConatiner"}>
+							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content white-backgorund` : "MainConatiner"}>
 						<Switch>
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
