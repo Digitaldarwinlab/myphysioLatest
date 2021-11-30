@@ -2,7 +2,7 @@
     {
         "id": "CarePlan",
         "label": "Care Plan Completion",
-        "value": 70,
+        "value": 80,
         "color": "hsl(360, 70%, 50%)"
     },
     {

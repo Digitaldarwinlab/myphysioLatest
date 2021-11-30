@@ -36,10 +36,10 @@ const Tempdashboard=({viewstate})=>{
    
         const [date,Setdate]=useState('20-09-2021')
         const [graphview,Setgraphview]=useState(true)
-        const[minmaxgraphdata,Setminmaxgraphdata]=useState(data_vertical_bar)
+        const[minmaxgraphdata,Setminmaxgraphdata]=useState([])
         const [koosgraphdata,Setkoosgraphdata]=useState(bar_data)
         const [exercisecompletiondata,Setexercisecompletiondata]=useState(pie_data1)
-        const [setcompletionratedata,Setsetcompletionratedata]=useState(data_vertical_bar2)
+        const [setcompletionratedata,Setsetcompletionratedata]=useState([])//vertical 2
         const [targetminmaxdata,Settargetminmaxdata]=useState(line1_data)
         const [accuracygraphdata,Setaccuracygraphdata]=useState(line2_data)
         const [selectedexercise1,Setselectedexercise]=useState(0)
@@ -50,12 +50,28 @@ const Tempdashboard=({viewstate})=>{
         useEffect( async()=>{
             const data=await get_progress(state.patient_code)
             console.log('data  progress')
-            console.log(data)
+            console.log("new ",data.data_vertical_bar)
+            data.data_vertical_bar.map(obj=>{
+              if(obj.Joints === "Left Shoulder(ver)"){
+                obj.Joints ="LeftShoulder"
+              }
+              if(obj.Joints === "Right Shoulder(ver)" ){
+                obj.Joints ="RightShoulder"
+              }
+              obj.max = obj.max.toFixed(0)
+              obj.min = obj.min.toFixed(0)
+            })
+ 
+            
+            console.log("after dataline obj2 ",data.data_line)
+            console.log("after ",data.data_vertical_bar)
+            Setminmaxgraphdata(data.data_vertical_bar)
             SetfinalData(data)
+            Setsetcompletionratedata(data.data_vertical_bar2)
             console.log('episode aaingg')
             console.log(state)
 
-        })
+        },[])
 
      
         const dataSourcejpint =minmaxgraphdata.map((item,index)=>{

@@ -66,6 +66,7 @@ const PatientDashboard = () => {
         koos_score[2]["score"] = progres.pain_koos_score ;
         koos_score[3]["score"] = progres.DailyLiving_koos_score ;
         koos_score[4]["score"] = progres.Sports_koos_score ;
+        koos_score[5]["score"] = progres.Life_koos_score ;
         console.log('koos upfdate',koos_score)
         
         setDataLine1(progres.data_line);
