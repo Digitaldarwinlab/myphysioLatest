@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, UploadOutlined} from '@ant-design/icons';
+import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Select, Row, Col, Input, Form, Upload, Button,Modal,Space } from 'antd';
 import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment"
@@ -133,10 +134,10 @@ console.log(state.FirstAssesment.Type)
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
-
+  const [files ,setFiles] = useState([])
 
   const [fileType, setFileType] = useState(false);
-
+  console.log("files ",files)
 
  
 
@@ -353,12 +354,17 @@ console.log(state.FirstAssesment.Type)
               </div>
             </Col>
             <Col className="mt-1">
-              <input id="myPdf"
+              <Upload>
+              <Button icons={<UploadOutlined />}
+              onChange={(val) => handleChange("ScareFile", val.target.files[0])}
+              >Click to Upload</Button>
+              </Upload>
+              {/* <input id="myPdf"
                 accept="application/pdf,image/*,application/msword"
                 type="file" multiple
 
                 onInput={handleUploadScars}
-                onChange={(val) => handleChange("ScareFile", val.target.files)} />
+                onChange={(val) => handleChange("ScareFile", val.target.files[0])} /> */}
             </Col>
           </Row>
         </Form>
@@ -403,7 +409,13 @@ console.log(state.FirstAssesment.Type)
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
                 customRequest={dummyRequest}
-                onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               onChange={ async (e)=>{
+                let files=[]
+                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
+                console.log(files)
+                handleChange('file',files)
+               }}
               >
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
