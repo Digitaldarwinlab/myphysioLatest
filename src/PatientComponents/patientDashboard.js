@@ -212,7 +212,7 @@ const PatientDashboard = () => {
 
                                     icon={<FaMedal size={25} color="black" />}
                                     score="8/10" message="Your Success" />
-                                <CircularBar precentage={5000 / 6000 * 100} score={5000} color='#76c0b1' />
+                                <CircularBar precentage={5000 / 6000 * 100} score={5000} color='#0559a9' />
                                 <AchievedResult
                                     icon={<FaStopwatch size={25} color="black" />}
                                     score="30 min" message="Your Practice Time" />

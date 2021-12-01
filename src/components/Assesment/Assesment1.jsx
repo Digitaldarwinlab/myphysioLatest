@@ -356,7 +356,7 @@ console.log(state.FirstAssesment.Type)
                 </div>
               </Col>
               <Col md={24} lg={12} sm={24} xs={24}>
-                <input id="myPdf"
+                <input id="myPdf" style={{background:'#fff !important'}}
                   accept="application/pdf,image/*,application/msword"
                   type="file" multiple
 
@@ -366,7 +366,39 @@ console.log(state.FirstAssesment.Type)
           </Row>
         </Form>
         <Form  form={form}  layout="vertical">
-          <Row gutter={[10, 10]} className="px-4 py-2">
+
+          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
+               <FormTextArea label="Recent History"
+                  name="RecentHistory"
+                  value={state.FirstAssesment.RecentHistory}
+                  defaultValue={state.FirstAssesment.RecentHistory}
+                  onChange={handleChange} required={true} />
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <FormTextArea label="Trauma / Hospitalization History "
+                  name="Trauma"
+                  value={state.FirstAssesment.Trauma}
+                  defaultValue={state.FirstAssesment.Trauma}
+                  onChange={handleChange} required={true} />
+              </Col>
+          </Row>
+
+          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <FormTextArea label="Special Test "
+                  name="Test"
+                  value={state.FirstAssesment.Test}
+                  defaultValue={state.FirstAssesment.Test}
+                  onChange={handleChange} required={true} />
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+            
+              </Col>
+          </Row>
+
+
+          {/* <Row gutter={[10, 10]} className="px-4 py-2">
             <Col md={24} lg={24} sm={24} xs={24} className="mt-2">
               <FormTextArea label="Recent History"
                 name="RecentHistory"
@@ -395,7 +427,7 @@ console.log(state.FirstAssesment.Type)
                 onChange={handleChange} required={true} />
 
             </Col>
-          </Row>
+          </Row> */}
           <Row gutter={[10, 10]} className="px-4 py-4 pb-5" style={{ marginBottom: 70 }}>
             {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
               <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />

@@ -136,7 +136,7 @@ const PhysioRegisteration1 = (props) => {
             <div style={{ minHeight: "20px" }}></div>
             <Row>
                 <Col lg={22} md={22} sm={24} xs={24}>
-                    <h3 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> <b> Physiotherapist </b></h3>
+                    <h3 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> Physiotherapist </h3>
                 </Col>
                 <Col  lg={2} md={4} sm={24} xs={24}>
                     <Link to="/physio/list" title="Physio List" className="link text-blue navlink" id="navlink">

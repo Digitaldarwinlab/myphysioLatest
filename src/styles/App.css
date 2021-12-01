@@ -110,7 +110,7 @@ body {
 }
 .card-container > .ant-tabs-card .ant-tabs-tab-active,
 [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-tab-active {
-  background: #76c0b1 !important;
+  background: #2d7ecb !important;
   border: 1px solid gray;
 }
 .ant-tabs-card .ant-tabs-btn {
@@ -604,9 +604,10 @@ body {
   height: 40px;
   min-height: 40px;
   border: 0px !important;
+  width: 100%;
 }
 .btncolor {
-  background-color: #0559a9 !important ;
+  background-color: #2d7ecb !important ;
   color: white !important;
   border: none !important;
   cursor: pointer !important;
@@ -1011,7 +1012,7 @@ body {
 }
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 .authFormDiv.LoginMain {
-  background-color: #1bbc9b;
+  background-color: #2d7ecb;
   min-height: 100vh;
   padding-bottom: 30px;
 }
@@ -1035,7 +1036,7 @@ button.userAuthbtn {
   color: #fff;
 }
 nav.navbar.navigationBar {
-  background: #0559a9;
+  background: #2d7ecb;
   margin: 0px !important;
   padding: 0px !important;
 }
@@ -1069,7 +1070,7 @@ nav.navbar.navigationBar {
 button.skip-button,
 button,
 button.ant-btn.SchForm {
-  background: #0559a9 !important;
+  background: #2d7ecb !important;
   border: 0px !important;
   border-radius: 0px !important;
   height: 40px;
@@ -1096,17 +1097,17 @@ h4.AchievementWeek {
 }
 .AchievementList svg {
   margin-top: 3px;
-  fill: #1bbc9b;
+  fill: #2d7ecb;
   margin-right: 5px;
 }
 .right-side {
   padding-right: 7px !important;
 }
 i.fas.fa-arrow-left {
-  color: #1bbc9b;
+  color: #2d7ecb;
 }
 span.DatePicker_monthYearLabel__2OjxR {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
   width: 100%;
 }
 ol {
@@ -1141,7 +1142,8 @@ button.ant-modal-close .ant-modal-close-x {
 }
 button.ant-btn {
   border-radius: 0px !important;
-  min-width: 80px;
+  /* min-width: 80px; */
+  
   text-align: center !important;
 }
 .ant-picker {
@@ -1319,16 +1321,16 @@ i.fas.fa-user-plus {
 .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
 .ant-menu-submenu-active,
 .ant-menu-submenu-title:hover {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
 }
 .ant-menu-submenu-expand-icon,
 .ant-menu-submenu-arrow,
 .ant-menu-item-selected {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
 }
 .sideNavbar.position-fixed .ant-menu-submenu-title:hover {
   color: #fff !important;
-  background-color: #0559a9 !important;
+  background-color: #2d7ecb !important;
 }
 .sideNavbar.position-fixed .ant-menu-submenu-title * {
   color: #000;
@@ -1571,7 +1573,7 @@ button {
 .ant-btn:focus,
 .ant-btn:active {
   text-decoration: none;
-  background: #0559a9 !important;
+  background: #2d7ecb !important;
   color: #fff !important;
 }
 .main-content {
@@ -1654,4 +1656,12 @@ div#right-box .detail-row b {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #ebf2f9 !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  margin-top: 0px !important;
+   margin-bottom: 0px !important;
 }

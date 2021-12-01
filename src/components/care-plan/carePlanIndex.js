@@ -777,7 +777,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 visible={state}
                                 getContainer={false}
                                 style={{ top: "50px" }}
-                                width={300}
+                                width={400}
                             >
                                 {cartItems.length === 0 && <p>No Plan is Present now...</p>}
                                 {cartItems.length !== 0 && <Cart Exercise={Exerciselist} items={cartItems} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
