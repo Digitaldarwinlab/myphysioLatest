@@ -148,7 +148,7 @@ const PhysioRegisteration1 = (props) => {
             <Title level={4} className="border mb-0 p-2 my-2" style={{marginBottom:'20px'}}>Basic Information</Title>
 
             <Form  onFinish={handleSubmit} form={form} name="control-hooks" autoComplete="off" layout="vertical" >
-                <div className="border p-4 mb-4" style={{position:'relative',top:"0px",minHeight:'260px',paddingTop:'5px'}}>
+                <div className="border p-0 mb-4" style={{position:'relative',top:"0px",minHeight:'260px',paddingTop:'5px'}}>
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>

@@ -324,7 +324,7 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Exerside Detail</div>
+                            <div className="fw-bold ant-tabs-btn">Exercise Detail</div>
                         }
                         key="8"
                     >

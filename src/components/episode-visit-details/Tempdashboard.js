@@ -405,7 +405,7 @@ const Tempdashboard=({viewstate})=>{
                 <div className="switch-box">
             View Type: <Switch checkedChildren="Raw Data" unCheckedChildren="Graph" onChange={()=>Setgraphview(!graphview)} className="switch-data" id="switch-data"  />
             </div>
-              <center>  <h1> <strong>{'Assesment  Analysis '}</strong></h1></center>
+              <center>  <h3> <strong>{'Assesment  Analysis '}</strong></h3></center>
               <div className="border detail-assesment">
                         <p id="henry"> Diagnose Disease : Liver Infection</p>
                         

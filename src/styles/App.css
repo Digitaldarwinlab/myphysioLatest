@@ -1665,3 +1665,7 @@ div#right-box .detail-row b {
   margin-top: 0px !important;
    margin-bottom: 0px !important;
 }
+.input-file{
+  background-color: #ffffff !important;
+  margin-top: 5px;
+}

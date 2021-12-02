@@ -212,7 +212,7 @@ const PhysioRegisteration2 = (props) => {
     return (
         <>
             <div style={{ minHeight: "20px" }}></div>
-            <h1 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> Physiotherapist </h1>
+            <h3 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> Physiotherapist </h3>
             <StepBar src={svg} />
             <Title level={3} className="border mb-0 p-2 my-2">Other Information</Title>
 

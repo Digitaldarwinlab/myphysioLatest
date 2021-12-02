@@ -274,7 +274,7 @@ console.log(state.FirstAssesment.Type)
   return (
     <div className="px-2 py-2">
 
-      <Form  style={{background:'#fff', marginTop:'15px', padding:'20px',}} {...layout}
+      <Form  style={{background:'#fff', marginTop:'0px', padding:'20px'}} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form} 
@@ -336,7 +336,7 @@ console.log(state.FirstAssesment.Type)
         </Row>
       </Form>
 
-      <div className="border mb-3 mt-3" style={{ background:'#fff', padding:'20px'}}>
+      <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
         <Form form={form} >
           <Row className="border">
             <Col md={24} lg={24} sm={24} xs={24}>
@@ -356,7 +356,7 @@ console.log(state.FirstAssesment.Type)
                 </div>
               </Col>
               <Col md={24} lg={12} sm={24} xs={24}>
-                <input id="myPdf" style={{background:'#fff !important'}}
+                <input id="myPdf" className="input-file"
                   accept="application/pdf,image/*,application/msword"
                   type="file" multiple
 
@@ -428,7 +428,7 @@ console.log(state.FirstAssesment.Type)
 
             </Col>
           </Row> */}
-          <Row gutter={[10, 10]} className="px-4 py-4 pb-5" style={{ marginBottom: 70 }}>
+          <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
             {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
               <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />
             </Col> */}
