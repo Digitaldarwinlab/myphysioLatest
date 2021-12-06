@@ -105,7 +105,7 @@ const VideoCallIndex = (props) => {
     var agoraAppId = "f31ea0f88fcf4974a349448e69d35c1d"
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
-    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
+    const res = await fetch(process.env.REACT_APP_EXERCISE_URL+`/rtc/${channelName}/subscriber/uid/${uid}`);
     const data = await res.json();
     var token = data.rtcToken
     console.log(token)
