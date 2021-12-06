@@ -1,24 +1,32 @@
 [
     {
-        "id": "Target Min",
-        "color": "hsl(19, 70%, 50%)",
-        "data": [
-            {
-                "x": "2021-07-29",
-                "y": 50
-            },
-            {
-                "x": "2021-07-30",
-                "y": 80
-            },
-            {
-                "x": "2021-08-01",
-                "y": 120
-            },
-            {
-                "x": "2021-08-02",
-                "y": 80
-            }
-        ]
+        "Date": "2021-09-29",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
+    },
+    {
+        "Date": "2021-09-29",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
+    },
+    {
+        "Date": "2021-10-04",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
+    },
+    {
+        "Date": "2021-10-05",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
+    },
+    {
+        "Date": "2021-10-06",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
+    },
+    {
+        "Date": "2021-11-26",
+        "SetCompletionRate": 0,
+        "SetCompletionRateColor": "hsl(18, 70%, 50%)"
     }
 ]
