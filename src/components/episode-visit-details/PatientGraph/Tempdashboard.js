@@ -31,7 +31,7 @@ import { getEpisodeDetails } from '../../care-plan/carePlanIndex'
 const { Option } = Select;
 const Tempdashboard=({viewstate})=>{
   console.log('stateee comeeddd is')
-  console.log(viewstate)
+  console.log(viewstate) 
     var doc = new jsPDF();
    
         const [date,Setdate]=useState('20-09-2021')
@@ -39,7 +39,7 @@ const Tempdashboard=({viewstate})=>{
         const[minmaxgraphdata,Setminmaxgraphdata]=useState([])
         const [koosgraphdata,Setkoosgraphdata]=useState(bar_data)
         const [exercisecompletiondata,Setexercisecompletiondata]=useState(pie_data1)
-        const [setcompletionratedata,Setsetcompletionratedata]=useState(data_line)//vertical 2
+        const [setcompletionratedata,Setsetcompletionratedata]=useState(line2_data)//vertical 2
         const [targetminmaxdata,Settargetminmaxdata]=useState(line1_data)
         const [accuracygraphdata,Setaccuracygraphdata]=useState(line2_data)
         const [selectedexercise1,Setselectedexercise]=useState(0)
@@ -76,11 +76,12 @@ const Tempdashboard=({viewstate})=>{
             
             Setminmaxgraphdata(data.data_vertical_bar)
             SetfinalData(data)
+            console.log("find 1 ",data.data_vertical_bar2)
             Setsetcompletionratedata(data.data_vertical_bar2)
             console.log('episode aaingg')
             console.log(state)
 
-        },[])
+        },[state.patient_code])
 
      
         const dataSourcejpint =minmaxgraphdata.map((item,index)=>{
@@ -434,7 +435,7 @@ const Tempdashboard=({viewstate})=>{
                         {
                             graphview?
 
-                            <Line data={accuracygraphdata} 
+                            <Line data={data_line} 
                         min={40} max={190}
                         ylegend={"Angles"}/>
                     :

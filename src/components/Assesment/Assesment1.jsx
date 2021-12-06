@@ -149,6 +149,7 @@ console.log(state.FirstAssesment.Type)
   };
 
   const handleChange = (key, value, id = 0) => {
+    console.log('files ',value,"",key)
     if (key === "Date") {
       setDate(value.date);
       dispatch({
@@ -158,7 +159,28 @@ console.log(state.FirstAssesment.Type)
           value: value.dateString
         }
       });
-    }else{
+    }else if(key==="ScareFile"){
+      console.log("files ",(value))
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value
+        }
+      });
+      setFiles([...files,value])
+    }else if(key==="TraumaFile"){
+      console.log("files ",(value))
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value
+        }
+      });
+      setFiles([...files,value])
+    }
+    else{
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -354,11 +376,26 @@ console.log(state.FirstAssesment.Type)
               </div>
             </Col>
             <Col className="mt-1">
-              <Upload>
+              {/* <Upload>
               <Button icons={<UploadOutlined />}
               onChange={(val) => handleChange("ScareFile", val.target.files[0])}
               >Click to Upload</Button>
-              </Upload>
+              </Upload> */}
+              <Dragger {...props} id="myPdf"
+                listType="picture-card"
+                accept="application/pdf,image/*,application/msword"
+                multiple="true"
+               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               onInput={handleUploadScars}
+               onChange={ async (e)=>{
+                let files=[]
+                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
+                console.log(files)
+                handleChange('ScareFile',files)
+               }}
+              >
+                Choose Files
+              </Dragger>
               {/* <input id="myPdf"
                 accept="application/pdf,image/*,application/msword"
                 type="file" multiple
@@ -414,7 +451,7 @@ console.log(state.FirstAssesment.Type)
                 let files=[]
                 await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
                 console.log(files)
-                handleChange('file',files)
+                handleChange('TraumaFile',files)
                }}
               >
                 <p className="ant-upload-drag-icon">
