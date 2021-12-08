@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, UploadOutlined} from '@ant-design/icons';
+import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Select, Row, Col, Input, Form, Upload, Button, Modal, Space } from 'antd';
 import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment"
@@ -71,7 +72,8 @@ const Assesment1 = (props1) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != '/assesment/Questions' &&
-        location.pathname != '/care-plan' &&
+        location.pathname != '/care-plan' &&location.pathname != '/assesment/PainAssessment'&&
+        location.pathname != '/assesment/SpecialTest'&&
         state.FirstAssesment.episode_id != "") {
         //aswin 11/11/2021 start
         if (sessionStorage.getItem('submit')) {
@@ -133,10 +135,10 @@ const Assesment1 = (props1) => {
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
-
+  const [files ,setFiles] = useState([])
 
   const [fileType, setFileType] = useState(false);
-
+  console.log("files ",files)
 
 
 
@@ -148,6 +150,7 @@ const Assesment1 = (props1) => {
   };
 
   const handleChange = (key, value, id = 0) => {
+    console.log('files ',value,"",key)
     if (key === "Date") {
       setDate(value.date);
       dispatch({
@@ -157,7 +160,29 @@ const Assesment1 = (props1) => {
           value: value.dateString
         }
       });
-    } else {
+  
+    }else if(key==="ScareFile"){
+      console.log("files ",(value))
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value
+        }
+      });
+      setFiles([...files,value])
+    }else if(key==="TraumaFile"){
+      console.log("files ",(value))
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value
+        }
+      });
+      setFiles([...files,value])
+    }
+    else{
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -374,12 +399,32 @@ const Assesment1 = (props1) => {
               </div>
             </Col>
             <Col className="mt-1">
-              <input id="myPdf"
+              {/* <Upload>
+              <Button icons={<UploadOutlined />}
+              onChange={(val) => handleChange("ScareFile", val.target.files[0])}
+              >Click to Upload</Button>
+              </Upload> */}
+              <Dragger {...props} id="myPdf"
+                listType="picture-card"
+                accept="application/pdf,image/*,application/msword"
+                multiple="true"
+               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               onInput={handleUploadScars}
+               onChange={ async (e)=>{
+                let files=[]
+                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
+                console.log(files)
+                handleChange('ScareFile',files)
+               }}
+              >
+                Choose Files
+              </Dragger>
+              {/* <input id="myPdf"
                 accept="application/pdf,image/*,application/msword"
                 type="file" multiple
 
                 onInput={handleUploadScars}
-                onChange={(val) => handleChange("ScareFile", val.target.files)} />
+                onChange={(val) => handleChange("ScareFile", val.target.files[0])} /> */}
             </Col>
           </Row>
         </Form>
@@ -595,7 +640,13 @@ const Assesment1 = (props1) => {
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
                 customRequest={dummyRequest}
-                onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+               onChange={ async (e)=>{
+                let files=[]
+                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
+                console.log(files)
+                handleChange('TraumaFile',files)
+               }}
               >
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
