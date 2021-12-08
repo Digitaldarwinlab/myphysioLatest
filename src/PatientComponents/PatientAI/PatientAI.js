@@ -88,31 +88,161 @@ class PatientAI extends Component {
             careplanId: 0,
             exerciseTime: 0,
         };
+       
+   
+         console.log("selected joint :" +this.state.selectedJoint)
+    }
+    
+    handleChange1 = async (key, value, id = 0) => {
+        dispatch({
+            type: STATECHANGE,
+            payload: {
+                key,
+                value
+            }
+        });
+        dispatch({ type: "NOERROR" });
+        this.setState({ pain: value + 1 }) 
+        console.log('pain iss' + (value + 1))
+
+    }
+
+
+
+
+    // Pain Meter
+    PainMeter = () => {
+
+        return (
+            <div className="painmeter" style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }} >
+                <Slider marks={marks1} min={0} max={3} step={1}
+                    onChange={(value) => handleChange1("PainMeter", value)}
+                    defaultValue={this.props.FirstAssesment.PainMeter}
+                    style={{ width: '100%' }}
+                />
+
+
+            </div>
+        );
+    };
+    //Ai Model
+    AiModel = () => {
+        darwin.addProgressListener((setCount, repCount) => {
+            this.setState({ rep_count: repCount }) 
+            this.setState({ currenset: setCount }) 
+            console.log(setCount)
+         
+            console.log(setCount, this.state.exSetValue)
+            if (setCount == this.state.exSetValue) {
+                window.darwin.stop();
+                //   alert("Exercise Complete!!") 
+                //Add Stop and Painmeter Code Here
+                this.setState({ visible: true }) 
+                this.setState({ starttimer: false }) 
+                
+                data = window.darwin.getCarePlanData() //Send this data to API
+
+                // console.log(angles)
+                console.log('careplan data is')
+                console.log(data)
+                console.log('data before')
+                this.setState({ exerciseData: data }) 
+        
+
+            }
+        })
+
+
+
+        console.log(this.state.exerciseData)
+        let newojb = JSON.stringify(this.state.exerciseData)
+        console.log('unhashed')
+        // console.log(newojb)
+        console.log('hashedd')
+        let hashed = Buffer.from(newojb).toString("base64")
+        console.log(hashed)
+
+        return (
+            <>
+                <span id="reps"></span>
+                <span id="sets"></span>
+                <video id="video" style={{ position: 'absolute', top: '0px' }} playsinline className="patientAiModel">
+                </video>
+                <div style={{ position: "relative" }}>
+                    <canvas id="output" />
+                    <canvas id="jcanvas" />
+                </div>
+            </>
+        )
+    }
+    finish = async () => {
+
+        const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
+            this.state.pain, this.state.exerciseTime, this.state.careplanId)
+        console.log('response')
+        console.log(response)
+
+        this.props.history.push('/patient/schedule')
+    }
+    //Green Channel 
+    Statistics = () => {
+        return (
+            <>
+                <Row className="px-2 py-2" >
+                    <Col lg={8} md={8} sm={8} xs={8}>
+                        <p className="fw-bold p" >Patient Name: </p>
+                        <p className="fw-bold p">Exercise Name: </p>
+                        <p className="fw-bold p">Repititon Count: </p>
+                        <p className="fw-bold p">Set Value: </p>
+
+
+                    </Col>
+                    <Col lg={8} md={8} sm={8} xs={8}>
+                        <p className="p">{userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
+                        <p className="p">{this.state.exerciseName}</p>
+                        <p className="p">{this.state.currenset == this.state.exSetValue ? this.state.rep_count : this.state.currenRep} of {this.state.rep_count}</p>
+                        <p className="p">{this.state.currenset} of {this.state.exSetValue}</p>
+
+
+                    </Col>
+
+                </Row>
+            </>
+        )
+    };
+    setstarttimer(){
+        this.setState({ starttimer: false }) 
+    }
+
+  
+     
+    componentDidMount() {
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
         console.log("check ", this.props.history.location.state.exercise)
         this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
-        console.log(exercise.exercise)
+        console.log("QQQQQQQQQQ",exercise.exercise)
         this.setState({ exerciseTime: exercise.exercise.ChoosenTime })
         this.setState({ currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name] })
-        // console.log(exercise)
+     // console.log("QQQQQQQQQQ",exercise)
         if (exercise && exercise.exercise) {
+            console.log("QQQQQQQQQQ",exercise.exercise.Rom.joint);
             let { name, video_url, Rep, Rom } = exercise.exercise;
+            console.log("QQQQQQQQQQ",Rom.joint);
             this.setState({ exerciseName: name })
             this.setState({ video: video_url })
             this.setState({ rep_count: Rep.rep_count })
-            this.setState({ exSetValue: Rep.set })
-            this.setState({ selectedJoint:  Rom.joint })
+            this.setState({ exSetValue: Rep.set });
+        
             this.setState({ rom: {
                 ...this.state.rom,
                 min: Rom.min, max: Rom.max
             }})
-          
+            this.setState((prevState, props) => ({
+                selectedJoint:  Rom.joint
+              }));
+              this.setState({ selectedJoint:  Rom.joint});
         }
-    }
-    componentDidMount() {
-       
-
         const video = document.getElementById('video');
         const canvas = document.getElementById('output');
         const jcanvas = document.getElementById('jcanvas');
@@ -137,9 +267,14 @@ class PatientAI extends Component {
         window.darwin.initializeModel(options);
         this.setState({ starttimer: true })
       
+
+
+    }
+    componentDidUpdate() {
+
         //Select primary angle based on joint
         let primaryAngles = []
-        console.log("selected joint ", this.state.selectedJoint)
+        console.log("selected joint :" +this.state.selectedJoint)
         for (let i = 0; i < joints.length; i++) {
             if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && !this.state.selectedJoint.includes('Wrist')) {
                 primaryAngles.push(joints[i].value)
@@ -243,8 +378,8 @@ class PatientAI extends Component {
         });
 
         window.darwin.launchModel();
-        window.darwin.stop();
-        window.darwin.restart();
+      //  window.darwin.stop();
+       // window.darwin.restart();
 
         const unblock = this.props.history.block((location, action) => {
             // Dipsikha start 23/10
@@ -270,125 +405,6 @@ class PatientAI extends Component {
 
 
     }
-    handleChange1 = async (key, value, id = 0) => {
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
-            }
-        });
-        dispatch({ type: "NOERROR" });
-        this.setState({ pain: value + 1 }) 
-        console.log('pain iss' + (value + 1))
-
-    }
-
-
-
-
-    // Pain Meter
-    PainMeter = () => {
-
-        return (
-            <div className="painmeter" style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }} >
-                <Slider marks={marks1} min={0} max={3} step={1}
-                    onChange={(value) => handleChange1("PainMeter", value)}
-                    defaultValue={this.props.FirstAssesment.PainMeter}
-                    style={{ width: '100%' }}
-                />
-
-
-            </div>
-        );
-    };
-    //Ai Model
-    AiModel = () => {
-        darwin.addProgressListener((setCount, repCount) => {
-            this.setState({ rep_count: repCount }) 
-            this.setState({ currenset: setCount }) 
-            console.log(setCount)
-         
-            console.log(setCount, exSetValue)
-            if (setCount == exSetValue) {
-                window.darwin.stop();
-                //   alert("Exercise Complete!!") 
-                //Add Stop and Painmeter Code Here
-                this.setState({ visible: true }) 
-                this.setState({ starttimer: false }) 
-                
-                data = window.darwin.getCarePlanData() //Send this data to API
-
-                // console.log(angles)
-                console.log('careplan data is')
-                console.log(data)
-                console.log('data before')
-                this.setState({ exerciseData: data }) 
-        
-
-            }
-        })
-
-
-
-        console.log(this.state.exerciseData)
-        let newojb = JSON.stringify(this.state.exerciseData)
-        console.log('unhashed')
-        // console.log(newojb)
-        console.log('hashedd')
-        let hashed = Buffer.from(newojb).toString("base64")
-        console.log(hashed)
-
-        return (
-            <>
-                <span id="reps"></span>
-                <span id="sets"></span>
-                <video id="video" style={{ position: 'absolute', top: '0px' }} playsinline className="patientAiModel">
-                </video>
-                <div style={{ position: "relative" }}>
-                    <canvas id="output" />
-                    <canvas id="jcanvas" />
-                </div>
-            </>
-        )
-    }
-    finish = async () => {
-
-        const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
-            this.state.pain, this.state.exerciseTime, this.state.careplanId)
-        console.log('response')
-        console.log(response)
-
-        this.props.history.push('/patient/schedule')
-    }
-    //Green Channel 
-    Statistics = () => {
-        return (
-            <>
-                <Row className="px-2 py-2" >
-                    <Col lg={8} md={8} sm={8} xs={8}>
-                        <p className="fw-bold p" >Patient Name: </p>
-                        <p className="fw-bold p">Exercise Name: </p>
-                        <p className="fw-bold p">Repititon Count: </p>
-                        <p className="fw-bold p">Set Value: </p>
-
-
-                    </Col>
-                    <Col lg={8} md={8} sm={8} xs={8}>
-                        <p className="p">{userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
-                        <p className="p">{this.state.exerciseName}</p>
-                        <p className="p">{this.state.currenset == this.state.exSetValue ? this.state.rep_count : this.state.currenRep} of {this.state.rep_count}</p>
-                        <p className="p">{this.state.currenset} of {this.state.exSetValue}</p>
-
-
-                    </Col>
-
-                </Row>
-            </>
-        )
-    };
-
-
     render() {
         return (
             <>
@@ -407,10 +423,12 @@ class PatientAI extends Component {
                         </Col>
                         <Col lg={8} md={8} sm={24} xs={24} id="greenChannel">
                             <Row gutter={[5, 5]}>
-                                {/* <Col lg={24} md={24} sm={12} xs={24} className="border" >
-                                    <UseStopwatchDemo starttimer={this.state.starttimer} Setstarttimer={this.setState({ starttimer: false }) } />
+                                <Col lg={24} md={24} sm={12} xs={24} className="border" >
+                                    <UseStopwatchDemo starttimer={this.state.starttimer} Setstarttimer={this.setstarttimer
+                                       
+                                        } />
 
-                                </Col> */}
+                                </Col>
                                 <Col lg={24} md={24} sm={12} xs={24} className="border">
                                     {this.Statistics()}
                                 </Col>
