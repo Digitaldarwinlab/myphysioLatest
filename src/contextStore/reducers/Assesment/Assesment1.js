@@ -23,6 +23,24 @@ const FirstAssesmentIniState ={
     Type:"First",
     // aswin 10/24/2021 stop
     Scars:"",
+
+    // gaurav
+    chiefCom:"",
+    occupation:"",
+    Duration:"",
+    Built:"",
+    History:"",
+    Diabetes :"false",
+    HYN: "false",
+    COPD: "false",
+    Cardiac: "false",
+    Medication: "false",
+    Other: "false",
+
+
+
+
+    // 
     Swelling:"no pain",
     Numbness:"no pain",
     PainMeter:0,

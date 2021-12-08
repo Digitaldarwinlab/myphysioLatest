@@ -11,13 +11,32 @@ export const AssesmentAPI = async (details, dispatch) => {
   let AssesmentDetails = {};
   AssesmentDetails["physical_assessement"] = {
     Scars: details.Scars,
+    
+
     Swelling: details.Swelling,
     PainMeter: details.PainMeter,
     RecentHistory: details.RecentHistory,
     Trauma: details.Trauma,
     ScareFile: details.ScareFile,
     TraumaFile: details.TraumaFile,
-    Test: details.Test
+    Test: details.Test,
+    // gaurav
+    chiefCom: details.chiefCom,
+    occupation: details.occupation,
+    Duration: details.Duration,
+    Built: details.Built,
+    History: details.History,
+    Diabetes: details.Diabetes,
+    HYN: details.HYN,
+    COPD: details.COPD,
+    Cardiac: details.Cardiac,
+    Medication: details.Medication,
+    Other: details.Other,
+
+
+
+
+    // 
   };
   AssesmentDetails["questionnaires"] = {
     Symptoms: [

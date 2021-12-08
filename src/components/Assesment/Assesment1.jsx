@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { AiFillMedicineBox } from "react-icons/ai";
-import { Select, Row, Col, Input, Form, Upload, Button,Modal,Space } from 'antd';
+import { Select, Row, Col, Input, Form, Upload, Button, Modal, Space } from 'antd';
 import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
@@ -10,12 +10,12 @@ import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormDate from "../UI/antInputs/FormDate";
 import Body from './Body';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
-{/* aswin 10/25/2021 start */}
+{/* aswin 10/25/2021 start */ }
 import moment from 'moment'
-{/* aswin 10/25/2021 start */}
+{/* aswin 10/25/2021 start */ }
 const { Dragger } = Upload;
 
- var pdfjsLib = window['pdfjs-dist/build/pdf'];
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
 //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
@@ -73,12 +73,12 @@ const Assesment1 = (props1) => {
         location.pathname != '/assesment/Questions' &&
         location.pathname != '/care-plan' &&
         state.FirstAssesment.episode_id != "") {
-          //aswin 11/11/2021 start
-          if(sessionStorage.getItem('submit')){
-            sessionStorage.removeItem('submit')
-            return ;  
-          }
-          //aswin 11/11/2021 stop
+        //aswin 11/11/2021 start
+        if (sessionStorage.getItem('submit')) {
+          sessionStorage.removeItem('submit')
+          return;
+        }
+        //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           return true;
@@ -109,12 +109,12 @@ const Assesment1 = (props1) => {
 
 
 
-    useEffect(()=>{
+  useEffect(() => {
 
     console.log('assesment state is printing')
-console.log(state.FirstAssesment.Type)
+    console.log(state.FirstAssesment.Type)
 
-  },[state.FirstAssesment])
+  }, [state.FirstAssesment])
 
 
 
@@ -126,10 +126,10 @@ console.log(state.FirstAssesment.Type)
       setPhysicalVisibility('none')
   }, [state.FirstAssesment.Type])
 
-  
-{/* aswin 10/25/2021 start */}
+
+  {/* aswin 10/25/2021 start */ }
   const [date, setDate] = useState();
-{/* aswin 10/25/2021 stop */}
+  {/* aswin 10/25/2021 stop */ }
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
@@ -138,7 +138,7 @@ console.log(state.FirstAssesment.Type)
   const [fileType, setFileType] = useState(false);
 
 
- 
+
 
 
   const dummyRequest = ({ file, onSuccess }) => {
@@ -157,7 +157,7 @@ console.log(state.FirstAssesment.Type)
           value: value.dateString
         }
       });
-    }else{
+    } else {
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -183,21 +183,21 @@ console.log(state.FirstAssesment.Type)
 
 
   const changeThumb = (e, thumbnailBox) => {
-   
+
     if (e != undefined) {
       var filein
       var file
       if (e.type == "drop") {
         filein = e.target.value
-     
+
       }
       else {
         filein = e.target.files
       }
-      
+
       console.log(filein)
       setVisibility('block')
-   
+
       for (var i = 0; i < filein.length; i++) {
         if (e.type == "drop") {
           file = filein[i]
@@ -266,19 +266,40 @@ console.log(state.FirstAssesment.Type)
     // console.log('Success:', values);
   };
 
-    console.log('state inassesment')
-    console.log(state)
+  console.log('state inassesment')
+  console.log(state)
   const onFinishFailed = (errorInfo) => {
     // console.log('Failed:', errorInfo);
   };
+  // gaurav 5/12/21
+  const [chief, setChief] = useState();
+
+  const [inputFields, setInputFields] = useState([
+    { Occupation: '', Duration: '' },
+
+  ])
+
+
+  const handleAddFields = () => {
+    setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+
+  }
+
+  const handleRemoveFields = (index) => {
+    const values = [...inputFields];
+    values.splice(index, 1);
+    setInputFields(values);
+  }
+
+
   return (
     <div className="px-2 py-2">
 
       <Form {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        form={form} 
-        // form={form} name="control-hooks"
+        form={form}
+      // form={form} name="control-hooks"
       >
 
         <Row>
@@ -287,13 +308,13 @@ console.log(state.FirstAssesment.Type)
           <Col md={12} lg={12} sm={12} xs={12} >
             <div className="border">
               <p className="ps-1 py-2">
-                <b> Patient Name </b> {state.episodeReducer.patient_name} <br/>
-                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br/>
-               <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
-               {/* aswin 10/25/2021 start */}
-              <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
-              {/* aswin 10/25/2021 stop */}
-              <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
+                <b> Patient Name </b> {state.episodeReducer.patient_name} <br />
+                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br />
+                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
+                {/* aswin 10/25/2021 start */}
+                <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
+                {/* aswin 10/25/2021 stop */}
+                <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
               </p>
             </div>
           </Col>
@@ -321,8 +342,8 @@ console.log(state.FirstAssesment.Type)
                 onChange={(value) => handleChange("Type", value)}
                 value={state.FirstAssesment.Type}
                 defaultValue={state.FirstAssesment.Type}>
-                  {/* aswin 10/24/2021 start */}
-                <Option value="First">{state.FirstAssesment.Type==="First"&&"First Assesment"}</Option>
+                {/* aswin 10/24/2021 start */}
+                <Option value="First">{state.FirstAssesment.Type === "First" && "First Assesment"}</Option>
                 {/* aswin 10/24/2021 start */}
                 <Option value="Periodic">Periodic</Option>
                 <Option value="Consultation">Consultation</Option>
@@ -362,7 +383,178 @@ console.log(state.FirstAssesment.Type)
             </Col>
           </Row>
         </Form>
-        <Form  form={form}  layout="vertical">
+        {/* gaurav 4/12 */}
+        <div className="container-fuild">
+          <div className="row">
+            <div className="col">
+              <h2>Subjective</h2>
+            </div>
+
+          </div>
+
+
+          {inputFields.map((inputFields, index) => (
+            <div key={index}>
+<div className="container">
+              <div className="row">
+                <div className="col">
+                  <h4>Occupation</h4>
+                </div>
+                <div className="col">
+
+
+
+
+                  <select className="form-select"
+                    name="occupation"
+                    aria-label="Default select example"
+
+                    value={state.FirstAssesment.occupation}
+                    onChange={(e) => handleChange("occupation", e.target.value)}
+
+                  >
+                    <option selected>Type</option>
+                    <option value="1">Desk Job</option>
+                    <option value="2">Standing</option>
+                    <option value="3">Field Work</option>
+                  </select>
+
+
+
+
+
+                </div>
+              </div>
+              <div className="row">
+              
+                <h4>Duration</h4>
+                              </div>
+              <div className="row" name="Duration" value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", e.target.value)}>
+                <div className="col form-check-inline"><input type="radio" value="0-8 hours" name="Duration" />0-8 hours</div>
+                <div className="col form-check-inline"><input type="radio" value="0-4 hours" name="Duration" />0-4 hours</div>
+                <div className="col form-check-inline"><input type="radio" value="Above 8 Hours" name="Duration" /> Above 8 Hours</div>
+                <div className="col form-check-inline"><input type="radio" value="Flexible" name="Duration" /> Flexible</div>
+
+
+
+
+
+
+              </div>
+              </div>
+
+            </div>
+          ))
+          }
+
+          <div className="row">
+            <div className="col">
+              <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
+              <button type="button" onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="container-fuild">
+          <div>
+            <h4>Chief Complaint</h4>
+          </div>
+          <div>
+            <input type="text" placeholder="Cheif Complaint"
+              name="chiefCom"
+              value={state.FirstAssesment.chiefCom}
+              onChange={(e) => handleChange("chiefCom", e.target.value)}
+            />
+          </div>
+
+
+        </div>
+
+        <div>
+          <div>  <h4>History Of Presenting Complaint</h4></div>
+          <div className="row" name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
+
+            <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
+            <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
+            <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
+            <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
+
+          </div>
+
+          <div>
+
+          </div>
+        </div>
+
+
+        <div className="container-fuild">
+          <div>  <h4>Past Medical History </h4></div>
+
+
+          <div className="row" name="past_check" >
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
+              <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="HYN" onChange={(e) => handleChange("HYN", e.target.checked)} value={state.FirstAssesment.HYN} />
+              <label class="form-check-label" for="inlineCheckbox2">HYN</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="COPD" onChange={(e) => handleChange("COPD", e.target.checked)} value={state.FirstAssesment.COPD} />
+              <label class="form-check-label" for="inlineCheckbox3">COPD</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="Cardiac" onChange={(e) => handleChange("Cardiac", e.target.checked)} value={state.FirstAssesment.Cardiac} />
+              <label class="form-check-label" for="inlineCheckbox4">Cardiac</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
+              <label class="form-check-label" for="inlineCheckbox5">Medication</label>
+              <input class="mx-5" type="text" placeholder="Medication" />
+            </div>
+
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
+              <label class="form-check-label" for="inlineCheckbox6">Other</label>
+              <input class="mx-5" type="text" placeholder="Other" />
+            </div>
+          </div>
+
+        </div>
+
+        <div className="container">
+          <div className="div">
+            <h4>Built Type</h4>
+          </div>
+
+          {/* <div className="row"> */}
+          <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
+          >
+            <div className="col  form-check-inline">
+              <input type="radio" value="ectomorphic"
+                name="Built"
+              /> Ectomorphic</div>
+            <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
+              name="Built"
+            /> Mesomorphic</div>
+            <div className="col  form-check-inline"><input type="radio" value="endomorphic"
+              name="Built"
+            />Endomorphic</div>
+
+          </div>
+
+          {/* </div> */}
+        </div>
+
+        {/* gaurav */}
+
+
+        <Form form={form} layout="vertical">
           <Row gutter={[10, 10]} className="px-4 py-2">
             <Col md={24} lg={24} sm={24} xs={24} className="mt-2">
               <FormTextArea label="Recent History"
