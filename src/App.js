@@ -39,6 +39,7 @@ import ExerciseDetail from "./PatientComponents/PatientSchedule/ExerciseDetail.j
 import PatientProgress from "./PatientComponents/PatientSchedule/PatientProgress.js";
 import Tempdashboard from "./PatientComponents/Tempdashboard.js";
 import PainAssessment from "./components/Assesment/PainAssessment.jsx";
+import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
@@ -100,6 +101,7 @@ const App = () => {
 							<PrivateRoute exact path="/assessment/1" component={Assesment1} />
 							<PrivateRoute exact path="/assesment/Questions" component={Assesment2} />
 							<PrivateRoute exact path="/assesment/PainAssessment" component={PainAssessment}/>
+							<PrivateRoute exact path="/assesment/SpecialTest" component={SpecialTest}/>
 							<PrivateRoute exact path="/assessment/AI" component={AI} />
 						
 							<PrivateRoute exact path="/ActiveSearch" component={ActiveSearch} />
