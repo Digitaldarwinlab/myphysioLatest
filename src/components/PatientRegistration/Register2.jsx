@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory,Link } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
+import { BASIC_CLEARSTATE, BASIC_CLEARSTATE2, STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
@@ -11,6 +11,7 @@ import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormInput from '../UI/antInputs/FormInput';
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import '../../styles/Layout/Heading.css'
+import { CLEAR_STATE } from '../../contextStore/actions/physioRegAction';
 
 const { Title } = Typography;
 
@@ -87,29 +88,25 @@ const Register2 = (props) => {
     const handleReset = () => {
         if (state.physioRegisterReducer.id) {
             if (window.confirm("Confirm, Do You want to Cancel Update?")) {
-                dispatch({ type: CLEAR_STATE });
+                dispatch({ type: BASIC_CLEARSTATE });
                 if(JSON.parse(localStorage.getItem("user")).role=='patient')
                 {
                     history.push('patient/profile')
                 }
-                else
-                {
-                    history.push("/dashboard");
-                }
+                // else
+                // {
+                //     history.push("/dashboard");
+                // }
               
             }
         } else {
             if (window.confirm("Confirm, Do You want to Reset all fields?")) {
-                dispatch({ type: CLEAR_STATE });
+                dispatch({ type: BASIC_CLEARSTATE2 });
                 form.resetFields()
-                if(JSON.parse(localStorage.getItem("user")).role=='patient')
-                {
-                    history.push('patient/profile')
-                }
-                else
-                {
-                    history.push("/dashboard");
-                }
+                // else
+                // {
+                //     history.push("/dashboard");
+                // }
                
             }
         }
@@ -320,7 +317,7 @@ const Register2 = (props) => {
 
                 </div>
                 <Row justify="end" className="text-end">
-                    <Col >    <Button size="large" className="my-3 me-2 " onClick={handleReset} style={{borderRadius:'10px'}} >Cancel</Button></Col>
+                    <Col >    <Button size="large" className="my-3 me-2 " onClick={handleReset} style={{borderRadius:'10px'}} >Reset</Button></Col>
                     
                     <Col>
                       <Button size="large" className="my-3  me-2" style={{backgroundColor:'#41A0A2',borderRadius:'10px'}} onClick={Back}>Back</Button>

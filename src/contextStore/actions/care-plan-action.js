@@ -9,3 +9,5 @@ export const CARE_PLAN_POST_DATA = "carePlanPostData";
 export const CARE_PLAN_SUCCESS = "carePlanTimeSuccess";
 export const CARE_PLAN_FAILURE = "carePlanTimeFailure";
 export const CARE_PLAN_CLEAR_STATE = "carePlanClearState";
+export const CARE_PLAN_ADD_TO_CART = "carePlanAddToCart";
+export const CARE_PLAN_REMOVE_FROM_CART = "carePlanRemoveFromCart";

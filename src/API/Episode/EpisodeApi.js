@@ -54,8 +54,8 @@ export const EpisodeApi = async (details, dispatch) => {
     // aswin 10/16/2021 //
       let formdata = new FormData();
  
-    formdata.append("treating_doc_details",JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID }))
-    formdata.append("PP_Patient_Details",JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no }))
+    formdata.append("treating_doc_details",{ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
+    formdata.append("PP_Patient_Details",{ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no })
     formdata.append("pp_pm_id",parseInt(details.patient_code))
     formdata.append("Operative_Types",details.Operative_Types)
     formdata.append("primary_complaint",details.complaint)

@@ -90,6 +90,14 @@ const PhysioRegisteration1 = (props) => {
                 }, 10000);
             }
         }
+        else if (key === "landline") {
+            error = validation.checkLandNoValidation(e.target.value)
+            if (error.error)
+            dispatch({ type: VALIDATION, payload: { error: "Landline " + error.error } });
+            setTimeout(() => {
+            dispatch({ type: VALIDATION, payload: { error: "" } });
+        }, 10000);
+       }
     }
     const handleReset = () => {
         if (state.physioRegisterReducer.id) {
@@ -112,12 +120,16 @@ const PhysioRegisteration1 = (props) => {
         let data = state.physioRegisterReducer;
         if (validation.checkNameValidation(data.first_name).error) {
             dispatch({ type: VALIDATION, payload: { error: "First " + validation.checkNameValidation(data.first_name).error } });
-        } else if (validation.checkNameValidation(data.last_name).error) {
+        } else if (validation.checkNameValidation(data.middle_name).error) {
+            dispatch({ type: VALIDATION, payload: { error: "Middle " + validation.checkNameValidation(data.middle_name).error } });
+        }else if (validation.checkNameValidation(data.last_name).error) {
             dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
         } else if (validation.checkMobNoValidation(data.mobile_no).error) {
             dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
         } else if (validation.checkMobNoValidation(data.whatsapp_no).error) {
             dispatch({ type: VALIDATION, payload: { error: "Whatsapp " + validation.checkMobNoValidation(data.whatsapp_no).error } });
+        } else if (validation.checkLandNoValidation(data.landline).error) {
+            dispatch({ type: VALIDATION, payload: { error: "Landline " + validation.checkLandNoValidation(data.landline).error } });
         } else {
             const checkError = state.Validation.error;
             if (checkError) {
@@ -211,6 +223,7 @@ const PhysioRegisteration1 = (props) => {
                                 placeholder="Enter Physio Landline Number"
                                 required={false}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 defaultValue={state.physioRegisterReducer.landline === "NULL" ? "" : state.physioRegisterReducer.landline}
                             />
                         </Col>

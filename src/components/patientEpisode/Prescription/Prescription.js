@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react";
-import { Form, Select, Button, Row, Col ,Slider} from "antd";
+import React, {useEffect, useRef, useState } from "react";
+import { Form, Select, Button, Row, Col ,Slider, Input} from "antd";
 import FormInput from '../../UI/antInputs/FormInput';
 import FormDate from '../../UI/antInputs/FormDate';
 import FormTextArea from '../../UI/antInputs/FormTextArea';
@@ -242,105 +242,14 @@ console.log(state.labsAndMedicRedu)
         return <h4 className="border px-2 py-2 mt-2 mb-2">{value}</h4>
     }
     //Medication Form
-   
-    const MedicationComp = (props) => {
-        const marks = {
-            1: '1-OD',
-            2: '2-BD',
-            3: '3-TD',
-            4: '4QD'
-          }
-        return (
-            <Row key={props.key} className="border PrescriptionsMain px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
-                <Col xs={24} sm={24} lg={10} xl={10}>
-                    <FormInput
-                         className="input-field"
-                        rules={[{ required: true, message: `Please Select Medication.` }]}
-                        label="Medication"
-                        name={"medication" + props.index}     
-                        onChange={(name, value, index) => console.log("")}                    
-                            onBlur={(value) => { handleChange("medication", value.target.value, props.index) }}
-                            placeholder="select medication"
-                            index={props.index}
-                        required={true}
 
-                            >
-                            
-                    </FormInput>
-                </Col>
-                <Col style={{position:'relative',top:'5px'}} xs={24} sm={24} lg={4} xl={4}>
-                  <span>Medications Per Days</span>
-                <Slider
-               
-                    min={1}
-                    max={4}
-                    name={"no_of_medications"+props.index} 
-            
-                    marks={marks}
-                    onChange={(e)=>handleChange('no_of_medications',e,props.index)}
-                    value={state.labsAndMedicRedu.medicationList[0].no_of_medications}
-                    className="p-1"
-                    style={{position:'relative'}}
-                    />
-                </Col>
-                <Col xs={24} sm={24} lg={10} xl={10}>
-                    <FormInput
-                        label="Instructions"
-                         className="input-field"
-                        placeholder="Note"
-                        name={"instructions" + props.index}
-                        value={state.labsAndMedicRedu.medicationList[props.index].instructions}
-                        onChange={(name, value, index) => console.log("")}
-                        onBlur={(e) => handleChange("instructions", e.target.value, props.index)}
-                        index={props.index}
-                        required={true}
-                    />
-                </Col>
-                <Col md={24} lg={12} sm={24} xs={24}>
-                    <FormTextArea
-                        required={true}
-                        label="Notes"
-                        name={"medic_notes" + props.index}
-                        value={state.labsAndMedicRedu.medicationList[props.index].medic_notes}
-                        onChange={(name, value, index) => console.log("")}
-                        onBlur={(e) => handleChange("medic_notes", e.target.value, props.index)}
-                        index={props.index}
-                    />
-                </Col>
-            </Row>
-        )
-    }
+    const marks = {
+        1: '1-OD',
+        2: '2-BD',
+        3: '3-TD',
+        4: '4QD'
+      }
 
-    //Labs Form
-    const Labs = (props) => {
-        return (
-            <Row key={props.key} className="border px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
-                <Col md={24} lg={12} sm={24} xs={24}>
-                    <FormInput
-                        label="Path"
-                        placeholder=""
-                        name={"path" + props.index}
-                        value={state.labsAndMedicRedu.labsList[props.index].path}
-                        onChange={(name, value, index) => console.log("")}
-                        onBlur={(e) => handleChange("path", e.target.value, props.index)}
-                        required={true}
-                    />
-                </Col>
-                <Col md={24} lg={12} sm={24} xs={24}>
-                    <FormInput
-                        label="Radiology"
-                        placeholder=""
-                        name={"radiology" + props.index}
-                        value={state.labsAndMedicRedu.labsList[props.index].radiology}
-                        onChange={(name, value, index) => console.log("")}
-                        onBlur={(e) => handleChange("radiology", e.target.value, props.index)}
-                        index={props.index}
-                        required={true}
-                    />
-                </Col>
-            </Row>
-        )
-    }
 
  
     //Medication form increase handler
@@ -366,7 +275,7 @@ console.log(state.labsAndMedicRedu)
                 <Button type="primary" className="me-1 btncolor" shape="circle" onClick={props.Increase}>
                     +
                 </Button>
-                <Button type="primary" className="btncolor" shape="circle" onClick={props.Decrease}>
+                <Button type="primary" disabled={props.length===1&&true} className="btncolor" shape="circle" onClick={props.Decrease}>
                     -
                 </Button>
             </Row>
@@ -429,24 +338,114 @@ console.log(state.labsAndMedicRedu)
                     </Col>
                 </Row>
                 {state.labsAndMedicRedu.medicationList.map((value, index) => {
-                    return <MedicationComp key={value.id} index={index} />
+                    return (
+                        <Row key={index} className="border PrescriptionsMain px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
+                        <Col xs={24} sm={24} lg={10} xl={10}>
+                            <FormInput
+                                 className="input-field"
+                                rules={[{ required: true, message: `Please Select Medication.` }]}
+                                label="Medication"
+                                ref={(input) => {input && input.focus() }}
+                                value={state.labsAndMedicRedu.medicationList[index].medication}   
+                                name={"medication" + index}
+                                //onChange={(name, value, index) => console.log("")}
+                                onChange={(name, value, index)=>handleChange("medication",value,index)}
+                                    placeholder="select medication"
+                                    index={index}
+                                required={true}
+        
+                                    >
+                                    
+                            </FormInput>
+                        </Col>
+                        <Col style={{position:'relative',top:'5px'}} xs={24} sm={24} lg={4} xl={4}>
+                          <span>Medications Per Days</span>
+                        <Slider
+                       
+                            min={1}
+                            max={4}
+                            name={"no_of_medications"+index} 
+                    
+                            marks={marks}
+                            onChange={(e)=>handleChange('no_of_medications',e,index)}
+                            value={state.labsAndMedicRedu.medicationList[index].no_of_medications}
+                            className="p-1"
+                            style={{position:'relative'}}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} lg={10} xl={10}>
+                            <FormInput
+                                label="Instructions"
+                                 className="input-field"
+                                placeholder="Note"
+                                name={"instructions" + index}
+                                value={state.labsAndMedicRedu.medicationList[index].instructions}
+                               // onChange={(name, value, index) => console.log("")}
+                                onChange={(name, value, index) => handleChange("instructions", value, index)}
+                                index={index}
+                                required={true}
+                            />
+                        </Col>
+                        <Col span={24}>
+                            <FormTextArea
+                                required={true}
+                                label="Notes"
+                                name={"medic_notes" + index}
+                                value={state.labsAndMedicRedu.medicationList[index].medic_notes}
+                               // onChange={(name, value, index) => console.log("")}
+                                onChange={(name, value, indx) => handleChange("medic_notes", value, index)}
+                                index={index}
+                            />
+                        </Col>
+                    </Row>
+                    )
+                    // <MedicationComp val={value} index={index} />
                 })}
 
                 {
                     state.labsAndMedicRedu.medicationList.length > 0 && (
                         <ButtonComponent
                             Increase={MedicationIncrease}
+                            length={state.labsAndMedicRedu.medicationList.length}
                             Decrease={MedicationDecrease} />
                     )}
                 {Headline("Labs")}
 
                 {state.labsAndMedicRedu.labsList.map((value, index) => {
-                    return <Labs key={value.id} index={index} />
+                    return (
+                        <Row key={index} className="border px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
+                            <Col span={24}>
+                                <FormInput
+                                    label="Path"
+                                    placeholder=""
+                                    name={"path" + index}
+                                    value={state.labsAndMedicRedu.labsList[index].path}
+                                   // onChange={(name, value, index) => console.log("")}
+                                    onChange={(name, value, indx)=>handleChange("path",value,index)}
+                                    required={true}
+                                />
+                            </Col>
+                            <Col span={24}>
+                                <FormInput
+                                    label="Radiology"
+                                    placeholder=""
+                                    name={"radiology" + index}
+                                    value={state.labsAndMedicRedu.labsList[index].radiology}
+                                   // onChange={(name, value, index) => console.log("")}
+                                    onChange={(name, value, indx)=>handleChange("radiology",value,index)}
+                                    index={index}
+                                    required={true}
+                                />
+                            </Col>
+                        </Row>
+                    )
+                    //<Labs key={value.id} index={index} />
                 })}
                 {
                     state.labsAndMedicRedu.labsList.length > 0 && (
                         <ButtonComponent
                             Increase={LabsIncrease}
+                            length={state.labsAndMedicRedu.labsList.length}
                             Decrease={LabsDecrease} />
                     )}
                 <Row gutter={[20,20]} style={{marginBottom:'15px'}}>

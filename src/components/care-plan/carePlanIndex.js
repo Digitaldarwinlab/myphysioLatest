@@ -10,7 +10,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
 import { GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
 import { useSelector, useDispatch } from 'react-redux';
-import { CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from './care-plan-allocate-plan/CareAllocatePlan';
 import ActiveSearch from './../UtilityComponents/ActiveSearch';
@@ -20,6 +20,7 @@ import { Patient_profile } from "../../API/PatientRegistration/Patient";
 import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 {/*  aswin 10/22/2021 start */}
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
+import Error from "../UtilityComponents/ErrorHandler";
 {/*  aswin 10/22/2021 stop */}
 
 const { TabPane } = Tabs;
@@ -273,64 +274,40 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const [visible, setVisible] = useState(false);
     const [length, setLength] = useState(0);
     const [allocatePlan, setAllocatePlan] = useState(false);
-    // aswin 10/30/2021 start 
+    // aswin 11/19/2021 start 
     const checkEpisodeId = async () => {
         if(reduxState.carePlanRedcucer.patient_code){
             const res = await getEpisode(reduxState.carePlanRedcucer.patient_code)
-            if(res.length>0){
-                if(res[0].end_date.length===0){
-                    return 'true';
-                }
-                notification.warning({
-                    message: "Patient don't have an open episode",
-                    placement: 'topRight',
-                    duration: 10,
-                    key:1,
-                    style: {
-                        marginTop: '10vh',
-                      },
-                    btn:<Button size="small" onClick={() => {
-                        history.push('/add-episode') 
-                        notification.close(1)
-                      }}>
-                      Add-episode
-                    </Button>,
-                })
-                return false;
-            }else{
-                notification.warning({
-                    message: "Patient don't have an open episode",
-                    placement: 'topRight',
-                    duration: 10,
-                    key:1,
-                    style: {
-                        marginTop: '10vh',
-                      },
-                    btn:<Button size="small" onClick={() => {
-                        history.push('/add-episode') 
-                        notification.close(1)
-                      }}>
-                      Add-episode
-                    </Button>,
-                })
+            if(res.length===0){
+                dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an episode" });
+                setTimeout(() => {
+                    dispatch({type:"NOERROR"})
+                }, 5000);
+                return ;
             }
-           // message.error("Patient don't have an open episode");
-          //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+            if(res[0].end_date.length!==0){
+                dispatch({ type: "EPISODE_CHECK", payload: "patient don't have open an episode"  });
+                setTimeout(() => {
+                    dispatch({type:"NOERROR"})
+                }, 5000); 
+                return ;
+            }
+            return true;
         }else{
-            notification.warning({
-                message: "Please select a patient",
-                placement: 'bottomLeft',
-                duration: 5,
-                style:'margin-top:20px'
-            });
-            return false;
-        }
+            dispatch({ type: "EPISODE_CHECK", payload: "patient select a patient" });
+            setTimeout(() => {
+                dispatch({type:"NOERROR"})
+            }, 5000);
+        } 
     }
     useEffect(() => {
         checkEpisodeId()
+        dispatch({type:"NOERROR"})
     }, [reduxState.carePlanRedcucer.patient_code])
-
-// aswin 10/30/2021 stop
+    useEffect(() => {
+        dispatch({type:"NOERROR"})
+    }, [])
+// aswin 11/19/2021 stop
     //Checked List to Filter
     const [checkedList, setCheckedList] = useState({
         muscels: [],
@@ -477,7 +454,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 </Col>
                 {/* aswin start 10/30/2021 start */}
                 <Col className="text-center cart-plan" onClick={async() => { 
-                    await checkEpisodeId() == 'true' && setState(!state)
+                    await checkEpisodeId() == true && setState(!state)
 
                     }}>
                         {/* aswin start 10/30/2021 stop */}
@@ -534,7 +511,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return (
             <Row style={{ minHeight: "150px" }} className="m-1 px-1 py-1">
                 {/*  aswin 10/22/2021 start */}
-                <Col span={24} className="text-center">Episode ({profiledetail.patientName})</Col>
+                <Col span={24} className="text-center">Episode ({reduxState.carePlanRedcucer.patient_name})</Col>
                 <Col span={24} className="text-center mt-2">
                   
                 </Col>
@@ -560,8 +537,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 <p><strong> Patient Name : </strong>{reduxState.carePlanRedcucer.patient_name}</p>
                 <p><strong> Patient Code : </strong>{reduxState.carePlanRedcucer.patient_main_code}</p>
             <p><strong> Episode No:  </strong>{reduxState.carePlanRedcucer.episode_number }</p>
-            <p> <strong>Start Date : </strong> {reduxState.carePlanRedcucer.startDate?reduxState.carePlanRedcucer.startDate:'no episode'}</p>
-            <p> <strong>Primary Complaint:  </strong>{reduxState.carePlanRedcucer.complaint}</p>
+            <p> <strong>Start Date : </strong> {reduxState.carePlanRedcucer.episode_start_date&&reduxState.carePlanRedcucer.episode_start_date||reduxState.carePlanRedcucer.startDate}</p>
+            <p> <strong>Episode Type:  </strong>{reduxState.carePlanRedcucer.complaint}</p>
             {/* aswin start 10/30/2021 start */}
         </>
         {/*  aswin 10/22/2021 stop */}
@@ -570,7 +547,17 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         )
     }
     //UpdateCart 
+    const [basket, setBasket] = useState([])
     const UpdateCart = (id) => {
+        console.log('id is ',id)
+        console.log('id Exerciselist is ',Exerciselist)
+        const check = Exerciselist.filter(it=>it.ex_em_id===id)
+       // setBasket([...basket,...check])
+        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check})
+        console.log('basket id list ',basket)
+        console.log('id with id check rsult',check)
+        const isExist = basket.map(it=>it.ex_em_id===id)
+        console.log('id check exist',isExist)
         const data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         if (!data) {
             data.push(id);
@@ -725,7 +712,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     }}
                     role="button"></i>
                 {" "}<span  className="CarePlanTitle ml-1"> Care Plan </span>
+
             </h3>
+            {reduxState.Validation.episode_check==='failed'&&<Error error={reduxState.Validation.msg} />}
+
             <div className="CarePlan">
             {(!allocatePlan && searchBar) && (
                 <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}

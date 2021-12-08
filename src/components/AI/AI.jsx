@@ -15,11 +15,11 @@ import './Ai.css'
 
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const labels = ['L Shoulder (v)', 'R Shoulder (v)'
+const labels = ['L Shoulder', 'R Shoulder'
     , 'L Elbow', 'R Elbow',
     'L Hip', 'R Hip',
     'L Knee', 'R Knee',
-    'L Shoulder (h)', 'R Shoulder (h)',
+    'L Neck', 'R Neck',
     'L Pelvic', 'R Pelvic'
 ];
 
@@ -64,7 +64,7 @@ class AI extends Component {
         console.log(this.props.history.location)
        
         
-        
+        //aswin 11/27/2021 start
         this.state = {
             ExcerciseName: preveState,
             ExcerciseIndices: preIndices,
@@ -80,21 +80,22 @@ class AI extends Component {
             data:[],
             patienId: '56',
             exerciseId: this.props.history.location.exerciseId,
-            arrayIndex:0
+            arrayIndex:0,
+            primaryExercise:this.props.history.location.state.exercisePrimary
         };
 
-        window.darwin.setExcersiseParams({
-            "name": preveState,
-            "primaryKeypoint": 0,
-            "angles": this.state.PreKey,
-            "dir": 1,
-            "minAmp": 30,
-            "primaryAngles": [3, 2],
-            "ROMs": [[30, 160], [30, 160]],
-            "totalReps": 3,
-            "totalSets": 2
-        });
-
+        // window.darwin.setExcersiseParams({
+        //     "name": preveState,
+        //     "primaryKeypoint": 0,
+        //     "angles": this.state.PreKey,
+        //     "dir": 1,
+        //     "minAmp": 30,
+        //     "primaryAngles": [3, 2],
+        //     "ROMs": [[30, 160], [30, 160]],
+        //     "totalReps": 3,
+        //     "totalSets": 2
+        // });
+        //aswin 11/27/2021 start
         this.innerHTML2 = this.innerHTML2.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this)
@@ -288,6 +289,7 @@ class AI extends Component {
         data = window.darwin.getAssesmentData();
         this.setState({ SWITCH: false })
         this.setState({ BACK: false })
+        this.setState({ start_stop: false });
         if (!Object.keys(data).length) {
             notification.error({
                 message: 'Angles not calculated',
@@ -314,7 +316,7 @@ class AI extends Component {
 
     reset = () => {
         console.log("From Reset")
-        this.setState({ start_stop: !this.state.start_stop });
+        this.setState({ start_stop: false });
         this.setState({ SWITCH: false })
         window.darwin.stop();
         window.darwin.resetData();
@@ -369,7 +371,40 @@ class AI extends Component {
     }
 
     ExChanges = (e) => {
-
+        //aswin 11/27/2021 start
+        console.log("value is ",e.target.value)
+        console.log("initial value ",  this.state.PreKey)
+        console.log("exercise passed are ",this.state.primaryExercise)
+        let priArr
+        this.state.primaryExercise.map(ex=>{
+            if(ex.exercise_shortname==e.target.value){
+                priArr = ex.primary_angles
+            }
+        })
+        console.log("primary  ",priArr)
+        console.log("angles ",priArr)
+        const primaryAnglesValue = []
+        joints.map(jo=>{
+           priArr.map(pr=>{
+               if(pr===jo.label){
+                primaryAnglesValue.push(jo.value)
+               }
+           })
+        })
+        console.log("primaryAnglesValue ",primaryAnglesValue)
+        window.darwin.setExcersiseParams({
+            "name": this.state.ExcerciseName,
+            "primaryKeypoint": 0,
+            "angles": this.state.PreKey,
+            "dir": 1,
+            "minAmp": 30,
+            "primaryAngles": primaryAnglesValue,
+            "ROMs": [[30, 160], [30, 160]],
+            "totalReps": 3,
+            "totalSets": 2
+        });
+        //aswin 11/27/2021 start
+        
         fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
             method: "POST",
             headers: {

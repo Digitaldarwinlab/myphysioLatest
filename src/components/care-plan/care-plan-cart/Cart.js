@@ -72,18 +72,31 @@ export default function Cart({
       });
 
 console.log(Joints)
+//aswin 11/27/2021 start
+console.log("Excercise are ",Exercise)
+console.log("all selected Excercise are ",allExcercise)
+let exercisePrimary = []
+const newEx = await Exercise.filter(async(ex)=>{
+  allExcercise.filter(element=>{
+    if(ex.title===element){
+      exercisePrimary.push(ex)
+    }
+  })
+})
+console.log("sorted array " ,exercisePrimary)
       history.push({
         pathname: "/assessment/AI",
         state: {
           Excercise: allExcercise,
           Joints: Joints,
-          stateName :state.carePlanRedcucer
+          stateName :state.carePlanRedcucer,
+          exercisePrimary : exercisePrimary
         },
       });
     };
     ExcerJoints();
   };
-
+//aswin 11/27/2021 start
   const RomAssesment = (excer) => {
     const ExcerJoints = async () => {
       const res = await fetch(

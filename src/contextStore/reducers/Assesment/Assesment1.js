@@ -17,18 +17,43 @@ const FirstAssesmentIniState ={
     EspiStart:"",
     joint1score:10,
     joint2score:20,
-    ScareFile:"",
+    ScareFile:[],
     TraumaFile:"",
     // aswin 10/24/2021 start
     Type:"First",
     // aswin 10/24/2021 stop
     Scars:"",
-    Swelling:"",
-    Numbness:"",
-    PainMeter:"",
+
+    // gaurav
+    chiefCom:"",
+    occupation:"",
+    Duration:"",
+    Built:"",
+    History:"",
+    Diabetes :"false",
+    HYN: "false",
+    COPD: "false",
+    Cardiac: "false",
+    Medication: "false",
+    Other: "false",
+
+
+
+
+    // 
+    Swelling:"no pain",
+    Numbness:"no pain",
+    PainMeter:0,
     RecentHistory:"",
     Trauma:"",
     Test:"",
+    nature_of_pain:{},
+    pain_scale:1,
+    pain_aggravating:{},
+    pain_relieving:{},
+    superficial:'',
+    deep:'',
+    cortial:'',
     Symptoms:{score:[],question:[],answer:[]},
     Stiffness:{score:[],question:[],answer:[]},
     pain:{score:[],question:[],answer:[]},

@@ -31,15 +31,15 @@ import { getEpisodeDetails } from '../../care-plan/carePlanIndex'
 const { Option } = Select;
 const Tempdashboard=({viewstate})=>{
   console.log('stateee comeeddd is')
-  console.log(viewstate)
+  console.log(viewstate) 
     var doc = new jsPDF();
    
         const [date,Setdate]=useState('20-09-2021')
         const [graphview,Setgraphview]=useState(true)
-        const[minmaxgraphdata,Setminmaxgraphdata]=useState(data_vertical_bar)
+        const[minmaxgraphdata,Setminmaxgraphdata]=useState([])
         const [koosgraphdata,Setkoosgraphdata]=useState(bar_data)
         const [exercisecompletiondata,Setexercisecompletiondata]=useState(pie_data1)
-        const [setcompletionratedata,Setsetcompletionratedata]=useState(data_vertical_bar2)
+        const [setcompletionratedata,Setsetcompletionratedata]=useState(line2_data)//vertical 2
         const [targetminmaxdata,Settargetminmaxdata]=useState(line1_data)
         const [accuracygraphdata,Setaccuracygraphdata]=useState(line2_data)
         const [selectedexercise1,Setselectedexercise]=useState(0)
@@ -50,12 +50,38 @@ const Tempdashboard=({viewstate})=>{
         useEffect( async()=>{
             const data=await get_progress(state.patient_code)
             console.log('data  progress')
-            console.log(data)
+            console.log("new ",data.data_vertical_bar)
+            data.data_vertical_bar.map(obj=>{
+              if(obj.Joints === "Left Shoulder(ver)"){
+                obj.Joints ="LeftShoulder"
+              }
+              if(obj.Joints === "Right Shoulder(ver)" ){
+                obj.Joints ="RightShoulder"
+              }
+              obj.max = obj.max.toFixed(0)
+              obj.min = obj.min.toFixed(0)
+            })
+            data.data_line.map((obj)=>{
+              if(obj.id=='Target_Max'){
+                obj.id="Target Max"
+              }else if(obj.id=='Target_Min'){
+                obj.id = "Target Min"
+              }else if(obj.id=='current_Max'){
+                obj.id = "current Max"
+              }else if(obj.id=='current_Min'){
+                obj.id = "current Min"
+              }
+            })
+            Settargetminmaxdata(data.data_line)
+            
+            Setminmaxgraphdata(data.data_vertical_bar)
             SetfinalData(data)
+            console.log("find 1 ",data.data_vertical_bar2)
+            Setsetcompletionratedata(data.data_vertical_bar2)
             console.log('episode aaingg')
             console.log(state)
 
-        })
+        },[state.patient_code])
 
      
         const dataSourcejpint =minmaxgraphdata.map((item,index)=>{
@@ -409,7 +435,7 @@ const Tempdashboard=({viewstate})=>{
                         {
                             graphview?
 
-                            <Line data={accuracygraphdata} 
+                            <Line data={data_line} 
                         min={40} max={190}
                         ylegend={"Angles"}/>
                     :

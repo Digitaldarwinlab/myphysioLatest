@@ -624,12 +624,12 @@ const AssessmentList = ({assesmentClick}) => {
                                     <h4 className="p-2">Questionnaire </h4>
                                     <Descriptions bordered>
                                      <Descriptions.Item label="Index">{index}</Descriptions.Item> 
-                                        <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3]}</Descriptions.Item>
-                                        <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3]}</Descriptions.Item>
-                                        <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3]}</Descriptions.Item>
-                                        <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3]}</Descriptions.Item>
-                                        <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3]}</Descriptions.Item>
-                                        <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3]}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3]&&data.questionnaires.Symptoms[3].toFixed(0)}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3]&&data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3]&&data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3]&&data.questionnaires.DailyLiving[3].toFixed(0)}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3]&&data.questionnaires.Sports[3].toFixed(0)}</Descriptions.Item>
+                                        <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3]&&data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item>
                                     </Descriptions>
                                 </Col>
                             </Row>

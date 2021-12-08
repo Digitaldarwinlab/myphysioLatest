@@ -228,7 +228,8 @@ const Appointments = () => {
                         dataField: "episode",
                         isRequired: true,
                         editorType: "dxAutocomplete",
-                        visible: !UpdationForm,
+                        //visible: !UpdationForm,
+                        visible: true,
                         editorOptions: {
                             placeholder: "Episode..",
                             value: episodeName,
@@ -386,7 +387,7 @@ const Appointments = () => {
                     }, {
                         colCountByScreen: { lg: 3, xs: 3 },
                         itemType: "group",
-                        visible: !UpdationForm,
+                        visible:true,
                         items: [{
                             cssClass: "dx-appointment-form-switch",
                             colSpan: 2,
@@ -447,10 +448,13 @@ const Appointments = () => {
         else
             data.popup.option("toolbarItems[0].options.text", "Submit");
     }
-    //method for adding visit
+     //method for adding visit
     const onAppointmentAdded = async (e) => {
     //   console.log('add app')
         setLoading(true);
+        if(e.appointmentData.location!=='Video Conference'){
+            e.appointmentData.video_link=''
+        }
         const result = await AddVisit(e.appointmentData);
         setLoading(false);
         if (result && result[0]) {
@@ -462,23 +466,27 @@ const Appointments = () => {
         }
         
     }
-    //method for updating visit
-    const onAppointmentUpdated = async (e) => {
-       // console.log('update app')
-      //  console.log(e)
-        setLoading(true);
-        const result = await UpdateVisit(e.appointmentData);
-        setLoading(false);
-        if (result && result[0]) {
-            setSuccess("Visit Updated Successfully.");
-              
-            window.location.reload();
-        } else {
-          
-            setError(result[1]);
-        }
-        // e.component.getDataSource().reload();
-    }
+     //method for updating visit
+     const onAppointmentUpdated = async (e) => {
+        // console.log('update app')
+       //  console.log(e)
+       setLoading(true);
+       if(e.appointmentData.id){
+         const result = await UpdateVisit(e.appointmentData);
+         setLoading(false);
+         if (result && result[0]) {
+             setSuccess("Visit Updated Successfully.");
+               
+             window.location.reload();
+         } else {
+           
+             setError(result[1]);
+         }
+       }else{
+           onAppointmentAdded(e)
+       }
+         // e.component.getDataSource().reload();
+     }
 
     const onContentReady = (e) => {
         setSchedular(e.component);
@@ -533,7 +541,7 @@ const Appointments = () => {
                         onAppointmentFormOpening={onAppointFormOpening}
                         appointmentTooltipComponent={AppointmentTooltip}
                         onAppointmentAdded={onAppointmentAdded}
-                        onAppointmentUpdated={onAppointmentAdded}
+                        onAppointmentUpdated={onAppointmentUpdated}
                         adaptivityEnabled={visible}
                         recurrenceRuleExpr="recurrenceRule"
                         useDropDownViewSwitcher={visible}

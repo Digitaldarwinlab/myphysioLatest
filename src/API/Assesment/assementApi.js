@@ -11,13 +11,32 @@ export const AssesmentAPI = async (details, dispatch) => {
   let AssesmentDetails = {};
   AssesmentDetails["physical_assessement"] = {
     Scars: details.Scars,
+    
+
     Swelling: details.Swelling,
     PainMeter: details.PainMeter,
     RecentHistory: details.RecentHistory,
     Trauma: details.Trauma,
     ScareFile: details.ScareFile,
     TraumaFile: details.TraumaFile,
-    Test: details.Test
+    Test: details.Test,
+    // gaurav
+    chiefCom: details.chiefCom,
+    occupation: details.occupation,
+    Duration: details.Duration,
+    Built: details.Built,
+    History: details.History,
+    Diabetes: details.Diabetes,
+    HYN: details.HYN,
+    COPD: details.COPD,
+    Cardiac: details.Cardiac,
+    Medication: details.Medication,
+    Other: details.Other,
+
+
+
+
+    // 
   };
   AssesmentDetails["questionnaires"] = {
     Symptoms: [
@@ -57,6 +76,11 @@ export const AssesmentAPI = async (details, dispatch) => {
       details.KOOS[5],
     ],
   };
+  let sensory_input = {
+    superficial:details.superficial,
+    deep:details.deep,
+    cortial:details.cortial
+  }
   AssesmentDetails["pp_ed_id"] = details.episode_id;
   AssesmentDetails["joint1score"] = details.joint1score;
   AssesmentDetails["joint2score"] = details.joint2score;
@@ -64,7 +88,11 @@ export const AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails["AI_data"] = details.AI_data;
   AssesmentDetails["Exercise_Name"] = details.Exercise_Name;
   AssesmentDetails['Numbmess']=details.Numbness
-  
+  AssesmentDetails['pain_scale']=details.pain_scale;
+  AssesmentDetails['nature_of_pain']=details.nature_of_pain;
+  AssesmentDetails['pain_aggravating']=details.pain_aggravating;
+  AssesmentDetails['pain_relieving']=details.pain_relieving;
+  AssesmentDetails['sensory_input'] = sensory_input;
   const headers = {
     Accept: "application/json",
     "Content-type": "application/json",
