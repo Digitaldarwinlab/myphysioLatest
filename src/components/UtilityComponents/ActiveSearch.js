@@ -146,9 +146,9 @@ const ActiveSearch = (props) => {
         setSuggestions([]);
     }
     return (
-        <div className=" mb-4">
+        <div className="mb-4">
             <BsSearch style={{position:'absolute',top:'13px',left:'5px'}} />
-            <input type="text"  value={text} className="w-100 px-4 py-2 input-field "
+            <input type="text"  value={text} className="px-4 py-2 input-field "
                 placeholder=" Search Patients.."
                 onChange={e => handleChange(e.target.value)}
                 value={inputtextvalue}

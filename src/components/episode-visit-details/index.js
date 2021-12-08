@@ -224,13 +224,13 @@ const EpisodeVisitDetails = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col lg={18} md={14} sm={14} xs={24}>
-                        <h1 className="page-heading">
+                        <h3 className="page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                                 onClick={() => { history.goBack() }}
                                 title="Go Back"
                                 role="button"></i>
                              <b> Patient</b>
-                        </h1>
+                        </h3>
                     </Col>
                     <Col lg={6} md={10} sm={10} xs={24}>
                         <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} />
@@ -338,7 +338,7 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Exerside Detail</div>
+                            <div className="fw-bold ant-tabs-btn">Exercise Detail</div>
                         }
                         key="8"
                     >

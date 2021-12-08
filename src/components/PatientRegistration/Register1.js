@@ -210,10 +210,10 @@ const Register1 = (props) => {
             <div style={{ minHeight: "20px" }}></div>
             <Row>
 
-                <Col lg={22} md={22} sm={24} xs={24}>
-                <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role=='patient' ? 'Update Profile' : 'Patient' }</b></h1>
+                <Col lg={20} md={20} sm={24} xs={24}>
+                <h3 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role=='patient' ? 'Update Profile' : 'Patient' }</b></h3>
                 </Col>
-                <Col lg={2} md={2} sm={24} xs={24}>
+                <Col lg={4} md={4} sm={24} xs={24} className="text-right" justify="right">
                     {
                         JSON.parse(localStorage.getItem("user")).role=='patient' ?
                         null
@@ -228,14 +228,14 @@ const Register1 = (props) => {
                 </Col>
             </Row>
             <StepBar src={svg} />
-            <Title level={3} className="border mb-0 p-2">Basic Information</Title>
+            <Title level={4} className="border mb-0 p-2">Basic Information</Title>
 
             <Form className="BasicInformation" onFinish={onFinish} style={{marginTop:'2%'}} layout="vertical" onFinishFailed={onFinishFailed} form={form} name="control-hooks">
                 <div className="border p-4 mb-4">
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'First Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'First Name'}</span>}
                                 name="FirstName"
                                 className="input-field w-100 text-capitalize"
                                 value={state.BasicDetails.FirstName}
@@ -248,7 +248,7 @@ const Register1 = (props) => {
 
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Middle Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Middle Name'}</span>}
                                 name="MiddleName"
                                 className="input-field w-100"
                                 value={state.BasicDetails.MiddleName}
@@ -260,7 +260,7 @@ const Register1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Last Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Last Name'}</span>}
                                 name="LastName"
                                 className="input-field w-100"
                                 value={state.BasicDetails.LastName}
@@ -276,7 +276,7 @@ const Register1 = (props) => {
                     <Row gutter={[20, 20]} className="pt-4">
                         <Col md={12} lg={8} sm={24} xs={24}>
 
-                            <FormDate label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'DOB'}</span>}
+                            <FormDate label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'DOB'}</span>}
                                 name="DOB"
                                 reverse="true"
                                 className="input-field w-100"
@@ -288,7 +288,7 @@ const Register1 = (props) => {
                             />
                         </Col>
                         <Col md={12} lg={3} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Age'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Age'}</span>}
                                 name="Age"
                                 className="input-field w-100"
                                 value={state.BasicDetails.Age}
@@ -298,7 +298,7 @@ const Register1 = (props) => {
                             />
                         </Col>
                         <Col md={12} lg={5} sm={24} xs={24}>
-                            <Form.Item label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Gender'}</span>} name="Gender"
+                            <Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Gender'}</span>} name="Gender"
                                 rules={[{ required: true, message: `Please Select Gender.` }]}>
                                 <Select placeholder="Gender"
                                     className="input-field w-100"
@@ -313,7 +313,7 @@ const Register1 = (props) => {
                             </Form.Item>
                         </Col>
                         <Col md={12} lg={8} sm={24} xs={24}>
-                            <Form.Item label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Blood Type'}</span>} name="bloodType"
+                            <Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Blood Type'}</span>} name="bloodType"
                                 rules={[{ required: true, message: `Please Select Blood Type.` }]} >
                                 <Select
                                     className="input-field w-100"
@@ -337,7 +337,7 @@ const Register1 = (props) => {
 
                     <Row gutter={[20, 20]} className="pt-4">
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Mobile No'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Mobile No'}</span>}
                                 name="MobileNo"
                                 className="input-field w-100"
                                 value={state.BasicDetails.MobileNo}
@@ -349,7 +349,7 @@ const Register1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Landline No'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Landline No'}</span>}
                                 name="LandlineNo"
                                 className="input-field w-100"
                                 value={state.BasicDetails.LandlineNo}
@@ -361,7 +361,7 @@ const Register1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Whatsapp No'}</span>}
+                            <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Whatsapp No'}</span>}
                                 name="WhatsAppNo"
                                 className="input-field w-100"
                                 value={state.BasicDetails.WhatsAppNo}
@@ -375,16 +375,16 @@ const Register1 = (props) => {
                     </Row>
                 </div>
 
-                <Row className="text-end" justify="end">
+                <Row className="text-center" justify="center">
                     <Col >
-                  <Link to='/dashboard'>  <Button size="large" className="me-2 " style={{borderRadius:'10px'}} >Cancel</Button></Link>
+                  <Link to='/dashboard'>  <Button className="me-2 " style={{borderRadius:'10px'}} >Cancel</Button></Link>
                     </Col>
                     <Col>
-                    <Button size="large" className="me-2" style={{backgroundColor:'#41A0A2',borderRadius:"10px"}}  onClick={handleReset}>Reset</Button>
+                    <Button className="me-2" style={{backgroundColor:'#41A0A2',borderRadius:"10px"}}  onClick={handleReset}>Reset</Button>
                     </Col>
                     <Col >
                     {/* Dipsikha start 23/10 */}
-                    <Button size="large" className="button1" id="bnid" style={{color: "white"}}  htmlType="submit">Next</Button>
+                    <Button className="button1" id="bnid" style={{color: "white"}}  htmlType="submit">Next</Button>
                     </Col>
                 </Row>
 

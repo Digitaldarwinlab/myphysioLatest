@@ -99,14 +99,14 @@ const Notes = (props) => {
             <Form onFinish={handleNotesFinish} form={form} name="control-hooks" className="px-2 py-2">
                 {success.state && <Success success={success.msg} />}
                 {error && <Error error={error} />}
-                <FormTextArea
+                <FormTextArea 
                     name="notes" label=""
                     placeholder="Enter Your Notes..."
                     value={notes}
                     onChange={(name, value) => setNotes(value)}
                     required={true}
                 />
-                <div className="text-end">
+                <div className="text-center my-3">
                     {/* Dipsikha 23/10 */}
                     <Button className="button1" id="bnid" style={{ color: "white"}} htmlType="submit">Submit</Button>
                 </div>

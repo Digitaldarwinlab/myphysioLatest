@@ -34,27 +34,32 @@ const AddQuestions = () => {
     <>
       <Form>
         <Row>
-          <Col md={8} lg={8} sm={24} xs={24}> <h2><AiFillMedicineBox />Assesment</h2> </Col>
-          <Col md={8} lg={8} sm={24} xs={24}>
-            <Form.Item label="joints" name="Episode" required="true" >
-              <Select placeholder="Select"
-                className="w-50" onChange={handleChange} >
-                <Option value="Hip">Hip</Option>
-                <Option value="shoulder">Shoulder</Option>
-                <Option value="elbow">Elbow</Option>
-                <Option value="knee">Knee</Option>
-                <Option value="ankle">Ankle</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col md={8} lg={8} sm={24} xs={24}>
-          {/* aswin start 10/30/2021 start */}
-            <p className="border p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br />
-              Start Date : {state.carePlanRedcucer.episode_start_date} <br />
-              Episode Type : {state.carePlanRedcucer.complaint}</p>
-              {/* aswin start 10/30/2021 stop */}
+          <Col md={24} lg={24} sm={24} xs={24} className="py-3"> 
+            <h3><AiFillMedicineBox />Assesment</h3> 
           </Col>
         </Row>
+
+        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+           <Col md={24} lg={12} sm={24} xs={24}>
+              <p className="border p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br /><br />
+                Start Date : {state.carePlanRedcucer.episode_start_date} <br /><br />
+                Episode Type : {state.carePlanRedcucer.complaint}</p>
+            </Col>
+
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <Form.Item label="joints" name="Episode" required="true" >
+                <Select placeholder="Select"
+                  className="" onChange={handleChange} >
+                  <Option value="Hip">Hip</Option>
+                  <Option value="shoulder">Shoulder</Option>
+                  <Option value="elbow">Elbow</Option>
+                  <Option value="knee">Knee</Option>
+                  <Option value="ankle">Ankle</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
         <div className="border mb-3">
           {showQuestion ? <Questions /> : null}
 

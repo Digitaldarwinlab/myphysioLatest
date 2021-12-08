@@ -202,7 +202,7 @@ const PhysioClinic = ()=>{
 
     const handleNameAndWebsite = (htmlfor,title,type,place,value) => {
         return (
-            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{title}</span>}
+            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{title}</span>}
             className="input-field"
                 name={htmlfor}
                 placeholder={place}
@@ -216,20 +216,18 @@ const PhysioClinic = ()=>{
     return(
         <>  
            <div style={{ minHeight: "20px" }}></div>
-                 <h1 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical" style={{fontSize:'28px'}}></i> <b> Clinic Registeration </b></h1>
+                 <h3 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical"></i> <b> Clinic Registration </b></h3>
                  {state.Validation.error && (<Error error={state.Validation.error} />)}
                 {state.clinicReg.isLoading && (<Loading />)} 
                 {state.clinicReg.success && (<Success success = {state.clinicReg.success}/>)}
-            <Form style={{marginTop:'40px',marginLeft:'1%'}} onFinish={handleSubmit} form={form} layout="vertical">
-                <div className="border p-4 mb-4">
-                    <Row gutter={[20,20]}>
-                        <Col span={24}>
+            <Form style={{marginTop:'40px',marginLeft:'1%'}} onFinish={handleSubmit} form={form} name="control-hooks" autoComplete="off" layout="vertical" >
+                <div className="border mt-2 mb-4">
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                        <Col md={24} lg={12} sm={24} xs={24}>
                             {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)}
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <FormTextArea name="address_1" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Address 1'}</span>}
+                        <Col md={24} lg={12} sm={24} xs={24}>
+                        <FormTextArea name="address_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 1'}</span>}
                                 value={state.clinicReg.address_1}
                                 placeholder="Address 1" 
                                 className="input-field"
@@ -239,9 +237,10 @@ const PhysioClinic = ()=>{
                             />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col span={24}>
-                            <FormTextArea name="address_2" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Address 2'}</span>}
+
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                        <Col md={24} lg={12} sm={24} xs={24}>
+                            <FormTextArea name="address_2" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 2'}</span>}
                             value={state.clinicReg.address_2}
                             placeholder="Address 2" 
                             className="input-field"
@@ -250,10 +249,8 @@ const PhysioClinic = ()=>{
                             required={false}
                             />
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <FormTextArea name="address_3" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Address 3'}</span>}
+                        <Col md={24} lg={12} sm={24} xs={24}>
+                        <FormTextArea name="address_3" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 3'}</span>}
                             value={state.clinicReg.address_3}
                             placeholder="Address 3" 
                             className="input-field"
@@ -263,8 +260,8 @@ const PhysioClinic = ()=>{
                             />
                         </Col>
                     </Row>
-
-                    <Row gutter={[20,20]}>
+                    
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                     {/* aswin 11/13/2021 start implimented country,state,city */}
                         <Col md={24} lg={8} sm={24} xs={24}>
                             {/* <FormInput name="zip" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pin Code'}</span>}
@@ -276,7 +273,7 @@ const PhysioClinic = ()=>{
                                 required={true}
                             />  */}
                              <Form.Item
-                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
+                                label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="country"
                                 rules={[{ required: true, message: `Please Select Country.` }]}
                             >
@@ -305,7 +302,7 @@ const PhysioClinic = ()=>{
                                 required="true"
                             /> */}
                             <Form.Item
-                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
+                                label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'State'}</span>}
                                 name="state"
                                 rules={[{ required: true, message: `Please Select State.` }]}
                             >
@@ -340,7 +337,7 @@ const PhysioClinic = ()=>{
                                 required="true"
                             />  */}
                             <Form.Item
-                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
+                                label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'City'}</span>}
                                 name="city"
                                 rules={[{ required: true, message: `Please Select City.` }]}
                             >
@@ -367,9 +364,9 @@ const PhysioClinic = ()=>{
                         </Col>
                     </Row>
                 
-                    <Row gutter={[20,20]}>
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                          <Col md={24} lg={8} sm={24} xs={24}>
-                             <FormInput name="zip" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pin Code'}</span>}
+                             <FormInput name="zip" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Pin Code'}</span>}
                                 value={state.clinicReg.zip}
                                 placeholder="Pin Code" 
                                 onChange={handleChange}
@@ -379,7 +376,7 @@ const PhysioClinic = ()=>{
                             /> 
                          </Col>
                          <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="mobile_no" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Mobile No'}</span>}
+                            <FormInput name="mobile_no" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Mobile No'}</span>}
                                 value={state.clinicReg.mobile_no}
                                 className="input-field"
                                 placeholder="Mobile No." 
@@ -389,7 +386,7 @@ const PhysioClinic = ()=>{
                             />
                          </Col>
                          <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="whatsapp_no" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Whatsapp No.'}</span>}
+                            <FormInput name="whatsapp_no" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Whatsapp No.'}</span>}
                                 className="input-field"
                                 value={state.clinicReg.whatsapp_no}
                                 placeholder="Whatsapp No" 
@@ -400,9 +397,9 @@ const PhysioClinic = ()=>{
                          </Col>
                     </Row>
 
-                    <Row gutter={[20,20]}>
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="landline_no" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Landline No'}</span>}
+                            <FormInput name="landline_no" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Landline No'}</span>}
                                 className="input-field"
                                 value={state.clinicReg.landline_no}
                                 placeholder="Landline No." 
@@ -412,7 +409,7 @@ const PhysioClinic = ()=>{
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormDate name="estab_date" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Estb Date'}</span>}
+                            <FormDate name="estab_date" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Estb Date'}</span>}
                                 className="input-field"
                                 value={dateState}
                                 placeholder="Estb date" 
@@ -422,7 +419,7 @@ const PhysioClinic = ()=>{
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="email" label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'E-mail'}</span>}
+                            <FormInput name="email" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'E-mail'}</span>}
                             className="input-field"
                                 value={state.clinicReg.email}
                                 placeholder="Email" 
@@ -433,14 +430,14 @@ const PhysioClinic = ()=>{
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col span={24}>
+                    <Row style={{marginBottom:'15px'}}>
+                        <Col span={24} >
                         {handleNameAndWebsite("website_url","Website Url","text","Website Url",state.clinicReg.website_url)}
                         </Col>
                     </Row>
                 </div>
               
-                <div className="text-end">
+                <div className="text-center">
                     <Button className=" m-2"  style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} onClick={handleSubmit}>Submit</Button>
                     <Button className="btncolor m-2" onClick={handleReset}>Reset</Button>
                 </div>

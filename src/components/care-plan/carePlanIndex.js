@@ -699,7 +699,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             refreshHtml()
         }
             {searchBar && <div style={{ minHeight: "20px" }}></div>}
-            <h2 className="fw-bold">
+            <h3 className="fw-bold">
                 <i className="fas fa-arrow-left"
                     style={{ cursor: "pointer" }}
                     title="Go Back"
@@ -712,8 +712,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     }}
                     role="button"></i>
                 {" "}<span  className="CarePlanTitle ml-1"> Care Plan </span>
-            </h2>
+
+            </h3>
             {reduxState.Validation.episode_check==='failed'&&<Error error={reduxState.Validation.msg} />}
+
             <div className="CarePlan">
             {(!allocatePlan && searchBar) && (
                 <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}
@@ -765,7 +767,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 visible={state}
                                 getContainer={false}
                                 style={{ top: "50px" }}
-                                width={300}
+                                width={400}
                             >
                                 {cartItems.length === 0 && <p>No Plan is Present now...</p>}
                                 {cartItems.length !== 0 && <Cart Exercise={Exerciselist} items={cartItems} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}

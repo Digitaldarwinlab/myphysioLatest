@@ -289,84 +289,87 @@ const SearchPatient = () => {
     return (
         <>
                <div style={{ minHeight: "0px" }}></div>
-            <Row justify="space-between">
+            <Row justify="space-between" style={{marginBottom:'15px'}}>
                 <Col>
-                <h1 className="page-heading" id="page-heading"> <i className="fa fa-users"></i><b> Patients</b></h1>
+                <h3 className="page-heading" id="page-heading"> 
+                    <i className="fa fa-users"></i><b> Patients</b>
+                </h3>
 
                 </Col> 
                 <Col>
                 <h4 className="text-end">
-                <NavLink to="pateints/new" className="navlink">
-                    New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
-                </NavLink>
-            </h4>
+                    <NavLink to="pateints/new" className="navlink">
+                        New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
+                    </NavLink>
+                </h4>
                 </Col>
             </Row>
 
-            
-            <div className="PatientsListing">
-  
-            <input
-                    className="p-2 input-field  my-3"
-                  
-                    placeholder="Search Patient.."
-                    onChange={onSearch}
-                   
-                    loading={loading}
-                    style={{width:'40%'}}
-                />
-                <Row className="bg-search text-center" justify="space-around">
-                    {Phead.map(Pahead)}
-                </Row>
+            <Form className="p-2"  autoComplete="off" layout="vertical" name="control-hooks">
+                <div className="PatientsListing">
+    
+                <input
+                        className="p-2 input-field my-3"
+                    
+                        placeholder="Search Patient.."
+                        onChange={onSearch}
+                    
+                        loading={loading}
+                        style={{width:'40%'}}
+                    />
+                    <Row className="bg-search text-center" justify="space-around">
+                        {Phead.map(Pahead)}
+                    </Row>
 
-                {
-                    patientData.length === 0
-                        ?  
-                            <div className="mt-2 text-center">
-                                <p className="p">No Patient Found....</p>
-                            </div>
-                        : 
-                            <div>
-                                {
-                                    
-                                                                   
-                                    patientData.map((item,index) =>{
-                                       if(index >= paginationState.minIndex && index < paginationState.maxIndex)
-                                        return (
-                                            <Row  justify="space-around" className="text-center">
-                                                  <Col md={4} lg={4} sm={4} xs={4}><p>{item.patient_code}</p></Col>
+                    {
+                        patientData.length === 0
+                            ?  
+                                <div className="mt-2 text-center">
+                                    <p className="p">No Patient Found....</p>
+                                </div>
+                            : 
+                                <div>
+                                    {
+                                        
+                                                                    
+                                        patientData.map((item,index) =>{
+                                        if(index >= paginationState.minIndex && index < paginationState.maxIndex)
+                                            return (
+                                                <Row  justify="space-around" className="text-center">
+                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.patient_code}</p></Col>
 
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.first_name} {' '} {item.last_name} </p></Col>
+                                                        <Col md={4} lg={4} sm={4} xs={4}><p>{item.first_name} {' '} {item.last_name} </p></Col>
 
 
 
-                                                    <Col md={4} lg={4} sm={4} xs={4}> <p> <p>{item.dob}</p></p></Col>
+                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>{item.dob}</p></p></Col>
 
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>
+                                                        <Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>
 
-                                                    <Col md={4} lg={4} sm={4} xs={4}>
-                                                        <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
-                                                        <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
-                                                       {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null}    
-                                                    </Col>
-                                            </Row>
-                                        )
+                                                        <Col md={4} lg={4} sm={4} xs={4}>
+                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
+                                                            <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
+                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null}    
+                                                        </Col>
+                                                </Row>
+                                            )
 
-                                    })
-                                    
-                                }
-                            </div>
-                }
-                 { searchvalue=='' && patientData.length !== 0 && <Pagination
-                className="text-center" style={{marginTop:'2%'}}
-                    pageSize={paginationState.pageSize}
-                    current={paginationState.current}
-                    total={patientData.length}
-                   
-                    onChange={PaginationChange}
-                />}
-                   {show_password_modal()}
-            </div>
+                                        })
+                                        
+                                    }
+                                </div>
+                    }
+                    { searchvalue=='' && patientData.length !== 0 && <Pagination
+                    className="text-center" style={{marginTop:'2%'}}
+                        pageSize={paginationState.pageSize}
+                        current={paginationState.current}
+                        total={patientData.length}
+                    
+                        onChange={PaginationChange}
+                    />}
+                    {show_password_modal()}
+                </div>
+            </Form>
         </>
     )
 }

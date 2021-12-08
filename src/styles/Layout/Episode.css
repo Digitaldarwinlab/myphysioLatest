@@ -6,6 +6,19 @@ p{
 
 }
 #bnid:hover {
-    background-color: rgb(38, 165, 165) !important;
+    background-color: #2d7ecb !important;
     color: white !important;
+}
+
+.ant-collapse{
+    margin-bottom: 20px !important;
+}
+.ant-upload.ant-upload-drag {
+    margin-bottom: 20px;
+}
+.ant-collapse {
+    border: 1px solid #f1f1f1 !important;
+}
+.ant-collapse-content{
+    border-top: 1px solid #f1f1f1 !important;
 }

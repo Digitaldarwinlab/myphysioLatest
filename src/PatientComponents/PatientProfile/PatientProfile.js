@@ -206,7 +206,7 @@ const PatientProfile = () => {
                             <h4 className="fw-bold px-1 py-1">Track Progress</h4>
                             <div className="TrackProgress" style={{ display: "flex", justifyContent: "space-around" }}>
                                 {TrackProgress(2500, 6000, "#df916b", "Current")}
-                                {TrackProgress(5000, 6000, "#76c0b1", "Last Week")}
+                                {TrackProgress(5000, 6000, "#0559a9", "Last Week")}
                                 {TrackProgress(3000, 6000, "#e8dc38", "Progress")}
                             </div>
                         </Col>

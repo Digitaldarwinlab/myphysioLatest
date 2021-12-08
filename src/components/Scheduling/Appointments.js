@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux';
 import Utils from './../UtilityComponents/SchedularDataRender/Utils';
 import './style.css'
 import '../../styles/Layout/Heading.css'
+import SchduleForm from "../UtilityComponents/SchduleForm";
 
 export const parseVisits = (visits) => {
     let newVisits = [];
@@ -500,24 +501,25 @@ const Appointments = () => {
         return (<DateCell itemData={itemData} />)
     }
     //
-    return (
+    return ( 
         <>
-            <div style={{ minHeight: "20px" }}></div>
-            <Row>
-                <Col xs={24} sm={12} md={12} lg={16} xl={16}>
-                    <h1 className="page-heading"><GoCalendar style={{position:"relative",bottom:'3px'}} />{" "}<b>Visits</b></h1>
-                </Col>
-                <Col xs={24} sm={12} md={12} lg={8} xl={8} className="text-end">
+            <div style={{ background: '#fff', marginTop: '15px' }}>
+                <div style={{ minHeight: "20px" }}></div>
+                <Row>
+                    <Col xs={24} sm={12} md={12} lg={16} xl={16}>
+                        <h3 className="page-heading"><GoCalendar style={{position:"relative",bottom:'3px'}} />{" "}<b>Visits</b></h3>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8} xl={8} className="text-end">
 
-                    <Button
-                        className="border  text-white"
-                        style={{ backgroundColor: "#273647",borderRadius:'10px' }}
-                        onClick={showNewAppointment}>
-                        <ImPlus style={{marginRight:'5px',position:'relative',bottom:'2px'}} />New Visit
-                    </Button>
-                </Col>
-            </Row>
-
+                        <Button
+                            className="border text-white"
+                            style={{ backgroundColor: "#273647",borderRadius:'10px', marginBottom:'20px', marginRight:'20px' }}
+                            onClick={showNewAppointment}>
+                            <ImPlus style={{marginRight:'5px',position:'relative',bottom:'2px'}} />New Visit
+                        </Button>
+                    </Col>
+                </Row>
+            </div>
             {error && <Error error={error} />}
             {success && <Success success={success} />}
             <Col span={24}>

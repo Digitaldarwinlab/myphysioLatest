@@ -320,19 +320,24 @@ const Assesment1 = (props1) => {
   return (
     <div className="px-2 py-2">
 
-      <Form {...layout}
+      <Form  style={{background:'#fff', marginTop:'0px', padding:'20px'}} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+
         form={form}
       // form={form} name="control-hooks"
       >
 
         <Row>
-          <Col md={12} lg={12} sm={12} xs={12}><h3><AiFillMedicineBox />Assesment/Consultation</h3></Col>
+          
+          <Col md={24} lg={24} sm={24} xs={24}>
+            <h3><AiFillMedicineBox />Assesment/Consultation</h3>
+          </Col>
 
-          <Col md={12} lg={12} sm={12} xs={12} >
+          <Col md={24} lg={24} sm={24} xs={24}>
             <div className="border">
               <p className="ps-1 py-2">
+
                 <b> Patient Name </b> {state.episodeReducer.patient_name} <br />
                 <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br />
                 <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
@@ -340,15 +345,18 @@ const Assesment1 = (props1) => {
                 <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
                 {/* aswin 10/25/2021 stop */}
                 <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
+
               </p>
             </div>
           </Col>
 
         </Row>
         {/* <ActiveSearch/>           */}
-        <Row className="mt-3 AssesmentConsultationMain">
-          <Col className="mt-3 AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
+
+        <Row className="AssesmentConsultationMain">
+          <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
             {/* <FormDate label="Date"
+
               name="Date"
               // reverse ="true"
               className="input-field w-100"
@@ -360,7 +368,7 @@ const Assesment1 = (props1) => {
               onChange={handleChange}
             /> */}
           </Col>
-          <Col className="mt-3 AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
+          <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Type" name="Type" rules={[{ required: true, message: `Please Select Type.` }]} >
               <Select placeholder="Select Type"
                 className="w-100 input-field"
@@ -379,7 +387,7 @@ const Assesment1 = (props1) => {
         </Row>
       </Form>
 
-      <div className="border mb-3 mt-3" style={{ display: physicalVisibility }}>
+      <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
         <Form form={form} >
           <Row className="border">
             <Col md={24} lg={24} sm={24} xs={24}>
@@ -387,18 +395,39 @@ const Assesment1 = (props1) => {
             </Col>
           </Row>
 
-          <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col md={12} lg={8} sm={24} xs={24}>
-              <FormInput label="Scars"
-                name="Scars"
-                value={state.FirstAssesment.Scars}
-                defaultValue={state.FirstAssesment.Scars}
-                onChange={handleChange} required={true}>
-              </FormInput>
-              <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
-              </div>
+          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+              <Col md={24} lg={12} sm={24} xs={24}>
+                <FormInput label="Scars"
+                  name="Scars"
+                  value={state.FirstAssesment.Scars}
+                  defaultValue={state.FirstAssesment.Scars}
+                  onChange={handleChange} required={true}>
+                </FormInput>
+                <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
+                </div>
+              </Col>
+              <Col md={24} lg={12} sm={24} xs={24}>
+                <input id="myPdf" className="input-file"
+                  accept="application/pdf,image/*,application/msword"
+                  type="file" multiple
+
+                  onInput={handleUploadScars}
+                  onChange={(val) => handleChange("ScareFile", val.target.files)} />
+                </Col>
+          </Row>
+        </Form>
+        <Form  form={form}  layout="vertical">
+
+          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
+               <FormTextArea label="Recent History"
+                  name="RecentHistory"
+                  value={state.FirstAssesment.RecentHistory}
+                  defaultValue={state.FirstAssesment.RecentHistory}
+                  onChange={handleChange} required={true} />
             </Col>
-            <Col className="mt-1">
+
+            <Col  md={24} lg={12} sm={24} xs={24}>
               {/* <Upload>
               <Button icons={<UploadOutlined />}
               onChange={(val) => handleChange("ScareFile", val.target.files[0])}
@@ -425,8 +454,13 @@ const Assesment1 = (props1) => {
 
                 onInput={handleUploadScars}
                 onChange={(val) => handleChange("ScareFile", val.target.files[0])} /> */}
+
             </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+            
+              </Col>
           </Row>
+
         </Form>
         {/* gaurav 4/12 */}
         <div className="container-fuild">
@@ -629,8 +663,8 @@ const Assesment1 = (props1) => {
                 onChange={handleChange} required={true} />
 
             </Col>
-          </Row>
-          <Row gutter={[10, 10]} className="px-4 py-4 pb-5" style={{ marginBottom: 70 }}>
+          </Row> */}
+          <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
             {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
               <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />
             </Col> */}

@@ -148,7 +148,7 @@ const PhysioRegisteration1 = (props) => {
             <div style={{ minHeight: "20px" }}></div>
             <Row>
                 <Col lg={22} md={22} sm={24} xs={24}>
-                    <h1 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> <b> Physiotherapist </b></h1>
+                    <h3 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> Physiotherapist </h3>
                 </Col>
                 <Col  lg={2} md={4} sm={24} xs={24}>
                     <Link to="/physio/list" title="Physio List" className="link text-blue navlink" id="navlink">
@@ -157,14 +157,14 @@ const PhysioRegisteration1 = (props) => {
                 </Col>
             </Row>
             <StepBar src={svg} style={{marginTop:'10px'}} />
-            <Title level={3} className="border mb-0 p-2 my-2" style={{marginBottom:'20px'}}>Basic Information</Title>
+            <Title level={4} className="border mb-0 p-2 my-2" style={{marginBottom:'20px'}}>Basic Information</Title>
 
-            <Form   style={{paddingTop:'10px'}} onFinish={handleSubmit} form={form} name="control-hooks" autoComplete="off" layout="vertical" >
-                <div className="border p-4 mb-4" style={{position:'relative',top:"20px",minHeight:'260px',paddingTop:'5px'}}>
+            <Form  onFinish={handleSubmit} form={form} name="control-hooks" autoComplete="off" layout="vertical" >
+                <div className="border p-0 mb-4" style={{position:'relative',top:"0px",minHeight:'260px',paddingTop:'5px'}}>
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
-                    <Row gutter={[20, 20]}>
+                    <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'First Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'First Name'}</span>}
                                 className="input-field"
                                 name="first_name"
                                 value={state.physioRegisterReducer.first_name}
@@ -176,7 +176,7 @@ const PhysioRegisteration1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Middle Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Middle Name'}</span>}
                                 className="input-field"
                                 name="middle_name"
                                 value={state.physioRegisterReducer.middle_name}
@@ -188,7 +188,7 @@ const PhysioRegisteration1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Last Name'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Last Name'}</span>}
                                 name="last_name"
                                 className="input-field" id="input-field"
                                 value={state.physioRegisterReducer.last_name}
@@ -201,9 +201,9 @@ const PhysioRegisteration1 = (props) => {
                         </Col>
                     </Row>
 
-                    <Row gutter={[20, 20]}>
+                    <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Mobile No'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Mobile No'}</span>}
                                 
                                 name="mobile_no"
                                 className="input-field"
@@ -216,7 +216,7 @@ const PhysioRegisteration1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Landline No'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Landline No'}</span>}
                                 name="landline"
                                 className="input-field"
                                 value={state.physioRegisterReducer.landline}
@@ -228,7 +228,7 @@ const PhysioRegisteration1 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Whatsapp No'}</span>}
+                            <FormInput label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Whatsapp No'}</span>}
                                 name="whatsapp_no"
                                 className="input-field"
                                 value={state.physioRegisterReducer.whatsapp_no}
@@ -240,10 +240,11 @@ const PhysioRegisteration1 = (props) => {
                             />
                         </Col>
                     </Row>
-                    <Row gutter={[20, 20]}>
+
+                    <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={12} sm={24} xs={24}>
                             <Form.Item
-                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Doctor Type'}</span>}
+                                label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Doctor Type'}</span>}
                                 name="Doctor_type"
                                 rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
                             >
@@ -260,7 +261,7 @@ const PhysioRegisteration1 = (props) => {
                             </Form.Item>
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
-                            <Form.Item label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Gender'}</span>} name="gender"
+                            <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Gender'}</span>} name="gender"
                                 rules={[{ required: true, message: `Please Select Gender.` }]}>
                                 <Select placeholder="Gender"
                                     className="input-field w-100"
@@ -279,15 +280,15 @@ const PhysioRegisteration1 = (props) => {
                     </Row>
                 </div>
                
-                <Row className="text-end" justify="end">
+                <Row className="text-center" justify="center" style={{marginBottom:'15px'}}>
                     <Col >
-                   <Link to='/dashboard'><Button size="large" className="me-2"  style={{borderRadius:'10px'}} >Cancel</Button></Link>
+                   <Link to='/dashboard'><Button className="me-2"  style={{borderRadius:'10px'}} >Cancel</Button></Link>
                     </Col>
                     <Col >
-                    <Button size="large" className="me-2  " style={{backgroundColor:'#41A0A2',borderRadius:"10px"}}   onClick={handleReset}>Reset</Button>
+                    <Button className="me-2  " style={{backgroundColor:'#41A0A2',borderRadius:"10px"}}   onClick={handleReset}>Reset</Button>
                     </Col>
                     <Col >
-                    <Button size="large" className="me-2 btncolor"  htmlType="submit">Next</Button>
+                    <Button className="me-2 btncolor"  htmlType="submit">Next</Button>
                     </Col>
                 </Row>
                 

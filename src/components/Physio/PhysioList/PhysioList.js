@@ -345,7 +345,7 @@ const PhysioList = () => {
             <div style={{ minHeight: "20px" }}></div>
             <div className="top-bar" id="top-bar">
                 <div>
-                <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-md" /><b> Physiotherapist</b></h1>
+                    <h3 className="page-heading" id="page-heading" style={{fontSize:'28px'}}><i className="fas fa-user-md" /> Physiotherapist </h3>
                 </div>
                 <div>
         
@@ -360,7 +360,7 @@ const PhysioList = () => {
             <input
                 type="search"
                                
-                className="px-4 py-2 input-field my-3"
+                className="px-5 py-2 input-field my-3"
                 style={{width:'40%',right:'15px',position:"relative"}}
                 placeholder="Seacrh Physio.."
                 onChange={onSearch}

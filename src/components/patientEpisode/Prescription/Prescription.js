@@ -215,8 +215,8 @@ console.log(state.labsAndMedicRedu)
     const PresecriptionHeader = () => {
         return (
             <Row gutter={[20, 20]}>
-                <Col xs={24} sm={24} md={6} lg={8} xl={8}>
-                    <FormDate
+                <Col md={24} lg={12} sm={24} xs={24}>
+                    <FormDate style={{width:'50%'}}
                         disabledDate={true}
                         value={dateState}
                         label="date"
@@ -224,7 +224,7 @@ console.log(state.labsAndMedicRedu)
                         name="date"
                         required={true} onChange={handleChange} />
                 </Col>
-                <Col sm={24} md={18} lg={16} xl={16}>
+                <Col sm={24} md={24} lg={24} xl={24}>
                     <Row>
                       
                         <Col xs={24} sm={12} md={12} lg={12} xl={16} className="border px-2 py-2">
@@ -242,12 +242,14 @@ console.log(state.labsAndMedicRedu)
         return <h4 className="border px-2 py-2 mt-2 mb-2">{value}</h4>
     }
     //Medication Form
+
     const marks = {
         1: '1-OD',
         2: '2-BD',
         3: '3-TD',
         4: '4QD'
       }
+
 
  
     //Medication form increase handler
@@ -305,7 +307,7 @@ console.log(state.labsAndMedicRedu)
         }
     }
     return (
-        <div className="px-2 py-2">
+        <div className="px-2 py-4">
             <h3><i className="fas fa-pills"></i> Prescriptions</h3>
             {state.Validation.error && <Error error={state.Validation.error} />}
                 {state.labsAndMedicRedu.isLoading && <Loading />}
@@ -446,19 +448,22 @@ console.log(state.labsAndMedicRedu)
                             length={state.labsAndMedicRedu.labsList.length}
                             Decrease={LabsDecrease} />
                     )}
-                <Col span={24} className="mt-4">
-                    <FormTextArea label="Notes"
-                        required={true}
-                        value={state.labsAndMedicRedu.labs_notes}
-                        name="labs_notes"
-                        onChange={handleChange}
-                    />
-                </Col>
+                <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                    <Col md={24} lg={12} sm={24} xs={24} className="mt-4">
+                        <FormTextArea label="Notes"
+                            required={true}
+                            value={state.labsAndMedicRedu.labs_notes}
+                            name="labs_notes"
+                            onChange={handleChange}
+                        />
+                    </Col>
+                </Row>
+                <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                    <Col md={24} lg={24} sm={24} xs={24} className="text-center">
+                    <Button type="primary" htmlType="submit" className="text-center btncolor mt-2">Submit</Button>
+                    </Col>
+                </Row>
                 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className="text-end btncolor mt-2">Submit</Button>
-                </Form.Item>
-
             </Form>
         </div>
     )
