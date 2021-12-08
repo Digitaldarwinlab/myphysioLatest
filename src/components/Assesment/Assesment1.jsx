@@ -72,7 +72,8 @@ const Assesment1 = (props1) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != '/assesment/Questions' &&
-        location.pathname != '/care-plan' &&
+        location.pathname != '/care-plan' &&location.pathname != '/assesment/PainAssessment'&&
+        location.pathname != '/assesment/SpecialTest'&&
         state.FirstAssesment.episode_id != "") {
           //aswin 11/11/2021 start
           if(sessionStorage.getItem('submit')){

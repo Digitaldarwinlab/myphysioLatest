@@ -1015,6 +1015,7 @@ const Body = () => {
             <div className="text-center mb-3">
                 <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={()=>history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
+                <button class="ant-btn ms-3" onClick={()=>history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
                 <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom"></Button>
                 <Button className="ms-3" onClick={Submit}>Submit</Button>
             </div>
