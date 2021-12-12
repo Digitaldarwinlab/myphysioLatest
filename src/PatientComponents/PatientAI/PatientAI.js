@@ -128,10 +128,12 @@ class PatientAI extends Component {
     //Ai Model
     AiModel = () => {
         darwin.addProgressListener((setCount, repCount) => {
-            this.setState({ rep_count: repCount }) 
+
+        
+            
+            this.setState({ currenRep: repCount }) 
             this.setState({ currenset: setCount }) 
-            console.log(setCount)
-         
+          
             console.log(setCount, this.state.exSetValue)
             if (setCount == this.state.exSetValue) {
                 window.darwin.stop();
@@ -373,7 +375,9 @@ class PatientAI extends Component {
             ROMs: [[this.state.rom.min, this.state.rom.max], [this.state.rom.min, this.state.rom.max]],
             angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
             totalReps: this.state.rep_count,
-            totalSets: this.state.exSetValue
+           totalSets: this.state.exSetValue
+
+          
 
         });
 

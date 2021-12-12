@@ -19,7 +19,7 @@ import CarePlanView from "../../components/episode-visit-details/carePlanView/ca
 const activeArr = [
   true,false,false,false,false,
   false,false,false,false,false,
-  false,false,false,false,false]
+  false]
 const timeColors = [
   "#17BD9C",
   "#00294C",
