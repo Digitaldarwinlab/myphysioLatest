@@ -474,20 +474,16 @@ const Assesment1 = (props1) => {
 
           {inputFields.map((inputFields, index) => (
             <div key={index}>
-<div className="container">
-              <div className="row">
-                <div className="col">
-                  <h4>Occupation</h4>
-                </div>
-                <div className="col">
+      <div className="container border-bottom mb-3">
 
-
-
-
-                  <select className="form-select"
+        <Row gutter={[20,20]}>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <h4><b>Occupation</b></h4>
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24} className="text-right">
+            <select className="form-select w-30"
                     name="occupation"
                     aria-label="Default select example"
-
                     value={state.FirstAssesment.occupation}
                     onChange={(e) => handleChange("occupation", e.target.value)}
 
@@ -497,36 +493,30 @@ const Assesment1 = (props1) => {
                     <option value="2">Standing</option>
                     <option value="3">Field Work</option>
                   </select>
-
-
-
-
-
-                </div>
-              </div>
-              <div className="row">
-              
-                <h4>Duration</h4>
-                              </div>
+            </Col>
+        </Row>
+        
+        <Row gutter={[20,20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4><b>Duration</b></h4>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
               <div className="row" name="Duration" value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", e.target.value)}>
-                <div className="col form-check-inline"><input type="radio" value="0-8 hours" name="Duration" />0-8 hours</div>
-                <div className="col form-check-inline"><input type="radio" value="0-4 hours" name="Duration" />0-4 hours</div>
-                <div className="col form-check-inline"><input type="radio" value="Above 8 Hours" name="Duration" /> Above 8 Hours</div>
-                <div className="col form-check-inline"><input type="radio" value="Flexible" name="Duration" /> Flexible</div>
-
-
-
-
-
-
-              </div>
-              </div>
+                  <div className="col form-check-inline"><input type="radio" value="0-8 hours" name="Duration" />0-8 hours</div>
+                  <div className="col form-check-inline"><input type="radio" value="0-4 hours" name="Duration" />0-4 hours</div>
+                  <div className="col form-check-inline"><input type="radio" value="Above 8 Hours" name="Duration" /> Above 8 Hours</div>
+                  <div className="col form-check-inline"><input type="radio" value="Flexible" name="Duration" /> Flexible</div>
+                </div>
+              </Col>
+        </Row>
+  
+      </div>
 
             </div>
           ))
           }
 
-          <div className="row">
+          <div className="row py-3 mx-1">
             <div className="col">
               <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
               <button type="button" onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
@@ -538,138 +528,137 @@ const Assesment1 = (props1) => {
         </div>
 
         <div className="container-fuild">
-          <div>
-            <h4>Chief Complaint</h4>
-          </div>
-          <div>
-            <input type="text" placeholder="Cheif Complaint"
-              name="chiefCom"
-              value={state.FirstAssesment.chiefCom}
-              onChange={(e) => handleChange("chiefCom", e.target.value)}
-            />
-          </div>
-
-
+          <Row gutter={[20,20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4><b>Chief Complaint</b></h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <input type="text"  className="p-2" placeholder="Cheif Complaint"
+                  name="chiefCom"
+                  value={state.FirstAssesment.chiefCom}
+                  onChange={(e) => handleChange("chiefCom", e.target.value)}
+                />
+              </Col>
+          </Row>
         </div>
 
-        <div>
-          <div>  <h4>History Of Presenting Complaint</h4></div>
-          <div className="row" name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
-
-            <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
-            <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
-            <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
-            <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
-
-          </div>
-
-          <div>
-
-          </div>
-        </div>
-
-
+        <Row gutter={[20,20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4><b>History Of Presenting Complaint</b></h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
+                <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
+                <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
+                <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
+                <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
+                <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
+                </div>
+              </Col>
+          </Row>
+        
         <div className="container-fuild">
-          <div>  <h4>Past Medical History </h4></div>
+          <Row gutter={[20,20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4><b>Past Medical History</b></h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24} name="past_check">
+                <input type="text"  className="p-2" placeholder="Cheif Complaint"
+                  name="chiefCom"
+                  value={state.FirstAssesment.chiefCom}
+                  onChange={(e) => handleChange("chiefCom", e.target.value)}
+                />
+              </Col>
+          </Row>
 
-
-          <div className="row" name="past_check" >
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
-              <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="HYN" onChange={(e) => handleChange("HYN", e.target.checked)} value={state.FirstAssesment.HYN} />
-              <label class="form-check-label" for="inlineCheckbox2">HYN</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="COPD" onChange={(e) => handleChange("COPD", e.target.checked)} value={state.FirstAssesment.COPD} />
-              <label class="form-check-label" for="inlineCheckbox3">COPD</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="Cardiac" onChange={(e) => handleChange("Cardiac", e.target.checked)} value={state.FirstAssesment.Cardiac} />
-              <label class="form-check-label" for="inlineCheckbox4">Cardiac</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
-              <label class="form-check-label" for="inlineCheckbox5">Medication</label>
-              <input class="mx-5" type="text" placeholder="Medication" />
-            </div>
-
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
-              <label class="form-check-label" for="inlineCheckbox6">Other</label>
-              <input class="mx-5" type="text" placeholder="Other" />
-            </div>
-          </div>
-
+          <Row gutter={[20,20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24} className="ms-2">
+              <div className="row" name="past_check" >
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
+                  <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="HYN" onChange={(e) => handleChange("HYN", e.target.checked)} value={state.FirstAssesment.HYN} />
+                  <label class="form-check-label" for="inlineCheckbox2">HYN</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="COPD" onChange={(e) => handleChange("COPD", e.target.checked)} value={state.FirstAssesment.COPD} />
+                  <label class="form-check-label" for="inlineCheckbox3">COPD</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="Cardiac" onChange={(e) => handleChange("Cardiac", e.target.checked)} value={state.FirstAssesment.Cardiac} />
+                  <label class="form-check-label" for="inlineCheckbox4">Cardiac</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
+                  <label class="form-check-label" for="inlineCheckbox5">Medication</label>
+                  <input class="mx-5 p-2" type="text" placeholder="Medication" />
+                </div>
+                </div>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24} className="p-0" name="past_check">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
+                  <label class="form-check-label" for="inlineCheckbox6">Other</label>
+                  <input class="mx-5 p-2" type="text" placeholder="Other" />
+                </div>
+              </Col>
+          </Row>
         </div>
 
-        <div className="container">
-          <div className="div">
-            <h4>Built Type</h4>
-          </div>
+        <div className="container border-bottom mb-4 p-0">
 
-          {/* <div className="row"> */}
-          <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
-          >
-            <div className="col  form-check-inline">
-              <input type="radio" value="ectomorphic"
-                name="Built"
-              /> Ectomorphic</div>
-            <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
-              name="Built"
-            /> Mesomorphic</div>
-            <div className="col  form-check-inline"><input type="radio" value="endomorphic"
-              name="Built"
-            />Endomorphic</div>
+          <Row gutter={[20,20]} className="py-3">
+                <Col md={24} lg={24} sm={24} xs={24} className="p-0">
+                  <h4><b>Built Type</b></h4>
+                </Col>
+                <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
+                <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
+                  >
+                    <div className="col  form-check-inline">
+                      <input type="radio" value="ectomorphic"
+                        name="Built"
+                      /> Ectomorphic</div>
+                    <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
+                      name="Built"
+                    /> Mesomorphic</div>
+                    <div className="col  form-check-inline"><input type="radio" value="endomorphic"
+                      name="Built"
+                    />Endomorphic</div>
 
-          </div>
-
-          {/* </div> */}
+                  </div>
+                </Col>
+            </Row>
         </div>
-
-        {/* gaurav */}
-
 
         <Form form={form} layout="vertical">
-          <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col md={24} lg={24} sm={24} xs={24} className="mt-2">
+        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
               <FormTextArea label="Recent History"
-                name="RecentHistory"
-                value={state.FirstAssesment.RecentHistory}
-                defaultValue={state.FirstAssesment.RecentHistory}
-                onChange={handleChange} required={true} />
+                  name="RecentHistory"
+                  value={state.FirstAssesment.RecentHistory}
+                  defaultValue={state.FirstAssesment.RecentHistory}
+                  onChange={handleChange} required={true} />
             </Col>
-
-          </Row>
-          <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col md={24} lg={24} sm={24} xs={24} className="mt-2">
+            <Col md={24} lg={12} sm={24} xs={24}>
               <FormTextArea label="Trauma / Hospitalization History "
-                name="Trauma"
-                value={state.FirstAssesment.Trauma}
-                defaultValue={state.FirstAssesment.Trauma}
-                onChange={handleChange} required={true} />
+                  name="Trauma"
+                  value={state.FirstAssesment.Trauma}
+                  defaultValue={state.FirstAssesment.Trauma}
+                  onChange={handleChange} required={true} />
+              </Col>
+        </Row>
 
-            </Col>
-          </Row>
-          <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col md={24} lg={24} sm={24} xs={24} className="mt-2">
+        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
               <FormTextArea label="Special Test "
-                name="Test"
-                value={state.FirstAssesment.Test}
-                defaultValue={state.FirstAssesment.Test}
-                onChange={handleChange} required={true} />
-
+                  name="Test"
+                  value={state.FirstAssesment.Test}
+                  defaultValue={state.FirstAssesment.Test}
+                  onChange={handleChange} required={true} />
             </Col>
-          </Row> */}
-          <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
-            {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
-              <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />
-            </Col> */}
-            <Col md={12} lg={12} sm={24} xs={24}>
-              <Dragger {...props} id="myPdf"
+            <Col md={24} lg={12} sm={24} xs={24}>
+            <Dragger {...props} id="myPdf"
                 listType="picture-card"
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
@@ -687,13 +676,11 @@ const Assesment1 = (props1) => {
                 </p>
                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
               </Dragger>
-            </Col>
-            <Col>
-              <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer1">
-              </div>
-            </Col>
-          </Row>
+              </Col>
+        </Row>
         </Form>
+
+        
       </div>
 
 
