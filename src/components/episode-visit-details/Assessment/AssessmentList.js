@@ -141,13 +141,13 @@ const AssessmentList = ({assesmentClick}) => {
                             },
                             {
                                 key: '5',
-                                angles: 'Neck Left',
+                                angles: 'Left Neck',
                                 min: item.AI_data[exercise].angles['Neck Left'].min,
                                 max: item.AI_data[exercise].angles['Neck Left'].max
                             },
                             {
                                 key: '6',
-                                angles: 'Neck Right',
+                                angles: 'Right Neck',
                                 min: item.AI_data[exercise].angles['Neck Right'].min,
                                 max: item.AI_data[exercise].angles['Neck Right'].max
                             },
@@ -185,13 +185,13 @@ const AssessmentList = ({assesmentClick}) => {
                             },
                             {
                                 key: '11',
-                                angles: 'Pelvic Left',
+                                angles: 'Left Pelvic',
                                 min: item.AI_data[exercise].angles['Pelvic Left'].min,
                                 max: item.AI_data[exercise].angles['Pelvic Left'].max
                             },
                             {
                                 key: '12',
-                                angles: 'Pelvic Right',
+                                angles: 'Right Pelvic ',
                                 min: item.AI_data[exercise].angles['Pelvic Right'].min,
                                 max: item.AI_data[exercise].angles['Pelvic Right'].max
                             },
@@ -239,13 +239,13 @@ const AssessmentList = ({assesmentClick}) => {
                     },
                     {
                         key: '5',
-                        angles: 'Neck Left',
+                        angles: 'Left Neck',
                         min:'No Data',
                         max: 'No Data'
                     },
                     {
                         key: '6',
-                        angles: 'Neck Right',
+                        angles: 'Right Neck',
                         min:'No Data',
                         max: 'No Data'
                     },
@@ -279,13 +279,13 @@ const AssessmentList = ({assesmentClick}) => {
                     }, 
                       {
                         key: '11',
-                        angles: 'Pelvic Left',
+                        angles: 'Left Pelvic',
                         min: 'No Data',
                         max: 'No Data'
                     },
                     {
                         key: '12',
-                        angles: 'Pelvic Right',
+                        angles: 'Right Pelvic ',
                         min: 'No Data',
                         max: 'No Data'
                     },
@@ -329,13 +329,13 @@ const AssessmentList = ({assesmentClick}) => {
     },
     {
         key: '5',
-        angles: 'Neck Left',
+        angles: 'Left Neck',
         min:'No Data',
         max: 'No Data'
     },
     {
         key: '6',
-        angles: 'Neck Right',
+        angles: 'Right Neck',
         min:'No Data',
         max: 'No Data'
     },
@@ -369,13 +369,13 @@ const AssessmentList = ({assesmentClick}) => {
     }, 
       {
         key: '11',
-        angles: 'Pelvic Left',
+        angles: 'Left Pelvic',
         min: 'No Data',
         max: 'No Data'
     },
     {
         key: '12',
-        angles: 'Pelvic Right',
+        angles: 'Right Pelvic',
         min: 'No Data',
         max: 'No Data'
     },
@@ -614,6 +614,33 @@ const AssessmentList = ({assesmentClick}) => {
                                         span={3}
                                     >
                                         {data.physical_assessement.Test}
+                                    </Descriptions.Item>
+                                </Descriptions>
+                            </Row>
+                        </div>
+                        <div className=" border mb-3 mt-3">
+                            <Row className="border">
+                            <Col lg={18} md={18} sm={18} xs={24}>
+                                    <h4 className="p-2">Pain Assesment</h4>
+                                </Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Descriptions>
+                                    <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain?data.nature_of_pain:"not available"}</Descriptions.Item>
+                                    <Descriptions.Item label="Pain Scale">{data.pain_scale?data.pain_scale:"not available"}</Descriptions.Item>
+                                    <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating!==undefined ? data.pain_aggravating.length>0&&data.pain_aggravating.map(d=>d):"not available"}</Descriptions.Item>
+                                    <Descriptions.Item label="Pain Relieving" span={3}> {data.pain_relieving!==undefined ? data.pain_relieving.length>0&&data.pain_relieving.map(d=>d):"not available"}</Descriptions.Item>
+                                    <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
+                                    <Descriptions.Item label="Superficial" >Intact(dummy)</Descriptions.Item>
+                                    <Descriptions.Item
+                                        label="Deep"
+                                    >
+                                        Impaired(dummy)
+                                    </Descriptions.Item>
+                                    <Descriptions.Item
+                                        label="Cortial"
+                                    >
+                                        Absent(dummy)
                                     </Descriptions.Item>
                                 </Descriptions>
                             </Row>

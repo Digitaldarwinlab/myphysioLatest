@@ -4,7 +4,7 @@ import {
 } from "../../contextStore/actions/Assesment";
 
 import { useDispatch, useSelector } from "react-redux";
-export const AssesmentAPI = async (details, dispatch) => {
+export const  AssesmentAPI = async (details, dispatch) => {
   console.log('inside assesment api')
   console.log(details)
   dispatch({ type: FETCH_DATA });

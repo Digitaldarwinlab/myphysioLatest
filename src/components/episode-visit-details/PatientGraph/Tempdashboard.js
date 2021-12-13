@@ -72,8 +72,9 @@ const Tempdashboard=({viewstate})=>{
                 obj.id = "current Min"
               }
             })
-            Settargetminmaxdata(data.data_line)
-            
+            if(data.data_line.length>0){
+              Settargetminmaxdata(data.data_line)
+            }
             Setminmaxgraphdata(data.data_vertical_bar)
             SetfinalData(data)
             console.log("find 1 ",data.data_vertical_bar2)

@@ -229,10 +229,27 @@ const Register1 = (props) => {
             </Row>
             <StepBar src={svg} />
             <Title level={4} className="border mb-0 p-2">Basic Information</Title>
-
+            
             <Form className="BasicInformation" onFinish={onFinish} style={{marginTop:'2%'}} layout="vertical" onFinishFailed={onFinishFailed} form={form} name="control-hooks">
                 <div className="border p-4 mb-4">
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
+                    <Row gutter={[20, 20]}>
+                    <Col md={24} lg={8} sm={24} xs={24}><Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Patient Role'}</span>} name="Patient Role"
+                                rules={[{ required: true, message: `Please Select Patient Role.` }]} >
+                                <Select
+                                    className="input-field w-100"
+                                    placeholder="Select Patient Role"
+                                >
+                                    <Option value="simple patient">simple patient</Option>
+                                    <Option value="enterprise patient">enterprise patient</Option>
+                                   
+                                </Select>
+                            </Form.Item></Col>
+                    <Col md={24} lg={8} sm={24} xs={24}></Col>
+                        <Col md={24} lg={8} sm={24} xs={24}>
+                        
+                        </Col>
+                        </Row>
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'First Name'}</span>}

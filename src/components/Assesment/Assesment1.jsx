@@ -663,7 +663,7 @@ const Assesment1 = (props1) => {
                 onChange={handleChange} required={true} />
 
             </Col>
-          </Row> */}
+          </Row> 
           <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
             {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
               <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />
