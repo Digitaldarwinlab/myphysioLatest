@@ -1669,3 +1669,6 @@ div#right-box .detail-row b {
   background-color: #ffffff !important;
   margin-top: 5px;
 }
+.form-check-inline input{
+  margin-right: 5px;
+}
