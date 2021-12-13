@@ -239,6 +239,9 @@ const Register1 = (props) => {
                                 <Select
                                     className="input-field w-100"
                                     placeholder="Select Patient Role"
+                                    onChange={(value) => handleChange("is_enterprise", !state.BasicDetails.is_enterprise)}
+                                    value={state.BasicDetails.is_enterprise}
+                                    defaultValue="simple patient"
                                 >
                                     <Option value="simple patient">simple patient</Option>
                                     <Option value="enterprise patient">enterprise patient</Option>

@@ -51,6 +51,7 @@ const Tempdashboard=({viewstate})=>{
             const data=await get_progress(state.patient_code)
             console.log('data  progress')
             console.log("new ",data.data_vertical_bar)
+           if (data.data_vertical_bar){
             data.data_vertical_bar.map(obj=>{
               if(obj.Joints === "Left Shoulder(ver)"){
                 obj.Joints ="LeftShoulder"
@@ -61,6 +62,7 @@ const Tempdashboard=({viewstate})=>{
               obj.max = obj.max.toFixed(0)
               obj.min = obj.min.toFixed(0)
             })
+           }
             data.data_line.map((obj)=>{
               if(obj.id=='Target_Max'){
                 obj.id="Target Max"

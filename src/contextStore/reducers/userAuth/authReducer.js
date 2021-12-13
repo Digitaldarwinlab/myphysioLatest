@@ -57,7 +57,8 @@ const basicDetailsInitialState = {
     FamilyHistory: "",
     isLoading: false,
     success: "",
-    pp_patm_id: ""
+    pp_patm_id: "",
+    is_enterprise:false,
 }
 
 const validationState = {
