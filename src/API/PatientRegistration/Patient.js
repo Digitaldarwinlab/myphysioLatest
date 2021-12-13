@@ -32,7 +32,7 @@ export const Patient_Register = async (user, dispatch) => {
     patientDetails["patient_medical_history"] = user.MedicalHistory;
     patientDetails["patient_Family_History"] = user.FamilyHistory;
     patientDetails["pp_pm"] = JSON.parse(localStorage.getItem("userId"));
-    patientDetails["is_enterprise"] = user.is_enterprise;
+    //patientDetails["is_enterprise"] = user.is_enterprise;
 
     if (patientDetails['middle_name'] === "")
         delete patientDetails["middle_name"];

@@ -234,7 +234,7 @@ const Register1 = (props) => {
                 <div className="border p-4 mb-4">
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     <Row gutter={[20, 20]}>
-                    <Col md={24} lg={8} sm={24} xs={24}><Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Patient Role'}</span>} name="Patient Role"
+                    {/* <Col md={24} lg={8} sm={24} xs={24}><Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Patient Role'}</span>} name="Patient Role"
                                 rules={[{ required: true, message: `Please Select Patient Role.` }]} >
                                 <Select
                                     className="input-field w-100"
@@ -247,7 +247,7 @@ const Register1 = (props) => {
                                     <Option value="enterprise patient">enterprise patient</Option>
                                    
                                 </Select>
-                            </Form.Item></Col>
+                            </Form.Item></Col> */}
                     <Col md={24} lg={8} sm={24} xs={24}></Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                         
