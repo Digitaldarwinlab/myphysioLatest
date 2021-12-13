@@ -89,7 +89,7 @@ class PatientAI extends Component {
             exerciseTime: 0,
         };
        
-   
+        this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
     }
     
@@ -127,15 +127,13 @@ class PatientAI extends Component {
     };
     //Ai Model
     AiModel = () => {
-        darwin.addProgressListener((setCount, repCount) => {
-
-        
-            
-            this.setState({ currenRep: repCount }) 
+       darwin.addProgressListener((setCount, repCount) => { 
+              document.getElementById('sets').textContent = `Sets: ${setCount}`;
+             document.getElementById('reps').textContent = `Reps: ${repCount}`;
+          this.setState({ currenRep: repCount }) 
             this.setState({ currenset: setCount }) 
-          
-            console.log(setCount, this.state.exSetValue)
-            if (setCount == this.state.exSetValue) {
+         console.log(setCount, this.state.exSetValue)
+            if (setCount === this.state.exSetValue) {
                 window.darwin.stop();
                 //   alert("Exercise Complete!!") 
                 //Add Stop and Painmeter Code Here
@@ -269,7 +267,6 @@ class PatientAI extends Component {
         window.darwin.initializeModel(options);
         this.setState({ starttimer: true })
       
-
 
     }
     componentDidUpdate() {
