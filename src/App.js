@@ -40,6 +40,8 @@ import PatientProgress from "./PatientComponents/PatientSchedule/PatientProgress
 import Tempdashboard from "./PatientComponents/Tempdashboard.js";
 import PainAssessment from "./components/Assesment/PainAssessment.jsx";
 import SpecialTest from "./components/Assesment/SpecialTest.jsx";
+import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
+import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
@@ -113,6 +115,8 @@ const App = () => {
 							<PrivateRoute exact path="/patient/consent-form" component={PatientConsuntForm} />
 							<Route exact path="/logout" component={Logout} />
 							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
+							<PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
+							<PatientRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
