@@ -92,6 +92,8 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['nature_of_pain']=details.nature_of_pain;
   AssesmentDetails['pain_aggravating']=details.pain_aggravating;
   AssesmentDetails['pain_relieving']=details.pain_relieving;
+  AssesmentDetails['pain_scars']=details.pain_scars;
+  AssesmentDetails['pain_swelling']=details.pain_swelling;
   AssesmentDetails['sensory_input'] = sensory_input;
   const headers = {
     Accept: "application/json",

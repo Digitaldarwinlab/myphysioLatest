@@ -507,6 +507,10 @@ const Appointments = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col xs={24} sm={12} md={12} lg={16} xl={16}>
+                         <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i>
                         <h3 className="page-heading"><GoCalendar style={{position:"relative",bottom:'3px'}} />{" "}<b>Visits</b></h3>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8} xl={8} className="text-end">

@@ -42,7 +42,10 @@ const FirstAssesmentIniState ={
 
     // 
     Swelling:"no pain",
+    pain_scars:"",
+    pain_swelling:"",
     Numbness:"no pain",
+    pain_state:false,
     PainMeter:0,
     RecentHistory:"",
     Trauma:"",
@@ -114,6 +117,17 @@ export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
             return {
                 ...FirstAssesmentIniState
             }
+        case "PAIN_ASSESMENT_CLEARSTATE":
+            return {
+                ...state,
+                nature_of_pain:{},
+                pain_scale:1,
+                pain_aggravating:{},
+                pain_relieving:{},
+                superficial:'',
+                deep:'',
+                cortial:'',
+            }    
         default:
             return state;
     }

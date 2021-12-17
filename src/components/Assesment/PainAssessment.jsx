@@ -9,6 +9,7 @@ import DummyBody from "./DummyBody";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { Label } from "devextreme-react/chart";
 import { useHistory } from "react-router";
+import FormInput from '../UI/antInputs/FormInput';
 const marks = {
   0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
   2: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
@@ -182,20 +183,34 @@ const PainAssessment = () => {
     // history.goBack();
     alert("hello");
   };
-  const desc = [1, 2, 3, 4];
+  const desc = [1, 2, 3, 4,5,6];
   const formatter = (value) => {
     return `${desc[value]}`;
   };
   const marks1 = {
-    0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
-    1: <MehOutlined style={{ fontSize: 25, color: "limegreen" }} />,
-    2: <FrownOutlined style={{ fontSize: 25, color: "orange" }} />,
-    3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
+    0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
+    2: <i class="far fa-smile" style={{ fontSize: 25, color: 'lime' }}></i>,
+    4: <i class="far fa-meh" style={{ fontSize: 25, color: 'limegreen' }}></i>,
+    6: <i class="far fa-frown" style={{ fontSize: 25, color: 'lightsalmon' }}></i>,
+    8: <i class="far fa-frown" style={{ fontSize: 25, color: 'orange' }}></i>,
+    10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
   };
   const plainOptions = ["Rest", "Movement", "Jerk", "Sleep"];
   const plainOptions1 = ["Rest", "Hot", "Medication", "Physiotherapy"];
   const goBack =() =>{
+    if(window.confirm("pain assessment data will be lost")){
+      dispatch({ type: "PAIN_ASSESMENT_CLEARSTATE" });
     history.push('/assessment/1')
+    state.FirstAssesment.pain_state=false
+    return
+    }
+    return
+  }
+  const saveData=()=>{
+    if(window.confirm("pain assessment data will save")){
+      state.FirstAssesment.pain_state=true
+      history.push('/assessment/1')
+    }
   }
   return (
     <div className="px-2 py-2">
@@ -204,9 +219,9 @@ const PainAssessment = () => {
           {" "}
           <h2>Pain Assesment</h2>{" "}
         </Col>
-        <Col md={24} lg={24} sm={24} xs={24}>
+        {/* <Col md={24} lg={24} sm={24} xs={24}>
           <DummyBody />
-        </Col>
+        </Col> */}
         <Col md={24} lg={24} sm={24} xs={24}>
           <Form>
             <Col
@@ -220,7 +235,6 @@ const PainAssessment = () => {
               <Form.Item
                 label="Nature Of Pain"
                 name="Nature Of Pain"
-                rules={[{ required: true, message: `Please Select` }]}
               ></Form.Item>
               <Radio.Group
                 name="Nature Of Pain"
@@ -249,21 +263,24 @@ const PainAssessment = () => {
               <Form.Item
                 label="Pain Scale"
                 name="Pain Scale"
-                rules={[{ required: true, message: `Please Select` }]}
               ></Form.Item>
               <div style={{ paddingLeft: "25px" }}>
-                <Slider
+                {/* <Slider
                   name="Pain Scale"
                   marks={marks1}
-                  min={0}
-                  max={3}
-                  step={1}
+                  min={0} max={10} step={2}
                   tipFormatter={formatter}
                   onChange={(value) => handleChange1("pain_scale", desc[value])}
                   defaultValue={desc.indexOf(state.FirstAssesment.pain_scale)}
                   value={desc.indexOf(state.FirstAssesment.pain_scale)}
                   style={{ width: 200 }}
-                />
+                /> */}
+                <Slider marks={marks1} min={0} max={10} step={2}
+                  onChange={(value) => handleChange1("pain_scale", value)}
+                  defaultValue={state.FirstAssesment.pain_scale}
+                  value={state.FirstAssesment.pain_scale}
+                  style={{ width: 200 }}
+                  />
               </div>
             </Col>
             <Col
@@ -277,7 +294,6 @@ const PainAssessment = () => {
               <Form.Item
                 label="Pain Aggravating"
                 name="Pain Aggravating"
-                rules={[{ required: true, message: `Please Select` }]}
               ></Form.Item>
               <Checkbox.Group
                 style={{ paddingLeft: "20px" }}
@@ -297,7 +313,6 @@ const PainAssessment = () => {
               <Form.Item
                 label="Pain Relieving"
                 name="Pain Relieving"
-                rules={[{ required: true, message: `Please Select` }]}
               ></Form.Item>
               <Checkbox.Group
                 style={{ paddingLeft: "20px" }}
@@ -306,6 +321,37 @@ const PainAssessment = () => {
                 options={plainOptions1}
               />
             </Col>
+            <Col
+             md={24} lg={12} sm={24} xs={24}
+              style={{ paddingTop: "20px" }}
+              className="mt-2 AreasMain"
+            >
+            <FormInput label="Scars"
+                  name="pain_scars"
+                  value={state.FirstAssesment.pain_scars}
+                  defaultValue={state.FirstAssesment.pain_scars}
+                  onChange={handleChange1} 
+                  >
+                </FormInput>
+                </Col>
+                <Col
+                  md={24}
+                  lg={24}
+                  sm={24}
+                  xs={24}
+                  style={{ paddingTop: "20px" }}
+                  className="mt-2 AreasMain"
+                >
+                  Swelling :
+                  <Radio.Group
+                    onChange={(e) => handleChange1("pain_swelling", e.target.value)}
+                    name="pain_swelling"
+                    style={{ paddingLeft: "45px" }}
+                  >
+                    <Radio value={"fitting"}>fitting</Radio>
+                    <Radio value={"non-fitting"}>non-fitting</Radio>
+                  </Radio.Group>
+                </Col>
             <Col
               md={24}
               lg={24}
@@ -377,7 +423,8 @@ const PainAssessment = () => {
               </Card>
             </Col>
             <div className="text-center mb-3">
-              <button onClick={goBack}>Submit</button>
+            <button onClick={goBack}>Back</button>
+              <button style={{marginLeft:"20px"}} onClick={saveData}>Save</button>
             </div>
           </Form>
         </Col>

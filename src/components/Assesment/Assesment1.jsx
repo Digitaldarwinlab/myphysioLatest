@@ -13,6 +13,7 @@ import Body from './Body';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
 {/* aswin 10/25/2021 start */ }
 import moment from 'moment'
+import ActiveSearch from '../UtilityComponents/ActiveSearch';
 {/* aswin 10/25/2021 start */ }
 const { Dragger } = Upload;
 
@@ -330,10 +331,21 @@ const Assesment1 = (props1) => {
 
         <Row>
           
-          <Col md={24} lg={24} sm={24} xs={24}>
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <h3>
+            <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i>
+            </h3>
             <h3><AiFillMedicineBox />Assesment/Consultation</h3>
           </Col>
-
+           <Col md={12} lg={12} sm={24} xs={24}>
+           <ActiveSearch />  
+           </Col>    
+          {/* <ActiveSearch  /> */}
+          </Row>
+          <Row>
           <Col md={24} lg={24} sm={24} xs={24}>
             <div className="border">
               <p className="ps-1 py-2">
@@ -350,11 +362,10 @@ const Assesment1 = (props1) => {
             </div>
           </Col>
 
-        </Row>
-        {/* <ActiveSearch/>           */}
+        </Row>    
 
         <Row className="AssesmentConsultationMain">
-          <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
+          {/* <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}> */}
             {/* <FormDate label="Date"
 
               name="Date"
@@ -367,7 +378,7 @@ const Assesment1 = (props1) => {
               required={true}
               onChange={handleChange}
             /> */}
-          </Col>
+          {/* </Col> */}
           <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Type" name="Type" rules={[{ required: true, message: `Please Select Type.` }]} >
               <Select placeholder="Select Type"
@@ -406,14 +417,14 @@ const Assesment1 = (props1) => {
                 <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
                 </div>
               </Col>
-              <Col md={24} lg={12} sm={24} xs={24}>
+              {/* <Col md={24} lg={12} sm={24} xs={24}>
                 <input id="myPdf" className="input-file"
                   accept="application/pdf,image/*,application/msword"
                   type="file" multiple
 
                   onInput={handleUploadScars}
                   onChange={(val) => handleChange("ScareFile", val.target.files)} />
-                </Col>
+                </Col> */}
           </Row>
         </Form>
         <Form  form={form}  layout="vertical">

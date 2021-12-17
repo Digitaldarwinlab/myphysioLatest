@@ -308,6 +308,10 @@ console.log(state.labsAndMedicRedu)
     }
     return (
         <div className="px-2 py-4">
+             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i>
             <h3><i className="fas fa-pills"></i> Prescriptions</h3>
             {state.Validation.error && <Error error={state.Validation.error} />}
                 {state.labsAndMedicRedu.isLoading && <Loading />}

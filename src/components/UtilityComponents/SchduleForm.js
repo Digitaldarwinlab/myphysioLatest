@@ -232,7 +232,10 @@ const SchduleForm = (props) => {
            <div style={{ minHeight: "20px" }}></div>
           <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
               <Col >
-              <h3 className="page-heading" id="page-heading"><strong> Add Episode </strong></h3>
+              <h3 className="page-heading" id="page-heading"> <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i><strong> Add Episode </strong></h3>
               </Col>
               <Col span={8} style={{position:'relative',bottom:'0px', right:'0'}}>
               <ActiveSearch  />
