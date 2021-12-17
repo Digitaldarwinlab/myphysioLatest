@@ -368,10 +368,10 @@ console.log(state.labsAndMedicRedu)
                        
                             min={1}
                             max={4}
-                            name={"no_of_medications"+index} 
+                            name={"no_of_medication"+index} 
                     
                             marks={marks}
-                            onChange={(e)=>handleChange('no_of_medications',e,index)}
+                            onChange={(e)=>handleChange('no_of_medication',e,index)}
                             value={state.labsAndMedicRedu.medicationList[index].no_of_medications}
                             className="p-1"
                             style={{position:'relative'}}
