@@ -6,6 +6,10 @@ import Phead from '../components/Layout/PatientSearch/PatientHead'
 import PatDetails from '../components/Layout/PatientSearch/PatDetails'
 import { BsFillEyeFill } from 'react-icons/bs'
 import { BiEdit } from 'react-icons/bi'
+
+  
+
+
 const EnterprisePatient1 = () => {
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" } 
     function Pahead(val) {
@@ -15,80 +19,924 @@ const EnterprisePatient1 = () => {
     }
     return (
         <div>
-             <h3 className="fw-bold m-2">
+             {/* <h3 className="fw-bold m-2">
                 <BackButton />
                 <Row className="bg-search text-center" justify="space-around">
                         {Phead.map(Pahead)}
-                    </Row>
-                <Row  justify="space-around" className="text-center">
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>yash103</p></Col>
+                </Row>
+            </h3> */}
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>Yashi Srivastav </p></Col>
+            <Row gutter={[20,20]} className="mt-3" style={{marginBottom:'15px'}}>
+                <Col md={6} lg={6} sm={6} xs={6}>
+                    Left
+                </Col>
+                <Col md={18} lg={18} sm={18} xs={18}>
 
+                    <table>
+                        <tr>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </th>
+                            <th>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </th>
+                        </tr>
+                        
+                        <tr>
+                            <th></th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                    <li>4 Time</li>
+                                    <li>5 Time</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                    <li>4 Time</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <ul class="table-nav">
+                                    <li>1 Time</li>
+                                    <li>2 Time</li>
+                                    <li>3 Time</li>
+                                </ul>
+                            </th>
+                        </tr>
 
+                        <tr>
+                            <td>Neck</td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                             <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>16/08/2001</p></p></Col>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Shoulder</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>9988774455</p></Col>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Upper Arm</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}>
-                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" />
-                                                            <BiEdit className="iconClass3 me-1" title="Edit"  />
-                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25}  />   : null}    
-                                                        </Col>
-                                                </Row>
-                                                <Row  justify="space-around" className="text-center">
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>yash103</p></Col>
+                        <tr>
+                            <td>Lower Back</td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                             <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>Yashi Srivastav </p></Col>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Forearm</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Wrist</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <td>Hip Buttocks</td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                             <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>16/08/2001</p></p></Col>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Wrist</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>9988774455</p></Col>
+                        <tr>
+                            <td>Knee</td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                             <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}>
-                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" />
-                                                            <BiEdit className="iconClass3 me-1" title="Edit"  />
-                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25}  />   : null}    
-                                                        </Col>
-                                                </Row>
-                                                <Row  justify="space-around" className="text-center">
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>yash103</p></Col>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Lower Leg</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>Yashi Srivastav </p></Col>
-
-
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>16/08/2001</p></p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>9988774455</p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}>
-                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" />
-                                                            <BiEdit className="iconClass3 me-1" title="Edit"  />
-                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25}  />   : null}    
-                                                        </Col>
-                                                </Row>
-                                                <Row  justify="space-around" className="text-center">
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>yash103</p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>Yashi Srivastav </p></Col>
-
-
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>16/08/2001</p></p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>9988774455</p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}>
-                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" />
-                                                            <BiEdit className="iconClass3 me-1" title="Edit"  />
-                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25}  />   : null}    
-                                                        </Col>
-                                                </Row>
-            </h3>
+                        <tr>
+                            <td>
+                                <Row>
+                                    <Col md={12}>Foot</Col>
+                                    <Col md={12}>
+                                        <Row>
+                                            <Col md={24} className="mb-5">(Right)</Col>
+                                            <Col md={24}>(Left)</Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </td>
+                            <td>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                            <td>
+                            <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                                <div className="w-100 checkbox-rs">
+                                    <input type="checkbox"></input> 
+                                    <input type="checkbox"></input>
+                                    <input type="checkbox"></input>
+                                </div>
+                            </td>
+                        </tr>
+                       
+                    </table>
+                  
+                    </Col>
+            </Row>
+            
         </div>
     )
 }
