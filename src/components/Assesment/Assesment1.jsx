@@ -340,6 +340,7 @@ const Assesment1 = (props1) => {
             </h3>
             <h3><AiFillMedicineBox />Assesment/Consultation</h3>
           </Col>
+          {state.Validation.episode_check==='failed'&&<Error error={state.Validation.msg} />}
            <Col md={12} lg={12} sm={24} xs={24}>
            <ActiveSearch />  
            </Col>    

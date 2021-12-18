@@ -308,14 +308,22 @@ console.log(state.labsAndMedicRedu)
     }
     return (
         <div className="px-2 py-4">
-             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+             {state.Validation.error && <Error error={state.Validation.error} />}
+                {state.labsAndMedicRedu.isLoading && <Loading />}
+                {state.labsAndMedicRedu.success && <Success success={state.labsAndMedicRedu.success} />}
+                {state.Validation.episode_check==='failed'&&<Error error={state.Validation.msg} />}
+            <Row>
+            <Col md={12} lg={12} sm={24} xs={24}>
+            <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
             onClick={() => { history.goBack() }}
             title="Go Back"
             role="button"></i>
             <h3><i className="fas fa-pills"></i> Prescriptions</h3>
-            {state.Validation.error && <Error error={state.Validation.error} />}
-                {state.labsAndMedicRedu.isLoading && <Loading />}
-                {state.labsAndMedicRedu.success && <Success success={state.labsAndMedicRedu.success} />}
+            </Col>
+                <Col md={12} lg={12} sm={24} xs={24}>
+           <ActiveSearch />  
+           </Col>
+            </Row>
             <Form style={{ marginTop: "50px" }} onFinish={handleSubmit} layout="vertical" form={form} name="control-hooks">
                 
                 <PresecriptionHeader />
@@ -368,10 +376,10 @@ console.log(state.labsAndMedicRedu)
                        
                             min={1}
                             max={4}
-                            name={"no_of_medication"+index} 
+                            name={"no_of_medications"+index} 
                     
                             marks={marks}
-                            onChange={(e)=>handleChange('no_of_medication',e,index)}
+                            onChange={(e)=>handleChange('no_of_medications',e,index)}
                             value={state.labsAndMedicRedu.medicationList[index].no_of_medications}
                             className="p-1"
                             style={{position:'relative'}}

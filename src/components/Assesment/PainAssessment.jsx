@@ -46,6 +46,7 @@ const PainAssessment = () => {
   });
   const handleChange1 = async (key, value, id = 0) => {
     if (key === "nature_of_pain") {
+      state.FirstAssesment.nature_of_pain_here=value
       if (value == "Aching") {
         dispatch({
           type: STATECHANGE,
@@ -104,6 +105,7 @@ const PainAssessment = () => {
         });
       }
     } else if (key === "pain_aggravating") {
+      state.FirstAssesment.pain_aggravating_here=value
       let obj = {
         Sleep: 0,
         Rest: 0,
@@ -130,6 +132,7 @@ const PainAssessment = () => {
         },
       });
     } else if (key === "pain_relieving") {
+      state.FirstAssesment.pain_relieving_here=value
       let obj = {
         Rest: 0,
         Hot: 0,
@@ -265,16 +268,6 @@ const PainAssessment = () => {
                 name="Pain Scale"
               ></Form.Item>
               <div style={{ paddingLeft: "25px" }}>
-                {/* <Slider
-                  name="Pain Scale"
-                  marks={marks1}
-                  min={0} max={10} step={2}
-                  tipFormatter={formatter}
-                  onChange={(value) => handleChange1("pain_scale", desc[value])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.pain_scale)}
-                  value={desc.indexOf(state.FirstAssesment.pain_scale)}
-                  style={{ width: 200 }}
-                /> */}
                 <Slider marks={marks1} min={0} max={10} step={2}
                   onChange={(value) => handleChange1("pain_scale", value)}
                   defaultValue={state.FirstAssesment.pain_scale}

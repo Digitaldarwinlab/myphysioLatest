@@ -65,8 +65,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [calendarData, SetcalendarData] = useState(0);
   const [allvisits, Setvisits] = useState([]);
   const [choosencareplan, Setchoosencareplan] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState("Oct");
-  const [selectedYear, setSelectedYear] = useState("2021")
+  const [selectedMonth, setSelectedMonth] = useState(new Date().toDateString().slice(4,7));
+  const [selectedYear, setSelectedYear] = useState(new Date().toDateString().slice(-4))
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
   );

@@ -459,7 +459,8 @@ const Appointments = () => {
         setLoading(false);
         if (result && result[0]) {
             setSuccess("Visit Added Successfully.");
-            window.location.reload();
+            history.push('/dashboard')
+          //  window.location.reload();
         } else {
            
             setError(result[1]);
@@ -476,8 +477,8 @@ const Appointments = () => {
          setLoading(false);
          if (result && result[0]) {
              setSuccess("Visit Updated Successfully.");
-               
-             window.location.reload();
+               history.push('/dashboard')
+             //window.location.reload();
          } else {
            
              setError(result[1]);

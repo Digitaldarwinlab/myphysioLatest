@@ -43,6 +43,7 @@ const FirstAssesmentIniState ={
     // 
     Swelling:"no pain",
     pain_scars:"",
+
     pain_swelling:"",
     Numbness:"no pain",
     pain_state:false,
@@ -50,6 +51,9 @@ const FirstAssesmentIniState ={
     RecentHistory:"",
     Trauma:"",
     Test:"",
+    nature_of_pain_here:"",
+    pain_aggravating_here:[],
+    pain_relieving_here:[],
     nature_of_pain:{},
     pain_scale:1,
     pain_aggravating:{},

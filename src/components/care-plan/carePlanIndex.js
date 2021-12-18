@@ -78,6 +78,13 @@ export const getEpisodeDetails = async (pData, dispatch) => {
         })
         {/*  aswin 10/24/2021 stop */}
         if (episode.length !== 0) {
+            // if(episode[0].end_date.length>0){
+            //     dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an open episode" });
+            //     setTimeout(() => {
+            //         dispatch({type:"NOERROR"})
+            //     }, 10000);
+            //     console.log(' ')
+            // }
             episode.map((item,index)=>{
                 if(item.end_date=='')
                 {
@@ -118,6 +125,10 @@ export const getEpisodeDetails = async (pData, dispatch) => {
     })
 
         } else {
+            // dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an episode" });
+            // setTimeout(() => {
+            //     dispatch({type:"NOERROR"})
+            // }, 10000);
             dispatch({
                 type: CARE_PLAN_STATE_CHANGE,
                 payload: {
@@ -303,7 +314,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     useEffect(() => {
         checkEpisodeId()
         dispatch({type:"NOERROR"})
-    }, [reduxState.carePlanRedcucer.patient_code])
+    }, [reduxState.carePlanRedcucer.patient_code,reduxState.episodeReducer.patient_main_code])
     useEffect(() => {
         dispatch({type:"NOERROR"})
     }, [])

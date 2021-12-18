@@ -1001,10 +1001,10 @@ const Body = () => {
               <Row gutter={[10, 10]} className="px-4 py-2">
                     <Col md={24} lg={24} sm={24} xs={24}>
                         <Descriptions title="Pain Assessment" bordered>
-                            <Descriptions.Item label="Nature Of Pain">{JSON.stringify(state.FirstAssesment.nature_of_pain).slice(1,JSON.stringify(state.FirstAssesment.nature_of_pain).length-1)}</Descriptions.Item>
+                            <Descriptions.Item label="Nature Of Pain">{state.FirstAssesment.nature_of_pain_here}</Descriptions.Item>
                             <Descriptions.Item label="Swelling">{state.FirstAssesment.pain_swelling}</Descriptions.Item>
-                            <Descriptions.Item label="Pain Aggravating">{JSON.stringify(state.FirstAssesment.pain_aggravating).slice(1,JSON.stringify(state.FirstAssesment.pain_aggravating).length-1)}</Descriptions.Item>
-                            <Descriptions.Item label="Pain Relieving">{JSON.stringify(state.FirstAssesment.pain_relieving).slice(1,JSON.stringify(state.FirstAssesment.pain_relieving).length-1)}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d=>d+" ")}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Relieving">{ state.FirstAssesment.pain_relieving_here.map(d=>d+" ")}</Descriptions.Item>
                             <Descriptions.Item label="Pain Scale">{state.FirstAssesment.pain_scale}</Descriptions.Item>
                             <Descriptions.Item label="Scars">{state.FirstAssesment.pain_scars}</Descriptions.Item>
                         </Descriptions>
