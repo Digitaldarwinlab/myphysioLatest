@@ -431,7 +431,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         </div>
         <div
           className="time-slot-buttons"
-          style={{ display: "flex", justifyContent: "space-around" }}
+          style={{ display: "flex", justifyContent: "space-between" }}
         >
           {times.map((time, index) => {
             return (
@@ -593,7 +593,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             className="w-100 text-start"
             style={{
               textAlign: "left",
-              fontSize: "24px",
+              fontSize: "20px",
               position: "relative",
               left: "10px",
             }}
