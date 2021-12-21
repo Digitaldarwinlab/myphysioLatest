@@ -42,6 +42,8 @@ import PainAssessment from "./components/Assesment/PainAssessment.jsx";
 import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
+import PoseTest from "./components/Assesment/PoseTest.jsx";
+import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
@@ -104,6 +106,7 @@ const App = () => {
 							<PrivateRoute exact path="/assesment/Questions" component={Assesment2} />
 							<PrivateRoute exact path="/assesment/PainAssessment" component={PainAssessment}/>
 							<PrivateRoute exact path="/assesment/SpecialTest" component={SpecialTest}/>
+							<PrivateRoute exact path="/assesment/PoseTest" component={PoseTest}/>
 							<PrivateRoute exact path="/assessment/AI" component={AI} />
 						
 							<PrivateRoute exact path="/ActiveSearch" component={ActiveSearch} />
@@ -117,6 +120,7 @@ const App = () => {
 							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
 							<PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
 							<PatientRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
+							<PatientRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />

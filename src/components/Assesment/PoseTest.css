@@ -1,0 +1,25 @@
+.assesment-1{
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    
+    overflow-x: hidden;
+    
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #000000;
+}
+.assesment-0{
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    
+    overflow-x: hidden;
+    border-radius: 20px;
+    height: auto;
+    margin-top: 20px;
+    border: 1px solid #000000;
+}
+.spacing{
+    padding: 10px;
+}
