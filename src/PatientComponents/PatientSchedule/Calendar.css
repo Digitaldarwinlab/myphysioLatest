@@ -246,6 +246,7 @@ ul.daysName li p {
   padding: 6px;
   border-radius: 30px;
   margin-top: 8px;
+  cursor: pointer;
 }
 .pervsBTN {
   margin-left: 18%;
