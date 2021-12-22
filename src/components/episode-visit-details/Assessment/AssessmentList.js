@@ -630,7 +630,7 @@ const AssessmentList = ({assesmentClick}) => {
                                     <Descriptions.Item label="Pain Scale">{data.pain_scale?data.pain_scale:"not available"}</Descriptions.Item>
                                     <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating!==undefined ? data.pain_aggravating.length>0&&data.pain_aggravating.map(d=>d+" "):"not available"}</Descriptions.Item>
                                     <Descriptions.Item label="Pain Relieving" span={3}> {data.pain_relieving!==undefined ? data.pain_relieving.length>0&&data.pain_relieving.map(d=>d+" "):"not available"}</Descriptions.Item>
-                                    {/* <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
+                                    <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
                                     <Descriptions.Item label="Superficial" >Intact(dummy)</Descriptions.Item>
                                     <Descriptions.Item
                                         label="Deep"
@@ -641,7 +641,7 @@ const AssessmentList = ({assesmentClick}) => {
                                         label="Cortial"
                                     >
                                         Absent(dummy)
-                                    </Descriptions.Item> */}
+                                    </Descriptions.Item>
                                 </Descriptions>
                             </Row>
                         </div>

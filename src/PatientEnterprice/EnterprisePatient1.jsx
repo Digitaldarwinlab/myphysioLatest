@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { Col, Row,Button } from 'antd'
 import React from 'react'
 import { AiFillUnlock } from 'react-icons/ai'
 import BackButton from '../PatientComponents/shared/BackButton'
@@ -6,11 +6,13 @@ import Phead from '../components/Layout/PatientSearch/PatientHead'
 import PatDetails from '../components/Layout/PatientSearch/PatDetails'
 import { BsFillEyeFill } from 'react-icons/bs'
 import { BiEdit } from 'react-icons/bi'
+import {useHistory } from "react-router-dom"
 
   
 
 
 const EnterprisePatient1 = () => {
+    const history = useHistory()
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" } 
     function Pahead(val) {
         return (
@@ -18,6 +20,7 @@ const EnterprisePatient1 = () => {
         );
     }
     return (
+        <>
         <div>
              {/* <h3 className="fw-bold m-2">
                 <BackButton />
@@ -938,6 +941,15 @@ const EnterprisePatient1 = () => {
             </Row>
             
         </div>
+        <Row>
+        <Col md={6} lg={6} sm={6} xs={6}>
+               {" "}
+            </Col>
+        <Col md={18} lg={18} sm={18} xs={18}>
+            <Button onClick={()=>history.push('/patient/enterprise/dashboard/2')} style={{float:"right"}}>Submit</Button>
+        </Col>
+        </Row>
+    </>
     )
 }
 

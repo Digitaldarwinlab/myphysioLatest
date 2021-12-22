@@ -341,8 +341,8 @@ const PainAssessment = () => {
                     name="pain_swelling"
                     style={{ paddingLeft: "45px" }}
                   >
-                    <Radio value={"fitting"}>fitting</Radio>
-                    <Radio value={"non-fitting"}>non-fitting</Radio>
+                    <Radio value={"pitting"}>pitting</Radio>
+                    <Radio value={"non-pitting"}>non-pitting</Radio>
                   </Radio.Group>
                 </Col>
             <Col

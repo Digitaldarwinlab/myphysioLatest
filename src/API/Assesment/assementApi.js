@@ -95,6 +95,15 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['pain_scars']=details.pain_scars;
   AssesmentDetails['pain_swelling']=details.pain_swelling;
   AssesmentDetails['sensory_input'] = sensory_input;
+  AssesmentDetails['shoulder'] = details.shoulder
+  AssesmentDetails['elbow'] = details.elbow;
+  AssesmentDetails['hip'] = details.hip;
+  AssesmentDetails['ankle'] = details.ankle;
+  AssesmentDetails['cervical'] = details.cervical;
+  AssesmentDetails['thoracic'] = details.thoracic;
+  AssesmentDetails['lumbar'] = details.lumbar;
+  AssesmentDetails['forearm'] = details.forearm;
+  AssesmentDetails['knee'] = details.knee;
   const headers = {
     Accept: "application/json",
     "Content-type": "application/json",

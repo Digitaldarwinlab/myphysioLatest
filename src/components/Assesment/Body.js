@@ -612,110 +612,110 @@ const Body = () => {
     }
     const Submit = async () => {
             
-        if(assesmentstate.Type=='')
-        {//   console.log('Type  in if checking')
-            console.log(assesmentstate.Type)
-           // alert('Please Select a Type')
-           warning()
-          //  SeterrorShow('Please Select a type')
-           // console.log(errorshow)
-            return false
-        }
-        // else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
-        // {
-        //     warning()
-        //     return false
-        // }
+    //     if(assesmentstate.Type=='')
+    //     {//   console.log('Type  in if checking')
+    //         console.log(assesmentstate.Type)
+    //        // alert('Please Select a Type')
+    //        warning()
+    //       //  SeterrorShow('Please Select a type')
+    //        // console.log(errorshow)
+    //         return false
+    //     }
+    //     // else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
+    //     // {
+    //     //     warning()
+    //     //     return false
+    //     // }
 
-        else{
+    //     else{
             
-           if(assesmentstate.Type=='Periodic')
-           {
-               if(assesmentstate.Numbness=='')
-               {
-                warning()
-                   return false
-               }
+    //        if(assesmentstate.Type=='Periodic')
+    //        {
+    //            if(assesmentstate.Numbness=='')
+    //            {
+    //             warning()
+    //                return false
+    //            }
 
-               else if( assesmentstate.Swelling=='')
-               {
-                warning()
-                   return false
-               }
+    //            else if( assesmentstate.Swelling=='')
+    //            {
+    //             warning()
+    //                return false
+    //            }
 
-               else if(assesmentstate.PainMeter==='')
-               {
-                warning()
-                   return false
-               }
-           }
+    //            else if(assesmentstate.PainMeter==='')
+    //            {
+    //             warning()
+    //                return false
+    //            }
+    //        }
 
-           else if(assesmentstate.Type=='First')
-           {
-               if(assesmentstate.Scar==''){
-                warning()
-                   return false
-               }
-               else if(assesmentstate.RecentHistory==''){
-                warning()
-               return false
-               }
-              else if(assesmentstate.Trauma==''){
-                warning()
-               return false
-           }
-           else if(assesmentstate.test==''){
-            warning()
-            return false
-        }
-      else  if(assesmentstate.Numbness=='')
-        {
-            warning()
-            return false
-        }
+    //        else if(assesmentstate.Type=='First')
+    //        {
+    //            if(assesmentstate.Scar==''){
+    //             warning()
+    //                return false
+    //            }
+    //            else if(assesmentstate.RecentHistory==''){
+    //             warning()
+    //            return false
+    //            }
+    //           else if(assesmentstate.Trauma==''){
+    //             warning()
+    //            return false
+    //        }
+    //        else if(assesmentstate.test==''){
+    //         warning()
+    //         return false
+    //     }
+    //   else  if(assesmentstate.Numbness=='')
+    //     {
+    //         warning()
+    //         return false
+    //     }
 
-        else if( assesmentstate.Swelling=='')
-        {
-            warning()
-            return false
-        }
+    //     else if( assesmentstate.Swelling=='')
+    //     {
+    //         warning()
+    //         return false
+    //     }
 
-        else if(assesmentstate.PainMeter==='')
-        {
-            warning()
-            return false
-        }
-           }
-           else if(assesmentstate.Type=='Consultation')
-           {
-              if(assesmentstate.Numbness=='')
-            {
-                warning()
-                return false
-            }
+    //     else if(assesmentstate.PainMeter==='')
+    //     {
+    //         warning()
+    //         return false
+    //     }
+    //        }
+    //        else if(assesmentstate.Type=='Consultation')
+    //        {
+    //           if(assesmentstate.Numbness=='')
+    //         {
+    //             warning()
+    //             return false
+    //         }
 
-            else if( assesmentstate.Swelling=='')
-            {
-                warning()
-                return false
-            }
+    //         else if( assesmentstate.Swelling=='')
+    //         {
+    //             warning()
+    //             return false
+    //         }
 
-            else if(assesmentstate.PainMeter==='')
-            {
-                warning()
-                return false
-            }
-           }
+    //         else if(assesmentstate.PainMeter==='')
+    //         {
+    //             warning()
+    //             return false
+    //         }
+    //        }
            
            
-        }
+    //     }
          
 
-           if(state.episodeReducer.patient_name=='')
-           {
-            warningPatientSelect()
-            return false
-           }
+    //        if(state.episodeReducer.patient_name=='')
+    //        {
+    //         warningPatientSelect()
+    //         return false
+    //        }
 
         Finalsubmit()
    
@@ -1003,8 +1003,8 @@ const Body = () => {
                         <Descriptions title="Pain Assessment" bordered>
                             <Descriptions.Item label="Nature Of Pain">{state.FirstAssesment.nature_of_pain_here}</Descriptions.Item>
                             <Descriptions.Item label="Swelling">{state.FirstAssesment.pain_swelling}</Descriptions.Item>
-                            <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d=>d+" ")}</Descriptions.Item>
-                            <Descriptions.Item label="Pain Relieving">{ state.FirstAssesment.pain_relieving_here.map(d=>d+" ")}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d=>d+",")}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Relieving">{ state.FirstAssesment.pain_relieving_here.map(d=>d+",")}</Descriptions.Item>
                             <Descriptions.Item label="Pain Scale">{state.FirstAssesment.pain_scale}</Descriptions.Item>
                             <Descriptions.Item label="Scars">{state.FirstAssesment.pain_scars}</Descriptions.Item>
                         </Descriptions>
@@ -1039,6 +1039,7 @@ const Body = () => {
                 <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={()=>history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 <button class="ant-btn ms-3" onClick={()=>history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+                <button class="ant-btn ms-3" onClick={()=>history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
                 <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom"></Button>
                 <Button className="ms-3" onClick={Submit}>Submit</Button>
             </div>

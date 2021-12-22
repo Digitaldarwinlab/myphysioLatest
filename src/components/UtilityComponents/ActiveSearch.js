@@ -8,6 +8,7 @@ import {BsSearch} from 'react-icons/bs'
 import './Activesearch.css'
 import {Form} from 'antd' 
 import { CARE_PLAN_CLEAR_STATE } from '../../contextStore/actions/care-plan-action';
+import { getEpisode } from '../../API/Episode/EpisodeApi';
 const ActiveSearch = (props) => {
     const icon=<BsSearch />
     const [PatientData, setPatientData] = useState([])
@@ -65,7 +66,7 @@ const ActiveSearch = (props) => {
     //    document.getElementById(`spanid + ${e.target.id}`).innerHTML= ''
     }
 
-    const SuggestionHandler = (text) => {
+    const SuggestionHandler =  (text) => {
         dispatch({type: CARE_PLAN_CLEAR_STATE})
         let pdata = PatientData.filter((val, ind) => {
             return (
@@ -76,6 +77,8 @@ const ActiveSearch = (props) => {
         Setinputtextvalue('')
         // aswin start 10/30/2021 start 
         sessionStorage.removeItem('patient_code')
+        // const checkEpisode = await getEpisode(pdata[0].pp_patm_id)
+        // console.log("check episode",checkEpisode)
         // aswin start 10/30/2021
         if (props.carePlan) {
             // alert("Inside 1");

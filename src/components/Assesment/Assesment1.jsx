@@ -74,7 +74,7 @@ const Assesment1 = (props1) => {
       if (
         location.pathname != '/assesment/Questions' &&
         location.pathname != '/care-plan' &&location.pathname != '/assesment/PainAssessment'&&
-        location.pathname != '/assesment/SpecialTest'&&
+        location.pathname != '/assesment/SpecialTest'&&location.pathname!='/assesment/PoseTest'&&
         state.FirstAssesment.episode_id != "") {
         //aswin 11/11/2021 start
         if (sessionStorage.getItem('submit')) {

@@ -1,12 +1,119 @@
 import { Col, Collapse, Row, Form, Radio, List, Skeleton } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
-
+import { useDispatch } from "react-redux";
+import { STATECHANGE } from "../../contextStore/actions/Assesment"
 const SpecialTest = () => {
   const { Panel } = Collapse;
   const history = useHistory();
+  const dispatch = useDispatch();
+  let shoulder = {};
+  let elbow = {};
+  let hip = {};
+  let ankle = {};
+  let cervical = {};
+  let forearm = {};
+  let thoracic = {};
+  let lumbar = {};
+  let knee = {};
+  let handleChange = (name, value, state) => {
+    if (name == "shoulder") {
+      shoulder[value] = state;
+    } else if (name == "elbow") {
+      elbow[value] = state;
+    } else if (name == "hip") {
+      hip[value] = state;
+    } else if (name == "ankle") {
+      ankle[value] = state;
+    } else if (name == "cervical") {
+      cervical[value] = state;
+    } else if (name == "thoracic") {
+      thoracic[value] = state;
+    } else if (name == "lumbar") {
+      lumbar[value] = state;
+    } else if (name == "forearm") {
+      forearm[value] = state;
+    } else if (name == "knee") {
+      knee[value] = state;
+    }
+  };
+  useEffect(() => {
+    const unblock = history.block((location, action) => {
+      if (window.confirm("Special Test data will be lost. Is it okay?")) {
+        dispatch({type:"SPECIAL_TEST_CLEARSTATE"})
+        return true;
+      } else {
+        console.log("no check...");
+        return false;
+      }
+    });
+    return () => {
+      unblock();
+    };
+  }, [history]);
+  const handleSubmit = () => {
+    if (window.confirm("Special Test data will be saved")) {
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "shoulder",
+          value: shoulder,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "elbow",
+          value: elbow,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "hip",
+          value: hip,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "knee",
+          value: knee,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "ankle",
+          value: ankle,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "cervical_spine",
+          value: cervical,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "thoracic_spine",
+          value: thoracic,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "lumbar_spine",
+          value: lumbar,
+        },
+      });
+      history.push('/assessment/1')
+    }
+  };
   return (
     <>
       <Form>
@@ -32,10 +139,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={(e) => handleChange("shoulder", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={(e) => handleChange("shoulder", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -52,10 +167,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("elbow", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("elbow", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -72,10 +195,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("forearm", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("forearm", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -92,10 +223,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("hip", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("hip", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -112,10 +251,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("knee", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("knee", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -132,10 +279,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("ankle", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("ankle", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -152,10 +307,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("cervical", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("cervical", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -172,10 +335,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("thoracic", item, 1)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item} type="radio" />
+                      <input
+                        onChange={() => handleChange("thoracic", item, 0)}
+                        name={index + item}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -192,10 +363,18 @@ const SpecialTest = () => {
                   <tr>
                     <td>{item}</td>
                     <td>
-                      <input name={index + item + 1} type="radio" />
+                      <input
+                        onChange={() => handleChange("lumbar", item, 1)}
+                        name={index + item + 1}
+                        type="radio"
+                      />
                     </td>
                     <td>
-                      <input name={index + item + 1} type="radio" />
+                      <input
+                        onChange={() => handleChange("lumbar", item, 0)}
+                        name={index + item + 1}
+                        type="radio"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -203,7 +382,7 @@ const SpecialTest = () => {
             </Panel>
           </Collapse>
           <button
-          onClick={()=>history.push('/assessment/1')}
+            onClick={() => history.push("/assessment/1")}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
               marginTop: "10px",
@@ -211,7 +390,9 @@ const SpecialTest = () => {
           >
             Back
           </button>
-          <button onClick={()=>history.push('/assessment/1')} style={{ marginLeft: "10px" }}>Submit</button>
+          <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
+            Submit
+          </button>
         </div>
       </Form>
     </>

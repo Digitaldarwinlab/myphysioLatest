@@ -132,6 +132,10 @@ export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
                 deep:'',
                 cortial:'',
             }    
+        case "SPECIAL_TEST_CLEARSTATE":
+            return {
+                ...state
+            }    
         default:
             return state;
     }
