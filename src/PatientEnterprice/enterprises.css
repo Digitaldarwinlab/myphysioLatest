@@ -1,4 +1,4 @@
-table {
+.enterprises-table table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
@@ -7,25 +7,25 @@ table {
 }
 
 
-td, th {
+.enterprises-table td, th {
   border: 1px solid #dddddd;
   text-align: center;
   font-size: 12px;
   padding: 8px;
   font-weight: normal;
 }
-th
+.enterprises-table th
 {
 background-color:#2d7ecb;
 color:white;
 }
-th:first-child, td:first-child
+.enterprises-table th:first-child, td:first-child
 {
 position:sticky;
 left:0px;
 
 }
-td:first-child
+.enterprises-table td:first-child
 {
   background-color: #8bb2d7;
   font-size: 16px;
