@@ -33,7 +33,7 @@ const EnterprisePatient1 = () => {
                 <Col md={6} lg={6} sm={6} xs={6}>
                     Left
                 </Col>
-                <Col md={18} lg={18} sm={18} xs={18} style={{overflow:'auto'}} >
+                <Col md={18} lg={18} sm={18} xs={18} style={{overflow:'auto'}} className="enterprises-table" >
 
                     <table>
                         <tr>
