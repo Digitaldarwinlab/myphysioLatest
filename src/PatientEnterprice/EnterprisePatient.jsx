@@ -23,6 +23,7 @@ import pie_data2 from '../PatientComponents/Charts/ChartData/data_pie_2';
 import line_data1 from '../PatientComponents/Charts/ChartData/data_line';
 import bar_data from '../PatientComponents/Charts/ChartData/data_bar';
 import stream_data from '../PatientComponents/Charts/ChartData/data_stream.json'
+import "../styles/enterprises.css"
 
 
 import  '../PatientComponents/Dashboard.css'

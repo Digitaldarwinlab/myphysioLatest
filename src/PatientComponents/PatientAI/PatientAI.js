@@ -1,8 +1,9 @@
+
 import { Row, Col, Modal, Slider } from "antd";
-import VideoScreen from './../shared/VideScreen';
-import BackButton from './../shared/BackButton';
+import VideoScreen from '../shared/VideScreen';
+import BackButton from '../shared/BackButton';
 import { FaMedal, FaStopwatch } from "react-icons/fa";
-import AchievedResult from './../shared/AchievedResult';
+import AchievedResult from '../shared/AchievedResult';
 import { Button } from 'antd';
 import React, { Component } from 'react';
 import { connect } from "react-redux";
@@ -27,16 +28,6 @@ const styles = {
 };
 
 
-//hostname
-let host = window.location.hostname === "localhost";
-let url = window.location.origin;
-//AI Model Data
-const labels = ['leftShoulder(ver)', 'rightShoulder(ver)'
-    , 'leftElbow', 'rightElbow',
-    'leftHip', 'rightHip',
-    'leftKnee', 'rightKnee',
-    'leftShoulder(hor)', 'rightShoulder(hor)',
-];
 
 
 const joints = [
@@ -54,7 +45,7 @@ const joints = [
     { value: 11, label: "leftPelvic" },
 ];
 
-let data = "";
+//let data = "";
 const Separator = styled.div`
 height: 0px;
 margin-top: 30px;
@@ -126,41 +117,48 @@ class PatientAI extends Component {
         );
     };
     //Ai Model
-    AiModel = () => {
-       darwin.addProgressListener((setCount, repCount) => { 
-              document.getElementById('sets').textContent = `Sets: ${setCount}`;
-             document.getElementById('reps').textContent = `Reps: ${repCount}`;
-          this.setState({ currenRep: repCount }) 
-            this.setState({ currenset: setCount }) 
-         console.log(setCount, this.state.exSetValue)
-            if (setCount === this.state.exSetValue) {
-                window.darwin.stop();
-                //   alert("Exercise Complete!!") 
-                //Add Stop and Painmeter Code Here
-                this.setState({ visible: true }) 
-                this.setState({ starttimer: false }) 
-                
-                data = window.darwin.getCarePlanData() //Send this data to API
-
-                // console.log(angles)
-                console.log('careplan data is')
-                console.log(data)
-                console.log('data before')
-                this.setState({ exerciseData: data }) 
+    AiModel = (props) => {
+        try {
+            darwin.addProgressListener((setCount, repCount) => { 
+                let data = "";
+                      document.getElementById('sets').textContent = `Sets: ${setCount}`;
+                     document.getElementById('reps').textContent = `Reps: ${repCount}`;
+                  this.setState({ currenRep: repCount }) 
+                    this.setState({ currenset: setCount }) 
+                 console.log(setCount, this.state.exSetValue)
+                    if (setCount === this.state.exSetValue) {
+                        window.darwin.stop();
+                        //   alert("Exercise Complete!!") 
+                        //Add Stop and Painmeter Code Here
+                        this.setState({ visible: true }) 
+                        this.setState({ starttimer: false }) 
+                        
+                        data = window.darwin.getCarePlanData() //Send this data to API
         
+                        // console.log(angles)
+                        console.log('careplan data is')
+                        console.log(data)
+                        console.log('data before')
+                        this.setState({ exerciseData: data }) 
+                
+        
+                    }
+                })
+          } catch (error) {
+           console.log("AAAAAAAAAAAAA",error);
+           this.AiModel();
+          }
+       
 
-            }
-        })
 
 
-
-        console.log(this.state.exerciseData)
-        let newojb = JSON.stringify(this.state.exerciseData)
-        console.log('unhashed')
+        //console.log(this.state.exerciseData)
+       // let newojb = JSON.stringify(this.state.exerciseData)
+       // console.log('unhashed')
         // console.log(newojb)
-        console.log('hashedd')
-        let hashed = Buffer.from(newojb).toString("base64")
-        console.log(hashed)
+      //  console.log('hashedd')
+     //   let hashed = Buffer.from(newojb).toString("base64")
+    //    console.log(hashed)
 
         return (
             <>
@@ -176,7 +174,7 @@ class PatientAI extends Component {
         )
     }
     finish = async () => {
-
+        console.log("careplanId :" +this.state.careplanId)
         const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
             this.state.pain, this.state.exerciseTime, this.state.careplanId)
         console.log('response')
@@ -220,7 +218,8 @@ class PatientAI extends Component {
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
         console.log("check ", this.props.history.location.state.exercise)
-        this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
+        this.setState({ careplanId: 195 })
+     //   this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
         console.log("QQQQQQQQQQ",exercise.exercise)
         this.setState({ exerciseTime: exercise.exercise.ChoosenTime })
         this.setState({ currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name] })
@@ -274,6 +273,7 @@ class PatientAI extends Component {
         //Select primary angle based on joint
         let primaryAngles = []
         console.log("selected joint :" +this.state.selectedJoint)
+       
         for (let i = 0; i < joints.length; i++) {
             if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && !this.state.selectedJoint.includes('Wrist')) {
                 primaryAngles.push(joints[i].value)
