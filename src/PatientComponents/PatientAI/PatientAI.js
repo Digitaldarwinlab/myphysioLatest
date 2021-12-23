@@ -79,8 +79,8 @@ class PatientAI extends Component {
             careplanId: 0,
             exerciseTime: 0,
         };
-       
-        this.AiModel = this.AiModel.bind(this);
+        
+       // this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
     }
     
@@ -117,16 +117,18 @@ class PatientAI extends Component {
         );
     };
     //Ai Model
-    AiModel = (props) => {
+    AiModel = () => {
+        console.log("Inside AiModel " );
         try {
             darwin.addProgressListener((setCount, repCount) => { 
+                console.log("Inside addProgressListener : "+setCount+":"+repCount );
                 let data = "";
-                      document.getElementById('sets').textContent = `Sets: ${setCount}`;
-                     document.getElementById('reps').textContent = `Reps: ${repCount}`;
+                    //   document.getElementById('sets').textContent = `Sets: ${setCount}`;
+                    //  document.getElementById('reps').textContent = `Reps: ${repCount}`;
                   this.setState({ currenRep: repCount }) 
                     this.setState({ currenset: setCount }) 
                  console.log(setCount, this.state.exSetValue)
-                    if (setCount === this.state.exSetValue) {
+                    if (setCount == this.state.exSetValue) {
                         window.darwin.stop();
                         //   alert("Exercise Complete!!") 
                         //Add Stop and Painmeter Code Here
@@ -242,12 +244,12 @@ class PatientAI extends Component {
               }));
               this.setState({ selectedJoint:  Rom.joint});
         }
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('output');
-        const jcanvas = document.getElementById('jcanvas');
-        const myVideo = document.getElementById("myVideo");
+        var video = document.getElementById('video');
+        var canvas = document.getElementById('output');
+        var jcanvas = document.getElementById('jcanvas');
+        var myVideo = document.getElementById("myVideo");
         let { width, height } = myVideo.getBoundingClientRect()
-        video.width = width;
+       video.width = width;
         const options = {
             video,
             videoWidth: width,
@@ -406,6 +408,8 @@ class PatientAI extends Component {
 
 
     }
+       AiModelProps = this.AiModel.bind(this);
+   // AiModelProps = this.AiModel.bind(this);
     render() {
         return (
             <>
@@ -420,7 +424,9 @@ class PatientAI extends Component {
                         <Col lg={16} md={16} sm={24} xs={24}
                             id="myVideo"
                             className="border" style={{ minHeight: '600px', cursor: "pointer" }}>
-                            {this.AiModel()}
+                         {this.AiModelProps()}
+                          
+                            {/* {this.AiModel()} */}
                         </Col>
                         <Col lg={8} md={8} sm={24} xs={24} id="greenChannel">
                             <Row gutter={[5, 5]}>

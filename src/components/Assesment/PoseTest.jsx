@@ -28,24 +28,28 @@ const { Meta } = Card;
 const PoseTest = () => {
   let d = new Date();
   const newDate = d.toDateString();
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('output');
-  const jcanvas = document.getElementById('jcanvas');
-  const options = {
-    video,
-    videoWidth: 640,
-    videoHeight: 480, //window.innerHeight-20,
-    canvas,
-    drawLine: true,
-    ROMPanel: {
-      canvas: jcanvas,
-      width: 150,
-      height: 150,
-      radius: 70,
-    },
-  };
+  const setModelCanvas = () => {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('output');
+    const jcanvas = document.getElementById('jcanvas');
+    const options = {
+      video,
+      videoWidth: 640,
+      videoHeight: 480, //window.innerHeight-20,
+      canvas,
+      drawLine: true,
+      ROMPanel: {
+        canvas: jcanvas,
+        width: 150,
+        height: 150,
+        radius: 70,
+      },
+    };
+    window.darwin.initializeModel(options);
+    // startModel();
+  }
   useEffect(() => {
-    darwin.initializeModel(options);
+    setModelCanvas();
     darwin.launchModel();
   }, [])
   return (
