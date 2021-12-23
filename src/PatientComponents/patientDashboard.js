@@ -244,7 +244,23 @@ const PatientDashboard = () => {
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
                 <Col  className=" left-side border" >
+                    <h4 className="fw-bold text-center p mt-3">Mr. Akash</h4>
+                    <div className="px-1 py-1 user-name" style={flexStyle}>
+                        <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
+                            src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
+                    </div>
                     <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                        <Col md={24} lg={24} sm={24} xs={24}>
+                            <img title="Click to see or" onClick={() => setVisible(true)}
+                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                         </Col>
+                        <Col md={24} lg={24} sm={24} xs={24}>
+                            <b>Organization Name :</b> Physio AI <br></br> <br></br>
+                            <b>Contact within this organization  :</b> +91 9834343535
+                        </Col>
+                    </Row>
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
@@ -265,7 +281,7 @@ const PatientDashboard = () => {
                         </Col>
             
                         <Col className="treating-doctor card" >
-                            <h4 className="fw-bold text-center p">Treating Doctor</h4>
+                            <h4 className="fw-bold text-center p">Dr. Rajan sharma</h4>
                             <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
                             {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
@@ -349,6 +365,11 @@ const PatientDashboard = () => {
                     <StreamLine data={stream_data}/>
                 </div>        
             </div>
+           <Row className="px-4 py-2 text-center">
+                <Col className="text-center">
+                    <Button type="primary" size="large">Next</Button>
+                </Col>
+            </Row>
         </>
     )
 }

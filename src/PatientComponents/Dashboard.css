@@ -59,3 +59,18 @@ background-color: white;
     margin-bottom: 15px;
     border-radius: 0px !important;
 }
+
+.doctor-image-1{
+    cursor: pointer;
+    width: 120px;
+    margin: 0;
+    height: 120px;
+    border-radius: 95px !important;
+    border: 3px solid #2d7ecb !important;
+}
+.user-name{
+    height: auto !important;
+    background-color: #fff !important;
+    text-align: center;
+    margin: 10px 0;
+}
