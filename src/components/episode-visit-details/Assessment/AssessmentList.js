@@ -631,18 +631,243 @@ const AssessmentList = ({assesmentClick}) => {
                                     <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating!==undefined ? data.pain_aggravating.length>0&&data.pain_aggravating.map(d=>d+" "):"not available"}</Descriptions.Item>
                                     <Descriptions.Item label="Pain Relieving" span={3}> {data.pain_relieving!==undefined ? data.pain_relieving.length>0&&data.pain_relieving.map(d=>d+" "):"not available"}</Descriptions.Item>
                                     <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
-                                    <Descriptions.Item label="Superficial" >Intact(dummy)</Descriptions.Item>
+                                    <Descriptions.Item label="Superficial" >Intact</Descriptions.Item>
                                     <Descriptions.Item
                                         label="Deep"
                                     >
-                                        Impaired(dummy)
+                                        Impaired
                                     </Descriptions.Item>
                                     <Descriptions.Item
                                         label="Cortial"
                                     >
-                                        Absent(dummy)
+                                        Absent
                                     </Descriptions.Item>
                                 </Descriptions>
+                            </Row>
+                        </div>
+                        <div className=" border mb-3 mt-3">
+                            <Row className="border">
+                            <Col lg={18} md={18} sm={18} xs={24}>
+                                    <h4 className="p-2"><u>Special Test</u></h4>
+                                </Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
+                           {data.shoulder&&<>
+                            <Descriptions.Item label="" span={3}><b>Shoulder </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                            <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.shoulder.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
+                           {data.Ankle&&<>
+                            <Descriptions.Item label="" span={3}><b>Ankle </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                            <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Ankle.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Elbow&&<>
+                            <Descriptions.Item label="" span={3}><b>Elbow </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                            <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}} ><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Elbow.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Hip&&<>
+                            <Descriptions.Item label="" span={3}><b>Hip </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                            <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Hip.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Knee&&<>
+                            <Descriptions.Item label="" span={3}><b>Knee </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                                <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Knee.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Cervical_Spine&&<>
+                            <Descriptions.Item label="" span={3}><b>Cervical Spine </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                                <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Cervical_Spine.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Thoracic_Spine&&<>
+                            <Descriptions.Item label="" span={3}><b>Thoracic Spine </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                                <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Thoracic_Spine.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Lumbar_Spine&&<>
+                            <Descriptions.Item label="" span={3}><b>Lumbar Spine </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                                <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Lumbar_Spine.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                            <Col lg={12} md={18} sm={12} xs={12}>
+                           {data.Forearm_wrist_Hand&&<>
+                            <Descriptions.Item label="" span={3}><b>Forearm_wrist_Hand </b></Descriptions.Item>
+                           <table  style={{ width: `${screen.width / 2 }px` }} border='1px'>
+                            <tr>
+                                <td> <center>Questions</center></td>
+                                <td style={{width:"30%"}}><center>Pass/Fail</center></td>
+                            </tr>
+                            {data.Forearm_wrist_Hand.map(an=>
+                            <tr>
+                                <td>
+                                   {an[0]}
+                                </td>
+                                <td>
+                                    <center>{an[1]==1?" Pass ":" Fail "}</center>
+                                </td>
+                            </tr>
+                            )}
+                           </table>
+                           </>}
+                            </Col>
+                            <Col lg={12} md={18} sm={12} xs={12}></Col>
                             </Row>
                         </div>
                         <div className=" border mb-3 mt-3">
