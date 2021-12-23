@@ -44,6 +44,7 @@ import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
 import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
+import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
@@ -121,6 +122,7 @@ const App = () => {
 							<PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
 							<PatientRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
 							<PatientRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
+							<PatientRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
