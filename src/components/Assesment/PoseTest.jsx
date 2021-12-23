@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
   Select,
   Row,
@@ -28,6 +28,26 @@ const { Meta } = Card;
 const PoseTest = () => {
   let d = new Date();
   const newDate = d.toDateString();
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('output');
+  const jcanvas = document.getElementById('jcanvas');
+  const options = {
+    video,
+    videoWidth: 640,
+    videoHeight: 480, //window.innerHeight-20,
+    canvas,
+    drawLine: true,
+    ROMPanel: {
+      canvas: jcanvas,
+      width: 150,
+      height: 150,
+      radius: 70,
+    },
+  };
+  useEffect(() => {
+    darwin.initializeModel(options);
+    darwin.launchModel();
+  }, [])
   return (
     <div className="px-2 py-2">
       <Row>
@@ -67,6 +87,7 @@ const PoseTest = () => {
               style={{ display: "none" }}
             ></video>
             <canvas id="output" className="output" />
+            <canvas id="jcanvas" />
           </Col>
           </div>
         </Col>
@@ -78,8 +99,9 @@ const PoseTest = () => {
                   <Card
                     style={{ marginTop: 5, borderRadius: 10 }}
                     actions={[
-                      <Switch style={{ color: "red", marginTop: 5 }} />,
+                      <Switch onChange={()=>darwin.postureView("front")} style={{ color: "red", marginTop: 5 }} />,
                       <Button
+                        onClick={()=>darwin.postureView("screenshotTaken")}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
                       >
@@ -98,8 +120,9 @@ const PoseTest = () => {
                   <Card
                     style={{ marginTop: 5, borderRadius: 10 }}
                     actions={[
-                       <Switch style={{ color: "red", marginTop: 5 }} />,
+                       <Switch onChange={()=>darwin.postureView("left")} style={{ color: "red", marginTop: 5 }} />,
                       <Button
+                        onClick={()=>darwin.postureView("screenshotTaken")}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
                       >

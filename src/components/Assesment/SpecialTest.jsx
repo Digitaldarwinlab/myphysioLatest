@@ -86,6 +86,13 @@ const SpecialTest = () => {
       dispatch({
         type: STATECHANGE,
         payload: {
+          key: "forearm",
+          value: forearm,
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
           key: "ankle",
           value: ankle,
         },
@@ -125,6 +132,7 @@ const SpecialTest = () => {
         </Row>
         <div className="border mb-3" style={{ paddingTop: "40px" }}>
           <Collapse
+          accordion
             defaultActiveKey={["1"]}
             style={{ width: `${screen.width / 2}px` }}
           >
