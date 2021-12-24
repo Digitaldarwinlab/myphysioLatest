@@ -19,7 +19,7 @@ import "./enterprises.css";
 
 const EnterprisePatient2 = () => {
   
-
+    const history = useHistory()
     return (
         <>
             {/* <h3 className="fw-bold m-2">
@@ -139,6 +139,11 @@ const EnterprisePatient2 = () => {
 
                     </table>
                 </Col>
+            </Row>
+            <Row style={{marginTop:'15px'}} className="p-3 pb-0">
+            <Col md={24} lg={24} sm={24} xs={24}>
+                <Button size={'large'} onClick={()=>history.push('/patient/enterprise/dashboard/3')} style={{float:'right'}}>Submit</Button>
+            </Col>
             </Row>
 
         </>
