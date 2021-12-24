@@ -13,11 +13,11 @@
    
 }
 .right-side{
-    
-    width:60%;
-    display:flex;
+    width: 58%;
+    display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
+    margin-left: 2%;
 }
 
 .right-container{
@@ -27,8 +27,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-bottom: 20px;
-    height: 300px;
+    /* margin-bottom: 20px; */
+    height: auto;
 }
 
 .progress{
@@ -37,7 +37,8 @@
 background-color: white;
     
     display: block;
-    width: 75%;
+    /* width: 75%; */
+    width: 100%;
 }
 .ant-col.treating-doctor.card {
     min-height: 217px;
