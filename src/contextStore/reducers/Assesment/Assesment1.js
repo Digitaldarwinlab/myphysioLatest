@@ -30,13 +30,18 @@ const FirstAssesmentIniState ={
     Duration:"",
     Built:"",
     History:"",
-    Diabetes :"false",
-    HYN: "false",
-    COPD: "false",
-    Cardiac: "false",
-    Medication: "false",
-    Other: "false",
-
+    Medication:'',
+    Others:'',
+    medicCheck:false,
+    othCheck:false,
+    past_medical_history:[],
+//     Diabetes:"false",
+//     HYN: "false",
+//     COPD: "false",
+//     Cardiac: "false",
+//     Medication: "false",
+//     Other: "false",
+// ],
 
 
 
