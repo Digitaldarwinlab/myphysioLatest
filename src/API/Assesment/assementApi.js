@@ -9,8 +9,30 @@ export const  AssesmentAPI = async (details, dispatch) => {
   console.log(details)
   dispatch({ type: FETCH_DATA });
   let AssesmentDetails = {};
+//   let arr=[
+//   arr.push(detail.Diabetes),
+//   arr.push(detail.HYN),
+//   arr.push(detail.COPD),
+//   arr.push(detail.Cardiac),
+//   arr.push(detail.Medication),
+//   arr.push(detail.Other),
+// ]
+// let arr=[
+//   arr.push(details.Diabetes),
+//   arr.push(details.HYN),
+//   arr.push(details.COPD),
+//   arr.push(details.Cardiac),
+//   arr.push(details.Medication),
+//   arr.push(details.Other),
+//   arr.push(details.medText),
+//   arr.push(details.othText),
+//  ]
+  details.medicCheck&&details.past_medical_history.push(details.Medication)
+  details.othCheck&&details.past_medical_history.push(details.Others)
   AssesmentDetails["physical_assessement"] = {
+   
     Scars: details.Scars,
+    past_medical_history: details.past_medical_history,
     
 
     Swelling: details.Swelling,
@@ -27,11 +49,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
     Built: details.Built,
     History: details.History,
     Diabetes: details.Diabetes,
-    HYN: details.HYN,
-    COPD: details.COPD,
-    Cardiac: details.Cardiac,
-    Medication: details.Medication,
-    Other: details.Other,
+   
 
 
 
