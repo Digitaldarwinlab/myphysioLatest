@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col, Descriptions, Empty, Table } from "antd";
+import { Button, Row, Col, Descriptions, Empty, Table, List, Item } from "antd";
 import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { ImPlus } from "react-icons/im";
 import Loading from './../../UtilityComponents/Loading';
@@ -597,11 +597,41 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         <Descriptions.Item label="Built">{data.physical_assessement.Built}</Descriptions.Item>
                                                         <Descriptions.Item label="History">{data.physical_assessement.History}</Descriptions.Item>
                                                         <Descriptions.Item label="chiefCom"> {data.physical_assessement.chiefCom}</Descriptions.Item>
-                                                        <Descriptions.Item label="Past Medical History"> {data.physical_assessement.past_medical_history&&data.physical_assessement.past_medical_history.length>0&&data.physical_assessement.past_medical_history.map(p=>`${p+" ,"}`)}</Descriptions.Item>
-
+                                                        <Descriptions.Item label="Past Medical History" span={3}> {data.physical_assessement.past_medical_history&&data.physical_assessement.past_medical_history.length>0&&data.physical_assessement.past_medical_history.map(p=>`${p+" ,"}`)}</Descriptions.Item>
                                                     </Descriptions>
                                                 </Row>
                                             </div>
+                                            {/* <div className=" border mb-3 mt-3"> */}
+                                            {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<> 
+                                            <Descriptions.Item label="" span={3}><b><u>Subjective </u></b></Descriptions.Item>
+                                            <Row gutter={[10, 10]} className="px-4 py-2">
+                                                <table style={{ width: `${screen.width / 2}px` }}>
+                                                    <tr>
+                                                        <td style={{ width: "25%" }}><b>Occupation</b></td>
+                                                        <td><b>Duration</b></td>
+                                                    </tr>
+                                                    {data.physical_assessement.Subjective.map(data=><tr>
+                                                        <td>{data.occupation}</td>
+                                                        <td>{data.duration}</td>
+                                                    </tr>)}
+                                                </table>
+                                                {/* <List
+                                                    grid={{ gutter: 24, column: 2 }}
+                                                    dataSource={data.physical_assessement.Subjective}
+                                                    renderItem={item => (
+                                                    <>
+                                                    <List.Item>
+                                                     Occupation : {item.occupation}
+                                                     </List.Item>
+                                                     <List.Item>
+                                                     Duration : {item.duration}
+                                                 </List.Item>
+                                                 </>
+                                                 )}
+                                                /> */}
+                                                 
+                                                </Row></>}
+                                            {/* </div> */}
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>

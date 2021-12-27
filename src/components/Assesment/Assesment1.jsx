@@ -3,7 +3,7 @@ import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space } from 'antd';
-import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment"
+import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import FormInput from '../UI/antInputs/FormInput';
@@ -151,7 +151,7 @@ const Assesment1 = (props1) => {
   };
 
   const handleChange = (key, value, id = 0) => {
-    console.log('files ', value, "", key)
+    //alert(value+", "+key+" , "+id)
     if (key === "Date") {
       setDate(value.date);
       dispatch({
@@ -182,6 +182,15 @@ const Assesment1 = (props1) => {
         }
       });
       setFiles([...files, value])
+    }else if(key==='occupation' || key==='duration'){
+      dispatch({
+        type:ASSESSMENT_SUBJECTIVE,
+        payload:{
+          key,
+          value,
+          id
+        }
+      })
     }
     else {
       dispatch({
@@ -309,14 +318,16 @@ const Assesment1 = (props1) => {
   const [medic ,setMedic] = useState(true)
   const [others ,setOthers] = useState(true)
   const handleAddFields = () => {
-    setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+   // setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+   dispatch({ type: ASSESSMENT_ADD_SUB_INPUT, payload: { type: "subjective" } })
 
   }
 
   const handleRemoveFields = (index) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
+    // const values = [...inputFields];
+    // values.splice(index, 1);
+    // setInputFields(values);
+    dispatch({ type: ASSESSMENT_REMOVE_SUB_INPUT, payload: { type: "subjective" } });
   }
 
 
@@ -469,56 +480,65 @@ const Assesment1 = (props1) => {
             </div>
 
           </div>
-
-
-          {inputFields.map((inputFields, index) => (
-            <div key={index}>
-              <div className="container border-bottom mb-3">
-
-                <Row gutter={[20, 20]}>
-                  <Col md={24} lg={12} sm={24} xs={24}>
-                    <h4><b>Occupation</b></h4>
-                  </Col>
-                  <Col md={24} lg={12} sm={24} xs={24} className="text-right">
-                    <select className="form-select w-30"
-                      name="occupation"
-                      aria-label="Default select example"
-                      value={state.FirstAssesment.occupation}
-                      onChange={(e) => handleChange("occupation", e.target.value)}
-
-                    >
-                      <option selected>Type</option>
-                      <option value="1">Desk Job</option>
-                      <option value="2">Standing</option>
-                      <option value="3">Field Work</option>
-                    </select>
-                  </Col>
-                </Row>
-
-                <Row gutter={[20, 20]} className="py-3">
-                  <Col md={24} lg={24} sm={24} xs={24}>
-                    <h4><b>Duration</b></h4>
-                  </Col>
-                  <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
-                    <div className="row" name="Duration" value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", e.target.value)}>
-                      <div className="col form-check-inline"><input type="radio" value="0-8 hours" name="Duration" />0-8 hours</div>
-                      <div className="col form-check-inline"><input type="radio" value="0-4 hours" name="Duration" />0-4 hours</div>
-                      <div className="col form-check-inline"><input type="radio" value="Above 8 Hours" name="Duration" /> Above 8 Hours</div>
-                      <div className="col form-check-inline"><input type="radio" value="Flexible" name="Duration" /> Flexible</div>
+          {state.FirstAssesment.subjective.map((data, index) => {
+            let
+              occupation = `occupation-${index}`,
+              Duration = `Duration-${index}`;
+            return (
+              <div key={inputFields.index}>
+                <div className="container">
+                  <div className="row">
+                    <div className="col">
+                      <h4>Occupation</h4>
                     </div>
-                  </Col>
-                </Row>
+                    <div className="col">
+                      <select className="form-select"
+                        name={"occupation"+index} id={occupation} data-id={index}
+                        aria-label="Default select example"
+                        value={state.FirstAssesment.subjective[index].occupation}
+                        // value={state.FirstAssesment.subjective[index].occupation}
+                        onChange={(e) => handleChange("occupation", e.target.value, index)}
+                        index={index}
+                      >
+                        <option selected></option>
+                        <option value="Desk Job">Desk Job</option>
+                        <option value="Standing">Standing</option>
+                        <option value="Field Work">Field Work</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="row">
 
+                    <h4>Duration</h4>
+                  </div>
+                  <div className="row"
+                    name="Duration" id={Duration} data-id={index}
+                    //value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", //e.target.value)}
+                    value={state.FirstAssesment.subjective[index].duration}
+                    // value={state.FirstAssesment.subjective[index].Duration}
+                    // onChange={(name, value, index) => console.log("")}
+                    onChange={(e) => handleChange("duration", e.target.value,index)}
+                    index={index}
+                  >
+
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-8 hours" />0-8 hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-4 hours" />0-4 hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Above 8 Hours" /> Above 8 Hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Flexible" /> Flexible</div>
+                  </div>
+                </div>
               </div>
-
-            </div>
-          ))
+            )
           }
+          )
+          }
+
+        
 
           <div className="row py-3 mx-1">
             <div className="col">
               <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
-              <button type="button" onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
+              <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
 
             </div>
 

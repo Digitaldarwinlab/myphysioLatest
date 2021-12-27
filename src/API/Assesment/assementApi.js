@@ -34,7 +34,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
     Scars: details.Scars,
     past_medical_history: details.past_medical_history,
     
-
+    Subjective:details.subjective,
     Swelling: details.Swelling,
     PainMeter: details.PainMeter,
     RecentHistory: details.RecentHistory,
