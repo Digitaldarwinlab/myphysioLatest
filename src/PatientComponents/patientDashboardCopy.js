@@ -47,7 +47,7 @@ const AchievcemntsData = [
 var filteredData
 
 let about = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam."
-const PatientDashboard = () => {
+const PatientDashboard1 = () => {
     const userId = JSON.parse(localStorage.getItem("userId"));
 
 
@@ -383,4 +383,4 @@ const PatientDashboard = () => {
         </>
     )
 }
-export default PatientDashboard;
+export default PatientDashboard1;
