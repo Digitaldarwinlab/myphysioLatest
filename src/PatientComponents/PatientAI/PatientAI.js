@@ -27,9 +27,6 @@ const styles = {
     }
 };
 
-
-
-
 const joints = [
     { value: 0, label: "leftShoulder" },
     { value: 1, label: "rightShoulder" },
@@ -58,6 +55,13 @@ const marks1 = {
     2: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
     3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
 };
+const arr = [
+    {
+        currenRep: 0,
+        currenset: 0
+    }
+
+];
 //Component
 class PatientAI extends Component {
     constructor(props) {
@@ -79,7 +83,7 @@ class PatientAI extends Component {
             careplanId: 0,
             exerciseTime: 0,
         };
-        
+       
        // this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
     }
@@ -125,8 +129,11 @@ class PatientAI extends Component {
                 let data = "";
                     //   document.getElementById('sets').textContent = `Sets: ${setCount}`;
                     //  document.getElementById('reps').textContent = `Reps: ${repCount}`;
-                  this.setState({ currenRep: repCount }) 
-                    this.setState({ currenset: setCount }) 
+                //  this.setState({ currenRep: repCount }) 
+                  //  this.setState({ currenset: setCount }) 
+                     arr[0].currenset=setCount;
+                    arr[0].currenRep=repCount;
+                    console.log(arr);
                  console.log(setCount, this.state.exSetValue)
                     if (setCount == this.state.exSetValue) {
                         window.darwin.stop();
@@ -200,8 +207,10 @@ class PatientAI extends Component {
                     <Col lg={8} md={8} sm={8} xs={8}>
                         <p className="p">{userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
                         <p className="p">{this.state.exerciseName}</p>
-                        <p className="p">{this.state.currenset == this.state.exSetValue ? this.state.rep_count : this.state.currenRep} of {this.state.rep_count}</p>
-                        <p className="p">{this.state.currenset} of {this.state.exSetValue}</p>
+                        {/* <p className="p">{this.state.currenset == this.state.exSetValue ? this.state.rep_count : this.state.currenRep} of {this.state.rep_count}</p>
+                        <p className="p">{this.state.currenset} of {this.state.exSetValue}</p> */}
+                        <p className="p">{arr[0].currenset == this.state.exSetValue ? this.state.rep_count : arr[0].currenRep} of {this.state.rep_count}</p>
+                        <p className="p">{arr[0].currenset} of {this.state.exSetValue}</p>
 
 
                     </Col>
