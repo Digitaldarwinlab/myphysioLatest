@@ -4,6 +4,9 @@ import {
     FETCH_DATA,
     RECEIVED_DATA,
     ASSESMENT_CLEARSTATE,
+    ASSESSMENT_ADD_SUB_INPUT,
+    ASSESSMENT_REMOVE_SUB_INPUT,
+    ASSESSMENT_SUBJECTIVE,
 } from "../../actions/Assesment"
 
 
@@ -30,20 +33,29 @@ const FirstAssesmentIniState ={
     Duration:"",
     Built:"",
     History:"",
-    Diabetes :"false",
-    HYN: "false",
-    COPD: "false",
-    Cardiac: "false",
-    Medication: "false",
-    Other: "false",
-
+    Medication:'',
+    Others:'',
+    medicCheck:false,
+    othCheck:false,
+    past_medical_history:[],
+//     Diabetes:"false",
+//     HYN: "false",
+//     COPD: "false",
+//     Cardiac: "false",
+//     Medication: "false",
+//     Other: "false",
+// ],
 
 
 
     // 
     Swelling:"no pain",
     pain_scars:"",
-
+    subjective:[{
+        id:1,
+        occupation:'',
+        duration:''
+    }],
     pain_swelling:"",
     Numbness:"no pain",
     pain_state:false,
@@ -83,7 +95,33 @@ const handleIndexValue = (arr,value,index,ques,ans) => {
     newArr.answer.push(ans)
     return newArr;
 }
-
+const Addsubjective = (list) => {
+    if (list.length === 0) {
+        return [{
+            id:1,
+            occupation:'',
+            duration:''
+        }]
+    } else {
+        let newEntry = {
+            id: list[list.length - 1].id + 1,
+            occupation:'',
+            duration:''
+        }
+        let newList = [...list, newEntry];
+        return newList
+    }
+}
+const Removesubjective = (list) => {
+    list.pop();
+   
+    return list;
+}
+const getNewLabList = (list, key, value, id) => {
+    let newList = [...list];
+    newList[id][key] = value;
+    return newList;
+}
 export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
     switch(action.type){
         case STATECHANGE: 
@@ -117,6 +155,22 @@ export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
                 isLoading:true,
                 success:"Assesment Added"
             }
+         case ASSESSMENT_ADD_SUB_INPUT:
+                return {
+                    ...state,
+                    subjective : Addsubjective(state.subjective)
+                }
+        case ASSESSMENT_REMOVE_SUB_INPUT:
+                return {
+                    ...state,
+                    subjective : Removesubjective(state.subjective)
+                } 
+        case ASSESSMENT_SUBJECTIVE: {
+            return {
+                ...state,
+                labsList: getNewLabList(state.subjective, action.payload.key, action.payload.value, action.payload.id)
+            }
+        }
         case ASSESMENT_CLEARSTATE:
             return {
                 ...FirstAssesmentIniState

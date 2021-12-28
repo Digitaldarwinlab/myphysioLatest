@@ -161,7 +161,7 @@
   text-align: center;
 }
 .calenderView {
-  float: left;
+  float:left;
   display: inline-block;
   width: 100%;
 }
@@ -175,7 +175,7 @@ ul.daysName {
   margin: 0;
   display: inline-block;
   float: left;
-  width: 53.5%;
+  width: 56%;
 }
 ul.daysName li {
   display: inline-block;
@@ -253,7 +253,7 @@ ul.daysName li p {
   margin-right: 1%;
 }
 .nextBTN {
-  margin-left: 1%;
+  margin-left: 3%;
 }
 div#exercise-card2 h4 {
     white-space: nowrap;

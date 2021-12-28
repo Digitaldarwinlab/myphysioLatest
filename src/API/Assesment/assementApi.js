@@ -9,6 +9,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
   console.log(details)
   dispatch({ type: FETCH_DATA });
   let AssesmentDetails = {};
+
   const formdata = new FormData
   // formdata.append("physical_assessement",{
   //   Scars: details.Scars,
@@ -39,10 +40,16 @@ export const  AssesmentAPI = async (details, dispatch) => {
 
   //   // 
   // })
-  AssesmentDetails["physical_assessement"] = {
-    Scars: details.Scars,
-    
 
+  details.medicCheck&&details.past_medical_history.push(details.Medication)
+  details.othCheck&&details.past_medical_history.push(details.Others)
+
+  AssesmentDetails["physical_assessement"] = {
+   
+    Scars: details.Scars,
+    past_medical_history: details.past_medical_history,
+    
+    Subjective:details.subjective,
     Swelling: details.Swelling,
     PainMeter: details.PainMeter,
     RecentHistory: details.RecentHistory,
@@ -57,11 +64,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
     Built: details.Built,
     History: details.History,
     Diabetes: details.Diabetes,
-    HYN: details.HYN,
-    COPD: details.COPD,
-    Cardiac: details.Cardiac,
-    Medication: details.Medication,
-    Other: details.Other,
+   
 
 
 

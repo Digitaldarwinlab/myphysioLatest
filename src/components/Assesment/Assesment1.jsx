@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { InboxOutlined, UploadOutlined} from '@ant-design/icons';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
-import { Select, Row, Col, Input, Form, Upload, Button, Modal, Space } from 'antd';
-import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment"
+import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space } from 'antd';
+import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import FormInput from '../UI/antInputs/FormInput';
@@ -73,8 +73,8 @@ const Assesment1 = (props1) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != '/assesment/Questions' &&
-        location.pathname != '/care-plan' &&location.pathname != '/assesment/PainAssessment'&&
-        location.pathname != '/assesment/SpecialTest'&&location.pathname!='/assesment/PoseTest'&&
+        location.pathname != '/care-plan' && location.pathname != '/assesment/PainAssessment' &&
+        location.pathname != '/assesment/SpecialTest' && location.pathname != '/assesment/PoseTest' &&
         state.FirstAssesment.episode_id != "") {
         //aswin 11/11/2021 start
         if (sessionStorage.getItem('submit')) {
@@ -136,10 +136,10 @@ const Assesment1 = (props1) => {
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
-  const [files ,setFiles] = useState([])
+  const [files, setFiles] = useState([])
 
   const [fileType, setFileType] = useState(false);
-  console.log("files ",files)
+  console.log("files ", files)
 
 
 
@@ -151,7 +151,7 @@ const Assesment1 = (props1) => {
   };
 
   const handleChange = (key, value, id = 0) => {
-    console.log('files ',value,"",key)
+    //alert(value+", "+key+" , "+id)
     if (key === "Date") {
       setDate(value.date);
       dispatch({
@@ -161,9 +161,9 @@ const Assesment1 = (props1) => {
           value: value.dateString
         }
       });
-  
-    }else if(key==="ScareFile"){
-      console.log("files ",(value))
+
+    } else if (key === "ScareFile") {
+      console.log("files ", (value))
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -171,9 +171,9 @@ const Assesment1 = (props1) => {
           value
         }
       });
-      setFiles([...files,value])
-    }else if(key==="TraumaFile"){
-      console.log("files ",(value))
+      setFiles([...files, value])
+    } else if (key === "TraumaFile") {
+      console.log("files ", (value))
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -181,9 +181,18 @@ const Assesment1 = (props1) => {
           value
         }
       });
-      setFiles([...files,value])
+      setFiles([...files, value])
+    }else if(key==='occupation' || key==='duration'){
+      dispatch({
+        type:ASSESSMENT_SUBJECTIVE,
+        payload:{
+          key,
+          value,
+          id
+        }
+      })
     }
-    else{
+    else {
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -305,23 +314,27 @@ const Assesment1 = (props1) => {
 
   ])
 
-
+  let plainOptions1 =['Diabetes','HYN','COPD','Cardiac']
+  const [medic ,setMedic] = useState(true)
+  const [others ,setOthers] = useState(true)
   const handleAddFields = () => {
-    setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+   // setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+   dispatch({ type: ASSESSMENT_ADD_SUB_INPUT, payload: { type: "subjective" } })
 
   }
 
   const handleRemoveFields = (index) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
+    // const values = [...inputFields];
+    // values.splice(index, 1);
+    // setInputFields(values);
+    dispatch({ type: ASSESSMENT_REMOVE_SUB_INPUT, payload: { type: "subjective" } });
   }
 
 
   return (
     <div className="px-2 py-2">
 
-      <Form  style={{background:'#fff', marginTop:'0px', padding:'20px'}} {...layout}
+      <Form style={{ background: '#fff', marginTop: '0px', padding: '20px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
 
@@ -330,23 +343,23 @@ const Assesment1 = (props1) => {
       >
 
         <Row>
-          
+
           <Col md={12} lg={12} sm={24} xs={24}>
             <h3>
-            <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
-            onClick={() => { history.goBack() }}
-            title="Go Back"
-            role="button"></i>
+              <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+                onClick={() => { history.goBack() }}
+                title="Go Back"
+                role="button"></i>
             </h3>
             <h3><AiFillMedicineBox />Assesment/Consultation</h3>
           </Col>
-          {state.Validation.episode_check==='failed'&&<Error error={state.Validation.msg} />}
-           <Col md={12} lg={12} sm={24} xs={24}>
-           <ActiveSearch />  
-           </Col>    
+          {state.Validation.episode_check === 'failed' && <Error error={state.Validation.msg} />}
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <ActiveSearch />
+          </Col>
           {/* <ActiveSearch  /> */}
-          </Row>
-          <Row>
+        </Row>
+        <Row>
           <Col md={24} lg={24} sm={24} xs={24}>
             <div className="border">
               <p className="ps-1 py-2">
@@ -363,11 +376,11 @@ const Assesment1 = (props1) => {
             </div>
           </Col>
 
-        </Row>    
+        </Row>
 
         <Row className="AssesmentConsultationMain">
           {/* <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}> */}
-            {/* <FormDate label="Date"
+          {/* <FormDate label="Date"
 
               name="Date"
               // reverse ="true"
@@ -381,7 +394,8 @@ const Assesment1 = (props1) => {
             /> */}
           {/* </Col> */}
           <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
-            <Form.Item label="Type" name="Type" rules={[{ required: true, message: `Please Select Type.` }]} >
+            <Form.Item label="Type" name="Type">
+            {/* //  rules={[{ required: true, message: `Please Select Type.` }]} > */}
               <Select placeholder="Select Type"
                 className="w-100 input-field"
                 onChange={(value) => handleChange("Type", value)}
@@ -406,7 +420,7 @@ const Assesment1 = (props1) => {
               <h4 className="p-2">Physical Assesment</h4>
             </Col>
           </Row>
-
+          {/* 
           <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
               <Col md={24} lg={12} sm={24} xs={24}>
                 <FormInput label="Scars"
@@ -418,19 +432,12 @@ const Assesment1 = (props1) => {
                 <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
                 </div>
               </Col>
-              {/* <Col md={24} lg={12} sm={24} xs={24}>
-                <input id="myPdf" className="input-file"
-                  accept="application/pdf,image/*,application/msword"
-                  type="file" multiple
-
-                  onInput={handleUploadScars}
-                  onChange={(val) => handleChange("ScareFile", val.target.files)} />
-                </Col> */}
-          </Row>
+             
+          </Row> */}
         </Form>
-        <Form  form={form}  layout="vertical">
+        <Form form={form} layout="vertical">
 
-          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+          {/* <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
             <Col md={24} lg={12} sm={24} xs={24}>
                <FormTextArea label="Recent History"
                   name="RecentHistory"
@@ -440,16 +447,12 @@ const Assesment1 = (props1) => {
             </Col>
 
             <Col  md={24} lg={12} sm={24} xs={24}>
-              {/* <Upload>
-              <Button icons={<UploadOutlined />}
-              onChange={(val) => handleChange("ScareFile", val.target.files[0])}
-              >Click to Upload</Button>
-              </Upload> */}
+             
               <Dragger {...props} id="myPdf"
                 listType="picture-card"
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
-               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+
                onInput={handleUploadScars}
                onChange={ async (e)=>{
                 let files=[]
@@ -460,18 +463,13 @@ const Assesment1 = (props1) => {
               >
                 Choose Files
               </Dragger>
-              {/* <input id="myPdf"
-                accept="application/pdf,image/*,application/msword"
-                type="file" multiple
-
-                onInput={handleUploadScars}
-                onChange={(val) => handleChange("ScareFile", val.target.files[0])} /> */}
+           
 
             </Col>
             <Col md={24} lg={12} sm={24} xs={24}>
             
               </Col>
-          </Row>
+          </Row> */}
 
         </Form>
         {/* gaurav 4/12 */}
@@ -482,56 +480,65 @@ const Assesment1 = (props1) => {
             </div>
 
           </div>
+          {state.FirstAssesment.subjective.map((data, index) => {
+            let
+              occupation = `occupation-${index}`,
+              Duration = `Duration-${index}`;
+            return (
+              <div key={inputFields.index}>
+                <div className="container">
+                  <div className="row">
+                    <div className="col">
+                      <h4>Occupation</h4>
+                    </div>
+                    <div className="col">
+                      <select className="form-select"
+                        name={"occupation"+index} id={occupation} data-id={index}
+                        aria-label="Default select example"
+                        value={state.FirstAssesment.subjective[index].occupation}
+                        // value={state.FirstAssesment.subjective[index].occupation}
+                        onChange={(e) => handleChange("occupation", e.target.value, index)}
+                        index={index}
+                      >
+                        <option selected></option>
+                        <option value="Desk Job">Desk Job</option>
+                        <option value="Standing">Standing</option>
+                        <option value="Field Work">Field Work</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="row">
 
-
-          {inputFields.map((inputFields, index) => (
-            <div key={index}>
-      <div className="container border-bottom mb-3">
-
-        <Row gutter={[20,20]}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <h4><b>Occupation</b></h4>
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24} className="text-right">
-            <select className="form-select w-30"
-                    name="occupation"
-                    aria-label="Default select example"
-                    value={state.FirstAssesment.occupation}
-                    onChange={(e) => handleChange("occupation", e.target.value)}
-
+                    <h4>Duration</h4>
+                  </div>
+                  <div className="row"
+                    name="Duration" id={Duration} data-id={index}
+                    //value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", //e.target.value)}
+                    value={state.FirstAssesment.subjective[index].duration}
+                    // value={state.FirstAssesment.subjective[index].Duration}
+                    // onChange={(name, value, index) => console.log("")}
+                    onChange={(e) => handleChange("duration", e.target.value,index)}
+                    index={index}
                   >
-                    <option selected>Type</option>
-                    <option value="1">Desk Job</option>
-                    <option value="2">Standing</option>
-                    <option value="3">Field Work</option>
-                  </select>
-            </Col>
-        </Row>
-        
-        <Row gutter={[20,20]} className="py-3">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Duration</b></h4>
-            </Col>
-            <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
-              <div className="row" name="Duration" value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", e.target.value)}>
-                  <div className="col form-check-inline"><input type="radio" value="0-8 hours" name="Duration" />0-8 hours</div>
-                  <div className="col form-check-inline"><input type="radio" value="0-4 hours" name="Duration" />0-4 hours</div>
-                  <div className="col form-check-inline"><input type="radio" value="Above 8 Hours" name="Duration" /> Above 8 Hours</div>
-                  <div className="col form-check-inline"><input type="radio" value="Flexible" name="Duration" /> Flexible</div>
-                </div>
-              </Col>
-        </Row>
-  
-      </div>
 
-            </div>
-          ))
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-8 hours" />0-8 hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-4 hours" />0-4 hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Above 8 Hours" /> Above 8 Hours</div>
+                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Flexible" /> Flexible</div>
+                  </div>
+                </div>
+              </div>
+            )
           }
+          )
+          }
+
+        
 
           <div className="row py-3 mx-1">
             <div className="col">
               <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
-              <button type="button" onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
+              <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
 
             </div>
 
@@ -540,44 +547,77 @@ const Assesment1 = (props1) => {
         </div>
 
         <div className="container-fuild">
-          <Row gutter={[20,20]} className="py-3">
-              <Col md={24} lg={24} sm={24} xs={24}>
-                <h4><b>Chief Complaint</b></h4>
-              </Col>
-              <Col md={24} lg={24} sm={24} xs={24}>
-                <input type="text"  className="p-2" placeholder="Cheif Complaint"
-                  name="chiefCom"
-                  value={state.FirstAssesment.chiefCom}
-                  onChange={(e) => handleChange("chiefCom", e.target.value)}
-                />
-              </Col>
+          <Row gutter={[20, 20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4><b>Chief Complaint</b></h4>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <input type="text" className="p-2" placeholder="Cheif Complaint"
+                name="chiefCom"
+                value={state.FirstAssesment.chiefCom}
+                onChange={(e) => handleChange("chiefCom", e.target.value)}
+              />
+            </Col>
           </Row>
         </div>
 
-        <Row gutter={[20,20]} className="py-3">
-              <Col md={24} lg={24} sm={24} xs={24}>
-                <h4><b>History Of Presenting Complaint</b></h4>
-              </Col>
-              <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
-                <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
-                <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
-                <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
-                <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
-                <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
-                </div>
-              </Col>
-          </Row>
-        
+        <Row gutter={[20, 20]} className="py-3">
+          <Col md={24} lg={24} sm={24} xs={24}>
+            <h4><b>History Of Presenting Complaint</b></h4>
+          </Col>
+          <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
+            <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
+              <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
+              <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
+              <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
+              <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
+            </div>
+          </Col>
+        </Row>
+
         <div className="container-fuild">
-          <Row gutter={[20,20]} className="py-3">
-              <Col md={24} lg={24} sm={24} xs={24}>
-                <h4><b>Past Medical History</b></h4>
-              </Col>
+          <Row gutter={[20, 20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4><b>Past Medical History</b></h4>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24} name="past_check">
+              <input type="text" className="p-2" placeholder="Cheif Complaint"
+                name="chiefCom"
+                value={state.FirstAssesment.chiefCom}
+                onChange={(e) => handleChange("chiefCom", e.target.value)}
+              />
+            </Col>
           </Row>
 
-          <Row gutter={[20,20]} className="py-3">
-              <Col md={24} lg={24} sm={24} xs={24} className="ms-2">
-              <div className="row" name="past_check" >
+          <Row gutter={[20, 20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24} className="ms-2">
+            <Checkbox.Group
+                style={{ paddingLeft: "20px" }}
+                name="past Medical History"
+                onChange={(e) => handleChange("past_medical_history", e)}
+                options={plainOptions1}
+              />
+                <Checkbox.Group
+                style={{ paddingLeft: "20px" }}
+                name="Medication"
+                onChange={(e) =>{
+                   setMedic(!medic)
+                   handleChange("medicCheck",medic)
+                  }}
+                options={['Medication']}
+              />
+                <input class="mx-5 p-2" type="text" disabled={medic} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <Checkbox.Group
+                style={{ paddingLeft: "20px" }}
+                name="Others"
+                onChange={(e) => {
+                  setOthers(!others)
+                  handleChange('othCheck',others)
+                }}
+                options={['Others']}
+              />
+                <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} disabled={others} type="text" name='othText' placeholder="Others" />
+              {/* <div className="row" name="past_medical_history" >
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
                   <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
@@ -597,46 +637,46 @@ const Assesment1 = (props1) => {
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
                   <label class="form-check-label" for="inlineCheckbox5">Medication</label>
-                  <input class="mx-5 p-2" type="text" placeholder="Medication" />
+                  <input class="mx-5 p-2" type="text" name='medText' placeholder="Medication" />
                 </div>
-                </div>
-              </Col>
-              <Col md={24} lg={24} sm={24} xs={24} className="p-0" name="past_check">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
-                  <label class="form-check-label" for="inlineCheckbox6">Other</label>
-                  <input class="mx-5 p-2" type="text" placeholder="Other" />
-                </div>
-              </Col>
+              </div>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24} className="p-0" name="past_check">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
+                <label class="form-check-label" for="inlineCheckbox6">Other</label>
+                <input class="mx-5 p-2" type="text" name='othText' placeholder="Other" />
+              </div> */}
+            </Col>
           </Row>
         </div>
 
         <div className="container border-bottom mb-4 p-0">
 
-          <Row gutter={[20,20]} className="py-3">
-                <Col md={24} lg={24} sm={24} xs={24} className="p-0">
-                  <h4><b>Built Type</b></h4>
-                </Col>
-                <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
-                <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
-                  >
-                    <div className="col  form-check-inline">
-                      <input type="radio" value="ectomorphic"
-                        name="Built"
-                      /> Ectomorphic</div>
-                    <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
-                      name="Built"
-                    /> Mesomorphic</div>
-                    <div className="col  form-check-inline"><input type="radio" value="endomorphic"
-                      name="Built"
-                    />Endomorphic</div>
+          <Row gutter={[20, 20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24} className="p-0">
+              <h4><b>Built Type</b></h4>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
+              <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
+              >
+                <div className="col  form-check-inline">
+                  <input type="radio" value="ectomorphic"
+                    name="Built"
+                  /> Ectomorphic</div>
+                <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
+                  name="Built"
+                /> Mesomorphic</div>
+                <div className="col  form-check-inline"><input type="radio" value="endomorphic"
+                  name="Built"
+                />Endomorphic</div>
 
-                  </div>
-                </Col>
-            </Row>
+              </div>
+            </Col>
+          </Row>
         </div>
 
-        <Form form={form} layout="vertical">
+        {/* <Form form={form} layout="vertical">
         <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
             <Col md={24} lg={12} sm={24} xs={24}>
               <FormTextArea label="Recent History"
@@ -664,16 +704,13 @@ const Assesment1 = (props1) => {
             </Col>
           </Row> 
           <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
-            {/* <Col md={16} lg={16} sm={24} xs={24} className="mt-3">
-              <input id="myPdf" accept="application/pdf" type="file" multiple onInput={handleUploadTrauma} onChange={(val) => handleChange("TraumaFile", val.target.files)} />
-            </Col> */}
+          
             <Col md={12} lg={12} sm={24} xs={24}>
               <Dragger {...props} id="myPdf"
                 listType="picture-card"
                 accept="application/pdf,image/*,application/msword"
                 multiple="true"
                 customRequest={dummyRequest}
-               // onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
                onChange={ async (e)=>{
                 let files=[]
                 await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
@@ -688,13 +725,12 @@ const Assesment1 = (props1) => {
               </Dragger>
               </Col>
         </Row>
-        </Form>
-
-        
-      </div>}
+        </Form> */}
 
 
-      {/* </Form> */}
+      </div>
+
+      }
       <Body />
     </div >
   )

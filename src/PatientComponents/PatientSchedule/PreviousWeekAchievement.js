@@ -23,7 +23,7 @@ const PreviousWeekAchievements = ({ data, showPrevious = true }) => {
             backgroundColor: "#fbfbfb",
             border:"0px",
         }}>
-            {showPrevious && <h4 className="fw-bold AchievementWeek">Last Week's Achievement</h4>}
+            {/* {showPrevious && <h4 className="fw-bold AchievementWeek">Last Week's Achievement</h4>} */}
             {showPrevious && <hr className="m-0" />}
             {
                 data.map((item, value) => {
