@@ -10,6 +10,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
   dispatch({ type: FETCH_DATA });
   let AssesmentDetails = {};
 
+  
   const formdata = new FormData
   // formdata.append("physical_assessement",{
   //   Scars: details.Scars,
