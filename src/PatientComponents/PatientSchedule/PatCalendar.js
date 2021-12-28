@@ -590,7 +590,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p
-            className="w-100 text-start"
+            className="w-100 text-start mb-2"
             style={{
               textAlign: "left",
               fontSize: "20px",
