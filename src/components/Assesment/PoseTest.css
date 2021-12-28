@@ -23,3 +23,8 @@
 .spacing{
     padding: 10px;
 }
+.scrollable-container {
+    height: 100%;
+    width:25%;
+    overflow-y: scroll;
+  }

@@ -120,25 +120,28 @@ const PhysioRegisteration1 = (props) => {
         let data = state.physioRegisterReducer;
         if (validation.checkNameValidation(data.first_name).error) {
             dispatch({ type: VALIDATION, payload: { error: "First " + validation.checkNameValidation(data.first_name).error } });
-        } else if (validation.checkNameValidation(data.middle_name).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Middle " + validation.checkNameValidation(data.middle_name).error } });
-        }else if (validation.checkNameValidation(data.last_name).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
-        } else if (validation.checkMobNoValidation(data.mobile_no).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
-        } else if (validation.checkMobNoValidation(data.whatsapp_no).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Whatsapp " + validation.checkMobNoValidation(data.whatsapp_no).error } });
-        } else if (validation.checkLandNoValidation(data.landline).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Landline " + validation.checkLandNoValidation(data.landline).error } });
-        } else {
-            const checkError = state.Validation.error;
-            if (checkError) {
-                alert("please check all the fields")
-            }
-            else {
-                props.next();
-            }
+        } else{
+            props.next();
         }
+     //   else if (validation.checkNameValidation(data.middle_name).error) {
+    //         dispatch({ type: VALIDATION, payload: { error: "Middle " + validation.checkNameValidation(data.middle_name).error } });
+    //     }else if (validation.checkNameValidation(data.last_name).error) {
+    //         dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
+    //     } else if (validation.checkMobNoValidation(data.mobile_no).error) {
+    //         dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
+    //     } else if (validation.checkMobNoValidation(data.whatsapp_no).error) {
+    //         dispatch({ type: VALIDATION, payload: { error: "Whatsapp " + validation.checkMobNoValidation(data.whatsapp_no).error } });
+    //     } else if (validation.checkLandNoValidation(data.landline).error) {
+    //         dispatch({ type: VALIDATION, payload: { error: "Landline " + validation.checkLandNoValidation(data.landline).error } });
+    //     } else {
+    //         const checkError = state.Validation.error;
+    //         if (checkError) {
+    //             alert("please check all the fields")
+    //         }
+    //         else {
+    //             props.next();
+    //         }
+    //     }
         setTimeout(() => {
             dispatch({ type: "NOERROR" });
         }, 10000);
@@ -211,7 +214,7 @@ const PhysioRegisteration1 = (props) => {
                                 placeholder="Enter Physio Mobile Number"
                                 required={true}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.physioRegisterReducer.mobile_no}
                             />
                         </Col>
@@ -233,9 +236,9 @@ const PhysioRegisteration1 = (props) => {
                                 className="input-field"
                                 value={state.physioRegisterReducer.whatsapp_no}
                                 placeholder="Enter Physio WhatsApp Number"
-                                required={true}
+                                required={false}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.physioRegisterReducer.whatsapp_no}
                             />
                         </Col>
@@ -246,7 +249,7 @@ const PhysioRegisteration1 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Doctor Type'}</span>}
                                 name="Doctor_type"
-                                rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
+                              //  rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
                             >
                                 <Select
                                     placeholder="Doctor Type"
@@ -262,7 +265,8 @@ const PhysioRegisteration1 = (props) => {
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Gender'}</span>} name="gender"
-                                rules={[{ required: true, message: `Please Select Gender.` }]}>
+                              //  rules={[{ required: true, message: `Please Select Gender.` }]}
+                              >
                                 <Select placeholder="Gender"
                                     className="input-field w-100"
                                     onChange={(value) => handleChange("gender", value)}

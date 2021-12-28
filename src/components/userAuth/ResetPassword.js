@@ -10,6 +10,7 @@ import Error from './../UtilityComponents/ErrorHandler';
 import Success from './../UtilityComponents/SuccessHandler';
 import FormPassword from './../UI/antInputs/FormPassword';
 import { postNewPassword } from "../../API/userAuth/userAuth";
+import { useHistory } from "react-router-dom";
 
 const ResetPassword = () => {
     const [token, setToken] = useState("");
@@ -19,7 +20,7 @@ const ResetPassword = () => {
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
     let { token: ParamToken } = useParams();
-    
+    const history = useHistory()
     //take Token from url
     useEffect(() => {
         if (!ParamToken) {
@@ -82,6 +83,7 @@ const ResetPassword = () => {
             setLoading(false);
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
+                history.push('/')
                 try{
                     form.resetFields()
                 }

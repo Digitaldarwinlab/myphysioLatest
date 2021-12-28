@@ -116,32 +116,32 @@ const Register2 = (props) => {
     }
 
     const onFinish = (e) => {
-        
-        let data = state.BasicDetails;
-        console.log('errror in addrssess')
-        console.log(validation.checkAddrValidation(data.Address))
-        if (validation.checkEmailValidation(data.Email).error) {
-            dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.Email).error } });
-        } else if (validation.checkPincodeValidation(data.pincode).error) {
-            dispatch({ type: VALIDATION, payload: { error: validation.checkPincodeValidation(data.pincode).error } });
-        } else if (validation.checkMobNoValidation(data.EmergencyContact).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Emergency " + validation.checkMobNoValidation(data.EmergencyContact).error } });
-        }
-        // aswin 11/13/2021 start
-        // else if (validation.checkAddrValidation(data.Address).error) {
-               
-        //     dispatch({ type: VALIDATION, payload: { error: "" +validation.checkAddrValidation(data.Address).error } });
+        props.next()
+        // let data = state.BasicDetails;
+        // console.log('errror in addrssess')
+        // console.log(validation.checkAddrValidation(data.Address))
+        // if (validation.checkEmailValidation(data.Email).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.Email).error } });
+        // } else if (validation.checkPincodeValidation(data.pincode).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: validation.checkPincodeValidation(data.pincode).error } });
+        // } else if (validation.checkMobNoValidation(data.EmergencyContact).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "Emergency " + validation.checkMobNoValidation(data.EmergencyContact).error } });
         // }
-        // aswin 11/13/2021 stop
-        else {
-            const checkError = state.Validation.error;
-            if (checkError) {
-                alert("please check all the fields")
-            }
-            else {
-                props.next();
-            }
-        }
+        // // aswin 11/13/2021 start
+        // // else if (validation.checkAddrValidation(data.Address).error) {
+               
+        // //     dispatch({ type: VALIDATION, payload: { error: "" +validation.checkAddrValidation(data.Address).error } });
+        // // }
+        // // aswin 11/13/2021 stop
+        // else {
+        //     const checkError = state.Validation.error;
+        //     if (checkError) {
+        //         alert("please check all the fields")
+        //     }
+        //     else {
+        //         props.next();
+        //     }
+        // }
         
     };
 
@@ -163,12 +163,12 @@ const Register2 = (props) => {
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Address'}</span>}
-                                required="true"
+                                required={true}
                                 name="Address"
                                 className="input-field w-100"
                                 value={state.BasicDetails.address}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.address}
                             />
                         </Col>
@@ -180,7 +180,7 @@ const Register2 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="Country"
-                                rules={[{ required: true, message: `Please Select Country.` }]}
+                              //  rules={[{ required: true, message: `Please Select Country.` }]}
                                 className="input-field w-100"
                             >
                                 {/* aswin start 10/30/2021 stop */}
@@ -203,7 +203,7 @@ const Register2 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
                                 name="State"
-                                rules={[{ required: true, message: `Please Select State.` }]}
+                               // rules={[{ required: true, message: `Please Select State.` }]}
                                 className="input-field w-100"
                             >
                                 <Select
@@ -232,7 +232,7 @@ const Register2 = (props) => {
                               className="input-field w-100"
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
                                 name="City"
-                                rules={[{ required: true, message: `Please Select City.` }]}
+                              //  rules={[{ required: true, message: `Please Select City.` }]}
                             >
                                 <Select
                                  style={{width:'200px'}}
@@ -262,23 +262,23 @@ const Register2 = (props) => {
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Pincode'}</span>}
-                                required="true"
+                                required={false}
                                 name="pincode"
                                 className="input-field w-100"
                                 value={state.BasicDetails.pincode}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.pincode}
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'E-mail'}</span>}
-                                required="true"
+                                required={true}
                                 name="Email"
                                 className="input-field w-100"
                                 value={state.BasicDetails.Email}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.Email}
                             />
                         </Col>
@@ -304,12 +304,12 @@ const Register2 = (props) => {
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Emergency Contact'}</span>}
-                                required="true"
+                                 required={false}
                                 name="EmergencyContact"
                                 className="input-field w-100"
                                 value={state.BasicDetails.EmergencyContact}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.EmergencyContact}
                             />
                         </Col>

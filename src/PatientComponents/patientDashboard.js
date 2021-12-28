@@ -57,6 +57,63 @@ const PatientDashboard = () => {
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
     const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
+
+    async function getPatientEpisode() {
+        let result = await GetPatientCurrentEpisode();
+     console.log(result[1]);
+        if (!result[0])
+            console.log(result, "Pat Episode Api For Dashboard Screen");
+        let episodeData = result[1];
+        if (episodeData.length !== 0) {
+            episodeData[0].PP_Patient_Details = JSON.parse(episodeData[0].PP_Patient_Details);
+            episodeData[0].treating_doc_details = JSON.parse(episodeData[0].treating_doc_details);
+            let val = episodeData[0].treating_doctor_detail[0];
+            let keys = val ? Object.keys(val) : null;
+            let index = 0;
+            let tempData = [];
+           if(keys!=null){
+            keys.forEach(key => {
+                if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+                    if (key === "start_date") {
+                        tempData.push({
+                            key: index,
+                            Field: "Start Date",
+                            Value: new Date(val.start_date).toISOString().slice(0, 10)
+                        });
+                        index += 1;
+                    } else if (key === "Doctor_type") {
+                        tempData.push({
+                            key: index,
+                            Field: "Doctor Type",
+                            Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
+                        });
+                        index += 1;
+                    } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
+                        tempData.push({
+                            key: index,
+                            Field: keyMapping[key],
+                            Value: val[key]
+                        });
+                        index += 1;
+                    }
+                }
+            });
+        }
+            setPhysioDetailsData(tempData);
+            dispatch({
+                type: "changeEpisodeId", payload: {
+                    value: episodeData[0].pp_ed_id
+                }
+            })
+        }
+       
+       
+
+        console.log('episode data is ',episodeData)
+        episodeData.length>0 && setEpisode(episodeData);    
+        
+    }
+
     //UseEffect
     useEffect( async () => {
         const progres = await getPatientProgress();
@@ -69,62 +126,7 @@ const PatientDashboard = () => {
         koos_score[5]["score"] = progres.Life_koos_score ;
         console.log('koos upfdate',koos_score)
         
-        setDataLine1(progres.data_line);
-        async function getPatientEpisode() {
-            let result = await GetPatientCurrentEpisode();
-         console.log(result[1]);
-            if (!result[0])
-                console.log(result, "Pat Episode Api For Dashboard Screen");
-            let episodeData = result[1];
-            if (episodeData.length !== 0) {
-                episodeData[0].PP_Patient_Details = JSON.parse(episodeData[0].PP_Patient_Details);
-                episodeData[0].treating_doc_details = JSON.parse(episodeData[0].treating_doc_details);
-                let val = episodeData[0].treating_doctor_detail[0];
-                let keys = val ? Object.keys(val) : null;
-                let index = 0;
-                let tempData = [];
-               if(keys!=null){
-                keys.forEach(key => {
-                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
-                        if (key === "start_date") {
-                            tempData.push({
-                                key: index,
-                                Field: "Start Date",
-                                Value: new Date(val.start_date).toISOString().slice(0, 10)
-                            });
-                            index += 1;
-                        } else if (key === "Doctor_type") {
-                            tempData.push({
-                                key: index,
-                                Field: "Doctor Type",
-                                Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
-                            });
-                            index += 1;
-                        } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
-                            tempData.push({
-                                key: index,
-                                Field: keyMapping[key],
-                                Value: val[key]
-                            });
-                            index += 1;
-                        }
-                    }
-                });
-            }
-                setPhysioDetailsData(tempData);
-                dispatch({
-                    type: "changeEpisodeId", payload: {
-                        value: episodeData[0].pp_ed_id
-                    }
-                })
-            }
-           
-           
-
-
-            setEpisode(episodeData);    
-            
-        }
+        progres.data_line&&setDataLine1(progres.data_line);
         getPatientEpisode();
 
         const currentPatientAssesment=await getAssesment(userId)

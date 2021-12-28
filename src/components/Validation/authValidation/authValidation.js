@@ -50,26 +50,26 @@ const checkNameValidation = (value) => {
     console.log('matching name',value)
     var matches = /^[A-Za-z]+$/;
     
-    console.log('matchesss' + matches)
+    // console.log('matchesss' + matches)
   
    
 
-    if(matches.test(value)==false)
-    {
-        error["error"] = "Name Should contain Only Upper and Lower Case Alphabets"
-    }
-    else
-    {
-        error['error']=''
-    }
+    // if(matches.test(value)==false)
+    // {
+    //     error["error"] = "Name Should contain Only Upper and Lower Case Alphabets"
+    // }
+    // else
+    // {
+    //     error['error']=''
+    // }
 
 
-    if (value && value.length > 20) {
-        error["error"] = "Name must contain less than 20 characters."
-    }
-    else if (!value || value.length < 4)
-        error["error"] = "Name must contain atleast 4 characters.";
-    else if (!validName.test(value)) {
+    // if (value && value.length > 20) {
+    //     error["error"] = "Name must contain less than 20 characters."
+    // }
+    // else if (!value || value.length < 4)
+    //     error["error"] = "Name must contain atleast 4 characters.";
+     if (!validName.test(value)) {
         error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
     }
 } 

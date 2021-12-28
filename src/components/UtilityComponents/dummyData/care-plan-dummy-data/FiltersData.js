@@ -1,6 +1,5 @@
 export const Levels = ["Easy", "Medium", "Hard", "Expert"];
-export const Joints = ["nose","leftEye","rightEye",
-"leftEar","rightEar","leftShoulder",
+export const Joints = ["leftShoulder",
 "rightShoulder","leftElbow","rightElbow",
 "leftWrist","rightWrist","leftHip","rightHip",
 "leftKnee","rightKnee","leftAnkle","rightAnkle",

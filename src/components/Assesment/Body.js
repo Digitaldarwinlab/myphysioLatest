@@ -734,7 +734,7 @@ const Body = () => {
     return (
         <div className="border mb-3 mt-0" style={{ background:'#fff', padding:'20px'}}>
 
-            <h3 className="border p-1 m-2 fw-bold"> Areas </h3>
+            {state.FirstAssesment.Type==="First"&&<><h3 className="border p-1 m-2 fw-bold"> Areas </h3>
             <Row gutter={[10, 10]} className="px-0 py-2">
             <Form  form={form}>
             <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain" >
@@ -793,7 +793,7 @@ const Body = () => {
               </Form.Item>
             </Col>
             </Form>
-          </Row>
+          </Row></>}
            {/*
             <div >
                 <Switch onChange={handleChange} />

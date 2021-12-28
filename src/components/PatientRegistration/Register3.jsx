@@ -388,10 +388,10 @@ const Register3 = (props) => {
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Allergies'}</span>}
                                 name="Allergies"
                                 className="input-field w-100"
-                                required="true"
+                                required={false}
                                 value={state.BasicDetails.Allergies}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.Allergies}
                             />
                         </Col>
@@ -402,8 +402,8 @@ const Register3 = (props) => {
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Medical History'}</span>}
                                 name="MedicalHistory"
                                 className="input-field w-100"
-                                required="true"
-                                onBlur={handleBlur}
+                                required={false}
+                             //   onBlur={handleBlur}
                                 value={state.BasicDetails.MedicalHistory}
                                 onChange={handleChange}
                                 defaultValue={state.BasicDetails.MedicalHistory}
@@ -415,11 +415,11 @@ const Register3 = (props) => {
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Family History'}</span>}
                                 name="FamilyHistory"
-                                required="true"
+                                required={false}
                                 className="input-field w-100"
                                 value={state.BasicDetails.FamilyHistory}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.FamilyHistory}
                             />
                         </Col>

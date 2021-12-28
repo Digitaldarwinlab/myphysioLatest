@@ -399,7 +399,7 @@ const Assesment1 = (props1) => {
         </Row>
       </Form>
 
-      <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
+     {state.FirstAssesment.Type==="First"&& <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
         <Form form={form} >
           <Row className="border">
             <Col md={24} lg={24} sm={24} xs={24}>
@@ -573,13 +573,6 @@ const Assesment1 = (props1) => {
               <Col md={24} lg={24} sm={24} xs={24}>
                 <h4><b>Past Medical History</b></h4>
               </Col>
-              <Col md={24} lg={24} sm={24} xs={24} name="past_check">
-                <input type="text"  className="p-2" placeholder="Cheif Complaint"
-                  name="chiefCom"
-                  value={state.FirstAssesment.chiefCom}
-                  onChange={(e) => handleChange("chiefCom", e.target.value)}
-                />
-              </Col>
           </Row>
 
           <Row gutter={[20,20]} className="py-3">
@@ -698,7 +691,7 @@ const Assesment1 = (props1) => {
         </Form>
 
         
-      </div>
+      </div>}
 
 
       {/* </Form> */}
