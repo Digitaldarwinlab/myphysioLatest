@@ -83,12 +83,12 @@ class PatientAI extends Component {
             careplanId: 0,
             exerciseTime: 0,
         };
-        arr=[
+        this.arr = [
             {
             currentRep:0,
             currenset:0
             }
-        ]
+        ];
        
        // this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
