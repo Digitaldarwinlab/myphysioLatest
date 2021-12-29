@@ -9,26 +9,42 @@ export const  AssesmentAPI = async (details, dispatch) => {
   console.log(details)
   dispatch({ type: FETCH_DATA });
   let AssesmentDetails = {};
-//   let arr=[
-//   arr.push(detail.Diabetes),
-//   arr.push(detail.HYN),
-//   arr.push(detail.COPD),
-//   arr.push(detail.Cardiac),
-//   arr.push(detail.Medication),
-//   arr.push(detail.Other),
-// ]
-// let arr=[
-//   arr.push(details.Diabetes),
-//   arr.push(details.HYN),
-//   arr.push(details.COPD),
-//   arr.push(details.Cardiac),
-//   arr.push(details.Medication),
-//   arr.push(details.Other),
-//   arr.push(details.medText),
-//   arr.push(details.othText),
-//  ]
+
+  
+  const formdata = new FormData
+  // formdata.append("physical_assessement",{
+  //   Scars: details.Scars,
+    
+
+  //   Swelling: details.Swelling,
+  //   PainMeter: details.PainMeter,
+  //   RecentHistory: details.RecentHistory,
+  //   Trauma: details.Trauma,
+  //   ScareFile: details.ScareFile,
+  //   TraumaFile: details.TraumaFile,
+  //   Test: details.Test,
+  //   // gaurav
+  //   chiefCom: details.chiefCom,
+  //   occupation: details.occupation,
+  //   Duration: details.Duration,
+  //   Built: details.Built,
+  //   History: details.History,
+  //   Diabetes: details.Diabetes,
+  //   HYN: details.HYN,
+  //   COPD: details.COPD,
+  //   Cardiac: details.Cardiac,
+  //   Medication: details.Medication,
+  //   Other: details.Other,
+
+
+
+
+  //   // 
+  // })
+
   details.medicCheck&&details.past_medical_history.push(details.Medication)
   details.othCheck&&details.past_medical_history.push(details.Others)
+
   AssesmentDetails["physical_assessement"] = {
    
     Scars: details.Scars,
@@ -56,6 +72,44 @@ export const  AssesmentAPI = async (details, dispatch) => {
 
     // 
   };
+// formdata.append("questionnaires",JSON.stringify({
+//   Symptoms: [
+//     details.Symptoms.question,
+//     details.Symptoms.answer,
+//     details.Symptoms.score,
+//     details.KOOS[0],
+//   ],
+//   Stiffness: [
+//     details.Stiffness.question,
+//     details.Stiffness.answer,
+//     details.Stiffness.score,
+//     details.KOOS[1],
+//   ],
+//   pain: [
+//     details.pain.question,
+//     details.pain.answer,
+//     details.pain.score,
+//     details.KOOS[2],
+//   ],
+//   DailyLiving: [
+//     details.DailyLiving.question,
+//     details.DailyLiving.answer,
+//     details.DailyLiving.score,
+//     details.KOOS[3],
+//   ],
+//   Sports: [
+//     details.Sports.question,
+//     details.Sports.answer,
+//     details.Sports.score,
+//     details.KOOS[4],
+//   ],
+//   Life: [
+//     details.Life.question,
+//     details.Life.answer,
+//     details.Life.score,
+//     details.KOOS[5],
+//   ],
+// }))
   AssesmentDetails["questionnaires"] = {
     Symptoms: [
       details.Symptoms.question,
@@ -122,6 +176,30 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['Lumbar_Spine'] = details.lumbar_spine;
   AssesmentDetails['Forearm_wrist_Hand'] = details.forearm;
   AssesmentDetails['Knee'] = details.knee;
+
+  // formdata.append('pp_ed_id',details.episode_id)
+  // formdata.append('joint1score',details.joint1score)
+  // formdata.append('joint2score',details.joint2score)
+  // formdata.append('types',details.type)
+  // formdata.append('AI_data',details.AI_data)
+  // formdata.append('Exercise_Name',details.Exercise_Name)
+  // formdata.append('Numbmess',details.Numbness)
+  // formdata.append('pain_scale',details.pain_scale)
+  // formdata.append('nature_of_pain',details.nature_of_pain)
+  // formdata.append('pain_aggravating',JSON.stringify(details.pain_aggravating))
+  // formdata.append('pain_relieving',JSON.stringify(details.pain_relieving))
+  // formdata.append('pain_scars',JSON.stringify(details.pain_scars))
+  // formdata.append('pain_swelling',details.pain_swelling)
+  // formdata.append('sensory_input',JSON.stringify(sensory_input))
+  // formdata.append('shoulder',details.shoulder)
+  // formdata.append('Elbow',details.elbow)
+  // formdata.append('Hip',details.hip)
+  // formdata.append('Ankle',details.ankle)
+  // formdata.append('Cervical_Spine',details.cervical_spine)
+  // formdata.append('Thoracic_Spine',details.thoracic_spine)
+  // formdata.append('Lumbar_Spine',details.lumbar_spine)
+  // formdata.append('Forearm_wrist_Hand',details.forearm)
+  // formdata.append('Knee',details.knee)
   const headers = {
     Accept: "application/json",
     "Content-type": "application/json",

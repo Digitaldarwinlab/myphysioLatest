@@ -102,10 +102,10 @@ const PhysioRegisteration3 = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsModalVisible(false);
-        const checkError = state.Validation.error;
-        if (checkError) {
-            alert("check the fields")
-        } else {
+        // const checkError = state.Validation.error;
+        // if (checkError) {
+        //     alert("check the fields")
+        // } else {
             let result;
             if (!state.physioRegisterReducer.id) {
                 result = await physioRegister(state.physioRegisterReducer, dispatch);
@@ -121,7 +121,7 @@ const PhysioRegisteration3 = (props) => {
                     dispatch({ type: VALIDATION, payload: { error: "" } });
                 }, 10000);
             }
-        }
+      //  }
     }
 
     const handleReset = () => {
@@ -161,7 +161,7 @@ const PhysioRegisteration3 = (props) => {
                                 value={start}
                                 type="date" label="Start Date" placeholder="Start Date"
                                 onChange={handleChange}
-                                required="true"
+                                required={false}
                                 disabledDate={true}
                                 disabled={false}
                                 defaultValue={state.physioRegisterReducer.start_date ? moment(state.physioRegisterReducer.start_date, "YYYY-MM-DD") : moment(new Date(), "YYYY-MM-DD")}

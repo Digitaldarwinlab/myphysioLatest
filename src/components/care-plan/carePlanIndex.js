@@ -734,6 +734,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 !allocatePlan ? (
                     <Row className="mt-4 border">
                         <Col md={6} lg={5} xl={5} sm={24} xs={24} className="gray-border ant-filter-hidden">
+                            {console.log("checked list ",checkedList)}
                             {AssessmentInfo()}
                             {
                                 checkedList.length === 0 && <Filter filterExercise={filterExercise} checkedList={checkedList} />

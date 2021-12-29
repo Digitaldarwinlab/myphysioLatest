@@ -413,7 +413,7 @@ const Assesment1 = (props1) => {
         </Row>
       </Form>
 
-      <div className="border mb-3 mt-3" style={{ background: '#fff', marginTop: '10px', padding: '20px' }}>
+     {state.FirstAssesment.Type==="First"&& <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
         <Form form={form} >
           <Row className="border">
             <Col md={24} lg={24} sm={24} xs={24}>
@@ -730,8 +730,7 @@ const Assesment1 = (props1) => {
 
       </div>
 
-
-      {/* </Form> */}
+      }
       <Body />
     </div >
   )

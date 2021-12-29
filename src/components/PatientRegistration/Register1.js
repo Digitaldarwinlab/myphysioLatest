@@ -169,33 +169,35 @@ const Register1 = (props) => {
 
     const onFinish = () => {
         let data = state.BasicDetails;
-        console.log(data)
+       // console.log(data)
       //  console.log(validation.checkNameValidation(data.FirstName).error+': error is')
         if (validation.checkNameValidation(data.FirstName).error) {
             dispatch({ type: VALIDATION, payload: { error: "First" + validation.checkNameValidation(data.FirstName).error } });
+        }else{
+            props.next()
         }
-        else if (validation.checkNameValidation(data.MiddleName).error) {
-            dispatch({ type: VALIDATION, payload: { error: "middle " + validation.checkNameValidation(data.MiddleName).error } });
-        }
-        else if (validation.checkNameValidation(data.LastName).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.LastName).error } });
-        } else if (validation.checkMobNoValidation(data.MobileNo).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
-        } else if (validation.checkMobNoValidation(data.WhatsAppNo).error) {
-            dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
-        } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
-            dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });
-        }else {
-            const checkError = state.Validation.error;
-            if (checkError) {
-                let userData = localStorage.setItem('UserData', state.BasicDetails);
+        // else if (validation.checkNameValidation(data.MiddleName).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "middle " + validation.checkNameValidation(data.MiddleName).error } });
+        // }
+        // else if (validation.checkNameValidation(data.LastName).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.LastName).error } });
+        // } else if (validation.checkMobNoValidation(data.MobileNo).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
+        // } else if (validation.checkMobNoValidation(data.WhatsAppNo).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
+        // } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });
+        // }else {
+        //     const checkError = state.Validation.error;
+        //     if (checkError) {
+        //         let userData = localStorage.setItem('UserData', state.BasicDetails);
 
-                alert("please check all the fields")
-            }
-            else {
-                props.next();
-            }
-        }
+        //         alert("please check all the fields")
+        //     }
+        //     else {
+        //         props.next();
+        //     }
+        // }
         
     };
 
@@ -301,10 +303,10 @@ const Register1 = (props) => {
                                 reverse="true"
                                 className="input-field w-100"
                                 value={startDateState}
-                                required={true}
+                                required={false}
                               
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                               // onBlur={handleBlur}
                             />
                         </Col>
                         <Col md={12} lg={3} sm={24} xs={24}>
@@ -319,7 +321,8 @@ const Register1 = (props) => {
                         </Col>
                         <Col md={12} lg={5} sm={24} xs={24}>
                             <Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Gender'}</span>} name="Gender"
-                                rules={[{ required: true, message: `Please Select Gender.` }]}>
+                                //rules={[{ required: true, message: `Please Select Gender.` }]}
+                                >
                                 <Select placeholder="Gender"
                                     className="input-field w-100"
                                     onChange={(value) => handleChange("Gender", value)}
@@ -334,7 +337,8 @@ const Register1 = (props) => {
                         </Col>
                         <Col md={12} lg={8} sm={24} xs={24}>
                             <Form.Item label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Blood Type'}</span>} name="bloodType"
-                                rules={[{ required: true, message: `Please Select Blood Type.` }]} >
+                                //rules={[{ required: true, message: `Please Select Blood Type.` }]} 
+                                >
                                 <Select
                                     className="input-field w-100"
                                     placeholder="Select Blood Type"
@@ -364,7 +368,7 @@ const Register1 = (props) => {
                                 placeholder="Enter Patient Mobile Number"
                                 required={true}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.MobileNo}
                             />
                         </Col>
@@ -376,7 +380,7 @@ const Register1 = (props) => {
                                 placeholder="Enter Patient Landline Number"
                                 required={false}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.LandlineNo}
                             />
                         </Col>
@@ -386,9 +390,9 @@ const Register1 = (props) => {
                                 className="input-field w-100"
                                 value={state.BasicDetails.WhatsAppNo}
                                 placeholder="Enter Patient WhatsApp Number"
-                                required={true}
+                                required={false}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.WhatsAppNo}
                             />
                         </Col>
