@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
-import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space } from 'antd';
+import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio } from 'antd';
 import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
@@ -84,10 +84,7 @@ const Assesment1 = (props1) => {
         //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
-          return true;
-        } else {
-          return false;
-        }
+        } 
       }
     });
 
@@ -473,66 +470,58 @@ const Assesment1 = (props1) => {
 
         </Form>
         {/* gaurav 4/12 */}
+
         <div className="container-fuild">
-          <div className="row">
+        <Row gutter={[20, 20]} className="py-3">
+        <Col md={24} lg={24} sm={24} xs={24}>
+              <h4><b>Subjective</b></h4>
+            </Col>
+          </Row>
+          {/* <div className="row">
             <div className="col">
               <h2>Subjective</h2>
             </div>
 
-          </div>
+          </div> */}
+           <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
           {state.FirstAssesment.subjective.map((data, index) => {
             let
               occupation = `occupation-${index}`,
               Duration = `Duration-${index}`;
             return (
-              <div key={inputFields.index}>
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <h4>Occupation</h4>
-                    </div>
-                    <div className="col">
-                      <select className="form-select"
+               <div className="container-fuild">
+                 <Row gutter={[20, 20]} className="py-3">
+                  <Col md={12} lg={12} sm={12} xs={12}>
+                       <h4>Occupation</h4>{"  "}
+                       <select className="form-select"
                         name={"occupation"+index} id={occupation} data-id={index}
                         aria-label="Default select example"
                         value={state.FirstAssesment.subjective[index].occupation}
                         // value={state.FirstAssesment.subjective[index].occupation}
                         onChange={(e) => handleChange("occupation", e.target.value, index)}
-                        index={index}
                       >
                         <option selected></option>
                         <option value="Desk Job">Desk Job</option>
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
                       </select>
-                    </div>
-                  </div>
-                  <div className="row">
-
+                       </Col>
+                       {/* <Col md={12} lg={12} sm={12} xs={12}> */}
+                    {/* </Col> */}
+                 </Row>
+                 <Row gutter={[20, 20]} className="py-3">
+                 <Col md={24} lg={24} sm={24} xs={24}>
                     <h4>Duration</h4>
-                  </div>
-                  <div className="row"
-                    name="Duration" id={Duration} data-id={index}
-                    //value={state.FirstAssesment.Duration} onChange={(e) => handleChange("Duration", //e.target.value)}
-                    value={state.FirstAssesment.subjective[index].duration}
-                    // value={state.FirstAssesment.subjective[index].Duration}
-                    // onChange={(name, value, index) => console.log("")}
-                    onChange={(e) => handleChange("duration", e.target.value,index)}
-                    index={index}
-                  >
-
-                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-8 hours" />0-8 hours</div>
-                    <div className="col form-check-inline"><input name={Duration} type="radio" value="0-4 hours" />0-4 hours</div>
-                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Above 8 Hours" /> Above 8 Hours</div>
-                    <div className="col form-check-inline"><input name={Duration} type="radio" value="Flexible" /> Flexible</div>
-                  </div>
+                    </Col>
+                    <Radio.Group options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
+                    </Radio.Group>
+                    </Row>
                 </div>
-              </div>
             )
           }
           )
           }
-
+          </Col>
         
 
           <div className="row py-3 mx-1">
@@ -566,12 +555,15 @@ const Assesment1 = (props1) => {
             <h4><b>History Of Presenting Complaint</b></h4>
           </Col>
           <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
-            <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
+          <Radio.Group options={['Sudden','Gradual','History of Fail','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
+   
+            </Radio.Group>
+            {/* <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
               <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
               <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
               <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
               <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
-            </div>
+            </div> */}
           </Col>
         </Row>
 
@@ -580,13 +572,6 @@ const Assesment1 = (props1) => {
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Past Medical History</b></h4>
             </Col>
-            <Col md={24} lg={24} sm={24} xs={24} name="past_check">
-              <input type="text" className="p-2" placeholder="Cheif Complaint"
-                name="chiefCom"
-                value={state.FirstAssesment.chiefCom}
-                onChange={(e) => handleChange("chiefCom", e.target.value)}
-              />
-            </Col>
           </Row>
 
           <Row gutter={[20, 20]} className="py-3">
@@ -594,29 +579,35 @@ const Assesment1 = (props1) => {
             <Checkbox.Group
                 style={{ paddingLeft: "20px" }}
                 name="past Medical History"
+                value={state.FirstAssesment.past_medical_history}
                 onChange={(e) => handleChange("past_medical_history", e)}
                 options={plainOptions1}
               />
                 <Checkbox.Group
                 style={{ paddingLeft: "20px" }}
                 name="Medication"
+                value={state.FirstAssesment.Medication1}
                 onChange={(e) =>{
                    setMedic(!medic)
                    handleChange("medicCheck",medic)
+                   handleChange("Medication1",e)
                   }}
                 options={['Medication']}
               />
-                <input class="mx-5 p-2" type="text" disabled={medic} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <input class="mx-5 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <br/>
                 <Checkbox.Group
                 style={{ paddingLeft: "20px" }}
                 name="Others"
+                value={state.FirstAssesment.Others1}
                 onChange={(e) => {
                   setOthers(!others)
                   handleChange('othCheck',others)
+                  handleChange('Others1',e)
                 }}
                 options={['Others']}
               />
-                <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} disabled={others} type="text" name='othText' placeholder="Others" />
+                <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
               {/* <div className="row" name="past_medical_history" >
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
@@ -651,14 +642,14 @@ const Assesment1 = (props1) => {
           </Row>
         </div>
 
-        <div className="container border-bottom mb-4 p-0">
+        <div className="container-fuild">
 
           <Row gutter={[20, 20]} className="py-3">
-            <Col md={24} lg={24} sm={24} xs={24} className="p-0">
+            <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Built Type</b></h4>
             </Col>
             <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
-              <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
+              {/* <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
               >
                 <div className="col  form-check-inline">
                   <input type="radio" value="ectomorphic"
@@ -671,7 +662,10 @@ const Assesment1 = (props1) => {
                   name="Built"
                 />Endomorphic</div>
 
-              </div>
+              </div> */}
+              <Radio.Group options={['ectomorphic','mesomorphic','endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
+   
+              </Radio.Group>
             </Col>
           </Row>
         </div>

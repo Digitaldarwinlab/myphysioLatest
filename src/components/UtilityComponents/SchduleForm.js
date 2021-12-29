@@ -523,27 +523,27 @@ const SchduleForm = (props) => {
                     )): "no files"}
 
                     </React.Fragment>
-                    : 
-                    <Dragger {...props} id="myPdf"
-                    listType="picture-card"
-                    accept="application/pdf,image/*,application/msword"
-                    multiple="true"
-                    customRequest={dummyRequest}
-                    // aswin 10/16/2021 start //
+                    : null
+                    // <Dragger {...props} id="myPdf"
+                    // listType="picture-card"
+                    // accept="application/pdf,image/*,application/msword"
+                    // multiple="true"
+                    // customRequest={dummyRequest}
+                    // // aswin 10/16/2021 start //
 
-                    onChange={ async (e)=>{
-                    let files=[]
-                    await  e.fileList.map(data=>files.push(data.originFileObj))
-                    console.log(files)
-                    props.handleChange('file',files)
-                    }}
+                    // onChange={ async (e)=>{
+                    // let files=[]
+                    // await  e.fileList.map(data=>files.push(data.originFileObj))
+                    // console.log(files)
+                    // props.handleChange('file',files)
+                    // }}
 
-                    >
-                    <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                    </Dragger> 
+                    // >
+                    // <p className="ant-upload-drag-icon">
+                    // <InboxOutlined />
+                    // </p>
+                    // <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    // </Dragger> 
                     }
                     {/* aswin 10/17/2021 start */}
                     </Col>

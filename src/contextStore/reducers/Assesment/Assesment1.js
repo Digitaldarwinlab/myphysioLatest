@@ -56,6 +56,8 @@ const FirstAssesmentIniState ={
         occupation:'',
         duration:''
     }],
+    Medication1:[],
+    Others1:[],
     pain_swelling:"",
     Numbness:"no pain",
     pain_state:false,
@@ -173,7 +175,12 @@ export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
         }
         case ASSESMENT_CLEARSTATE:
             return {
-                ...FirstAssesmentIniState
+                ...FirstAssesmentIniState,
+                subjective:[{
+                    id:1,
+                    occupation:'',
+                    duration:''
+                }]
             }
         case "PAIN_ASSESMENT_CLEARSTATE":
             return {

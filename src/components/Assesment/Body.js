@@ -733,66 +733,7 @@ const Body = () => {
     return (
         <div className="border mb-3 mt-0" style={{ background: '#fff', padding: '20px' }}>
 
-            {state.FirstAssesment.Type==="First"&&<><h3 className="border p-1 m-2 fw-bold"> Areas </h3>
-            <Row gutter={[10, 10]} className="px-0 py-2">
-            <Form  form={form}>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain" >
-              <Form.Item label="Swelling" name="Swelling" rules={[{ required: true, message: `Please Select` }]} >
-                <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
-                  onChange={(value) => handleChange1("Swelling", desc[value])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Swelling)}
-                  value={desc.indexOf(state.FirstAssesment.Swelling)}
-                  style={{ width: 200 }}
-                />
-                {/* <Rate character={({ index }) => customIcons[index + 1]}
-                  className=" input-field"
-                  tooltips={desc}
-                  onChange={(value) => handleChange("Swelling", desc[value - 1])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Swelling) + 1}
-                /> */}
-              </Form.Item>
-            </Col>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
-              {/* <FormInput label="Numbness"
-                    name="Numbness"
-                    value={state.FirstAssesment.Numbness}
-                    onChange={handleChange} required={true}/> */}
-              <Form.Item label="Numbness" name="Numbness" rules={[{ required: true, message: `Please Select` }]} >
-                <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
-                  onChange={(value) => handleChange1("Numbness", desc[value])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Numbness)}
-                  value={state.FirstAssesment.Numbness}
-                  style={{ width: 200 }}
-                />
-                {/* <Rate character={({ index }) => customIcons[index + 1]}
-                  className=" input-field"
-                  tooltips={desc}
-                  onChange={(value) => handleChange("Numbness", desc[value - 1])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Numbness) + 1}
-                /> */}
-              </Form.Item>
-            </Col>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
-              <Form.Item label="Pain Level" name="PainMeter" rules={[{ required: true, message: `Please Select` }]} >
-                {/* <Select placeholder="Select Type"
-                  className=" input-field"
-                  onChange={(value) => handleChange("PainMeter", value)}
-                  value={state.FirstAssesment.PainMeter}
-                  defaultValue={state.FirstAssesment.PainMeter}>
-                  <Option value="mild">mild</Option>
-                  <Option value="moderate">moderate</Option>
-                  <Option value="severe">severe</Option>
-                </Select> */}
-                <Slider marks={marks} min={0} max={10} step={2}
-                  onChange={(value) => handleChange1("PainMeter", value)}
-                  defaultValue={state.FirstAssesment.PainMeter}
-                  value={state.FirstAssesment.PainMeter}
-                  style={{ width: 200 }}
-                />
-              </Form.Item>
-            </Col>
-            </Form>
-          </Row></>}
+           
            {/*
             {/* <h3 className="border p-1 m-2 fw-bold"> Areas </h3>
             <Row gutter={[10, 10]} className="px-0 py-2">
@@ -912,7 +853,7 @@ const Body = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
                         <p>Joint Selected</p>
 
                         {
@@ -925,11 +866,10 @@ const Body = () => {
 
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
 
             </> : <>
-                <p>Male</p>
                 <Button className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
                 <Row>
                     <Col md={16} lg={16} sm={24} xs={24}>
@@ -1002,7 +942,7 @@ const Body = () => {
                         </div>
                     </Col>
 
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
                         {
                             BodyParts.map((val, id) => {
                                 return (
@@ -1012,7 +952,7 @@ const Body = () => {
                         }
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
             </>
 
