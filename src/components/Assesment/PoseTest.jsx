@@ -13,7 +13,7 @@ import {
 } from "antd";
 import "./PoseTest.css";
 import { Card } from "antd";
-import 'antd/dist/antd.css';
+
 import {
   CaretLeftFilled,
   CameraFilled,
@@ -56,20 +56,29 @@ const PoseTest = () => {
   const [checked1, setChecked1] = useState(false)
   const [checked2, setChecked2] = useState(false)
   const [container, setContainer] = useState(null);
+  const [checkF, setCheckF] = useState(false)
+  const [checkS, setCheckS] = useState(false)
+  const [url1, setUrl1] = useState(bodyImage)
+  const [url2, setUrl2] = useState(bodyImage)
+  const [frontAngles, setFrontAngles] = useState([0,0,0,0,0])
+  const [sideAngles, setSideAngles] = useState([0,0])
   const  captureFront = () => {
     window.scrollTo(0, 0)
     const out = document.getElementById("scr_out1");
     html2canvas(document.getElementById("output")).then(function (canvas) {
         screenshot.push(canvas.toDataURL("image/jpeg", 0.9))
         var extra_canvas = document.createElement("canvas");
-        extra_canvas.setAttribute('width', 136);
-        extra_canvas.setAttribute('height', 96);
+        extra_canvas.setAttribute('width', 272);
+        extra_canvas.setAttribute('height', 192);
         var ctx = extra_canvas.getContext('2d');
-        ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 136, 96);
+        ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 272, 192);
         var dataURL = extra_canvas.toDataURL();
         var img = document.createElement('img');
+      //  document.getElementById("scr_out1").src='../.././assets/logo512.png'
+      setUrl1(dataURL)
         img.src = dataURL
         out.appendChild(img);
+        setCheckF(true)
     },
     );
     //this.props.FirstAssesment("AI_screenshot", screenshot)
@@ -82,14 +91,17 @@ const  captureSide = () => {
   html2canvas(document.getElementById("output")).then(function (canvas) {
       screenshot.push(canvas.toDataURL("image/jpeg", 0.9))
       var extra_canvas = document.createElement("canvas");
-      extra_canvas.setAttribute('width', 136);
-      extra_canvas.setAttribute('height', 96);
+      extra_canvas.setAttribute('width', 272);
+      extra_canvas.setAttribute('height', 192);
       var ctx = extra_canvas.getContext('2d');
-      ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 136, 96);
+      ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 272, 192);
       var dataURL = extra_canvas.toDataURL();
       var img = document.createElement('img');
+      //document.getElementById("scr_out2").src=dataURL
+      setUrl2(dataURL)
       img.src = dataURL
       out.appendChild(img);
+      setCheckS(true)
   },
   );
   //this.props.FirstAssesment("AI_screenshot", screenshot)
@@ -98,8 +110,8 @@ const  captureSide = () => {
 
   return (
     <div className="px-2 py-2">
-      <Row>
-        <Col md={8} lg={8} sm={24} xs={24}>
+      {/*<Row>
+       <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
           <h2>Pose / Balance check</h2>{" "}
         </Col>
@@ -113,16 +125,14 @@ const  captureSide = () => {
 <b> Patient Name </b> name <br /> <h3 style={{float:"right"}}><u>{newDate}</u></h3>
 <b> Patient Code </b> code <br />
 <b> Episode ID: </b> episode id <br />
-{/* aswin 10/25/2021 start */}
 <b>  Episode Type : </b> episode type <br />
-{/* aswin 10/25/2021 stop */}
 <b>  Start Date : </b> start date
 
 </p>
             </div>
           </div>
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col md={16} lg={16} sm={24} xs={16}>
         <div className="assesment1">
@@ -139,12 +149,15 @@ const  captureSide = () => {
           </Col>
           </div>
         </Col>
-        <Col className="border px-2 py-2" md={8} lg={8} sm={24} xs={8}>
-          <Row>
-          <div className="scrollable-container" ref={setContainer}>
+        <Col style={{overflowY: 'scroll'}} className="border px-2 py-2 " md={8} lg={8} sm={24} xs={8}>
+          <Row className="scrollable-container">
+          {/* <div className="scrollable-containe" ref={setContainer}>
+          <div className="backgroun"> */}
             <Col md={24} lg={24} sm={24} xs={24}>
-              <div className="assesment-1">
-                <div className="spacing">
+              <div className="assesment-1 ">
+                <div className="spacing background">
+               
+
                   <Card
                     style={{ marginTop: 5, borderRadius: 10 }}
                     actions={[
@@ -156,9 +169,9 @@ const  captureSide = () => {
                         onClick={async()=>{
                           darwin.postureView("screenshotTaken")
                           captureFront()
-                          setChecked1(!checked1)
-                          const res = await darwin.showAngles()
-                          console.log("show front angles ",res)
+                          setChecked1(false)
+                         // const res = await darwin.showAngles()
+                        //  console.log("show front angles ",res)
                         }}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
@@ -166,10 +179,16 @@ const  captureSide = () => {
                         Snapshot
                       </Button>,
                     ]}
-                  >
-                    <div id="scr_out1"> 
-                    <img id="scr_out1" src={bodyImage} alt="" />
-                    </div>
+                  > 
+                  
+                 {/* {checkF? <div id='scr_out1'>
+                  </div> : */}
+                    <img id="scr_out1" src={url1} alt="" /> <br/>
+                    {'earAngle : '+frontAngles[0]} {' '}
+                    {'shoulderAngle : '+frontAngles[1]} {' '}<br/>
+                    {'hipAngle : '+frontAngles[2]}{' '}
+                    {'kneeAngle : '+frontAngles[3]}{' '}<br/>
+                    {'abovePelvic : '+frontAngles[4]}{' '}
                   </Card>
                 </div>
               </div>
@@ -191,9 +210,9 @@ const  captureSide = () => {
                         onClick={async()=>{
                           darwin.postureView("screenshotTaken")
                           captureSide()
-                          setChecked2(!checked2)
-                          const res = await darwin.showAngles()
-                          console.log("show side angles ",res)
+                          setChecked2(false)
+                        //  const res = await darwin.showAngles()
+                         // console.log("show side angles ",res)
                         }}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
@@ -202,13 +221,20 @@ const  captureSide = () => {
                       </Button>,
                     ]}
                   >
-                    <img id='scr_out2' src={bodyImage} alt="" />
+                   {/* {checkS? <div id='scr_out2'>
+                        
+                    </div>: */}
+                  <img id="scr_out2" src={url2} alt="" /><br/>
+                  {'Above hip : '+sideAngles[0]} <br/>
+                  {'Below hip : '+sideAngles[1]}
                   </Card>
                 </div>
               </div>
             </Col>
-            </div>
+            {/* </div>
+            </div> */}
           </Row>
+          Front angles :
         </Col>
       </Row>
       <Row style={{paddingBottom:"100px"}}>

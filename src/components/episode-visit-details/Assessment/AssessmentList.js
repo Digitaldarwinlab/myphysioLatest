@@ -645,16 +645,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating !== undefined ? data.pain_aggravating.length > 0 && data.pain_aggravating.map(d => d + " ") : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Relieving" span={3}> {data.pain_relieving !== undefined ? data.pain_relieving.length > 0 && data.pain_relieving.map(d => d + " ") : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
-                                                        <Descriptions.Item label="Superficial" >Intact</Descriptions.Item>
+                                                        <Descriptions.Item label="Superficial" >{data.sensory_input.superficial}</Descriptions.Item>
                                                         <Descriptions.Item
                                                             label="Deep"
                                                         >
-                                                            Impaired
+                                                            {data.sensory_input.deep}
                                                         </Descriptions.Item>
                                                         <Descriptions.Item
                                                             label="Cortial"
                                                         >
-                                                            Absent
+                                                            {data.sensory_input.cortial}
                                                         </Descriptions.Item>
                                                     </Descriptions>
                                                 </Row>
