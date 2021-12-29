@@ -29,12 +29,12 @@ import  './Dashboard.css'
 //Style
 const flexStyle = {
     display: "flex",
-    alignItems: "top",
+    alignItems: "center",
     justifyContent: "space-around",
-    height: "auto%",
+    height: "90%",
     backgroundColor: "#fbfbfb",
     // boxShadow: "2px 2px 1px 1px rgba(0, 0, 0, 0.2)",
-    // marginBottom:'20px',
+    marginBottom:'20px',
     border: '0px',
 
 }
@@ -57,6 +57,63 @@ const PatientDashboard = () => {
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
     const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
+
+    async function getPatientEpisode() {
+        let result = await GetPatientCurrentEpisode();
+     console.log(result[1]);
+        if (!result[0])
+            console.log(result, "Pat Episode Api For Dashboard Screen");
+        let episodeData = result[1];
+        if (episodeData.length !== 0) {
+            episodeData[0].PP_Patient_Details = JSON.parse(episodeData[0].PP_Patient_Details);
+            episodeData[0].treating_doc_details = JSON.parse(episodeData[0].treating_doc_details);
+            let val = episodeData[0].treating_doctor_detail[0];
+            let keys = val ? Object.keys(val) : null;
+            let index = 0;
+            let tempData = [];
+           if(keys!=null){
+            keys.forEach(key => {
+                if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+                    if (key === "start_date") {
+                        tempData.push({
+                            key: index,
+                            Field: "Start Date",
+                            Value: new Date(val.start_date).toISOString().slice(0, 10)
+                        });
+                        index += 1;
+                    } else if (key === "Doctor_type") {
+                        tempData.push({
+                            key: index,
+                            Field: "Doctor Type",
+                            Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
+                        });
+                        index += 1;
+                    } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
+                        tempData.push({
+                            key: index,
+                            Field: keyMapping[key],
+                            Value: val[key]
+                        });
+                        index += 1;
+                    }
+                }
+            });
+        }
+            setPhysioDetailsData(tempData);
+            dispatch({
+                type: "changeEpisodeId", payload: {
+                    value: episodeData[0].pp_ed_id
+                }
+            })
+        }
+       
+       
+
+        console.log('episode data is ',episodeData)
+        episodeData.length>0 && setEpisode(episodeData);    
+        
+    }
+
     //UseEffect
     useEffect( async () => {
         const progres = await getPatientProgress();
@@ -69,62 +126,7 @@ const PatientDashboard = () => {
         koos_score[5]["score"] = progres.Life_koos_score ;
         console.log('koos upfdate',koos_score)
         
-        setDataLine1(progres.data_line);
-        async function getPatientEpisode() {
-            let result = await GetPatientCurrentEpisode();
-         console.log(result[1]);
-            if (!result[0])
-                console.log(result, "Pat Episode Api For Dashboard Screen");
-            let episodeData = result[1];
-            if (episodeData.length !== 0) {
-                episodeData[0].PP_Patient_Details = JSON.parse(episodeData[0].PP_Patient_Details);
-                episodeData[0].treating_doc_details = JSON.parse(episodeData[0].treating_doc_details);
-                let val = episodeData[0].treating_doctor_detail[0];
-                let keys = val ? Object.keys(val) : null;
-                let index = 0;
-                let tempData = [];
-               if(keys!=null){
-                keys.forEach(key => {
-                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
-                        if (key === "start_date") {
-                            tempData.push({
-                                key: index,
-                                Field: "Start Date",
-                                Value: new Date(val.start_date).toISOString().slice(0, 10)
-                            });
-                            index += 1;
-                        } else if (key === "Doctor_type") {
-                            tempData.push({
-                                key: index,
-                                Field: "Doctor Type",
-                                Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
-                            });
-                            index += 1;
-                        } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
-                            tempData.push({
-                                key: index,
-                                Field: keyMapping[key],
-                                Value: val[key]
-                            });
-                            index += 1;
-                        }
-                    }
-                });
-            }
-                setPhysioDetailsData(tempData);
-                dispatch({
-                    type: "changeEpisodeId", payload: {
-                        value: episodeData[0].pp_ed_id
-                    }
-                })
-            }
-           
-           
-
-
-            setEpisode(episodeData);    
-            
-        }
+        progres.data_line&&setDataLine1(progres.data_line);
         getPatientEpisode();
 
         const currentPatientAssesment=await getAssesment(userId)
@@ -244,53 +246,36 @@ const PatientDashboard = () => {
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
                 <Col  className=" left-side border" >
-                    <h4 className="fw-bold text-center p mt-3">Mr. Sahil Sharma</h4>
-                    <div className="px-1 py-1 user-name" style={flexStyle}>
-                        <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
-                            src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
-                    </div>
                     <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
-                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-                        <Col md={24} lg={24} sm={24} xs={24}>
-                            <img title="Click to see or" onClick={() => setVisible(true)}
-                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
-                         </Col>
-                        <Col md={24} lg={24} sm={24} xs={24}>
-                            <b>Organization Name :</b> Physio AI <br></br> <br></br>
-                            <b>Contact within this organization  :</b> +91 9834343535
-                        </Col>
-                    </Row>
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
                     <Row className="right-container">
 
                         <Col className="progress">
-                            <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4> 
+                            <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
                             <div className="px-1 py-1" style={flexStyle}>
-                            <PreviousWeekAchievements data={AchievcemntsData} />
-                                {/* <AchievedResult
+                                <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
                                     score="8/10" message="Your Success" />
                                 <CircularBar precentage={5000 / 6000 * 100} score={5000} color='#0559a9' />
                                 <AchievedResult
                                     icon={<FaStopwatch size={25} color="black" />}
-                                    score="30 min" message="Your Practice Time" /> */}
+                                    score="30 min" message="Your Practice Time" />
                             </div>
                         </Col>
             
-                        {/* <Col className="treating-doctor card" >
-                            <h4 className="fw-bold text-center p">Dr. Rajan sharma</h4>
+                        <Col className="treating-doctor card" >
+                            <h4 className="fw-bold text-center p">Treating Doctor</h4>
                             <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
                             {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
                                 {episode[0].treating_doctor_detail[0].first_name + " " + episode[0].treating_doctor_detail[0].last_name}
                             </h6>}
-                        </Col> */}
+                        </Col>
                     </Row>
-                    <Row className="mt-2 mb-4 right-middle card" >
+                    <Row className="mt-2 right-middle card" >
                         <Col>
                             <h4 className="fw-bold">Notes</h4>
                             {episode.length !== 0 && (<p className="p text-justify">
@@ -307,33 +292,24 @@ const PatientDashboard = () => {
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
 
-                    {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
-                <div className="card mb-2 mt-3 pb-2">
-                 <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
-                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-                        <Col md={24} lg={4} sm={24} xs={24}>
-                            <img title="Click to see or" onClick={() => setVisible(true)}
-                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
-                         </Col>
-                         <Col md={24} lg={4} sm={24} xs={24}>
-                            <img title="Click to see or" onClick={() => setVisible(true)}
-                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
-                         </Col>
-                         <Col md={24} lg={4} sm={24} xs={24}>
-                            <img title="Click to see or" onClick={() => setVisible(true)}
-                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
-                         </Col>
-                         <Col md={24} lg={4} sm={24} xs={24}>
-                            <img title="Click to see or" onClick={() => setVisible(true)}
-                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
-                         </Col>
-                    </Row>
-                </div>
+                    <PreviousWeekAchievements data={AchievcemntsData} />
+                    <div className="card mb-2 mt-2 pb-2">
+                <Row className="VideoConferencing">
+                    <Col >
+                        <h4 className="fw-bold p-2">Video Conferencing</h4>
+                    </Col>
+                </Row>
+                <Row className="px-4 py-2">
+                <Col >
+                <Button type="primary" size="large" onClick={VideoCon}>Video Con</Button>
+                </Col>
+                </Row>
+            </div>
                 </Col>
             </Row>
 
            
-            {/* <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
+                <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
                <div class="col mr-1 card dashboardChart">
                     <Pie data={pie_data1}/>
                 </div>     
@@ -374,12 +350,7 @@ const PatientDashboard = () => {
                 <div class="col m-2 p-0 card">
                     <StreamLine data={stream_data}/>
                 </div>        
-            </div> */}
-           <Row className="px-3 py-3" style={{float:'right'}}>
-                <Col className="text-center">
-                    <Button type="primary" size="large">Next</Button>
-                </Col>
-            </Row>
+            </div>
         </>
     )
 }

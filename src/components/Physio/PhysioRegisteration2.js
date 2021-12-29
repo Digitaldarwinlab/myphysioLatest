@@ -110,65 +110,66 @@ const PhysioRegisteration2 = (props) => {
     }
 
     const handleSubmit = (value) => {
-        let data = state.physioRegisterReducer;
+        // let data = state.physioRegisterReducer;
 
-        if (validation.checkEmailValidation(data.email).error) {
-            dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-                setTimeout(() => {
-                dispatch({ type: VALIDATION, payload: { error: "" } });
-            }, 10000);
-        }
-        else  if (validation.checkAddrValidation(data.Address_1).error) {
-            // dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
-            // window.scrollTo({
-            //     top: 0,
-            //     behavior: 'smooth'
-            // });
-            // setTimeout(() => {
-            //     dispatch({ type: VALIDATION, payload: { error: "" } });
-            // }, 10000);
+        // if (validation.checkEmailValidation(data.email).error) {
+        //     dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
+        //     window.scrollTo({
+        //         top: 0,
+        //         behavior: 'smooth'
+        //     });
+        //         setTimeout(() => {
+        //         dispatch({ type: VALIDATION, payload: { error: "" } });
+        //     }, 10000);
+        // }
+        // else  if (validation.checkAddrValidation(data.Address_1).error) {
+        //     // dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
+        //     // window.scrollTo({
+        //     //     top: 0,
+        //     //     behavior: 'smooth'
+        //     // });
+        //     // setTimeout(() => {
+        //     //     dispatch({ type: VALIDATION, payload: { error: "" } });
+        //     // }, 10000);
 
-               {/* aswin 10/14/2021 start*/}
-               let err= validation.checkAddrValidation(data.email)
-               dispatch({ type: VALIDATION, payload: { error: err.error } });
-               {/* aswin 10/14/2021 end*/}
-               window.scrollTo({
-                   top: 0,
-                   behavior: 'smooth'
-               });
-               {/* aswin 10/14/2021 start*/}
-               // setTimeout(() => {
-               //     dispatch({ type: VALIDATION, payload: { error: "" } });
-               // }, 10000);
-               {/* aswin 10/14/2021 stop*/}
-        }else if (validation.checkLandNoValidation(data.regd_no_1).error || validation.checkLandNoValidation(data.regd_no_2).error ) {
-            if(validation.checkLandNoValidation(data.regd_no_1).error){
-                dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_1).error } });
-            }else if(validation.checkLandNoValidation(data.regd_no_2).error){
-                dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_2).error } });
-            }
-        }else if (validation.checkNameValidation(data.expertise_1).error || validation.checkNameValidation(data.expertise_2).error || validation.checkNameValidation(data.expertise_3).error ) {
-            if(validation.checkNameValidation(data.expertise_1).error){
-                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_1).error.slice(5) } });
-            }else if(validation.checkNameValidation(data.expertise_2).error){
-                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_2).error.slice(5) } });
-            }else if(validation.checkNameValidation(data.expertise_3).error){
-                dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_3).error.slice(5) } });
-            }
-        }
-        else {
-            const checkError = state.Validation.error;
-            if (checkError) {
-                alert("please check all the fields")
-            }
-            else {
-                props.next();
-            }
-        }
+        //        {/* aswin 10/14/2021 start*/}
+        //        let err= validation.checkAddrValidation(data.email)
+        //        dispatch({ type: VALIDATION, payload: { error: err.error } });
+        //        {/* aswin 10/14/2021 end*/}
+        //        window.scrollTo({
+        //            top: 0,
+        //            behavior: 'smooth'
+        //        });
+        //        {/* aswin 10/14/2021 start*/}
+        //        // setTimeout(() => {
+        //        //     dispatch({ type: VALIDATION, payload: { error: "" } });
+        //        // }, 10000);
+        //        {/* aswin 10/14/2021 stop*/}
+        // }else if (validation.checkLandNoValidation(data.regd_no_1).error || validation.checkLandNoValidation(data.regd_no_2).error ) {
+        //     if(validation.checkLandNoValidation(data.regd_no_1).error){
+        //         dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_1).error } });
+        //     }else if(validation.checkLandNoValidation(data.regd_no_2).error){
+        //         dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_2).error } });
+        //     }
+        // }else if (validation.checkNameValidation(data.expertise_1).error || validation.checkNameValidation(data.expertise_2).error || validation.checkNameValidation(data.expertise_3).error ) {
+        //     if(validation.checkNameValidation(data.expertise_1).error){
+        //         dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_1).error.slice(5) } });
+        //     }else if(validation.checkNameValidation(data.expertise_2).error){
+        //         dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_2).error.slice(5) } });
+        //     }else if(validation.checkNameValidation(data.expertise_3).error){
+        //         dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_3).error.slice(5) } });
+        //     }
+        // }
+        // else {
+        //     const checkError = state.Validation.error;
+        //     if (checkError) {
+        //         alert("please check all the fields")
+        //     }
+        //     else {
+        //         props.next();
+        //     }
+        // }
+        props.next();
     }
     const handleReset = () => {
         // if (state.physioRegisterReducer.id) {
@@ -253,8 +254,8 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Address 1"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
-                                required={true}
+                               // onBlur={handleBlur}
+                               required={true}
                                 defaultValue={state.physioRegisterReducer.Address_1}
                             />
                         </Col>
@@ -264,8 +265,8 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Address 3"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
-                                required={false}
+                              //  onBlur={handleBlur}
+                              required={false}
                                 defaultValue={state.physioRegisterReducer.Address_2}
                             />
                         </Col>
@@ -275,7 +276,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Address 3"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.clinicReg.Address_3}
                             />
@@ -286,7 +287,7 @@ const PhysioRegisteration2 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="country"
-                                rules={[{ required: true, message: `Please Select Country.` }]}
+                                //rules={[{ required: true, message: `Please Select Country.` }]}
                             >
                                 <Select
                                     showSearch
@@ -307,7 +308,7 @@ const PhysioRegisteration2 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
                                 name="state"
-                                rules={[{ required: true, message: `Please Select State.` }]}
+                              //  rules={[{ required: true, message: `Please Select State.` }]}
                             >
                                 <Select
                                     showSearch
@@ -334,7 +335,7 @@ const PhysioRegisteration2 = (props) => {
                             <Form.Item
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
                                 name="city"
-                                rules={[{ required: true, message: `Please Select City.` }]}
+                              //  rules={[{ required: true, message: `Please Select City.` }]}
                             >
                                 <Select
                                     showSearch
@@ -362,13 +363,13 @@ const PhysioRegisteration2 = (props) => {
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'E-mail'}</span>}
-                                required="true"
+                                required={true}
                                 name="email"
                                 className="input-field"
                                 placeholder="Physio Email"
                                 value={state.physioRegisterReducer.email}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.physioRegisterReducer.email}
                             />
                         </Col>
@@ -380,7 +381,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Facebook Profile"
                                 value={state.physioRegisterReducer.facebook}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.physioRegisterReducer.facebook}
                             />
                         </Col>
@@ -391,7 +392,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Linkedin Profile"
                                 value={state.physioRegisterReducer.linkedin}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.linkedin}
                             />
@@ -405,7 +406,7 @@ const PhysioRegisteration2 = (props) => {
                                 className="input-field"
                                 value={state.physioRegisterReducer.regd_no_1}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 required={true}
                                 defaultValue={state.physioRegisterReducer.regd_no_1}
                             />
@@ -416,7 +417,7 @@ const PhysioRegisteration2 = (props) => {
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{"Regd. No. 2"}</span>}  placeholder="Physio Registered Id 2"
                                 value={state.physioRegisterReducer.regd_no_2}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.regd_no_2}
                             />
@@ -426,7 +427,7 @@ const PhysioRegisteration2 = (props) => {
                                 className="input-field"
                                 value={state.physioRegisterReducer.degree}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 required={true}
                                 defaultValue={state.physioRegisterReducer.degree}
                             />
@@ -440,7 +441,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Expertise 1"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 required={true}
                                 defaultValue={state.physioRegisterReducer.expertise_1}
                             />
@@ -451,7 +452,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Expertise 2"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_2}
                             />
@@ -462,7 +463,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Expertise 3"
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_3}
                             />

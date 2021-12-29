@@ -733,6 +733,8 @@ const Body = () => {
     return (
         <div className="border mb-3 mt-0" style={{ background: '#fff', padding: '20px' }}>
 
+           
+           {/*
             {/* <h3 className="border p-1 m-2 fw-bold"> Areas </h3>
             <Row gutter={[10, 10]} className="px-0 py-2">
                 <Form form={form}>
@@ -851,7 +853,7 @@ const Body = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
                         <p>Joint Selected</p>
 
                         {
@@ -864,11 +866,10 @@ const Body = () => {
 
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
 
             </> : <>
-                <p>Male</p>
                 <Button className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
                 <Row>
                     <Col md={16} lg={16} sm={24} xs={24}>
@@ -941,7 +942,7 @@ const Body = () => {
                         </div>
                     </Col>
 
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
                         {
                             BodyParts.map((val, id) => {
                                 return (
@@ -951,7 +952,7 @@ const Body = () => {
                         }
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
             </>
 

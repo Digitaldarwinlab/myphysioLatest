@@ -642,19 +642,21 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     <Descriptions>
                                                         <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain ? data.nature_of_pain : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Scale">{data.pain_scale ? data.pain_scale : "not available"}</Descriptions.Item>
+                                                        <Descriptions.Item label="Scar">{data.pain_scars ? data.pain_scars : "not available"}</Descriptions.Item>
+                                                        <Descriptions.Item label="Swelling">{data.pain_swelling ? data.pain_swelling : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating !== undefined ? data.pain_aggravating.length > 0 && data.pain_aggravating.map(d => d + " ") : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Relieving" span={3}> {data.pain_relieving !== undefined ? data.pain_relieving.length > 0 && data.pain_relieving.map(d => d + " ") : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="" span={3}><b><u>Sensory Inputs </u></b></Descriptions.Item>
-                                                        <Descriptions.Item label="Superficial" >Intact</Descriptions.Item>
+                                                        <Descriptions.Item label="Superficial" >{data.sensory_input.superficial}</Descriptions.Item>
                                                         <Descriptions.Item
                                                             label="Deep"
                                                         >
-                                                            Impaired
+                                                            {data.sensory_input.deep}
                                                         </Descriptions.Item>
                                                         <Descriptions.Item
                                                             label="Cortial"
                                                         >
-                                                            Absent
+                                                            {data.sensory_input.cortial}
                                                         </Descriptions.Item>
                                                     </Descriptions>
                                                 </Row>
@@ -662,7 +664,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
-                                                        <h4 className="p-2"><u>Special Test</u></h4>
+                                                        {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
