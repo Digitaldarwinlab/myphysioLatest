@@ -170,8 +170,9 @@ const  captureSide = () => {
                           darwin.postureView("screenshotTaken")
                           captureFront()
                           setChecked1(false)
-                         // const res = await darwin.showAngles()
-                        //  console.log("show front angles ",res)
+                          const res = await darwin.showAngles()
+                          console.log("show front angles ",res)
+                          setFrontAngles([res[0],res[1],res[2],res[3],res[4]])
                         }}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
@@ -211,8 +212,9 @@ const  captureSide = () => {
                           darwin.postureView("screenshotTaken")
                           captureSide()
                           setChecked2(false)
-                        //  const res = await darwin.showAngles()
-                         // console.log("show side angles ",res)
+                          const res = await darwin.showAngles()
+                          console.log("show side angles ",res)
+                          setSideAngles([res[0],res[1]])
                         }}
                         style={{ border: "none" }}
                         icon={<CameraFilled />}
