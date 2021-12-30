@@ -235,8 +235,8 @@ class PatientAI extends Component {
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
         console.log("check ", this.props.history.location.state.exercise)
-        this.setState({ careplanId: 195 })
-     //   this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
+       // this.setState({ careplanId: 195 })
+        this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
         console.log("QQQQQQQQQQ",exercise.exercise)
         this.setState({ exerciseTime: exercise.exercise.ChoosenTime })
         this.setState({ currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name] })
