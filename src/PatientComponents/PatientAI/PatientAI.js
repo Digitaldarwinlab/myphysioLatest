@@ -55,7 +55,7 @@ const marks1 = {
     2: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
     3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
 };
-const arr = [
+let arr = [
     {
         currenRep: 0,
         currenset: 0
@@ -83,12 +83,7 @@ class PatientAI extends Component {
             careplanId: 0,
             exerciseTime: 0,
         };
-        this.arr = [
-            {
-            currentRep:0,
-            currenset:0
-            }
-        ];
+       
        
        // this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
@@ -189,6 +184,8 @@ class PatientAI extends Component {
         )
     }
     finish = async () => {
+        arr[0].currenset=0;
+        arr[0].currenRep=0;
         console.log("careplanId :" +this.state.careplanId)
         const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
             this.state.pain, this.state.exerciseTime, this.state.careplanId)
@@ -232,11 +229,13 @@ class PatientAI extends Component {
   
      
     componentDidMount() {
+        arr[0].currenset=0;
+         arr[0].currenRep=0;
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
         console.log("check ", this.props.history.location.state.exercise)
-        this.setState({ careplanId: 195 })
-     //   this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
+     //   this.setState({ careplanId: 195 })
+       this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
         console.log("QQQQQQQQQQ",exercise.exercise)
         this.setState({ exerciseTime: exercise.exercise.ChoosenTime })
         this.setState({ currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name] })
