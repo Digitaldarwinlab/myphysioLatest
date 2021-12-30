@@ -80,7 +80,7 @@ class PatientAI extends Component {
             selectedJoint: "", // selected joints
             rom: { min: "", max: "" }, // set rom
             exerciseData: {},
-            careplanId: 0,
+            careplanId: this.props.history.location.state.exercise.careplanId,
             exerciseTime: 0,
         };
        
@@ -233,7 +233,7 @@ class PatientAI extends Component {
          arr[0].currenRep=0;
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
-        console.log("check ", this.props.history.location.state.exercise)
+        console.log("check id ",   this.props.history.location.state.exercise)
      //   this.setState({ careplanId: 195 })
        this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
         console.log("QQQQQQQQQQ",exercise.exercise)
@@ -258,6 +258,7 @@ class PatientAI extends Component {
               }));
               this.setState({ selectedJoint:  Rom.joint});
         }
+        console.log("check id after",this.state.careplanId)
         var video = document.getElementById('video');
         var canvas = document.getElementById('output');
         var jcanvas = document.getElementById('jcanvas');

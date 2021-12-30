@@ -472,12 +472,13 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Cotinue button Click
   const handleClick = (exercise) => {
+    console.log("exercise is ",exercise)
     exercise["ChoosenTime"] = chosenTime
       ? chosenTime
       : Object.keys(mappedTimeToExercises)[0]
       ? Object.keys(mappedTimeToExercises)[0]
       : times[selectedTime];
-    exercise["careplanId"] = careplanIdArray[selectedTime];
+    exercise["careplanId"] = exercise.pp_cp_id;
     onChangeVideoUrl(exercise.video_url);
     history.push({
       pathname: "/patient/exercises/brief",
