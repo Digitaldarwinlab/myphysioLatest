@@ -90,14 +90,9 @@ class PatientAI extends Component {
     }
     
     handleChange1 = async (key, value, id = 0) => {
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
-            }
-        });
-        dispatch({ type: "NOERROR" });
+        
+        this.props.FirstAssesment("PainMeter",  value + 1 )           
+        this.props.FirstAssesment("pain",  value + 1 )       
         this.setState({ pain: value + 1 }) 
         console.log('pain iss' + (value + 1))
 
@@ -112,7 +107,7 @@ class PatientAI extends Component {
         return (
             <div className="painmeter" style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }} >
                 <Slider marks={marks1} min={0} max={3} step={1}
-                    onChange={(value) => handleChange1("PainMeter", value)}
+                    onChange={(value) => this.handleChange1("PainMeter", value)}
                     defaultValue={this.props.FirstAssesment.PainMeter}
                     style={{ width: '100%' }}
                 />
