@@ -194,14 +194,17 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   console.log("id array iss");
   console.log(careplanIdArray[selectedTime]);
-
+  const [exactTime, setExactTime] = useState()
   useEffect(() => {
     
     let key = Object.keys(mappedTimeToExercises);
     //console.log(mappedTimeToExercises[key[0]])
     // console.log()
     SetchoosenTime(JSON.stringify(key[selectedTime]));
-    //  console.log(selectedTime)
+      console.log("selected time ",selectedTime)
+      console.log("selected choosen time1 ",chosenTime)
+      console.log("selected ",key)
+      setExactTime(chosenTime)
   }, [selectedTime]);
 
   const checkDisablitiy = (current) => {
@@ -453,6 +456,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                 }
                 onClick={() => {
                   setSelectedTime(index);
+                  SetchoosenTime(time)
+                  console.log('choosen time ',time)
                   if (times[index][0] in mappedTimeToExercises) {
                     setExercises(mappedTimeToExercises[times[index][0]]);
                   } else {
@@ -472,12 +477,22 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Cotinue button Click
   const handleClick = (exercise) => {
+    console.log("selected choosen time ",chosenTime)
+    console.log("selected Exact time ",exactTime)
+    console.log("selected careplanidarray ",careplanIdArray[selectedTime])
+    console.log('selected time slots ',times)
+    if(chosenTime===undefined){
+      exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
+    }else{
+      exercise["ChoosenTime"] = exactTime[0]
+    }
+    console.log('exercises are ',exercises)
     console.log("exercise is ",exercise)
-    exercise["ChoosenTime"] = chosenTime
-      ? chosenTime
-      : Object.keys(mappedTimeToExercises)[0]
-      ? Object.keys(mappedTimeToExercises)[0]
-      : times[selectedTime];
+    // exercise["ChoosenTime"] = chosenTime
+    //   ? chosenTime
+    //   : Object.keys(mappedTimeToExercises)[0]
+    //   ? Object.keys(mappedTimeToExercises)[0]
+    //   : times[selectedTime];
     exercise["careplanId"] = exercise.pp_cp_id;
     onChangeVideoUrl(exercise.video_url);
     history.push({

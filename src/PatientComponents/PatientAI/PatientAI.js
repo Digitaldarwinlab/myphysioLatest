@@ -258,7 +258,7 @@ class PatientAI extends Component {
               }));
               this.setState({ selectedJoint:  Rom.joint});
         }
-        console.log("check id after",this.state.careplanId)
+       // console.log("check id after",this.state.careplanId)
         var video = document.getElementById('video');
         var canvas = document.getElementById('output');
         var jcanvas = document.getElementById('jcanvas');
