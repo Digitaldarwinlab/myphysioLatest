@@ -199,7 +199,8 @@ formdata.append("questionnaires",JSON.stringify({
   formdata.append('Thoracic_Spine',details.thoracic_spine===undefined?'':details.thoracic_spine)
   formdata.append('Lumbar_Spine',details.lumbar_spine===undefined?'':details.lumbar_spine)
   formdata.append('Forearm_wrist_Hand',details.forearm===undefined?'':details.forearm)
-  formdata.append('Knee',details.knee===undefined?'':details.knee)
+  formdata.append('Knee',details.knee===undefined ?'':details.knee)
+  formdate.append('pose',details.poseture===undefined?'':details.poseture)
   console.log("formdata ",formdata)
   const headers = {
     Accept: "application/json",
