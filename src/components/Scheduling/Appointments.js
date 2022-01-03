@@ -143,6 +143,7 @@ const Appointments = () => {
         notify(message, 'warning', 2000);
     }
     //Schedular Form
+    var channel=""
     const onAppointFormOpening = async (data) => {
       // 
         let startDate = data.appointmentData.startDate ? data.appointmentData.startDate : (new Date().toJSON());
@@ -161,7 +162,7 @@ const Appointments = () => {
         data.popup.option("margin", "auto");  
         form.option("showRequiredMark", true);
         var characters = 'abcdefghijklmnopqrstuvwxyz';
-        var channel=""
+
         const user_id=localStorage.getItem("userId")
         for(var i=0;i<4;i++){
             if(i==3){
@@ -472,6 +473,11 @@ const Appointments = () => {
         // console.log('update app')
        //  console.log(e)
        setLoading(true);
+       console.log("update appointment data ",e.appointmentData)
+       if(e.appointmentData.location==='Video Conference'){
+        e.appointmentData.video_link = channel
+    }
+       console.log("update channel" ,channel)
        if(e.appointmentData.id){
          const result = await UpdateVisit(e.appointmentData);
          setLoading(false);

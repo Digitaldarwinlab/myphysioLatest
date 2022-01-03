@@ -164,6 +164,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         PrimaryComplaint :''
     })
     const reduxState = useSelector(state => state);
+    const [firstTotalEx, setFirstTotalEx] = useState([])
     useEffect(()=>{
         {/*  aswin 10/22/2021 start */}
         if(reduxState.carePlanRedcucer.pp_patm_id===""){
@@ -351,16 +352,21 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         });
     };
     const history = useHistory();
+    // useEffect(()=>{
+    //     let firstResult = await GetExerciseList(dispatch, 100, 1);
+    //     setFirstTotalEx
+    // },[])
     //function called on page change or pagesize change
     const PaginationChange = async (page, pageSize = Pagination1.pageSize) => {
         //  console.log(page)
          // console.log(pageSize)
           let result = await GetExerciseList(dispatch, pageSize, page);
           let res = { ...result };
+          console.log("result is ",result)
        //   console.log(res)
         //  console.log(res.total_exercise)
           if (!result.total_exercise) {
-              console.log(result)
+              console.log("result is ",result)
               res["total_exercise"] = result["data"].length * Pagination1.totalPage
               // console.log('nhi hai')
           }
@@ -379,6 +385,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
           setLength(cartActualData.length)
+          console.log('actual ',cartActualData)
+          console.log("actual cart ",cartItems)
       }
       useEffect(()=>{
         //  console.log('pagesize changing')

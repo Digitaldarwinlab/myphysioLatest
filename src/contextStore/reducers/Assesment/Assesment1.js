@@ -56,6 +56,7 @@ const FirstAssesmentIniState ={
         occupation:'',
         duration:''
     }],
+    posture:{},
     Medication1:[],
     Others1:[],
     pain_swelling:"",

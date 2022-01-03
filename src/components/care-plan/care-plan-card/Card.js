@@ -17,7 +17,8 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
         setAddInCart(true);
     }
     const RemoveFromCart = (id) => {
-        UpdateCart(id);
+        //UpdateCart(id);
+        state.exercises_cart.find(ex=>ex.ex_em_id!==id)
         setAddInCart(false)
     }
     const onOk = () => {

@@ -51,7 +51,7 @@ class AI extends Component {
 
         console.log('history in ai')    
         console.log(this.props.history)       
-        var preveState = this.props.history.location.state.Excercise;
+        var preveState = this.props.history.location.state.Excercise?this.props.history.location.state.Excercise:{};
         let preIndices = (Object.keys(preveState))
         console.log('preveState:'+preveState);
         console.log('preIndices:'+preIndices);
@@ -156,9 +156,9 @@ class AI extends Component {
         var check = [];
         const PreLable = this.state.preValue;
         for (let i = 0; i < joints.length; i++) {
-            if (PreLable.includes(joints[i].label)) {
+           
                 check.push(joints[i].value)
-            }
+           
         }
         return check;
     }
@@ -375,7 +375,7 @@ class AI extends Component {
         console.log("value is ",e.target.value)
         console.log("initial value ",  this.state.PreKey)
         console.log("exercise passed are ",this.state.primaryExercise)
-        let priArr
+        let priArr = []
         this.state.primaryExercise.map(ex=>{
             if(ex.exercise_shortname==e.target.value){
                 priArr = ex.primary_angles
@@ -564,7 +564,8 @@ class AI extends Component {
     render() {
 
 
-
+        console.log("Joints ",joints)
+        console.log('Joint pre ',this.state.PreKey)
 
         return (
             <>
@@ -630,7 +631,10 @@ class AI extends Component {
                                     <h5 className="mt-1">Joints: </h5>
                                     </div>
                                     <div >
-                                        <Checkbox.Group defaultValue={this.ifCheck()} onChange={this.angles}>
+                                        <Checkbox.Group 
+                                       // defaultValue={joints}
+                                        defaultValue={this.ifCheck()} 
+                                        onChange={this.angles}>
                                             <Row>
                                                 {joints.map(item => (
                                                     <Col span={8}>

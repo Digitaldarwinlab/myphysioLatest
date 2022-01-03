@@ -232,7 +232,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setTimes([]);
   
     let result = await GetPatientCarePlan(currentEpissode, convert(val));
- 
+    console.log("careplans ",result)
     setLoading(false);
     if (result[0]) {
       try {
@@ -460,6 +460,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                   console.log('choosen time ',time)
                   if (times[index][0] in mappedTimeToExercises) {
                     setExercises(mappedTimeToExercises[times[index][0]]);
+                    console.log("time slot ",mappedTimeToExercises)
                   } else {
                     //pass
                   }
@@ -502,6 +503,11 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       },
     });
   };
+
+  const checkStatuc=(ex)=>{
+    
+  }
+
   //Exercise Card
   const ExerciseCard = (exercise) => {
     return (

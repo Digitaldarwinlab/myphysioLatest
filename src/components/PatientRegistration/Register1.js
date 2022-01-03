@@ -173,6 +173,10 @@ const Register1 = (props) => {
       //  console.log(validation.checkNameValidation(data.FirstName).error+': error is')
         if (validation.checkNameValidation(data.FirstName).error) {
             dispatch({ type: VALIDATION, payload: { error: "First" + validation.checkNameValidation(data.FirstName).error } });
+        }else if(validation.checkNameValidation(data.LastName).error){
+            dispatch({ type: VALIDATION, payload: { error: "Last" + validation.checkNameValidation(data.LastName).error } });
+        }else if (validation.checkNameValidation(data.MiddleName).error){
+            dispatch({ type: VALIDATION, payload: { error: "Middle" + validation.checkNameValidation(data.MiddleName).error } });
         }else{
             props.next()
         }
