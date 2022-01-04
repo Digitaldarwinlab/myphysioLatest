@@ -1014,6 +1014,21 @@ const Body = () => {
                     </Col>
                 </Row>
             </div>
+           {/* { Object.key(state.FirstAssesment.Posture).length>0&&<div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
+            <Card
+                    style={{ marginTop: 5, borderRadius: 10 }}
+                  > 
+                  
+                 {/* {checkF? <div id='scr_out1'>
+                  </div> : */}
+                    {/* <img id="scr_out1" src={url1} alt="" /> <br/>
+                    {'Ear : '}{frontAngles[0]&&frontAngles[0].toFixed(2)} {' '}
+                    {"Shoulder : "}{frontAngles[1]&&frontAngles[1].toFixed(2)} {' '}<br/>
+                    {'Hip : '}{frontAngles[2]&&frontAngles[2].toFixed(2)}{' '}
+                    {'Knee : '}{frontAngles[3]&&frontAngles[3].toFixed(2)}{' '}<br/>
+                    {'Above Pelvic : '}{frontAngles[4]&&frontAngles[4].toFixed(2)}{' '}
+                  </Card>
+                  </div>} */}
             <div className="text-center mb-3">
                 <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>

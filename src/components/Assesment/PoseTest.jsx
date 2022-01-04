@@ -138,11 +138,11 @@ const  captureSide = () => {
     let posture = {
       posture_test_date : new Date().toLocaleDateString('en-GB'),
       Posterial_view : {
-        image_path : url1,
+        posterial_view_image : url1,
         Angles : frontAngles
       },
       lateral_view : {
-        image_path : url2,
+        posterial_view_image : url2,
         Angles : sideAngles
       },
       Notes : notes
@@ -151,7 +151,7 @@ const  captureSide = () => {
       dispatch({
         type: STATECHANGE,
         payload: {
-          key:'pose',
+          key:'posture',
           value : posture
         }
       });

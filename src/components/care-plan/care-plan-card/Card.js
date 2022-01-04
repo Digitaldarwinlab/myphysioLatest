@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, InputNumber, Form, Row, Col, Modal } from 'antd';
+import { Card, InputNumber,Input, Form, Row, Col, Modal } from 'antd';
 import { FaHeart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinusCircle, AiTwotoneSwitcher } from "react-icons/ai";
 import { useSelector } from 'react-redux';
@@ -31,7 +31,16 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
         setVisible(true);
     }
 
-
+    const handleChange1=(key,value,id=0)=>{
+        const reg = /^-?\d*(\.\d*)?$/;
+        console.log('click ',key," ",value)
+        if(value>199||value<0){
+            return
+        }
+        if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-' ) {
+            handleChange(key,value,id);
+        }
+    }
 
     return (
         <>
@@ -142,9 +151,9 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                     {console.log(state.exercises && state.exercises[index] ? state.exercises[index]['angle'][Object.keys(state.exercises[index]['angle'])[0]]['min']: 'nulli')}
                                    
                                    
-                                        <InputNumber
+                                        <Input
                                             disabled={carePlanView}
-                                            onChange={(value) => handleChange("min", value, index)}
+                                            onChange={(e) => handleChange1("min", e.target.value, index)}
                                             min={(state.exercises && state.exercises[index]) ? state.exercises[index]["Rom"]["min"] : 1}
                                             max={(state.exercises && state.exercises[index]) ? state.exercises[index]["Rom"]["max"] : 10}
                                             value={(data && data.Rom) ? data.Rom.min :
@@ -157,9 +166,9 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                 <Form.Item name={"max" + index} label="max" required={true}>
                                         {console.log("Hello")}
-                                        <InputNumber
+                                        <Input
                                             disabled={carePlanView}
-                                            onChange={(value) => handleChange("max", value, index)}
+                                            onChange={(e) => handleChange1("max", e.target.value, index)}
                                             value={(data && data.Rom) ? data.Rom.max :
                                                 (state.exercises && state.exercises[index]) ? state.exercises[index]["Rom"]["max"] :  80}
                                             min={(state.exercises && state.exercises[index]) ? state.exercises[index]["Rom"]["min"] : 90}
