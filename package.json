@@ -42,7 +42,7 @@
     },
     "scripts": {
         "start": "react-scripts --max_old_space_size=4096 start",
-        "build": "react-scripts --max_old_space_size=4096 build",
+        "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -74,5 +74,6 @@
         "eslint-config-react-app": "^6.0.0",
         "eslint-plugin-prettier": "^3.4.0",
         "prettier": "^2.3.2"
-    }
+    },
+   "buildDate": 1594906098507 
 }

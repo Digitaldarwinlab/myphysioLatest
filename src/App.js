@@ -124,10 +124,10 @@ const App = () => {
 							<PatientRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
 							<PatientRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
-							<PatientRoute exact path="/patient/ai" component={PatientAI} />
+							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
-							<PatientRoute exact path="/patient/exercises/brief" component={ExerciseDetail} />
+							<PatientRoute exact path="/patient/exercises/brief"  forceRefresh={true}  component={ExerciseDetail} />
 							<PatientRoute exact path='/patient/progress' component={PatientProgress} />
 							<PatientRoute exact path='/patient/update' component={PatientIndex} />
 							<PatientRoute exact path='/patient/Temp' component={Tempdashboard} />
