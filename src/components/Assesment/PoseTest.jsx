@@ -24,7 +24,8 @@ import {
   SwapOutlined,
   RollbackOutlined,
 } from "@ant-design/icons";
-import bodyImage from '../.././assets/lateral.png'
+import bodyImage from '../.././assets/lateral.jpg'
+import side_img from '../.././assets/sideways-vector.jpg'
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 const { Meta } = Card;
 let screenshot = [];
@@ -63,7 +64,7 @@ const PoseTest = () => {
   const [checkF, setCheckF] = useState(false)
   const [checkS, setCheckS] = useState(false)
   const [url1, setUrl1] = useState(bodyImage)
-  const [url2, setUrl2] = useState(bodyImage)
+  const [url2, setUrl2] = useState(side_img)
   const [frontAngles, setFrontAngles] = useState([0,0,0,0,0])
   const [sideAngles, setSideAngles] = useState([0,0])
   const [notes ,setNotes] = useState('')

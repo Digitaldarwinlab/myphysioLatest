@@ -473,10 +473,10 @@ const SchduleForm = (props) => {
               </p>
               <p className="ant-upload-text">Click or drag file to this area to upload</p>
             </Dragger> 
-          {state.file!==undefined&&state.file.map((fil)=>{<React.Fragment>
+          {/* {state.file!==undefined&&state.file.map((fil)=>{<React.Fragment>
   <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
   </a> <br/>
-    </React.Fragment>})}
+    </React.Fragment>})} */}
             </React.Fragment>
               }
               {/* aswin 10/17/2021 start */}
