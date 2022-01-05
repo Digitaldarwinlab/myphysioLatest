@@ -20,7 +20,7 @@ const Login = (props)=>{
             <Col xs={20} sm={24} md={12} lg={12} xl={10} className="authFormDiv LoginMain">
                 <MyPhysioLogo page='login' />
                 {/* <ClearCacheComponent /> */}
-                <h1>Welcome Back1!</h1>
+                <h1>Welcome Back!</h1>
                 
                 <ForgotPassword />
               
