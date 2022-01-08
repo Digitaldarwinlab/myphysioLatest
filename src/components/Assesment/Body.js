@@ -267,13 +267,18 @@ const Body = () => {
 
         }
 
+        // Check if AI_Data
         if (state.FirstAssesment.AI_data === "") {
             rom.innerHTML = "Add ROM Assesment"
             setRomVisibility('none')
         }
         else {
             const exercise = state.FirstAssesment.Exercise_Name
-            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            //instead of fetching from store
+            //fetch from loalstorage directly
+            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            console.log("Ai data in body.js from localstorage: ", AI_Data)
+            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
@@ -295,7 +300,7 @@ const Body = () => {
             }))
         }
     }, angleValues)
-
+    // NOTE: Above useEffect does same thing, repeated code 
     useEffect(() => {
         function checkUserData() {
             var AI = JSON.parse(localStorage.getItem("AI_Data"))
@@ -304,7 +309,12 @@ const Body = () => {
             state.FirstAssesment.Exercise_Name = data
             state.FirstAssesment.AI_data = AI
             const exercise = state.FirstAssesment.Exercise_Name
-            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+
+            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            
+            console.log("Ai data in body.js from localstorage: ", AI_Data)
+
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
