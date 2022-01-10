@@ -276,7 +276,8 @@ const Body = () => {
             const exercise = state.FirstAssesment.Exercise_Name
             //instead of fetching from store
             //fetch from loalstorage directly
-            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
             console.log("Ai data in body.js from localstorage: ", AI_Data)
             // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
             rom.innerHTML = "ROM Assement calculated"
@@ -309,9 +310,9 @@ const Body = () => {
             state.FirstAssesment.Exercise_Name = data
             state.FirstAssesment.AI_data = AI
             const exercise = state.FirstAssesment.Exercise_Name
-            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+           const AI_Data = state.FirstAssesment.AI_data[exercise].angles
 
-            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+           // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
             
             console.log("Ai data in body.js from localstorage: ", AI_Data)
 
