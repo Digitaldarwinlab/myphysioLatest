@@ -309,9 +309,9 @@ const Body = () => {
             state.FirstAssesment.Exercise_Name = data
             state.FirstAssesment.AI_data = AI
             const exercise = state.FirstAssesment.Exercise_Name
-            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
 
-            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
             
             console.log("Ai data in body.js from localstorage: ", AI_Data)
 
@@ -349,14 +349,17 @@ const Body = () => {
     }
 
     const handleChange1 = (key, value, id = 0) => {
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
-            }
-        });
-        dispatch({ type: "NOERROR" });
+        return new Promise((resolve,reject)=>{
+            dispatch({
+                type: STATECHANGE,
+                payload: {
+                    key,
+                    value
+                }
+            });
+            dispatch({ type: "NOERROR" });
+            resolve()
+        })
     }
 
 
@@ -620,7 +623,18 @@ const Body = () => {
         }
     }
     const Submit = async () => {
-
+        let div = document.getElementById("malefigures");
+        let can =  await html2canvas(div)
+        let url = can.toDataURL()
+        handleChange1('body_image',url).then(()=>{
+            Finalsubmit()
+        })
+    //    .then(function (canvas) {
+    //     url = canvas.toDataURL()
+    //     console.log("url is ",url)
+    //     handleChange1('body_image',url)
+    //     })
+       // console.log("url is ",url)
         //     if(assesmentstate.Type=='')
         //     {//   console.log('Type  in if checking')
         //         console.log(assesmentstate.Type)
@@ -726,7 +740,7 @@ const Body = () => {
         //         return false
         //        }
 
-        Finalsubmit()
+      //  Finalsubmit()
 
 
     }

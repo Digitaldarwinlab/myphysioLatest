@@ -179,7 +179,7 @@ class PatientAI extends Component {
     }
     finish = async () => {
         arr[0].currenset=0;
-        arr[0].currenRep=0;
+        arr[0].currenRep=0; 
         console.log("careplanId :" +this.state.careplanId)
         const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
             this.state.pain, this.state.exerciseTime, this.state.careplanId)

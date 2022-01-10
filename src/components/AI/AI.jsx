@@ -81,7 +81,8 @@ class AI extends Component {
             patienId: '56',
             exerciseId: this.props.history.location.exerciseId,
             arrayIndex:0,
-            primaryExercise:this.props.history.location.state.exercisePrimary
+            primaryExercise:this.props.history.location.state.exercisePrimary,
+            selectedExercise:preveState[0]
         };
 
         // window.darwin.setExcersiseParams({
@@ -273,7 +274,7 @@ class AI extends Component {
         const exerise = document.getElementById("ex")
         var i=0
         if (this.state.ExcerciseIndices.length > 0) {
-            exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
+          //  exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
             for (i=0;i<this.state.ExcerciseIndices.length;i++) {
                 let lable = this.state.ExcerciseName[i]
                 console.log('exercise is' +  lable)
@@ -372,6 +373,7 @@ class AI extends Component {
 
     ExChanges = (e) => {
         //aswin 11/27/2021 start
+        this.setState({ selectedExercise : e.target.value })
         console.log("value is ",e.target.value)
         console.log("initial value ",  this.state.PreKey)
         console.log("exercise passed are ",this.state.primaryExercise)
@@ -395,7 +397,7 @@ class AI extends Component {
         window.darwin.setExcersiseParams({
             "name": this.state.ExcerciseName,
             "primaryKeypoint": 0,
-            "angles": this.state.PreKey,
+            "angles": [0,1,2,3,4,5,6,7,8,9,10,11],
             "dir": 1,
             "minAmp": 30,
             "primaryAngles": primaryAnglesValue,
@@ -494,7 +496,54 @@ class AI extends Component {
         this.innerHTML2();
         window.darwin.initializeModel(options);
         this.start();
-       
+        var priArr = this.state.primaryExercise[0].primary_angles
+        // this.state.primaryExercise.map(ex=>{
+        //     if(ex.exercise_shortname==e.target.value){
+        //         priArr = ex.primary_angles
+        //     }
+        // })
+        console.log("primary  ",priArr)
+        console.log("angles ",priArr)
+        const primaryAnglesValue = []
+        joints.map(jo=>{
+           priArr.map(pr=>{
+               if(pr===jo.label){
+                primaryAnglesValue.push(jo.value)
+               }
+           })
+        })
+        window.darwin.setExcersiseParams({
+            "name": this.state.ExcerciseName,
+            "primaryKeypoint": 0,
+            "angles": [0,1,2,3,4,5,6,7,8,9,10,11],
+            "dir": 1,
+            "minAmp": 30,
+            "primaryAngles": primaryAnglesValue,
+            "ROMs": [[30, 160], [30, 160]],
+            "totalReps": 3,
+            "totalSets": 2
+        });
+
+        fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
+
+        }).then(res => {
+            return res.json();
+        }).then(data => {
+            data.map((val) => {
+                this.setState({ VideoData: val.image_path })
+            })
+            data.map((val) => {
+
+                this.setState({ videoUrl: val.video_path })
+            })
+        })
+
         window.darwin.addProgressListener((setCount, repCount) => {
 
             console.log(setCount + 'setCount')
@@ -620,14 +669,14 @@ class AI extends Component {
                                                     Reset</Button>
                                             </Col>
                                             <Col >
-                                                <select style={{ marginTop: 5 }} name="ex" id="ex" onChange={this.handleExcer} onChange={this.ExChanges}>
+                                                <select style={{ marginTop: 5 }} name="ex" id="ex" defaultValue={this.state.selectedExercise} onChange={this.ExChanges}>
                                                 </select>
                                             </Col>
                                         </Row>
                                     </div>
                                     <div className="detail" id="detail">
                                     <h5  className="mt-1">Patient Name: {this.props.history.location.state.stateName.patient_name} </h5>
-                                    <h5>Excercise Name: {this.state.ExcerciseName}</h5>
+                                    <h5>Excercise Name: {this.state.selectedExercise}</h5>
                                     <h5 className="mt-1">Joints: </h5>
                                     </div>
                                     <div >

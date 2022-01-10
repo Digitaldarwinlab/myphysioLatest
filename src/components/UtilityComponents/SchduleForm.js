@@ -431,6 +431,13 @@ const SchduleForm = (props) => {
 
 
       {/* aswin 10/17/2021 start */}
+      {props.opacity1=='0'&& props.isupdating ? state.file !== undefined && state.file.map(fil=>(
+  <React.Fragment>
+  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
+  </a> <br/>
+    </React.Fragment>
+
+             )): "no file"}
       {props.opacity1=='0'&& !props.isupdating || !Colsure ?
               <React.Fragment>
               <br/>
@@ -447,13 +454,14 @@ const SchduleForm = (props) => {
   <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
   </a> <br/>
     </React.Fragment>
-//)) : "no files"}
+
              )): "no files"}
              
               </React.Fragment>
               : 
               <React.Fragment>
               <Dragger {...props} id="myPdf"
+              disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
               listType="picture-card"
               accept="application/pdf,image/*,application/msword"
               multiple="true"
@@ -484,8 +492,8 @@ const SchduleForm = (props) => {
                 
 
 
-                <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-                  <Col md={24} lg={12} sm={24} xs={24}>
+                {/* <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                  <Col md={24} lg={12} sm={24} xs={24}> */}
                     {/* <Dragger className="my-3 w-100" {...props} id="myPdf"
                     listType="picture-card"
                     accept="application/pdf,image/*,application/msword"
@@ -503,10 +511,10 @@ const SchduleForm = (props) => {
 
 
                     {/* aswin 10/17/2021 start */}
-                    {props.opacity1=='0'&& !props.isupdating || !Colsure ?
+                    {/* {props.opacity1=='0'&& !props.isupdating || !Colsure ?
                     <React.Fragment>
                     <br/>
-                    <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/>
+                    <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/> */}
 
                     {/* {state.file.length>0&&state.file.map(fil=>(
                     <React.Fragment>
@@ -514,18 +522,17 @@ const SchduleForm = (props) => {
                     </a> <br/>
                       </React.Fragment> */}
 
-                    {state.file !== undefined ? state.file.map(fil=>(
+                    {/* {state.file !== undefined ? state.file.map(fil=>(
                     <React.Fragment>
                     <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px', backgroundColor:'#f8f9fa'}}>{fil.slice(48)}</Button>
                     </a> <br/>
                     </React.Fragment>
-                    //)) : "no files"}
                     )): "no files"}
 
                     </React.Fragment>
-                    : null
-                    // <Dragger {...props} id="myPdf"
-                    // listType="picture-card"
+                    : null */}
+                     {/* <Dragger {...props} id="myPdf" */}
+                    {/* // listType="picture-card"
                     // accept="application/pdf,image/*,application/msword"
                     // multiple="true"
                     // customRequest={dummyRequest}
@@ -543,14 +550,14 @@ const SchduleForm = (props) => {
                     // <InboxOutlined />
                     // </p>
                     // <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                    // </Dragger> 
-                    }
+                    // </Dragger>  */}
+                    
                     {/* aswin 10/17/2021 start */}
-                    </Col>
+                    {/* </Col>
                     <Col md={24} lg={12} sm={24} xs={24}>
                       
                   </Col>
-                </Row>
+                </Row> */}
                 
                 
                 

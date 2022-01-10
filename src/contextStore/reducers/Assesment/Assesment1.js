@@ -66,6 +66,7 @@ const FirstAssesmentIniState ={
     RecentHistory:"",
     Trauma:"",
     Test:"",
+    body_image:"",
     nature_of_pain_here:"",
     pain_aggravating_here:[],
     pain_relieving_here:[],

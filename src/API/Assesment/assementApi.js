@@ -153,6 +153,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
     deep:details.deep,
     cortial:details.cortial
   }
+  console.log('body ',details.body_image)
   AssesmentDetails["pp_ed_id"] = details.episode_id;
   AssesmentDetails["joint1score"] = details.joint1score;
   AssesmentDetails["joint2score"] = details.joint2score;
@@ -177,7 +178,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['Forearm_wrist_Hand'] = details.forearm;
   AssesmentDetails['Knee'] = details.knee;
   AssesmentDetails['posture'] = details.posture
-
+  AssesmentDetails['body_image'] = details.body_image
   // formdata.append('pp_ed_id',details.episode_id===undefined?'':details.episode_id)
   // formdata.append('joint1score',details.joint1score)
   // formdata.append('joint2score',details.joint2score)
