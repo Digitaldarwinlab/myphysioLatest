@@ -18,7 +18,7 @@ export const GetPatientCarePlan = async (episodeId, date) => {
         });
       //  console.log(response)
         const data = await response.json();
-        console.log(data)
+        console.log("get careplan ",data)
       //  console.log(data, "Information")
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error " + response.status + response.statusText];

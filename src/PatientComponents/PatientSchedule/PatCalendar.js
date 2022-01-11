@@ -485,7 +485,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log("selected Exact time ",exactTime)
     console.log("selected careplanidarray ",careplanIdArray[selectedTime])
     console.log('selected time slots ',times)
-   if(combine){
+    if(combine){
     if(chosenTime===undefined){
       exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
     }else{
@@ -752,7 +752,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <Spin tip="Loading..." size="large"></Spin>
         </div>
       )}
-      <div className="content" id="content">
+      <div className="conten" id="content">
         <Col className="exercises-cards">
           <Row className="p-2 main-card">
             <ol>

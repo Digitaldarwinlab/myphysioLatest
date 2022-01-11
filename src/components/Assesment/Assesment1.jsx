@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
-import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio } from 'antd';
+import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio, Tabs } from 'antd';
 import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
@@ -18,7 +18,7 @@ import ActiveSearch from '../UtilityComponents/ActiveSearch';
 const { Dragger } = Upload;
 
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
+const { TabPane } = Tabs;
 //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 
@@ -353,6 +353,59 @@ const Assesment1 = (props1) => {
           {state.Validation.episode_check === 'failed' && <Error error={state.Validation.msg} />}
           <Col md={12} lg={12} sm={24} xs={24}>
             <ActiveSearch />
+          </Col>
+          <Col md={24} lg={24} sm={24} xs={24}>
+          <Tabs defaultActiveKey={'1'} type="card" size="medium">
+            <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Add Questionnaire</div>}
+                        key="1"
+                    >
+
+                        Add Questionnaire
+                    </TabPane>
+               
+                
+             <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Pain Assessment</div>}
+                        key="2"
+                    >
+
+                        Pain Assessment
+                    </TabPane>
+                
+                
+             <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Special Test</div>}
+                        key="3"
+                    >
+
+                        Special Test
+                    </TabPane>
+               
+            
+             <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Posture Analysis</div>}
+                        key="4"
+                    >
+
+                    Posture Analysis
+                    </TabPane>
+                    
+             <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Add ROM Assessment</div>}
+                        key="5"
+                    >
+
+                    Add ROM Assessment
+                    </TabPane>
+             <TabPane  
+                        tab={<div className="fw-bold ant-tabs-btn">Submit</div>}
+                        key="6"
+                    >
+
+                    Submit
+                    </TabPane>
+                </Tabs>
           </Col>
           {/* <ActiveSearch  /> */}
         </Row>

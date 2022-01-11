@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import JointData from "../UtilityComponents/dummyData/MuscleMap.json";
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 // aswin 10/24/2021 start
-import { Switch, Button, Row, Col, notification, Descriptions, Rate, Slider, Form, Table, Modal, Space, message } from "antd";
+import { Switch, Button, Row, Col, notification, Descriptions, Rate, Slider, Form, Table, Modal, Space, message, Tabs } from "antd";
 // aswin 10/24/2021 stop
 import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
 import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
