@@ -74,8 +74,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [todaysdate, Settodaysdate] = useState(new Date());
   const [chosenTime, SetchoosenTime] = useState(0);
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
-  const [update, setUpdate] = useState(false)
-  const [combine, setCombine] = useState(false)
+ 
  
 
   //  console.log('date is : ' + todaysdate.getDate())
@@ -89,7 +88,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
     //  console.log(data)
-    setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
 
@@ -135,7 +133,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           //  console.log(data[k].time_slot[i][0])
         } else {
           console.log("loop 4 s");
-          console.log( 
+          console.log(
             data[k].pp_cp_id + " : time_slot is : " + data[k].time_slot[i]
           );
           let temparray = careplanIdArray;
@@ -184,7 +182,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
-    setUpdate(true)
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
     onChangeVideoUrl(data[0].exercise_details[0].video_url);
@@ -485,19 +482,15 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log("selected Exact time ",exactTime)
     console.log("selected careplanidarray ",careplanIdArray[selectedTime])
     console.log('selected time slots ',times)
+<<<<<<< HEAD
     if(combine){
+=======
+>>>>>>> 2248db887a880303e005bf7a9b1ab93a52d4e067
     if(chosenTime===undefined){
       exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
     }else{
       exercise["ChoosenTime"] = exactTime[0]
     }
-   }else{
-     if(exactTime!==0){
-      exercise["ChoosenTime"] = exactTime
-     }else{
-      exercise["ChoosenTime"] = times[0]
-     }
-   }
     console.log('exercises are ',exercises)
     console.log("exercise is ",exercise)
     // exercise["ChoosenTime"] = chosenTime
