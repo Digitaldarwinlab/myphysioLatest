@@ -74,7 +74,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [todaysdate, Settodaysdate] = useState(new Date());
   const [chosenTime, SetchoosenTime] = useState(0);
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
- 
+  const [update, setUpdate] = useState(false)
+  const [combine, setCombine] = useState(false)
  
 
   //  console.log('date is : ' + todaysdate.getDate())
@@ -88,6 +89,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
     //  console.log(data)
+    setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
 
@@ -133,7 +135,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           //  console.log(data[k].time_slot[i][0])
         } else {
           console.log("loop 4 s");
-          console.log(
+          console.log( 
             data[k].pp_cp_id + " : time_slot is : " + data[k].time_slot[i]
           );
           let temparray = careplanIdArray;
@@ -182,6 +184,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
+    setUpdate(true)
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
     onChangeVideoUrl(data[0].exercise_details[0].video_url);
@@ -194,14 +197,17 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   console.log("id array iss");
   console.log(careplanIdArray[selectedTime]);
-
+  const [exactTime, setExactTime] = useState()
   useEffect(() => {
     
     let key = Object.keys(mappedTimeToExercises);
     //console.log(mappedTimeToExercises[key[0]])
     // console.log()
     SetchoosenTime(JSON.stringify(key[selectedTime]));
-    //  console.log(selectedTime)
+      console.log("selected time ",selectedTime)
+      console.log("selected choosen time1 ",chosenTime)
+      console.log("selected ",key)
+      setExactTime(chosenTime)
   }, [selectedTime]);
 
   const checkDisablitiy = (current) => {
@@ -229,7 +235,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setTimes([]);
   
     let result = await GetPatientCarePlan(currentEpissode, convert(val));
- 
+    console.log("careplans ",result)
     setLoading(false);
     if (result[0]) {
       try {
@@ -453,8 +459,11 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                 }
                 onClick={() => {
                   setSelectedTime(index);
+                  SetchoosenTime(time)
+                  console.log('choosen time ',time)
                   if (times[index][0] in mappedTimeToExercises) {
                     setExercises(mappedTimeToExercises[times[index][0]]);
+                    console.log("time slot ",mappedTimeToExercises)
                   } else {
                     //pass
                   }
@@ -472,12 +481,31 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Cotinue button Click
   const handleClick = (exercise) => {
-    exercise["ChoosenTime"] = chosenTime
-      ? chosenTime
-      : Object.keys(mappedTimeToExercises)[0]
-      ? Object.keys(mappedTimeToExercises)[0]
-      : times[selectedTime];
-    exercise["careplanId"] = careplanIdArray[selectedTime];
+    console.log("selected choosen time ",chosenTime)
+    console.log("selected Exact time ",exactTime)
+    console.log("selected careplanidarray ",careplanIdArray[selectedTime])
+    console.log('selected time slots ',times)
+   if(combine){
+    if(chosenTime===undefined){
+      exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
+    }else{
+      exercise["ChoosenTime"] = exactTime[0]
+    }
+   }else{
+     if(exactTime!==0){
+      exercise["ChoosenTime"] = exactTime
+     }else{
+      exercise["ChoosenTime"] = times[0]
+     }
+   }
+    console.log('exercises are ',exercises)
+    console.log("exercise is ",exercise)
+    // exercise["ChoosenTime"] = chosenTime
+    //   ? chosenTime
+    //   : Object.keys(mappedTimeToExercises)[0]
+    //   ? Object.keys(mappedTimeToExercises)[0]
+    //   : times[selectedTime];
+    exercise["careplanId"] = exercise.pp_cp_id;
     onChangeVideoUrl(exercise.video_url);
     history.push({
       pathname: "/patient/exercises/brief",
@@ -486,6 +514,11 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       },
     });
   };
+
+  const checkStatuc=(ex)=>{
+    
+  }
+
   //Exercise Card
   const ExerciseCard = (exercise) => {
     return (

@@ -12,7 +12,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
 
   
   const formdata = new FormData
-  // formdata.append("physical_assessement",{
+  // formdata.append("physical_assessement",JSON.stringify({
   //   Scars: details.Scars,
     
 
@@ -40,7 +40,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
 
 
   //   // 
-  // })
+  // }))
 
   details.medicCheck&&details.past_medical_history.push(details.Medication)
   details.othCheck&&details.past_medical_history.push(details.Others)
@@ -153,6 +153,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
     deep:details.deep,
     cortial:details.cortial
   }
+  console.log('body ',details.body_image)
   AssesmentDetails["pp_ed_id"] = details.episode_id;
   AssesmentDetails["joint1score"] = details.joint1score;
   AssesmentDetails["joint2score"] = details.joint2score;
@@ -176,39 +177,42 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['Lumbar_Spine'] = details.lumbar_spine;
   AssesmentDetails['Forearm_wrist_Hand'] = details.forearm;
   AssesmentDetails['Knee'] = details.knee;
-
-  // formdata.append('pp_ed_id',details.episode_id)
+  AssesmentDetails['posture'] = details.posture
+  AssesmentDetails['body_image'] = details.body_image
+  // formdata.append('pp_ed_id',details.episode_id===undefined?'':details.episode_id)
   // formdata.append('joint1score',details.joint1score)
   // formdata.append('joint2score',details.joint2score)
-  // formdata.append('types',details.type)
+  // formdata.append('types',details.type===undefined?'':details.type)
   // formdata.append('AI_data',details.AI_data)
   // formdata.append('Exercise_Name',details.Exercise_Name)
   // formdata.append('Numbmess',details.Numbness)
   // formdata.append('pain_scale',details.pain_scale)
-  // formdata.append('nature_of_pain',details.nature_of_pain)
+  // formdata.append('nature_of_pain',JSON.stringify(details.nature_of_pain))
   // formdata.append('pain_aggravating',JSON.stringify(details.pain_aggravating))
   // formdata.append('pain_relieving',JSON.stringify(details.pain_relieving))
   // formdata.append('pain_scars',JSON.stringify(details.pain_scars))
   // formdata.append('pain_swelling',details.pain_swelling)
   // formdata.append('sensory_input',JSON.stringify(sensory_input))
-  // formdata.append('shoulder',details.shoulder)
-  // formdata.append('Elbow',details.elbow)
-  // formdata.append('Hip',details.hip)
-  // formdata.append('Ankle',details.ankle)
-  // formdata.append('Cervical_Spine',details.cervical_spine)
-  // formdata.append('Thoracic_Spine',details.thoracic_spine)
-  // formdata.append('Lumbar_Spine',details.lumbar_spine)
-  // formdata.append('Forearm_wrist_Hand',details.forearm)
-  // formdata.append('Knee',details.knee)
+  // formdata.append('shoulder',details.shoulder===undefined?'':details.shoulder)
+  // formdata.append('Elbow',details.elbow===undefined?'':details.elbow)
+  // formdata.append('Hip',details.hip===undefined?'':details.hip)
+  // formdata.append('Ankle',details.ankle===undefined?'':details.ankle)
+  // formdata.append('Cervical_Spine',details.cervical_spine===undefined?'':details.cervical_spine)
+  // formdata.append('Thoracic_Spine',details.thoracic_spine===undefined?'':details.thoracic_spine)
+  // formdata.append('Lumbar_Spine',details.lumbar_spine===undefined?'':details.lumbar_spine)
+  // formdata.append('Forearm_wrist_Hand',details.forearm===undefined?'':details.forearm)
+  // formdata.append('Knee',details.knee===undefined ?'':details.knee)
+  // formdate.append('pose',details.poseture===undefined?'':details.poseture)
+  // console.log("formdata ",formdata)
   const headers = {
     Accept: "application/json",
     "Content-type": "application/json",
   };
   try {
     const res = await fetch(process.env.REACT_APP_API + "/add_assessment/", {
-      headers: headers,
+      headers : headers,
       method: "POST",
-      body: JSON.stringify(AssesmentDetails),
+      body: JSON.stringify(AssesmentDetails)
     });
     const data = await res.json();
     if (data) {

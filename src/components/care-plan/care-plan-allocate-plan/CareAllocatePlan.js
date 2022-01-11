@@ -66,9 +66,11 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             if (items.indexOf(val.ex_em_id) !== -1)
                 return val
         });
-        console.log('array having items of carts')
+       
         console.log(array)
         array = array.map((val) => {
+            console.log('array having items of carts',Object.values(val.angle)[0].min)
+            console.log('array having items of carts',Object.values(val.angle)[0].max)
             return {
                 ex_em_id: val.ex_em_id,
                 name: val.title ? val.title : "Exercise",
@@ -79,8 +81,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 angle :val.angle ? val.angle : [],    
                 Rom: {
                     joint: val.joint ? val.joint : "nose",
-                    min: (val.angle && val.angle.min_angle) ? val.angle.min_angle : 1,
-                    max: (val.angle && val.angle.max_angle) ? val.angle.max_angle : 1
+                    min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
+                    max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
                 },
                 image_url: val.image_path,
                 video_url: val.video_path
@@ -161,6 +163,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
             })
         } else if (key === "min" || key === "max") {
+ 
             dispatch({
                 type: CARE_PLAN_ROM_CHANGE,
                 payload: {

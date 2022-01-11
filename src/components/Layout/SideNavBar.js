@@ -197,7 +197,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 >
                     <Link to="/assessment/1"
                         style={{ color: "black" }}
-                    >Add Assesment1</Link>
+                    >Add Assesment</Link>
                 </Menu.Item>
                 
             </Menu.SubMenu>

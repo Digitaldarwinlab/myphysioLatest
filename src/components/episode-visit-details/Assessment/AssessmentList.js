@@ -554,7 +554,7 @@ const AssessmentList = ({ assesmentClick }) => {
             <Col span={24} className="px-3 py-3">
                 <Row>
                     <Col lg={18} md={18} sm={18} xs={24}>
-                        <h4 className="fw-bold">Assessments</h4>
+                        <h4 className="fw-bold"><u>Assessments</u></h4>
                     </Col>
                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
                         {/* aswin start 10/30/2021 start */}
@@ -601,6 +601,10 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
+                                            {data.body_image&&<div className=" border mb-3 mt-3">
+                                         <h4 className="p-2">Joints Selected  </h4>
+                                                <img src ={data.body_image} />
+                                            </div>}
                                             {/* <div className=" border mb-3 mt-3"> */}
                                             {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<> 
                                             <Descriptions.Item label="" span={3}><b><u>Subjective </u></b></Descriptions.Item>

@@ -50,7 +50,7 @@ const headers = {
      
     const json_data={
      
-        id:careplanId.careplanId,
+        id:careplanId,
         date: date.toISOString().split('T')[0],
         exerciseId:exercise[0],
         pain:pain,

@@ -12,6 +12,17 @@ import Loading from './../UtilityComponents/Loading';
 import Success from './../UtilityComponents/SuccessHandler';
 import FormPassword from './../UI/antInputs/FormPassword';
 import ForgotPassword from './ForgotPassword';
+import packageJson from "../../../package.json";
+import { getBuildDate } from "../../utils/utils";
+import withClearCache from "../../ClearCache";
+const ClearCacheComponent = withClearCache(MainApp);
+function MainApp(props) {
+    return (
+      <div >  
+          <p>Build date: {getBuildDate(packageJson.buildDate)}</p> 
+      </div>
+    );
+  }
 
 const AuthForm = (props) => {
     const state = useSelector(state => state);
@@ -103,7 +114,7 @@ const AuthForm = (props) => {
             {(!state.Validation.error && localState === 1) && (<Error error="Your Account is Blocked" />)}
             {state.loginReducer.isLoading && (<Loading />)}
             {state.signupReducer.isLoading && (<Loading />)}
-            
+            <ClearCacheComponent />
             <Form autoComplete="off" onFinish={handleSubmitForm}
                 layout="vertical">
                 {props.isSignin && (

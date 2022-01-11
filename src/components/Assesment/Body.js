@@ -267,13 +267,19 @@ const Body = () => {
 
         }
 
+        // Check if AI_Data
         if (state.FirstAssesment.AI_data === "") {
             rom.innerHTML = "Add ROM Assesment"
             setRomVisibility('none')
         }
         else {
             const exercise = state.FirstAssesment.Exercise_Name
+            //instead of fetching from store
+            //fetch from loalstorage directly
             const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            console.log("Ai data in body.js from localstorage: ", AI_Data)
+            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
@@ -295,7 +301,7 @@ const Body = () => {
             }))
         }
     }, angleValues)
-
+    // NOTE: Above useEffect does same thing, repeated code 
     useEffect(() => {
         function checkUserData() {
             var AI = JSON.parse(localStorage.getItem("AI_Data"))
@@ -304,7 +310,12 @@ const Body = () => {
             state.FirstAssesment.Exercise_Name = data
             state.FirstAssesment.AI_data = AI
             const exercise = state.FirstAssesment.Exercise_Name
-            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+           const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+
+           // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            
+            console.log("Ai data in body.js from localstorage: ", AI_Data)
+
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
@@ -339,14 +350,17 @@ const Body = () => {
     }
 
     const handleChange1 = (key, value, id = 0) => {
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
-            }
-        });
-        dispatch({ type: "NOERROR" });
+        return new Promise((resolve,reject)=>{
+            dispatch({
+                type: STATECHANGE,
+                payload: {
+                    key,
+                    value
+                }
+            });
+            dispatch({ type: "NOERROR" });
+            resolve()
+        })
     }
 
 
@@ -610,7 +624,18 @@ const Body = () => {
         }
     }
     const Submit = async () => {
-
+        let div = document.getElementById("malefigures");
+        let can =  await html2canvas(div)
+        let url = can.toDataURL()
+        handleChange1('body_image',url).then(()=>{
+            Finalsubmit()
+        })
+    //    .then(function (canvas) {
+    //     url = canvas.toDataURL()
+    //     console.log("url is ",url)
+    //     handleChange1('body_image',url)
+    //     })
+       // console.log("url is ",url)
         //     if(assesmentstate.Type=='')
         //     {//   console.log('Type  in if checking')
         //         console.log(assesmentstate.Type)
@@ -716,7 +741,7 @@ const Body = () => {
         //         return false
         //        }
 
-        Finalsubmit()
+      //  Finalsubmit()
 
 
     }
@@ -1014,6 +1039,21 @@ const Body = () => {
                     </Col>
                 </Row>
             </div>
+           {/* { Object.key(state.FirstAssesment.Posture).length>0&&<div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
+            <Card
+                    style={{ marginTop: 5, borderRadius: 10 }}
+                  > 
+                  
+                 {/* {checkF? <div id='scr_out1'>
+                  </div> : */}
+                    {/* <img id="scr_out1" src={url1} alt="" /> <br/>
+                    {'Ear : '}{frontAngles[0]&&frontAngles[0].toFixed(2)} {' '}
+                    {"Shoulder : "}{frontAngles[1]&&frontAngles[1].toFixed(2)} {' '}<br/>
+                    {'Hip : '}{frontAngles[2]&&frontAngles[2].toFixed(2)}{' '}
+                    {'Knee : '}{frontAngles[3]&&frontAngles[3].toFixed(2)}{' '}<br/>
+                    {'Above Pelvic : '}{frontAngles[4]&&frontAngles[4].toFixed(2)}{' '}
+                  </Card>
+                  </div>} */}
             <div className="text-center mb-3">
                 <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>

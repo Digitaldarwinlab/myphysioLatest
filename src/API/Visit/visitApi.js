@@ -188,14 +188,28 @@ export const AddVisit = async (details) => {
 //@return Message.
 export const UpdateVisit = async (details) => {
    //console.log(details)
-   console.log('update')
+   console.log('update ',details)
    
 //    if(details)
 //    {    alert('update')
 //        return false
 //    }
     const allVisitData = seperateVisitData(details, true);
-    console.log(allVisitData[0])
+    if(details.location!=='Video Conference')
+    {  
+
+            
+            if(allVisitData[0].video_link ){
+                allVisitData[0].video_link='' 
+            }
+            console.log("update 1 ",allVisitData)
+    }
+    if(details.location==='Video Conferance'){
+        if(allVisitData[0].video_link ){
+           console.log('update inside video link')
+        }
+    }
+    console.log("update ",allVisitData[0])
     try {
         const headers = {
             "Accept": 'application/json',
