@@ -74,7 +74,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [todaysdate, Settodaysdate] = useState(new Date());
   const [chosenTime, SetchoosenTime] = useState(0);
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
- 
+  const [update, setUpdate] = useState(false)
+  const [combine, setCombine] = useState(false)
  
 
   //  console.log('date is : ' + todaysdate.getDate())
@@ -88,6 +89,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
     //  console.log(data)
+    setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
 
@@ -133,7 +135,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           //  console.log(data[k].time_slot[i][0])
         } else {
           console.log("loop 4 s");
-          console.log(
+          console.log( 
             data[k].pp_cp_id + " : time_slot is : " + data[k].time_slot[i]
           );
           let temparray = careplanIdArray;
@@ -164,6 +166,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     }
     //  console.log('COmmontTINe')
     let times = Object.keys(commonTime);
+    console.log("times ",times)
     //   console.log(commonTime)
 
     times = times.sort(
@@ -182,6 +185,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
+    setUpdate(true)
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
     onChangeVideoUrl(data[0].exercise_details[0].video_url);
@@ -265,15 +269,17 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setTimes([]);
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
-    console.log(result[1]);
+    console.log("get patient careplan ",result[1]);
     setLoading(false);
     if (result[0]) {
       try {
         let data = result[1];
         if (data.length !== 0) {
           if (data.length == 1) {
+            console.log("get update")
             UpdateCarePlanStateData(data);
           } else {
+            console.log("get combine")
             combineTwoCarePlan(data);
           }
         } else {
@@ -411,6 +417,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //TimeSlot Buttons
 
   const TimeSlots = (times) => {
+    console.log("get times")
     return (
       <div
         className="p-2  border   text-start exercise-card"
@@ -482,15 +489,19 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log("selected Exact time ",exactTime)
     console.log("selected careplanidarray ",careplanIdArray[selectedTime])
     console.log('selected time slots ',times)
-<<<<<<< HEAD
     if(combine){
-=======
->>>>>>> 2248db887a880303e005bf7a9b1ab93a52d4e067
     if(chosenTime===undefined){
       exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
     }else{
       exercise["ChoosenTime"] = exactTime[0]
     }
+   }else{
+     if(exactTime!==0){
+      exercise["ChoosenTime"] = exactTime
+     }else{
+      exercise["ChoosenTime"] = times[0]
+     }
+   }
     console.log('exercises are ',exercises)
     console.log("exercise is ",exercise)
     // exercise["ChoosenTime"] = chosenTime
@@ -611,8 +622,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           : data.appointment_detail.startDate.toString().substring(0, 10);
       var timeString = data.appointment_detail.start_time;
     }
-
+    console.log("get visits")
     try {
+      console.log("get visits try")
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p
@@ -751,7 +763,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             <ol>
               {sortedVisits.length > 0
                 ? sortedVisits.map((data) => {
-                    // console.log(data)
+                     console.log("get data ",data)
                     return Visits(data);
                   })
                 : Visits(false)}
@@ -763,13 +775,14 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           {times.length !== 0 && TimeSlots(times)}
           {exercises.length !== 0
             ? exercises.map((ex, index) => {
+              console.log("ex inside ",ex)
                 return (
                   <div
                     key={index}
                     className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
                     id="exercise-card2"
                   >
-                    {ExerciseCard(ex)}
+                     {ExerciseCard(ex)}
                   </div>
                 );
               })
