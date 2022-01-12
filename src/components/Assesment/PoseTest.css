@@ -54,3 +54,10 @@
   .container {
     padding: 2px 16px;
   } */
+  .Ad_vid{
+    background-image:url("./../../assets/ipad-frame-bg.png");
+    height:525px;
+    width: 100%;
+    background-repeat: no-repeat;
+    padding: 25px 60px 70px 50px;
+  }
