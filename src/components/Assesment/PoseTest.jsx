@@ -245,7 +245,7 @@ console.log("checks ",sideChecks)
       </Row>
       <Row>
 
-        <Col md={16} lg={16} sm={16} xs={16}>
+        <Col md={16} lg={16} sm={24} xs={16}>
           <Col id="Ai_vid" className="Ad_vid">
             <img src="../../assets/webcam.png" />
             <video
