@@ -92,8 +92,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                             value={(data && data.Rep) ? data.Rep.set : (state.exercises&& state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1}
                                             min={1} max={99}
                                             defaultValue={(data && data.Rep) ? data.Rep.set :
-                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1} className="w-75 m-1" 
-                                            />
+                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1} className="w-100" />
                                     </Form.Item>
                                 </Col>
                                 <Col lg={12} md={12} sm={12} xs={12}>
@@ -105,7 +104,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                                 (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1}
                                             min={1} max={10}
                                             defaultValue={(data && data.Rep) ? data.Rep.rep_count :
-                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1} className="w-75 m-1" />
+                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1} className="w-100" />
                                     </Form.Item>
                                 </Col>
                             </Row>
