@@ -614,7 +614,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
 
 
             <Row>
-                <Col span={20}>
+                <Col span={16}>
                     <Search
                         allowClear
                         placeholder="search exercise..."
