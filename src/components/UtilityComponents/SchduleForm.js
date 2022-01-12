@@ -431,13 +431,13 @@ const SchduleForm = (props) => {
 
 
       {/* aswin 10/17/2021 start */}
-      {props.opacity1=='0'&& props.isupdating ? state.file !== undefined && state.file.map(fil=>(
+      {props.opacity1=='0'&& props.isupdating && state.file !== undefined && state.file.map(fil=>(
   <React.Fragment>
   <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
   </a> <br/>
     </React.Fragment>
 
-             )): "no file"}
+             ))}
       {props.opacity1=='0'&& !props.isupdating || !Colsure ?
               <React.Fragment>
               <br/>

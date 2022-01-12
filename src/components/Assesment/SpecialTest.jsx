@@ -5,7 +5,7 @@ import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
-const SpecialTest = () => {
+const SpecialTest = ({setActive}) => {
   const { Panel } = Collapse;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -54,72 +54,73 @@ const SpecialTest = () => {
     };
   }, [history]);
   const handleSubmit = () => {
-    if (window.confirm("Special Test data will be saved")) {
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "shoulder",
-          value: shoulder,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "elbow",
-          value: elbow,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "hip",
-          value: hip,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "knee",
-          value: knee,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "forearm",
-          value: forearm,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "ankle",
-          value: ankle,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "cervical_spine",
-          value: cervical,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "thoracic_spine",
-          value: thoracic,
-        },
-      });
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: "lumbar_spine",
-          value: lumbar,
-        },
-      });
-      history.push('/assessment/1')
-    }
+    setActive(4)
+    // if (window.confirm("Special Test data will be saved")) {
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "shoulder",
+    //       value: shoulder,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "elbow",
+    //       value: elbow,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "hip",
+    //       value: hip,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "knee",
+    //       value: knee,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "forearm",
+    //       value: forearm,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "ankle",
+    //       value: ankle,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "cervical_spine",
+    //       value: cervical,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "thoracic_spine",
+    //       value: thoracic,
+    //     },
+    //   });
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key: "lumbar_spine",
+    //       value: lumbar,
+    //     },
+    //   });
+    //   history.push('/assessment/1')
+    // }
   };
   return (
     <>
@@ -399,7 +400,7 @@ const SpecialTest = () => {
             Back
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
-            Submit
+            next
           </button>
         </div>
       </Form>

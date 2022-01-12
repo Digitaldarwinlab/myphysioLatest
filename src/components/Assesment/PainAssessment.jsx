@@ -20,7 +20,7 @@ const marks = {
   8: <i class="far fa-frown" style={{ fontSize: 25, color: "orange" }}></i>,
   10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
-const PainAssessment = () => {
+const PainAssessment = ({setActive}) => {
   const history = useHistory();
   const [form] = Form.useForm();
   // const[value, setValue]=useState();
@@ -210,10 +210,12 @@ const PainAssessment = () => {
     return
   }
   const saveData=()=>{
-    if(window.confirm("pain assessment data will save")){
-      state.FirstAssesment.pain_state=true
-      history.push('/assessment/1')
-    }
+    setActive(3)
+    // console.log("save")
+    // if(window.confirm("pain assessment data will save")){
+    //   state.FirstAssesment.pain_state=true
+    //   history.push('/assessment/1')
+    // }
   }
   return (
     <div className="px-2 py-2">
@@ -417,7 +419,7 @@ const PainAssessment = () => {
             </Col>
             <div className="text-center mb-3">
             <button onClick={goBack}>Back</button>
-              <button style={{marginLeft:"20px"}} onClick={saveData}>Save</button>
+              <button style={{marginLeft:"20px"}} onClick={saveData}>next</button>
             </div>
           </Form>
         </Col>

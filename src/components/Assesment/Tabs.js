@@ -23,6 +23,7 @@ function Tabs({
   const [toggleState, setToggleState] = useState(1);
   //   const [url1, setUrl1] = useState(bodyImage);
   //   const [url2, setUrl2] = useState(side_img);
+  const [anterior, setAnterior] = useState();
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
 
@@ -32,26 +33,26 @@ function Tabs({
 
   return (
     <>
-      <div className="container">
-        <div className="bloc-tabs">
+      <div className="containerr">
+        <div className="bloc-tabss">
           <span
             style={{ width: "460px", padding: "0px 0 0 0", height: "35px" }}
-            className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
+            className={toggleState === 1 ? "tabss active-tabss" : "tabss"}
             onClick={() => toggleTab(1)}
           >
-            <div className="fw-bold ant-tabs-btn">Anterior</div>
+            <div className="fw-bold ant-tabss-btn">Anterior</div>
           </span>
           <span
             style={{ width: "460px", padding: "0px 0 0 0", height: "35px" }}
-            className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
+            className={toggleState === 2 ? "tabss active-tabss" : "tabss"}
             onClick={() => toggleTab(2)}
           >
-            <div className="fw-bold ant-tabs-btn">Lateral</div>
+            <div className="fw-bold ant-tabss-btn">Lateral</div>
           </span>
         </div>
 
         <div
-          className={toggleState === 1 ? "content  active-content" : "content"}
+          className={toggleState === 1 ? "contentt  active-contentt" : "contentt"}
         >
           <table style={{ marginLeft: "5px" }}>
             <tr>
@@ -187,7 +188,7 @@ function Tabs({
           </Row>
         </div>
         <div
-          className={toggleState === 2 ? "content  active-content" : "content"}
+          className={toggleState === 2 ? "contentt  active-contentt" : "contentt"}
         >
           <table style={{ marginLeft: "5px" }}>
             <tr>
