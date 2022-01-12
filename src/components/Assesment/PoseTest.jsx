@@ -139,7 +139,7 @@ const  captureSide = () => {
       screenshot.push(canvas.toDataURL("image/jpeg", 0.9))
       var extra_canvas = document.createElement("canvas");
       extra_canvas.setAttribute('width', 180);
-      extra_canvas.setAttribute('height', 1800);
+      extra_canvas.setAttribute('height', 180);
       var ctx = extra_canvas.getContext('2d');
       ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
       var dataURL = extra_canvas.toDataURL();
@@ -174,6 +174,7 @@ let sideChecks = {}
         sideChecks[a] = 0
       }
     })
+
   }
 
   const handleSubmit = async ()=>{
@@ -192,16 +193,16 @@ let sideChecks = {}
       },
       Notes : notes
     }
-    if(window.confirm('Posture data will be saved')){
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key:'posture',
-          value : posture
-        }
-      });
-      history.push('/assessment/1')
-    }
+    // if(window.confirm('Posture data will be saved')){
+    //   dispatch({
+    //     type: STATECHANGE,
+    //     payload: {
+    //       key:'posture',
+    //       value : posture
+    //     }
+    //   });
+    //   history.push('/assessment/1')
+    // }
     console.log('posture ',posture)
   }
   return (

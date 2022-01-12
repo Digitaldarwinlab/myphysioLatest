@@ -62,7 +62,7 @@ function Tabs({
               <td>Nasal Bridge</td>
               <td>
                 <Col span={12}>
-                  <Input value={frontAngles[0].toFixed(2)} />
+                  <Input value={frontAngles[0]&&frontAngles[0].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -70,7 +70,7 @@ function Tabs({
               <td>Shoulder levels(Acrimion)</td>
               <td>
                 <Col span={12}>
-                  <Input value={frontAngles[1].toFixed(2)} />
+                  <Input value={frontAngles[1]&&frontAngles[1].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -78,7 +78,7 @@ function Tabs({
               <td>Umbilicus</td>
               <td>
                 <Col span={12}>
-                  <Input value={frontAngles[2].toFixed(2)} />
+                  <Input value={frontAngles[2]&&frontAngles[2].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -86,7 +86,7 @@ function Tabs({
               <td>Knees</td>
               <td>
                 <Col span={12}>
-                  <Input value={frontAngles[3].toFixed(2)} />
+                  <Input value={frontAngles[3]&&frontAngles[3].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -94,7 +94,7 @@ function Tabs({
               <td>Ankle/Foot</td>
               <td>
                 <Col span={12}>
-                  <Input value={frontAngles[4].toFixed(2)} />
+                  <Input value={frontAngles[4]&&frontAngles[4].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -198,7 +198,7 @@ function Tabs({
               <td>Head deviation</td>
               <td>
                 <Col span={12}>
-                  <Input value={sideAngles[0].toFixed(2)} />
+                  <Input value={sideAngles[0]&&sideAngles[0].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -206,7 +206,7 @@ function Tabs({
               <td>Shoulder shoulder</td>
               <td>
                 <Col span={12}>
-                  <Input value={sideAngles[1].toFixed(2)} />
+                  <Input value={sideAngles[1]&&sideAngles[1].toFixed(2)} />
                 </Col>
               </td>
             </tr>

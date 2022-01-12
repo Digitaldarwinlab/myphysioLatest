@@ -166,6 +166,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     }
     //  console.log('COmmontTINe')
     let times = Object.keys(commonTime);
+    console.log("times ",times)
     //   console.log(commonTime)
 
     times = times.sort(
@@ -268,15 +269,17 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setTimes([]);
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
-    console.log(result[1]);
+    console.log("get patient careplan ",result[1]);
     setLoading(false);
     if (result[0]) {
       try {
         let data = result[1];
         if (data.length !== 0) {
           if (data.length == 1) {
+            console.log("get update")
             UpdateCarePlanStateData(data);
           } else {
+            console.log("get combine")
             combineTwoCarePlan(data);
           }
         } else {
@@ -414,6 +417,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //TimeSlot Buttons
 
   const TimeSlots = (times) => {
+    console.log("get times")
     return (
       <div
         className="p-2  border   text-start exercise-card"
@@ -485,7 +489,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log("selected Exact time ",exactTime)
     console.log("selected careplanidarray ",careplanIdArray[selectedTime])
     console.log('selected time slots ',times)
-   if(combine){
+    if(combine){
     if(chosenTime===undefined){
       exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
     }else{
@@ -618,8 +622,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           : data.appointment_detail.startDate.toString().substring(0, 10);
       var timeString = data.appointment_detail.start_time;
     }
-
+    console.log("get visits")
     try {
+      console.log("get visits try")
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p
@@ -752,13 +757,13 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <Spin tip="Loading..." size="large"></Spin>
         </div>
       )}
-      <div className="content" id="content">
+      <div className="conten" id="content">
         <Col className="exercises-cards">
           <Row className="p-2 main-card">
             <ol>
               {sortedVisits.length > 0
                 ? sortedVisits.map((data) => {
-                    // console.log(data)
+                     console.log("get data ",data)
                     return Visits(data);
                   })
                 : Visits(false)}
@@ -770,13 +775,14 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           {times.length !== 0 && TimeSlots(times)}
           {exercises.length !== 0
             ? exercises.map((ex, index) => {
+              console.log("ex inside ",ex)
                 return (
                   <div
                     key={index}
                     className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
                     id="exercise-card2"
                   >
-                    {ExerciseCard(ex)}
+                     {ExerciseCard(ex)}
                   </div>
                 );
               })
