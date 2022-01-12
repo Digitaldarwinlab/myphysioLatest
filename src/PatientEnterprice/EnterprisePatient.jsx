@@ -245,8 +245,24 @@ const EnterprisePatient = () => {
             </h3>
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
-                <Col  className=" left-side border" >
+                <Col className=" left-side border" >
+                    <h4 className="fw-bold text-center p mt-3">Mr. Sahil Sharma</h4>
+                    <div className="px-1 py-1 user-name" style={flexStyle}>
+                        <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
+                            src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
+                    </div>
                     <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                    <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                        <Col md={24} lg={24} sm={24} xs={24}>
+                            <img title="Click to see or" onClick={() => setVisible(true)}
+                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                         </Col>
+                        <Col md={24} lg={24} sm={24} xs={24}>
+                            <b>Organization Name :</b> Physio AI <br></br> <br></br>
+                            <b>Contact within this organization  :</b> +91 9834343535
+                        </Col>
+                    </Row>
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
@@ -255,25 +271,26 @@ const EnterprisePatient = () => {
                         <Col className="progress">
                             <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
                             <div className="px-1 py-1" style={flexStyle}>
-                                <AchievedResult
+                            <PreviousWeekAchievements data={AchievcemntsData} />
+                                {/* <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
                                     score="8/10" message="Your Success" />
                                 <CircularBar precentage={5000 / 6000 * 100} score={5000} color='#0559a9' />
                                 <AchievedResult
                                     icon={<FaStopwatch size={25} color="black" />}
-                                    score="30 min" message="Your Practice Time" />
+                                    score="30 min" message="Your Practice Time" /> */}
                             </div>
                         </Col>
             
-                        <Col className="treating-doctor card" >
+                        {/* <Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
                             <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
                             {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
                                 {episode[0].treating_doctor_detail[0].first_name + " " + episode[0].treating_doctor_detail[0].last_name}
                             </h6>}
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className="mt-2 right-middle card" >
                         <Col>
@@ -292,28 +309,47 @@ const EnterprisePatient = () => {
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
 
-                    <PreviousWeekAchievements data={AchievcemntsData} />
+                    {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
                     <div className="card mb-2 mt-2 pb-2">
-                <Row className="VideoConferencing">
-                    <Col >
-                        <h4 className="fw-bold p-2">Video Conferencing</h4>
-                    </Col>
-                    
-                </Row>
-                <Row className="px-4 py-2">
-                <Col >
-                <Button type="primary" size="large" onClick={VideoCon}>Video Con</Button>
-                </Col>
-                <Col style={{paddingLeft:'20px'}} >
-                <Button type="primary" size="large" onClick={()=>history.push('/patient/enterprise/dashboard/1')}>Start</Button>
-                </Col>
-                </Row>
-            </div>
+                        <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
+                        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                        </Row>
+                    </div>
+                        {/* <Row className="VideoConferencing">
+                            <Col >
+                                <h4 className="fw-bold p-2">Video Conferencing</h4>
+                            </Col>
+                            
+                        </Row>
+                        <Row className="px-4 py-2">
+                        <Col >
+                        <Button type="primary" size="large" onClick={VideoCon}>Video Con</Button>
+                        </Col>
+                        <Col style={{paddingLeft:'20px'}} >
+                        <Button type="primary" size="large" onClick={()=>history.push('/patient/enterprise/dashboard/1')}>Start</Button>
+                        </Col>
+                        </Row> */}
                 </Col>
             </Row>
 
            
-                <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
+                {/* <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
                <div class="col mr-1 card dashboardChart">
                     <Pie data={pie_data1}/>
                 </div>     
@@ -354,7 +390,12 @@ const EnterprisePatient = () => {
                 <div class="col m-2 p-0 card">
                     <StreamLine data={stream_data}/>
                 </div>        
-            </div>
+            </div> */}
+            <Row className="px-3 py-3" style={{float:'right'}}>
+                <Col className="text-center">
+                    <Button type="primary" size="large">Next</Button>
+                </Col>
+            </Row>
         </>
     )
 }

@@ -152,7 +152,7 @@ const Visits = ({ handleClick, patId }) => {
     return (
         <div className="px-2 py-2 m-3">
             <Row>
-                <Col span={24} className="text-end">
+                <Col span={24} className="text-end mb-3">
                     <Space>
                     <AddButton onClick={handleClick} />
                     <Button onClick={consultClick}>Consultation</Button>

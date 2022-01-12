@@ -551,7 +551,7 @@ const AssessmentList = ({ assesmentClick }) => {
     {/* aswin start 10/30/2021 stop */ }
     return (
         <React.Fragment>
-            <Col span={24} className="px-3 py-3">
+            <Col span={24} className="px-3 py-3 mb-3">
                 <Row>
                     <Col lg={18} md={18} sm={18} xs={24}>
                         <h4 className="fw-bold"><u>Assessments</u></h4>
