@@ -32,10 +32,10 @@ const AddQuestions = () => {
 
   return (
     <>
-      <Form>
+      <Form className="p-3">
         <Row>
-          <Col md={24} lg={24} sm={24} xs={24} className="py-3"> 
-            <h3>Add Questions</h3> 
+          <Col md={24} lg={24} sm={24} xs={24} className=""> 
+            <h4><b>Add Questions</b></h4> 
           </Col>
         </Row>
 

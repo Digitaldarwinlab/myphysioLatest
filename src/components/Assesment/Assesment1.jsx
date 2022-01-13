@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import "./Tab.css";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio, Tabs } from 'antd';
 import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
@@ -340,24 +341,39 @@ const Assesment1 = (props1) => {
 
         <Row>
         </Row>
-        <Row>
+
+        {/* <Row>
           <Col md={24} lg={24} sm={24} xs={24}>
             <div className="border">
               <p className="ps-1 py-2">
-
-                <b> Patient Name </b> {state.episodeReducer.patient_name} <br />
-                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br />
-                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
-                {/* aswin 10/25/2021 start */}
-                <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
-                {/* aswin 10/25/2021 stop */}
+                <b> Patient Name </b> {state.episodeReducer.patient_name} <br /><br />
+                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br /><br />
+                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br /><br />
+                <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br /><br />
                 <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
-
               </p>
             </div>
           </Col>
+        </Row> */}
 
+        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <b> Patient Name :</b> {state.episodeReducer.patient_name}
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <b> Patient Code :</b> {state.episodeReducer.patient_main_code}
+             </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <b> Episode ID : </b> {episodedata ? episodedata.episodeId : null}
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null}
+            </Col>
+            <Col md={24} lg={12} sm={24} xs={24}>
+              <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
+            </Col>
         </Row>
+
 
         <Row className="AssesmentConsultationMain">
           <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
@@ -379,11 +395,14 @@ const Assesment1 = (props1) => {
         </Row>
       </Form>
 
-     {state.FirstAssesment.Type==="First"&& <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
+     {state.FirstAssesment.Type==="First"&& <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px',  border:'1px solid #ccc !important', padding:'20px'}}>
+        
+    
+
         <Form form={form} >
-          <Row className="border">
+          <Row className="">
             <Col md={24} lg={24} sm={24} xs={24}>
-              <h4 className="p-2">Physical Assesment</h4>
+              <h3 className="p-2"><b>Physical Assesment</b></h3>
             </Col>
           </Row>
         </Form>
@@ -393,7 +412,7 @@ const Assesment1 = (props1) => {
         {/* gaurav 4/12 */}
 
         <div className="container-fuild">
-        <Row gutter={[20, 20]} className="py-3">
+        <Row gutter={[20, 20]} className="px-3">
         <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Subjective</b></h4>
             </Col>
@@ -407,8 +426,8 @@ const Assesment1 = (props1) => {
                <div className="container-fuild">
                  <Row gutter={[20, 20]} className="py-3">
                   <Col md={12} lg={12} sm={12} xs={12}>
-                       <h4>Occupation</h4>{"  "}
-                       <select className="form-select"
+                       <h4 className="">Occupation</h4>{"  "}
+                       <select className="form-select w-100"
                         name={"occupation"+index} id={occupation} data-id={index}
                         aria-label="Default select example"
                         value={state.FirstAssesment.subjective[index].occupation}
@@ -424,8 +443,8 @@ const Assesment1 = (props1) => {
                        {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}
                  </Row>
-                 <Row gutter={[20, 20]} className="py-3">
-                 <Col md={24} lg={24} sm={24} xs={24}>
+                 <Row gutter={[0, 0]} className="py-2">
+                 <Col md={24} lg={24} sm={24} xs={24} classNme="px-0">
                     <h4>Duration</h4>
                     </Col>
                     <Radio.Group options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
@@ -439,7 +458,7 @@ const Assesment1 = (props1) => {
           </Col>
         
 
-          <div className="row py-3 mx-1">
+          <div className="row py-2 mx-1">
             <div className="col">
               <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
               <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
@@ -451,12 +470,12 @@ const Assesment1 = (props1) => {
         </div>
 
         <div className="container-fuild">
-          <Row gutter={[20, 20]} className="py-3">
+          <Row gutter={[10, 10]} className="py-3">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Chief Complaint</b></h4>
             </Col>
             <Col md={24} lg={24} sm={24} xs={24}>
-              <input type="text" className="p-2" placeholder="Cheif Complaint"
+              <input type="text" className="p-2 w-50" placeholder="Cheif Complaint"
                 name="chiefCom"
                 value={state.FirstAssesment.chiefCom}
                 onChange={(e) => handleChange("chiefCom", e.target.value)}
@@ -465,11 +484,11 @@ const Assesment1 = (props1) => {
           </Row>
         </div>
 
-        <Row gutter={[20, 20]} className="py-3">
+        <Row gutter={[10, 10]} className="py-3">
           <Col md={24} lg={24} sm={24} xs={24}>
             <h4><b>History Of Presenting Complaint</b></h4>
           </Col>
-          <Col md={24} lg={24} sm={24} xs={24} className="mx-3">
+          <Col md={24} lg={24} sm={24} xs={24} className="mx-0">
           <Radio.Group options={['Sudden','Gradual','History of Fail','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
@@ -477,23 +496,23 @@ const Assesment1 = (props1) => {
         </Row>
 
         <div className="container-fuild">
-          <Row gutter={[20, 20]} className="py-3">
+          <Row gutter={[10, 10]} className="py-1">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Past Medical History</b></h4>
             </Col>
           </Row>
 
-          <Row gutter={[20, 20]} className="py-3">
-            <Col md={24} lg={24} sm={24} xs={24} className="ms-2">
+          <Row gutter={[10, 10]} className="py-0">
+            <Col md={24} lg={24} sm={24} xs={24} className="">
             <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px" }}
                 name="past Medical History"
                 value={state.FirstAssesment.past_medical_history}
                 onChange={(e) => handleChange("past_medical_history", e)}
                 options={plainOptions1}
               />
                 <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "10px" }}
                 name="Medication"
                 value={state.FirstAssesment.Medication1}
                 onChange={(e) =>{
@@ -503,10 +522,10 @@ const Assesment1 = (props1) => {
                   }}
                 options={['Medication']}
               />
-                <input class="mx-5 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <input class="mx-2 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
                 <br/>
                 <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px" }}
                 name="Others"
                 value={state.FirstAssesment.Others1}
                 onChange={(e) => {
@@ -516,14 +535,14 @@ const Assesment1 = (props1) => {
                 }}
                 options={['Others']}
               />
-                <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
+                <input class="mx-2 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
             </Col>
           </Row>
         </div>
 
         <div className="container-fuild">
 
-          <Row gutter={[20, 20]} className="py-3">
+          <Row gutter={[10, 10]} className="py-3">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Built Type</b></h4>
             </Col>

@@ -124,18 +124,18 @@ const SpecialTest = ({setActive}) => {
   };
   return (
     <>
-      <Form>
+      <Form className="p-3">
         <Row>
           <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
-            <h2>Special Test Type</h2>{" "}
+            <h3><b>Special Test Type</b></h3>{" "}
           </Col>
         </Row>
-        <div className="border mb-3" style={{ paddingTop: "40px" }}>
+        <div className="mb-3 special-test" style={{ paddingTop: "0px" }}>
           <Collapse
           accordion
             defaultActiveKey={["1"]}
-            style={{ width: `${screen.width / 2}px` }}
+            // style={{ width: `${screen.width / 2}px` }}
           >
             <Panel header="Shoulder" key="1" className="bold">
               <table style={{ width: "100%" }}>

@@ -19,7 +19,7 @@ const Assesment = () => {
   const [active ,setActive] = useState(1)
   return (
     <>
-      <Row>
+      <Row className="mt-3">
         <Col md={12} lg={12} sm={24} xs={24}>
           <h3>
             <i

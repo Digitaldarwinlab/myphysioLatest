@@ -222,7 +222,7 @@ const PainAssessment = ({setActive}) => {
       <Row>
         <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
-          <h2>Pain Assesment</h2>{" "}
+          <h4><b>Pain Assesment</b></h4>{" "}
         </Col>
         {/* <Col md={24} lg={24} sm={24} xs={24}>
           <DummyBody />
@@ -243,7 +243,7 @@ const PainAssessment = ({setActive}) => {
               ></Form.Item>
               <Radio.Group
                 name="Nature Of Pain"
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px", paddingTop: "15px" }}
                 onChange={(e) =>
                   handleChange1("nature_of_pain", e.target.value)
                 }
@@ -269,7 +269,7 @@ const PainAssessment = ({setActive}) => {
                 label="Pain Scale"
                 name="Pain Scale"
               ></Form.Item>
-              <div style={{ paddingLeft: "25px" }}>
+              <div style={{ paddingLeft: "0px", paddingTop: "10px", paddingBottom: "10px" }}>
                 <Slider marks={marks1} min={0} max={10} step={2}
                   onChange={(value) => handleChange1("pain_scale", value)}
                   defaultValue={state.FirstAssesment.pain_scale}
@@ -283,7 +283,7 @@ const PainAssessment = ({setActive}) => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
               <Form.Item
@@ -291,7 +291,7 @@ const PainAssessment = ({setActive}) => {
                 name="Pain Aggravating"
               ></Form.Item>
               <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px",  paddingTop: "10px", paddingBottom: "10px" }}
                 options={plainOptions}
                 onChange={(e) => handleChange1("pain_aggravating", e)}
                 name="Pain Aggravating"
@@ -302,7 +302,7 @@ const PainAssessment = ({setActive}) => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
               <Form.Item
@@ -310,7 +310,7 @@ const PainAssessment = ({setActive}) => {
                 name="Pain Relieving"
               ></Form.Item>
               <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px", paddingTop: "10px", paddingBottom: "10px" }}
                 name="Pain Relieving"
                 onChange={(e) => handleChange1("pain_relieving", e)}
                 options={plainOptions1}
@@ -318,7 +318,7 @@ const PainAssessment = ({setActive}) => {
             </Col>
             <Col
              md={24} lg={12} sm={24} xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
             <FormInput label="Scars"
@@ -334,10 +334,10 @@ const PainAssessment = ({setActive}) => {
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{ paddingTop: "10px" }}
+                  className="mt-3 AreasMain"
                 >
-                  Swelling :
+                  <b>Swelling :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("pain_swelling", e.target.value)}
                     name="pain_swelling"
@@ -352,22 +352,22 @@ const PainAssessment = ({setActive}) => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
-              <Card title="Sensory Input" style={{ width: 500 }}>
+              <Card title="Sensory Input" style={{   }}>
                 <Col
                   md={24}
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{}}
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Superficial :
+                  <b>Superficial :</b>
                   <Radio.Group
                     name="Superficial"
-                    style={{ paddingLeft: "20px" }}
+                    style={{ paddingLeft: "20px", paddingTop: "10px", paddingBottom: "10px" }}
                     onChange={(e) =>
                       handleChange1("superficial", e.target.value)
                     }
@@ -382,14 +382,14 @@ const PainAssessment = ({setActive}) => {
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{ paddingTop: "10px" }}
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Deep :
+                  <b>Deep :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("deep", e.target.value)}
                     name="Deep"
-                    style={{ paddingLeft: "53px" }}
+                    style={{ paddingLeft: "60px" }}
                   >
                     <Radio value={"Intact"}>Intact</Radio>
                     <Radio value={"Impaired"}>Impaired</Radio>
@@ -402,13 +402,13 @@ const PainAssessment = ({setActive}) => {
                   sm={24}
                   xs={24}
                   style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Cortial :
+                  <b>Cortial :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("cortial", e.target.value)}
                     name="Cortial"
-                    style={{ paddingLeft: "45px" }}
+                    style={{ paddingLeft: "50px" }}
                   >
                     <Radio value={"Intact"}>Intact</Radio>
                     <Radio value={"Impaired"}>Impaired</Radio>
@@ -417,8 +417,8 @@ const PainAssessment = ({setActive}) => {
                 </Col>
               </Card>
             </Col>
-            <div className="text-center mb-3">
-            <button onClick={goBack}>Back</button>
+            <div className="text-center mb-3 mt-3">
+              <button onClick={goBack}>Back</button>
               <button style={{marginLeft:"20px"}} onClick={saveData}>next</button>
             </div>
           </Form>
