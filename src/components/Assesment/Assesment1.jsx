@@ -336,78 +336,9 @@ const Assesment1 = (props1) => {
         onFinishFailed={onFinishFailed}
 
         form={form}
-      // form={form} name="control-hooks"
       >
 
         <Row>
-
-          <Col md={12} lg={12} sm={24} xs={24}>
-            <h3>
-              <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
-                onClick={() => { history.goBack() }}
-                title="Go Back"
-                role="button"></i>
-            </h3>
-            <h3><AiFillMedicineBox />Assesment/Consultation</h3>
-          </Col>
-          {state.Validation.episode_check === 'failed' && <Error error={state.Validation.msg} />}
-          <Col md={12} lg={12} sm={24} xs={24}>
-            <ActiveSearch />
-          </Col>
-          <Col md={24} lg={24} sm={24} xs={24}>
-          <Tabs defaultActiveKey={'1'} type="card" size="medium">
-            <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Add Questionnaire</div>}
-                        key="1"
-                    >
-
-                        Add Questionnaire
-                    </TabPane>
-               
-                
-             <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Pain Assessment</div>}
-                        key="2"
-                    >
-
-                        Pain Assessment
-                    </TabPane>
-                
-                
-             <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Special Test</div>}
-                        key="3"
-                    >
-
-                        Special Test
-                    </TabPane>
-               
-            
-             <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Posture Analysis</div>}
-                        key="4"
-                    >
-
-                    Posture Analysis
-                    </TabPane>
-                    
-             <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Add ROM Assessment</div>}
-                        key="5"
-                    >
-
-                    Add ROM Assessment
-                    </TabPane>
-             <TabPane  
-                        tab={<div className="fw-bold ant-tabs-btn">Submit</div>}
-                        key="6"
-                    >
-
-                    Submit
-                    </TabPane>
-                </Tabs>
-          </Col>
-          {/* <ActiveSearch  /> */}
         </Row>
         <Row>
           <Col md={24} lg={24} sm={24} xs={24}>
@@ -429,23 +360,8 @@ const Assesment1 = (props1) => {
         </Row>
 
         <Row className="AssesmentConsultationMain">
-          {/* <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}> */}
-          {/* <FormDate label="Date"
-
-              name="Date"
-              // reverse ="true"
-              className="input-field w-100"
-              //aswin 10/25/2021 start
-              value={moment(state.FirstAssesment.Date.dateString,'YYYY-MM-DD')}
-              defaultValue={state.FirstAssesment.Date.dateString && moment(state.FirstAssesment.Date.dateString, "YYYY-MM-DD") }
-              //aswin 10/25/2021 stop
-              required={true}
-              onChange={handleChange}
-            /> */}
-          {/* </Col> */}
           <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Type" name="Type">
-            {/* //  rules={[{ required: true, message: `Please Select Type.` }]} > */}
               <Select placeholder="Select Type"
                 className="w-100 input-field"
                 onChange={(value) => handleChange("Type", value)}
@@ -470,56 +386,8 @@ const Assesment1 = (props1) => {
               <h4 className="p-2">Physical Assesment</h4>
             </Col>
           </Row>
-          {/* 
-          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-              <Col md={24} lg={12} sm={24} xs={24}>
-                <FormInput label="Scars"
-                  name="Scars"
-                  value={state.FirstAssesment.Scars}
-                  defaultValue={state.FirstAssesment.Scars}
-                  onChange={handleChange} required={true}>
-                </FormInput>
-                <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
-                </div>
-              </Col>
-             
-          </Row> */}
         </Form>
         <Form form={form} layout="vertical">
-
-          {/* <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-               <FormTextArea label="Recent History"
-                  name="RecentHistory"
-                  value={state.FirstAssesment.RecentHistory}
-                  defaultValue={state.FirstAssesment.RecentHistory}
-                  onChange={handleChange} required={true} />
-            </Col>
-
-            <Col  md={24} lg={12} sm={24} xs={24}>
-             
-              <Dragger {...props} id="myPdf"
-                listType="picture-card"
-                accept="application/pdf,image/*,application/msword"
-                multiple="true"
-
-               onInput={handleUploadScars}
-               onChange={ async (e)=>{
-                let files=[]
-                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
-                console.log(files)
-                handleChange('ScareFile',files)
-               }}
-              >
-                Choose Files
-              </Dragger>
-           
-
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-            
-              </Col>
-          </Row> */}
 
         </Form>
         {/* gaurav 4/12 */}
@@ -530,12 +398,6 @@ const Assesment1 = (props1) => {
               <h4><b>Subjective</b></h4>
             </Col>
           </Row>
-          {/* <div className="row">
-            <div className="col">
-              <h2>Subjective</h2>
-            </div>
-
-          </div> */}
            <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
           {state.FirstAssesment.subjective.map((data, index) => {
             let
@@ -611,12 +473,6 @@ const Assesment1 = (props1) => {
           <Radio.Group options={['Sudden','Gradual','History of Fail','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
-            {/* <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
-              <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
-              <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
-              <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
-              <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
-            </div> */}
           </Col>
         </Row>
 
@@ -661,36 +517,6 @@ const Assesment1 = (props1) => {
                 options={['Others']}
               />
                 <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
-              {/* <div className="row" name="past_medical_history" >
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
-                  <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="HYN" onChange={(e) => handleChange("HYN", e.target.checked)} value={state.FirstAssesment.HYN} />
-                  <label class="form-check-label" for="inlineCheckbox2">HYN</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="COPD" onChange={(e) => handleChange("COPD", e.target.checked)} value={state.FirstAssesment.COPD} />
-                  <label class="form-check-label" for="inlineCheckbox3">COPD</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="Cardiac" onChange={(e) => handleChange("Cardiac", e.target.checked)} value={state.FirstAssesment.Cardiac} />
-                  <label class="form-check-label" for="inlineCheckbox4">Cardiac</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
-                  <label class="form-check-label" for="inlineCheckbox5">Medication</label>
-                  <input class="mx-5 p-2" type="text" name='medText' placeholder="Medication" />
-                </div>
-              </div>
-            </Col>
-            <Col md={24} lg={24} sm={24} xs={24} className="p-0" name="past_check">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
-                <label class="form-check-label" for="inlineCheckbox6">Other</label>
-                <input class="mx-5 p-2" type="text" name='othText' placeholder="Other" />
-              </div> */}
             </Col>
           </Row>
         </div>
@@ -702,20 +528,6 @@ const Assesment1 = (props1) => {
               <h4><b>Built Type</b></h4>
             </Col>
             <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
-              {/* <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
-              >
-                <div className="col  form-check-inline">
-                  <input type="radio" value="ectomorphic"
-                    name="Built"
-                  /> Ectomorphic</div>
-                <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
-                  name="Built"
-                /> Mesomorphic</div>
-                <div className="col  form-check-inline"><input type="radio" value="endomorphic"
-                  name="Built"
-                />Endomorphic</div>
-
-              </div> */}
               <Radio.Group options={['ectomorphic','mesomorphic','endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
    
               </Radio.Group>
@@ -723,62 +535,11 @@ const Assesment1 = (props1) => {
           </Row>
         </div>
 
-        {/* <Form form={form} layout="vertical">
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Recent History"
-                  name="RecentHistory"
-                  value={state.FirstAssesment.RecentHistory}
-                  defaultValue={state.FirstAssesment.RecentHistory}
-                  onChange={handleChange} required={true} />
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Trauma / Hospitalization History "
-                  name="Trauma"
-                  value={state.FirstAssesment.Trauma}
-                  defaultValue={state.FirstAssesment.Trauma}
-                  onChange={handleChange} required={true} />
-              </Col>
-        </Row>
-
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Special Test "
-                  name="Test"
-                  value={state.FirstAssesment.Test}
-                  defaultValue={state.FirstAssesment.Test}
-                  onChange={handleChange} required={true} />
-            </Col>
-          </Row> 
-          <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
-          
-            <Col md={12} lg={12} sm={24} xs={24}>
-              <Dragger {...props} id="myPdf"
-                listType="picture-card"
-                accept="application/pdf,image/*,application/msword"
-                multiple="true"
-                customRequest={dummyRequest}
-               onChange={ async (e)=>{
-                let files=[]
-                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
-                console.log(files)
-                handleChange('TraumaFile',files)
-               }}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              </Dragger>
-              </Col>
-        </Row>
-        </Form> */}
-
 
       </div>
 
       }
-      <Body />
+      <Body setActive={props1.setActive}/>
     </div >
   )
 }

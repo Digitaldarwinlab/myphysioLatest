@@ -35,7 +35,7 @@ const AddQuestions = () => {
       <Form>
         <Row>
           <Col md={24} lg={24} sm={24} xs={24} className="py-3"> 
-            <h3><AiFillMedicineBox />Assesment</h3> 
+            <h3>Add Questions</h3> 
           </Col>
         </Row>
 
@@ -65,7 +65,10 @@ const AddQuestions = () => {
 
 
         </div>
-
+        <div className="text-center mb-3">
+            <button>Back</button>
+              <button style={{marginLeft:"20px"}} >next</button>
+            </div>
 
       </Form>
     </>
