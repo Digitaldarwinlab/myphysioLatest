@@ -41,7 +41,7 @@ export default function Filter({filterExercise,checkedList}){
                     })}
                 </ul>
             </Panel>
-            <Panel header="Muscels" key="3" showArrow={false}>
+            {/* <Panel header="Muscels" key="3" showArrow={false}>
                 <ul>
                     {Muscles.map((value, index) => {
                         return (
@@ -54,8 +54,8 @@ export default function Filter({filterExercise,checkedList}){
                         )
                     })}
                 </ul>
-            </Panel>
-            <Panel header="Direction Of Movement" key="4" showArrow={false}>
+            </Panel> */}
+            {/* <Panel header="Direction Of Movement" key="4" showArrow={false}>
                 <ul>
                     {Movement.map((value, index) => {
                         return (
@@ -67,7 +67,7 @@ export default function Filter({filterExercise,checkedList}){
                         )
                     })}
                 </ul>
-            </Panel>
+            </Panel> */}
         </Collapse>
     )
 }
