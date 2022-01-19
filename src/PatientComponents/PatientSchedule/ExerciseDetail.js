@@ -32,15 +32,17 @@ const ExerciseDetail=(props)=>{
 
 
     const [exercise,Setexercise]=useState(location.state.exercise)
+    const [exercises,Setexercises]=useState(location.state.exercises?location.state.exercises:[])
     
     console.log('location se aya')
     console.log(exercise)
     const [video_url,Setvideourl]=useState(location.state.exercise.video_url)
-    const [instructions,Setinstructions]=useState({})
+    const [instructions,Setinstructions]=useState([])
     const handleClick=()=>{
         history.push({
             pathname: '/patient/ai', state: {
-                exercise
+                exercise,
+                exercises 
             }
     })
 }
@@ -50,24 +52,48 @@ const ExerciseDetail=(props)=>{
         { text: "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem." },
         { text: "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem." }
     ]
-    useEffect(async ()=>{
-            const instructions=await exercise_detail(exercise.name)
-            console.log(instructions[1])
-            Setinstructions(instructions[1][0])
-        
+    const getData= async ()=>{
+        const maparr=()=>{
+            return new Promise((resolve,reject)=>{
+                let arr =[]
+                exercises.map(async(exercise)=>{
+                    const instruction = await exercise_detail(exercise.name)
+                    console.log("data inside ",instruction[1][0])
+                    arr.push(instruction[1][0])
+                })
+                console.log("arr ",arr)
+                resolve(arr)
+            })
+        }
+        const res = await maparr()
+        console.log("arr ",res)
+        //Setinstructions(arr)
+    }
+    useEffect(()=>{
+        //getData()
+        exercises.map(async(exercise)=>{
+            const instruction = await exercise_detail(exercise.name)
+            console.log("data inside ",instruction[1][0])
+            //arr.push(instruction[1][0])
+            Setinstructions([...instructions,instruction[1][0]])
+        })
     },[])
+    console.log("instructions ",instructions)
     return(
         <div className="exercise-detail" id="exercise-detail">
          <h3 className="fw-bold mt-2 ms-2"><BackButton /></h3>
 
-    <Row className="main-container p-1" id="main-container">
+    {instructions.map((exercise,index)=>{
+        <Row className="main-container p-1" id="main-container">
         <Col className="left-box m-1">
             <div className="top-heading" id="top-heading">
-                <h2 className="heading" id="heading"><b>{exercise.name} - {exercise.Rom.joint}</b></h2>
+                <h2 className="heading" id="heading"><b>{exercise.name} - {exercises[index].Rom.joint}</b></h2>
+                {/* <h2 className="heading" id="heading"><b>Push ups - "left hip</b></h2> */}
                 <h3 className="subtext" id="subtext"><b style={{ color: "teal"}}> Find the Fun in Exercise and Track your Progress.......</b> </h3>
             </div>
             <div className="video">
-            <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/${video_url}`} />
+            <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`} />
+            {/* <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/images/v1/276485069.mp4`} /> */}
             </div>
         
         </Col>
@@ -86,18 +112,20 @@ const ExerciseDetail=(props)=>{
                             </div>
 
                             </div>
+                            <button className="skip-button" id="skip-button" onClick={handleClick}>Skip</button>
                             <div className="instructions" id="instructions">
                                 <center><h3><b>Step By Step Instructions</b></h3></center>
                                 <ol className="instruction-list" id="instruction-list">
-                                    <li>{instructions.instruction1}</li>
-                                    <li>{instructions.instruction2}</li>
+                                    <li>{exercise.instruction1}</li>
+                                    <li>{exercise.instruction2}</li>
                                 </ol>
                                 
                             </div>
-                            <button className="skip-button" id="skip-button" onClick={handleClick}>Skip</button>
                         </Col>
         
     </Row>
+    })}
+    <button className="skip-button" id="skip-button" onClick={handleClick}>Skip</button>
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/userAuth/Login.js";
 import Signup from "./components/userAuth/Signup.js";
-import Assesment from "./components/Assesment/Assesment";
+import Assesment1 from "./components/Assesment/Assesment1";
 import Assesment2 from "./components/Assesment/AddQuestions";
 import SideNavBar from './components/Layout/SideNavBar';
 import Navigationbar from "./components/Layout/Navbar";
@@ -103,7 +103,7 @@ const App = () => {
 
 							<PrivateRoute exact path="/notes" component={Prescription} />
 
-							<PrivateRoute exact path="/assessment/1" component={Assesment} />
+							<PrivateRoute exact path="/assessment/1" component={Assesment1} />
 							<PrivateRoute exact path="/assesment/Questions" component={Assesment2} />
 							<PrivateRoute exact path="/assesment/PainAssessment" component={PainAssessment}/>
 							<PrivateRoute exact path="/assesment/SpecialTest" component={SpecialTest}/>

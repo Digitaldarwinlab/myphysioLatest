@@ -20,7 +20,7 @@ const marks = {
   8: <i class="far fa-frown" style={{ fontSize: 25, color: "orange" }}></i>,
   10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
-const PainAssessment = ({setActive}) => {
+const PainAssessment = ({setActive ,next}) => {
   const history = useHistory();
   const [form] = Form.useForm();
   // const[value, setValue]=useState();
@@ -418,8 +418,8 @@ const PainAssessment = ({setActive}) => {
               </Card>
             </Col>
             <div className="text-center mb-3">
-            <button onClick={goBack}>Back</button>
-              <button style={{marginLeft:"20px"}} onClick={saveData}>next</button>
+            <button onClick={()=>back('2')}>Back</button>
+              <button style={{marginLeft:"20px"}} onClick={()=>next('4')}>next</button>
             </div>
           </Form>
         </Col>

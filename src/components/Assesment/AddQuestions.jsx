@@ -7,7 +7,7 @@ import { STATECHANGE } from "../../contextStore/actions/Assesment"
 // aswin start 10/30/2021 start
 import { useDispatch, useSelector } from "react-redux";
 // aswin start 10/30/2021 stop
-const AddQuestions = () => {
+const AddQuestions = ({back,next}) => {
 
   const { Option } = Select;
   const [showQuestion, setShowQuestion] = useState(false)
@@ -66,8 +66,8 @@ const AddQuestions = () => {
 
         </div>
         <div className="text-center mb-3">
-            <button>Back</button>
-              <button style={{marginLeft:"20px"}} >next</button>
+            <button onClick={()=>back('1')}>Back</button>
+              <button onClick={()=>next('3')} style={{marginLeft:"20px"}} >next</button>
             </div>
 
       </Form>

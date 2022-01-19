@@ -57,6 +57,8 @@ const PoseTest = ({setActive}) => {
   useEffect(() => {
     setModelCanvas();
     darwin.launchModel();
+    darwin.stop();
+    darwin.restart();
   }, [])
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -189,6 +191,10 @@ let sideChecks = {}
       }
     });
   }
+  const GoBack =()=>{
+    darwin.stop();
+    history.goBack();
+  }
 console.log("checks ",frontChecks)
 console.log("checks ",sideChecks)
   const handleSubmit = async ()=>{
@@ -285,7 +291,7 @@ console.log("checks ",sideChecks)
                 returnState=true
                 handleSubmit()
               }} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>next</Button>
-              <Button onClick={() => history.goBack()} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Back</Button>
+              <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Back</Button>
               </Col>
       </Row>
     </div>

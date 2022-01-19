@@ -82,6 +82,8 @@ class PatientAI extends Component {
             exerciseData: {},
             careplanId: this.props.history.location.state.exercise.careplanId,
             exerciseTime: 0,
+            selJoints:[],
+            temp:[]
         };
        
         const video = document.getElementById('video');
@@ -102,6 +104,7 @@ class PatientAI extends Component {
              
        // this.AiModel = this.AiModel.bind(this);
          console.log("selected joint :" +this.state.selectedJoint)
+         console.log('exercises ',this.props.history.location.state.exercises)
     }
     
     handleChange1 = async (key, value, id = 0) => {
@@ -135,14 +138,14 @@ class PatientAI extends Component {
     AiModel = () => {
         console.log("Inside AiModel " );
         try {
-            darwin.addProgressListener((setCount, repCount) => { 
+            darwin.addProgressListener((setCount, repCount, counterCount) => { 
                 console.log("Inside addProgressListener : "+setCount+":"+repCount );
                 let data = "";
                      arr[0].currenset=setCount;
                     arr[0].currenRep=repCount;
                     console.log(arr);
                  console.log(setCount, this.state.exSetValue)
-                    if (setCount == this.state.exSetValue) {
+                 if (counterCount === exercises.length && setCount === exercises[exercises.length-1].exSetValue) {
                         window.darwin.stop();
                         //Add Stop and Painmeter Code Here
                         this.setState({ visible: true }) 
@@ -232,7 +235,7 @@ class PatientAI extends Component {
          arr[0].currenRep=0;
         let exercise = this.props.history.location.state;
         console.log('exercise nameeeeeee')
-        console.log("check id ",   this.props.history.location.state.exercise)
+        console.log("check id ",   this.props.history.location.state.exercises)
 
        this.setState({ careplanId: this.props.history.location.state.exercise.careplanId })
         console.log("QQQQQQQQQQ",exercise.exercise)
@@ -247,11 +250,21 @@ class PatientAI extends Component {
             this.setState({ video: video_url })
             this.setState({ rep_count: Rep.rep_count })
             this.setState({ exSetValue: Rep.set });
-        
+            
             this.setState({ rom: {
-                ...this.state.rom,
+               // ...this.state.rom,
                 min: Rom.min, max: Rom.max
             }})
+           
+            exercise.exercises.map(ex=>{
+               // this.state.selJoints.push(ex.Rom)
+               let romarr = [ex.Rom.min,ex.Rom.max]
+
+               this.setState((prevState)=>({
+                   selJoints:[...prevState.selJoints, romarr]
+               }))
+            })
+           
             this.setState((prevState, props) => ({
                 selectedJoint:  Rom.joint
               }));
@@ -290,9 +303,12 @@ class PatientAI extends Component {
     componentDidUpdate() {
 
         //Select primary angle based on joint
-        let primaryAngles = []
+        //this.props.history.location.state.exercises.map()
+        let temp = []
         console.log("selected joint :" +this.state.selectedJoint)
-       
+        console.log('joints ',this.state.selJoints)
+       for(let i=0;i<this.props.history.location.state.exercises.length;i++){
+           let primaryAngles = []
         for (let i = 0; i < joints.length; i++) {
             if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && !this.state.selectedJoint.includes('Wrist')) {
                 primaryAngles.push(joints[i].value)
@@ -373,29 +389,47 @@ class PatientAI extends Component {
 
             }
         }
+        temp.push(primaryAngles)
+    }
+    console.log("temp primary ",temp)
+    console.log("temp selected ",this.state.selJoints)
+    let exArr = []
 
-        console.log("angles are ", primaryAngles)
-        console.log('cheking parameter//')
-        console.log(this.state.exerciseName)
-        console.log(primaryAngles)
-        console.log(this.state.rom.min, this.state.rom.max)
-        console.log(this.state.rep_count)
-        console.log(this.state.exSetValue)
-        console.log(primaryAngles, this.state.rom);
-        console.log('////checking parameter')
-       
-        window.darwin.setExcersiseParams({
-            name: this.state.exerciseName,
-            minAmp: 30,
-            primaryAngles: primaryAngles,
-            ROMs: [[this.state.rom.min, this.state.rom.max], [this.state.rom.min, this.state.rom.max]],
+    for(let i= 0;i<this.props.history.location.state.exercises.length;i++){
+        let temEx = {
+            name:this.props.history.location.state.exercises[i].name,
+            minAmp: 20,
+            primaryAngles: temp[i],
+            ROMs:[this.state.selJoints[i],this.state.selJoints[i]],
             angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            totalReps: this.state.rep_count,
-           totalSets: this.state.exSetValue
+            totalReps: this.props.history.location.state.exercises[i].Rep['rep_count'],
+            totalSets: this.props.history.location.state.exercises[i].Rep['set'],
+          }
+          exArr.push(temEx)
+    }
+        // console.log("angles are ", primaryAngles)
+        // console.log('cheking parameter//')
+        // console.log(this.state.exerciseName)
+        // console.log(primaryAngles)
+        // console.log(this.state.rom.min, this.state.rom.max)
+        // console.log(this.state.rep_count)
+        // console.log(this.state.exSetValue)
+        // console.log(primaryAngles, this.state.rom);
+        // console.log('////checking parameter')
+        console.log("exercise ",exArr)
+        window.darwin.setAllExcersiseParams(exArr);
+        // window.darwin.setExcersiseParams({
+        //     name: this.state.exerciseName,
+        //     minAmp: 30,
+        //     primaryAngles: primaryAngles,
+        //     ROMs: [[this.state.rom.min, this.state.rom.max], [this.state.rom.min, this.state.rom.max]],
+        //     angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        //     totalReps: this.state.rep_count,
+        //    totalSets: this.state.exSetValue
 
           
 
-        });
+        // });
 
         window.darwin.launchModel();
       //  window.darwin.stop();

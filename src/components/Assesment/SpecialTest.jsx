@@ -5,7 +5,7 @@ import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
-const SpecialTest = ({setActive}) => {
+const SpecialTest = ({setActive,back,next}) => {
   const { Panel } = Collapse;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -391,7 +391,7 @@ const SpecialTest = ({setActive}) => {
             </Panel>
           </Collapse>
           <button
-            onClick={() => history.push("/assessment/1")}
+            onClick={() => back('3')}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
               marginTop: "10px",
@@ -400,6 +400,9 @@ const SpecialTest = ({setActive}) => {
             Back
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
+            save
+          </button>
+          <button>
             next
           </button>
         </div>
