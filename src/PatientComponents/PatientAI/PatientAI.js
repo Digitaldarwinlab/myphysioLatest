@@ -138,7 +138,7 @@ class PatientAI extends Component {
     AiModel = () => {
         console.log("Inside AiModel " );
         try {
-            darwin.addProgressListener((setCount, repCount, counterCount) => { 
+            darwin.addProgressListener((setCount, repCount, counterCount, id) => { 
                 console.log("Inside addProgressListener : "+setCount+":"+repCount );
                 let data = "";
                      arr[0].currenset=setCount;
@@ -160,6 +160,10 @@ class PatientAI extends Component {
                         this.setState({ exerciseData: data }) 
                 
         
+                    }
+                    if(id === "stop"){
+                        data = window.darwin.getCarePlanData() 
+                        this.setState({ exerciseData: data }) 
                     }
                 })
           } catch (error) {

@@ -198,33 +198,33 @@ let sideChecks = {}
 console.log("checks ",frontChecks)
 console.log("checks ",sideChecks)
   const handleSubmit = async ()=>{
-    setActive(5)
-  // sessionStorage.setItem('posesubmit',true)
-  //   let posture = {
-  //     posture_test_date : new Date().toLocaleDateString('en-GB'),
-  //     Posterial_view : {
-  //       posterial_view_image : url1,
-  //       Angles : frontAngles,
-  //       checkBox :state.FirstAssesment.frontChecks
-  //     },
-  //     lateral_view : {
-  //       posterial_view_image : url2,
-  //       Angles : sideAngles,
-  //       checkBox : state.FirstAssesment.sideChecks
-  //     },
-  //     Notes : notes
-  //   }
-  //   if(window.confirm('Posture data will be saved')){
-  //     dispatch({
-  //       type: STATECHANGE,
-  //       payload: {
-  //         key:'posture',
-  //         value : posture
-  //       }
-  //     });
-  //     history.push('/assessment/1')
-  //   }
-  //   console.log('posture ',posture)
+  //  setActive(5)
+  sessionStorage.setItem('posesubmit',true)
+    let posture = {
+      posture_test_date : new Date().toLocaleDateString('en-GB'),
+      Posterial_view : {
+        posterial_view_image : url1,
+        Angles : frontAngles,
+        checkBox :state.FirstAssesment.frontChecks
+      },
+      lateral_view : {
+        posterial_view_image : url2,
+        Angles : sideAngles,
+        checkBox : state.FirstAssesment.sideChecks
+      },
+      Notes : notes
+    }
+    if(window.confirm('Posture data will be saved')){
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key:'posture',
+          value : posture
+        }
+      });
+      history.push('/assessment/1')
+    }
+    console.log('posture ',posture)
   }
   return (
     <div className="px-2 py-2">
@@ -290,8 +290,8 @@ console.log("checks ",sideChecks)
             <Button onClick={()=>{
                 returnState=true
                 handleSubmit()
-              }} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>next</Button>
-              <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Back</Button>
+              }} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Save</Button>
+              {/* <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Back</Button> */}
               </Col>
       </Row>
     </div>

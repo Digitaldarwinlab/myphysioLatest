@@ -417,7 +417,7 @@ const Body = ({back ,next}) => {
     }
 
 
-    const Rom = () => { 
+    const Rom = () => {
 
         if (Object.keys(MuscleJoint).length == '') {
             warningJoint()
@@ -626,7 +626,6 @@ const Body = ({back ,next}) => {
         }
     }
     const Submit = async () => {
-
         let div = document.getElementById("malefigures");
         let can =  await html2canvas(div)
         let url = can.toDataURL()

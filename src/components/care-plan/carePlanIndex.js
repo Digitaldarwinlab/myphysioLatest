@@ -286,6 +286,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const [visible, setVisible] = useState(false);
     const [length, setLength] = useState(0);
     const [allocatePlan, setAllocatePlan] = useState(false);
+    const [fullExer, setFullExer] = useState([])
     // aswin 11/19/2021 start 
     const checkEpisodeId = async () => {
         if(reduxState.carePlanRedcucer.patient_code){
@@ -372,6 +373,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           }
           
           setExerciseList(res.data);
+          let cartActualDat = fullExer.filter((val) => {
+            return cartItems.indexOf(val.ex_em_id) !== -1;
+        });
           let cartActualData = res.data.filter((val) => {
               return cartItems.indexOf(val.ex_em_id) !== -1;
           });
@@ -384,8 +388,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           newData["maxIndex"] = page * (pageSize);
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
-          setLength(cartActualData.length)
-          console.log('actual ',cartActualData)
+          setLength(cartActualDat.length)
+          console.log('actual before ',cartActualData)
+          console.log('actual after ',cartActualDat)
           console.log("actual cart ",cartItems)
       }
       useEffect(()=>{
@@ -441,6 +446,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         } else {
             const exercise = await GetExerciseList(dispatch, Pagination1.pageSize, Pagination1.current);
             setExerciseList(exercise.data);
+            setFullExer(exercise.data)
             let cartActualData = exercise.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
@@ -592,7 +598,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         setCartItems(data);
         console.log('cartttt items adding')
         console.log(data)
-        let cartActualData = Exerciselist.filter((val) => {
+        let cartActualData = fullExer.filter((val) => {
             return data.indexOf(val.ex_em_id) !== -1;
         });
         setLength(cartActualData.length);
@@ -790,7 +796,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 width={400}
                             >
                                 {cartItems.length === 0 && <p>No Plan is Present now...</p>}
-                                {cartItems.length !== 0 && <Cart Exercise={Exerciselist} items={cartItems} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
+                                {cartItems.length !== 0 && <Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
                             </Drawer>
 
                             <Drawer

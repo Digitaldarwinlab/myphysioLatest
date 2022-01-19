@@ -74,10 +74,12 @@ export default function Cart({
 console.log(Joints)
 //aswin 11/27/2021 start
 console.log("Excercise are ",Exercise)
-console.log("all selected Excercise are ",allExcercise)
+console.log("Excercise are ",Joints)
+
+console.log("Excercise are selected ",allExcercise)
 let exercisePrimary = []
-const newEx = await Exercise.filter(async(ex)=>{
-  allExcercise.filter(element=>{
+const newEx = await Exercise.map(async(ex)=>{
+  allExcercise.map(element=>{
     if(ex.title===element){
       exercisePrimary.push(ex)
     }
