@@ -38,19 +38,23 @@ const PoseTest = ({setActive}) => {
     const video = document.getElementById('video');
    const canvas = document.getElementById('output');
     const jcanvas = document.getElementById('jcanvas');
-    const options = {
-      video,
-      videoWidth: 640,
-      videoHeight: 480, //window.innerHeight-20,
-      canvas,
-      drawLine: true,
-      ROMPanel: {
-        canvas: jcanvas,
-        width: 150,
-        height: 150,
-        radius: 70,
-      },
-    };
+    const myVideo = document.getElementById('Ai_vid')
+    let { width, height } = myVideo.getBoundingClientRect()
+       video.width = width;
+        const options = {
+            video,
+            videoWidth: width,
+            videoHeight: height,
+            canvas,
+            supervised: false,
+            showAngles: false,
+            ROMPanel: {
+                canvas: jcanvas,
+                width: 150,
+                height: 150,
+                radius: 70
+            }
+        };
     window.darwin.initializeModel(options);
     // startModel();
   }
