@@ -762,7 +762,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                             <Tabs
                                 tabBarExtraContent={operations}
                                 defaultActiveKey="2">
-                                <TabPane
+                                {/* <TabPane
                                     tab={
                                         <span className="iconClass2">
                                             <RiLayout6Fill className="iconClass3" />{" "}
@@ -772,7 +772,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                     key="1"
                                 >
                                     Tab 1
-                                </TabPane>
+                                </TabPane> */}
                                 <TabPane
                                     tab={
                                         <span className="iconClass2">
