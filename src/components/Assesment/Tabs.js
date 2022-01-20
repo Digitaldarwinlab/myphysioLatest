@@ -175,7 +175,7 @@ function Tabs({
                             res[4],
                           ]);
                         }}
-                        style={{ border: "none" }}
+                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
                       >
                         Snapshot
@@ -291,7 +291,7 @@ function Tabs({
                             darwin.postureView("left")
                           setChecked2(!checked2);
                         }}
-                        style={{ color: "red", marginTop: 5 }}
+                        style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
                       />
                     </th>
                     <th>
@@ -305,7 +305,7 @@ function Tabs({
                           console.log("show front angles ", res);
                           setSideAngles([res[0], res[1]]);
                         }}
-                        style={{ border: "none" }}
+                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
                       >
                         Snapshot

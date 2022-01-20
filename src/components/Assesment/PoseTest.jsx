@@ -294,8 +294,9 @@ console.log("checks ",sideChecks)
             <Button onClick={()=>{
                 returnState=true
                 handleSubmit()
-              }} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Save</Button>
-              {/* <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px'}}>Back</Button> */}
+              }} style={{float:'right',marginRight:'10px',marginTop:'5px' ,backgroundColor:'#2d7ecb'}}>Save</Button>
+              
+              <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px',backgroundColor:'#2d7ecb'}}>Back</Button>
               </Col>
       </Row>
     </div>

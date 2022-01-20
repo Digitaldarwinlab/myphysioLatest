@@ -485,16 +485,27 @@ class AI extends Component {
         
         const video = document.getElementById('video');
         const canvas = document.getElementById('output');
+        const myVideo = document.getElementById('Ai_vid')
+        let { width, height } = myVideo.getBoundingClientRect()
+        video.width = width;
         const options = {
             video,
-            videoWidth: 550,
-            videoHeight: 420,//window.innerHeight-20,
+            videoWidth: width,
+            videoHeight: height,
             canvas,
-            // loadingEleId: 'loading',
-            // mainEleId: 'main',
             supervised: true,
             showAngles: true,
         };
+        // const options = {
+        //     video,
+        //     videoWidth: 550,
+        //     videoHeight: 420,//window.innerHeight-20,
+        //     canvas,
+        //     // loadingEleId: 'loading',
+        //     // mainEleId: 'main',
+        //     supervised: true,
+        //     showAngles: true,
+        // };
         this.innerHTML2();
         window.darwin.initializeModel(options);
         this.start();

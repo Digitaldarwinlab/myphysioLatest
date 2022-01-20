@@ -210,12 +210,12 @@ const PainAssessment = ({setActive ,next}) => {
     return
   }
   const saveData=()=>{
-    setActive(3)
-    // console.log("save")
-    // if(window.confirm("pain assessment data will save")){
-    //   state.FirstAssesment.pain_state=true
-    //   history.push('/assessment/1')
-    // }
+   // setActive(3)
+    console.log("save")
+    if(window.confirm("pain assessment data will save")){
+      state.FirstAssesment.pain_state=true
+      history.push('/assessment/1')
+    }
   }
   return (
     <div className="px-2 py-2">
@@ -418,8 +418,8 @@ const PainAssessment = ({setActive ,next}) => {
               </Card>
             </Col>
             <div className="text-center mb-3">
-            <button onClick={()=>back('2')}>Back</button>
-              <button style={{marginLeft:"20px"}} onClick={()=>next('4')}>next</button>
+            <button onClick={goBack}>Back</button>
+              <button style={{marginLeft:"20px"}} onClick={saveData}>save</button>
             </div>
           </Form>
         </Col>

@@ -892,11 +892,11 @@ const Assesment1 = ({back ,next}) => {
       })
 
   }
-  const [quest, setQuest] = useState(true)
-  const [pain, setPain] = useState(true)
-  const [special, setSpecial] = useState(true)
-  const [pose, setPose] = useState(true)
-  const [romAss, setRomAss] = useState(true)
+  // const [quest, setQuest] = useState(true)
+  // const [pain, setPain] = useState(true)
+  // const [special, setSpecial] = useState(true)
+  // const [pose, setPose] = useState(true)
+  // const [romAss, setRomAss] = useState(true)
 
   return (
     <div className="px-2 py-2">
@@ -938,12 +938,12 @@ const Assesment1 = ({back ,next}) => {
       <Col md={4} lg={4} sm={4} xs={4}>
         </Col>
         <Col md={16} lg={16} sm={16} xs={16}>
-        <Button disabled={quest} className="testclass" style={{backgroundColor:quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
-        {/* if any problem with color of button refer styles/App.css on line 1073 */}
-                <button className="ant-btn ms-3 testclass" style={{backgroundColor:pain?'grey':'#2d7ecb'}} disabled={pain} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
-                <button class="ant-btn ms-3" style={{backgroundColor:special?'grey':'#2d7ecb'}} disabled={special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                <button class="ant-btn ms-3" style={{backgroundColor:pose?'grey':'#2d7ecb'}} disabled={pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-                <Button htmlType="submit" style={{backgroundColor:romAss?'grey':'#2d7ecb'}} disabled={romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
+        <Button type="text" disabled={state.FirstAssesment.quest} className="testclass" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
+        {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
+                <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
+                <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
                 {/* <Button className="ms-3" >save</Button> */}
         </Col>
         <Col md={4} lg={4} sm={4} xs={4}>
@@ -954,11 +954,11 @@ const Assesment1 = ({back ,next}) => {
         </Col>
         <Col md={16} lg={16} sm={16} xs={16}>
           <div>
-          <Checkbox style={{paddingLeft:'100px'}} onChange={()=>setQuest(!quest)}></Checkbox>
-          <Checkbox style={{paddingLeft:'100px'}} onChange={()=>setPain(!pain)}></Checkbox>
-          <Checkbox style={{paddingLeft:'100px'}} onChange={()=>setSpecial(!special)}></Checkbox>
-          <Checkbox style={{paddingLeft:'100px'}} onChange={()=>setPose(!pose)}></Checkbox>
-          <Checkbox style={{paddingLeft:'100px'}} onChange={()=>setRomAss(!romAss)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('pain',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
           </div>
         </Col>
         <Col md={4} lg={4} sm={4} xs={4}>
@@ -1476,7 +1476,7 @@ const Assesment1 = ({back ,next}) => {
 
 </div>
 <div className="text-center mb-3">
-<Button style={{backgroundColor:'#2d7ecb'}} onClick={Submit}></Button> 
+<Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
 </div>
     </div >
   )

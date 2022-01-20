@@ -65,10 +65,6 @@ const AddQuestions = ({back,next}) => {
 
 
         </div>
-        <div className="text-center mb-3">
-            <button onClick={()=>back('1')}>Back</button>
-              <button onClick={()=>next('3')} style={{marginLeft:"20px"}} >next</button>
-            </div>
 
       </Form>
     </>
