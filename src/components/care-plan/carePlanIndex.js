@@ -363,7 +363,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
          // console.log(pageSize)
           let result = await GetExerciseList(dispatch, pageSize, page);
           let res = { ...result };
-          console.log("result is ",result)
+
        //   console.log(res)
         //  console.log(res.total_exercise)
           if (!result.total_exercise) {
@@ -379,19 +379,31 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           let cartActualData = res.data.filter((val) => {
               return cartItems.indexOf(val.ex_em_id) !== -1;
           });
-         
+         console.log("page ",pageSize)
+         console.log("page min index ",(page -1)* (pageSize))
+         console.log("page max index ",page *(pageSize))
           const newData = { ...Pagination1 };
           newData["pageSize"] = pageSize;
           newData["totalPage"] = res.total_exercise / pageSize;
           newData["current"] = page;
           newData["minIndex"] = (page - 1) * (pageSize);
           newData["maxIndex"] = page * (pageSize);
+          console.log("page ",Pagination1.current)
+          console.log("page size ",Pagination1.pageSize)
+          console.log("page res ",res.total_exercise)
+          console.log("page total exercise length ",result["data"].length )
+          console.log("page total page ",res.total_exercise / pageSize)
+        //   if(Pagination1.pageSize===100){
+        //       console.log('page inside')
+        //     newData["totalPage"] = 1
+        //     // newData["current"] = 2
+        //     // newData["minIndex"] = 2
+        //     // newData["maxIndex"] = 2
+        //   }
+          console.log("page size ",newData["totalPage"])
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
           setLength(cartActualDat.length)
-          console.log('actual before ',cartActualData)
-          console.log('actual after ',cartActualDat)
-          console.log("actual cart ",cartItems)
       }
       useEffect(()=>{
         //  console.log('pagesize changing')
@@ -440,6 +452,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
             const newPagData = { ...Pagination1 };
             newPagData["totalPage"] = filtered.total_exercise / (Pagination1.pageSize);
+            console.log("page Pagination1.totalPage if ", filtered.total_exercise / (Pagination1.pageSize))
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
@@ -453,6 +466,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
             const newPagData = { ...Pagination1 };
             newPagData["totalPage"] = exercise.total_exercise / (Pagination1.pageSize);
+            console.log("page Pagination1.totalPage else ",Pagination1.pageSize)
+            console.log("page Pagination1.totalPage else ",exercise.total_exercise)
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
