@@ -641,12 +641,12 @@ class AI extends Component {
 
                     </div>
                     <Row className="main-row"  id="main-row">
-                        <Col id="Ai_vid" className="Ad_vid" >
+                        <Col md={12} lg={12} sm={12} xs={12} id="Ai_vid" className="Ad_vid" >
                             <video  className id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
                             <canvas id="output" className="output" />
                         </Col>
-                        <Col id="Ex_vid" className="Ex_vid">
+                        <Col md={12} lg={12} sm={12} xs={12} id="Ex_vid" className="Ex_vid">
                             <div className="">
                                 <video src={'https://myphysio.digitaldarwin.in/' + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>

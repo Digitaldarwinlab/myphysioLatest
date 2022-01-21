@@ -10,6 +10,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { Label } from "devextreme-react/chart";
 import { useHistory } from "react-router";
 import FormInput from '../UI/antInputs/FormInput';
+import BackButton from "../../PatientComponents/shared/BackButton";
 const marks = {
   0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
   2: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
@@ -222,6 +223,7 @@ const PainAssessment = ({setActive ,next}) => {
       <Row>
         <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
+          <BackButton/>
           <h2>Pain Assesment</h2>{" "}
         </Col>
         {/* <Col md={24} lg={24} sm={24} xs={24}>

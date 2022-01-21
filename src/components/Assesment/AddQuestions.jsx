@@ -6,6 +6,8 @@ import { getQuestions } from './../../API/Assesment/questionApi';
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
 // aswin start 10/30/2021 start
 import { useDispatch, useSelector } from "react-redux";
+import BackButton from '../../PatientComponents/shared/BackButton';
+import { useHistory } from 'react-router-dom';
 // aswin start 10/30/2021 stop
 const AddQuestions = ({back,next}) => {
 
@@ -15,7 +17,6 @@ const AddQuestions = ({back,next}) => {
   const state = useSelector(state=>state)
   // aswin start 10/30/2021 stop
   const dispatch = useDispatch();
-
   async function handleChange(value) {
     let data = await getQuestions(value);
    // console.log('data question')
@@ -35,7 +36,8 @@ const AddQuestions = ({back,next}) => {
       <Form>
         <Row>
           <Col md={24} lg={24} sm={24} xs={24} className="py-3"> 
-            <h3>Add Questions</h3> 
+          <BackButton/>
+        <h3>Add Questions</h3>
           </Col>
         </Row>
 

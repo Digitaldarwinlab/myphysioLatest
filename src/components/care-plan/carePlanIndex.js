@@ -434,6 +434,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             setCheckedList(newData)
             const filtered = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
             setExerciseList(filtered.data);
+            setFullExer(filtered.data)
             let cartActualData = filtered.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
@@ -574,7 +575,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     //UpdateCart 
     const [basket, setBasket] = useState([])
     const UpdateCart = (id) => {
-        console.log('id is ',id)
+        console.log('exercise id is ',id)
         console.log('id Exerciselist is ',Exerciselist)
         const check = Exerciselist.filter(it=>it.ex_em_id===id)
        // setBasket([...basket,...check])
@@ -598,6 +599,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         setCartItems(data);
         console.log('cartttt items adding')
         console.log(data)
+        console.log('exercise full ',fullExer)
         let cartActualData = fullExer.filter((val) => {
             return data.indexOf(val.ex_em_id) !== -1;
         });
@@ -643,6 +645,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 
                                     return (
                                         <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
+                                            {console.log('inside 1')}
                                             <CarePlanCard
                                                 cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                                 id={exercise.ex_em_id}
@@ -665,6 +668,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     
                           return (
                               <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
+                                  {console.log('inside 2')}
                                   <CarePlanCard
                                       cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                       id={exercise.ex_em_id}
@@ -821,7 +825,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         <Col md={24} lg={24} xl={19} sm={24} xs={24}><TopScroll /></Col>
                     </Row>
                 ) : (
-                    <CareAllocatePlan handleChangeView={handleChangeView} Exercise={Exerciselist} items={cartItems} searchBar={searchBar} />
+                    <CareAllocatePlan handleChangeView={handleChangeView} Exercise={fullExer} items={cartItems} searchBar={searchBar} />
                 )
             }
             </div>

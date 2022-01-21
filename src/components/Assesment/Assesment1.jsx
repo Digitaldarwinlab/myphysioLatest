@@ -551,10 +551,10 @@ const Assesment1 = ({back ,next}) => {
         // question.innerHTML = " "
           question.style.backgroundColor = "honeydew"
           question.style.borderColor = "limegreen"
-          setQuestionVisibility('block')
+          setQuestionVisibility('inline')
 
       }
-      setQuestionVisibility('none')
+     // setQuestionVisibility('none')
       // Check if AI_Data
       if (state.FirstAssesment.AI_data === "") {
           rom.innerHTML = "Add ROM Assesment"
@@ -935,9 +935,9 @@ const Assesment1 = ({back ,next}) => {
         </Col>
       </Row>
       <Row>
-      <Col md={4} lg={4} sm={4} xs={4}>
+      <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-        <Col md={16} lg={16} sm={16} xs={16}>
+        <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
         <Button type="text" disabled={state.FirstAssesment.quest} className="testclass" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
         {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
                 <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
@@ -946,22 +946,22 @@ const Assesment1 = ({back ,next}) => {
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
                 {/* <Button className="ms-3" >save</Button> */}
         </Col>
-        <Col md={4} lg={4} sm={4} xs={4}>
+        <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
       </Row>
       <Row>
-      <Col md={4} lg={4} sm={4} xs={4}>
+      <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-        <Col md={16} lg={16} sm={16} xs={16}>
+        <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
           <div>
           <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('pain',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
           <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
           <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
           <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
           </div>
         </Col>
-        <Col md={4} lg={4} sm={4} xs={4}>
+        <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
       </Row>
         <Row>

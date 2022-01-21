@@ -40,14 +40,15 @@ const PoseTest = ({setActive}) => {
     const jcanvas = document.getElementById('jcanvas');
     const myVideo = document.getElementById('Ai_vid')
     let { width, height } = myVideo.getBoundingClientRect()
-       video.width = width;
+      // video.width = width;
         const options = {
             video,
-            videoWidth: width,
-            videoHeight: height,
+            videoWidth: 640,
+            videoHeight: 480,
             canvas,
-            supervised: false,
+          //  supervised: false,
             showAngles: false,
+            drawLine: true,
             ROMPanel: {
                 canvas: jcanvas,
                 width: 150,
@@ -197,12 +198,42 @@ let sideChecks = {}
   }
   const GoBack =()=>{
     darwin.stop();
+    const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('cameraa')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log(err)
+        }
     history.goBack();
   }
 console.log("checks ",frontChecks)
 console.log("checks ",sideChecks)
   const handleSubmit = async ()=>{
   //  setActive(5)
+  const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('cameraa')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log(err)
+        }
   sessionStorage.setItem('posesubmit',true)
     let posture = {
       posture_test_date : new Date().toLocaleDateString('en-GB'),

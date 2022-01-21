@@ -5,6 +5,7 @@ import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
+import BackButton from "../../PatientComponents/shared/BackButton";
 const SpecialTest = ({setActive,back,next}) => {
   const { Panel } = Collapse;
   const history = useHistory();
@@ -128,6 +129,7 @@ const SpecialTest = ({setActive,back,next}) => {
         <Row>
           <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
+            <BackButton />
             <h2>Special Test Type</h2>{" "}
           </Col>
         </Row>
@@ -391,7 +393,7 @@ const SpecialTest = ({setActive,back,next}) => {
             </Panel>
           </Collapse>
           <button
-            onClick={() => back('3')}
+            onClick={() => history.goBack()}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
               marginTop: "10px",

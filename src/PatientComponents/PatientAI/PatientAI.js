@@ -193,6 +193,17 @@ class PatientAI extends Component {
         console.log('response')
         console.log(response)
         //this.props.history.push('/#');
+        window.darwin.stop();
+        const video = document.getElementById('video');
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+        }
+        catch (err) {
+            console.log(err)
+        }
         this.props.history.push({
             pathname: '/patient/schedule',
             
