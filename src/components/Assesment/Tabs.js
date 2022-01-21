@@ -204,7 +204,7 @@ function Tabs({
               </td>
             </tr>
             <tr>
-              <td>Shoulder shoulder</td>
+              <td>Shoulder</td>
               <td>
                 <Col span={12}>
                   <Input value={sideAngles[1]&&sideAngles[1].toFixed(2)} />
@@ -302,8 +302,8 @@ function Tabs({
                           captureSide();
                           setChecked2(false);
                           const res = await darwin.showAngles();
-                          console.log("show front angles ", res);
-                          setSideAngles([res[0], res[1]]);
+                          console.log("show side angles ", res);
+                          setSideAngles([res[0], res[1], res[2], res[3]]);
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}

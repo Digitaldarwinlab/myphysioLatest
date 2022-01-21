@@ -409,6 +409,8 @@ const Assesment1 = ({back ,next}) => {
 
   const [QuestionVisibility, setQuestionVisibility] = useState('block');
 
+  const [posture ,setPosture] = useState(false)
+
   const [RomVisibility, setRomVisibility] = useState('block');
 
   const [angleValues, setAngleValues] = useState({
@@ -534,11 +536,11 @@ const Assesment1 = ({back ,next}) => {
           max: angleValues.RightPelvic.max
       }
   ]
-
+  
   useEffect(() => {
       const question = document.getElementById("question")
       const rom = document.getElementById("rom")
-
+      const posture_btn = document.getElementById('posture-btn')
 
       if (state.FirstAssesment.KOOS === "") {
           question.innerHTML = "Add Questionnaire"
@@ -555,6 +557,10 @@ const Assesment1 = ({back ,next}) => {
 
       }
      // setQuestionVisibility('none')
+     if(Object.keys(state.FirstAssesment.posture).length > 0){
+      posture_btn.innerHTML = 'Posture Done'
+      setPosture(true)
+    }
       // Check if AI_Data
       if (state.FirstAssesment.AI_data === "") {
           rom.innerHTML = "Add ROM Assesment"
@@ -942,7 +948,7 @@ const Assesment1 = ({back ,next}) => {
         {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
                 <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
                 {/* <Button className="ms-3" >save</Button> */}
         </Col>
@@ -1435,6 +1441,34 @@ const Assesment1 = ({back ,next}) => {
          </Col>
      </Row>
  </div>
+ {posture&&<div className=" border mb-3 mt-3">
+     <Row className="border">
+         <Col md={24} lg={24} sm={24} xs={24}>
+             <h4 className="p-2">Posture Analysis</h4>
+         </Col>
+     </Row>
+     <Row gutter={[10, 10]} className="px-4 py-2">
+         <Col md={24} lg={24} sm={24} xs={24}>
+             <Descriptions title="Anterior" bordered>
+                 <Descriptions.Item label="Nasal Bridge">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['Posterial_view'].Angles[0]}</Descriptions.Item>
+                 <Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['Posterial_view'].Angles[1]}</Descriptions.Item>
+                 <Descriptions.Item label="Umbilicus">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[2]}</Descriptions.Item>
+                 <Descriptions.Item label="Knees">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[3]}</Descriptions.Item>
+                 <Descriptions.Item label="Ankle/Foot">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[4]}</Descriptions.Item>
+             </Descriptions>
+         </Col>
+     </Row>
+     <Row gutter={[10, 10]} className="px-4 py-2">
+         <Col md={24} lg={24} sm={24} xs={24}>
+             <Descriptions title="Lateral" bordered>
+                 <Descriptions.Item label="Head deviation">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['lateral_view'].Angles[0]}</Descriptions.Item>
+                 <Descriptions.Item label="Shoulder">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['lateral_view'].Angles[1]}</Descriptions.Item>
+                 <Descriptions.Item label="Hip/Pelvic Deviation">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['lateral_view'].Angles[2]}</Descriptions.Item>
+                 <Descriptions.Item label="Knees Deviation">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['lateral_view'].Angles[3]}</Descriptions.Item>
+             </Descriptions>
+         </Col>
+     </Row>
+ </div>}
  {state.FirstAssesment.pain_state && <div className=" border mb-3 mt-3">
      <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={24} lg={24} sm={24} xs={24}>
