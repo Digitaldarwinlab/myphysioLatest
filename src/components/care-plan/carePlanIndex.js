@@ -359,17 +359,26 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     // },[])
     //function called on page change or pagesize change
     const PaginationChange = async (page, pageSize = Pagination1.pageSize) => {
-        //  console.log(page)
-         // console.log(pageSize)
+     
           let result = await GetExerciseList(dispatch, pageSize, page);
           let res = { ...result };
 
        //   console.log(res)
-        //  console.log(res.total_exercise)
+      console.log('nhi hai 0',res.total_exercise)
+      console.log('nhi hai1',Pagination1.pageSize); //100 //50 
+      console.log('nhi hai2',Pagination1.totalPage);//1.03  //2.06
+      console.log('nhi hai3',Pagination1.current);//100 //1
+      console.log('nhi hai4',Pagination1.minIndex);//1 //0
+      console.log('nhi hai5',Pagination1.maxIndex);//0 // 50
+      console.log('nhi hai6',page)//2
+      console.log('nhi hai7',pageSize)//100
           if (!result.total_exercise) {
               console.log("result is ",result)
-              res["total_exercise"] = result["data"].length * Pagination1.totalPage
-              // console.log('nhi hai')
+          
+             // res["total_exercise"] = result["data"].length * Pagination1.totalPage
+              res["total_exercise"] = Pagination1.pageSize * Pagination1.totalPage
+           
+           console.log('nhi hai', res);//3.09
           }
           
           setExerciseList(res.data);
@@ -703,7 +712,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     <Pagination
                         pageSize={Pagination1.pageSize}
                         current={Pagination1.current}
-                        total={Pagination1.totalPage * Exerciselist.length}
+                       // total={Pagination1.totalPage * Exerciselist.length}
+                        total={Pagination1.pageSize * Pagination1.totalPage}
                         pageSizeOptions={["2", "5", "10", "20", "50", "100"]}
                         showSizeChanger
                         onChange={PaginationChange}
