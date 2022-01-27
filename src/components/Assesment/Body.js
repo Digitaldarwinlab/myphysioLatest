@@ -106,7 +106,7 @@ const desc = ['no pain', 'mild', 'moderate', 'severe'];
 
 
 
-const Body = ({setActive}) => {
+const Body = ({back ,next}) => {
     const [errorshow, SeterrorShow] = useState(false)
     const history = useHistory();
     const [form] = Form.useForm();
@@ -254,20 +254,20 @@ const Body = ({setActive}) => {
         const rom = document.getElementById("rom")
 
 
-        // if (state.FirstAssesment.KOOS === "") {
-        //    // question.innerHTML = "Add Questionnaire"
-        //    question.innerHTML = " "
-        //     setQuestionVisibility('none')
+        if (state.FirstAssesment.KOOS === "") {
+            question.innerHTML = "Add Questionnaire"
+         //  question.innerHTML = " "
+            setQuestionVisibility('none')
 
-        // }
-        // else {
-        //    // question.innerHTML = "Questionnaire filled"
-        //    question.innerHTML = " "
-        //     question.style.backgroundColor = "honeydew"
-        //     question.style.borderColor = "limegreen"
-        //     setQuestionVisibility('block')
+        }
+        else {
+          question.innerHTML = "Questionnaire filled"
+          // question.innerHTML = " "
+            question.style.backgroundColor = "honeydew"
+            question.style.borderColor = "limegreen"
+            setQuestionVisibility('block')
 
-        // }
+        }
         setQuestionVisibility('none')
         // Check if AI_Data
         if (state.FirstAssesment.AI_data === "") {
@@ -417,7 +417,7 @@ const Body = ({setActive}) => {
     }
 
 
-    const Rom = () => { 
+    const Rom = () => {
 
         if (Object.keys(MuscleJoint).length == '') {
             warningJoint()
@@ -626,13 +626,12 @@ const Body = ({setActive}) => {
         }
     }
     const Submit = async () => {
-        setActive(2)
-        // let div = document.getElementById("malefigures");
-        // let can =  await html2canvas(div)
-        // let url = can.toDataURL()
-        // handleChange1('body_image',url).then(()=>{
-        //     Finalsubmit()
-        // })
+        let div = document.getElementById("malefigures");
+        let can =  await html2canvas(div)
+        let url = can.toDataURL()
+        handleChange1('body_image',url).then(()=>{
+            Finalsubmit()
+        })
     //    .then(function (canvas) {
     //     url = canvas.toDataURL()
     //     console.log("url is ",url)
@@ -1057,15 +1056,16 @@ const Body = ({setActive}) => {
                     {'Above Pelvic : '}{frontAngles[4]&&frontAngles[4].toFixed(2)}{' '}
                   </Card>
                   </div>} */}
-            <div className="text-center mb-3">
-                {/* <Button onClick={Questions} id="question"></Button>
+            {/* <div className="text-center mb-3">
+                <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button> */}
-                <Button className="ms-3" onClick={Submit}>back</Button>
-                <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
-                <Button className="ms-3" onClick={Submit}>next</Button>
-            </div>
+                {/* <Button className="ms-3" onClick={()=>back('1')}>back</Button> */}
+                {/* <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
+                <Button className="ms-3" onClick={Submit}>save</Button> */}
+                {/* <Button className="ms-3" onClick={()=>next('2')}>next</Button> */}
+            {/* </div> */}
 
         </div>
     )

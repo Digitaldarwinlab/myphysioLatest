@@ -1,0 +1,13 @@
+/* :global(.ant-btn-primary) {
+  background-color: var(--secondary-color);
+  &:hover {
+    background-color: var(--secondary-hover-color) !important;
+    border-color: var(--secondary-hover-color) !important;
+  }
+} */
+/* .ant-btn.testclass:hover{
+    text-decoration: none;
+    background: #2d7ecb !important;
+    color: #fff !important;
+} */
+

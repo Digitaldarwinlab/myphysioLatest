@@ -907,6 +907,34 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2"></Row>
                                             </div>
+                                            {data.posture&&Object.keys(data.posture).length > 0&&<div className=" border mb-3 mt-3">
+                                             <Row className="border">
+                                               <Col md={24} lg={24} sm={24} xs={24}>
+                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
+                                               </Col>
+                                             </Row>
+                                             {data.posture['Posterial_view']&&<Row gutter={[10, 10]} className="px-4 py-2">
+                                              <Col md={24} lg={24} sm={24} xs={24}>
+                                              <Descriptions title="Anterior" bordered>
+                                             {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]&& <Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}
+                                              {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]&&<Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]}</Descriptions.Item>}
+                                                 {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]&&<Descriptions.Item label=" Umbilicus">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]}</Descriptions.Item>}
+                                                  {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]&&<Descriptions.Item label="Knees">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]}</Descriptions.Item>}
+                                                 {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]&&<Descriptions.Item label="Ankle/Foot">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]}</Descriptions.Item>}
+                                              </Descriptions>
+                                              </Col>
+                                                </Row>}
+                                             {data.posture['lateral_view']&& <Row gutter={[10, 10]} className="px-4 py-2">
+                                                <Col md={24} lg={24} sm={24} xs={24}>
+                                              <Descriptions title="Lateral" bordered>
+                                              <Descriptions.Item label="Head deviation">{Object.keys(data.posture).length > 0 &&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[0]}</Descriptions.Item>
+                                              <Descriptions.Item label="Shoulder">{Object.keys(data.posture).length > 0 &&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[1]}</Descriptions.Item>
+                                                <Descriptions.Item label="Hip/Pelvic Deviation">{Object.keys(data.posture).length > 0&&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[2]}</Descriptions.Item>
+                                                 <Descriptions.Item label="Knees Deviation">{Object.keys(data.posture).length > 0&&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[3]}</Descriptions.Item>
+                                             </Descriptions>
+                                          </Col>
+                                         </Row>}
+                                        </div>}
                                             <div className=" border mb-3 mt-3" >
 
 

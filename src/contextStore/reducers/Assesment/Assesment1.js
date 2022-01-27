@@ -51,6 +51,11 @@ const FirstAssesmentIniState ={
 
 
     // 
+    quest:true,
+    pain1:true,
+    special:true,
+    pose:true,
+    romAss:true,
     Swelling:"no pain",
     pain_scars:"",
     subjective:[{

@@ -10,6 +10,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { Label } from "devextreme-react/chart";
 import { useHistory } from "react-router";
 import FormInput from '../UI/antInputs/FormInput';
+import BackButton from "../../PatientComponents/shared/BackButton";
 const marks = {
   0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
   2: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
@@ -20,7 +21,7 @@ const marks = {
   8: <i class="far fa-frown" style={{ fontSize: 25, color: "orange" }}></i>,
   10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
-const PainAssessment = ({setActive}) => {
+const PainAssessment = ({setActive ,next}) => {
   const history = useHistory();
   const [form] = Form.useForm();
   // const[value, setValue]=useState();
@@ -210,12 +211,12 @@ const PainAssessment = ({setActive}) => {
     return
   }
   const saveData=()=>{
-    setActive(3)
-    // console.log("save")
-    // if(window.confirm("pain assessment data will save")){
-    //   state.FirstAssesment.pain_state=true
-    //   history.push('/assessment/1')
-    // }
+   // setActive(3)
+    console.log("save")
+    if(window.confirm("pain assessment data will save")){
+      state.FirstAssesment.pain_state=true
+      history.push('/assessment/1')
+    }
   }
   return (
     <div className="px-2 py-2">

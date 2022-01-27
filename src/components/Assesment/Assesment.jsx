@@ -16,10 +16,73 @@ const { TabPane } = Tabs;
 const Assesment = () => {
   const history = useHistory();
   const state = useSelector(state => state);
-  const [active ,setActive] = useState(1)
+  const [active ,setActive] = useState('1')
+  const back=(n)=>{
+      setActive(n)
+  }
+  const ChangeTab =(key) =>{
+    setActive(key)
+  }
+  const next =(n)=>{
+    setActive(n)
+  }
+  const Finalsubmit = async () => {
+    // aswin 10/24/2021 start
+    //  let val=checkEpisodeId();
+    //  if(state.episodeReducer.patient_code){
+    const res = await getEpisode(state.episodeReducer.patient_code)
+
+    // alert(JSON.stringify(state.episodeReducer))
+    // console.log(JSON.stringify(state.episodeReducer))
+    // if(state.carePlanRedcucer.pp_ed_id===""){
+    //     return notification.warning({
+    //         message: "Patient don't have an open episode1",
+    //         placement: 'bottomRight',
+    //         duration: 2
+    //     });
+    // }
+    // aswin 10/24/2021 stop
+    // aswin 11/13/2021 start
+    if (res.length > 0 && res[0].end_date.length === 0) {
+        if (window.confirm('Assessment data will be submitted')) {
+            const data = await AssesmentAPI(state.FirstAssesment, dispatch)
+            dispatch({ type: RECEIVED_DATA })
+            if (data === true) {
+                sessionStorage.setItem('submit', true)
+                setTimeout(() => {
+                    dispatch({ type: ASSESMENT_CLEARSTATE });
+                }, 1000);
+
+                notification.success({
+                    message: 'Assessment successfully submitted!',
+                    placement: 'bottomLeft',
+                    duration: 2
+                });
+
+                history.push('/dashboard')
+            }
+
+
+            else {
+                notification.error({
+                    message: 'Form was not submitted',
+                    placement: 'bottomLeft',
+                    duration: 2
+                });
+            }
+        }
+        // aswin 11/13/2021 stop
+    } else {
+        return notification.warning({
+            message: "Patient don't have an open episode1",
+            placement: 'bottomRight',
+            duration: 2
+        });
+    }
+}
   return (
     <>
-      <Row className="mt-3">
+      {/* <Row>
         <Col md={12} lg={12} sm={24} xs={24}>
           <h3>
             <i
@@ -43,16 +106,15 @@ const Assesment = () => {
         <Col md={12} lg={12} sm={24} xs={24}>
           <ActiveSearch />
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col md={24} lg={24} sm={24} xs={24}>
-          <Tabs defaultActiveKey="1" type="card" size="medium">
+          <Tabs activeKey={active} defaultActiveKey="1" type="card" onChange={ChangeTab} size="medium">
             <TabPane
               tab={<div className="fw-bold ant-tabs-btn">General </div>}
               key={1}
             >
-             {/* <Assesment1 setActive={setActive} /> */}
-             <Assesment1 />
+             <Assesment1 back={back} next={next} />
             </TabPane>
             <TabPane
               tab={
@@ -60,28 +122,28 @@ const Assesment = () => {
               }
               key="2"
             >
-              <AddQuestions setActive={setActive}/>
+              <AddQuestions back={back} next={next} setActive={setActive}/>
             </TabPane>
 
             <TabPane
               tab={<div className="fw-bold ant-tabs-btn">Pain Assessment</div>}
               key="3"
             >
-              <PainAssessment setActive={setActive}/>
+              <PainAssessment back={back} next={next} setActive={setActive}/>
             </TabPane>
 
             <TabPane
               tab={<div className="fw-bold ant-tabs-btn">Special Test</div>}
               key="4"
             >
-              <SpecialTest setActive={setActive}/>
+              <SpecialTest back={back} next={next} setActive={setActive}/>
             </TabPane>
 
             <TabPane
               tab={<div className="fw-bold ant-tabs-btn">Posture Analysis</div>}
               key="5"
             >
-              <PoseTest setActive={setActive}/>
+              <PoseTest back={back} next={next} setActive={setActive}/>
             </TabPane>
 
             <TabPane
@@ -90,13 +152,13 @@ const Assesment = () => {
               }
               key="6"
             >
-              <Body setActive={setActive}/>
+              <Body back={back} next={next} setActive={setActive}/>
             </TabPane>
             <TabPane
               tab={<div className="fw-bold ant-tabs-btn">Finish</div>}
               key="7"
             >
-           <Button className="ms-3" >Finish</Button>
+           <Button className="ms-3" onClick={Finalsubmit} >Finish</Button>
             </TabPane>
           </Tabs>
         </Col>

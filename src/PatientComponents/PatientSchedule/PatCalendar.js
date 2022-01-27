@@ -489,32 +489,44 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log("selected Exact time ",exactTime)
     console.log("selected careplanidarray ",careplanIdArray[selectedTime])
     console.log('selected time slots ',times)
+    console.log('selected exercises ',exercises)
+    const mapExer=(time)=>{
+      exercises.map(ex=>{
+        ex['ChoosenTime'] = time
+      })
+    }
     if(combine){
     if(chosenTime===undefined){
-      exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
+     // exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
+     mapExer(careplanIdArray[selectedTime].time)
     }else{
-      exercise["ChoosenTime"] = exactTime[0]
+     // exercise["ChoosenTime"] = exactTime[0]
+     mapExer(exactTime[0])
     }
    }else{
      if(exactTime!==0){
-      exercise["ChoosenTime"] = exactTime
+     // exercise["ChoosenTime"] = exactTime
+     mapExer(exactTime)
      }else{
-      exercise["ChoosenTime"] = times[0]
+    //  exercise["ChoosenTime"] = times[0]
+    mapExer(times[0])
      }
    }
     console.log('exercises are ',exercises)
-    console.log("exercise is ",exercise)
-    // exercise["ChoosenTime"] = chosenTime
-    //   ? chosenTime
-    //   : Object.keys(mappedTimeToExercises)[0]
-    //   ? Object.keys(mappedTimeToExercises)[0]
-    //   : times[selectedTime];
-    exercise["careplanId"] = exercise.pp_cp_id;
+   console.log("exercise is ",exercise)
+    exercise["ChoosenTime"] = chosenTime
+      ? chosenTime
+      : Object.keys(mappedTimeToExercises)[0]
+      ? Object.keys(mappedTimeToExercises)[0]
+      : times[selectedTime];
+   exercise["careplanId"] = exercise.pp_cp_id;
+
     onChangeVideoUrl(exercise.video_url);
     history.push({
       pathname: "/patient/exercises/brief",
       state: {
-        exercise,
+        exercise:exercises[0],
+        exercises
       },
     });
   };
@@ -774,9 +786,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         <Col className="exercises-cards">
           {times.length !== 0 && TimeSlots(times)}
           {exercises.length !== 0
-            ? exercises.map((ex, index) => {
+            ?<>{exercises.map((ex, index) => {
               console.log("ex inside ",ex)
                 return (
+                  <>
                   <div
                     key={index}
                     className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
@@ -784,8 +797,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                   >
                      {ExerciseCard(ex)}
                   </div>
+                  </>
                 );
-              })
+              })}
+              </>
             : !loading && (
                 <p className="text-center p border nothing-present">
                   <b> No Plan For Today</b>{" "}
@@ -793,6 +808,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               )}
         </Col>
       </div>
+      {exercises.length>0&& <Button style={{float:'right'}} onClick={() => handleClick(exercises)} >Start All Now</Button>}
     </>
   );
 };

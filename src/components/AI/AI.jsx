@@ -56,6 +56,7 @@ class AI extends Component {
         console.log('preveState:'+preveState);
         console.log('preIndices:'+preIndices);
         let PreJoints = this.props.history.location.state.Joints;
+        console.log("exercises primary",this.props.history.location.state.exercisePrimary)
         console.log('PreJoints:'+PreJoints);
         let PreJointKeys = (Object.keys(PreJoints));
         let PreJointValue = (Object.values(PreJoints));
@@ -108,6 +109,7 @@ class AI extends Component {
         this.start = this.start.bind(this);
         this.capture = this.capture.bind(this);
         this.ExDef = this.ExDef.bind(this);
+      //  this.setState({primaryExercise:this.props.history.location.state.exercisePrimary})
     }
 
 
@@ -483,23 +485,36 @@ class AI extends Component {
         
         const video = document.getElementById('video');
         const canvas = document.getElementById('output');
+        const myVideo = document.getElementById('Ai_vid')
+        let { width, height } = myVideo.getBoundingClientRect()
+        video.width = width;
         const options = {
             video,
-            videoWidth: 550,
-            videoHeight: 420,//window.innerHeight-20,
+            videoWidth: width,
+            videoHeight: height,
             canvas,
-            // loadingEleId: 'loading',
-            // mainEleId: 'main',
             supervised: true,
             showAngles: true,
         };
+        // const options = {
+        //     video,
+        //     videoWidth: 550,
+        //     videoHeight: 420,//window.innerHeight-20,
+        //     canvas,
+        //     // loadingEleId: 'loading',
+        //     // mainEleId: 'main',
+        //     supervised: true,
+        //     showAngles: true,
+        // };
         this.innerHTML2();
         window.darwin.initializeModel(options);
         this.start();
-        var priArr = this.state.primaryExercise[0].primary_angles
+        console.log('exerc ',this.state.primaryExercise)
+        var priArr = []
+        priArr = this.state.primaryExercise[0].joint
         // this.state.primaryExercise.map(ex=>{
         //     if(ex.exercise_shortname==e.target.value){
-        //         priArr = ex.primary_angles
+        //         priArr = ex.joints
         //     }
         // })
         console.log("primary  ",priArr)
@@ -626,12 +641,12 @@ class AI extends Component {
 
                     </div>
                     <Row className="main-row"  id="main-row">
-                        <Col id="Ai_vid" className="Ad_vid" >
+                        <Col md={12} lg={12} sm={12} xs={12} id="Ai_vid" className="Ad_vid" >
                             <video  className id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
                             <canvas id="output" className="output" />
                         </Col>
-                        <Col id="Ex_vid" className="Ex_vid">
+                        <Col md={12} lg={12} sm={12} xs={12} id="Ex_vid" className="Ex_vid">
                             <div className="">
                                 <video src={'https://myphysio.digitaldarwin.in/' + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>

@@ -38,25 +38,32 @@ const PoseTest = ({setActive}) => {
     const video = document.getElementById('video');
    const canvas = document.getElementById('output');
     const jcanvas = document.getElementById('jcanvas');
-    const options = {
-      video,
-      videoWidth: 640,
-      videoHeight: 480, //window.innerHeight-20,
-      canvas,
-      drawLine: true,
-      ROMPanel: {
-        canvas: jcanvas,
-        width: 150,
-        height: 150,
-        radius: 70,
-      },
-    };
+    const myVideo = document.getElementById('Ai_vid')
+    let { width, height } = myVideo.getBoundingClientRect()
+      // video.width = width;
+        const options = {
+            video,
+            videoWidth: 640,
+            videoHeight: 480,
+            canvas,
+          //  supervised: false,
+            showAngles: false,
+            drawLine: true,
+            ROMPanel: {
+                canvas: jcanvas,
+                width: 150,
+                height: 150,
+                radius: 70
+            }
+        };
     window.darwin.initializeModel(options);
     // startModel();
   }
   useEffect(() => {
     setModelCanvas();
     darwin.launchModel();
+    darwin.stop();
+    darwin.restart();
   }, [])
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -189,36 +196,70 @@ let sideChecks = {}
       }
     });
   }
+  const GoBack =()=>{
+    darwin.stop();
+    const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('cameraa')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    history.goBack();
+  }
 console.log("checks ",frontChecks)
 console.log("checks ",sideChecks)
   const handleSubmit = async ()=>{
-    setActive(5)
-  // sessionStorage.setItem('posesubmit',true)
-  //   let posture = {
-  //     posture_test_date : new Date().toLocaleDateString('en-GB'),
-  //     Posterial_view : {
-  //       posterial_view_image : url1,
-  //       Angles : frontAngles,
-  //       checkBox :state.FirstAssesment.frontChecks
-  //     },
-  //     lateral_view : {
-  //       posterial_view_image : url2,
-  //       Angles : sideAngles,
-  //       checkBox : state.FirstAssesment.sideChecks
-  //     },
-  //     Notes : notes
-  //   }
-  //   if(window.confirm('Posture data will be saved')){
-  //     dispatch({
-  //       type: STATECHANGE,
-  //       payload: {
-  //         key:'posture',
-  //         value : posture
-  //       }
-  //     });
-  //     history.push('/assessment/1')
-  //   }
-  //   console.log('posture ',posture)
+  //  setActive(5)
+  const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('cameraa')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log(err)
+        }
+  sessionStorage.setItem('posesubmit',true)
+    let posture = {
+      posture_test_date : new Date().toLocaleDateString('en-GB'),
+      Posterial_view : {
+        posterial_view_image : url1,
+        Angles : frontAngles,
+        checkBox :state.FirstAssesment.frontChecks
+      },
+      lateral_view : {
+        posterial_view_image : url2,
+        Angles : sideAngles,
+        checkBox : state.FirstAssesment.sideChecks
+      },
+      Notes : notes
+    }
+    if(window.confirm('Posture data will be saved')){
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key:'posture',
+          value : posture
+        }
+      });
+      history.push('/assessment/1')
+    }
+    console.log('posture ',posture)
   }
   return (
     <div className="px-2 py-2">
@@ -307,9 +348,10 @@ console.log("checks ",sideChecks)
             <Button onClick={()=>{
                 returnState=true
                 handleSubmit()
-              }} style={{marginRight:'10px',marginTop:'5px'}}>next</Button>
-              <Button onClick={() => history.goBack()} style={{marginRight:'10px',marginTop:'5px'}}>Back</Button>
-        </Col>
+              }} style={{marginRight:'10px',marginTop:'5px' ,backgroundColor:'#2d7ecb'}}>Save</Button>
+              
+              <Button onClick={GoBack} style={{marginRight:'10px',marginTop:'5px'}}>Back</Button>
+              </Col>
       </Row>
     </div>
   );

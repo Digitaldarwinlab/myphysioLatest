@@ -1,17 +1,19 @@
 export  const drp1 = [
     "Speed Test",
-    "Yergaosons Test",
-    "Lippmans Test",
+    "Yergason's test",
+    "Lippman's Test",
     "Drop Arm Test",
     "Neer Impingement Test",
     "median nerve & Anterior interosseous nerve (ULTT 1)",
-    "C5,6,7,Median nerve,Musculocutaneous nerve & axilliary nerve(ULTT 2)",
+    "C5,6,7,Median nerve,Musculocutaneous nerve & axillary nerve(ULTT 2)",
     "Radial nerve(ULTT3)",
-    "C8, T1, Ulnar(ULTT 4)",
+    "C8, T1, Ulnar nerve(ULTT 4)",
     "Apprehension Test",
     "Rockwood Test",
     "Dugas Test",
     "Sulcus Test",
+    "Posterior Apprehension Test",
+    "Clunk Test"
   ];
 
   export  const drp2 = [
@@ -21,7 +23,7 @@ export  const drp1 = [
     "Golfer's Elbow Test",
   ];
 
-  export const drp3 = ["Finketsein's Test", "Sweater Finger Test", "Phalen's Test"];
+  export const drp3 = ["Finketsein's Test", "Sweater Finger Test", "Phalen's Test","Reverse Phalen's Test"];
   export  const drp4 = [
     "Thomas Test",
     "Rectus Femoris Contracture Test",
@@ -35,13 +37,13 @@ export  const drp1 = [
     "Anterior Drawer Sign",
     "Posterior Drawer Sign",
     "McMurray Test",
-    "Pateller Tap Test",
+    "Patellar Tap Test",
     "Clarke's Sign",
   ];
   export const drp6 = ["Anterior Drawer Test", "Talar Tilt", "Thompson's Test"];
   export const drp7 = [
     "Foraminal Compression (Sparlings Test)",
-    "ULTT's",
+    "ULTT's ( D/F Diagnosis)",
     "Shoulder Depression Test & Abduction Test",
     "Jackson's Compression Test",
   ];
