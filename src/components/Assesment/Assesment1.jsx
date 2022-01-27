@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import "./Tab.css";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio, Tabs } from 'antd';
 import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
@@ -908,7 +907,7 @@ const Assesment1 = ({back ,next}) => {
   return (
     <div className="px-2 py-2">
 
-      <Form style={{ background: '#fff', marginTop: '0px', padding: '20px' }} {...layout}
+      <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
 
@@ -929,9 +928,9 @@ const Assesment1 = ({back ,next}) => {
               role="button"
             ></i>
           </h3>
-          <h3>
+          <h3 style={{paddingTop:'10px'}} >
             <AiFillMedicineBox />
-            Assesment/Consultation
+             <b style={{paddingLeft:'5px'}} >Assesment/Consultation</b>
           </h3>
         </Col>
         {state.Validation.episode_check === "failed" && (
@@ -941,23 +940,9 @@ const Assesment1 = ({back ,next}) => {
           <ActiveSearch />
         </Col>
       </Row>
-      <Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
-        </Col>
-        <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
-        <Button type="text" disabled={state.FirstAssesment.quest} className="testclass" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
-        {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
-                <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-                <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
-                {/* <Button className="ms-3" >save</Button> */}
-        </Col>
+      
+      {/* <Row>
         <Col md={2} lg={2} sm={2} xs={2}>
-        </Col>
-      </Row>
-      <Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
         <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
           <div>
@@ -970,22 +955,25 @@ const Assesment1 = ({back ,next}) => {
         </Col>
         <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-      </Row>
-        <Row>
+      </Row> */}
+        {/* <Row>
           <Col md={24} lg={24} sm={24} xs={24}>
             <div className="border">
               <p className="ps-1 py-2">
-                <b> Patient Name </b> {state.episodeReducer.patient_name} <br /><br />
-                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br /><br />
-                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br /><br />
-                <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br /><br />
+
+                <b> Patient Name </b> {state.episodeReducer.patient_name} <br />
+                <b> Patient Code </b> {state.episodeReducer.patient_main_code} <br />
+                <b> Episode ID: </b> {episodedata ? episodedata.episodeId : null} <br />
+                <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null} <br />
                 <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
+
               </p>
             </div>
           </Col>
+
         </Row> */}
 
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+        <Row gutter={[20,20]} style={{marginBottom:'15px', marginTop:'15px'}}>
             <Col md={24} lg={12} sm={24} xs={24}>
               <b> Patient Name :</b> {state.episodeReducer.patient_name}
             </Col>
@@ -1003,7 +991,6 @@ const Assesment1 = ({back ,next}) => {
             </Col>
         </Row>
 
-
         <Row className="AssesmentConsultationMain">
           {/* <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}> */}
           {/* <FormDate label="Date"
@@ -1019,7 +1006,7 @@ const Assesment1 = ({back ,next}) => {
               onChange={handleChange}
             /> */}
           {/* </Col> */}
-          <Col className="AssesmentConsultationMain_inner" md={12} lg={12} sm={24} xs={24}>
+          <Col className="AssesmentConsultationMain_inner" style={{marginLeft:'0px', paddingLeft:'0px'}} md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Type" name="Type">
             {/* //  rules={[{ required: true, message: `Please Select Type.` }]} > */}
               <Select placeholder="Select Type"
@@ -1039,16 +1026,17 @@ const Assesment1 = ({back ,next}) => {
         </Row>
       </Form>
 
-     {state.FirstAssesment.Type==="First"&& <div className="border mb-3 mt-3" style={{ background:'#fff', marginTop:'10px',  border:'1px solid #ccc !important', padding:'20px'}}>
-        
-    
+      <Row className="">
+          <Col md={24} lg={24} sm={24} xs={24}>
+            <h3 className="p-0"><b>Physical Assesment</b></h3>
+          </Col>
+        </Row>
 
+     {state.FirstAssesment.Type==="First"&& <div className="border1 mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
+        
+        
         <Form form={form} >
-          <Row className="">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h3 className="p-2"><b>Physical Assesment</b></h3>
-            </Col>
-          </Row>
+         
           {/* 
           <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
               <Col md={24} lg={12} sm={24} xs={24}>
@@ -1104,27 +1092,31 @@ const Assesment1 = ({back ,next}) => {
         {/* gaurav 4/12 */}
 
         <div className="container-fuild">
-        <Row gutter={[20, 20]} className="px-3">
-        <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Subjective</b></h4>
-            </Col>
-          </Row>
+
+          <Row gutter={[20, 20]} className="py-0">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                  <h4><b>Subjective</b></h4>
+              </Col>
+            </Row>
           {/* <div className="row">
             <div className="col">
               <h2>Subjective</h2>
             </div>
 
           </div> */}
-           <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
-          {state.FirstAssesment.subjective.map((data, index) => {
+
+
+
+           <Col md={24} lg={24} sm={24} xs={24} className="mx-0 p-0">
+              {state.FirstAssesment.subjective.map((data, index) => {
             let
               occupation = `occupation-${index}`,
               Duration = `Duration-${index}`;
             return (
-               <div className="container-fuild">
-                 <Row gutter={[20, 20]} className="py-3">
-                  <Col md={12} lg={12} sm={12} xs={12}>
-                       <h4 className="">Occupation</h4>{"  "}
+               <div className="container-fuild p-4 my-3 border1">
+                 <Row gutter={[20, 20]} className="py-0">
+                    <Col md={24} lg={12} sm={24} xs={24} style={{paddingLeft:'0px'}}>
+                       <h4>Occupation</h4>
                        <select className="form-select w-100"
                         name={"occupation"+index} id={occupation} data-id={index}
                         aria-label="Default select example"
@@ -1137,17 +1129,16 @@ const Assesment1 = ({back ,next}) => {
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
                       </select>
-                       </Col>
+                    </Col>
                        {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}
-                 </Row>
-                 <Row gutter={[0, 0]} className="py-2">
-                 <Col md={24} lg={24} sm={24} xs={24} classNme="px-0">
-                    <h4>Duration</h4>
+                 
+                    <Col md={24} lg={12} sm={24} xs={24}>
+                      <h4>Duration</h4>
+                      <Radio.Group options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
+                      </Radio.Group>
                     </Col>
-                    <Radio.Group options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
-                    </Radio.Group>
-                    </Row>
+                  </Row>
                 </div>
             )
           }
@@ -1156,8 +1147,8 @@ const Assesment1 = ({back ,next}) => {
           </Col>
         
 
-          <div className="row py-2 mx-1">
-            <div className="col">
+          <div className="row py-0 mx-1">
+            <div className="col" style={{paddingLeft:'0px'}}>
               <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
               <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
 
@@ -1168,7 +1159,7 @@ const Assesment1 = ({back ,next}) => {
         </div>
 
         <div className="container-fuild">
-          <Row gutter={[10, 10]} className="py-3">
+          <Row gutter={[20, 20]} className="py-3">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Chief Complaint</b></h4>
             </Col>
@@ -1186,7 +1177,7 @@ const Assesment1 = ({back ,next}) => {
           <Col md={24} lg={24} sm={24} xs={24}>
             <h4><b>History Of Presenting Complaint</b></h4>
           </Col>
-          <Col md={24} lg={24} sm={24} xs={24} className="mx-0">
+          <Col md={24} lg={24} sm={24} xs={24} className="mx-2" style={{paddingLeft:'0px'}}>
           <Radio.Group options={['Sudden','Gradual','History of Fail','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
@@ -1200,14 +1191,14 @@ const Assesment1 = ({back ,next}) => {
         </Row>
 
         <div className="container-fuild">
-          <Row gutter={[10, 10]} className="py-1">
+          <Row gutter={[10, 10]} className="pb-1">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Past Medical History</b></h4>
             </Col>
           </Row>
 
-          <Row gutter={[10, 10]} className="py-0">
-            <Col md={24} lg={24} sm={24} xs={24} className="">
+          <Row gutter={[20, 20]} className="py-0">
+            <Col md={24} lg={24} sm={24} xs={24} className="ms-0">
             <Checkbox.Group
                 style={{ paddingLeft: "0px" }}
                 name="past Medical History"
@@ -1216,7 +1207,7 @@ const Assesment1 = ({back ,next}) => {
                 options={plainOptions1}
               />
                 <Checkbox.Group
-                style={{ paddingLeft: "10px" }}
+                style={{ paddingLeft: "20px" }}
                 name="Medication"
                 value={state.FirstAssesment.Medication1}
                 onChange={(e) =>{
@@ -1226,7 +1217,7 @@ const Assesment1 = ({back ,next}) => {
                   }}
                 options={['Medication']}
               />
-                <input class="mx-2 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <input class="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
                 <br/>
                 <Checkbox.Group
                 style={{ paddingLeft: "0px" }}
@@ -1239,7 +1230,7 @@ const Assesment1 = ({back ,next}) => {
                 }}
                 options={['Others']}
               />
-                <input class="mx-5 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
+                <input class="mx-3 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
               {/* <div className="row" name="past_medical_history" >
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
@@ -1275,12 +1266,11 @@ const Assesment1 = ({back ,next}) => {
         </div>
 
         <div className="container-fuild">
-
           <Row gutter={[10, 10]} className="py-3">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4><b>Built Type</b></h4>
             </Col>
-            <Col md={24} lg={24} sm={24} xs={24} className="mx-3 p-0">
+            <Col md={24} lg={24} sm={24} xs={24} className="mx-2 p-0">
               {/* <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
               >
                 <div className="col  form-check-inline">
@@ -1295,7 +1285,7 @@ const Assesment1 = ({back ,next}) => {
                 />Endomorphic</div>
 
               </div> */}
-              <Radio.Group options={['ectomorphic','mesomorphic','endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
+              <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
    
               </Radio.Group>
             </Col>
@@ -1359,15 +1349,11 @@ const Assesment1 = ({back ,next}) => {
       }
       {/* <Body back={back} next={next}/> */}
 
-      <div className="border mb-3 mt-0" style={{ background: '#fff', padding: '20px' }}>
-
-           
-
+      <div className="border1 mb-3 mt-0 text-center" style={{ background: '#fff', padding: '20px' }}>
 <>
      <Button style={{backgroundColor:'#2d7ecb'}} className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
-     
      <Row>
-         <Col md={16} lg={16} sm={24} xs={24}>
+         <Col md={24} lg={24} sm={24} xs={24} className="text-center"> 
              <div id="malefigures">
                  <div id="mobile-muscle-map"><img alt="body-img" id="mobilebg" src={MobBackground} alt="male-background" />
                      <img alt="body-img11" alt="body-img" className="FullBody" id="traps-a1" src={TrapsLeft} alt="male-1" onClick={() => { handleClick("TrapsA", "traps-a1") }} />
@@ -1437,11 +1423,34 @@ const Assesment1 = ({back ,next}) => {
              </div>
          </Col>
      </Row>
+
+     <Row>
+        <Col className="text-center" style={{paddingBottom:'10px'}} md={24} lg={24} sm={24} xs={24}>
+          <Button type="text" disabled={state.FirstAssesment.quest} className="testclass" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
+          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+          {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
+
+          <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
+
+          <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
+
+          <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
+          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
+
+          <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
+          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
+          {/* <Button className="ms-3" >save</Button> */}
+        </Col>
+        <Col md={2} lg={2} sm={2} xs={2}>
+        </Col>
+     </Row>
  </>
 
 
  <div style={{ display: QuestionVisibility }} className=" border mb-3 mt-3">
-     <Row className="border">
+     <Row className="border1">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">Questionnaire KOOS score</h4>
          </Col>
@@ -1459,8 +1468,8 @@ const Assesment1 = ({back ,next}) => {
          </Col>
      </Row>
  </div>
- {posture&&<div className=" border mb-3 mt-3">
-     <Row className="border">
+ {posture&&<div className=" 1 mb-3 mt-3">
+     <Row className="border1">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">Posture Analysis</h4>
          </Col>
@@ -1487,7 +1496,7 @@ const Assesment1 = ({back ,next}) => {
          </Col>
      </Row>
  </div>}
- {state.FirstAssesment.pain_state && <div className=" border mb-3 mt-3">
+ {state.FirstAssesment.pain_state && <div className=" border1 mb-3 mt-3">
      <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={24} lg={24} sm={24} xs={24}>
              <Descriptions title="Pain Assessment" bordered>
@@ -1510,8 +1519,8 @@ const Assesment1 = ({back ,next}) => {
          </Col>
      </Row>
  </div>}
- <div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
-     <Row className="border">
+ <div style={{ display: RomVisibility }} className=" border1 mb-3 mt-3">
+     <Row className="border1">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">ROM Assesment</h4>
          </Col>

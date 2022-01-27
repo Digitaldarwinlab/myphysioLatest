@@ -132,7 +132,7 @@ const SpecialTest = ({setActive,back,next}) => {
             <h3><b>Special Test Type</b></h3>{" "}
           </Col>
         </Row>
-        <div className="mb-3 special-test" style={{ paddingTop: "0px" }}>
+        <div className="mb-3 special-test" style={{ paddingTop: "15px" }}>
           <Collapse
           accordion
             defaultActiveKey={["1"]}

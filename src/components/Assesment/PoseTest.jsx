@@ -284,7 +284,7 @@ console.log("checks ",sideChecks)
           <p style={{float:'right'}} >Patient Code </p>
           </Col> */}
       </Row>
-      <Row gutter={[20,20]} style={{marginBottom:'15px', marginTop:'15px'}}>
+      <Row gutter={[20,20]} style={{marginBottom:'5px', marginTop:'15px'}}>
           <Col md={24} lg={8} sm={24} xs={24}>
             <p style={{paddingTop:'4px'}}> <b>Patient Name</b> : {state.episodeReducer.patient_name?state.episodeReducer.patient_name:'not selected'}</p>
           </Col>
@@ -312,16 +312,14 @@ console.log("checks ",sideChecks)
 
           <Row style={{paddingBottom:"15px"}}>
             <Col md={24} lg={24} sm={24} xs={24} className="text-center mb-3">
-                <Button style={{ marginRight: '15px' }}>
                 <Switch
-                        checked={checked1}
-                        onChange={() => {
-                          darwin.postureView("front");
-                          setChecked1(!checked1);
-                        }}
-                        style={{ color: "red", marginTop: "5" }}
-                      />
-                </Button>
+                    checked={checked1}
+                    onChange={() => {
+                      darwin.postureView("front");
+                      setChecked1(!checked1);
+                    }}
+                    style={{ color: "red", marginTop: "5", marginRight:"10px" }}
+                  />
                 <Button>Snapshot</Button>
             </Col>
           </Row>
@@ -338,8 +336,6 @@ console.log("checks ",sideChecks)
            frontAngles={frontAngles} sideAngles={sideAngles} setFrontAngles={setFrontAngles} 
            setSideAngles={setSideAngles} screenshot={screenshot} captureFront={captureFront} 
            captureSide={captureSide} onChangeSide={onChangeSide} onChangeFront={onChangeFront}/>
-
-
          
         </Col>
       </Row>

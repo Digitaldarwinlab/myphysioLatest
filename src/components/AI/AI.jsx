@@ -641,22 +641,22 @@ class AI extends Component {
 
                     </div>
                     <Row className="main-row"  id="main-row">
-                        <Col md={12} lg={12} sm={12} xs={12} id="Ai_vid" className="Ad_vid" >
+                        <Col md={14} lg={14} sm={24} xs={14} id="Ai_vid" className="Ad_vid" >
                             <video  className id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
                             <canvas id="output" className="output" />
                         </Col>
-                        <Col md={12} lg={12} sm={12} xs={12} id="Ex_vid" className="Ex_vid">
+                        <Col md={8} lg={8} sm={24} xs={8} id="Ex_vid" className="Ex_vid">
                             <div className="">
                                 <video src={'https://myphysio.digitaldarwin.in/' + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>
                             <Card style={{ marginTop: 5, borderRadius: 10 }} actions={[
-                                <Button
+                                <Button className="mx-2"
                                     style={{ border: 'none' }}
                                     icon={<CameraFilled />}
                                     onClick={this.capture}>
                                     Screenshots</Button>,
-                                <Button
+                                <Button className="mx-2"
                                     style={{ border: 'none' }}
                                     icon={<CaretLeftFilled />}
                                     onClick={this.back}
@@ -665,34 +665,37 @@ class AI extends Component {
                             ]}>
                                 <div id='main' >
                                     <div>
-                                        <Row >
-                                            <Col >
+                                        <Row justify="space-around" className="text-center">
+                                            <Col>
                                                 <Switch onChange={this.handleChange} checked={this.state.SWITCH} style={{ color: "red", marginTop: 5 }} />  {this.state.SWITCH ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
                                             </Col>
                                             <Col>
-                                                <Button
+                                                <Button className="mx-2"
                                                     style={{ border: 'none' }}
                                                     icon={<MinusCircleOutlined />}
                                                     onClick={this.stop}>
                                                     Stop</Button>
                                             </Col>
                                             <Col >
-                                                <Button
+                                                <Button className="mx-2"
                                                     style={{ border: 'none' }}
                                                     icon={<RollbackOutlined />}
                                                     onClick={this.reset}>
                                                     Reset</Button>
                                             </Col>
+                                            
+                                        </Row>
+                                        <row>
                                             <Col >
-                                                <select style={{ marginTop: 5 }} name="ex" id="ex" defaultValue={this.state.selectedExercise} onChange={this.ExChanges}>
+                                                <select className="w-50 mx-2 my-3" style={{ marginTop: 5 }} name="ex" id="ex" defaultValue={this.state.selectedExercise} onChange={this.ExChanges}>
                                                 </select>
                                             </Col>
-                                        </Row>
+                                        </row>
                                     </div>
                                     <div className="detail" id="detail">
-                                    <h5  className="mt-1">Patient Name: {this.props.history.location.state.stateName.patient_name} </h5>
-                                    <h5>Excercise Name: {this.state.selectedExercise}</h5>
-                                    <h5 className="mt-1">Joints: </h5>
+                                    <p style={{marginBottom:'4px'}}> <b>Patient Name :</b>  {this.props.history.location.state.stateName.patient_name} </p>
+                                    <p style={{marginBottom:'4px'}}> <b>Excercise Name :</b>  {this.state.selectedExercise}</p>
+                                    <p style={{marginBottom:'4px'}}> <b>Joints :</b> </p>
                                     </div>
                                     <div >
                                         <Checkbox.Group 
