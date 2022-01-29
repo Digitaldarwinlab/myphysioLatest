@@ -286,7 +286,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const [visible, setVisible] = useState(false);
     const [length, setLength] = useState(0);
     const [allocatePlan, setAllocatePlan] = useState(false);
-    const [fullExer, setFullExer] = useState([])
+    const [fullExer, setFullExer] = useState(new Set())
     // aswin 11/19/2021 start 
     const checkEpisodeId = async () => {
         if(reduxState.carePlanRedcucer.patient_code){
@@ -330,7 +330,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     });
     //Pagination Data State
     const [Pagination1, setPagination1] = useState({
-        pageSize: 100,
+        pageSize: 20,
         totalPage: 0,
         current: 1,
         minIndex: 0,
@@ -364,7 +364,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           let res = { ...result };
 
        //   console.log(res)
-      console.log('nhi hai 0',res.total_exercise)
+      console.log('nhi hai 0',res)
       console.log('nhi hai1',Pagination1.pageSize); //100 //50 
       console.log('nhi hai2',Pagination1.totalPage);//1.03  //2.06
       console.log('nhi hai3',Pagination1.current);//100 //1
@@ -377,7 +377,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           
              // res["total_exercise"] = result["data"].length * Pagination1.totalPage
               res["total_exercise"] = Pagination1.pageSize * Pagination1.totalPage
-           
            console.log('nhi hai', res);//3.09
           }
           
@@ -428,7 +427,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             localStorage.setItem("care-plan-cart", JSON.stringify([]));
             dispatch({ type: CARE_PLAN_CLEAR_STATE });
             
-          //  console.log('on refreshh')
+          //  console.log('on refreshh')bb
                // console.log(reduxState)
             const unblock = history.block((location, action) => {
                 dispatch({ type: CARE_PLAN_CLEAR_STATE });
@@ -439,6 +438,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 unblock();
             };
         }, [history]);
+        useEffect(async() => {
+            const exercise = await GetExerciseList(dispatch, 103,1);
+            setFullExer(exercise.data)
+        }, []);
     useEffect(async () => {
         let data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         const prevState = history.location.state;
@@ -455,12 +458,14 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             setCheckedList(newData)
             const filtered = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
             setExerciseList(filtered.data);
-            setFullExer(filtered.data)
+            console.log("full if ",filtered)
             let cartActualData = filtered.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
             const newPagData = { ...Pagination1 };
-            newPagData["totalPage"] = filtered.total_exercise / (Pagination1.pageSize);
+            newPagData["totalPage"] = (filtered['total_exercise with applied filter'] / (Pagination1.pageSize))+1;
+            console.log("page Pagination1.totalPage if ", filtered.total_exercise )
+            console.log("page Pagination1.totalPage if ", Pagination1.pageSize )
             console.log("page Pagination1.totalPage if ", filtered.total_exercise / (Pagination1.pageSize))
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
@@ -469,10 +474,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         } else {
             const exercise = await GetExerciseList(dispatch, Pagination1.pageSize, Pagination1.current);
             setExerciseList(exercise.data);
-            setFullExer(exercise.data)
             let cartActualData = exercise.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
+            console.log('full else ',exercise)
+            console.log('full exer ',fullExer)
             const newPagData = { ...Pagination1 };
             newPagData["totalPage"] = exercise.total_exercise / (Pagination1.pageSize);
             console.log("page Pagination1.totalPage else ",Pagination1.pageSize)
@@ -526,9 +532,17 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 newData[type].splice(index, 1);
             }
             const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
+             if (!data.total_exercise) {
+                data["total_exercise"] = Pagination1.pageSize * Pagination1.totalPage
+            }
             let cartActualData = data.data.filter((val) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
             })
+            console.log('filter cartActualData ',cartActualData)
+            console.log('filter total exercise ',data.total_exercise)
+            console.log('filter pageSize ',Pagination1.pageSize)
+            console.log('filter totalPage ', data.total_exercise / (Pagination1.pageSize))
+            console.log('filter maxIndex ',(Pagination1.pageSize))
             const newPagData = { ...Pagination1 };
             newPagData["totalPage"] = data.total_exercise / (Pagination1.pageSize);
             newPagData["minIndex"] = 0;
@@ -627,6 +641,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         let cartActualData = fullExer.filter((val) => {
             return data.indexOf(val.ex_em_id) !== -1;
         });
+        console.log('exercise full ',fullExer)
+        console.log('exercise full ',cartActualData)
         setLength(cartActualData.length);
     }
     //HandleSearch 

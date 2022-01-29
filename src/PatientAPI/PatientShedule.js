@@ -69,6 +69,7 @@ const headers = {
         
         console.log('careplan data inside api')
 
+        console.log('request in api',JSON.stringify(json_data))
         console.log(json_data)
     try {
         const response = await fetch(process.env.REACT_APP_API + "/update_care_plan/", {
@@ -76,12 +77,11 @@ const headers = {
             headers: headers,
             body:JSON.stringify(json_data)
         });
-        console.log('response in api')
         
         const data = await response.json();
  
         console.log(data)
-      //  console.log(data, "Information")
+       console.log(data, "Information")
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error " + response.status + response.statusText];
         } else {

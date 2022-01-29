@@ -40,6 +40,8 @@ const FirstAssesmentIniState ={
     past_medical_history:[],
     frontChecks:{},
     sideChecks:{},
+    FrontCheck:[],
+    SideCheck:[],
 //     Diabetes:"false",
 //     HYN: "false",
 //     COPD: "false",

@@ -8,13 +8,10 @@ import { CameraFilled } from "@ant-design/icons";
 function Tabs({
   url1,
   url2,
-  setUrl1,
-  setUrl2,
   frontAngles,
   sideAngles,
   setFrontAngles,
   setSideAngles,
-  screenshot,
   captureFront,
   captureSide,
   onChangeFront,

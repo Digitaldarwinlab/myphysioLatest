@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col, Descriptions, Empty, Table, List, Item } from "antd";
+import { Button, Row, Col, Descriptions, Empty, Table, List, Item, Badge } from "antd";
 import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { ImPlus } from "react-icons/im";
 import Loading from './../../UtilityComponents/Loading';
@@ -401,11 +401,17 @@ const AssessmentList = ({ assesmentClick }) => {
             });
         }
     };
-
+   
     useEffect(async () => {
         setLoading(true);
         const data = await getAssesment(state.patient_code);
-        setAssesmentData(data)
+        let a = data.reverse()
+        setAssesmentData(a)
+        // setTimeout(() => {
+        //     setAssesmentData(a)
+        // }, 10);
+        console.log("reverse not ",data)
+        console.log("reverse ",a)
         setLoading(false)
 
 
@@ -645,7 +651,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain ? data.nature_of_pain : "not available"}</Descriptions.Item>
-                                                        <Descriptions.Item label="Pain Scale">{data.pain_scale ? data.pain_scale : "not available"}</Descriptions.Item>
+                                                        <Descriptions.Item label="Pain Scale">{data.pain_scale ? data.pain_scale : data.pain_scale===0?0:"not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Scar">{data.pain_scars ? data.pain_scars : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Swelling">{data.pain_swelling ? data.pain_swelling : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating !== undefined ? data.pain_aggravating.length > 0 && data.pain_aggravating.map(d => d + " ") : "not available"}</Descriptions.Item>
@@ -895,7 +901,6 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     <Col md={24} lg={24} sm={24} xs={24}>
                                                         <h4 className="p-2">Questionnaire </h4>
                                                         <Descriptions bordered>
-                                                            <Descriptions.Item label="Index">{index}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3] && data.questionnaires.Symptoms[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
@@ -914,15 +919,24 @@ const AssessmentList = ({ assesmentClick }) => {
                                                </Col>
                                              </Row>
                                              {data.posture['Posterial_view']&&<Row gutter={[10, 10]} className="px-4 py-2">
+                                             <Col md={24} lg={24} sm={24} xs={24}>
+                                                <Descriptions title="" >
+                                                <Descriptions.Item label="Notes ">{Object.keys(data.posture).length > 0&&data.posture['Notes'] }</Descriptions.Item>
+                                                    </Descriptions>
+                                                </Col>
                                               <Col md={24} lg={24} sm={24} xs={24}>
                                               <Descriptions title="Anterior" bordered>
-                                             {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]&& <Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}
-                                              {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]&&<Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]}</Descriptions.Item>}
-                                                 {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]&&<Descriptions.Item label=" Umbilicus">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]}</Descriptions.Item>}
-                                                  {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]&&<Descriptions.Item label="Knees">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]}</Descriptions.Item>}
-                                                 {data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]&&<Descriptions.Item label="Ankle/Foot">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]}</Descriptions.Item>}
+                                             {<Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}
+                                              {<Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]}</Descriptions.Item>}
+                                                 {<Descriptions.Item label=" Umbilicus">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]}</Descriptions.Item>}
+                                                  {<Descriptions.Item label="Knees">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]}</Descriptions.Item>}
+                                                 {<Descriptions.Item label="Ankle/Foot">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]}</Descriptions.Item>}
                                               </Descriptions>
                                               </Col>
+                                              <Descriptions title="">
+                                                 {data.posture['Posterial_view'].checkBox.map(ob=>
+                                                   <>{ob[1]==1&& <Descriptions.Item label=""><Badge color="#000000"/>{ob[0]}</Descriptions.Item>}</>)}
+                                              </Descriptions>
                                                 </Row>}
                                              {data.posture['lateral_view']&& <Row gutter={[10, 10]} className="px-4 py-2">
                                                 <Col md={24} lg={24} sm={24} xs={24}>
@@ -933,10 +947,13 @@ const AssessmentList = ({ assesmentClick }) => {
                                                  <Descriptions.Item label="Knees Deviation">{Object.keys(data.posture).length > 0&&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[3]}</Descriptions.Item>
                                              </Descriptions>
                                           </Col>
+                                          <Descriptions title="">
+                                                 {data.posture['lateral_view'].checkBox.map(ob=>
+                                                   <>{ob[1]==1&& <Descriptions.Item label=""><Badge color="#000000"/>{ob[0]}</Descriptions.Item>}</>)}
+                                              </Descriptions>
                                          </Row>}
                                         </div>}
-                                            <div className=" border mb-3 mt-3" >
-
+                                            {data.AI_data===null?null:<div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
                                                     <Row className="border">
@@ -956,7 +973,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </div>
 
 
-                                            </div>
+                                            </div>}
                                             <center>
                                                 <Pagination
                                                     pageSize={paginationState.pageSize}

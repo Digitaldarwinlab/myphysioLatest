@@ -51,9 +51,11 @@ border: dashed 2px #404549;
 const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio", info: { first_name: "User" } };
 const marks1 = {
     0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
-    1: <MehOutlined style={{ fontSize: 25, color: 'limegreen' }} />,
-    2: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
-    3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
+    1: <i class="far fa-smile" style={{ fontSize: 25, color: 'lime' }}></i>,
+    2: <MehOutlined style={{ fontSize: 25, color: 'limegreen' }} />,
+    3: <i class="far fa-frown" style={{ fontSize: 25, color: 'lightsalmon' }}></i>,
+    4: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
+    5: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
 };
 let arr = [
     {
@@ -82,6 +84,7 @@ class PatientAI extends Component {
             exerciseData: {},
             careplanId: this.props.history.location.state.exercise.careplanId,
             exerciseTime: 0,
+            checkComplete:false,
             selJoints:[],
             temp:[]
         };
@@ -118,16 +121,20 @@ class PatientAI extends Component {
 
 
 
-
+    updateCarePlan = async (exerciseData,currentexercise,pain,exerciseTime,careplanId) => {
+        console.log("inside update careplan function ")
+        const response = await update_careplan(exerciseData, currentexercise,
+            pain, exerciseTime, careplanId)
+    }
     // Pain Meter
     PainMeter = () => {
 
         return (
-            <div className="painmeter" style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }} >
-                <Slider marks={marks1} min={0} max={3} step={1}
+            <div className="painmeter" style={{ width: '50%', marginLeft: 'auto', marginRight: 'auto' }} >
+                <Slider marks={marks1} min={0} max={5} step={1}
                     onChange={(value) => this.handleChange1("PainMeter", value)}
                     defaultValue={this.props.FirstAssesment.PainMeter}
-                    style={{ width: '100%' }}
+                    style={{ width: '60%' }}
                 />
 
 
@@ -140,31 +147,91 @@ class PatientAI extends Component {
         try {
             darwin.addProgressListener((setCount, repCount, counterCount, id) => { 
                 console.log("Inside addProgressListener : "+setCount+":"+repCount );
-                let data = "";
-                     arr[0].currenset=setCount;
-                    arr[0].currenRep=repCount;
-                    console.log(arr);
-                 console.log(setCount, this.state.exSetValue)
-                 if (counterCount === exercises.length && setCount === exercises[exercises.length-1].exSetValue) {
-                        window.darwin.stop();
-                        //Add Stop and Painmeter Code Here
+                console.log('countercount ',counterCount)
+                if (id === "stop") {
+                   // this.setState({ starttimer: false }) 
+                    const data = darwin.getCarePlanData();
+                    console.log("stop ",data)
+                    this.setState({ exerciseData: data })
+                    console.log('current stop repCount ',repCount)
+                    console.log('current stop setCount ',setCount)
+                    console.log('current stop id ',id)
+                    console.log('current stop counterCount ',counterCount)
+                    console.log('current stop exercise id ',this.props.history.location.state.exercises[counterCount-1].ex_em_id)
+                    console.log('current stop exercise name ',this.props.history.location.state.exercises[counterCount-1].name)
+                    console.log('current stop exercise time ',this.props.history.location.state.exercises[counterCount-1].ChoosenTime)
+                    console.log('current stop exercise careplanid ',this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
+                    console.log('current stop exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
+                    this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
+                        this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
                         this.setState({ visible: true }) 
-                        this.setState({ starttimer: false }) 
+                  }
+                  
+                  // to get each exercise data
+                  if (id === "getData") {
+                      const data = darwin.getCarePlanData();
+                      console.log("getData", data);
+                      console.log('current getData repCount ',repCount)
+                      console.log('current getData setCount ',setCount)
+                      console.log('current getData id ',id)
+                      console.log('current getData counterCount ',counterCount)
+                      console.log('current getData exercise id ',this.props.history.location.state.exercises[counterCount-1].ex_em_id)
+                      console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount-1].name)
+                      console.log('current getData exercise time ',this.props.history.location.state.exercises[counterCount-1].ChoosenTime)
+                      console.log('current getData exercise careplanid ',this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
+                      console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
+                      this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
+                        this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
+                        this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
+                        this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
+                  }
+                  
+                  // exercise completed
+                  if (counterCount === this.props.history.location.state.exercises.length) {
+                    console.log("exercise completed");
+                    this.setState({ visible: true }) 
+                    //this.setState({ starttimer: false }) 
+                  }
+                // let data = "";
+                //      arr[0].currenset=setCount;
+                //     arr[0].currenRep=repCount;
+                //     console.log(arr);
+                //  console.log(setCount, this.state.exSetValue)
+                //  if (id === "getData") {
+                //       //  window.darwin.stop();
+                //         //Add Stop and Painmeter Code Here
+                //        // this.setState({ visible: true }) 
+                //       //  this.setState({ starttimer: false }) 
                         
-                        data = window.darwin.getCarePlanData() //Send this data to API
+                //         data = window.darwin.getCarePlanData() //Send this data to API
         
-                        // console.log(angles)
-                        console.log('careplan data is')
-                        console.log(data)
-                        console.log('data before')
-                        this.setState({ exerciseData: data }) 
-                
-        
-                    }
-                    if(id === "stop"){
-                        data = window.darwin.getCarePlanData() 
-                        this.setState({ exerciseData: data }) 
-                    }
+                //         // console.log(angles)
+                //         console.log('careplan data is')
+                //         console.log('exercise on getData ',data)
+                //         console.log('data before')
+                        // this.setState({ exerciseData: data })
+                        // this.setState({currentexercise:[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name]})
+                        // this.setState({ exerciseTime: this.props.history.location.state.exercises[counterCount-1].ChoosenTime })
+                        // this.setState({ careplanId: this.props.history.location.state.exercises[counterCount-1].pp_cp_id })
+                        // this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
+                        // this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
+                //         //pp_cp_id
+                //         this.updateCarePlan()
+                // }
+                // if (id === "stop") {
+                    // this.setState({ visible: true }) 
+                    // this.setState({ starttimer: false }) 
+                    // const data = darwin.getCarePlanData();
+                    // console.log("exercise on stop ",data)
+                    // this.setState({ exerciseData: data })
+                //   }
+                // if(counterCount===this.props.history.location.state.exercises.length){
+                //     console.log("exercise completed")
+                    // this.setState({ visible: true }) 
+                    // this.setState({ starttimer: false }) 
+                //     this.setState({checkComplete:true})
+                // }
+                    
                 })
           } catch (error) {
            console.log("AAAAAAAAAAAAA",error);
@@ -185,31 +252,31 @@ class PatientAI extends Component {
         )
     }
     finish = async () => {
-        arr[0].currenset=0;
-        arr[0].currenRep=0; 
-        console.log("careplanId :" +this.state.careplanId)
-        const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
-            this.state.pain, this.state.exerciseTime, this.state.careplanId)
-        console.log('response')
-        console.log(response)
+        // arr[0].currenset=0;
+        // arr[0].currenRep=0; 
+        // console.log("careplanId :" +this.state.careplanId)
+        // const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
+        //     this.state.pain, this.state.exerciseTime, this.state.careplanId)
+        // console.log('response')
+        // console.log(response)
         //this.props.history.push('/#');
-        window.darwin.stop();
-        const video = document.getElementById('video');
-        const mediaStream = video.srcObject;
-        try {
-            const tracks = mediaStream.getTracks();
-            tracks[0].stop();
-            tracks.forEach(track => track.stop())
-        }
-        catch (err) {
-            console.log(err)
-        }
-        this.props.history.push({
-            pathname: '/patient/schedule',
-            
-            state: { autorefresh: 1 }
-          })
-        this.props.history.push('/patient/schedule');
+            window.darwin.stop();
+            const video = document.getElementById('video');
+            const mediaStream = video.srcObject;
+            try {
+                const tracks = mediaStream.getTracks();
+                tracks[0].stop();
+                tracks.forEach(track => track.stop())
+            }
+            catch (err) {
+                console.log(err)
+            }
+            this.props.history.push({
+                pathname: '/patient/schedule',
+                
+                state: { autorefresh: 1 }
+              })
+            this.props.history.push('/patient/schedule');
     }
     //Green Channel 
     Statistics = () => {
@@ -246,6 +313,7 @@ class PatientAI extends Component {
   
      
     componentDidMount() {
+        console.log('props ',this.props)
         arr[0].currenset=0;
          arr[0].currenRep=0;
         let exercise = this.props.history.location.state;
@@ -290,12 +358,11 @@ class PatientAI extends Component {
         var canvas = document.getElementById('output');
         var jcanvas = document.getElementById('jcanvas');
         var myVideo = document.getElementById("myVideo");
-        let { width, height } = myVideo.getBoundingClientRect()
-       video.width = width;
+    //    video.width = width;
         const options = {
             video,
-            videoWidth: width,
-            videoHeight: height,
+            videoWidth:640,
+            videoHeight: 480,
             canvas,
             supervised: false,
             showAngles: false,
@@ -417,8 +484,8 @@ class PatientAI extends Component {
             primaryAngles: temp[i],
             ROMs:[this.state.selJoints[i],this.state.selJoints[i]],
             angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            totalReps: this.props.history.location.state.exercises[i].Rep['rep_count'],
-            totalSets: this.props.history.location.state.exercises[i].Rep['set'],
+            totalReps: parseInt(this.props.history.location.state.exercises[i].Rep['rep_count']),
+            totalSets: parseInt(this.props.history.location.state.exercises[i].Rep['set']),
           }
           exArr.push(temEx)
     }

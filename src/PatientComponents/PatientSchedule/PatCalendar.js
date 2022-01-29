@@ -548,7 +548,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         />
         <div className="ms-0 main-exercise-card" id="main-exercise-card">
           <h4 className="fw-bol">{exercise.name ? exercise.name : ""}</h4>
-          <Button
+          {/* <Button
             style={{
               ...btnStyle,
               ...{
@@ -565,7 +565,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             onClick={() => handleClick(exercise)}
           >
             Start Now
-          </Button>
+          </Button> */}
         </div>
       </div>
     );
