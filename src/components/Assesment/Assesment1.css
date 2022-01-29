@@ -10,4 +10,9 @@
     background: #2d7ecb !important;
     color: #fff !important;
 } */
-
+.btn-new-check:hover{
+    background: grey !important;
+}
+.btn-new-check{
+    background-color: grey !important;
+}

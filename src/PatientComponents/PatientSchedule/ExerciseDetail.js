@@ -53,46 +53,49 @@ const ExerciseDetail=(props)=>{
         { text: "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem." }
     ]
     const getData= async ()=>{
-        const maparr=()=>{
-            return new Promise((resolve,reject)=>{
-                let arr =[]
-                exercises.map(async(exercise)=>{
+                exercises.map(async(exercise,index)=>{
                     const instruction = await exercise_detail(exercise.name)
                     console.log("data inside ",instruction[1][0])
-                    arr.push(instruction[1][0])
+                    //Setinstructions([...instructions,instruction[1][0]])
+                    localStorage.setItem(`details${index}`,JSON.stringify(instruction[1][0]))
                 })
-                console.log("arr ",arr)
-                resolve(arr)
-            })
-        }
-        const res = await maparr()
-        console.log("arr ",res)
-        //Setinstructions(arr)
     }
-    useEffect(()=>{
-        //getData()
-        exercises.map(async(exercise)=>{
-            const instruction = await exercise_detail(exercise.name)
-            console.log("data inside ",instruction[1][0])
-            //arr.push(instruction[1][0])
-            Setinstructions([...instructions,instruction[1][0]])
-        })
+    
+    const [video_path, setVideoPath] = useState('')
+    useEffect(async()=>{
+        getData()
+        //exercises.map(async(exercise)=>{
+            // const instruction = await exercise_detail(exercise.name)
+            // setVideoPath(instruction[1][0].video_path)
+            console.log("url ",`${process.env.REACT_APP_EXERCISE_URL}/${video_path}`)
+            for (let i=0;i<exercises.length;i++){
+                let res = JSON.stringify(localStorage.getItem(`details${i}`))
+               // Setinstructions([...instructions,res])
+            }
+            return ()=>{
+                for (let i=0;i<exercises.length;i++){
+                    localStorage.removeItem(`details${i}`)
+                }
+    }
+       // })
     },[])
     console.log("instructions ",instructions)
+    console.log("url ",`${process.env.REACT_APP_EXERCISE_URL}/${video_path}`)
     return(
         <div className="exercise-detail" id="exercise-detail">
          <h3 className="fw-bold mt-2 ms-2"><BackButton /></h3>
 
-    {instructions.map((exercise,index)=>{
+    {instructions.length>0&&instructions.map((exercise,index)=>{
         <Row className="main-container p-1" id="main-container">
         <Col className="left-box m-1">
             <div className="top-heading" id="top-heading">
-                <h2 className="heading" id="heading"><b>{exercise.name} - {exercises[index].Rom.joint}</b></h2>
+                <h2 className="heading" id="heading"><b>{exercise.name} - {exercise.Rom.joint}</b></h2>
                 {/* <h2 className="heading" id="heading"><b>Push ups - "left hip</b></h2> */}
                 <h3 className="subtext" id="subtext"><b style={{ color: "teal"}}> Find the Fun in Exercise and Track your Progress.......</b> </h3>
             </div>
+            <video src={`${process.env.REACT_APP_EXERCISE_URL}/${video_path}`}></video>
             <div className="video">
-            <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`} />
+            {/* <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/${video_path}`} /> */}
             {/* <VideoScreen video={`${process.env.REACT_APP_EXERCISE_URL}/images/v1/276485069.mp4`} /> */}
             </div>
         
@@ -124,7 +127,7 @@ const ExerciseDetail=(props)=>{
                         </Col>
         
     </Row>
-    })}
+      })} 
     <button className="skip-button" id="skip-button" onClick={handleClick}>Skip</button>
         </div>
     )

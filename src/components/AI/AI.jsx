@@ -382,7 +382,7 @@ class AI extends Component {
         let priArr = []
         this.state.primaryExercise.map(ex=>{
             if(ex.exercise_shortname==e.target.value){
-                priArr = ex.primary_angles
+                priArr = ex.primary_angles?ex.primary_angles:ex.joint
             }
         })
         console.log("primary  ",priArr)
@@ -481,6 +481,24 @@ class AI extends Component {
 
     // start();
 
+    componentWillUnmount(){
+         const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('camera releasing....')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log('camera not releasing....')
+            console.log(err)
+        }
+    }
     componentDidMount() {
         
         const video = document.getElementById('video');
@@ -511,7 +529,8 @@ class AI extends Component {
         this.start();
         console.log('exerc ',this.state.primaryExercise)
         var priArr = []
-        priArr = this.state.primaryExercise[0].joint
+        //priArr = this.state.primaryExercise[0].primary_angles
+        priArr = this.state.primaryExercise[0].primary_angles?this.state.primaryExercise[0].primary_angles:this.state.primaryExercise[0].joint
         // this.state.primaryExercise.map(ex=>{
         //     if(ex.exercise_shortname==e.target.value){
         //         priArr = ex.joints
@@ -630,6 +649,7 @@ class AI extends Component {
 
         console.log("Joints ",joints)
         console.log('Joint pre ',this.state.PreKey)
+        console.log('url ','https://myphysio.digitaldarwin.in/' + this.state.videoUrl)
 
         return (
             <>

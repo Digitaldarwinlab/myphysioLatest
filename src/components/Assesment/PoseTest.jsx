@@ -59,7 +59,26 @@ const PoseTest = ({setActive}) => {
     window.darwin.initializeModel(options);
     // startModel();
   }
+  const releaseCamera =() =>{
+    const video = document.getElementById('video');
+
+
+    const mediaStream = video.srcObject;
+    try {
+        const tracks = mediaStream.getTracks();
+        tracks[0].stop();
+        tracks.forEach(track => track.stop())
+
+        console.log('camera releasing....')
+        console.log(tracks)
+    }
+    catch (err) {
+        console.log('camera not releasing....')
+        console.log(err)
+    }
+  }
   useEffect(() => {
+    releaseCamera();
     setModelCanvas();
     darwin.launchModel();
     darwin.stop();
@@ -67,9 +86,6 @@ const PoseTest = ({setActive}) => {
   }, [])
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-  const [checked1, setChecked1] = useState(false)
-  const [checked2, setChecked2] = useState(false)
-  const [container, setContainer] = useState(null);
   const [checkF, setCheckF] = useState(false)
   const [checkS, setCheckS] = useState(false)
   const [url1, setUrl1] = useState(bodyImage)
@@ -102,8 +118,8 @@ const PoseTest = ({setActive}) => {
     console.log(screenshot)
 }
 const history = useHistory();
-//const [returnState, setReturnState] = useState(false)
-let returnState = false
+
+
 useEffect(() => {
   const unblock = history.block((location, action) => {
     if (sessionStorage.getItem('posesubmit')) {
@@ -165,6 +181,14 @@ const  captureSide = () => {
 let frontChecks = {}
 let sideChecks = {}
   const onChangeFront = (value) =>{
+    console.log("front ",value)
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key:'FrontCheck',
+        value : value
+      }
+    })
     front.map(a=>{
       if(value.includes(a)){
         frontChecks[a] = 1
@@ -181,6 +205,14 @@ let sideChecks = {}
     });
   }
   const onChangeSide = (value) =>{
+    console.log("side ",value)
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key:'SideCheck',
+        value : value
+      }
+    })
     side.map(a=>{
       if(value.includes(a)){
         sideChecks[a] = 1
@@ -270,7 +302,7 @@ console.log("checks ",sideChecks)
                 <i className="fas fa-arrow-left"
                     style={{ cursor: "pointer" }}
                     title="Go Back"
-                    onClick={() => history.goBack()}
+                    onClick={GoBack}
                     role="button"></i>
                 {" "}
                 <span  className="CarePlanTitle ml-1"> Postural Analysis</span>
@@ -323,7 +355,6 @@ console.log("checks ",sideChecks)
             </Col>
             <Col md={24} lg={12} sm={24} xs={24}>
             <Button onClick={()=>{
-                returnState=true
                 handleSubmit()
               }} style={{float:'right',marginRight:'10px',marginTop:'5px' ,backgroundColor:'#2d7ecb'}}>Save</Button>
               

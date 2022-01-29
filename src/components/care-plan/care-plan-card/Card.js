@@ -13,6 +13,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     console.log('careplanreducer')
     console.log(state)
     const AddIntoCart = (id) => {
+        console.log('cart ',id)
         UpdateCart(id);
         setAddInCart(true);
     }
@@ -42,9 +43,16 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
         //         handleChange(key,value,id);
         //     }
         // }
+        if(key==="rep_count"){
+            if(value<2){
+                console.log('inside')
+                return
+            }
+
+        }
         if(key=="set"||key=="rep_count"){
             console.log("repetition ",value>99)
-            if(value>99||value<1){
+            if(value>99||value<0){
                 return
             }
             if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-' ) {
@@ -101,10 +109,10 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                             disabled={carePlanView}
                                             onChange={(e) => handleChange1("rep_count", e.target.value, index)}
                                             value={(data && data.Rep) ? data.Rep.rep_count :
-                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1}
+                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 5}
                                             min={1} max={10}
                                             defaultValue={(data && data.Rep) ? data.Rep.rep_count :
-                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1} className="w-100" />
+                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 5} className="w-100" />
                                     </Form.Item>
                                 </Col>
                             </Row>

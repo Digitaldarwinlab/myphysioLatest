@@ -43,6 +43,7 @@ import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
+import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
 import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
 const App = () => {
@@ -107,7 +108,7 @@ const App = () => {
 							<PrivateRoute exact path="/assesment/Questions" component={Assesment2} />
 							<PrivateRoute exact path="/assesment/PainAssessment" component={PainAssessment}/>
 							<PrivateRoute exact path="/assesment/SpecialTest" component={SpecialTest}/>
-							<PrivateRoute exact path="/assesment/PoseTest" component={PoseTest}/>
+							<PrivateRoute exact path="/assesment/PoseTest" component={PostTestClass}/>
 							<PrivateRoute exact path="/assessment/AI" component={AI} />
 						
 							<PrivateRoute exact path="/ActiveSearch" component={ActiveSearch} />
