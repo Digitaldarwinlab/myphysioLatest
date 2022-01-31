@@ -1554,8 +1554,8 @@ const Assesment1 = ({back ,next}) => {
  </div>
 
 </div>
-<Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
+  {/* <Row>
+        <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
         <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
           <div>
@@ -1568,8 +1568,8 @@ const Assesment1 = ({back ,next}) => {
         </Col>
         <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-      </Row>
-      <Row >
+  </Row> */}
+      <Row>
   <Col style={{paddingTop:'23px'}} md={20} lg={20} sm={20} xs={20}>
     
     </Col>
@@ -1578,12 +1578,12 @@ const Assesment1 = ({back ,next}) => {
 <Row>
       <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-        <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
-        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
+        <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
+        {/* {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
         <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>
-        }
+        } */}
         {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
-                {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+                {/* {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
                 <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
                 }
                 {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
@@ -1594,7 +1594,7 @@ const Assesment1 = ({back ,next}) => {
                 }
                 {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">Rom Assessment</Button>:
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Rom Assessment</Button>
-                }
+                } */}
                 {/* <Button className="ms-3" >save</Button> */}
                 <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
         </Col>

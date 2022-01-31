@@ -148,13 +148,13 @@ const PhysioRegisteration3 = (props) => {
             <div style={{ minHeight: "20px" }}></div>
             <Title level={3} className="">Physiotherapist</Title>
             <StepBar src={svg} />
-            <Title level={3} className="border mb-0 p-2">Other Information</Title>
+            <Title level={4} className="border mb-0 p-2">Other Information</Title>
             <Form layout="vertical">
                 <div className="border p-4 mb-4">
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     {state.physioRegisterReducer.isLoading && <Loading />}
                     {state.physioRegisterReducer.success && <Success success={state.physioRegisterReducer.success} />}
-                    <Row gutter={[20, 20]}>
+                    <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormDate name="start_date"
                                 className="input-field w-100"
@@ -193,7 +193,7 @@ const PhysioRegisteration3 = (props) => {
             </Form>
 
 
-            <div className="m-3 text-end">
+            <div className="m-3 text-center">
                 {/* <Button  className="my-3 me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button>
                 <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} onClick={handleReset}>
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}

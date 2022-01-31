@@ -255,7 +255,7 @@ class PoseTestClass extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={12} lg={12} sm={12} xs={12}>
+          <Col md={16} lg={16} sm={24} xs={16}>
             <Col id="Ai_vid" className="Ad_vid">
               <video
                 className
@@ -292,10 +292,15 @@ class PoseTestClass extends Component {
             />
           </Col>
           <Col md={24} lg={12} sm={24} xs={24}>
-            <Button
+            
+          </Col>
+        </Row>
+
+        <Row style={{paddingTop:"15px", paddingBottom:"15px" }}>
+        <Col md={24} lg={24} sm={24} xs={24} className="text-center">
+        <Button
                 onClick={this.handleSubmit}
               style={{
-                float: "right",
                 marginRight: "10px",
                 marginTop: "5px",
                 backgroundColor: "#2d7ecb",
@@ -307,7 +312,6 @@ class PoseTestClass extends Component {
             <Button
               onClick={this.GoBack}
               style={{
-                float: "right",
                 marginRight: "10px",
                 marginTop: "5px",
                 backgroundColor: "#2d7ecb",
@@ -315,8 +319,8 @@ class PoseTestClass extends Component {
             >
               Back
             </Button>
-          </Col>
-        </Row>
+              </Col>
+      </Row>
       </div>
     );
   }
