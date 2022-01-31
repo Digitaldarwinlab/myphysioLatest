@@ -57,6 +57,7 @@ import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
 import background from './../../assets/Crops/00.-Blank-Figures.png';
 import MobBackground from "./../../assets/Crops//mobilebg.png";
 
+
 const muscle = [
     "TrapsA", "TrapsB", "BacktrapsA", "BacktrapsB",
     "ShoulderA", "ShoulderB", "Pecs", "BackshouldersA", "BackshouldersB",
@@ -159,7 +160,7 @@ const Assesment1 = ({back ,next}) => {
     });
 
 
-
+  
 
 
     const data = state.FirstAssesment;
@@ -178,7 +179,11 @@ const Assesment1 = ({back ,next}) => {
   }, [history, state.FirstAssesment.episode_id])
 
 
-
+  const com = () => {
+    return (
+      <h1>hello world</h1>
+    )
+  }
   useEffect(() => {
 
     console.log('assesment state is printing')
@@ -188,7 +193,7 @@ const Assesment1 = ({back ,next}) => {
 
 
 
-
+const [tempstate ,setTemp] = useState(true)
   useEffect(() => {
     if (state.FirstAssesment.Type == "First")
       setPhysicalVisibility('block')
@@ -1537,8 +1542,311 @@ const Assesment1 = ({back ,next}) => {
          </Col>
      </Row>
  </div>}
- <div style={{ display: RomVisibility }} className=" border1 mb-3 mt-3">
-     <Row className="border1">
+ {<div  style={{ display: RomVisibility }} className=" border1 mb-3 mt-3" >
+        <Row className="border1">
+          <Col lg={18} md={18} sm={18} xs={24}>
+            {state.FirstAssesment.shoulder ||
+            state.FirstAssesment.Ankle ||
+            state.FirstAssesment.Cervical_Spine ||
+            state.FirstAssesment.Thoracic_Spine ||
+            state.FirstAssesment.Lumbar_Spine ||
+            state.FirstAssesment.Forearm_wrist_Hand ||
+            state.FirstAssesment.Hip ||
+            state.FirstAssesment.Knee ||
+            state.FirstAssesment.Elbow ? (
+              <h4 className="p-2">
+                <u>Special Test</u>
+              </h4>
+            ) : (
+              ""
+            )}
+          </Col>
+        </Row>
+            {state.FirstAssesment.shoulder&&Object.keys(state.FirstAssesment.shoulder).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+            {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Shoulder </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.shoulder).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+      
+        
+          {state.FirstAssesment.ankle&&Object.keys(state.FirstAssesment.ankle).length>0 && (
+               <Row gutter={[10, 10]} className="px-4 py-2">
+               <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Ankle </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.ankle).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+              </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row> 
+            )}
+          {state.FirstAssesment.elbow&&Object.keys(state.FirstAssesment.elbow).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Elbow </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.elbow).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.hip&&Object.keys(state.FirstAssesment.hip).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Hip </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.hip).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.knee&&Object.keys(state.FirstAssesment.knee).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Knee </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.knee).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.cervical_spine&&Object.keys(state.FirstAssesment.cervical_spine).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Cervical Spine </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.cervical_spine).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.thoracic_spine&&Object.keys(state.FirstAssesment.thoracic_spine).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Thoracic Spine </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.thoracic_spine).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.lumbar_spine&&Object.keys(state.FirstAssesment.lumbar_spine).length>0&& (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Lumbar Spine </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.lumbar_spine).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+          {state.FirstAssesment.forearm&&Object.keys(state.FirstAssesment.forearm).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Forearm_wrist_Hand </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                    <td>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "30%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.forearm).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
+      </div>}
+ <div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
+     <Row className="border">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">ROM Assesment</h4>
          </Col>
@@ -1557,16 +1865,16 @@ const Assesment1 = ({back ,next}) => {
   {/* <Row>
         <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
-        <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
+        <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
           <div>
-          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'50px',margin:0}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'125px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'115px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'15px',margin:0}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'112px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'105px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
           <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'90px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
           <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
           </div>
         </Col>
-        <Col md={2} lg={2} sm={2} xs={2}>
+        <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
   </Row> */}
       <Row>
@@ -1576,7 +1884,7 @@ const Assesment1 = ({back ,next}) => {
 
   </Row>
 <Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
+      <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
         <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
         {/* {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
@@ -1598,7 +1906,7 @@ const Assesment1 = ({back ,next}) => {
                 {/* <Button className="ms-3" >save</Button> */}
                 <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
         </Col>
-        <Col md={2} lg={2} sm={2} xs={2}>
+        <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
       </Row>
 {/* <div className="text-center mb-3">

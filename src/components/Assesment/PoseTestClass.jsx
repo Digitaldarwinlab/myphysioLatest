@@ -155,7 +155,7 @@ class PoseTestClass extends Component {
   }
   handleSubmit = () => {
     this.releaseCamera()
-    console.log('submitting...')
+    console.log('posture submitting...')
     sessionStorage.setItem("posesubmit", true);
     let posture = {
       posture_test_date: new Date().toLocaleDateString("en-GB"),
@@ -169,18 +169,11 @@ class PoseTestClass extends Component {
         Angles: this.sideAngles,
         checkBox: this.props.FirstAssesment.sideChecks,
       },
-      Notes: notes,
+      Notes: this.state.notes,
     };
     if (window.confirm("Posture data will be saved")) {
         this.props.FirstAssesment("posture", posture);
-    //   dispatch({
-    //     type: STATECHANGE,
-    //     payload: {
-    //       key: "posture",
-    //       value: posture,
-    //     },
-    //   });
-    this.props.history.push("/assessment/1")
+        this.props.history.push("/assessment/1")
     }
     console.log("posture ", posture);
   };
