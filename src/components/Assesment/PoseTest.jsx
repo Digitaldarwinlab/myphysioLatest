@@ -308,18 +308,28 @@ console.log("checks ",sideChecks)
                 <span  className="CarePlanTitle ml-1"> Postural Analysis</span>
 
             </h3>
-            <p style={{paddingTop:'4px'}}> <b>Patient Name</b> : {state.episodeReducer.patient_name?state.episodeReducer.patient_name:'not selected'}</p>
-            <p style={{paddingTop:'4px'}}> <b>Patient Code</b> : {state.episodeReducer.patient_code?state.episodeReducer.patient_main_code:'not selected'}</p>
+            {/* <p style={{paddingTop:'4px'}}> <b>Patient Name</b> : {state.episodeReducer.patient_name?state.episodeReducer.patient_name:'not selected'}</p>
+            <p style={{paddingTop:'4px'}}> <b>Patient Code</b> : {state.episodeReducer.patient_code?state.episodeReducer.patient_main_code:'not selected'}</p> */}
         </Col>
         {/* <Col  md={8} lg={8} sm={24} xs={8}>
           <p style={{float:'right'}} >Patient Name </p><br/>
           <p style={{float:'right'}} >Patient Code </p>
           </Col> */}
       </Row>
+      <Row gutter={[20,20]} style={{marginBottom:'5px', marginTop:'15px'}}>
+          <Col md={24} lg={8} sm={24} xs={24}>
+            <p style={{paddingTop:'4px'}}> <b>Patient Name</b> : {state.episodeReducer.patient_name?state.episodeReducer.patient_name:'not selected'}</p>
+          </Col>
+          <Col md={24} lg={8} sm={24} xs={24}>
+            <p style={{paddingTop:'4px'}}> <b>Patient Code</b> : {state.episodeReducer.patient_code?state.episodeReducer.patient_main_code:'not selected'}</p>
+          </Col>
+      </Row>
+
       <Row>
 
-        <Col md={12} lg={12} sm={12} xs={12}>
+        <Col md={16} lg={16} sm={24} xs={16}>
           <Col id="Ai_vid" className="Ad_vid">
+            <img src="../../assets/webcam.png" />
             <video
               className
               id="video"
@@ -329,36 +339,45 @@ console.log("checks ",sideChecks)
             ></video>
             <canvas id="output" className="output" />
             <canvas id="jcanvas" />
+           
           </Col>
+
+          <Row style={{paddingBottom:"15px"}}>
+            <Col md={24} lg={24} sm={24} xs={24} className="text-center mb-3">
+                <Switch
+                    checked={checked1}
+                    onChange={() => {
+                      darwin.postureView("front");
+                      setChecked1(!checked1);
+                    }}
+                    style={{ color: "red", marginTop: "5", marginRight:"10px" }}
+                  />
+                <Button>Snapshot</Button>
+            </Col>
+          </Row>
+          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Input.TextArea width="100%" style={{height:'100px !important', width:'95%'}} placeholder="Notes" onChange={(e)=>setNotes(e.target.value)} />
+              </Col>
+          </Row>
+
         </Col>
-        <Col className="border px-2 py-2 " md={8} lg={8} sm={24} xs={8}>
+        <Col className="px-2 py-2 " md={8} lg={8} sm={24} xs={8}>
         
            <Tabs url1={url1} url2={url2} setUrl1={setUrl1} setUrl2={setUrl2} 
            frontAngles={frontAngles} sideAngles={sideAngles} setFrontAngles={setFrontAngles} 
            setSideAngles={setSideAngles} screenshot={screenshot} captureFront={captureFront} 
            captureSide={captureSide} onChangeSide={onChangeSide} onChangeFront={onChangeFront}/>
-
-
          
         </Col>
       </Row>
       <Row style={{paddingBottom:"15px"}}>
-      <Col md={24} lg={12} sm={24} xs={24}>
-      {/* <Form.Item label={''}  
-            name={"Notes"}
-        > */}
-        <Input.TextArea width="100%"
-        placeholder="Notes"
-        onChange={(e)=>setNotes(e.target.value)}
-        />
-        {/* </Form.Item> */}
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
+        <Col md={24} lg={24} sm={24} xs={24} className="text-center">
             <Button onClick={()=>{
                 handleSubmit()
-              }} style={{float:'right',marginRight:'10px',marginTop:'5px' ,backgroundColor:'#2d7ecb'}}>Save</Button>
+              }} style={{marginRight:'10px',marginTop:'5px' ,backgroundColor:'#2d7ecb'}}>Save</Button>
               
-              <Button onClick={GoBack} style={{float:'right',marginRight:'10px',marginTop:'5px',backgroundColor:'#2d7ecb'}}>Back</Button>
+              <Button onClick={GoBack} style={{marginRight:'10px',marginTop:'5px'}}>Back</Button>
               </Col>
       </Row>
     </div>

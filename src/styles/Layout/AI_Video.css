@@ -14,8 +14,8 @@
 
 .border {
   border-radius: 0px;
+  border: 0px solid #dee2e6 !important;
 }
-
 
 @media only screen and (max-width: 1195px) {
   #Ai_vid{

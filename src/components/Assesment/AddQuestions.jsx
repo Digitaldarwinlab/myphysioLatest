@@ -33,17 +33,18 @@ const AddQuestions = ({back,next}) => {
 
   return (
     <>
-      <Form>
+      <Form className="p-3">
         <Row>
-          <Col md={24} lg={24} sm={24} xs={24} className="py-3"> 
+        
+          <Col md={24} lg={24} sm={24} xs={24} className=""> 
           <BackButton/>
-        <h3>Add Questions</h3>
+        <h3><b>Add Questions</b></h3>
           </Col>
         </Row>
 
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+        <Row gutter={[20,20]} style={{marginTop:'15px'}}>
            <Col md={24} lg={12} sm={24} xs={24}>
-              <p className="border p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br /><br />
+              <p className="border1 p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br /><br />
                 Start Date : {state.carePlanRedcucer.episode_start_date} <br /><br />
                 Episode Type : {state.carePlanRedcucer.complaint}</p>
             </Col>

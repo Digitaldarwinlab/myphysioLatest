@@ -55,6 +55,16 @@ background-color:#2d7ecb;
 color:white;
 font-weight: 600;
 }
+
+.special-test table td, th {
+  text-align: center;
+  font-weight: 600;
+}
+.special-test table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
 .enterprises-table2 th:first-child, td:first-child
 {
 position:sticky;
