@@ -356,7 +356,7 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
+            body: JSON.stringify({ exercise: [this.state.ExcerciseName[0]] })
 
         }).then(res => {
             return res.json();
@@ -415,7 +415,7 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: e.target.value })
+            body: JSON.stringify({ exercise: [e.target.value] })
 
         }).then(res => {
             return res.json();
@@ -564,11 +564,12 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
+            body: JSON.stringify({ exercise: [this.state.ExcerciseName[0]] })
 
         }).then(res => {
             return res.json();
         }).then(data => {
+            console.log("data issss ",data)
             data.map((val) => {
                 this.setState({ VideoData: val.image_path })
             })

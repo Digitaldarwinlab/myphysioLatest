@@ -76,7 +76,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
   const [update, setUpdate] = useState(false)
   const [combine, setCombine] = useState(false)
- 
+  const [exercise_status, setExerciseStatus] = useState({})
 
   //  console.log('date is : ' + todaysdate.getDate())
   function convert(str) {
@@ -270,6 +270,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
     console.log("get patient careplan ",result[1]);
+    setExerciseStatus(result[1].exercise_status)
     setLoading(false);
     if (result[0]) {
       try {
@@ -513,6 +514,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
      }
    }
     console.log('exercises are ',exercises)
+    const exArr = []
+    exercises.map(ex=>{
+      exArr.push(ex.name)
+    })
    console.log("exercise is ",exercise)
     exercise["ChoosenTime"] = chosenTime
       ? chosenTime
@@ -526,7 +531,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       pathname: "/patient/exercises/brief",
       state: {
         exercise:exercises[0],
-        exercises
+        exercises,
+        exNameList:exArr
       },
     });
   };

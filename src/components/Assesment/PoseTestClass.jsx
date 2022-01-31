@@ -156,18 +156,20 @@ class PoseTestClass extends Component {
   handleSubmit = () => {
     this.releaseCamera()
     console.log('posture submitting...')
+    console.log("posture checkbox1 ",this.props.FirstAssesmentReducer.frontChecks)
+    console.log("posture checkbox2 ",this.props.FirstAssesmentReducer.sideChecks)
     sessionStorage.setItem("posesubmit", true);
     let posture = {
       posture_test_date: new Date().toLocaleDateString("en-GB"),
       Posterial_view: {
         posterial_view_image: this.state.url1,
         Angles: this.state.frontAngles,
-        checkBox: this.props.FirstAssesment.frontChecks,
+        checkBox: this.props.FirstAssesmentReducer.frontChecks,
       },
       lateral_view: {
         posterial_view_image: this.state.url2,
-        Angles: this.sideAngles,
-        checkBox: this.props.FirstAssesment.sideChecks,
+        Angles: this.state.sideAngles,
+        checkBox: this.props.FirstAssesmentReducer.sideChecks,
       },
       Notes: this.state.notes,
     };
@@ -327,6 +329,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 const mapStateToProps = (state) => ({
   episodeReducer: state.episodeReducer,
-  FirstAssesment:state.FirstAssesment
+  FirstAssesmentReducer:state.FirstAssesment
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PoseTestClass);

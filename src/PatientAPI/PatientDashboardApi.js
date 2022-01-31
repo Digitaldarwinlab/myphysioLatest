@@ -86,7 +86,7 @@ export const exercise_detail=async (name)=>{
     }
 
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/exercise_detail/", {
+        const response = await fetch(process.env.REACT_APP_API + "/exercise_detail_v1/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify({exercise: name })
@@ -96,8 +96,8 @@ export const exercise_detail=async (name)=>{
             return [false, "Error " + response.status + response.statusText];
         } else {
             if (data.length !== 0)
-                return [true, [data[0]]];
-            return [true, data];
+                return data;
+            return data;
         }
     } catch (err) {
         return [false, "Error 403: " + err.message];

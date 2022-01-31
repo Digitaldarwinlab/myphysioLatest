@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col, Descriptions, Empty, Table, List, Item, Badge } from "antd";
+import { Button, Row, Col, Descriptions, Empty, Table, List, Item, Badge, Collapse } from "antd";
 import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { ImPlus } from "react-icons/im";
 import Loading from './../../UtilityComponents/Loading';
@@ -11,7 +11,7 @@ import { Pagination } from "antd";
 {/* aswin start 10/30/2021 start */ }
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from 'moment'
-
+const { Panel } = Collapse;
 const AssessmentList = ({ assesmentClick }) => {
     {/* aswin start 10/30/2021 stop */ }
     const history = useHistory();
@@ -587,17 +587,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
                                     {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                                         <>
+                                        <Collapse defaultActiveKey={['1']} >
+                                        <Panel header="Physical Assesment" key="1" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
-                                                    {/* aswin start 10/30/2021 start */}
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         <h4 className="p-2">Physical Assesment</h4>
                                                     </Col>
                                                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                                                        <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />
                                                     </Col>
-                                                    {/* aswin start 10/30/2021 stop */}
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Assesment Date">{data.assesmentdate.slice(0, 10)}</Descriptions.Item>
@@ -608,12 +607,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
-                                            {data.body_image&&<div className=" border mb-3 mt-3">
-                                         <h4 className="p-2">Joints Selected  </h4>
-                                                <img src ={data.body_image} />
-                                            </div>}
+                                            
                                             {/* <div className=" border mb-3 mt-3"> */}
-                                            {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<> 
+                                            {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<>
                                             <Descriptions.Item label="" span={3}><b><u>Subjective </u></b></Descriptions.Item>
                                             <Row gutter={[10, 10]} className="px-4 py-2">
                                                 <table style={{ width: `${screen.width / 2}px` }}>
@@ -640,15 +636,22 @@ const AssessmentList = ({ assesmentClick }) => {
                                                  </>
                                                  )}
                                                 /> */}
-                                                 
-                                                </Row></>}
+                                                </Row></> }
+                                                </Panel>
                                             {/* </div> */}
+                                            {data.body_image&&
+                                               <Panel header="Joints Selected" key="2">
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
+                                         <h4 className="p-2">Joints Selected  </h4>
+                                                <img src ={data.body_image} />
+                                            </div></Panel>}
+                                            <Panel header="Pain Assesment" key="3">
+                                            <div className=" border mb-3 mt-3">
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         <h4 className="p-2">Pain Assesment</h4>
                                                     </Col>
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain ? data.nature_of_pain : "not available"}</Descriptions.Item>
@@ -672,12 +675,15 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
+                                            </Panel>
+                                            {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow&&
+                                                <Panel header="Special Test" key="4">
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
                                                     </Col>
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
                                                         {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
@@ -897,10 +903,12 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     <Col lg={12} md={18} sm={12} xs={12}></Col>
                                                 </Row>
                                             </div>
+                                            </Panel>}
+                                            {<Panel header="Questionnaire" key="5">
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col md={24} lg={24} sm={24} xs={24}>
-                                                        <h4 className="p-2">Questionnaire </h4>
+                                                        {/* <h4 className="p-2">Questionnaire </h4> */}
                                                         <Descriptions bordered>
                                                             <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3] && data.questionnaires.Symptoms[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
@@ -913,12 +921,15 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2"></Row>
                                             </div>
-                                            {data.posture&&Object.keys(data.posture).length > 0&&<div className=" border mb-3 mt-3">
-                                             <Row className="border">
+                                            </Panel>}
+                                            {data.posture&&(data.posture['Posterial_view']||data.posture['lateral_view'])&&
+                                            <Panel header="Posture Analysis" key="6">
+                                            <div className=" border mb-3 mt-3">
+                                             {/* <Row className="border">
                                                <Col md={24} lg={24} sm={24} xs={24}>
                                                {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
                                                </Col>
-                                             </Row>
+                                             </Row> */}
                                              {data.posture['Posterial_view']&&<Row gutter={[10, 10]} className="px-4 py-2">
                                              <Col md={24} lg={24} sm={24} xs={24}>
                                                 <Descriptions title="" >
@@ -953,15 +964,15 @@ const AssessmentList = ({ assesmentClick }) => {
                                                    <>{ob[1]==1&& <Descriptions.Item label=""><Badge color="#000000"/>{ob[0]}</Descriptions.Item>}</>)}
                                               </Descriptions>
                                          </Row>}
-                                        </div>}
-                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&<div className=" border mb-3 mt-3" >
+                                        </div></Panel>}
+                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="ROM Assesment" key="7"> <div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
-                                                    <Row className="border">
+                                                    {/* <Row className="border">
                                                         <Col md={24} lg={24} sm={24} xs={24}>
                                                             <h4 className="p-2">ROM Assesment</h4>
                                                         </Col>
-                                                    </Row>
+                                                    </Row> */}
                                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} />
@@ -976,7 +987,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </div>
 
 
-                                            </div>}
+                                            </div> </Panel> }
+                                            </Collapse>
                                             <center>
                                                 <Pagination
                                                     pageSize={paginationState.pageSize}

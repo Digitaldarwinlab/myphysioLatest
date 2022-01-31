@@ -164,7 +164,8 @@ class PatientAI extends Component {
                     console.log('current stop exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
                     this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                        this.setState({ visible: true }) 
+                        //this.setState({ visible: true })
+                        this.state.visible = true
                   }
                   
                   // to get each exercise data
@@ -183,14 +184,17 @@ class PatientAI extends Component {
                       this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
                       //  this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
+                      this.state.exerciseName = this.props.history.location.state.exercises[counterCount-1].name
+                      this.state.video = this.props.history.location.state.exercises[counterCount-1].video_url
                         //this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
                   }
                   
                   // exercise completed
                   if (counterCount === this.props.history.location.state.exercises.length) {
                     console.log("exercise completed");
-                    this.setState({ visible: true }) 
+                   // this.setState({ visible: true }) 
                     //this.setState({ starttimer: false }) 
+                    this.state.visible = true
                   }
                 // let data = "";
                 //      arr[0].currenset=setCount;
