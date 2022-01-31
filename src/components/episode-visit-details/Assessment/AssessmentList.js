@@ -98,8 +98,9 @@ const AssessmentList = ({ assesmentClick }) => {
 
     const dataArray = AssesmentData.map((item) => {
         const key = Object.keys(item.AI_data)
+        const AI_data = item.AI_data
         let exercise = item.Exercise_Name[0]
-        console.log('exercise name')
+        console.log('exercise name',item)
         console.log(exercise)
 
 
@@ -107,7 +108,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
             // console.log('AI datas is')
             // console.log(exercise)
-            if (item.AI_data[exercise] && item.AI_data[exercise].angles && item.AI_data[exercise].angles['Left Shoulder(ver)'].min) {
+            if (Object.values(AI_data).length>0 && Object.values(AI_data)[0].angles && Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min) {
                 //   console.log(item.AI_data[exercise].angles)
 
                 return (
@@ -116,38 +117,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '1',
                                 angles: 'Left Shoulder',
-                                min: item.AI_data[exercise].angles['Left Shoulder(ver)'].min,
-                                max: item.AI_data[exercise].angles['Left Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min,
+                                max: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].max
                             },
                             {
                                 key: '2',
                                 angles: 'Right Shoulder',
-                                min: item.AI_data[exercise].angles['Right Shoulder(ver)'].min,
-                                max: item.AI_data[exercise].angles['Right Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].min,
+                                max: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].max
                             },
                             {
                                 key: '3',
                                 angles: 'Left Elbow',
-                                min: item.AI_data[exercise].angles['Left Elbow'].min,
-                                max: item.AI_data[exercise].angles['Left Elbow'].max
+                                min: Object.values(AI_data)[0].angles['Left Elbow'].min,
+                                max: Object.values(AI_data)[0].angles['Left Elbow'].max
                             },
                             {
                                 key: '4',
                                 angles: 'Right Elbow',
-                                min: item.AI_data[exercise].angles['Right Elbow'].min,
-                                max: item.AI_data[exercise].angles['Right Elbow'].max
+                                min: Object.values(AI_data)[0].angles['Right Elbow'].min,
+                                max: Object.values(AI_data)[0].angles['Right Elbow'].max
                             },
                             {
                                 key: '5',
                                 angles: 'Left Neck',
-                                min: item.AI_data[exercise].angles['Neck Left'].min,
-                                max: item.AI_data[exercise].angles['Neck Left'].max
+                                min: Object.values(AI_data)[0].angles['Neck Left'].min,
+                                max: Object.values(AI_data)[0].angles['Neck Left'].max
                             },
                             {
                                 key: '6',
                                 angles: 'Right Neck',
-                                min: item.AI_data[exercise].angles['Neck Right'].min,
-                                max: item.AI_data[exercise].angles['Neck Right'].max
+                                min: Object.values(AI_data)[0].angles['Neck Right'].min,
+                                max: Object.values(AI_data)[0].angles['Neck Right'].max
                             },
 
                         ],
@@ -160,38 +161,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '7',
                                 angles: 'Left Hip',
-                                min: item.AI_data[exercise].angles['Left Hip'].min,
-                                max: item.AI_data[exercise].angles['Left Hip'].max
+                                min: Object.values(AI_data)[0].angles['Left Hip'].min,
+                                max: Object.values(AI_data)[0].angles['Left Hip'].max
                             },
                             {
                                 key: '8',
                                 angles: 'Right Hip',
-                                min: item.AI_data[exercise].angles['Right Hip'].min,
-                                max: item.AI_data[exercise].angles['Right Hip'].max
+                                min: Object.values(AI_data)[0].angles['Right Hip'].min,
+                                max: Object.values(AI_data)[0].angles['Right Hip'].max
                             },
                             {
                                 key: '9',
                                 angles: 'Left Knee',
-                                min: item.AI_data[exercise].angles['Left Knee'].min,
-                                max: item.AI_data[exercise].angles['Left Knee'].max
+                                min: Object.values(AI_data)[0].angles['Left Knee'].min,
+                                max: Object.values(AI_data)[0].angles['Left Knee'].max
                             },
                             {
                                 key: '10',
                                 angles: 'Right Knee',
-                                min: item.AI_data[exercise].angles['Right Knee'].min,
-                                max: item.AI_data[exercise].angles['Right Knee'].max
+                                min: Object.values(AI_data)[0].angles['Right Knee'].min,
+                                max: Object.values(AI_data)[0].angles['Right Knee'].max
                             },
                             {
                                 key: '11',
                                 angles: 'Left Pelvic',
-                                min: item.AI_data[exercise].angles['Pelvic Left'].min,
-                                max: item.AI_data[exercise].angles['Pelvic Left'].max
+                                min: Object.values(AI_data)[0].angles['Pelvic Left'].min,
+                                max: Object.values(AI_data)[0].angles['Pelvic Left'].max
                             },
                             {
                                 key: '12',
                                 angles: 'Right Pelvic ',
-                                min: item.AI_data[exercise].angles['Pelvic Right'].min,
-                                max: item.AI_data[exercise].angles['Pelvic Right'].max
+                                min: Object.values(AI_data)[0].angles['Pelvic Right'].min,
+                                max: Object.values(AI_data)[0].angles['Pelvic Right'].max
                             },
                         ]
                     }
@@ -297,7 +298,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
 
     })
-
+    console.log('data array',dataArray)
 
     const tableNOdata1 = [
         {
@@ -953,7 +954,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               </Descriptions>
                                          </Row>}
                                         </div>}
-                                            {data.AI_data===null?null:<div className=" border mb-3 mt-3" >
+                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&<div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
                                                     <Row className="border">
@@ -964,9 +965,11 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} />
+                                                            {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
                                                         </Col>
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table2 ? dataArray[paginationState.current - 1].table2 : tableNOdata2 : tableNOdata2} />'
+                                                            {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
                                                         </Col>
                                                     </Row>
 
