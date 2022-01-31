@@ -68,7 +68,6 @@ const headers = {
         }
         
         console.log('careplan data inside api')
-
         console.log('request in api',JSON.stringify(json_data))
         console.log(json_data)
     try {

@@ -34,8 +34,8 @@ export default function Filter({filterExercise,checkedList}){
                         return (
                             <li key={index} >
                                 <Checkbox 
-                                    checked={checkedList.joints.indexOf(value) !== -1}
-                                    onChange={(e)=>handleFilter(e.target.checked,"joints",value)}>{value}</Checkbox>
+                                    checked={checkedList.joints.indexOf(value.value) !== -1}
+                                    onChange={(e)=>handleFilter(e.target.checked,"joints",value.value)}>{value.name}</Checkbox>
                             </li>
                         )
                     })}

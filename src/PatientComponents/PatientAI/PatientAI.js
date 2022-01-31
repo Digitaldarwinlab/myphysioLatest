@@ -131,10 +131,10 @@ class PatientAI extends Component {
 
         return (
             <div className="painmeter" style={{ width: '50%', marginLeft: 'auto', marginRight: 'auto' }} >
-                <Slider marks={marks1} min={0} max={5} step={1}
+                <Slider marks={marks1} min={0} max={5} step={2}
                     onChange={(value) => this.handleChange1("PainMeter", value)}
                     defaultValue={this.props.FirstAssesment.PainMeter}
-                    style={{ width: '60%' }}
+                    style={{ width: '100%' }}
                 />
 
 
@@ -182,8 +182,8 @@ class PatientAI extends Component {
                       console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
                       this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                        this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
-                        this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
+                      //  this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
+                        //this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
                   }
                   
                   // exercise completed
