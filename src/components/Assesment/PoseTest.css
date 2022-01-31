@@ -54,3 +54,16 @@
   .container {
     padding: 2px 16px;
   } */
+  .Ad_vid{
+    /* background-image: url(/static/media/ipad-frame-bg.acae68a3.png); */
+    height: 500px;
+    width: 98%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 30px solid #111;
+    margin-bottom: 20px;
+    margin-top: 8px;
+  }
+  .ant-tabs-tab{
+    font-size: 13px;
+  }

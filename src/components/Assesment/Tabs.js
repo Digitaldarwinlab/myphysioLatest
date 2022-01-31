@@ -59,40 +59,40 @@ function Tabs({
             <tr>
               <td>Nasal Bridge</td>
               <td>
-                <Col span={12}>
-                  <Input value={frontAngles[0]&&frontAngles[0].toFixed(2)} />
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[0]&&frontAngles[0].toFixed(2)} />
                 </Col>
               </td>
             </tr>
             <tr>
               <td>Shoulder levels(Acrimion)</td>
               <td>
-                <Col span={12}>
-                  <Input value={frontAngles[1]&&frontAngles[1].toFixed(2)} />
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[1]&&frontAngles[1].toFixed(2)} />
                 </Col>
               </td>
             </tr>
             <tr>
               <td>Umbilicus</td>
               <td>
-                <Col span={12}>
-                  <Input value={frontAngles[2]&&frontAngles[2].toFixed(2)} />
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[2]&&frontAngles[2].toFixed(2)} />
                 </Col>
               </td>
             </tr>
             <tr>
               <td>Knees</td>
               <td>
-                <Col span={12}>
-                  <Input value={frontAngles[3]&&frontAngles[3].toFixed(2)} />
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[3]&&frontAngles[3].toFixed(2)} />
                 </Col>
               </td>
             </tr>
             <tr>
               <td>Ankle/Foot</td>
               <td>
-                <Col span={12}>
-                  <Input value={frontAngles[4]&&frontAngles[4].toFixed(2)} />
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[4]&&frontAngles[4].toFixed(2)} />
                 </Col>
               </td>
             </tr>
@@ -134,18 +134,21 @@ function Tabs({
                   </Row>
                 </Checkbox.Group>
               </div>
-              <Col
+            </Col>
+          </Row>
+          <row>
+          <Col
                 span={24}
                 style={{
-                  position: "absolute",
+                  // position: "absolute",
                   right: "0",
                   bottom: "0",
                   left: "0",
                 }}
-              >
+                >
                 <table width="100%">
                   <tr>
-                    <th>
+                    <th style={{width:'50%'}}>
                       <Switch
                         checked={checked1}
                         onChange={() => {
@@ -181,8 +184,7 @@ function Tabs({
                   </tr>
                 </table>
               </Col>
-            </Col>
-          </Row>
+          </row>
         </div>
         <div
           className={toggleState === 2 ? "contentt  active-contentt" : "contentt"}
