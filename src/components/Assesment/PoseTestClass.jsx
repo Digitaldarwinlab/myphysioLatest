@@ -205,9 +205,12 @@ class PoseTestClass extends Component {
   componentDidMount() {
     console.log("props ", this.props);
     this.setModelCanvas();
+   
+    // window.darwin.stop();
+    // window.darwin.restart();
+  }
+  componentDidUpdate() {
     window.darwin.launchModel();
-    window.darwin.stop();
-    window.darwin.restart();
   }
   render() {
     return (
