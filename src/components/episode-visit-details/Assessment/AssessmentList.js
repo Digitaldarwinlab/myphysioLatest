@@ -97,7 +97,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
 
     const dataArray = AssesmentData.map((item) => {
-        const key = Object.keys(item.AI_data)
+      //  const key = Object.keys(item.AI_data)
         const AI_data = item.AI_data
         let exercise = item.Exercise_Name[0]
         console.log('exercise name',item)

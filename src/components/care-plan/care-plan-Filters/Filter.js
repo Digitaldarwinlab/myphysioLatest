@@ -5,12 +5,14 @@ import {
 } from './../../UtilityComponents/dummyData/care-plan-dummy-data/FiltersData';
 const { Panel } = Collapse;
 
-export default function Filter({filterExercise,checkedList}){
+export default function Filter({filterExercise,checkedList ,setFilterData}){
     let delLastCheckedList=[]
     for(let i in checkedList.muscels){
         delLastCheckedList.push(checkedList.muscels[i].slice(0,-1))
     }
     const handleFilter = (checked,filterType,filterName) => {
+        setFilterData({checked,type:filterType,name:filterName})
+        console.log({checked,filterType,filterName})
         filterExercise(checked,filterType,filterName);
     }
     return (

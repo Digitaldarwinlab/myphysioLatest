@@ -79,7 +79,8 @@ class PoseTestClass extends Component {
     var img = document.createElement("img");
     //  document.getElementById("scr_out1").src='../.././assets/logo512.png'
     //setUrl1(dataURL)
-    this.setState({ url1: dataURL });
+    // this.setState({ url1: dataURL });
+    this.state.url1 = dataURL
     img.src = dataURL;
     out.appendChild(img);
     // setCheckF(true);
@@ -101,7 +102,8 @@ class PoseTestClass extends Component {
     var dataURL = extra_canvas.toDataURL();
     var img = document.createElement("img");
     //document.getElementById("scr_out2").src=dataURL
-    this.setState({ url2: dataURL });
+    //this.setState({ url2: dataURL });
+    this.state.url2 = dataURL
     //   setUrl2(dataURL);
     img.src = dataURL;
     out.appendChild(img);
@@ -205,14 +207,16 @@ class PoseTestClass extends Component {
     // startModel();
   };
   componentDidMount() {
-    console.log("props ", this.props);
+    console.log("props1 ", this.props);
     this.setModelCanvas();
-   
+    window.darwin.launchModel();
     // window.darwin.stop();
     // window.darwin.restart();
   }
   componentDidUpdate() {
+    console.log("props component did update");
     window.darwin.launchModel();
+
   }
   render() {
     return (

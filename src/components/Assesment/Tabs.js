@@ -272,10 +272,13 @@ function Tabs({
                   </Row>
                 </Checkbox.Group>
               </div>
-              <Col
+            </Col>
+          </Row>
+          <row>
+          <Col
                 span={24}
                 style={{
-                  position: "absolute",
+                //  position: "absolute",
                   right: "0",
                   bottom: "0",
                   left: "0",
@@ -283,7 +286,7 @@ function Tabs({
               >
                 <table width="100%">
                   <tr>
-                    <th>
+                  <th style={{width:'50%'}}>
                       <Switch
                         checked={checked2}
                         onChange={() => {
@@ -313,8 +316,7 @@ function Tabs({
                   </tr>
                 </table>
               </Col>
-            </Col>
-          </Row>
+          </row>
         </div>
       </div>
     </>
