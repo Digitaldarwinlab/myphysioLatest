@@ -208,9 +208,38 @@ class PoseTestClass extends Component {
    
     // window.darwin.stop();
     // window.darwin.restart();
+    window.darwin.launchModel();
+    const unblock =  this.props.history.block((location, action) => {
+      if (sessionStorage.getItem('posesubmit')) {
+        sessionStorage.removeItem('posesubmit')
+        return;
+      }
+      if (window.confirm("Posture test data will be lost. Is it okay?")) {
+       console.log("poseture data cleared")
+        return true;
+      } else {
+        console.log("posture data not cleared");
+        return false;
+      }
+    });
+    unblock();
   }
   componentDidUpdate() {
     window.darwin.launchModel();
+    const unblock =  this.props.history.block((location, action) => {
+      if (sessionStorage.getItem('posesubmit')) {
+        sessionStorage.removeItem('posesubmit')
+        return;
+      }
+      if (window.confirm("Posture test data will be lost. Is it okay?")) {
+       console.log("poseture data cleared")
+        return true;
+      } else {
+        console.log("posture data not cleared");
+        return false;
+      }
+    });
+    unblock();
   }
   render() {
     return (
