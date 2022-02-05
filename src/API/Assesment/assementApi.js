@@ -147,6 +147,12 @@ export const  AssesmentAPI = async (details, dispatch) => {
       details.Life.score,
       details.KOOS[5],
     ],
+    Difficulty:[
+      details.Difficulty.question,
+      details.Difficulty.answer,
+      details.Difficulty.score,
+      details.KOOS[6],
+    ]
   };
   let sensory_input = {
     superficial:details.superficial,

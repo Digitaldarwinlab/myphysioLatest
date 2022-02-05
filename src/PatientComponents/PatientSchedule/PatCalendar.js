@@ -41,6 +41,9 @@ const UnselectedStyle = {
   cursor: "pointer",
 };
 //button Style
+const checkBtnStyle = {
+  backgroundColor: `'red'!important`
+}
 const btnStyle = {
   color: "white",
   border: "none",
@@ -52,7 +55,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const history = useHistory();
   const state = useSelector((state) => state.patCurrentEpisode);
-
+  const [exstatCheck, setExStatCheck] = useState('yes')
   const [selectedDate, setSelectedDate] = useState("");
   const [exercises, setExercises] = useState([]);
   const [times, setTimes] = useState([]);
@@ -77,7 +80,141 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [update, setUpdate] = useState(false)
   const [combine, setCombine] = useState(false)
   const [exercise_status, setExerciseStatus] = useState({})
+  const [exercise_status1, setExerciseStatus1] = useState([])
+  const checkExerciseStatus =(b,obj) =>{
+  //   let test = {
+  //     "10:00 am": {
+  //         "Squat": "planned",
+  //         "Push Ups": "planned"
+  //     },
+  //     "01:00 pm": {
+  //         "Squat": "completed",
+  //         "Push Ups": "completed"
+  //     },
+  //     "04:00 pm": {
+  //         "Squat": "planned",
+  //         "Push Ups": "planned"
+  //     }
+  // }
+    console.log('exercise_status ',obj)
+    console.log('exercise_status ',b)
+   Object.entries(obj).map(d=>{
+     if(d[0]===b){
+       console.log("plz chacek ",d[1])
+       let temp = Object.values(d[1])
+       if(temp.includes('planned')){
+        console.log('status not completed')
+        setExStatCheck('no')
+       }else{
+        console.log('status completed')
+        setExStatCheck('yes')
+       }
+        //  Object.values(d[1]).map(p=>{
+        //      if(p==="planned"){
+        //          console.log('status not completed')
+        //          setExStatCheck('no')
+        //      }
+        //  })
+     }
+ })
+  }
+  const checkExerciseStatus1 = async (b,temp) =>{
+    if(Array.isArray(b)){
+      b=b[0]
+    }
+  //   let temp = [
+  //     {
+  //         "10:00 am": {
+  //             "Squat": "compltred",
+  //             "Push Ups": "planned"
+  //         },
+  //         "01:00 pm": {
+  //             "Squat": "compltred",
+  //             "Push Ups": "compltred"
+  //         },
+  //         "04:00 pm": {
+  //             "Squat": "planned",
+  //             "Push Ups": "planned"
+  //         }
+  //     },
+  //     {
+  //         "10:00 am": {
+  //             "Squat": "compltred",
+  //             "Push Ups": "compltred"
+  //         },
+  //         "01:00 pm": {
+  //             "Squat": "compltred",
+  //             "Push Ups": "compltred"
+  //         },
+  //         "04:00 pm": {
+  //             "Squat": "planned",
+  //             "Push Ups": "planned"
+  //         }
+  //     },
+  //     {
+  //         "10:00 am": {
+  //             "Lunges": "compltred",
+  //             "Single Leg Squat": "compltred"
+  //         },
+  //         "01:00 pm": {
+  //             "Lunges": "compltred",
+  //             "Single Leg Squat": "compltred"
+  //         },
+  //         "04:00 pm": {
+  //             "Lunges": "planned",
+  //             "Single Leg Squat": "planned"
+  //         }
+  //     }
+  // ]
+    console.log('making exercise_status ',temp)
+    console.log('making exercise_status ',b)
+    console.log('making 1')
+    let tempStat = false
+    for(let i= 0;i<temp.length;i++){
+      Object.entries(temp[i]).map(d=>{
+        if(d[0]===b){
+          console.log("plz chacek ",d[1])
+          let temp1 = Object.values(d[1])
+          if(temp1.includes('planned')){
+           tempStat = true
+           console.log('making 2 true ',i)
+          }else{
+              console.log('status completed captured')
+          }
+        }
+      })
+    }
+    console.log('making 3 ')
+  //  const checkTemp = () =>{
+  //    return new Promise((resolve,reject)=>{
+  //     temp.map(d1=>{
+  //       Object.entries(d1).map(d=>{
+  //         if(d[0]===b[0]){
+  //           console.log("plz chacek ",d[1])
+  //           let temp = Object.values(d[1])
+  //           if(temp.includes('planned')){
+  //           resolve(true)
+  //           }else{
+  //               console.log('status completed captured')
+  //           }
+  //         }
+  //       })
+  //     })
+  //    })
+  //  }
+  // const tempStat = await checkTemp()
+  console.log('exercise_status ',tempStat)
 
+  if(tempStat){
+    setExStatCheck('no')
+    console.log('making 4')
+      console.log('status not completed')
+  }else{
+    setExStatCheck('yes')
+    console.log('making 5')
+    console.log('status completed')
+  }
+  }
   //  console.log('date is : ' + todaysdate.getDate())
   function convert(str) {
     var date = new Date(str),
@@ -88,7 +225,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
-    //  console.log(data)
+     
     setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
@@ -182,6 +319,14 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       if (commonTime[times[0][0]].length > 0)
         onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
     }
+    console.log('times ',data)
+    let tempStatus = []
+    data.map(d=>{
+      tempStatus.push(d.exercise_status)
+    })
+    checkExerciseStatus1(times[0],tempStatus)
+    setExerciseStatus1(tempStatus)
+    console.log("times ",tempStatus)
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
@@ -194,6 +339,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       let temp = careplanIdArray;
       temp.push({ time: item, careplanId: data[0].pp_cp_id });
     });
+    checkExerciseStatus(data[0].time_slot[0],data[0].exercise_status)
   };
 
   console.log("id array iss");
@@ -228,7 +374,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     
    })
 
-   
+   console.log('before converting ',val)
     SetcustomisedDate(convert(val));
 
     setLoading(true);
@@ -262,15 +408,22 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const onSelectedDay1 = async (val, episodeId) => {
     //   console.log(val)
-
+    console.log('before converting ',val)
     SetcustomisedDate(convert(val));
     setLoading(true);
     setExercises([]);
     setTimes([]);
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
-    console.log("get patient careplan ",result[1]);
-    setExerciseStatus(result[1].exercise_status)
+    if(result[1].length>0){
+      console.log('yes')
+      setExerciseStatus(result[1][0].exercise_status)
+      console.log("get yes patient careplan ",result[1][0].exercise_status);
+    }else{
+      console.log('no')
+      setExerciseStatus({})
+      console.log("get yes no patient careplan ",{});
+    }
     setLoading(false);
     if (result[0]) {
       try {
@@ -731,7 +884,70 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       );
     }
   };
-
+  
+  const checkStatus=()=>{
+    console.log('status checking...')
+    if(combine){
+    if(chosenTime===undefined){
+      console.log('status combine checking 1',careplanIdArray[selectedTime].time)
+   //  mapExer(careplanIdArray[selectedTime].time)
+     checkExerciseStatus(careplanIdArray[selectedTime].time,exercise_status)
+    }else{
+      console.log('status combine checking 2',exactTime[0])
+   //  mapExer(exactTime[0])
+     checkExerciseStatus(exactTime[0],exercise_status)
+    }
+   }else{
+     if(exactTime!==0){
+      console.log('status not combine checking 1',exactTime)
+    // mapExer(exactTime)
+     checkExerciseStatus(exactTime,exercise_status)
+     }else{
+      console.log('status not combine checking 2',times[0])
+   // mapExer(times[0])
+    checkExerciseStatus(times[0],exercise_status)
+     }
+   }
+  }
+  const checkStatus1=()=>{
+    console.log('status checking1...')
+    console.log('status checking1... ',exercise_status1)
+    if(combine){
+    if(chosenTime===undefined){
+      console.log('status combine checking 1',careplanIdArray[selectedTime].time)
+   //  mapExer(careplanIdArray[selectedTime].time)
+     checkExerciseStatus1(careplanIdArray[selectedTime].time,exercise_status1)
+    }else if(exactTime[0]===undefined){
+      console.log('conflict..',exactTime)
+      console.log('conflict.. combine checking 1',careplanIdArray[selectedTime].time)
+    }
+    else{
+      console.log('status combine checking 2',exactTime[0])
+   //  mapExer(exactTime[0])
+     checkExerciseStatus1(exactTime[0],exercise_status1)
+    }
+   }else{
+     if(exactTime!==0){
+      console.log('status not combine checking 1',exactTime)
+    // mapExer(exactTime)
+    // checkExerciseStatus(exactTime,exercise_status)
+     }else{
+      console.log('status not combine checking 2',times[0])
+   // mapExer(times[0])
+  //  checkExerciseStatus(times[0],exercise_status)
+     }
+   }
+  }
+useEffect(() => {
+  if(exercises.length>0&&update){
+    console.log('status checking if')
+    checkStatus()
+  }
+  if(exercises.length>0&&combine){
+    console.log('status checking else')
+    checkStatus1()
+  }
+}, [chosenTime]);
   return (
     <>
       <center>
@@ -744,7 +960,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             <ul class="daysName">
             {calendarData.length > 0
             ? calendarData.map((data,index) => {
-                console.log(data);
+                
 
              
                 
@@ -752,6 +968,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
    
                 // Dipsikha 24/10
      <a onClick={() => {onSelectedDay(data.date,index)
+      console.log("plz check data",data);
      setSelectedMonth(data.displayMonth) 
      setSelectedYear(data.displayYear)}}
     
@@ -814,7 +1031,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               )}
         </Col>
       </div>
-      {exercises.length>0&& <Button style={{float:'right'}} onClick={() => handleClick(exercises)} >Start All Now</Button>}
+      {exercises.length>0&&<Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck}`}
+       disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
+       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button>}
     </>
   );
 };

@@ -415,11 +415,12 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: [e.target.value] })
+            body: JSON.stringify({ exercise: e.target.value })
 
         }).then(res => {
             return res.json();
         }).then(data => {
+            console.log('data ',data)
             data.map((val) => {
                 this.setState({ VideoData: val.image_path })
             })
@@ -508,8 +509,8 @@ class AI extends Component {
         video.width = width;
         const options = {
             video,
-            videoWidth: width,
-            videoHeight: height,
+            videoWidth: 640,
+            videoHeight: 540,
             canvas,
             supervised: true,
             showAngles: true,
@@ -564,7 +565,7 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: [this.state.ExcerciseName[0]] })
+            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
 
         }).then(res => {
             return res.json();
@@ -665,7 +666,7 @@ class AI extends Component {
                         <Col md={14} lg={14} sm={24} xs={14} id="Ai_vid" className="Ad_vid" >
                             <video  className id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
-                            <canvas id="output" className="output" />
+                            <canvas id="output" className="output" style={{height:'440px'}}/>
                         </Col>
                         <Col md={8} lg={8} sm={24} xs={8} id="Ex_vid" className="Ex_vid">
                             <div className="">

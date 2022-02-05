@@ -676,7 +676,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                             </div>
                                             </Panel>
-                                            {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow&&
+                                            {(data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow)&&
                                                 <Panel header="Special Test" key="4">
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
@@ -686,8 +686,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
-                                                        {data.shoulder && <>
+                                                        {data.shoulder && data.shoulder.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Shoulder </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -711,8 +710,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
-                                                        {data.Ankle && <>
+                                                    
+                                                        {data.Ankle && data.Ankle.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Ankle </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -736,7 +735,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Elbow && <>
+                                                        {data.Elbow && data.Elbow.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Elbow </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -760,7 +759,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Hip && <>
+                                                        {data.Hip && data.Hip.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Hip </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -784,7 +783,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Knee && <>
+                                                        {data.Knee && data.Knee.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Knee </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -808,7 +807,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Cervical_Spine && <>
+                                                        {data.Cervical_Spine && data.Cervical_Spine.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Cervical Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -832,7 +831,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Thoracic_Spine && <>
+                                                        {data.Thoracic_Spine && data.Thoracic_Spine.length>0 &&  <>
                                                             <Descriptions.Item label="" span={3}><b>Thoracic Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -856,7 +855,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Lumbar_Spine && <>
+                                                        {data.Lumbar_Spine && data.Lumbar_Spine.length>0 &&<>
                                                             <Descriptions.Item label="" span={3}><b>Lumbar Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -880,7 +879,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Forearm_wrist_Hand && <>
+                                                        {data.Forearm_wrist_Hand && data.Forearm_wrist_Hand.length>0 && <>
                                                             <Descriptions.Item label="" span={3}><b>Forearm_wrist_Hand </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>

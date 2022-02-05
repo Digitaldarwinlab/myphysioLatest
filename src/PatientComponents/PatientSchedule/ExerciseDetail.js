@@ -41,6 +41,14 @@ export default class ExerciseDetailsClass extends Component {
         <h3 className="fw-bold mt-2 ms-2">
           <BackButton />
         </h3>
+        <button 
+        style={{float:'right'}}
+          className="skip-button"
+          id="skip-button"
+          onClick={this.handleClick}
+        >
+          Skip
+        </button>
         {this.state.exercises.length > 0 &&
           this.state.exercises.map((exercise) => (
             <Row className="main-container p-1" id="main-container">
@@ -103,13 +111,6 @@ export default class ExerciseDetailsClass extends Component {
               </Col>
             </Row>
           ))}
-        <button
-          className="skip-button"
-          id="skip-button"
-          onClick={this.handleClick}
-        >
-          Skip
-        </button>
       </div>
     );
   }

@@ -157,7 +157,12 @@
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
 }
-
+.status-button-yes{
+  background-color: #6c757d !important;
+}
+.status-button-no{
+  background-color: #0875f1 !important;
+}
 .time-slot-buttons {
   text-align: center;
 }
