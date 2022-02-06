@@ -1855,18 +1855,18 @@ const [tempstate ,setTemp] = useState(true)
         </Col>
         <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
-      </Row>
-      <Row >
+  </Row> */}
+      <Row>
   <Col style={{paddingTop:'23px'}} md={20} lg={20} sm={20} xs={20}>
     
     </Col>
 
-  </Row> */}
+  </Row> 
 {/* <Row>
       <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
-        <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
-        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
+        <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
+        {/* {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
         <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>
         } */}
         {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
