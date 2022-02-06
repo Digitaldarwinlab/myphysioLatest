@@ -23,3 +23,26 @@ export const getQuestions =async (joint) =>{
         return [];
     }
 }
+export const getTemplateName =async (joint) =>{
+    const headers = {
+        Accept: 'application/json',
+        "Content-type": "application/json"
+    }
+    try{
+        const response = await fetch(process.env.REACT_APP_API+"/get_template_name/",{
+            headers:headers,
+            method:"GET",
+        });
+        const data = await response.json();
+       // console.log('ins API')
+     //   console.log(data)
+        if(response.status === 200 || response.status === 201){
+                return data;
+        }else{
+             return [];
+        }
+    }catch(err){
+        console.log(err,"From Get template for Questionnaire");
+        return [];
+    }
+}

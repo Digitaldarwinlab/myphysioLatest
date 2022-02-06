@@ -86,7 +86,9 @@ class PatientAI extends Component {
             exerciseTime: 0,
             checkComplete:false,
             selJoints:[],
-            temp:[]
+            temp:[],
+            launch:"start",
+            video_url:''
         };
        
         const video = document.getElementById('video');
@@ -164,7 +166,8 @@ class PatientAI extends Component {
                     console.log('current stop exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
                     this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                        this.setState({ visible: true }) 
+                        this.setState({ visible: true })
+                      //  this.state.visible = true
                   }
                   
                   // to get each exercise data
@@ -175,15 +178,18 @@ class PatientAI extends Component {
                       console.log('current getData setCount ',setCount)
                       console.log('current getData id ',id)
                       console.log('current getData counterCount ',counterCount)
-                      console.log('current getData exercise id ',this.props.history.location.state.exercises[counterCount-1].ex_em_id)
-                      console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount-1].name)
-                      console.log('current getData exercise time ',this.props.history.location.state.exercises[counterCount-1].ChoosenTime)
-                      console.log('current getData exercise careplanid ',this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                      console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount-1].video_url)
+                   //   console.log('current getData exercise id ',this.props.history.location.state.exercises[counterCount].ex_em_id)
+                    //  console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount].name)
+                   //   console.log('current getData exercise time ',this.props.history.location.state.exercises[counterCount].ChoosenTime)
+                    //  console.log('current getData exercise careplanid ',this.props.history.location.state.exercises[counterCount].pp_cp_id)
+                    //  console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount].video_url)
                       this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                      //  this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount-1].name })
-                        //this.setState({ video: this.props.history.location.state.exercises[counterCount-1].video_url })
+                        this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
+                        this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount].name })
+                        this.setState({video_url :this.props.history.location.state.exercises[counterCount].video_url})
+                     // this.state.exerciseName = this.props.history.location.state.exercises[counterCount-1].name
+                     // this.state.video = this.props.history.location.state.exercises[counterCount-1].video_url
                   }
                   
                   // exercise completed
@@ -191,6 +197,7 @@ class PatientAI extends Component {
                     console.log("exercise completed");
                     this.setState({ visible: true }) 
                     //this.setState({ starttimer: false }) 
+                   // this.state.visible = true
                   }
                 // let data = "";
                 //      arr[0].currenset=setCount;
@@ -331,6 +338,7 @@ class PatientAI extends Component {
             console.log("QQQQQQQQQQ",Rom.joint);
             this.setState({ exerciseName: name })
             this.setState({ video: video_url })
+            this.setState({ video_url : video_url })
             this.setState({ rep_count: Rep.rep_count })
             this.setState({ exSetValue: Rep.set });
             
@@ -386,6 +394,7 @@ class PatientAI extends Component {
 
         //Select primary angle based on joint
         //this.props.history.location.state.exercises.map()
+        if(this.state.launch==="start"){
         let temp = []
         console.log("selected joint :" +this.state.selectedJoint)
         console.log('joints ',this.state.selJoints)
@@ -517,28 +526,29 @@ class PatientAI extends Component {
       //  window.darwin.stop();
        // window.darwin.restart();
 
-        const unblock = this.props.history.block((location, action) => {
-            // Dipsikha start 23/10
-            if (window.confirm("Thank you for completing !!! Click on OK to continue")) {
-                window.darwin.stop();
-                const video = document.getElementById('video');
-                const mediaStream = video.srcObject;
-                try {
-                    const tracks = mediaStream.getTracks();
-                    tracks[0].stop();
-                    tracks.forEach(track => track.stop())
-                }
-                catch (err) {
-                    console.log(err)
-                }
-                return true;
-            } else {
-                return false;
-            }
-        });
+        // const unblock = this.props.history.block((location, action) => {
+        //     // Dipsikha start 23/10
+        //     if (window.confirm("Thank you for completing !!! Click on OK to continue")) {
+        //         window.darwin.stop();
+        //         const video = document.getElementById('video');
+        //         const mediaStream = video.srcObject;
+        //         try {
+        //             const tracks = mediaStream.getTracks();
+        //             tracks[0].stop();
+        //             tracks.forEach(track => track.stop())
+        //         }
+        //         catch (err) {
+        //             console.log(err)
+        //         }
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // });
 
-        unblock();
-
+        // unblock();
+        this.setState({launch:"stop"})
+        }
 
     }
        AiModelProps = this.AiModel.bind(this);
@@ -578,6 +588,16 @@ class PatientAI extends Component {
                                         video={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
                                     />
                                 </Col>
+                                <Col lg={24} md={24} sm={12} xs={24} style={{ minHeight: "32vh" }}>
+                                <video controls autoPlay loop id="video1" width="100%">
+                    <source
+                      src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                  check1 : {this.state.video} <br/>
+                  check2 : {this.state.video_url}
+                  </Col>
                             </Row>
                         </Col>
                     </Row>

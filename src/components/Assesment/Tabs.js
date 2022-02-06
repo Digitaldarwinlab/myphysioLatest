@@ -112,7 +112,11 @@ function Tabs({
               <div style={{ padding: "4px" }}>
                 <Checkbox.Group
                   style={{ width: "100%" }}
-                  onChange={(e) => onChangeFront(e)}
+                  onChange={(e) =>{
+                    onChangeFront(e)
+                    darwin.restart()
+                  }
+                  } 
                 >
                   <Row>
                     <Col span={24} style={{ lineHeight: "200%" }}>
@@ -152,12 +156,39 @@ function Tabs({
                       <Switch
                         checked={checked1}
                         onChange={() => {
-                          darwin.postureView("front");
+                          if(!checked1){
+                            console.log('forward')
+                            darwin.restart()
+                            darwin.postureView("front");
+                          }else{
+                            console.log('backward')
+                            darwin.stop()
+                          }
+                          console.log('check PostureView(front) is calling')
                           setChecked1(!checked1);
                         }}
                         style={{ color: "red", marginTop: 5 }}
                       />
                     </th>
+                    {/* <th style={{width:'25%'}}>
+                      test
+                      <Switch
+                      //  checked={checked1}
+                        onChange={() => {
+                         // darwin.postureView("front");
+                         console.log('check test button is calling')
+                         if(!checked1){
+                          console.log('toggle forward')
+                          darwin.restart()
+                        }else{
+                          console.log('toggle backward')
+                          darwin.stop()
+                        }
+                          setChecked1(!checked1);
+                        }}
+                        style={{ color: "red", marginTop: 5 }}
+                      />
+                    </th> */}
                     <th>
                       <Button
                         disabled={!checked1}
@@ -174,6 +205,8 @@ function Tabs({
                             res[3],
                             res[4],
                           ]);
+                          console.log('backward')
+                          darwin.stop()
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
@@ -272,10 +305,13 @@ function Tabs({
                   </Row>
                 </Checkbox.Group>
               </div>
-              <Col
+            </Col>
+          </Row>
+          <row>
+          <Col
                 span={24}
                 style={{
-                  position: "absolute",
+                //  position: "absolute",
                   right: "0",
                   bottom: "0",
                   left: "0",
@@ -283,16 +319,43 @@ function Tabs({
               >
                 <table width="100%">
                   <tr>
-                    <th>
+                  <th style={{width:'50%'}}>
                       <Switch
                         checked={checked2}
                         onChange={() => {
+                          if(!checked2){
+                            darwin.restart()
                             darwin.postureView("left")
+                            console.log('forward')
+                          }else{
+                            darwin.stop()
+                            console.log('backward')
+                          }
+                          console.log('check PostureView(left) is calling')
                           setChecked2(!checked2);
                         }}
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
                       />
                     </th>
+                    {/* <th style={{width:'25%'}}>
+                      test
+                      <Switch
+                      //  checked={checked2}
+                        onChange={() => {
+                            //darwin.postureView("left")
+                            console.log('check test button is calling')
+                            if(!checked2){
+                              console.log('toggle forward')
+                              darwin.restart()
+                            }else{
+                              console.log('toggle backward')
+                              darwin.stop()
+                            }
+                          setChecked2(!checked2);
+                        }}
+                        style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
+                      />
+                    </th> */}
                     <th>
                       <Button
                         disabled={!checked2}
@@ -303,6 +366,8 @@ function Tabs({
                           const res = await darwin.showAngles();
                           console.log("show side angles ", res);
                           setSideAngles([res[0], res[1], res[2], res[3]]);
+                          console.log('backward')
+                          darwin.stop()
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
@@ -313,8 +378,7 @@ function Tabs({
                   </tr>
                 </table>
               </Col>
-            </Col>
-          </Row>
+          </row>
         </div>
       </div>
     </>

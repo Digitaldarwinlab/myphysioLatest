@@ -60,6 +60,13 @@ const SpecialTest = ({setActive,back,next}) => {
       dispatch({
         type: STATECHANGE,
         payload: {
+          key: "special_visibility",
+          value: 'block',
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
           key: "shoulder",
           value: shoulder,
         },

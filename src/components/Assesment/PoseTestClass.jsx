@@ -51,18 +51,11 @@ class PoseTestClass extends Component {
     }
     this.props.history.push("/assessment/1")
   };
-  setUrl1 = (value) => {
-    console.log("data url is ", value);
-    // this.setState({ url1: value });
-  };
-  setUrl2 = (value) => {
-    this.setState({ url2: value });
-  };
   setFrontAngles = (value) => {
-    this.setState({ frontAngles: value });
+    this.state.frontAngles = value
   };
   setSideAngles = (value) => {
-    this.setState({ sideAngles: value });
+    this.state.sideAngles = value
   };
   captureFront = async () => {
     window.scrollTo(0, 0);
@@ -77,21 +70,16 @@ class PoseTestClass extends Component {
     ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
     var dataURL = extra_canvas.toDataURL();
     var img = document.createElement("img");
-    //  document.getElementById("scr_out1").src='../.././assets/logo512.png'
-    //setUrl1(dataURL)
-    this.setState({ url1: dataURL });
+   // this.state.url1 = dataURL
+   this.setState({url1:dataURL})
     img.src = dataURL;
     out.appendChild(img);
-    // setCheckF(true);
-    //});
-    //this.props.FirstAssesment("AI_screenshot", screenshot)
     console.log(screenshot);
   };
   captureSide = async () => {
     window.scrollTo(0, 0);
     const out = document.getElementById("scr_out2");
     const canvas = await html2canvas(document.getElementById("output"));
-    // html2canvas(document.getElementById("output")).then(function (canvas) {
     screenshot.push(canvas.toDataURL("image/jpeg", 0.9));
     var extra_canvas = document.createElement("canvas");
     extra_canvas.setAttribute("width", 180);
@@ -100,14 +88,10 @@ class PoseTestClass extends Component {
     ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
     var dataURL = extra_canvas.toDataURL();
     var img = document.createElement("img");
-    //document.getElementById("scr_out2").src=dataURL
-    this.setState({ url2: dataURL });
-    //   setUrl2(dataURL);
+    //this.state.url2 = dataURL
+    this.setState({url2:dataURL})
     img.src = dataURL;
     out.appendChild(img);
-    // setCheckS(true);
-    //});
-    //this.props.FirstAssesment("AI_screenshot", screenshot)
     console.log(screenshot);
   };
 
@@ -156,18 +140,20 @@ class PoseTestClass extends Component {
   handleSubmit = () => {
     this.releaseCamera()
     console.log('posture submitting...')
+    console.log("posture checkbox1 ",this.props.FirstAssesmentReducer.frontChecks)
+    console.log("posture checkbox2 ",this.props.FirstAssesmentReducer.sideChecks)
     sessionStorage.setItem("posesubmit", true);
     let posture = {
       posture_test_date: new Date().toLocaleDateString("en-GB"),
       Posterial_view: {
         posterial_view_image: this.state.url1,
         Angles: this.state.frontAngles,
-        checkBox: this.props.FirstAssesment.frontChecks,
+        checkBox: this.props.FirstAssesmentReducer.frontChecks,
       },
       lateral_view: {
         posterial_view_image: this.state.url2,
-        Angles: this.sideAngles,
-        checkBox: this.props.FirstAssesment.sideChecks,
+        Angles: this.state.sideAngles,
+        checkBox: this.props.FirstAssesmentReducer.sideChecks,
       },
       Notes: this.state.notes,
     };
@@ -190,7 +176,7 @@ class PoseTestClass extends Component {
       videoHeight: 480,
       canvas,
       //  supervised: false,
-      showAngles: false,
+      //showAngles: false,
       drawLine: true,
       ROMPanel: {
         canvas: jcanvas,
@@ -203,11 +189,45 @@ class PoseTestClass extends Component {
     // startModel();
   };
   componentDidMount() {
-    console.log("props ", this.props);
+    console.log("props1 ", this.props);
     this.setModelCanvas();
     window.darwin.launchModel();
-    window.darwin.stop();
-    window.darwin.restart();
+     window.darwin.stop();
+    // window.darwin.restart();
+   // window.darwin.launchModel();
+   console.log('launch triggered')
+    // const unblock =  this.props.history.block((location, action) => {
+    //   if (sessionStorage.getItem('posesubmit')) {
+    //     sessionStorage.removeItem('posesubmit')
+    //     return;
+    //   }
+    //   if (window.confirm("Posture test data will be lost. Is it okay?")) {
+    //    console.log("poseture data cleared")
+    //     return true;
+    //   } else {
+    //     console.log("posture data not cleared");
+    //     return false;
+    //   }
+    // });
+    // unblock();
+  }
+  componentDidUpdate() {
+    console.log("props1 component did update");
+   // window.darwin.launchModel();
+    // const unblock =  this.props.history.block((location, action) => {
+    //   if (sessionStorage.getItem('posesubmit')) {
+    //     sessionStorage.removeItem('posesubmit')
+    //     return;
+    //   }
+    //   if (window.confirm("Posture test data will be lost. Is it okay?")) {
+    //    console.log("poseture data cleared")
+    //     return true;
+    //   } else {
+    //     console.log("posture data not cleared");
+    //     return false;
+    //   }
+    // });
+    // unblock();
   }
   render() {
     return (
@@ -257,11 +277,11 @@ class PoseTestClass extends Component {
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" />
+              <canvas id="output" className="output" style={{height:'440px'}}/>
               <canvas id="jcanvas" />
             </Col>
           </Col>
-          <Col className="border px-2 py-2 " md={8} lg={8} sm={24} xs={8}>
+          <Col className="border px-2 py-2 " md={12} lg={12} sm={24} xs={12}>
             <Tabs
               url1={this.state.url1}
               url2={this.state.url2}
@@ -277,11 +297,11 @@ class PoseTestClass extends Component {
           </Col>
         </Row>
         <Row style={{ paddingBottom: "15px" }}>
-          <Col md={24} lg={12} sm={24} xs={24}>
+          <Col md={12} lg={12} sm={12} xs={12} style={{ marginTop: "-48px" }}>
             <Input.TextArea
               width="100%"
               placeholder="Notes"
-                onChange={(e) => this.setState({notes:e.target.value})}
+                onChange={(e) => this.state.notes = e.target.value}
             />
           </Col>
           <Col md={24} lg={12} sm={24} xs={24}>
@@ -331,6 +351,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 const mapStateToProps = (state) => ({
   episodeReducer: state.episodeReducer,
-  FirstAssesment:state.FirstAssesment
+  FirstAssesmentReducer:state.FirstAssesment
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PoseTestClass);

@@ -287,6 +287,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const [length, setLength] = useState(0);
     const [allocatePlan, setAllocatePlan] = useState(false);
     const [fullExer, setFullExer] = useState(new Set())
+    const [filterData ,setFilterData] = useState({
+        checked:false,
+        type:'',
+        name:''
+    })
     // aswin 11/19/2021 start 
     const checkEpisodeId = async () => {
         if(reduxState.carePlanRedcucer.patient_code){
@@ -359,8 +364,18 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     // },[])
     //function called on page change or pagesize change
     const PaginationChange = async (page, pageSize = Pagination1.pageSize) => {
-     
-          let result = await GetExerciseList(dispatch, pageSize, page);
+        console.log(filterData)
+        // const newData = { ...checkedList };
+        // if(filterData.checked){
+        //     let index = newData[filterData.type].indexOf(filterData.name);
+        //     if (index === -1) {
+        //         newData[filterData.type].push(filterData.name);
+        //     } else {
+        //         newData[filterData.type].splice(index, 1);
+        //     }
+        // }
+          //let result = await GetExerciseList(dispatch, pageSize, page);
+          let result = await getFiteredExercistData(checkedList, dispatch, pageSize, page);
           let res = { ...result };
 
        //   console.log(res)
@@ -532,19 +547,20 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 newData[type].splice(index, 1);
             }
             const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
-             if (!data.total_exercise) {
-                data["total_exercise"] = Pagination1.pageSize * Pagination1.totalPage
+            if (!data['total_exercise with applied filter']) {
+                data['total_exercise with applied filter'] = data.length
             }
+            console.log('filter full exercise ',data)
             let cartActualData = data.data.filter((val) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
             })
             console.log('filter cartActualData ',cartActualData)
-            console.log('filter total exercise ',data.total_exercise)
+            console.log('filter total exercise ',data.data.length)
             console.log('filter pageSize ',Pagination1.pageSize)
-            console.log('filter totalPage ', data.total_exercise / (Pagination1.pageSize))
+            console.log('filter totalPage ', data['total_exercise with applied filter'] / (Pagination1.pageSize))
             console.log('filter maxIndex ',(Pagination1.pageSize))
             const newPagData = { ...Pagination1 };
-            newPagData["totalPage"] = data.total_exercise / (Pagination1.pageSize);
+            newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
@@ -560,9 +576,20 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
             })
             const newPagData = { ...Pagination1 };
+            // console.log('filter cartActualData ',cartActualData)
+            // console.log('filter total exercise ',data.data.length)
+            // console.log('filter pageSize ',Pagination1.pageSize)
+            // console.log('filter totalPage ', data['total_exercise with applied filter'] / (Pagination1.pageSize))
+            // console.log('filter maxIndex ',(Pagination1.pageSize))
+            console.log('filter total_exercise ',data.total_exercise)
+            console.log('filter pageSize ',Pagination1.pageSize)
+            console.log('filter pageSize ',data.total_exercise / (Pagination1.pageSize))
+            console.log('calliung')
             newPagData["totalPage"] = data.total_exercise / (Pagination1.pageSize);
-            newPagData["minIndex"] = 0;
-            newPagData["maxIndex"] = (Pagination1.pageSize);
+            //newPagData['pageSize']
+         //   newPagData["minIndex"] = 0;
+          //  newPagData["maxIndex"] = (Pagination1.pageSize);
+          setPagination1(newPagData)
             setExerciseList(data.data);
             setCheckedList(newData);
             setLength(cartActualData.length);
@@ -729,7 +756,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         pageSize={Pagination1.pageSize}
                         current={Pagination1.current}
                        // total={Pagination1.totalPage * Exerciselist.length}
-                        total={Pagination1.pageSize * Pagination1.totalPage}
+                         total={Pagination1.pageSize * Pagination1.totalPage}
                         pageSizeOptions={["2", "5", "10", "20", "50", "100"]}
                         showSizeChanger
                         onChange={PaginationChange}
@@ -796,10 +823,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                             {console.log("checked list ",checkedList)}
                             {AssessmentInfo()}
                             {
-                                checkedList.length === 0 && <Filter filterExercise={filterExercise} checkedList={checkedList} />
+                                checkedList.length === 0 && <Filter setFilterData={setFilterData} filterExercise={filterExercise} checkedList={checkedList} />
                             }
                             {
-                                checkedList.length !== 0 && <Filter filterExercise={filterExercise} checkedList={checkedList} />
+                                checkedList.length !== 0 && <Filter setFilterData={setFilterData} filterExercise={filterExercise} checkedList={checkedList} />
                             }
                         </Col>
 

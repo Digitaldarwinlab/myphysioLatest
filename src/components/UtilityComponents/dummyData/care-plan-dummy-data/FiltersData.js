@@ -16,14 +16,14 @@ export const Levels = ["Easy", "Medium", "Hard", "Expert"];
 //   "pelvic",
 // ];
 export const Joints = [
+  { name: "Cervical", value: "leftNeck" },
   { name: "Shoulder", value: "leftShoulder" },
-  { name: "Elbow", value: "leftElbow" },
-  { name: "Wrist", value: "leftWrist" },
   { name: "Hip", value: "leftHip" },
+  { name: "Pelvic", value: "leftPelvic" },
   { name: "Knee", value: "leftKnee" },
   { name: "Ankle", value: "leftAnkle" },
-  { name: "Neck", value: "neck" },
-  { name: "Pelvic", value: "pelvic" },
+  { name: "Elbow", value: "leftElbow" },
+  { name: "Wrist", value: "leftWrist" },
 ];
 export const Muscles = [
   "Abdominals",

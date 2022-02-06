@@ -548,13 +548,13 @@ const [tempstate ,setTemp] = useState(true)
       const posture_btn = document.getElementById('posture-btn')
 
       if (state.FirstAssesment.KOOS === "") {
-          question.innerHTML = "Questionnaire"
+          question.innerHTML = "Scales & Index"
        //  question.innerHTML = " "
           setQuestionVisibility('none')
 
       }
       else {
-        question.innerHTML = "Questionnaire filled"
+        question.innerHTML = "Scales & Index filled"
         // question.innerHTML = " "
           question.style.backgroundColor = "honeydew"
           question.style.borderColor = "limegreen"
@@ -568,7 +568,7 @@ const [tempstate ,setTemp] = useState(true)
     }
       // Check if AI_Data
       if (state.FirstAssesment.AI_data === "") {
-          rom.innerHTML = "ROM Assesment"
+          rom.innerHTML = "AROM Assesment"
           setRomVisibility('none')
       }
       else {
@@ -615,7 +615,7 @@ const [tempstate ,setTemp] = useState(true)
           
           console.log("Ai data in body.js from localstorage: ", AI_Data)
 
-          rom.innerHTML = "ROM Assement calculated"
+          rom.innerHTML = "AROM Assement calculated"
           rom.style.backgroundColor = "honeydew"
           rom.style.borderColor = "limegreen"
           setRomVisibility('block')
@@ -1024,7 +1024,7 @@ const [tempstate ,setTemp] = useState(true)
                 <Option value="First">{state.FirstAssesment.Type === "First" && "First Assesment"}</Option>
                 {/* aswin 10/24/2021 start */}
                 <Option value="Periodic">Periodic</Option>
-                <Option value="Consultation">Consultation</Option>
+                {/* <Option value="Consultation">Consultation</Option> */}
               </Select>
             </Form.Item>
 
@@ -1430,28 +1430,7 @@ const [tempstate ,setTemp] = useState(true)
          </Col>
      </Row>
 
-     <Row>
-        <Col className="text-center" style={{paddingBottom:'10px'}} md={24} lg={24} sm={24} xs={24}>
-          <Button type="text" disabled={state.FirstAssesment.quest} className="testclass" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> 
-          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
-          {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
 
-          <button className="ant-btn ms-3 " style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-
-          <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
-
-          <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
-
-          <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
-          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
-          {/* <Button className="ms-3" >save</Button> */}
-        </Col>
-        <Col md={2} lg={2} sm={2} xs={2}>
-        </Col>
-     </Row>
  </>
 
 
@@ -1542,7 +1521,7 @@ const [tempstate ,setTemp] = useState(true)
          </Col>
      </Row>
  </div>}
- {<div  style={{ display: RomVisibility }} className=" border1 mb-3 mt-3" >
+ {<div  style={{ display: state.FirstAssesment.special_visibility }} className=" border1 mb-3 mt-3" >
         <Row className="border1">
           <Col lg={18} md={18} sm={18} xs={24}>
             {state.FirstAssesment.shoulder ||
@@ -1572,11 +1551,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                    <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1605,11 +1584,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1636,11 +1615,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1667,11 +1646,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1698,11 +1677,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1729,11 +1708,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1760,11 +1739,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1791,11 +1770,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1822,11 +1801,11 @@ const [tempstate ,setTemp] = useState(true)
                 </Descriptions.Item>
                 <table style={{ width: `${screen.width / 2}px` }} border="1px">
                   <tr>
-                    <td>
+                  <td style={{ width: "80%" }}>
                       {" "}
                       <center>Questions</center>
                     </td>
-                    <td style={{ width: "30%" }}>
+                    <td style={{ width: "20%" }}>
                       <center>Pass/Fail</center>
                     </td>
                   </tr>
@@ -1862,8 +1841,8 @@ const [tempstate ,setTemp] = useState(true)
  </div>
 
 </div>
-  {/* <Row>
-        <Col md={2} lg={2} sm={2} xs={2}>
+{/* <Row>
+      <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
         <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
           <div>
@@ -1882,8 +1861,8 @@ const [tempstate ,setTemp] = useState(true)
     
     </Col>
 
-  </Row>
-<Row>
+  </Row> 
+{/* <Row>
       <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
         <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
@@ -1904,14 +1883,46 @@ const [tempstate ,setTemp] = useState(true)
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Rom Assessment</Button>
                 } */}
                 {/* <Button className="ms-3" >save</Button> */}
-                <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
+                {/* <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
         </Col>
         <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
-      </Row>
-{/* <div className="text-center mb-3">
+      </Row> */}
+       <Row>
+        <Col className="text-center" style={{paddingBottom:'10px'}} md={24} lg={24} sm={24} xs={24}>
+          {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
+          <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
+          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+          {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
+
+          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
+                }
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
+
+          {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+                }
+          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
+
+          {state.FirstAssesment.pose?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Posture Test</button>:
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Posture Test</button>
+                }
+          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
+
+          {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">AROM Assessment</Button>:
+                <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">AROM Assessment</Button>
+                }
+          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
+          {/* <Button className="ms-3" >save</Button> */}
+        
+        </Col>
+        <Col md={2} lg={2} sm={2} xs={2}>
+        </Col>
+     </Row>
+<div className="text-center mb-3">
 <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
-</div> */}
+</div>
     </div >
   )
 }
