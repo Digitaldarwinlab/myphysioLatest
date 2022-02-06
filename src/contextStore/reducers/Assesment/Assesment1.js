@@ -88,13 +88,13 @@ const FirstAssesmentIniState ={
     cortial:'',
     special_visibility:'none',
     question_heading:[],
-    Symptoms:{score:[],question:[],answer:[]},
-    Stiffness:{score:[],question:[],answer:[]},
-    pain:{score:[],question:[],answer:[]},
-    DailyLiving:{score:[],question:[],answer:[]},
-    Sports:{score:[],question:[],answer:[]},
-    Life:{score:[],question:[],answer:[]},
-    Difficulty:{score:[],question:[],answer:[]},
+    // Symptoms:{score:[],question:[],answer:[]},
+    // Stiffness:{score:[],question:[],answer:[]},
+    // pain:{score:[],question:[],answer:[]},
+    // DailyLiving:{score:[],question:[],answer:[]},
+    // Sports:{score:[],question:[],answer:[]},
+    // Life:{score:[],question:[],answer:[]},
+    // Difficulty:{score:[],question:[],answer:[]},
     KOOS:"",
     Questionnaire:"",
     success:"",
@@ -105,33 +105,19 @@ const handleIndexValue = (arr,value,index,ques,ans) => {
     console.log('arr ',value)
     console.log('arr ',index)
     console.log('arr ',ques)
-    console.log('arr ',ans[0])
+    console.log('arr ',ans)
     const newArr = {...arr};
     if(index+1>newArr.length){
         newArr.score.push(value)
     }else{
         newArr.score[index] = value;
     }
-    if(arr.question.length>0){
-        arr.question.map(data=>{
-            if(data!==ques){
-                console.log('arr find ')
-                newArr.question.push(ques)
-            }
-        })
-    }else{
+    if(!arr.question.includes(ques)){
         newArr.question.push(ques)
     }
-    if(arr.answer.length>0){
-        arr.answer.map(data=>{
-            if(data!==ans[0]){
-                console.log('arr find ')
-                newArr.answer.push(ans[0])
-            }
-        })
-    }else{
-        newArr.answer.push(ans[0])
-    }
+    // if(!arr.answer.includes(ans)){
+    // }
+    newArr.answer[index] = ans
   //  setTimeout(()=>console.log('abc '),10)
     return newArr;
 }

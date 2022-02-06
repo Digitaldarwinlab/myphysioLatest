@@ -33,6 +33,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     }
 
     const handleChange1=(key,value,id=0)=>{
+        
         const reg = /^-?\d*(\.\d*)?$/;
         console.log('click ',key," ",value)
         // if(key=="min"||key=="max"){
@@ -43,13 +44,13 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
         //         handleChange(key,value,id);
         //     }
         // }
-        if(key==="rep_count"){
-            if(value<2){
-                console.log('inside')
-                return
-            }
+        // if(key==="rep_count"){
+        //     if(value<2){
+        //         console.log('inside')
+        //         return
+        //     }
 
-        }
+        // }
         if(key=="set"||key=="rep_count"){
             console.log("repetition ",value>99)
             if(value>99||value<0){

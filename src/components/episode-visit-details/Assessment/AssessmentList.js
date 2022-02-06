@@ -903,18 +903,18 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                             </div>
                                             </Panel>}
-                                            {<Panel header="Questionnaire" key="5">
+                                            {Object.keys(data.questionnaires).length>0&&data.questionnaires[Object.keys(data.questionnaires)[0]][0].length>0&&<Panel header="Questionnaire" key="5">
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col md={24} lg={24} sm={24} xs={24}>
                                                         {/* <h4 className="p-2">Questionnaire </h4> */}
-                                                        <Descriptions bordered>
-                                                            <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3] && data.questionnaires.Symptoms[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
+                                                         <Descriptions size="small" bordered>
+                                                           {Object.keys(data.questionnaires).map(label=><>{data.questionnaires[label][0].length>0&&<Descriptions.Item  label={`KOOS ${label}`}>{data.questionnaires[label][3] && data.questionnaires[label][3].toFixed(0)}</Descriptions.Item>}</>)}
+                                                            {/* <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3] && data.questionnaires.DailyLiving[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3] && data.questionnaires.Sports[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3] && data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item>
+                                                            <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3] && data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item> */}
                                                         </Descriptions>
                                                     </Col>
                                                 </Row>

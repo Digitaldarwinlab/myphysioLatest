@@ -110,50 +110,60 @@ export const  AssesmentAPI = async (details, dispatch) => {
 //     details.KOOS[5],
 //   ],
 // }))
-  AssesmentDetails["questionnaires"] = {
-    Symptoms: [
-      details.Symptoms.question,
-      details.Symptoms.answer,
-      details.Symptoms.score,
-      details.KOOS[0],
-    ],
-    Stiffness: [
-      details.Stiffness.question,
-      details.Stiffness.answer,
-      details.Stiffness.score,
-      details.KOOS[1],
-    ],
-    pain: [
-      details.pain.question,
-      details.pain.answer,
-      details.pain.score,
-      details.KOOS[2],
-    ],
-    DailyLiving: [
-      details.DailyLiving.question,
-      details.DailyLiving.answer,
-      details.DailyLiving.score,
-      details.KOOS[3],
-    ],
-    Sports: [
-      details.Sports.question,
-      details.Sports.answer,
-      details.Sports.score,
-      details.KOOS[4],
-    ],
-    Life: [
-      details.Life.question,
-      details.Life.answer,
-      details.Life.score,
-      details.KOOS[5],
-    ],
-    Difficulty:[
-      details.Difficulty.question,
-      details.Difficulty.answer,
-      details.Difficulty.score,
-      details.KOOS[6],
-    ]
-  };
+  // AssesmentDetails["questionnaires"] = {
+  //   Symptoms: [
+  //     details.Symptoms.question,
+  //     details.Symptoms.answer,
+  //     details.Symptoms.score,
+  //     details.KOOS[0],
+  //   ],
+  //   Stiffness: [
+  //     details.Stiffness.question,
+  //     details.Stiffness.answer,
+  //     details.Stiffness.score,
+  //     details.KOOS[1],
+  //   ],
+  //   pain: [
+  //     details.pain.question,
+  //     details.pain.answer,
+  //     details.pain.score,
+  //     details.KOOS[2],
+  //   ],
+  //   DailyLiving: [
+  //     details.DailyLiving.question,
+  //     details.DailyLiving.answer,
+  //     details.DailyLiving.score,
+  //     details.KOOS[3],
+  //   ],
+  //   Sports: [
+  //     details.Sports.question,
+  //     details.Sports.answer,
+  //     details.Sports.score,
+  //     details.KOOS[4],
+  //   ],
+  //   Life: [
+  //     details.Life.question,
+  //     details.Life.answer,
+  //     details.Life.score,
+  //     details.KOOS[5],
+  //   ],
+  //   Difficulty:[
+  //     details.Difficulty.question,
+  //     details.Difficulty.answer,
+  //     details.Difficulty.score,
+  //     details.KOOS[6],
+  //   ]
+  // };
+  let questionnaires = {}
+  details.question_heading.map((data,index)=>{
+    let temp = []
+    temp[0] = details[data].question
+    temp[1] = details[data].answer
+    temp[2] = details[data].score
+    temp[3] = details.KOOS[index]
+    questionnaires[data] = temp 
+  })
+  AssesmentDetails["questionnaires"] = questionnaires
   let sensory_input = {
     superficial:details.superficial,
     deep:details.deep,
@@ -185,6 +195,7 @@ export const  AssesmentAPI = async (details, dispatch) => {
   AssesmentDetails['Knee'] = details.knee;
   AssesmentDetails['posture'] = details.posture
   AssesmentDetails['body_image'] = details.body_image
+  console.log('checking ',AssesmentDetails)
   // formdata.append('pp_ed_id',details.episode_id===undefined?'':details.episode_id)
   // formdata.append('joint1score',details.joint1score)
   // formdata.append('joint2score',details.joint2score)

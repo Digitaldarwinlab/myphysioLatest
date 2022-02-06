@@ -1443,12 +1443,13 @@ const [tempstate ,setTemp] = useState(true)
      <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={24} lg={24} sm={24} xs={24}>
              <Descriptions title={state.FirstAssesment.Questionnaire.template_name} bordered>
-                 <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
+               {state.FirstAssesment.question_heading.map((data,index)=><Descriptions.Item label={data}>{Math.round(state.FirstAssesment.KOOS[index])}</Descriptions.Item>)}
+                 {/* <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Stiffness">{Math.round(state.FirstAssesment.KOOS[1])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Pain">{Math.round(state.FirstAssesment.KOOS[2])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Daily Life">{Math.round(state.FirstAssesment.KOOS[3])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Sports">{Math.round(state.FirstAssesment.KOOS[4])}</Descriptions.Item>
-                 <Descriptions.Item label="KOOS Quality of Life">{Math.round(state.FirstAssesment.KOOS[5])}</Descriptions.Item>
+                 <Descriptions.Item label="KOOS Quality of Life">{Math.round(state.FirstAssesment.KOOS[5])}</Descriptions.Item> */}
              </Descriptions>
          </Col>
      </Row>

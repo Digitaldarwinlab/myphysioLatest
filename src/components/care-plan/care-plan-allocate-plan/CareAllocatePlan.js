@@ -77,7 +77,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 name: val.title ? val.title : "Exercise",
                 Rep: {
                     set: 1,
-                    rep_count: 1
+                    rep_count: 5
                 },
                 angle :val.angle ? val.angle : [],    
                 Rom: {
@@ -301,15 +301,27 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const onFinish = async () => {
            //   console.log(' joints array')
             //  console.log(selectvalue)
+            console.log('selection ',state.exercises)
             for(let i=0;i<state.exercises.length;i++){
+                if(state.exercises[i].Rep['set']==''||state.exercises[i].Rep['set']==0){
+                    console.log('Set count should greater than 0')
+                    dispatch({ type: VALIDATION, payload: { error: 'Set count should greater than 0' } });
+                    setTimeout(() => {
+                        dispatch({ type: VALIDATION, payload: { error: "" } });
+                    }, 10000);
+                    return 
+                }
                 if(state.exercises[i].Rep['rep_count']<2){
+                    console.log('Repetition Count should greater than 2')
                     dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 2 ' } });
                     setTimeout(() => {
                         dispatch({ type: VALIDATION, payload: { error: "" } });
-                    }, 3000);
+                    }, 10000);
                     return
                 }
+
             }
+            
             if(state.startDate && state.endDate)
         {
             const starttime = new Date(state.startDate)

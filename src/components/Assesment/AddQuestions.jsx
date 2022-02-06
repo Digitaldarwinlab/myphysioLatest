@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { Select, Row, Col, Button, Form, Collapse } from 'antd';
 import { AiFillMedicineBox } from 'react-icons/ai';
 import Questions from "./Questions";
+import Questions1 from "./Questions1";
 import { getQuestions, getTemplateName } from './../../API/Assesment/questionApi';
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
 // aswin start 10/30/2021 start
@@ -83,7 +84,7 @@ const AddQuestions = ({back,next}) => {
           </Row>
 
         <div className="border mb-3">
-          {showQuestion ? <Questions questLabel={questLabel}/> : null}
+          {showQuestion ? <Questions1 questLabel={questLabel}/> : null}
 
 
         </div>
