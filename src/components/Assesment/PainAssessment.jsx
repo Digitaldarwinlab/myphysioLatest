@@ -223,6 +223,17 @@ const PainAssessment = ({setActive ,next}) => {
       <Row>
         <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
+          <h3>
+            <i
+              className="fas fa-arrow-left"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                history.goBack();
+              }}
+              title="Go Back"
+              role="button"
+            ></i>
+          </h3>
           <h4><b>Pain Assesment</b></h4>{" "}
         </Col>
         {/* <Col md={24} lg={24} sm={24} xs={24}>
@@ -420,7 +431,7 @@ const PainAssessment = ({setActive ,next}) => {
             </Col>
             <div className="text-center mb-3 mt-3">
               <button onClick={goBack}>Back</button>
-              <button style={{marginLeft:"20px"}} onClick={saveData}>next</button>
+              <button style={{marginLeft:"20px"}} onClick={saveData}>save</button>
             </div>
           </Form>
         </Col>

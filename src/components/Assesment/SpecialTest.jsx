@@ -42,6 +42,10 @@ const SpecialTest = ({setActive,back,next}) => {
   };
   useEffect(() => {
     const unblock = history.block((location, action) => {
+      if (sessionStorage.getItem('specialsubmit')) {
+        sessionStorage.removeItem('specialsubmit')
+        return;
+      }
       if (window.confirm("Special Test data will be lost. Is it okay?")) {
         dispatch({type:"SPECIAL_TEST_CLEARSTATE"})
         return true;
@@ -55,6 +59,7 @@ const SpecialTest = ({setActive,back,next}) => {
     };
   }, [history]);
   const handleSubmit = () => {
+    sessionStorage.setItem('specialsubmit',true)
     //setActive(4)
     if (window.confirm("Special Test data will be saved")) {
       dispatch({
@@ -136,6 +141,17 @@ const SpecialTest = ({setActive,back,next}) => {
         <Row>
           <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
+            <h3>
+            <i
+              className="fas fa-arrow-left"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                history.goBack();
+              }}
+              title="Go Back"
+              role="button"
+            ></i>
+          </h3>
             <h3><b>Special Test Type</b></h3>{" "}
           </Col>
         </Row>

@@ -460,8 +460,14 @@ const Appointments = () => {
         setLoading(false);
         if (result && result[0]) {
             setSuccess("Visit Added Successfully.");
-            history.push('/dashboard')
-          //  window.location.reload();
+            history.push({
+                pathname:'/dashboard',
+                state:{
+                    id:state.episodeReducer.patient_code,
+                    prevPath:'/visit'
+                }
+               })
+           // window.location.reload();
         } else {
            
             setError(result[1]);
@@ -483,8 +489,14 @@ const Appointments = () => {
          setLoading(false);
          if (result && result[0]) {
              setSuccess("Visit Updated Successfully.");
-               history.push('/dashboard')
-             //window.location.reload();
+               history.push({
+                 pathname:'/dashboard',
+                 state:{
+                     id:state.episodeReducer.patient_code,
+                     prevPath:'/visit'
+                 }
+                })
+           //  window.location.reload();
          } else {
            
              setError(result[1]);

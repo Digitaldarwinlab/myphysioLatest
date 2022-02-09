@@ -268,7 +268,7 @@ class PoseTestClass extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={16} lg={16} sm={24} xs={16}>
+          <Col md={12} lg={12} sm={24} xs={12}>
             <Col id="Ai_vid" className="Ad_vid">
               <video
                 className

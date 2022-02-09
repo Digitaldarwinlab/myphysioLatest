@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ActiveSearch from "../../components/UtilityComponents/ActiveSearch"
 import { useHistory } from 'react-router-dom';
 import Patient from './Patient-Details/Patient-Detail';
-import { getPatientList } from './../../API/PatientRegistration/Patient';
+import { getPatientList, Patient_profile } from './../../API/PatientRegistration/Patient';
 import Assesment1 from './../Assesment/Assesment1';
 import AssessmentList from "./Assessment/AssessmentList";
 import Prescriptions from './Prescreptions/Prescreption';
@@ -113,7 +113,7 @@ const EpisodeVisitDetails = () => {
         FamilyHistory: ""
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         async function getPatients() {
             let data = await getPatientList();
             if (state.patient_code) {
@@ -128,6 +128,17 @@ const EpisodeVisitDetails = () => {
         getPatients();
         // eslint-disable-next-line
     }, []);
+    // useEffect( async () => {
+    //   console.log("history loaction ",history.location)
+    //   if(history.location.state){
+    //       if(history.location.state.prevPath==='/visit')
+    //       if(!isNaN(history.location.state.id)){
+    //           const res = await Patient_profile(parseInt(history.location.state.id))
+    //           console.log("working ",res)
+    //       }
+    //   }
+
+    // }, []);
     //update Patient State 
     const updatePatientState = async (val) => {
         //Updating Care Plan Episode Details

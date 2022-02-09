@@ -122,50 +122,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     if(Array.isArray(b)){
       b=b[0]
     }
-  //   let temp = [
-  //     {
-  //         "10:00 am": {
-  //             "Squat": "compltred",
-  //             "Push Ups": "planned"
-  //         },
-  //         "01:00 pm": {
-  //             "Squat": "compltred",
-  //             "Push Ups": "compltred"
-  //         },
-  //         "04:00 pm": {
-  //             "Squat": "planned",
-  //             "Push Ups": "planned"
-  //         }
-  //     },
-  //     {
-  //         "10:00 am": {
-  //             "Squat": "compltred",
-  //             "Push Ups": "compltred"
-  //         },
-  //         "01:00 pm": {
-  //             "Squat": "compltred",
-  //             "Push Ups": "compltred"
-  //         },
-  //         "04:00 pm": {
-  //             "Squat": "planned",
-  //             "Push Ups": "planned"
-  //         }
-  //     },
-  //     {
-  //         "10:00 am": {
-  //             "Lunges": "compltred",
-  //             "Single Leg Squat": "compltred"
-  //         },
-  //         "01:00 pm": {
-  //             "Lunges": "compltred",
-  //             "Single Leg Squat": "compltred"
-  //         },
-  //         "04:00 pm": {
-  //             "Lunges": "planned",
-  //             "Single Leg Squat": "planned"
-  //         }
-  //     }
-  // ]
+ 
     console.log('making exercise_status ',temp)
     console.log('making exercise_status ',b)
     console.log('making 1')
@@ -666,7 +623,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     mapExer(times[0])
      }
    }
-    console.log('exercises are ',exercises)
+    
     const exArr = []
     exercises.map(ex=>{
       exArr.push(ex.name)
@@ -678,7 +635,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       ? Object.keys(mappedTimeToExercises)[0]
       : times[selectedTime];
    exercise["careplanId"] = exercise.pp_cp_id;
-
+   console.log('final exercises are ',exercises)
+  //  console.log('final exercise status ',exercise_status)
+  //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
     history.push({
       pathname: "/patient/exercises/brief",

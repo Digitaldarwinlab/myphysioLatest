@@ -182,12 +182,22 @@ class PatientAI extends Component {
                     //  console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount].name)
                    //   console.log('current getData exercise time ',this.props.history.location.state.exercises[counterCount].ChoosenTime)
                     //  console.log('current getData exercise careplanid ',this.props.history.location.state.exercises[counterCount].pp_cp_id)
-                    //  console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount].video_url)
                       this.updateCarePlan(data,[this.props.history.location.state.exercises[counterCount-1].ex_em_id,this.props.history.location.state.exercises[counterCount-1].name],2,
                         this.props.history.location.state.exercises[counterCount-1].ChoosenTime, this.props.history.location.state.exercises[counterCount-1].pp_cp_id)
-                        this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
-                        this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount].name })
-                        this.setState({video_url :this.props.history.location.state.exercises[counterCount].video_url})
+                        if(this.props.history.location.state.exercises[counterCount]&&this.props.history.location.state.exercises[counterCount].video_url!==undefined){
+                            console.log('current getData exercise video url ',this.props.history.location.state.exercises[counterCount].video_url)
+                            var video = document.getElementById('exercise_video');
+                            var source = document.getElementById('video_source');
+                            source.setAttribute('src', `${process.env.REACT_APP_EXERCISE_URL}/${this.props.history.location.state.exercises[counterCount].video_url}`);
+                            video.load();
+                            video.play();
+                          //  this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
+                           // this.setState({ video_url :this.props.history.location.state.exercises[counterCount].video_url})
+                        }
+                        if(this.props.history.location.state.exercises[counterCount]&&this.props.history.location.state.exercises[counterCount].name!==undefined){
+                            console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount].name)
+                            this.setState({ exerciseName: this.props.history.location.state.exercises[counterCount].name })
+                        }
                      // this.state.exerciseName = this.props.history.location.state.exercises[counterCount-1].name
                      // this.state.video = this.props.history.location.state.exercises[counterCount-1].video_url
                   }
@@ -283,7 +293,7 @@ class PatientAI extends Component {
                 
                 state: { autorefresh: 1 }
               })
-            this.props.history.push('/patient/schedule');
+          //  this.props.history.push('/patient/schedule');
     }
     //Green Channel 
     Statistics = () => {
@@ -583,21 +593,18 @@ class PatientAI extends Component {
                                     {this.Statistics()}
                                 </Col>
                                 <Col lg={24} md={24} sm={12} xs={24} style={{ minHeight: "32vh" }}>
-                                    <VideoScreen
+                                    {/* <VideoScreen
                                         height={true}
                                         video={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-                                    />
+
+                                    /> */}
+                                      <video
+                                          autoPlay controls loop
+                                         id='exercise_video'
+                                        style={{ width: "97%", height: "100%" }} className="border">
+                                         <source id='video_source' src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`} type="video/mp4" />
+                                        </video>
                                 </Col>
-                                <Col lg={24} md={24} sm={12} xs={24} style={{ minHeight: "32vh" }}>
-                                <video controls autoPlay loop id="video1" width="100%">
-                    <source
-                      src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-                      type="video/mp4"
-                    />
-                  </video>
-                  check1 : {this.state.video} <br/>
-                  check2 : {this.state.video_url}
-                  </Col>
                             </Row>
                         </Col>
                     </Row>

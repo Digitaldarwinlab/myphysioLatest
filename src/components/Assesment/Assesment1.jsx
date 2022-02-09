@@ -56,6 +56,7 @@ import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
 import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
 import background from './../../assets/Crops/00.-Blank-Figures.png';
 import MobBackground from "./../../assets/Crops//mobilebg.png";
+import { useRef } from 'react';
 
 
 const muscle = [
@@ -111,6 +112,8 @@ const Assesment1 = ({back ,next}) => {
 
   const state = useSelector(state => state);
   const [form] = Form.useForm();
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView()
   // console.log(state.episodeReducer.patient_code +'patient_code')
   const [episodedata, SetepisodeData] = useState()
   useEffect(async () => {
@@ -119,6 +122,9 @@ const Assesment1 = ({back ,next}) => {
     //   state.FirstAssesment.Type = props1.history.location.state.type
     // }
     //aswin 10/25/2021 stop
+    sessionStorage.removeItem('submit')
+    sessionStorage.removeItem('posesubmit')
+    sessionStorage.removeItem('specialsubmit')
     const data = await getEpisode(state.episodeReducer.patient_code)
     if (data[0]) {
       state.FirstAssesment.episode_id = data[0].pp_ed_id;
@@ -155,7 +161,15 @@ const Assesment1 = ({back ,next}) => {
         //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
-        } 
+          console.log("Assesment data cleared")
+           return true;
+         } else {
+           console.log("not cleared");
+           return false;
+         }
+        // if (window.confirm("Assesment data will be lost. Is it okay?")) {
+        //   dispatch({ type: ASSESMENT_CLEARSTATE });
+        // } 
       }
     });
 
@@ -172,7 +186,6 @@ const Assesment1 = ({back ,next}) => {
     form.setFieldsValue({ Patient_History: data.Patient_History });
 
     return () => {
-
       unblock();
     };
 
@@ -646,7 +659,6 @@ const [tempstate ,setTemp] = useState(true)
 
 
   const handleChange1 = (key, value, id = 0) => {
-      return new Promise((resolve,reject)=>{
           dispatch({
               type: STATECHANGE,
               payload: {
@@ -655,13 +667,10 @@ const [tempstate ,setTemp] = useState(true)
               }
           });
           dispatch({ type: "NOERROR" });
-          resolve()
-      })
   }
 
 
-  const handleClick = (e, id) => {
-
+  const handleClick = async (e, id) => {
       console.log(e, ' : ', id)
       const index = BodyParts.indexOf(e);
       //    console.log(BodyParts)
@@ -707,6 +716,19 @@ const [tempstate ,setTemp] = useState(true)
           setBodyParts(Body);
           ele.style.opacity = '0';
       }
+      executeScroll()    
+    let div = document.getElementById("malefigures");
+    let can =  await html2canvas(div)
+    let url = can.toDataURL()
+    //handleChange1('body_image',url)
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+          key:'body_image',
+          value:url
+      }
+  });
+  dispatch({ type: "NOERROR" });
 
   }
 
@@ -729,7 +751,7 @@ const [tempstate ,setTemp] = useState(true)
   }
 
 
-  const onClick = () => {
+  const onClick = async () => {
       if (FullBody === false) {
           var ele = document.getElementsByClassName("FullBody");
           const dummyData = { ...MuscleJoint }
@@ -779,6 +801,19 @@ const [tempstate ,setTemp] = useState(true)
           }
           setFullBody(false);
       }
+      executeScroll()    
+    let div = document.getElementById("malefigures");
+    let can =  await html2canvas(div)
+    let url = can.toDataURL()
+    //handleChange1('body_image',url)
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+          key:'body_image',
+          value:url
+      }
+  });
+  dispatch({ type: "NOERROR" });
   }
 
   function warning() {
@@ -854,11 +889,11 @@ const [tempstate ,setTemp] = useState(true)
 
 
   // aswin 10/30/2021 stop
-  const Finalsubmit = async () => {
+  const Finalsubmit = async (url) => {
       const res = await getEpisode(state.episodeReducer.patient_code)
       if (res.length > 0 && res[0].end_date.length === 0) {
           if (window.confirm('Assessment data will be submitted')) {
-              const data = await AssesmentAPI(state.FirstAssesment, dispatch)
+              const data = await AssesmentAPI(state.FirstAssesment,url, dispatch)
               dispatch({ type: RECEIVED_DATA })
               if (data === true) {
                   sessionStorage.setItem('submit', true)
@@ -894,13 +929,24 @@ const [tempstate ,setTemp] = useState(true)
       }
   }
   const Submit = async () => {
-
+    let url = ""
+    if(state.FirstAssesment.body_image.length<=0){
+      executeScroll()    
       let div = document.getElementById("malefigures");
       let can =  await html2canvas(div)
-      let url = can.toDataURL()
-      handleChange1('body_image',url).then(()=>{
-          Finalsubmit()
-      })
+      url = can.toDataURL()
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+            key:'body_image',
+            value:url
+        }
+    });
+    dispatch({ type: "NOERROR" });
+    Finalsubmit(url)
+    }else{
+      Finalsubmit(url)
+    }   
 
   }
   // const [quest, setQuest] = useState(true)
@@ -1360,7 +1406,7 @@ const [tempstate ,setTemp] = useState(true)
      <Button style={{backgroundColor:'#2d7ecb'}} className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
      <Row>
          <Col md={24} lg={24} sm={24} xs={24} className="text-center"> 
-             <div id="malefigures">
+             <div id="malefigures" ref={myRef}>
                  <div id="mobile-muscle-map"><img alt="body-img" id="mobilebg" src={MobBackground} alt="male-background" />
                      <img alt="body-img11" alt="body-img" className="FullBody" id="traps-a1" src={TrapsLeft} alt="male-1" onClick={() => { handleClick("TrapsA", "traps-a1") }} />
                      <img alt="body-img22" alt="body-img" className="FullBody" id="traps-b2" src={Trapsright} alt="male-2" onClick={() => { handleClick("TrapsB", "traps-b2") }} />
@@ -1443,12 +1489,13 @@ const [tempstate ,setTemp] = useState(true)
      <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={24} lg={24} sm={24} xs={24}>
              <Descriptions title={state.FirstAssesment.Questionnaire.template_name} bordered>
-                 <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
+               {state.FirstAssesment.question_heading.map((data,index)=>(data!=="description"&&<Descriptions.Item label={data}>{Math.round(state.FirstAssesment.KOOS[index])}</Descriptions.Item>))}
+                 {/* <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Stiffness">{Math.round(state.FirstAssesment.KOOS[1])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Pain">{Math.round(state.FirstAssesment.KOOS[2])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Daily Life">{Math.round(state.FirstAssesment.KOOS[3])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Sports">{Math.round(state.FirstAssesment.KOOS[4])}</Descriptions.Item>
-                 <Descriptions.Item label="KOOS Quality of Life">{Math.round(state.FirstAssesment.KOOS[5])}</Descriptions.Item>
+                 <Descriptions.Item label="KOOS Quality of Life">{Math.round(state.FirstAssesment.KOOS[5])}</Descriptions.Item> */}
              </Descriptions>
          </Col>
      </Row>
@@ -1890,30 +1937,30 @@ const [tempstate ,setTemp] = useState(true)
       </Row> */}
        <Row>
         <Col className="text-center" style={{paddingBottom:'10px'}} md={24} lg={24} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.quest} style={{paddingRight:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
           <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
-          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
           {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
-
+          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
                 <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
                 }
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-
+         
+         <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
                 <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
                 }
-          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
-
+      
+      <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.pose?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Posture Test</button>:
                 <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Posture Test</button>
                 }
-          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
-
+         
+         <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">AROM Assessment</Button>:
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">AROM Assessment</Button>
                 }
-          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
+         
           {/* <Button className="ms-3" >save</Button> */}
         
         </Col>
