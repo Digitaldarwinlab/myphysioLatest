@@ -4,22 +4,25 @@ import { Items } from './Items';
 import { Menu } from 'antd';
 import { GoCalendar } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
+import {useState} from "react";
+import Devices from "./Devices";
 
 const DropDownMenu = ({ getCurrentPath }) => {
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" };
+
     //admin Panel 
     const AdminMenu = () => {
         return (
             <>
-                {
+                {/* {
                     Items.map((item, index) => {
                         return (
                             <Menu.Item key={index}
                                 className={item.isHidden ? "hiddenDropDown" : ""}
                                 onClick={() => { getCurrentPath(item.currentPath) }}
                                 icon={item.Icon}
-                                style={{ borderTop:"solid 1px black",marginTop:'0px' }}
-                               
+                                style={{ borderTop: "solid 1px black", marginTop: '0px' }}
+
                             >
                                 <Link to={item.path} className="text-secondary text-decoration-none">
                                     {item.name}
@@ -27,7 +30,8 @@ const DropDownMenu = ({ getCurrentPath }) => {
                             </Menu.Item>
                         )
                     })
-                }
+                } */}
+               <Devices />
             </>
         )
     }
@@ -67,7 +71,7 @@ const DropDownMenu = ({ getCurrentPath }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon={<GoCalendar className="iconClass2" />}
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/patient/schedule" className="text-secondary text-decoration-none">
                         Schedule
@@ -77,7 +81,7 @@ const DropDownMenu = ({ getCurrentPath }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon={<CgProfile className="iconClass2" />}
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/patient/profile" className="text-secondary text-decoration-none">
                         Account
@@ -87,7 +91,7 @@ const DropDownMenu = ({ getCurrentPath }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon=""
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/logout" className="text-secondary text-decoration-none">
                         Logout
