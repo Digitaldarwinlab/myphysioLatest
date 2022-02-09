@@ -1,37 +1,66 @@
-import React from 'react'
+import React, { useCallback ,useState ,useEffect} from 'react'
 import { Link } from "react-router-dom";
 import { Items } from './Items';
 import { Menu } from 'antd';
 import { GoCalendar } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
-import {useState} from "react";
-import Devices from "./Devices";
-
-const DropDownMenu = ({ getCurrentPath }) => {
+import {FiSettings} from "react-icons"
+const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" };
-
-    //admin Panel 
+    const [activeDevice, setActiveDevice] = useState({ deviceId: "", label: "" });
+    const [devices, setDevices] = useState([]);
+    let temp= [
+        {
+            "deviceId": "ee7c0889458681b465b13bdaf9ad0afa498065d50b02dc4b6c84140943d3fc9c",
+            "kind": "videoinput",
+            "label": "DroidCam Source 3",
+            "groupId": "649a976668c9a1e74f0f99822a3144a35c29f1f43fa1eafc9b8595dfe21ae541"
+        },
+        {
+            "deviceId": "623969252b9c6deb21548a7ea4896272979ef45d0099e76ab6d50abea0719a22",
+            "kind": "videoinput",
+            "label": "DroidCam Source 2",
+            "groupId": "c599461e7d837fe556fdd63223f38dd7e538d904ddc4d6b2dd78d9f6607166e7"
+        }
+    ]
+    const handleDevices = useCallback(
+        (mediaDevices) =>
+          setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+        [setDevices]
+      );
+    useEffect(() => {
+        const fetch = async () => {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+    
+          handleDevices(devices);
+        };
+    
+        fetch();
+      }, [handleDevices]);
+      const clickHandler = (id) => {
+        darwin.cameraId(id)
+        setShowMenu(false)
+      }
+    console.log("devices")
     const AdminMenu = () => {
         return (
             <>
-                {/* {
-                    Items.map((item, index) => {
+            {showMenu&&  <>
+                {
+                    devices.map((item, index) => {
                         return (
                             <Menu.Item key={index}
-                                className={item.isHidden ? "hiddenDropDown" : ""}
-                                onClick={() => { getCurrentPath(item.currentPath) }}
-                                icon={item.Icon}
-                                style={{ borderTop: "solid 1px black", marginTop: '0px' }}
-
+                            onClick={()=>clickHandler(item.deviceId)} 
+                                style={{ borderTop:"solid 1px black",marginTop:'0px' }}
                             >
-                                <Link to={item.path} className="text-secondary text-decoration-none">
-                                    {item.name}
+                                <Link  className="text-secondary text-decoration-none">
+                                    {item.label}
                                 </Link>
                             </Menu.Item>
                         )
                     })
-                } */}
-               <Devices />
+                }
+            </>}
             </>
         )
     }
