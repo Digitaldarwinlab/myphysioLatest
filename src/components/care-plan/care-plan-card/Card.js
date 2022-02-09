@@ -13,12 +13,13 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     console.log('careplanreducer')
     console.log(state)
     const AddIntoCart = (id) => {
+        console.log('cart ',id)
         UpdateCart(id);
         setAddInCart(true);
     }
     const RemoveFromCart = (id) => {
-        //UpdateCart(id);
-        state.exercises_cart.find(ex=>ex.ex_em_id!==id)
+        UpdateCart(id);
+       // state.exercises_cart.find(ex=>ex.ex_em_id!==id)
         setAddInCart(false)
     }
     const onOk = () => {
@@ -34,11 +35,30 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     const handleChange1=(key,value,id=0)=>{
         const reg = /^-?\d*(\.\d*)?$/;
         console.log('click ',key," ",value)
-        if(value>199||value<0){
-            return
+        // if(key=="min"||key=="max"){
+        //     if(value>199||value<0){
+        //         return
+        //     }
+        //     if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-' ) {
+        //         handleChange(key,value,id);
+        //     }
+        // }
+        if(key==="rep_count"){
+            if(value<2){
+                console.log('inside')
+                return
+            }
+
         }
-        if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-' ) {
-            handleChange(key,value,id);
+        if(key=="set"||key=="rep_count"){
+            console.log("repetition ",value>99)
+            if(value>99||value<0){
+                return
+            }
+            if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-' ) {
+                console.log("repet inside")
+                handleChange(key,value,id);
+            }
         }
     }
 
@@ -73,26 +93,26 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                             <Row gutter={[10, 10]}>
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                     <Form.Item name={"set" + index} label="Set" required={true}>
-                                        <InputNumber
+                                        {console.log("repe ",state.exercises&& state.exercises[index])}
+                                        <Input
                                             disabled={carePlanView}
-                                            onChange={(value) => handleChange("set", value, index)}
-                                            value={(data && data.Rep) ? data.Rep.set :
-                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1}
-                                            min={1} max={10}
+                                            onChange={(e) => handleChange1("set", e.target.value, index)}
+                                            value={(data && data.Rep) ? data.Rep.set : (state.exercises&& state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1}
+                                            min={1} max={99}
                                             defaultValue={(data && data.Rep) ? data.Rep.set :
-                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1} className="w-75 m-1" />
+                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["set"] : 1} className="w-100" />
                                     </Form.Item>
                                 </Col>
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                     <Form.Item name={"rep_count" + index} label="Count" required={true}>
-                                        <InputNumber
+                                        <Input
                                             disabled={carePlanView}
-                                            onChange={(value) => handleChange("rep_count", value, index)}
+                                            onChange={(e) => handleChange1("rep_count", e.target.value, index)}
                                             value={(data && data.Rep) ? data.Rep.rep_count :
-                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1}
+                                                (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 5}
                                             min={1} max={10}
                                             defaultValue={(data && data.Rep) ? data.Rep.rep_count :
-                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 1} className="w-75 m-1" />
+                                                (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["rep_count"] : 5} className="w-100" />
                                     </Form.Item>
                                 </Col>
                             </Row>

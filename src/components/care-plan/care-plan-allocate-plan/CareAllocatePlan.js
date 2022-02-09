@@ -12,6 +12,7 @@ import Loading from './../../UtilityComponents/Loading';
 import Success from './../../UtilityComponents/SuccessHandler';
 import Error from './../../UtilityComponents/ErrorHandler';
 import { VALIDATION } from "../../../contextStore/actions/authAction";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
@@ -22,7 +23,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const validationState = useSelector(state => state.Validation);
     const dispatch = useDispatch();
     const [selectvalue,Setselectvalue]=useState([])
-
+    const history = useHistory()
     useEffect(() => {
          
         let timeSlots = changeTimeSlots(state.count_time_slots);
@@ -293,13 +294,22 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           console.log("updated hours" +hours);
             return `${hours}${minutes}`;
           }
-          
+
+           
          
     //OnFinish 
     const onFinish = async () => {
            //   console.log(' joints array')
             //  console.log(selectvalue)
-       
+            for(let i=0;i<state.exercises.length;i++){
+                if(state.exercises[i].Rep['rep_count']<2){
+                    dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 2 ' } });
+                    setTimeout(() => {
+                        dispatch({ type: VALIDATION, payload: { error: "" } });
+                    }, 3000);
+                    return
+                }
+            }
             if(state.startDate && state.endDate)
         {
             const starttime = new Date(state.startDate)
@@ -412,7 +422,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 })
                 if (searchBar) {
                     dispatch({ type: VALIDATION, payload: { error: "" } });
-                  window.location.href = "/dashboard";
+                  //window.location.href = "/dashboard";
+                  history.push('/dashboard')
                 } else {
                     handleChangeView();
                 } 
@@ -442,7 +453,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
        
     }
     }
-
+    const [repcheck, setRepCheck] = useState(false)
     return (
         <Form layout="vertical" onFinish={onFinish} className="px-1 py-1">
             {state.isLoading && <Loading />}
@@ -492,12 +503,14 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                                     handleChange={handleChange}
                                     index={index}
                                     Setselectvalue={Setselectvalue}
+                                    repcheck={repcheck}
                                 />
                             </Col>
                         )
                     })
                 }
             </Row>
+            {repcheck?"value not less than 2":null}
             <Row>
                 <Form.Item name="count_time_slots" label="Number of Time Slots" required={true} className="m-2">
                     <InputNumber

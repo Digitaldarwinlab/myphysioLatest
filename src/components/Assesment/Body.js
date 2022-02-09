@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import JointData from "../UtilityComponents/dummyData/MuscleMap.json";
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 // aswin 10/24/2021 start
-import { Switch, Button, Row, Col, notification, Descriptions, Rate, Slider, Form, Table, Modal, Space, message } from "antd";
+import { Switch, Button, Row, Col, notification, Descriptions, Rate, Slider, Form, Table, Modal, Space, message, Tabs } from "antd";
 // aswin 10/24/2021 stop
 import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
 import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
@@ -106,7 +106,7 @@ const desc = ['no pain', 'mild', 'moderate', 'severe'];
 
 
 
-const Body = () => {
+const Body = ({back ,next}) => {
     const [errorshow, SeterrorShow] = useState(false)
     const history = useHistory();
     const [form] = Form.useForm();
@@ -256,27 +256,30 @@ const Body = () => {
 
         if (state.FirstAssesment.KOOS === "") {
             question.innerHTML = "Add Questionnaire"
+         //  question.innerHTML = " "
             setQuestionVisibility('none')
 
         }
         else {
-            question.innerHTML = "Questionnaire filled"
+          question.innerHTML = "Questionnaire filled"
+          // question.innerHTML = " "
             question.style.backgroundColor = "honeydew"
             question.style.borderColor = "limegreen"
             setQuestionVisibility('block')
 
         }
-
+        setQuestionVisibility('none')
         // Check if AI_Data
         if (state.FirstAssesment.AI_data === "") {
             rom.innerHTML = "Add ROM Assesment"
-            setRomVisibility('none')//Problem is here changing styles with state dependancy
+            setRomVisibility('none')
         }
         else {
             const exercise = state.FirstAssesment.Exercise_Name
             //instead of fetching from store
             //fetch from loalstorage directly
-            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
             console.log("Ai data in body.js from localstorage: ", AI_Data)
             // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
             rom.innerHTML = "ROM Assement calculated"
@@ -309,9 +312,9 @@ const Body = () => {
             state.FirstAssesment.Exercise_Name = data
             state.FirstAssesment.AI_data = AI
             const exercise = state.FirstAssesment.Exercise_Name
-            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+           const AI_Data = state.FirstAssesment.AI_data[exercise].angles
 
-            const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+           // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
             
             console.log("Ai data in body.js from localstorage: ", AI_Data)
 
@@ -349,14 +352,17 @@ const Body = () => {
     }
 
     const handleChange1 = (key, value, id = 0) => {
-        dispatch({
-            type: STATECHANGE,
-            payload: {
-                key,
-                value
-            }
-        });
-        dispatch({ type: "NOERROR" });
+        return new Promise((resolve,reject)=>{
+            dispatch({
+                type: STATECHANGE,
+                payload: {
+                    key,
+                    value
+                }
+            });
+            dispatch({ type: "NOERROR" });
+            resolve()
+        })
     }
 
 
@@ -620,7 +626,18 @@ const Body = () => {
         }
     }
     const Submit = async () => {
-
+        let div = document.getElementById("malefigures");
+        let can =  await html2canvas(div)
+        let url = can.toDataURL()
+        handleChange1('body_image',url).then(()=>{
+            Finalsubmit()
+        })
+    //    .then(function (canvas) {
+    //     url = canvas.toDataURL()
+    //     console.log("url is ",url)
+    //     handleChange1('body_image',url)
+    //     })
+       // console.log("url is ",url)
         //     if(assesmentstate.Type=='')
         //     {//   console.log('Type  in if checking')
         //         console.log(assesmentstate.Type)
@@ -726,7 +743,7 @@ const Body = () => {
         //         return false
         //        }
 
-        Finalsubmit()
+      //  Finalsubmit()
 
 
     }
@@ -1039,14 +1056,16 @@ const Body = () => {
                     {'Above Pelvic : '}{frontAngles[4]&&frontAngles[4].toFixed(2)}{' '}
                   </Card>
                   </div>} */}
-            <div className="text-center mb-3">
+            {/* <div className="text-center mb-3">
                 <Button onClick={Questions} id="question"></Button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 <button class="ant-btn ms-3" onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-                <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom"></Button>
-                <Button className="ms-3" onClick={Submit}>Submit</Button>
-            </div>
+                <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button> */}
+                {/* <Button className="ms-3" onClick={()=>back('1')}>back</Button> */}
+                {/* <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
+                <Button className="ms-3" onClick={Submit}>save</Button> */}
+                {/* <Button className="ms-3" onClick={()=>next('2')}>next</Button> */}
+            {/* </div> */}
 
         </div>
     )

@@ -5,12 +5,14 @@ import {
 } from './../../UtilityComponents/dummyData/care-plan-dummy-data/FiltersData';
 const { Panel } = Collapse;
 
-export default function Filter({filterExercise,checkedList}){
+export default function Filter({filterExercise,checkedList ,setFilterData}){
     let delLastCheckedList=[]
     for(let i in checkedList.muscels){
         delLastCheckedList.push(checkedList.muscels[i].slice(0,-1))
     }
     const handleFilter = (checked,filterType,filterName) => {
+        setFilterData({checked,type:filterType,name:filterName})
+        console.log({checked,filterType,filterName})
         filterExercise(checked,filterType,filterName);
     }
     return (
@@ -34,14 +36,14 @@ export default function Filter({filterExercise,checkedList}){
                         return (
                             <li key={index} >
                                 <Checkbox 
-                                    checked={checkedList.joints.indexOf(value) !== -1}
-                                    onChange={(e)=>handleFilter(e.target.checked,"joints",value)}>{value}</Checkbox>
+                                    checked={checkedList.joints.indexOf(value.value) !== -1}
+                                    onChange={(e)=>handleFilter(e.target.checked,"joints",value.value)}>{value.name}</Checkbox>
                             </li>
                         )
                     })}
                 </ul>
             </Panel>
-            <Panel header="Muscels" key="3" showArrow={false}>
+            {/* <Panel header="Muscels" key="3" showArrow={false}>
                 <ul>
                     {Muscles.map((value, index) => {
                         return (
@@ -54,8 +56,8 @@ export default function Filter({filterExercise,checkedList}){
                         )
                     })}
                 </ul>
-            </Panel>
-            <Panel header="Direction Of Movement" key="4" showArrow={false}>
+            </Panel> */}
+            {/* <Panel header="Direction Of Movement" key="4" showArrow={false}>
                 <ul>
                     {Movement.map((value, index) => {
                         return (
@@ -67,7 +69,7 @@ export default function Filter({filterExercise,checkedList}){
                         )
                     })}
                 </ul>
-            </Panel>
+            </Panel> */}
         </Collapse>
     )
 }

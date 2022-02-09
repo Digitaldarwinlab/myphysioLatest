@@ -38,6 +38,10 @@ const FirstAssesmentIniState ={
     medicCheck:false,
     othCheck:false,
     past_medical_history:[],
+    frontChecks:{},
+    sideChecks:{},
+    FrontCheck:[],
+    SideCheck:[],
 //     Diabetes:"false",
 //     HYN: "false",
 //     COPD: "false",
@@ -49,6 +53,11 @@ const FirstAssesmentIniState ={
 
 
     // 
+    quest:true,
+    pain1:true,
+    special:true,
+    pose:true,
+    romAss:true,
     Swelling:"no pain",
     pain_scars:"",
     subjective:[{
@@ -66,36 +75,64 @@ const FirstAssesmentIniState ={
     RecentHistory:"",
     Trauma:"",
     Test:"",
+    body_image:"",
     nature_of_pain_here:"",
     pain_aggravating_here:[],
     pain_relieving_here:[],
     nature_of_pain:{},
-    pain_scale:1,
+    pain_scale:0,
     pain_aggravating:{},
     pain_relieving:{},
     superficial:'',
     deep:'',
     cortial:'',
+    special_visibility:'none',
+    question_heading:[],
     Symptoms:{score:[],question:[],answer:[]},
     Stiffness:{score:[],question:[],answer:[]},
     pain:{score:[],question:[],answer:[]},
     DailyLiving:{score:[],question:[],answer:[]},
     Sports:{score:[],question:[],answer:[]},
     Life:{score:[],question:[],answer:[]},
+    Difficulty:{score:[],question:[],answer:[]},
     KOOS:"",
     Questionnaire:"",
     success:"",
 }
 
 const handleIndexValue = (arr,value,index,ques,ans) => {
+    console.log('arr ',arr)
+    console.log('arr ',value)
+    console.log('arr ',index)
+    console.log('arr ',ques)
+    console.log('arr ',ans[0])
     const newArr = {...arr};
     if(index+1>newArr.length){
         newArr.score.push(value)
     }else{
         newArr.score[index] = value;
     }
-    newArr.question.push(ques)
-    newArr.answer.push(ans)
+    if(arr.question.length>0){
+        arr.question.map(data=>{
+            if(data!==ques){
+                console.log('arr find ')
+                newArr.question.push(ques)
+            }
+        })
+    }else{
+        newArr.question.push(ques)
+    }
+    if(arr.answer.length>0){
+        arr.answer.map(data=>{
+            if(data!==ans[0]){
+                console.log('arr find ')
+                newArr.answer.push(ans[0])
+            }
+        })
+    }else{
+        newArr.answer.push(ans[0])
+    }
+  //  setTimeout(()=>console.log('abc '),10)
     return newArr;
 }
 const Addsubjective = (list) => {
@@ -198,6 +235,17 @@ export const FirstAssesment =( state=FirstAssesmentIniState , action) => {
             return {
                 ...state
             }    
+        case "QUESTION_CLEARSTATE"            :
+            return {
+                ...state,
+                Symptoms:{score:[],question:[],answer:[]},
+                Stiffness:{score:[],question:[],answer:[]},
+                pain:{score:[],question:[],answer:[]},
+                DailyLiving:{score:[],question:[],answer:[]},
+                Sports:{score:[],question:[],answer:[]},
+                Life:{score:[],question:[],answer:[]},
+                Difficulty:{score:[],question:[],answer:[]},
+            }
         default:
             return state;
     }

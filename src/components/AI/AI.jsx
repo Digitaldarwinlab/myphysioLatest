@@ -56,6 +56,7 @@ class AI extends Component {
         console.log('preveState:'+preveState);
         console.log('preIndices:'+preIndices);
         let PreJoints = this.props.history.location.state.Joints;
+        console.log("exercises primary",this.props.history.location.state.exercisePrimary)
         console.log('PreJoints:'+PreJoints);
         let PreJointKeys = (Object.keys(PreJoints));
         let PreJointValue = (Object.values(PreJoints));
@@ -81,7 +82,8 @@ class AI extends Component {
             patienId: '56',
             exerciseId: this.props.history.location.exerciseId,
             arrayIndex:0,
-            primaryExercise:this.props.history.location.state.exercisePrimary
+            primaryExercise:this.props.history.location.state.exercisePrimary,
+            selectedExercise:preveState[0]
         };
 
         // window.darwin.setExcersiseParams({
@@ -107,6 +109,7 @@ class AI extends Component {
         this.start = this.start.bind(this);
         this.capture = this.capture.bind(this);
         this.ExDef = this.ExDef.bind(this);
+      //  this.setState({primaryExercise:this.props.history.location.state.exercisePrimary})
     }
 
 
@@ -273,7 +276,7 @@ class AI extends Component {
         const exerise = document.getElementById("ex")
         var i=0
         if (this.state.ExcerciseIndices.length > 0) {
-            exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
+          //  exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
             for (i=0;i<this.state.ExcerciseIndices.length;i++) {
                 let lable = this.state.ExcerciseName[i]
                 console.log('exercise is' +  lable)
@@ -353,7 +356,7 @@ class AI extends Component {
                 Accept: "application/json",
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
+            body: JSON.stringify({ exercise: [this.state.ExcerciseName[0]] })
 
         }).then(res => {
             return res.json();
@@ -372,13 +375,14 @@ class AI extends Component {
 
     ExChanges = (e) => {
         //aswin 11/27/2021 start
+        this.setState({ selectedExercise : e.target.value })
         console.log("value is ",e.target.value)
         console.log("initial value ",  this.state.PreKey)
         console.log("exercise passed are ",this.state.primaryExercise)
         let priArr = []
         this.state.primaryExercise.map(ex=>{
             if(ex.exercise_shortname==e.target.value){
-                priArr = ex.primary_angles
+                priArr = ex.primary_angles?ex.primary_angles:ex.joint
             }
         })
         console.log("primary  ",priArr)
@@ -395,7 +399,7 @@ class AI extends Component {
         window.darwin.setExcersiseParams({
             "name": this.state.ExcerciseName,
             "primaryKeypoint": 0,
-            "angles": this.state.PreKey,
+            "angles": [0,1,2,3,4,5,6,7,8,9,10,11],
             "dir": 1,
             "minAmp": 30,
             "primaryAngles": primaryAnglesValue,
@@ -416,6 +420,7 @@ class AI extends Component {
         }).then(res => {
             return res.json();
         }).then(data => {
+            console.log('data ',data)
             data.map((val) => {
                 this.setState({ VideoData: val.image_path })
             })
@@ -477,24 +482,104 @@ class AI extends Component {
 
     // start();
 
+    componentWillUnmount(){
+         const video = document.getElementById('video');
+
+
+        const mediaStream = video.srcObject;
+        try {
+            const tracks = mediaStream.getTracks();
+            tracks[0].stop();
+            tracks.forEach(track => track.stop())
+
+            console.log('camera releasing....')
+            console.log(tracks)
+        }
+        catch (err) {
+            console.log('camera not releasing....')
+            console.log(err)
+        }
+    }
     componentDidMount() {
         
         const video = document.getElementById('video');
         const canvas = document.getElementById('output');
+        const myVideo = document.getElementById('Ai_vid')
+        let { width, height } = myVideo.getBoundingClientRect()
+        video.width = width;
         const options = {
             video,
-            videoWidth: 550,
-            videoHeight: 420,//window.innerHeight-20,
+            videoWidth: 640,
+            videoHeight: 540,
             canvas,
-            // loadingEleId: 'loading',
-            // mainEleId: 'main',
             supervised: true,
             showAngles: true,
         };
+        // const options = {
+        //     video,
+        //     videoWidth: 550,
+        //     videoHeight: 420,//window.innerHeight-20,
+        //     canvas,
+        //     // loadingEleId: 'loading',
+        //     // mainEleId: 'main',
+        //     supervised: true,
+        //     showAngles: true,
+        // };
         this.innerHTML2();
         window.darwin.initializeModel(options);
         this.start();
-       
+        console.log('exerc ',this.state.primaryExercise)
+        var priArr = []
+        //priArr = this.state.primaryExercise[0].primary_angles
+        priArr = this.state.primaryExercise[0].primary_angles?this.state.primaryExercise[0].primary_angles:this.state.primaryExercise[0].joint
+        // this.state.primaryExercise.map(ex=>{
+        //     if(ex.exercise_shortname==e.target.value){
+        //         priArr = ex.joints
+        //     }
+        // })
+        console.log("primary  ",priArr)
+        console.log("angles ",priArr)
+        const primaryAnglesValue = []
+        joints.map(jo=>{
+           priArr.map(pr=>{
+               if(pr===jo.label){
+                primaryAnglesValue.push(jo.value)
+               }
+           })
+        })
+        window.darwin.setExcersiseParams({
+            "name": this.state.ExcerciseName,
+            "primaryKeypoint": 0,
+            "angles": [0,1,2,3,4,5,6,7,8,9,10,11],
+            "dir": 1,
+            "minAmp": 30,
+            "primaryAngles": primaryAnglesValue,
+            "ROMs": [[30, 160], [30, 160]],
+            "totalReps": 3,
+            "totalSets": 2
+        });
+
+        fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ exercise: this.state.ExcerciseName[0] })
+
+        }).then(res => {
+            return res.json();
+        }).then(data => {
+            console.log("data issss ",data)
+            data.map((val) => {
+                this.setState({ VideoData: val.image_path })
+            })
+            data.map((val) => {
+
+                this.setState({ videoUrl: val.video_path })
+            })
+        })
+
         window.darwin.addProgressListener((setCount, repCount) => {
 
             console.log(setCount + 'setCount')
@@ -566,6 +651,7 @@ class AI extends Component {
 
         console.log("Joints ",joints)
         console.log('Joint pre ',this.state.PreKey)
+        console.log('url ','https://myphysio.digitaldarwin.in/' + this.state.videoUrl)
 
         return (
             <>
@@ -577,22 +663,22 @@ class AI extends Component {
 
                     </div>
                     <Row className="main-row"  id="main-row">
-                        <Col id="Ai_vid" className="Ad_vid" >
+                        <Col md={14} lg={14} sm={24} xs={14} id="Ai_vid" className="Ad_vid" >
                             <video  className id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
-                            <canvas id="output" className="output" />
+                            <canvas id="output" className="output" style={{height:'440px'}}/>
                         </Col>
-                        <Col id="Ex_vid" className="Ex_vid">
+                        <Col md={8} lg={8} sm={24} xs={8} id="Ex_vid" className="Ex_vid">
                             <div className="">
                                 <video src={'https://myphysio.digitaldarwin.in/' + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>
                             <Card style={{ marginTop: 5, borderRadius: 10 }} actions={[
-                                <Button
+                                <Button className="mx-2"
                                     style={{ border: 'none' }}
                                     icon={<CameraFilled />}
                                     onClick={this.capture}>
                                     Screenshots</Button>,
-                                <Button
+                                <Button className="mx-2"
                                     style={{ border: 'none' }}
                                     icon={<CaretLeftFilled />}
                                     onClick={this.back}
@@ -601,34 +687,37 @@ class AI extends Component {
                             ]}>
                                 <div id='main' >
                                     <div>
-                                        <Row >
-                                            <Col >
+                                        <Row justify="space-around" className="text-center">
+                                            <Col>
                                                 <Switch onChange={this.handleChange} checked={this.state.SWITCH} style={{ color: "red", marginTop: 5 }} />  {this.state.SWITCH ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
                                             </Col>
                                             <Col>
-                                                <Button
+                                                <Button className="mx-2"
                                                     style={{ border: 'none' }}
                                                     icon={<MinusCircleOutlined />}
                                                     onClick={this.stop}>
                                                     Stop</Button>
                                             </Col>
                                             <Col >
-                                                <Button
+                                                <Button className="mx-2"
                                                     style={{ border: 'none' }}
                                                     icon={<RollbackOutlined />}
                                                     onClick={this.reset}>
                                                     Reset</Button>
                                             </Col>
+                                            
+                                        </Row>
+                                        <row>
                                             <Col >
-                                                <select style={{ marginTop: 5 }} name="ex" id="ex" onChange={this.handleExcer} onChange={this.ExChanges}>
+                                                <select className="w-50 mx-2 my-3" style={{ marginTop: 5 }} name="ex" id="ex" defaultValue={this.state.selectedExercise} onChange={this.ExChanges}>
                                                 </select>
                                             </Col>
-                                        </Row>
+                                        </row>
                                     </div>
                                     <div className="detail" id="detail">
-                                    <h5  className="mt-1">Patient Name: {this.props.history.location.state.stateName.patient_name} </h5>
-                                    <h5>Excercise Name: {this.state.ExcerciseName}</h5>
-                                    <h5 className="mt-1">Joints: </h5>
+                                    <p style={{marginBottom:'4px'}}> <b>Patient Name :</b>  {this.props.history.location.state.stateName.patient_name} </p>
+                                    <p style={{marginBottom:'4px'}}> <b>Excercise Name :</b>  {this.state.selectedExercise}</p>
+                                    <p style={{marginBottom:'4px'}}> <b>Joints :</b> </p>
                                     </div>
                                     <div >
                                         <Checkbox.Group 

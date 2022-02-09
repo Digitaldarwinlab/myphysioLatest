@@ -52,6 +52,7 @@
   padding-top: 5px;
   text-align: left;
   padding-left: 10px;
+  font-size: 14px;
 }
 
 .visit-card-1 {
@@ -96,14 +97,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .video-conference-detail {
   text-align: left;
-  margin-top: 10px;
+  margin-top: 0px;
   border-radius: 10px;
-  height: 80px;
+  height: 50px;
   padding: 10px 10px 10px 10px;
   width: 100%;
   background-color: white;
@@ -156,7 +157,12 @@
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
 }
-
+.status-button-yes{
+  background-color: #6c757d !important;
+}
+.status-button-no{
+  background-color: #0875f1 !important;
+}
 .time-slot-buttons {
   text-align: center;
 }

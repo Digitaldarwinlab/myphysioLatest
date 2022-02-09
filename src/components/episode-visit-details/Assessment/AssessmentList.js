@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col, Descriptions, Empty, Table, List, Item } from "antd";
+import { Button, Row, Col, Descriptions, Empty, Table, List, Item, Badge, Collapse } from "antd";
 import { STATECHANGE } from "../../../contextStore/actions/Assesment";
 import { ImPlus } from "react-icons/im";
 import Loading from './../../UtilityComponents/Loading';
@@ -11,7 +11,7 @@ import { Pagination } from "antd";
 {/* aswin start 10/30/2021 start */ }
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from 'moment'
-
+const { Panel } = Collapse;
 const AssessmentList = ({ assesmentClick }) => {
     {/* aswin start 10/30/2021 stop */ }
     const history = useHistory();
@@ -97,9 +97,10 @@ const AssessmentList = ({ assesmentClick }) => {
 
 
     const dataArray = AssesmentData.map((item) => {
-        const key = Object.keys(item.AI_data)
+      //  const key = Object.keys(item.AI_data)
+        const AI_data = item.AI_data
         let exercise = item.Exercise_Name[0]
-        console.log('exercise name')
+        console.log('exercise name',item)
         console.log(exercise)
 
 
@@ -107,7 +108,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
             // console.log('AI datas is')
             // console.log(exercise)
-            if (item.AI_data[exercise] && item.AI_data[exercise].angles && item.AI_data[exercise].angles['Left Shoulder(ver)'].min) {
+            if (Object.values(AI_data).length>0 && Object.values(AI_data)[0].angles && Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min) {
                 //   console.log(item.AI_data[exercise].angles)
 
                 return (
@@ -116,38 +117,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '1',
                                 angles: 'Left Shoulder',
-                                min: item.AI_data[exercise].angles['Left Shoulder(ver)'].min,
-                                max: item.AI_data[exercise].angles['Left Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min,
+                                max: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].max
                             },
                             {
                                 key: '2',
                                 angles: 'Right Shoulder',
-                                min: item.AI_data[exercise].angles['Right Shoulder(ver)'].min,
-                                max: item.AI_data[exercise].angles['Right Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].min,
+                                max: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].max
                             },
                             {
                                 key: '3',
                                 angles: 'Left Elbow',
-                                min: item.AI_data[exercise].angles['Left Elbow'].min,
-                                max: item.AI_data[exercise].angles['Left Elbow'].max
+                                min: Object.values(AI_data)[0].angles['Left Elbow'].min,
+                                max: Object.values(AI_data)[0].angles['Left Elbow'].max
                             },
                             {
                                 key: '4',
                                 angles: 'Right Elbow',
-                                min: item.AI_data[exercise].angles['Right Elbow'].min,
-                                max: item.AI_data[exercise].angles['Right Elbow'].max
+                                min: Object.values(AI_data)[0].angles['Right Elbow'].min,
+                                max: Object.values(AI_data)[0].angles['Right Elbow'].max
                             },
                             {
                                 key: '5',
                                 angles: 'Left Neck',
-                                min: item.AI_data[exercise].angles['Neck Left'].min,
-                                max: item.AI_data[exercise].angles['Neck Left'].max
+                                min: Object.values(AI_data)[0].angles['Neck Left'].min,
+                                max: Object.values(AI_data)[0].angles['Neck Left'].max
                             },
                             {
                                 key: '6',
                                 angles: 'Right Neck',
-                                min: item.AI_data[exercise].angles['Neck Right'].min,
-                                max: item.AI_data[exercise].angles['Neck Right'].max
+                                min: Object.values(AI_data)[0].angles['Neck Right'].min,
+                                max: Object.values(AI_data)[0].angles['Neck Right'].max
                             },
 
                         ],
@@ -160,38 +161,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '7',
                                 angles: 'Left Hip',
-                                min: item.AI_data[exercise].angles['Left Hip'].min,
-                                max: item.AI_data[exercise].angles['Left Hip'].max
+                                min: Object.values(AI_data)[0].angles['Left Hip'].min,
+                                max: Object.values(AI_data)[0].angles['Left Hip'].max
                             },
                             {
                                 key: '8',
                                 angles: 'Right Hip',
-                                min: item.AI_data[exercise].angles['Right Hip'].min,
-                                max: item.AI_data[exercise].angles['Right Hip'].max
+                                min: Object.values(AI_data)[0].angles['Right Hip'].min,
+                                max: Object.values(AI_data)[0].angles['Right Hip'].max
                             },
                             {
                                 key: '9',
                                 angles: 'Left Knee',
-                                min: item.AI_data[exercise].angles['Left Knee'].min,
-                                max: item.AI_data[exercise].angles['Left Knee'].max
+                                min: Object.values(AI_data)[0].angles['Left Knee'].min,
+                                max: Object.values(AI_data)[0].angles['Left Knee'].max
                             },
                             {
                                 key: '10',
                                 angles: 'Right Knee',
-                                min: item.AI_data[exercise].angles['Right Knee'].min,
-                                max: item.AI_data[exercise].angles['Right Knee'].max
+                                min: Object.values(AI_data)[0].angles['Right Knee'].min,
+                                max: Object.values(AI_data)[0].angles['Right Knee'].max
                             },
                             {
                                 key: '11',
                                 angles: 'Left Pelvic',
-                                min: item.AI_data[exercise].angles['Pelvic Left'].min,
-                                max: item.AI_data[exercise].angles['Pelvic Left'].max
+                                min: Object.values(AI_data)[0].angles['Pelvic Left'].min,
+                                max: Object.values(AI_data)[0].angles['Pelvic Left'].max
                             },
                             {
                                 key: '12',
                                 angles: 'Right Pelvic ',
-                                min: item.AI_data[exercise].angles['Pelvic Right'].min,
-                                max: item.AI_data[exercise].angles['Pelvic Right'].max
+                                min: Object.values(AI_data)[0].angles['Pelvic Right'].min,
+                                max: Object.values(AI_data)[0].angles['Pelvic Right'].max
                             },
                         ]
                     }
@@ -297,7 +298,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
 
     })
-
+    console.log('data array',dataArray)
 
     const tableNOdata1 = [
         {
@@ -401,11 +402,17 @@ const AssessmentList = ({ assesmentClick }) => {
             });
         }
     };
-
+   
     useEffect(async () => {
         setLoading(true);
         const data = await getAssesment(state.patient_code);
-        setAssesmentData(data)
+        let a = data.reverse()
+        setAssesmentData(a)
+        // setTimeout(() => {
+        //     setAssesmentData(a)
+        // }, 10);
+        console.log("reverse not ",data)
+        console.log("reverse ",a)
         setLoading(false)
 
 
@@ -551,10 +558,10 @@ const AssessmentList = ({ assesmentClick }) => {
     {/* aswin start 10/30/2021 stop */ }
     return (
         <React.Fragment>
-            <Col span={24} className="px-3 py-3">
+            <Col span={24} className="px-3 py-3 mb-3">
                 <Row>
                     <Col lg={18} md={18} sm={18} xs={24}>
-                        <h4 className="fw-bold">Assessments</h4>
+                        <h4 className="fw-bold"><u>Assessments</u></h4>
                     </Col>
                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
                         {/* aswin start 10/30/2021 start */}
@@ -580,17 +587,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
                                     {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                                         <>
+                                        <Collapse defaultActiveKey={['1']} >
+                                        <Panel header="Physical Assesment" key="1" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
-                                                    {/* aswin start 10/30/2021 start */}
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         <h4 className="p-2">Physical Assesment</h4>
                                                     </Col>
                                                     <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                                                        <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />
                                                     </Col>
-                                                    {/* aswin start 10/30/2021 stop */}
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Assesment Date">{data.assesmentdate.slice(0, 10)}</Descriptions.Item>
@@ -601,8 +607,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
+                                            
                                             {/* <div className=" border mb-3 mt-3"> */}
-                                            {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<> 
+                                            {data.physical_assessement.Subjective&&data.physical_assessement.Subjective.length>0&&<>
                                             <Descriptions.Item label="" span={3}><b><u>Subjective </u></b></Descriptions.Item>
                                             <Row gutter={[10, 10]} className="px-4 py-2">
                                                 <table style={{ width: `${screen.width / 2}px` }}>
@@ -629,19 +636,26 @@ const AssessmentList = ({ assesmentClick }) => {
                                                  </>
                                                  )}
                                                 /> */}
-                                                 
-                                                </Row></>}
+                                                </Row></> }
+                                                </Panel>
                                             {/* </div> */}
+                                            {data.body_image&&
+                                               <Panel header="Joints Selected" key="2">
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
+                                         <h4 className="p-2">Joints Selected  </h4>
+                                                <img src ={data.body_image} />
+                                            </div></Panel>}
+                                            <Panel header="Pain Assesment" key="3">
+                                            <div className=" border mb-3 mt-3">
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         <h4 className="p-2">Pain Assesment</h4>
                                                     </Col>
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain ? data.nature_of_pain : "not available"}</Descriptions.Item>
-                                                        <Descriptions.Item label="Pain Scale">{data.pain_scale ? data.pain_scale : "not available"}</Descriptions.Item>
+                                                        <Descriptions.Item label="Pain Scale">{data.pain_scale ? data.pain_scale : data.pain_scale===0?0:"not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Scar">{data.pain_scars ? data.pain_scars : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Swelling">{data.pain_swelling ? data.pain_swelling : "not available"}</Descriptions.Item>
                                                         <Descriptions.Item label="Pain Aggravating">{data.pain_aggravating !== undefined ? data.pain_aggravating.length > 0 && data.pain_aggravating.map(d => d + " ") : "not available"}</Descriptions.Item>
@@ -661,16 +675,18 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
+                                            </Panel>
+                                            {(data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow)&&
+                                                <Panel header="Special Test" key="4">
                                             <div className=" border mb-3 mt-3">
-                                                <Row className="border">
+                                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
                                                     </Col>
-                                                </Row>
+                                                </Row> */}
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
-                                                        {data.shoulder && <>
+                                                        {data.shoulder && data.shoulder.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Shoulder </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -694,8 +710,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
-                                                        {data.Ankle && <>
+                                                    
+                                                        {data.Ankle && data.Ankle.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Ankle </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -719,7 +735,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Elbow && <>
+                                                        {data.Elbow && data.Elbow.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Elbow </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -743,7 +759,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Hip && <>
+                                                        {data.Hip && data.Hip.length>0&& <>
                                                             <Descriptions.Item label="" span={3}><b>Hip </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -767,7 +783,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Knee && <>
+                                                        {data.Knee && data.Knee.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Knee </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -791,7 +807,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Cervical_Spine && <>
+                                                        {data.Cervical_Spine && data.Cervical_Spine.length>0&&<>
                                                             <Descriptions.Item label="" span={3}><b>Cervical Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -815,7 +831,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Thoracic_Spine && <>
+                                                        {data.Thoracic_Spine && data.Thoracic_Spine.length>0 &&  <>
                                                             <Descriptions.Item label="" span={3}><b>Thoracic Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -839,7 +855,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Lumbar_Spine && <>
+                                                        {data.Lumbar_Spine && data.Lumbar_Spine.length>0 &&<>
                                                             <Descriptions.Item label="" span={3}><b>Lumbar Spine </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -863,7 +879,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Col lg={12} md={18} sm={12} xs={12}>
-                                                        {data.Forearm_wrist_Hand && <>
+                                                        {data.Forearm_wrist_Hand && data.Forearm_wrist_Hand.length>0 && <>
                                                             <Descriptions.Item label="" span={3}><b>Forearm_wrist_Hand </b></Descriptions.Item>
                                                             <table style={{ width: `${screen.width / 2}px` }} border='1px'>
                                                                 <tr>
@@ -886,12 +902,13 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     <Col lg={12} md={18} sm={12} xs={12}></Col>
                                                 </Row>
                                             </div>
+                                            </Panel>}
+                                            {<Panel header="Questionnaire" key="5">
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col md={24} lg={24} sm={24} xs={24}>
-                                                        <h4 className="p-2">Questionnaire </h4>
+                                                        {/* <h4 className="p-2">Questionnaire </h4> */}
                                                         <Descriptions bordered>
-                                                            <Descriptions.Item label="Index">{index}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Symptoms">{data.questionnaires.Symptoms[3] && data.questionnaires.Symptoms[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
@@ -903,28 +920,74 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                                 <Row gutter={[10, 10]} className="px-4 py-2"></Row>
                                             </div>
-                                            <div className=" border mb-3 mt-3" >
-
+                                            </Panel>}
+                                            {data.posture&&(data.posture['Posterial_view']||data.posture['lateral_view'])&&
+                                            <Panel header="Posture Analysis" key="6">
+                                            <div className=" border mb-3 mt-3">
+                                             {/* <Row className="border">
+                                               <Col md={24} lg={24} sm={24} xs={24}>
+                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
+                                               </Col>
+                                             </Row> */}
+                                             {data.posture['Posterial_view']&&<Row gutter={[10, 10]} className="px-4 py-2">
+                                             <Col md={24} lg={24} sm={24} xs={24}>
+                                                <Descriptions title="" >
+                                                <Descriptions.Item label="Notes ">{Object.keys(data.posture).length > 0&&data.posture['Notes'] }</Descriptions.Item>
+                                                    </Descriptions>
+                                                </Col>
+                                              <Col md={24} lg={24} sm={24} xs={24}>
+                                              <Descriptions title="Anterior" bordered>
+                                             {<Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}
+                                              {<Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[1]}</Descriptions.Item>}
+                                                 {<Descriptions.Item label=" Umbilicus">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]}</Descriptions.Item>}
+                                                  {<Descriptions.Item label="Knees">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]}</Descriptions.Item>}
+                                                 {<Descriptions.Item label="Ankle/Foot">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]}</Descriptions.Item>}
+                                              </Descriptions>
+                                              </Col>
+                                              <Descriptions title="">
+                                                 {data.posture['Posterial_view'].checkBox.map(ob=>
+                                                   <>{ob[1]==1&& <Descriptions.Item label=""><Badge color="#000000"/>{ob[0]}</Descriptions.Item>}</>)}
+                                              </Descriptions>
+                                                </Row>}
+                                             {data.posture['lateral_view']&& <Row gutter={[10, 10]} className="px-4 py-2">
+                                                <Col md={24} lg={24} sm={24} xs={24}>
+                                              <Descriptions title="Lateral" bordered>
+                                              <Descriptions.Item label="Head deviation">{Object.keys(data.posture).length > 0 &&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[0]}</Descriptions.Item>
+                                              <Descriptions.Item label="Shoulder">{Object.keys(data.posture).length > 0 &&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[1]}</Descriptions.Item>
+                                                <Descriptions.Item label="Hip/Pelvic Deviation">{Object.keys(data.posture).length > 0&&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[2]}</Descriptions.Item>
+                                                 <Descriptions.Item label="Knees Deviation">{Object.keys(data.posture).length > 0&&data.posture['lateral_view']&&data.posture['lateral_view'].Angles[3]}</Descriptions.Item>
+                                             </Descriptions>
+                                          </Col>
+                                          <Descriptions title="">
+                                                 {data.posture['lateral_view'].checkBox.map(ob=>
+                                                   <>{ob[1]==1&& <Descriptions.Item label=""><Badge color="#000000"/>{ob[0]}</Descriptions.Item>}</>)}
+                                              </Descriptions>
+                                         </Row>}
+                                        </div></Panel>}
+                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="ROM Assesment" key="7"> <div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
-                                                    <Row className="border">
+                                                    {/* <Row className="border">
                                                         <Col md={24} lg={24} sm={24} xs={24}>
                                                             <h4 className="p-2">ROM Assesment</h4>
                                                         </Col>
-                                                    </Row>
+                                                    </Row> */}
                                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} />
+                                                            {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
                                                         </Col>
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table2 ? dataArray[paginationState.current - 1].table2 : tableNOdata2 : tableNOdata2} />'
+                                                            {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
                                                         </Col>
                                                     </Row>
 
                                                 </div>
 
 
-                                            </div>
+                                            </div> </Panel> }
+                                            </Collapse>
                                             <center>
                                                 <Pagination
                                                     pageSize={paginationState.pageSize}

@@ -5,7 +5,8 @@ import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
-const SpecialTest = () => {
+import BackButton from "../../PatientComponents/shared/BackButton";
+const SpecialTest = ({setActive,back,next}) => {
   const { Panel } = Collapse;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -54,7 +55,15 @@ const SpecialTest = () => {
     };
   }, [history]);
   const handleSubmit = () => {
+    //setActive(4)
     if (window.confirm("Special Test data will be saved")) {
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "special_visibility",
+          value: 'block',
+        },
+      });
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -123,18 +132,18 @@ const SpecialTest = () => {
   };
   return (
     <>
-      <Form>
+      <Form className="p-3">
         <Row>
           <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
-            <h2>Special Test Type</h2>{" "}
+            <h3><b>Special Test Type</b></h3>{" "}
           </Col>
         </Row>
-        <div className="border mb-3" style={{ paddingTop: "40px" }}>
+        <div className="mb-3 special-test" style={{ paddingTop: "15px" }}>
           <Collapse
           accordion
             defaultActiveKey={["1"]}
-            style={{ width: `${screen.width / 2}px` }}
+            // style={{ width: `${screen.width / 2}px` }}
           >
             <Panel header="Shoulder" key="1" className="bold">
               <table style={{ width: "100%" }}>
@@ -390,7 +399,7 @@ const SpecialTest = () => {
             </Panel>
           </Collapse>
           <button
-            onClick={() => history.push("/assessment/1")}
+            onClick={() => history.goBack()}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
               marginTop: "10px",
@@ -399,7 +408,7 @@ const SpecialTest = () => {
             Back
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
-            Submit
+            Save
           </button>
         </div>
       </Form>

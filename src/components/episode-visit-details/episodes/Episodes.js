@@ -210,7 +210,7 @@ const Episodes = ({ handleClick2 }) => {
         return (
             <React.Fragment>
 
-                <Col span={24}>
+                <Col span={24} className="mb-3">
                     <Row>
                         <Col lg={18} md={18} sm={18} xs={24}>
                             <h4 className="fw-bold">All Episodes</h4>
@@ -239,7 +239,7 @@ const Episodes = ({ handleClick2 }) => {
                                    <p className="p"><b> Start Date </b>: {episode.start_date}</p>
                                     <p className="p"><b> Operative Types:</b> {episode.Operative_Types}</p>
                                     { episode.end_date ? <p><b>End Date : </b>  {episode.end_date} </p> : null}
-                                                                <div className="text-end me-5">
+                                    <div className="text-center me-5">
                                                                     {/* Dipsikha 23/10 */}
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>

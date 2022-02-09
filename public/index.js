@@ -93,10 +93,12 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
       AI_Data = JSON.parse(e.srcElement.result)
+      console.log("Ai data from patient:",AI_Data)
+      console.log("Stringified patient data:", JSON.stringify(AI_Data))
       if(AI_Data!=""){
-      console.log(AI_Data)   
-      localStorage.setItem("AI_Data",JSON.stringify(AI_Data));  
-      alert("Data Successfully Received!")
+        console.log("AI data from patient side to physio:" , {AI_Data})   
+        localStorage.setItem("AI_Data",JSON.stringify(AI_Data));  
+        alert("Data Successfully Received!")
       }
       else{
       alert("Data Not Received")

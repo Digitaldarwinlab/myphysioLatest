@@ -10,6 +10,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { Label } from "devextreme-react/chart";
 import { useHistory } from "react-router";
 import FormInput from '../UI/antInputs/FormInput';
+import BackButton from "../../PatientComponents/shared/BackButton";
 const marks = {
   0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
   2: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
@@ -20,7 +21,7 @@ const marks = {
   8: <i class="far fa-frown" style={{ fontSize: 25, color: "orange" }}></i>,
   10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
-const PainAssessment = () => {
+const PainAssessment = ({setActive ,next}) => {
   const history = useHistory();
   const [form] = Form.useForm();
   // const[value, setValue]=useState();
@@ -210,6 +211,8 @@ const PainAssessment = () => {
     return
   }
   const saveData=()=>{
+   // setActive(3)
+    console.log("save")
     if(window.confirm("pain assessment data will save")){
       state.FirstAssesment.pain_state=true
       history.push('/assessment/1')
@@ -220,7 +223,7 @@ const PainAssessment = () => {
       <Row>
         <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
-          <h2>Pain Assesment</h2>{" "}
+          <h4><b>Pain Assesment</b></h4>{" "}
         </Col>
         {/* <Col md={24} lg={24} sm={24} xs={24}>
           <DummyBody />
@@ -241,7 +244,7 @@ const PainAssessment = () => {
               ></Form.Item>
               <Radio.Group
                 name="Nature Of Pain"
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px", paddingTop: "15px" }}
                 onChange={(e) =>
                   handleChange1("nature_of_pain", e.target.value)
                 }
@@ -267,7 +270,7 @@ const PainAssessment = () => {
                 label="Pain Scale"
                 name="Pain Scale"
               ></Form.Item>
-              <div style={{ paddingLeft: "25px" }}>
+              <div style={{ paddingLeft: "0px", paddingTop: "10px", paddingBottom: "10px" }}>
                 <Slider marks={marks1} min={0} max={10} step={2}
                   onChange={(value) => handleChange1("pain_scale", value)}
                   defaultValue={state.FirstAssesment.pain_scale}
@@ -281,7 +284,7 @@ const PainAssessment = () => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
               <Form.Item
@@ -289,7 +292,7 @@ const PainAssessment = () => {
                 name="Pain Aggravating"
               ></Form.Item>
               <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px",  paddingTop: "10px", paddingBottom: "10px" }}
                 options={plainOptions}
                 onChange={(e) => handleChange1("pain_aggravating", e)}
                 name="Pain Aggravating"
@@ -300,7 +303,7 @@ const PainAssessment = () => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
               <Form.Item
@@ -308,7 +311,7 @@ const PainAssessment = () => {
                 name="Pain Relieving"
               ></Form.Item>
               <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                style={{ paddingLeft: "0px", paddingTop: "10px", paddingBottom: "10px" }}
                 name="Pain Relieving"
                 onChange={(e) => handleChange1("pain_relieving", e)}
                 options={plainOptions1}
@@ -316,7 +319,7 @@ const PainAssessment = () => {
             </Col>
             <Col
              md={24} lg={12} sm={24} xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
             <FormInput label="Scars"
@@ -332,10 +335,10 @@ const PainAssessment = () => {
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{ paddingTop: "10px" }}
+                  className="mt-3 AreasMain"
                 >
-                  Swelling :
+                  <b>Swelling :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("pain_swelling", e.target.value)}
                     name="pain_swelling"
@@ -350,22 +353,22 @@ const PainAssessment = () => {
               lg={24}
               sm={24}
               xs={24}
-              style={{ paddingTop: "20px" }}
+              style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
-              <Card title="Sensory Input" style={{ width: 500 }}>
+              <Card title="Sensory Input" style={{   }}>
                 <Col
                   md={24}
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{}}
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Superficial :
+                  <b>Superficial :</b>
                   <Radio.Group
                     name="Superficial"
-                    style={{ paddingLeft: "20px" }}
+                    style={{ paddingLeft: "20px", paddingTop: "10px", paddingBottom: "10px" }}
                     onChange={(e) =>
                       handleChange1("superficial", e.target.value)
                     }
@@ -380,14 +383,14 @@ const PainAssessment = () => {
                   lg={24}
                   sm={24}
                   xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  style={{ paddingTop: "10px" }}
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Deep :
+                  <b>Deep :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("deep", e.target.value)}
                     name="Deep"
-                    style={{ paddingLeft: "53px" }}
+                    style={{ paddingLeft: "60px" }}
                   >
                     <Radio value={"Intact"}>Intact</Radio>
                     <Radio value={"Impaired"}>Impaired</Radio>
@@ -400,13 +403,13 @@ const PainAssessment = () => {
                   sm={24}
                   xs={24}
                   style={{ paddingTop: "20px" }}
-                  className="mt-2 AreasMain"
+                  className="mt-2 px-3 AreasMain"
                 >
-                  Cortial :
+                  <b>Cortial :</b>
                   <Radio.Group
                     onChange={(e) => handleChange1("cortial", e.target.value)}
                     name="Cortial"
-                    style={{ paddingLeft: "45px" }}
+                    style={{ paddingLeft: "50px" }}
                   >
                     <Radio value={"Intact"}>Intact</Radio>
                     <Radio value={"Impaired"}>Impaired</Radio>
@@ -415,9 +418,9 @@ const PainAssessment = () => {
                 </Col>
               </Card>
             </Col>
-            <div className="text-center mb-3">
-            <button onClick={goBack}>Back</button>
-              <button style={{marginLeft:"20px"}} onClick={saveData}>Save</button>
+            <div className="text-center mb-3 mt-3">
+              <button onClick={goBack}>Back</button>
+              <button style={{marginLeft:"20px"}} onClick={saveData}>next</button>
             </div>
           </Form>
         </Col>
