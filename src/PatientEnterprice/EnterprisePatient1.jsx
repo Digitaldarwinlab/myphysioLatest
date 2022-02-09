@@ -19,6 +19,7 @@ const EnterprisePatient1 = () => {
             <PatDetails title={val.title} />
         );
     }
+    console.log("Inside Enterprise patient1 page component")
     return (
         <>
         <div>
