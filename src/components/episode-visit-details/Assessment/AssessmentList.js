@@ -588,6 +588,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                                         <>
                                         <Collapse defaultActiveKey={['1']} >
+                                        {(data.physical_assessement.Built.length>0||data.physical_assessement.History.length>0||
+                                        data.physical_assessement.chiefCom.length>0||data.physical_assessement.past_medical_history.length>0||
+                                        (data.physical_assessement.Subjective[0].occupation.length>0&&data.physical_assessement.Subjective[0].duration.length>0))&&
                                         <Panel header="Physical Assesment" key="1" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
@@ -622,22 +625,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         <td>{data.duration}</td>
                                                     </tr>)}
                                                 </table>
-                                                {/* <List
-                                                    grid={{ gutter: 24, column: 2 }}
-                                                    dataSource={data.physical_assessement.Subjective}
-                                                    renderItem={item => (
-                                                    <>
-                                                    <List.Item>
-                                                     Occupation : {item.occupation}
-                                                     </List.Item>
-                                                     <List.Item>
-                                                     Duration : {item.duration}
-                                                 </List.Item>
-                                                 </>
-                                                 )}
-                                                /> */}
                                                 </Row></> }
-                                                </Panel>
+                                                </Panel>}
                                             {/* </div> */}
                                             {data.body_image&&
                                                <Panel header="Joints Selected" key="2">
@@ -645,13 +634,18 @@ const AssessmentList = ({ assesmentClick }) => {
                                          <h4 className="p-2">Joints Selected  </h4>
                                                 <img src ={data.body_image} />
                                             </div></Panel>}
-                                            <Panel header="Pain Assesment" key="3">
+                                            {(data.nature_of_pain.length>0||data.pain_scale>0||data.pain_scars.length>0||
+                                            (data.pain_aggravating !== undefined && data.pain_aggravating.length > 0)||
+                                            (data.pain_relieving !== undefined && data.pain_relieving.length > 0 )||
+                                            (data.sensory_input['superficial'].length>0||data.sensory_input['deep'].length>0||data.sensory_input['cortial'].length>0))
+                                            &&<Panel header="Pain Assesment" key="3">
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         <h4 className="p-2">Pain Assesment</h4>
                                                     </Col>
                                                 </Row> */}
+                                                
                                                 <Row gutter={[10, 10]} className="px-4 py-2">
                                                     <Descriptions>
                                                         <Descriptions.Item label="Nature Of Pain">{data.nature_of_pain ? data.nature_of_pain : "not available"}</Descriptions.Item>
@@ -675,7 +669,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     </Descriptions>
                                                 </Row>
                                             </div>
-                                            </Panel>
+                                            </Panel>}
                                             {(data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow)&&
                                                 <Panel header="Special Test" key="4">
                                             <div className=" border mb-3 mt-3">
@@ -964,7 +958,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               </Descriptions>
                                          </Row>}
                                         </div></Panel>}
-                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="ROM Assesment" key="7"> <div className=" border mb-3 mt-3" >
+                                            {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="AROM Assessment" key="7"> <div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
                                                     {/* <Row className="border">

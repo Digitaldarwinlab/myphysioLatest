@@ -114,7 +114,6 @@ function Tabs({
                   style={{ width: "100%" }}
                   onChange={(e) =>{
                     onChangeFront(e)
-                    darwin.restart()
                   }
                   } 
                 >

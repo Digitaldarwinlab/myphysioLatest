@@ -78,6 +78,14 @@ const Register1 = (props) => {
                 }
             });
             setNewAge(Age);
+        }else if(key === "FirstName" || key==="LastName"){
+            dispatch({
+                type: STATECHANGE,
+                payload: {
+                    key,
+                    value:value[0].toUpperCase()+value.slice(1, value.length)
+                }
+            });
         }
 
        
@@ -264,7 +272,7 @@ const Register1 = (props) => {
                             <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'First Name'}</span>}
                                 name="FirstName"
                                 className="input-field w-100 text-capitalize"
-                                value={state.BasicDetails.FirstName}
+                              //  value={state.BasicDetails.FirstName}
                                 placeholder="Enter Patient First Name"
                                 required={true}
                                 onChange={handleChange}
@@ -288,8 +296,8 @@ const Register1 = (props) => {
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{fontSize:'15px',fontWeight:'600'}}>{'Last Name'}</span>}
                                 name="LastName"
-                                className="input-field w-100"
-                                value={state.BasicDetails.LastName}
+                                className="input-field w-100 text-capitalize"
+                              //  value={state.BasicDetails.LastName}
                                 placeholder="Enter Patient Last Name"
                                 required={true}
                                 onChange={handleChange}
@@ -307,7 +315,7 @@ const Register1 = (props) => {
                                 reverse="true"
                                 className="input-field w-100"
                                 value={startDateState}
-                                required={false}
+                                required={true}
                               
                                 onChange={handleChange}
                                // onBlur={handleBlur}

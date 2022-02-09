@@ -60,9 +60,11 @@ useEffect(() => {
         console.log('calcu ',state.FirstAssesment)
         let temp = []
         Object.keys(state.FirstAssesment.Questionnaire.question).map((data,index)=>{
-            state.FirstAssesment.Questionnaire.question[data].questions.map(d=>{
-                temp.push(d[0])
-            })
+            if(data!=="description"){
+                state.FirstAssesment.Questionnaire.question[data].questions.map(d=>{
+                    temp.push(d[0])
+                })
+            }
         })
         console.log("calculate length1 ",temp.length)
         console.log('calcu ',questLabel)
@@ -89,6 +91,7 @@ useEffect(() => {
                     calcKOOS(state.FirstAssesment[lab].score)
                 }
             })
+            
             dispatch({
                 type: STATECHANGE,
                 payload: {
@@ -130,7 +133,7 @@ useEffect(() => {
             >
             {Object.keys(state.FirstAssesment.Questionnaire.question).map((data,index)=><>
             {data!=='description'&&
-                <Panel header={data} key="1" className="bold">
+                <Panel header={data} key={data+index} className="bold">
                 <div className="ps-4">
                     <h5>{state.FirstAssesment.Questionnaire.question[data].description&&state.FirstAssesment.Questionnaire.question[data].description}</h5>
 

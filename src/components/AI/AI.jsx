@@ -113,7 +113,7 @@ class AI extends Component {
     }
 
 
-    back = () => {
+    back = () => { 
         const video = document.getElementById('video');
 
 
@@ -302,13 +302,32 @@ class AI extends Component {
 
         }
         else {
-            this.props.FirstAssesment("AI_data", data)
-            this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-            notification.success({
-                message: 'Angles have been calculated',
-                placement: 'bottomLeft',
-                duration: 2
-            })
+            console.log("Ai data ",this.props.history.location.state.Excercise.length)
+            console.log("Ai data ",data)
+            console.log("Ai data ",data[this.props.history.location.state.Excercise[0]])
+            console.log("Ai data ",this.props.history.location.state.Excercise)
+            if(this.props.history.location.state.Excercise.length===1){
+                console.log("Ai data ",data[this.props.history.location.state.Excercise[0]])
+                let name = {}
+                name[this.props.history.location.state.Excercise[0]] = data[this.props.history.location.state.Excercise[0]]
+                this.props.FirstAssesment("AI_data", name)
+                this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+                console.log("Ai data captured if ",name)
+                notification.success({
+                    message: 'Angles have been calculated',
+                    placement: 'bottomLeft',
+                    duration: 2
+                })
+            }else{
+                console.log("Ai data captured else ",data)
+                this.props.FirstAssesment("AI_data", data)
+                this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+                notification.success({
+                    message: 'Angles have been calculated',
+                    placement: 'bottomLeft',
+                    duration: 2
+                })
+            }
         }
        
       //const response=  await add_angles(this.array)
@@ -501,7 +520,8 @@ class AI extends Component {
         }
     }
     componentDidMount() {
-        
+        this.props.FirstAssesment("AI_data", "")
+        this.props.FirstAssesment("Exercise_Name", "")
         const video = document.getElementById('video');
         const canvas = document.getElementById('output');
         const myVideo = document.getElementById('Ai_vid')

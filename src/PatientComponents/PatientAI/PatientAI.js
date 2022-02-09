@@ -293,7 +293,7 @@ class PatientAI extends Component {
                 
                 state: { autorefresh: 1 }
               })
-            this.props.history.push('/patient/schedule');
+          //  this.props.history.push('/patient/schedule');
     }
     //Green Channel 
     Statistics = () => {

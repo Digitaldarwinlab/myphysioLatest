@@ -31,14 +31,16 @@ const AddQuestions = ({back,next}) => {
     console.log('res data ',data)
     let temp = []
     Object.keys(data.question).map((d,index)=>{
-      temp.push(d)
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key: d,
-          value: {score:[],question:[],answer:[]}
-        }
-      });
+      if(d!=='description'){
+        temp.push(d)
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key: d,
+            value: {score:[],question:[],answer:[]}
+          }
+        });
+      }
   })
   setQuestLabel(temp)
   console.log('calcu ',temp)
