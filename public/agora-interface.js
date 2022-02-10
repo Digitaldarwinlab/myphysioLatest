@@ -160,8 +160,68 @@ function joinChannel(channelName, uid, token) {
   );
 }
 
+// const getAllVideoInputs = async () => {
+//   try{
+//     const devices = await navigator.mediaDevices.enumerateDevices()
+//     // Device options will store info about all video devices detected
+//     const deviceOptions = []
+//     devices.forEach( ({ kind, deviceId, label }) => {
+//       if( kind === "videoinput" ){
+//         const newDevice = {
+//           deviceId,
+//           label
+//         }
+//         deviceOptions.push(newDevice)
+//       }
+//     })
+    
+//     return deviceOptions
+//   }catch( err ) {
+//     console.log("Video devices detection error : ", err)
+//     return []
+//   }
+  
+// }
+
+// // NOTE : Probably here get all media of user
+
 // Helper functions to initialize user web streams
 function getUserVideo() {
+
+
+  // deviceOptions will store all detected video inputs and store there deviceID and label 
+  // const allVideoDevices = await getAllVideoInputs()
+  //now need to figure out which one is external camera
+  //then call the getUserMedia for that device and return
+  
+  // const videoOption = {
+  //   frameRate : { ideal : cameraFR }
+  // }
+  
+  //Test code assuming 2nd device is the external  
+  // if( allVideoDevices.length > 1 ) {
+  //   //can give user options to choose device by setting this object in redux store
+  //   // and accordingly when user selects a device, we update the selected deivce in the reux store
+  //   //UI updates accordingly, and here also we get info about from where videostream is to be taken
+
+  //   //time being taking the 2nd device to be external camera
+  //   const [ , externalCamera ] = allVideoDevices
+    
+  //   videoOption.deviceId = externalCamera.deviceId
+  // }
+  // else {
+  //   const [ inbuiltCamera ] = allVideoDevices
+  //   videoOption.deviceId = inbuiltCamera.deviceId
+  // }
+
+  // const cameraMediaOptions = {
+  //   audio : false,
+  //   video : videoOption
+  // }
+  //Test code, need to debug intermediate values so not using currently 
+
+  // return navigator.mediaDevices.getUserMedia(cameraMediaOptions)
+
   return navigator.mediaDevices.getUserMedia({
     video: true,
     audio: false,

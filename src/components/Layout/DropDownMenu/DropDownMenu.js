@@ -1,15 +1,18 @@
-import React, { useCallback ,useState ,useEffect} from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { Items } from './Items';
 import { Menu } from 'antd';
 import { GoCalendar } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
-import {FiSettings} from "react-icons"
-const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
+import { FiSettings } from "react-icons"
+const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu }) => {
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" };
     const [activeDevice, setActiveDevice] = useState({ deviceId: "", label: "" });
     const [devices, setDevices] = useState([]);
-    let temp= [
+    const [showDevice, setshowDevices] = useState(true);
+
+    console.log(showMenu);
+    let temp = [
         {
             "deviceId": "ee7c0889458681b465b13bdaf9ad0afa498065d50b02dc4b6c84140943d3fc9c",
             "kind": "videoinput",
@@ -25,42 +28,50 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
     ]
     const handleDevices = useCallback(
         (mediaDevices) =>
-          setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+            setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
         [setDevices]
-      );
+    );
     useEffect(() => {
         const fetch = async () => {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-    
-          handleDevices(devices);
+            const devices = await navigator.mediaDevices.enumerateDevices();
+
+            handleDevices(devices);
         };
-    
+
         fetch();
-      }, [handleDevices]);
-      const clickHandler = (id) => {
+    }, [handleDevices]);
+    const clickHandler = (id) => {
         darwin.cameraId(id)
-        setShowMenu(false)
-      }
+        console.log("isClocked")
+        setshowDevices(prev => !prev);
+    }
     console.log("devices")
+
+    useEffect(() => {
+        if (showMenu) {
+            setshowDevices(true);
+        }
+    }, [showMenu])
+
     const AdminMenu = () => {
         return (
             <>
-            {showMenu?  <>
-                {
-                    devices.map((item, index) => {
-                        return (
-                            <Menu.Item key={index}
-                            onClick={()=>clickHandler(item.deviceId)} 
-                                style={{ borderTop:"solid 1px black",marginTop:'0px' }}
-                            >
-                                <Link  className="text-secondary text-decoration-none">
+                {showDevice && <>
+                    {
+                        devices.map((item, index) => {
+                            return (
+                                <Menu.Item key={index}
+                                    onClick={() => clickHandler(item.deviceId)}
+                                    style={{ borderTop: "solid 1px black", marginTop: '0px' }}
+                                >
+
                                     {item.label}
-                                </Link>
-                            </Menu.Item>
-                        )
-                    })
-                }
-            </>:''}
+
+                                </Menu.Item>
+                            )
+                        })
+                    }
+                </>}
             </>
         )
     }
@@ -100,7 +111,7 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon={<GoCalendar className="iconClass2" />}
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/patient/schedule" className="text-secondary text-decoration-none">
                         Schedule
@@ -110,7 +121,7 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon={<CgProfile className="iconClass2" />}
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/patient/profile" className="text-secondary text-decoration-none">
                         Account
@@ -120,7 +131,7 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}
                     icon=""
-                    style={{ }}
+                    style={{}}
                 >
                     <Link to="/logout" className="text-secondary text-decoration-none">
                         Logout

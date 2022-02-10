@@ -48,9 +48,10 @@ const PatientVideoCallIndex = (props) => {
     var agoraAppId = "f31ea0f88fcf4974a349448e69d35c1d"
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
-    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
-    const data = await res.json();
-    var token = data.rtcToken
+    // const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
+    // const data = await res.json();
+    // var token = data.rtcToken
+    var token = "006f31ea0f88fcf4974a349448e69d35c1dIAAaMqon2/UELAV1QJTZPlrYWQHoJ3IeKUgq6Vg5/KGF4JIyJe6379yDEACUGqIFTpHaYQEAAQDeTdlh"
     setModalvisible(false)
     ClientAndJoinChannel(
       agoraAppId,

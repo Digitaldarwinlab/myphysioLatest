@@ -22,6 +22,6 @@ export const rootReducer = combineReducers({
     FirstAssesment: FirstAssesment,
     PateintConsentReducer: PateintConsentReducer,
     carePlanRedcucer: carePlanRedcucer,
-    patCurrentEpisode: patCurrentEpisode
+    patCurrentEpisode: patCurrentEpisode,
 });
 
