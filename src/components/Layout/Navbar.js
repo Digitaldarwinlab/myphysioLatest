@@ -95,7 +95,7 @@ const Navigationbar = (props) => {
 							<Link to="/patient/schedule">
 								<h4 className="text-white me-3 "><GoCalendar />{" "}Schedule</h4>
 							</Link>)
-						: (<Dropdown overlay={<DropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} getCurrentPath={props.getCurrentPath} />} trigger={['click']}>
+						:<> (<Dropdown overlay={<DropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} getCurrentPath={props.getCurrentPath} />} trigger={['click']}>
 						{/* : (<Dropdown overlay={<Devices />} trigger={['click']}> */}
 							<a className="ant-dropdown-link text-white" onClick={e => {
 								setShowMenu(!showMenu)
@@ -104,7 +104,7 @@ const Navigationbar = (props) => {
 								<DiAptana />
 								{/* {!showMenu ? <IoMdArrowDropdown size={25} /> : <IoMdArrowDropup size={25} />} */}
 							</a>
-						</Dropdown>)
+						</Dropdown>) </>
 						//:<Devices />
 					}
 

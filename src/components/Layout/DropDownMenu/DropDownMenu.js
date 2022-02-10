@@ -45,7 +45,7 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
     const AdminMenu = () => {
         return (
             <>
-            {showMenu&&  <>
+            {showMenu?  <>
                 {
                     devices.map((item, index) => {
                         return (
@@ -60,7 +60,7 @@ const DropDownMenu = ({ getCurrentPath , setShowMenu ,showMenu }) => {
                         )
                     })
                 }
-            </>}
+            </>:''}
             </>
         )
     }
