@@ -98,7 +98,7 @@ const Navigationbar = (props) => {
 						: (<Dropdown overlay={<DropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} getCurrentPath={props.getCurrentPath} />} trigger={['click']}>
 						{/* : (<Dropdown overlay={<Devices />} trigger={['click']}> */}
 							<a className="ant-dropdown-link text-white" onClick={e => {
-								setShowMenu(!showMenu)
+								setShowMenu(prev => !prev)
 								e.preventDefault()
 							}}>
 								<DiAptana />
