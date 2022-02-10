@@ -12,13 +12,13 @@ import { GoCalendar } from "react-icons/go";
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FaWindowClose} from 'react-icons/fa'
 
-import {DiAptana} from 'react-icons/di'
+import {IoMdVideocam} from 'react-icons/io'
 const Navigationbar = (props) => {
 //	console.log(props)
 	const [showMenu, setShowMenu] = useState(false);
 	const [showToggleMenu, setShowToggleMenu] = useState(false);
 	const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio", info: { first_name: "User" } };
-
+	const [disCamSelection ,setDisCamSelection ] = useState(false)
 	const LogoutMenu = () => {
 		return (
 			<Menu className="dropDownMenu UserDropDown">
@@ -92,19 +92,20 @@ const Navigationbar = (props) => {
 				<div className="d-inline-flex p-2 text-white navigationMenu topScheduleIcon" >
 				{(userInfo.role !== "admin" && userInfo.role !== "physio")
 						? (
+							
 							<Link to="/patient/schedule">
 								<h4 className="text-white me-3 "><GoCalendar />{" "}Schedule</h4>
 							</Link>)
-						:<> (<Dropdown overlay={<DropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} getCurrentPath={props.getCurrentPath} />} trigger={['click']}>
+						:<> <Dropdown disabled={disCamSelection} overlay={<DropDownMenu setDisCamSelection={setDisCamSelection} setShowMenu={setShowMenu} showMenu={showMenu} getCurrentPath={props.getCurrentPath} />} trigger={['click']}>
 						{/* : (<Dropdown overlay={<Devices />} trigger={['click']}> */}
 							<a className="ant-dropdown-link text-white" onClick={e => {
 								setShowMenu(prev => !prev)
 								e.preventDefault()
 							}}>
-								<DiAptana />
+								<IoMdVideocam />
 								{/* {!showMenu ? <IoMdArrowDropdown size={25} /> : <IoMdArrowDropup size={25} />} */}
 							</a>
-						</Dropdown>) </>
+						</Dropdown> </>
 						//:<Devices />
 					}
 

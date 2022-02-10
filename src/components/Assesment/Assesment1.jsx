@@ -747,7 +747,7 @@ const [tempstate ,setTemp] = useState(true)
               prevpath: "/assesment"
           }
       });
-      // console.log(Object.keys(MuscleJoint));
+    //  console.log(Object.keys(MuscleJoint));
   }
 
 

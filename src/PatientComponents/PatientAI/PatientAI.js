@@ -288,12 +288,13 @@ class PatientAI extends Component {
             catch (err) {
                 console.log(err)
             }
-            this.props.history.push({
-                pathname: '/patient/schedule',
+            // this.props.history.push({
+            //     pathname: '/patient/schedule',
                 
-                state: { autorefresh: 1 }
-              })
-          //  this.props.history.push('/patient/schedule');
+            //     state: { autorefresh: 1 }
+            //   })
+          this.props.history.push('/patient/schedule');
+          window.location.reload();
     }
     //Green Channel 
     Statistics = () => {
@@ -611,10 +612,12 @@ class PatientAI extends Component {
                 </div>
                 <Modal
                     title=""
-                    closable
+                    //closable
                     visible={this.state.visible}
                     footer={null}
-                    onCancel={() => this.setState({ visible: false })}
+                    closable={false}
+                    keyboard={false}
+                   // onCancel={() => this.setState({ visible: false })}
                 >
                     <h3 className="fw-bold text-center">Congratulation</h3>
                     <p className="p text-center mt-2">You have successfully completed the session.</p>
