@@ -366,11 +366,12 @@ class PatientAI extends Component {
                    selJoints:[...prevState.selJoints, romarr]
                }))
             })
-           
-            this.setState((prevState, props) => ({
-                selectedJoint:  Rom.joint
-              }));
-              this.setState({ selectedJoint:  Rom.joint});
+           exercise.exercises.map(ex=>{
+               this.setState((prevState, props) => ({
+                   selectedJoint: [...prevState.selectedJoint, ex.Rom.joint]
+                 }));
+           })
+            //  this.setState({ selectedJoint:  Rom.joint});
         }
        // console.log("check id after",this.state.careplanId)
         var video = document.getElementById('video');
@@ -407,92 +408,105 @@ class PatientAI extends Component {
         //this.props.history.location.state.exercises.map()
         if(this.state.launch==="start"){
         let temp = []
-        console.log("selected joint :" +this.state.selectedJoint)
+        console.log("selected joint :" ,this.state.selectedJoint)
         console.log('joints ',this.state.selJoints)
-       for(let i=0;i<this.props.history.location.state.exercises.length;i++){
-           let primaryAngles = []
-        for (let i = 0; i < joints.length; i++) {
-            if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && !this.state.selectedJoint.includes('Wrist')) {
-                primaryAngles.push(joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+        this.props.history.location.state.exercises.map(ex=>{ 
+            console.log("aaaaaaa",ex)
+            joints.map(jo=>{
+                if(ex["Rom"].joint.includes(jo.label)){
+                    console.log('valuueee ',[jo.value,jo.value+1])
+                    temp.push([jo.value,jo.value+1])
+                }
+            })
+        })    
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && !this.state.selectedJoint.includes('Shoulder')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 1 value", joints[i].value)
-                primaryAngles.push((joints[i].value) - 1)
-                break;
+        // for (let i = 0; i < joints.length; i++) {
+        //     let primaryAngles = []
+        //     console.log("checking ",joints[i].label)
+        //     if (this.state.selectedJoint.includes(joints[i].label)) {
+        //         console.log("joints 0 value", joints[i].value)
+        //         primaryAngles.push(joints[i].value)
+        //         primaryAngles.push((joints[i].value) + 1)
+              
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Shoulder')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 2 value", joints[i].value)
-                primaryAngles.push((joints[i].value) - 1)
-                break;
+        //     } 
+            // else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 1 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) - 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Pelvic')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 3 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 2 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) - 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Pelvic')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 4 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 3 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Elbow')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 5 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 4 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Elbow')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 6 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 5 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Hip')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 7 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label)) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 6 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Hip')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 8 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Hip')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 7 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Knee')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 9 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Hip')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 8 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Knee')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 10 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Knee')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 9 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Neck')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 11 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Knee')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 10 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Neck')) {
-                primaryAngles.push(joints[i].value)
-                console.log("joints 12 value", joints[i].value)
-                primaryAngles.push((joints[i].value) + 1)
-                break;
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Neck')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 11 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
 
-            }
-        }
-        temp.push(primaryAngles)
-    }
+            // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Neck')) {
+            //     primaryAngles.push(joints[i].value)
+            //     console.log("joints 12 value", joints[i].value)
+            //     primaryAngles.push((joints[i].value) + 1)
+            //     break;
+
+            // }
+          //  console.log('primary angles ',primaryAngles)
+            //temp.push(primaryAngles)
+       //  }
+    
     console.log("temp primary ",temp)
     console.log("temp selected ",this.state.selJoints)
     let exArr = []

@@ -740,6 +740,7 @@ const [tempstate ,setTemp] = useState(true)
           return false
       }
       console.log("values ", MuscleJoint)
+      console.log("values ", BodyParts)
       history.push({
           pathname: "/care-plan", state: {
               Joints: Object.keys(MuscleJoint),
