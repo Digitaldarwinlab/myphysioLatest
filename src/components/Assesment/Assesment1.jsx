@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
@@ -145,6 +145,8 @@ const Assesment1 = ({back ,next}) => {
 
   }, [])
 
+  
+
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -174,7 +176,7 @@ const Assesment1 = ({back ,next}) => {
       }
     });
 
-
+ 
   
 
 
@@ -191,6 +193,17 @@ const Assesment1 = ({back ,next}) => {
     };
 
   }, [history, state.FirstAssesment.episode_id])
+
+  const setJoints =useCallback((joints) => {
+    console.log(joints);
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+          key:'allJoint',
+          value:joints
+      }
+  });
+  },[dispatch])
 
 
   const com = () => {
@@ -1476,7 +1489,7 @@ const [tempstate ,setTemp] = useState(true)
              </div>
          </Col>
      </Row> */}
-<Body />
+<Body set={setJoints}/>
 
  </>
 

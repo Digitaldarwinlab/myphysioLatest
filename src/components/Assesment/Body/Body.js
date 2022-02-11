@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./Body.css";
 // import paths from "./svg-path";
 import Path from "./Path";
@@ -20,16 +20,27 @@ const Body = (props) => {
   const [data, setData] = useState("Click on Body Part");
 
   const joints = useSelector(state => state.jointReducer.joints);
+  const [newJoints,setNewJoints] = useState([]);
+
+
   const dispatch = useDispatch();
+  const {set} = props;
 
-  let allJoints = [];
+
+  useEffect(()=>{
+    if(joints){
+      let allJoints = [];
   
-  for(let joint in joints){
-    allJoints.push(...joints[joint].joint);
-  }
+      for(let joint in joints){
+        allJoints.push(...joints[joint].joint);
+      }
+    
+      allJoints = [...new Set(allJoints)];
+      setNewJoints(allJoints);
+      set(allJoints)
+    }
+  },[joints,set,setNewJoints])
 
-  allJoints = [...new Set(allJoints)];
-  console.log(allJoints);
 
 
 
@@ -101,14 +112,14 @@ const Body = (props) => {
             ></div>
             <p>Burning</p>
           </div>
-
           <div className="color_text">
             <div
-              onClick={greenclickHandler}
-              className={greenClass}
-              style={{ backgroundColor: "#2EDC0C" }}
+              onClick={purpleclickHandler}
+              className={purpleClass}
+              style={{ backgroundColor: "#AA1D8C" }}
             ></div>
-            <p>Itching</p>
+            <p>Cutting</p>
+         
           </div>
 
           <div className="color_text">
@@ -117,7 +128,7 @@ const Body = (props) => {
               className={orangeClass}
               style={{ backgroundColor: "#ff9900" }}
             ></div>
-            <p>Pain</p>
+            <p>Aching</p>
           </div>
 
           <div className="color_text">
@@ -126,18 +137,20 @@ const Body = (props) => {
               className={blueClass}
               style={{ backgroundColor: "#3366ff" }}
             ></div>
-            <p>Cold</p>
+            <p>Freezing</p>
           </div>
-
           <div className="color_text">
             <div
-              onClick={purpleclickHandler}
-              className={purpleClass}
-              style={{ backgroundColor: "#AA1D8C" }}
+              onClick={greenclickHandler}
+              className={greenClass}
+              style={{ backgroundColor: "#2EDC0C" }}
             ></div>
-            <p>Burning</p>
+            <p>Numbness</p>
+
+          
           </div>
         </div>
+        <div class="both-body">
         <svg x="0px" y="0px" viewBox="0 0 612 792" class="body-svg">
           {front_paths.map((path) => (
             <Path
@@ -164,6 +177,7 @@ const Body = (props) => {
             />
           ))}
         </svg>
+        </div>
       </div>
     </>
   );

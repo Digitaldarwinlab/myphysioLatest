@@ -1,7 +1,12 @@
 
 
-.body-svg {
+/* .body-svg {
     width: 70%;
+} */
+
+.both-body {
+    width: 80%;
+    display: flex;
 }
 
 
@@ -11,7 +16,7 @@
 }
 
 .colors {
-    width: 30%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     margin-bottom: auto;
