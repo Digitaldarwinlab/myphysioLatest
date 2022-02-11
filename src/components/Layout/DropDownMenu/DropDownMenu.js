@@ -5,7 +5,7 @@ import { Menu } from 'antd';
 import { GoCalendar } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
 import { FiSettings } from "react-icons"
-const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu }) => {
+const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu,setDisCamSelection }) => {
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" };
     const [activeDevice, setActiveDevice] = useState({ deviceId: "", label: "" });
     const [devices, setDevices] = useState([]);
@@ -34,7 +34,7 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu }) => {
     useEffect(() => {
         const fetch = async () => {
             const devices = await navigator.mediaDevices.enumerateDevices();
-
+            console.log("available devices ",devices)
             handleDevices(devices);
         };
 
@@ -44,8 +44,8 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu }) => {
         darwin.cameraId(id)
         console.log("isClocked")
         setshowDevices(prev => !prev);
-    }
-    console.log("devices")
+        setDisCamSelection(true)
+    }   
 
     useEffect(() => {
         if (showMenu) {

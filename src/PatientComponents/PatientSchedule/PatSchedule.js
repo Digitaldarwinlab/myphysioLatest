@@ -51,6 +51,7 @@ const PatientSchedule = () => {
             } else {
                 console.log("ASDEFG");
                 if (location.state.autorefresh == 1) {
+                    location.state.autorefresh=0
                     console.log("ASDEFGh");
                     window.location.reload();
                 }
