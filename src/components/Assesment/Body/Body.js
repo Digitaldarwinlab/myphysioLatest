@@ -24,7 +24,7 @@ const Body = (props) => {
 
 
   const dispatch = useDispatch();
-  const {set} = props;
+ // const {set} = props;
 
 
   useEffect(()=>{
@@ -37,9 +37,9 @@ const Body = (props) => {
     
       allJoints = [...new Set(allJoints)];
       setNewJoints(allJoints);
-      set(allJoints)
+     // set(allJoints)
     }
-  },[joints,set,setNewJoints])
+  },[joints,setNewJoints])
 
 
 
@@ -95,6 +95,7 @@ const Body = (props) => {
   };
 
   const getData = useCallback((data) => {
+    console.log(data)
     dispatch({type:'ADD',joint:data})
     setData(data);
   },[dispatch]);
@@ -150,10 +151,12 @@ const Body = (props) => {
           
           </div>
         </div>
-        <div class="both-body">
+        <div class="both-body" id="both-body" ref={props.screenShotRef}>
         <svg x="0px" y="0px" viewBox="0 0 612 792" class="body-svg">
           {front_paths.map((path) => (
             <Path
+              screenShotRef={props.screenShotRef}
+              executeScroll={props.executeScroll}
               d={path.d}
               key={path.id}
               id={path.id}
@@ -167,6 +170,8 @@ const Body = (props) => {
         <svg x="0px" y="0px" viewBox="170 0 612 792" class="body-svg">
           {back_paths.map((path) => (
             <Path
+              screenShotRef={props.screenShotRef}
+              executeScroll={props.executeScroll}
               d={path.d}
               key={path.id}
               id={path.id}

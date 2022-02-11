@@ -588,10 +588,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                                         <>
                                         <Collapse defaultActiveKey={['1']} >
+                                        {data.body_image&&
+                                               <Panel header="Joints Selected" key="1">
+                                            <div className=" border mb-3 mt-3">
+                                         <h4 className="p-2">Joints Selected  </h4>
+                                                <img src ={data.body_image} />
+                                            </div></Panel>}
                                         {(data.physical_assessement.Built.length>0||data.physical_assessement.History.length>0||
                                         data.physical_assessement.chiefCom.length>0||data.physical_assessement.past_medical_history.length>0||
                                         (data.physical_assessement.Subjective[0].occupation.length>0&&data.physical_assessement.Subjective[0].duration.length>0))&&
-                                        <Panel header="Physical Assesment" key="1" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
+                                        <Panel header="Physical Assesment" key="2" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
@@ -628,12 +634,6 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row></> }
                                                 </Panel>}
                                             {/* </div> */}
-                                            {data.body_image&&
-                                               <Panel header="Joints Selected" key="2">
-                                            <div className=" border mb-3 mt-3">
-                                         <h4 className="p-2">Joints Selected  </h4>
-                                                <img src ={data.body_image} />
-                                            </div></Panel>}
                                             {(data.nature_of_pain.length>0||data.pain_scale>0||data.pain_scars.length>0||
                                             (data.pain_aggravating !== undefined && data.pain_aggravating.length > 0)||
                                             (data.pain_relieving !== undefined && data.pain_relieving.length > 0 )||

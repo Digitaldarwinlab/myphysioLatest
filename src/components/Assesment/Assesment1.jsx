@@ -12,6 +12,7 @@ import FormDate from "../UI/antInputs/FormDate";
 // import Body from './Body';
 import Body from "../Assesment/Body/Body"
 {/* aswin 10/25/2021 start */ }
+import html2canvas from 'html2canvas'
 import moment from 'moment'
 import ActiveSearch from '../UtilityComponents/ActiveSearch';
 {/* aswin 10/25/2021 start */ }
@@ -114,7 +115,8 @@ const Assesment1 = ({back ,next}) => {
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
-  const executeScroll = () => myRef.current.scrollIntoView()
+  const screenShotRef = useRef(null)
+  const executeScroll = () => screenShotRef.current.scrollIntoView()
   // console.log(state.episodeReducer.patient_code +'patient_code')
   const [episodedata, SetepisodeData] = useState()
   useEffect(async () => {
@@ -748,15 +750,22 @@ const [tempstate ,setTemp] = useState(true)
 
 
   const Rom = () => { 
-
-      if (Object.keys(MuscleJoint).length == '') {
+    console.log(!state.jointReducer.joints)
+      if (!state.jointReducer.joints.length>0) {
           warningJoint()
           return false
       }
+      let temp = []
+      state.jointReducer.joints.map(jo=>{
+       temp.push(...jo.joint)
+      })
+      temp = [...new Set(temp)]
+      console.log(temp)
       console.log("values ", MuscleJoint)
+      console.log("values ", BodyParts)
       history.push({
           pathname: "/care-plan", state: {
-              Joints: Object.keys(MuscleJoint),
+              Joints: temp,
               Muscles: BodyParts,
               prevpath: "/assesment"
           }
@@ -943,11 +952,15 @@ const [tempstate ,setTemp] = useState(true)
       }
   }
   const Submit = async () => {
+    let video = screenShotRef.current
+    console.log('divvvv ',video)
+    console.log(video.id)
     let url = ""
     if(state.FirstAssesment.body_image.length<=0){
       executeScroll()    
-      let div = document.getElementById("malefigures");
-      let can =  await html2canvas(div)
+      let div = document.getElementById(video.id);
+      console.log('divvvv ',video)
+      let can =  await html2canvas(video)
       url = can.toDataURL()
       dispatch({
         type: STATECHANGE,
@@ -1489,7 +1502,7 @@ const [tempstate ,setTemp] = useState(true)
              </div>
          </Col>
      </Row> */}
-<Body set={setJoints}/>
+<Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
 
  </>
 
