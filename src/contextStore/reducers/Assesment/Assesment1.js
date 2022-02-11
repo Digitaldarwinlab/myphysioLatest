@@ -52,7 +52,8 @@ const FirstAssesmentIniState ={
 
 
 
-    // 
+    //
+    allJoints:[], 
     quest:true,
     pain1:true,
     special:true,

@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
+import { STATECHANGE } from "../../../contextStore/actions/Assesment";
+import html2canvas from 'html2canvas'
 const Path = (props) => {
   const [backgroundColor, setBackgroundColor] = useState("");
   const [prevColor, setPrevColor] = useState("");
@@ -12,7 +13,7 @@ const Path = (props) => {
 
   useEffect(() => {
     if (isClicked) {
-      getData({ id, muscle, joint });
+      getData({ id, muscle, joint, color });
       setPrevColor(color);
       setBackgroundColor(color);
     } else {
@@ -30,10 +31,22 @@ const Path = (props) => {
     }
   }, [isClicked, prevColor,dispatch,getData,id,joint,muscle]);
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     setClicked((prevState) => {
       return !prevState;
     });
+    let video = props.screenShotRef.current
+    props.executeScroll()    
+    let div = document.getElementById(video.id);
+    let can =  await html2canvas(div)
+    let url = can.toDataURL()
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+          key:'body_image',
+          value:url
+      }
+  });
   };
 
   return <path d={props.d} fill={backgroundColor} onClick={clickHandler} />;
