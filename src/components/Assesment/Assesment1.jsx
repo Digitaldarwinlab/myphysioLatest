@@ -9,7 +9,8 @@ import { useHistory } from 'react-router-dom'
 import FormInput from '../UI/antInputs/FormInput';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormDate from "../UI/antInputs/FormDate";
-import Body from './Body';
+// import Body from './Body';
+import Body from "../Assesment/Body/Body"
 {/* aswin 10/25/2021 start */ }
 import moment from 'moment'
 import ActiveSearch from '../UtilityComponents/ActiveSearch';
@@ -1403,7 +1404,7 @@ const [tempstate ,setTemp] = useState(true)
 
       <div className="border1 mb-3 mt-0 text-center" style={{ background: '#fff', padding: '20px' }}>
 <>
-     <Button style={{backgroundColor:'#2d7ecb'}} className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
+     {/* <Button style={{backgroundColor:'#2d7ecb'}} className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
      <Row>
          <Col md={24} lg={24} sm={24} xs={24} className="text-center"> 
              <div id="malefigures" ref={myRef}>
@@ -1474,8 +1475,8 @@ const [tempstate ,setTemp] = useState(true)
                  </div>
              </div>
          </Col>
-     </Row>
-
+     </Row> */}
+<Body />
 
  </>
 

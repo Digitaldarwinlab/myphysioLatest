@@ -8,6 +8,7 @@ import { labsAndMedicRedu } from './Episode/addLabsMedication';
 import { FirstAssesment } from "./Assesment/Assesment1"
 import { carePlanRedcucer } from './care-plan/care-plan-reducer';
 import { patCurrentEpisode } from './PatientSchedule/PateintSchedule';
+import jointReducer from "./joint-reducer.js";
 
 export const rootReducer = combineReducers({
     signupReducer: signupReducer,
@@ -23,5 +24,6 @@ export const rootReducer = combineReducers({
     PateintConsentReducer: PateintConsentReducer,
     carePlanRedcucer: carePlanRedcucer,
     patCurrentEpisode: patCurrentEpisode,
+    jointReducer:jointReducer,
 });
 
