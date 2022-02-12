@@ -164,6 +164,7 @@ const Assesment1 = ({back ,next}) => {
         //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
+          dispatch({ type: "JOINT_CLEARSTATE" });
           console.log("Assesment data cleared")
            return true;
          } else {
@@ -760,6 +761,13 @@ const [tempstate ,setTemp] = useState(true)
     //  console.log(Object.keys(MuscleJoint));
   }
 
+  const goPain = () => {
+    if (state.jointReducer.joints.length===0) {
+      warningJoint()
+      return
+    }
+    history.push('/assesment/PainAssessment')
+  }
 
   const onClick = async () => {
       if (FullBody === false) {
@@ -909,6 +917,7 @@ const [tempstate ,setTemp] = useState(true)
                   sessionStorage.setItem('submit', true)
                   setTimeout(() => {
                       dispatch({ type: ASSESMENT_CLEARSTATE });
+                      dispatch({ type: "JOINT_CLEARSTATE" });
                   }, 1000);
 
                   notification.success({
@@ -987,7 +996,7 @@ const [tempstate ,setTemp] = useState(true)
               className="fas fa-arrow-left"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                history.goBack();
+                history.push('/dashboard')
               }}
               title="Go Back"
               role="button"
@@ -1956,8 +1965,8 @@ const [tempstate ,setTemp] = useState(true)
           <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
           {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
           <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
-                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
+          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
                 }
          
          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>

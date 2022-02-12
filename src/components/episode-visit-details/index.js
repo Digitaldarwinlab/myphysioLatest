@@ -22,6 +22,7 @@ import Exercise from './ExerciseDetail/Exercise'
 import { getEpisode } from "../../API/Episode/EpisodeApi";
 import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
+import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -126,6 +127,15 @@ const EpisodeVisitDetails = () => {
             }
         }
         getPatients();
+        // ['quest','pain1','special','pose','romAss'].map(key=>{
+        //     dispatch({
+        //         type: STATECHANGE,
+        //         payload: {
+        //           key,
+        //           value:true
+        //         }
+        //       });
+        // })
         // eslint-disable-next-line
     }, []);
     // useEffect( async () => {
@@ -280,7 +290,10 @@ const EpisodeVisitDetails = () => {
         )
     }
 
-
+    const resizeIframe = () => {
+        const frame = document.getElementById('physioDashboard')
+        frame.style.height = frame.contentWindow.document.documentElement.scrollHeight + 'px';
+    }
     //Tabs 
     const DetailTabs = () => {
         return (
@@ -353,7 +366,29 @@ const EpisodeVisitDetails = () => {
                         }
                         key="8"
                     >
-                        <Tempdashboard viewstate={viewState}  />
+                    {/* <iframe 
+                      //  style="OVERFLOW: hidden" 
+                       // height="1500" 
+                       // style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" 
+                        marginheight="0" 
+                        src="http://3.83.136.152:8089/superset/dashboard/5/?native_filters=%28%29" 
+                        frameborder="0"
+                        width="990" 
+                        marginwidth="0" 
+                        scrolling="no"
+                    >
+
+                        </iframe> */}
+                        <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src="http://3.83.136.152:8089/superset/dashboard/5/?native_filters=%28%29"
+                            >
+                        </iframe>
+                        {/* <Tempdashboard viewstate={viewState}  /> */}
                     </TabPane>
                 </Tabs>
             </div>

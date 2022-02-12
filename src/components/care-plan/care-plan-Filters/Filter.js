@@ -16,7 +16,7 @@ export default function Filter({filterExercise,checkedList ,setFilterData}){
         filterExercise(checked,filterType,filterName);
     }
     return (
-        <Collapse defaultActiveKey={['1']}>
+        <Collapse defaultActiveKey={['1','2']}>
             <Panel header="Difficulty Level" key="1" showArrow={false}>
                 <ul>
                     {Levels.map((value, index) => {
