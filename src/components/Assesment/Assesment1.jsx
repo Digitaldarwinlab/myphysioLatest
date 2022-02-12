@@ -12,6 +12,7 @@ import FormDate from "../UI/antInputs/FormDate";
 // import Body from './Body';
 import Body from "../Assesment/Body/Body"
 {/* aswin 10/25/2021 start */ }
+import html2canvas from 'html2canvas'
 import moment from 'moment'
 import ActiveSearch from '../UtilityComponents/ActiveSearch';
 {/* aswin 10/25/2021 start */ }
@@ -114,7 +115,8 @@ const Assesment1 = ({back ,next}) => {
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
-  const executeScroll = () => myRef.current.scrollIntoView()
+  const screenShotRef = useRef(null)
+  const executeScroll = () => screenShotRef.current.scrollIntoView()
   // console.log(state.episodeReducer.patient_code +'patient_code')
   const [episodedata, SetepisodeData] = useState()
   useEffect(async () => {
@@ -162,6 +164,7 @@ const Assesment1 = ({back ,next}) => {
         //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
+          dispatch({ type: "JOINT_CLEARSTATE" });
           console.log("Assesment data cleared")
            return true;
          } else {
@@ -735,16 +738,22 @@ const [tempstate ,setTemp] = useState(true)
 
 
   const Rom = () => { 
-
-      if (Object.keys(MuscleJoint).length == '') {
+    console.log(!state.jointReducer.joints)
+      if (!state.jointReducer.joints.length>0) {
           warningJoint()
           return false
       }
+      let temp = []
+      state.jointReducer.joints.map(jo=>{
+       temp.push(...jo.joint)
+      })
+      temp = [...new Set(temp)]
+      console.log(temp)
       console.log("values ", MuscleJoint)
       console.log("values ", BodyParts)
       history.push({
           pathname: "/care-plan", state: {
-              Joints: Object.keys(MuscleJoint),
+              Joints: temp,
               Muscles: BodyParts,
               prevpath: "/assesment"
           }
@@ -752,6 +761,13 @@ const [tempstate ,setTemp] = useState(true)
     //  console.log(Object.keys(MuscleJoint));
   }
 
+  const goPain = () => {
+    if (state.jointReducer.joints.length===0) {
+      warningJoint()
+      return
+    }
+    history.push('/assesment/PainAssessment')
+  }
 
   const onClick = async () => {
       if (FullBody === false) {
@@ -901,6 +917,7 @@ const [tempstate ,setTemp] = useState(true)
                   sessionStorage.setItem('submit', true)
                   setTimeout(() => {
                       dispatch({ type: ASSESMENT_CLEARSTATE });
+                      dispatch({ type: "JOINT_CLEARSTATE" });
                   }, 1000);
 
                   notification.success({
@@ -931,11 +948,15 @@ const [tempstate ,setTemp] = useState(true)
       }
   }
   const Submit = async () => {
+    let video = screenShotRef.current
+    console.log('divvvv ',video)
+    console.log(video.id)
     let url = ""
     if(state.FirstAssesment.body_image.length<=0){
       executeScroll()    
-      let div = document.getElementById("malefigures");
-      let can =  await html2canvas(div)
+      let div = document.getElementById(video.id);
+      console.log('divvvv ',video)
+      let can =  await html2canvas(video)
       url = can.toDataURL()
       dispatch({
         type: STATECHANGE,
@@ -975,7 +996,7 @@ const [tempstate ,setTemp] = useState(true)
               className="fas fa-arrow-left"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                history.goBack();
+                history.push('/dashboard')
               }}
               title="Go Back"
               role="button"
@@ -1477,7 +1498,7 @@ const [tempstate ,setTemp] = useState(true)
              </div>
          </Col>
      </Row> */}
-<Body />
+<Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
 
  </>
 
@@ -1944,8 +1965,8 @@ const [tempstate ,setTemp] = useState(true)
           <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
           {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
           <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
-                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
+          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
                 }
          
          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>

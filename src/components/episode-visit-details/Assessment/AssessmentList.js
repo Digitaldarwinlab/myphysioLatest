@@ -588,10 +588,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {AssesmentData.length === 0 ? <p className="fw-bold">No Assesment Present..</p> : (
                                         <>
                                         <Collapse defaultActiveKey={['1']} >
+                                        {data.body_image&&
+                                               <Panel header="Areas of Pain/Impairment" key="1">
+                                            <div className=" border mb-3 mt-3">
+                                         <h4 className="p-2">Areas of Pain/Impairment  </h4>
+                                                <img src ={data.body_image} />
+                                            </div></Panel>}
                                         {(data.physical_assessement.Built.length>0||data.physical_assessement.History.length>0||
                                         data.physical_assessement.chiefCom.length>0||data.physical_assessement.past_medical_history.length>0||
                                         (data.physical_assessement.Subjective[0].occupation.length>0&&data.physical_assessement.Subjective[0].duration.length>0))&&
-                                        <Panel header="Physical Assesment" key="1" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
+                                        <Panel header="Physical Assesment" key="2" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
@@ -628,12 +634,6 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row></> }
                                                 </Panel>}
                                             {/* </div> */}
-                                            {data.body_image&&
-                                               <Panel header="Joints Selected" key="2">
-                                            <div className=" border mb-3 mt-3">
-                                         <h4 className="p-2">Joints Selected  </h4>
-                                                <img src ={data.body_image} />
-                                            </div></Panel>}
                                             {(data.nature_of_pain.length>0||data.pain_scale>0||data.pain_scars.length>0||
                                             (data.pain_aggravating !== undefined && data.pain_aggravating.length > 0)||
                                             (data.pain_relieving !== undefined && data.pain_relieving.length > 0 )||
@@ -929,6 +929,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <Descriptions.Item label="Notes ">{Object.keys(data.posture).length > 0&&data.posture['Notes'] }</Descriptions.Item>
                                                     </Descriptions>
                                                 </Col>
+                                                <h1>Degree of Deviation(in degrees)</h1>
                                               <Col md={24} lg={24} sm={24} xs={24}>
                                               <Descriptions title="Anterior" bordered>
                                              {<Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}

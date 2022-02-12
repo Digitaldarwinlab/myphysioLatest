@@ -454,7 +454,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             };
         }, [history]);
         useEffect(async() => {
-            const exercise = await GetExerciseList(dispatch, 103,1);
+            const exercise = await GetExerciseList(dispatch, 200,1);
             setFullExer(exercise.data)
         }, []);
     useEffect(async () => {
@@ -478,7 +478,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
             const newPagData = { ...Pagination1 };
-            newPagData["totalPage"] = (filtered['total_exercise with applied filter'] / (Pagination1.pageSize))+1;
+            newPagData["totalPage"] = (filtered['total_exercise with applied filter'] / (Pagination1.pageSize));
             console.log("page Pagination1.totalPage if ", filtered.total_exercise )
             console.log("page Pagination1.totalPage if ", Pagination1.pageSize )
             console.log("page Pagination1.totalPage if ", filtered.total_exercise / (Pagination1.pageSize))

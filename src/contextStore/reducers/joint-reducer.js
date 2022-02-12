@@ -24,6 +24,11 @@ const jointReducer = (state = { joints: [] }, action) => {
         joints: updatedState,
       };
     }
+    if(action.type === "JOINT_CLEARSTATE"){
+      return {
+        joints : []
+      }
+    }
   
     return state;
   };

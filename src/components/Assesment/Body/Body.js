@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./Body.css";
 // import paths from "./svg-path";
 import Path from "./Path";
@@ -11,7 +11,7 @@ import { useCallback } from "react";
 // let colors = ["#ff0000", "#2EDC0C", "#ff9900", "#3366ff", "#AA1D8C"];
 
 const Body = (props) => {
-  const [color, setColor] = useState("#ff0000");
+  const [color, setColor] = useState("rgb(255, 0, 0, 0)");
   const [redClass, setRedClass] = useState("color active-color");
   const [greenClass, setGreenClass] = useState("color");
   const [orangeClass, setOrangeClass] = useState("color");
@@ -20,16 +20,27 @@ const Body = (props) => {
   const [data, setData] = useState("Click on Body Part");
 
   const joints = useSelector(state => state.jointReducer.joints);
+  const [newJoints,setNewJoints] = useState([]);
+
+
   const dispatch = useDispatch();
+ // const {set} = props;
 
-  let allJoints = [];
+
+  useEffect(()=>{
+    if(joints){
+      let allJoints = [];
   
-  for(let joint in joints){
-    allJoints.push(...joints[joint].joint);
-  }
+      for(let joint in joints){
+        allJoints.push(...joints[joint].joint);
+      }
+    
+      allJoints = [...new Set(allJoints)];
+      setNewJoints(allJoints);
+     // set(allJoints)
+    }
+  },[joints,setNewJoints])
 
-  allJoints = [...new Set(allJoints)];
-  console.log(allJoints);
 
 
 
@@ -84,6 +95,7 @@ const Body = (props) => {
   };
 
   const getData = useCallback((data) => {
+    console.log(data)
     dispatch({type:'ADD',joint:data})
     setData(data);
   },[dispatch]);
@@ -101,14 +113,14 @@ const Body = (props) => {
             ></div>
             <p>Burning</p>
           </div>
-
           <div className="color_text">
             <div
-              onClick={greenclickHandler}
-              className={greenClass}
-              style={{ backgroundColor: "#2EDC0C" }}
+              onClick={purpleclickHandler}
+              className={purpleClass}
+              style={{ backgroundColor: "#AA1D8C" }}
             ></div>
-            <p>Itching</p>
+            <p>Cutting</p>
+         
           </div>
 
           <div className="color_text">
@@ -117,7 +129,7 @@ const Body = (props) => {
               className={orangeClass}
               style={{ backgroundColor: "#ff9900" }}
             ></div>
-            <p>Pain</p>
+            <p>Aching</p>
           </div>
 
           <div className="color_text">
@@ -126,26 +138,31 @@ const Body = (props) => {
               className={blueClass}
               style={{ backgroundColor: "#3366ff" }}
             ></div>
-            <p>Cold</p>
+            <p>Freezing</p>
           </div>
-
           <div className="color_text">
             <div
-              onClick={purpleclickHandler}
-              className={purpleClass}
-              style={{ backgroundColor: "#AA1D8C" }}
+              onClick={greenclickHandler}
+              className={greenClass}
+              style={{ backgroundColor: "#2EDC0C" }}
             ></div>
-            <p>Burning</p>
+            <p>Numbness</p>
+
+          
           </div>
         </div>
+        <div class="both-body" id="both-body" ref={props.screenShotRef}>
         <svg x="0px" y="0px" viewBox="0 0 612 792" class="body-svg">
           {front_paths.map((path) => (
             <Path
+              screenShotRef={props.screenShotRef}
+              executeScroll={props.executeScroll}
               d={path.d}
               key={path.id}
               id={path.id}
               muscle={path.muscle}
               joint={path.joint}
+              joints={joints}
               color={color}
               getData={getData}
             />
@@ -154,16 +171,20 @@ const Body = (props) => {
         <svg x="0px" y="0px" viewBox="170 0 612 792" class="body-svg">
           {back_paths.map((path) => (
             <Path
+              screenShotRef={props.screenShotRef}
+              executeScroll={props.executeScroll}
               d={path.d}
               key={path.id}
               id={path.id}
               muscle={path.muscle}
               joint={path.joint}
+              joints={joints}
               color={color}
               getData={getData}
             />
           ))}
         </svg>
+        </div>
       </div>
     </>
   );

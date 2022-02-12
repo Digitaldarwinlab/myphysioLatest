@@ -59,3 +59,8 @@
 .f-15{
     font-size: 15px;
 }
+.iframeDashboard{
+    width:100%; 
+	height:1900px;
+    /* overflow-y: hidden !important; */
+}
