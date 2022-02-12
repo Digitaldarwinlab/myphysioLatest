@@ -11,7 +11,7 @@ import { useCallback } from "react";
 // let colors = ["#ff0000", "#2EDC0C", "#ff9900", "#3366ff", "#AA1D8C"];
 
 const Body = (props) => {
-  const [color, setColor] = useState("#ff0000");
+  const [color, setColor] = useState("rgb(255, 0, 0, 0)");
   const [redClass, setRedClass] = useState("color active-color");
   const [greenClass, setGreenClass] = useState("color");
   const [orangeClass, setOrangeClass] = useState("color");
@@ -162,6 +162,7 @@ const Body = (props) => {
               id={path.id}
               muscle={path.muscle}
               joint={path.joint}
+              joints={joints}
               color={color}
               getData={getData}
             />
@@ -177,6 +178,7 @@ const Body = (props) => {
               id={path.id}
               muscle={path.muscle}
               joint={path.joint}
+              joints={joints}
               color={color}
               getData={getData}
             />
