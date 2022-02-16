@@ -182,7 +182,7 @@ useEffect(() => {
             {/* </Form> */}
             <div className="text-end" style={{ padding: 10 }}>
                 <Space>
-                    <Button size="large" className="mb-3 btncolor" onClick={HandleSubmit}>Submit</Button>
+                    <Button size="large" className="mb-3 btncolor" onClick={HandleSubmit}>save</Button>
                     <Button size="large" className="mb-3 btncolor" onClick={back}>Back</Button>
                 </Space>
             </div>

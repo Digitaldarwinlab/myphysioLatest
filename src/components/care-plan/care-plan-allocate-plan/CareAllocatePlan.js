@@ -299,13 +299,23 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
          
     //OnFinish 
     const onFinish = async () => {
-           //   console.log(' joints array')
-            //  console.log(selectvalue)
+
+              console.log(' joints array',state.exercises)
+              for(let i=0;i<state.exercises.length;i++){
+                  if(parseInt(state.exercises[i].Rom['min'])>parseInt(state.exercises[i].Rom['max'])){
+                    dispatch({ type: VALIDATION, payload: { error: 'Min angle should not greater than Max angle' } });
+                    setTimeout(() => {
+                        dispatch({ type: VALIDATION, payload: { error: "" } });
+                    }, 10000);
+                    return  
+                }
+              }
+             console.log(selectvalue)
             console.log('selection ',state.exercises)
             for(let i=0;i<state.exercises.length;i++){
                 if(state.exercises[i].Rep['set']==''||state.exercises[i].Rep['set']==0){
                     console.log('Set count should greater than 0')
-                    dispatch({ type: VALIDATION, payload: { error: 'Set count should greater than 0' } });
+                    dispatch({ type: VALIDATION, payload: { error: 'Repetition Set should greater than 0' } });
                     setTimeout(() => {
                         dispatch({ type: VALIDATION, payload: { error: "" } });
                     }, 10000);
@@ -313,7 +323,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
                 if(state.exercises[i].Rep['rep_count']<2){
                     console.log('Repetition Count should greater than 2')
-                    dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 2 ' } });
+                    dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 1 ' } });
                     setTimeout(() => {
                         dispatch({ type: VALIDATION, payload: { error: "" } });
                     }, 10000);
@@ -400,8 +410,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         {
             state.exercises.map((item,index)=>{
                 //   console.log(item)
-                //   console.log( item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
-                   addjoint('joint',JSON.stringify(item['Rom']['joint'][0]),index)
+                 //   console.log( "valueeee",item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
+                   addjoint('joint',item['Rom']['joint'][0],index)
    
                }) 
 

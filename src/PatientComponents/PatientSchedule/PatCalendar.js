@@ -3,7 +3,7 @@ import ReactHorizontalDatePicker from "react-horizontal-strip-datepicker";
 import "react-horizontal-strip-datepicker/dist/ReactHorizontalDatePicker.css";
 import { Button, Spin } from "antd";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
 import moment from "moment";
 import { Row, Col } from "antd";
@@ -15,6 +15,7 @@ import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
 import "./Calendar.css";
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
+import { get_prescription } from "../../API/Prescription/PresriptionApi";
 //TimeColors
 const activeArr = [
   true,false,false,false,false,
@@ -54,6 +55,8 @@ const btnStyle = {
 const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const history = useHistory();
+  const dispatch = useDispatch()
+  const [pres, setPres] = useState([])
   const state = useSelector((state) => state.patCurrentEpisode);
   const [exstatCheck, setExStatCheck] = useState('yes')
   const [selectedDate, setSelectedDate] = useState("");
@@ -313,7 +316,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       console.log("selected ",key)
       setExactTime(chosenTime)
   }, [selectedTime]);
-
   const checkDisablitiy = (current) => {
     let yesterday = new Date(new Date().valueOf() - 1000 * 60 * 60 * 24);
     return current && current < moment(yesterday, "YYYY-MM-DD");
@@ -460,6 +462,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //UseEffect
   //  console.log('sorted')
   // console.log(sortedVisits)
+  const setPrescription = (data) => {
+   
+  }
   useEffect(() => {
     async function getPlan() {
       setLoading(true);
@@ -468,6 +473,20 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       if (pepisode[1].length > 0) {
         Setcurrentepisode(pepisode[1][0].pp_ed_id);
         //  console.log(currentEpissode)
+        dispatch({
+          type:'changeEpisodeId',
+          payload: {
+            value:pepisode[1][0].pp_ed_id
+        }
+        })
+        const data = await get_prescription(pepisode[1][0].pp_ed_id)
+        console.log("prescription ",data)
+        dispatch({
+          type:'PRESCRIPTION_CHANGE',
+          payload: {
+            value:data
+        }
+        })
         onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
         //  console.log('on select k neeche')
       }
@@ -714,21 +733,66 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     );
   };
   const Prescriptions = () => {
+    console.log("new Pres ",pres)
     return (
-      <div className="p-2  border visit-card-2" id="visit-card-2">
+     <>
         <div className="prescription-row">
-          <span className="presription-col">
-            <b>Prescription Detail : </b> 2 Capsules of Peracetamol and Syrup{" "}
-          </span>
-        </div>
-        <div className="presription-row">
-          <div className="prescription-row">
-            <span className="presription-col">
-              <b>Other Detail</b> Twice a Day after the meal{" "}
-            </span>
-          </div>
-        </div>
+         <span className="presription-col">
+           <b>Prescription Detail ({convert(new Date)}) </b>  
+         </span>
+       </div>
+     {
+      Object.keys(state.current_pres).length>0 && <div className="p-2  border visit-card-2" id="visit-card-2">
+       <div className="presription-row">
+             <b>Medication Details </b> <br/>
+             {
+               state.current_pres.medication_detail.map(m=>(
+                 <>
+                <div className="upper-visit-row">
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>Medicine :</b> {m.medicine_name}{" "}
+                </span>
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>No of Medications :</b> {m.no_of_medications}{" "}
+                </span>
+              </div>
+              <div className="upper-visit-row">
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>Instructions :</b> {m.instruction}{" "}
+                </span>
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>Notes  :</b> {m.instruction}{" "}
+                </span>
+              </div>
+              </>
+               ))
+             }
+             <b>Lab </b> <br/>
+             {
+               state.current_pres.lab_tests.map(m=>(
+                 <>
+                <div className="upper-visit-row">
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>Path :</b> {m.path_lab_test}{" "}
+                </span>
+                <span className="visit-col" span={10}>
+                  {" "}
+                  <b>Radiology :</b> {m.radio_lab_test}{" "}
+                </span>
+              </div>
+              </>
+               ))
+             }
+         </div>
       </div>
+    
+     }
+     </>
     );
   };
 
@@ -740,6 +804,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   const Visits = (data) => {
+    console.log("get visits ",data)
     var datetypof;
     var date;
     if (data) {
@@ -771,7 +836,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <div className="upper-visit-row">
             <span className="visit-col" span={10}>
               {" "}
-              <b>Time :</b> {data ? timeString + " " : null}{" "}
+              <b>Time :</b> {data ? timeString + " " : "Not Available"}{" "}
             </span>
             <span className="visit-col" span={10}>
               {" "}
@@ -793,18 +858,19 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <div className="video-conference-detail">
             <span className="video-col">
               <b> Video Conference Detail</b> :
-              <a
+             {data.video_link? <a
                 href={"/patient" + data.video_link}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {data.video_link}
-              </a>
+                {data.video_link.length>0?data.video_link:"Not Available"}
+              </a>:"Not Available"}
             </span>
           </div>
         </div>
       );
     } catch (err) {
+      console.log("get visits",err)
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p

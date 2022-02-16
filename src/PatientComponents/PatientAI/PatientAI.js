@@ -38,9 +38,24 @@ const joints = [
     { value: 7, label: "rightKnee" },
     { value: 8, label: "leftNeck" },
     { value: 9, label: "rightNeck" },
-    { value: 10, label: "rightPelvic" },
-    { value: 11, label: "leftPelvic" },
+    { value: 10, label: "leftPelvic" },
+    { value: 11, label: "rightPelvic" },
 ];
+
+// const joints = {
+//     leftShoulder: [0, 1],
+//     rightShoulder: [0, 1],
+//     leftElbow: [2, 3],
+//     rightElbow: [2, 3],
+//     leftHip: [4, 5],
+//     rightHip:[4,5],
+//     leftKnee:[6,7],
+//     rightKnee:[6,7],
+//     leftNeck:[8,9],
+//     rightNeck:[8,9],
+//     leftPelvic:[10,11],
+//     rightPelvic:[10,11]
+//   };
 
 //let data = "";
 const Separator = styled.div`
@@ -411,15 +426,20 @@ class PatientAI extends Component {
         console.log("selected joint :" ,this.state.selectedJoint)
         console.log('joints ',this.state.selJoints)
         this.props.history.location.state.exercises.map(ex=>{ 
-            console.log("aaaaaaa",ex)
-            joints.map(jo=>{
-                if(ex["Rom"].joint.includes(jo.label)){
-                    console.log('valuueee ',[jo.value,jo.value+1])
-                    temp.push([jo.value,jo.value+1])
+            joints.map((jo) => {
+                if (ex["Rom"].joint.includes(jo.label)) {
+                  if (ex["Rom"].joint.includes("left")) {
+                     temp.push([jo.value,jo.value+1])
+                  } else if (ex["Rom"].joint.includes("right")) {
+                    temp.push([jo.value-1,jo.value])
+                  }
                 }
-            })
+              });
+             //  temp.push(joints[ex["Rom"].joint])
         })    
-
+        // this.props.history.location.state.exercises.map(ex=>{
+        //     temp.push(joints[ex["Rom"].joint])
+        // })
         // for (let i = 0; i < joints.length; i++) {
         //     let primaryAngles = []
         //     console.log("checking ",joints[i].label)
@@ -648,7 +668,6 @@ class PatientAI extends Component {
                     <div style={{ marginTop: 20 }}>
                         <h4 className="fw-bold">Notes-</h4>
                         <p className="text-justify p">
-                            Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem
                         </p>
                     </div>
                     <div className="text-end">

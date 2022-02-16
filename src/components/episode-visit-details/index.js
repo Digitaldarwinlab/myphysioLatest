@@ -247,7 +247,7 @@ const EpisodeVisitDetails = () => {
                     <Col lg={18} md={14} sm={14} xs={24}>
                         <h3 className="page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
-                                onClick={() => { history.goBack() }}
+                                onClick={() => { history.push('/pateints') }}
                                 title="Go Back"
                                 role="button"></i>
                              <b> Patient</b>
@@ -266,7 +266,7 @@ const EpisodeVisitDetails = () => {
         return (
             <Row gutter={[10, 10]}>
                 <Col lg={6} md={6} sm={4} xs={24}>
-                    <h3 className="fw-bold">Patient Details</h3>
+                    <h3 className="fw-bold">Patient Details</h3>{process.env.NODE_ENV}
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
                     <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
@@ -385,7 +385,7 @@ const EpisodeVisitDetails = () => {
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
-                            src="http://3.83.136.152:8089/superset/dashboard/5/?native_filters=%28%29"
+                            src="http://3.83.136.152:8089/superset/dashboard/5/?physio_id=%32"
                             >
                         </iframe>
                         {/* <Tempdashboard viewstate={viewState}  /> */}
