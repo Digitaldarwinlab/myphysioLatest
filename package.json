@@ -43,7 +43,11 @@
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",
+    "start:testing": "env-cmd -f .env.testing react-scripts --max_old_space_size=4096 start",
+    "start:developmen": "env-cmd -f .env.testing react-scripts --max_old_space_size=4096 start",
     "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build",
+    "build:testing": "node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build",
+    "build:development": "node ./update-build.js && env-cmd -f .env.development react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -76,5 +80,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1644979344349
+  "buildDate": 1645260613752
 }
