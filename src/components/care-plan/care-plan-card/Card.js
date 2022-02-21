@@ -61,6 +61,9 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                 handleChange(key,value,id);
             }
         }
+        if(key=='min'||key=='max'){
+            handleChange(key,value,id)
+        }
     }
 
     return (

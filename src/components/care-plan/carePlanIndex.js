@@ -331,7 +331,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         muscels: [],
         joints: [],
         difficulty_level: [],
-        movement: []
+        movement: [],
+        search_query:''
     });
     //Pagination Data State
     const [Pagination1, setPagination1] = useState({
@@ -427,6 +428,13 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
           setLength(cartActualDat.length)
+          dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "isLoading",
+                value: false
+            }
+        })
       }
       useEffect(()=>{
         //  console.log('pagesize changing')
@@ -546,7 +554,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             } else {
                 newData[type].splice(index, 1);
             }
-            const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
+            const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
+        
             if (!data['total_exercise with applied filter']) {
                 data['total_exercise with applied filter'] = data.length
             }
@@ -561,7 +570,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log('filter maxIndex ',(Pagination1.pageSize))
             const newPagData = { ...Pagination1 };
             newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
-            newPagData["minIndex"] = 0;
+            newPagData["minIndex"] = 1;
+            newPagData['current'] = 1
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
             setExerciseList(data.data);
@@ -571,7 +581,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             const newData = { ...checkedList };
             let index = newData[type].indexOf(name);
             newData[type].splice(index, 1);
-            const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
+            const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
             let cartActualData = data.data.filter((val) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
             })
@@ -585,6 +595,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log('filter pageSize ',Pagination1.pageSize)
             console.log('filter pageSize ',data.total_exercise / (Pagination1.pageSize))
             console.log('calliung')
+            newPagData['current'] = 1
             newPagData["totalPage"] = data.total_exercise / (Pagination1.pageSize);
             //newPagData['pageSize']
          //   newPagData["minIndex"] = 0;
@@ -676,6 +687,25 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const handleSearch = (value) => {
         setSearchVal(value);
     }
+    const searchExercise = async (search_query) => {
+        const newData = { ...checkedList };
+        newData['search_query']= search_query
+        const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
+        if(data.total_exercise){
+            data['total_exercise with applied filter'] = data.total_exercise
+        }
+        const newPagData = { ...Pagination1 };
+        newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
+        setPagination1(newPagData)
+        setExerciseList(data.data);
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "isLoading",
+                value: false
+            }
+        })
+    }
     //Exercise Tab 
     const ExerciseTab = () => {
         const filteredData = Exerciselist.filter((val) => {
@@ -694,8 +724,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         allowClear
                         placeholder="search exercise..."
                         className="input-field w-100 my-3"
-                        onChange={(e) => handleSearch(e.target.value)}
-                        onSearch={(e) => console.log(e)}
+                        onChange={(e) => {
+                            searchExercise(e.target.value)
+                            setCheckedList({...checkedList , search_query:e.target.value})
+                            console.log('search ',e.target.value)
+                        }}
+                        onSearch={(e) => console.log('search ',e.target.value)}
                     />
                 </Col>
                 <Col span={24}>

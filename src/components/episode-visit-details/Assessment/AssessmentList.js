@@ -597,7 +597,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         {(data.physical_assessement.Built.length>0||data.physical_assessement.History.length>0||
                                         data.physical_assessement.chiefCom.length>0||data.physical_assessement.past_medical_history.length>0||
                                         (data.physical_assessement.Subjective[0].occupation.length>0&&data.physical_assessement.Subjective[0].duration.length>0))&&
-                                        <Panel header="Physical Assesment" key="2" extra={ <BsFillEyeFill className="iconClass3" onClick={() => updateAssesment(data)} />}>
+                                        <Panel header="Physical Assesment" key="2" >
                                             <div className=" border mb-3 mt-3">
                                                 {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
@@ -611,7 +611,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         <Descriptions.Item label="Assesment Date">{data.assesmentdate.slice(0, 10)}</Descriptions.Item>
                                                         <Descriptions.Item label="Built">{data.physical_assessement.Built}</Descriptions.Item>
                                                         <Descriptions.Item label="History">{data.physical_assessement.History}</Descriptions.Item>
-                                                        <Descriptions.Item label="chiefCom"> {data.physical_assessement.chiefCom}</Descriptions.Item>
+                                                        <Descriptions.Item label="Cheif Complaint"> {data.physical_assessement.chiefCom}</Descriptions.Item>
                                                         <Descriptions.Item label="Past Medical History" span={3}> {data.physical_assessement.past_medical_history&&data.physical_assessement.past_medical_history.length>0&&data.physical_assessement.past_medical_history.map(p=>`${p+" ,"}`)}</Descriptions.Item>
                                                     </Descriptions>
                                                 </Row>
@@ -897,7 +897,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 </Row>
                                             </div>
                                             </Panel>}
-                                            {Object.keys(data.questionnaires).length>0&&data.questionnaires[Object.keys(data.questionnaires)[0]][0].length>0&&<Panel header="Questionnaire" key="5">
+                                            {Object.keys(data.questionnaires).length>0&&data.questionnaires[Object.keys(data.questionnaires)[0]][0].length>0&&<Panel header="Scales & Index" key="5">
                                             <div className=" border mb-3 mt-3">
                                                 <Row className="border">
                                                     <Col md={24} lg={24} sm={24} xs={24}>
@@ -929,7 +929,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <Descriptions.Item label="Notes ">{Object.keys(data.posture).length > 0&&data.posture['Notes'] }</Descriptions.Item>
                                                     </Descriptions>
                                                 </Col>
-                                                <h1>Degree of Deviation(in degrees)</h1>
+                                                <h1>Degree of Deviation</h1>
                                               <Col md={24} lg={24} sm={24} xs={24}>
                                               <Descriptions title="Anterior" bordered>
                                              {<Descriptions.Item label="Nasal Bridge">{Object.keys(data.posture).length > 0 &&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[0]}</Descriptions.Item>}

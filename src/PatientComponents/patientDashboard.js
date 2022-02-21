@@ -265,15 +265,14 @@ const PatientDashboard = () => {
                                     score="30 min" message="Your Practice Time" />
                             </div>
                         </Col>
-            
-                        <Col className="treating-doctor card" >
+                    {/*<Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
                             <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
                             {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
                                 {episode[0].treating_doctor_detail[0].first_name + " " + episode[0].treating_doctor_detail[0].last_name}
                             </h6>}
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className="mt-2 right-middle card" >
                         <Col>

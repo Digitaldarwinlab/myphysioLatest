@@ -83,7 +83,7 @@ const Register1 = (props) => {
                 type: STATECHANGE,
                 payload: {
                     key,
-                    value:value[0].toUpperCase()+value.slice(1, value.length)
+                    value:value.length>1?value[0].toUpperCase()+value.slice(1, value.length):value.length===1?value.toUpperCase():''
                 }
             });
         }

@@ -256,6 +256,17 @@ const [tempstate ,setTemp] = useState(true)
   }
   const handleChange = (key, value, id = 0) => {
     //alert(value+", "+key+" , "+id)
+    if(key === "chiefCom" || key === "Medication" || key === "Others"){
+      if(value.length>0){
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+              key,
+              value:value[0].toUpperCase()+value.slice(1, value.length)
+          }
+      });
+      }
+    }
     if (key === "Date") {
       setDate(value.date);
       dispatch({
@@ -965,7 +976,6 @@ const [tempstate ,setTemp] = useState(true)
     console.log('divvvv ',video)
     console.log(video.id)
     let url = ""
-    if(state.FirstAssesment.body_image.length<=0){
       executeScroll()    
       let div = document.getElementById(video.id);
       console.log('divvvv ',video)
@@ -980,9 +990,6 @@ const [tempstate ,setTemp] = useState(true)
     });
     dispatch({ type: "NOERROR" });
     Finalsubmit(url)
-    }else{
-      Finalsubmit(url)
-    }   
 
   }
   // const [quest, setQuest] = useState(true)
@@ -1223,7 +1230,7 @@ const [tempstate ,setTemp] = useState(true)
                  
                     <Col md={24} lg={12} sm={24} xs={24}>
                       <h4>Duration</h4>
-                      <Radio.Group options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
+                      <Radio.Group required options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
                       </Radio.Group>
                     </Col>
                   </Row>
@@ -1237,7 +1244,7 @@ const [tempstate ,setTemp] = useState(true)
 
           <div className="row py-0 mx-1">
             <div className="col" style={{paddingLeft:'0px'}}>
-              <button type="button" onClick={() => handleAddFields()} class="btn btn-primary">+</button>
+              <button type="button" disabled={state.FirstAssesment.subjective.length===3?true:false} onClick={() => handleAddFields()} class="btn btn-primary ">+</button>
               <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
 
             </div>
@@ -1255,7 +1262,9 @@ const [tempstate ,setTemp] = useState(true)
               <input type="text" className="p-2 w-50" placeholder="Cheif Complaint"
                 name="chiefCom"
                 value={state.FirstAssesment.chiefCom}
-                onChange={(e) => handleChange("chiefCom", e.target.value)}
+                onChange={(e) => {
+                    handleChange("chiefCom", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                }}
               />
             </Col>
           </Row>
@@ -1305,7 +1314,9 @@ const [tempstate ,setTemp] = useState(true)
                   }}
                 options={['Medication']}
               />
-                <input class="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => handleChange("Medication", e.target.value)} name='medText' placeholder="Medication" />
+                <input class="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => {
+                    handleChange("Medication", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                }} name='medText' placeholder="Medication" />
                 <br/>
                 <Checkbox.Group
                 style={{ paddingLeft: "0px" }}
@@ -1318,7 +1329,9 @@ const [tempstate ,setTemp] = useState(true)
                 }}
                 options={['Others']}
               />
-                <input class="mx-3 p-2" onChange={(e)=>handleChange('Others',e.target.value)} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
+                <input class="mx-3 p-2" onChange={(e)=>{
+                    handleChange('Others',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                }} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
               {/* <div className="row" name="past_medical_history" >
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
@@ -1978,8 +1991,8 @@ const [tempstate ,setTemp] = useState(true)
           <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
           {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
           <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
-                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
+          {state.FirstAssesment.pain1?<button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</button>:
+                <button  className="ms-3 ant-btn" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 }
          
          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
