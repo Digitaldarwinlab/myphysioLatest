@@ -124,27 +124,41 @@ export const getEpisode = async (patientID) => {
 // Update Episode
 export const UpdateEpisodeApi = async (details, dispatch) => {
     dispatch({ type: EPISODE_BOOK_REQUEST });
-    let EpisodeDetails = {};
-    EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
-    EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
-    EpisodeDetails["pp_pm_id"] = details.patient_code;
-    EpisodeDetails["pp_ed_id"] = details.episode_id;
-    EpisodeDetails["primary_complaint"] = details.complaint;
-    EpisodeDetails["start_date"] = details.start_date;
-    EpisodeDetails["end_date"] = details.end_date;
-    EpisodeDetails["Operative_Types"] = details.Operative_Types;
-    EpisodeDetails["Patient_History"] = details.Patient_History;
-    EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
-    EpisodeDetails["file"] = details.file;
+    //let EpisodeDetails = {};
+    // EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
+    // EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
+    // EpisodeDetails["pp_pm_id"] = details.patient_code;
+    // EpisodeDetails["pp_ed_id"] = details.episode_id;
+    // EpisodeDetails["primary_complaint"] = details.complaint;
+    // EpisodeDetails["start_date"] = details.start_date;
+    // EpisodeDetails["end_date"] = details.end_date;
+    // EpisodeDetails["Operative_Types"] = details.Operative_Types;
+    // EpisodeDetails["Patient_History"] = details.Patient_History;
+    // EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
+    // EpisodeDetails["file"] = details.file;
+    let formdata = new FormData();
+ 
+    formdata.append("treating_doc_details",JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID }))
+    formdata.append("PP_Patient_Details",JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no }))
+    formdata.append("pp_pm_id",parseInt(details.patient_code))
+    formdata.append("pp_ed_id",parseInt(details.episode_id))
+    formdata.append("Operative_Types",details.Operative_Types)
+    formdata.append("primary_complaint",details.complaint)
+    formdata.append("start_date",details.start_date)
+    formdata.append("end_date",details.end_date)
+    formdata.append("Patient_History",details.Patient_History)
+    formdata.append("Closure_Notes",details.Closure_Notes)
+    for (const file of details.file) {  
+        formdata.append('files', file, file.name); 
+    }
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/update_episode/", {
-            headers: headers,
+        const response = await fetch(process.env.REACT_APP_API + "/update_episode_v1/", {
             method: "POST",
-            body: JSON.stringify(EpisodeDetails)
+            body: formdata
         });
         const data = await response.json();
         if (response.status !== 200 && response.status !== 201) {

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import logoImg from "./../../assets/newlogo.png";
 import './logo.css'
 export default function MyPhysioLogo(props) {
@@ -11,7 +12,12 @@ export default function MyPhysioLogo(props) {
     {
          style={fontSize:'36px'}
     }
-
+    // useEffect(() => {
+    //     var script = document.createElement("script");
+    //     script.setAttribute('src',process.env.REACT_APP_EXERCISE_URL+'/images/main.js')
+    //     script.setAttribute('crossorigin',true)
+    //     document.body.appendChild(script)
+    // }, []);
     return (
         <> 
          <div className={ props.page=='login' ? 'initial-login' : props.page=='dashboard' ? 'initial-dashboard' : null}  >

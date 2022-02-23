@@ -66,7 +66,7 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
       "totalSets": 2
   });
     darwin.restart();
-    $("#video-screen").attr("src",'https://myphysio.digitaldarwin.in/'+exerciseURL)
+    $("#video-screen").attr(`src",${process.env.REACT_APP_API}/+exerciseURL`)
     $("#video-block").css("display","block")
   }
   
@@ -143,7 +143,7 @@ channel.on("MemberLeft", function (memberId) {
 
 async function joinRTMChannel(uid) {
   console.log("sdghaaaaaaaaaaaaaaaaaaaaaa");
-  const res = await fetch(`https://myphysio.digitaldarwin.in/rtm/${uid}`);
+  const res = await fetch(`${process.env.REACT_APP_API}/rtm/${uid}`);
   const data = await res.json();
   options.token = data.rtmToken;
   console.log(options.token);

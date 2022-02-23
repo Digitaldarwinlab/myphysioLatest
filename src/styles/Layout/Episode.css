@@ -5,6 +5,9 @@ p{
     background-color: #0d1363 !important;
 
 }
+.updateBtn{
+    background-color: #0d1363 !important;
+}
 #bnid:hover {
     background-color: #2d7ecb !important;
     color: white !important;

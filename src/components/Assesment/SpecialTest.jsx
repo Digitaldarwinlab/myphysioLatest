@@ -1,4 +1,4 @@
-import { Col, Collapse, Row, Form, Radio, List, Skeleton } from "antd";
+import { Col, Collapse, Row, Form, Radio, List, Skeleton, Space, Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
@@ -414,7 +414,7 @@ const SpecialTest = ({setActive,back,next}) => {
               </table>
             </Panel>
           </Collapse>
-          <button
+          {/* <button
             onClick={() => history.goBack()}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
@@ -425,7 +425,13 @@ const SpecialTest = ({setActive,back,next}) => {
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
             Save
-          </button>
+          </button> */}
+           <div className="text-end" style={{ padding: 10 }}>
+                <Space>
+                    <Button size="large" className="mb-3 btncolor" onClick={() => history.goBack()}>Back</Button>
+                    <Button size="large" className="mb-3 btncolor" onClick={handleSubmit}>Save</Button>
+                </Space>
+            </div>
         </div>
       </Form>
     </>
