@@ -10,6 +10,7 @@ import FormTextArea from './../UI/antInputs/FormTextArea';
 import Loading from './Loading';
 import Success from './SuccessHandler';
 import ActiveSearch from './ActiveSearch';
+import { IoDocument } from 'react-icons/io5'
 import "../../styles/Layout/Episode.css"
 import moment from "moment"
 import Error from './ErrorHandler';
@@ -226,6 +227,23 @@ const SchduleForm = (props) => {
    
    
        }
+    const [previewVisible ,setPreviewVisible] = useState(false)
+    const [previewImage ,setPreviewImage] = useState(false)
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+    const handlePreview = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      setPreviewVisible(true)
+      setPreviewImage(file.url || file.preview)
+    }
     return (
         <>
         <div style={{ background: '#fff' }}>
@@ -288,7 +306,7 @@ const SchduleForm = (props) => {
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                                     value={props.state.Ref_Dr_Name}
                                     onChange={props.handleChange}
-                                    required={Colsure}
+                                  //  required={Colsure}
                                     
                                 />
                             </Col>
@@ -301,7 +319,7 @@ const SchduleForm = (props) => {
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                                     value={props.state.Ref_Dr_ID}
                                     onChange={props.handleChange}
-                                    required={Colsure}
+                                  //  required={Colsure}
 
                                 />
                             </Col>
@@ -390,7 +408,7 @@ const SchduleForm = (props) => {
                 <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                     <Col md={24} lg={12} sm={24} xs={24}>
                     <FormTextArea label={<span style={{fontSize:'15px'}}>{'Patient History'}</span>}
-                        required={Colsure}
+                        //required={Colsure}
                         value={props.state.Patient_History}
                         className="input-field"
                         name="Patient_History"
@@ -431,17 +449,20 @@ const SchduleForm = (props) => {
 
 
       {/* aswin 10/17/2021 start */}
-      {props.opacity1=='0'&& props.isupdating && state.file !== undefined && state.file.map(fil=>(
-  <React.Fragment>
-  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
+      {props.opacity1=='0'&& props.isupdating && <React.Fragment>
+      <span style={{fontSize:'16px',fontWeight:'bold'}}> {' Files '}(Tap to view)</span> <br/>
+        {state.files !== undefined && state.files.map(fil=>(
+    <React.Fragment style={{paddingTop:'10px'}} >
+  <a href={fil} target="_blank"  ><span  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',marginBottom:'5px'}}>{fil.slice(48)}</span>
   </a> <br/>
     </React.Fragment>
 
              ))}
+        </React.Fragment>}
       {props.opacity1=='0'&& !props.isupdating || !Colsure ?
               <React.Fragment>
               <br/>
-             <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/>
+             <span style={{fontSize:'16px',fontWeight:'bold'}}> {' Files '}(Tap to view)</span> <br/>
              
               {/* {state.file.length>0&&state.file.map(fil=>(
                 <React.Fragment>
@@ -449,10 +470,12 @@ const SchduleForm = (props) => {
                 </a> <br/>
                   </React.Fragment> */}
 
-{state.file !== undefined ? state.file.map(fil=>(
-  <React.Fragment>
-  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
-  </a> <br/>
+{state.files !== undefined ? state.files.map(fil=>(
+  <React.Fragment style={{paddingTop:'10px'}} >
+    {/* <a href={fil} style={{paddingRight:'5px'}}>  <img src={fil} alt="Paris" style={{width:'150px'}} /> </a> */}
+  <a href={fil}  target="_blank" ><span  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',marginBottom:'5px'}}>{fil.slice(48)}</span>
+  </a>
+<br/>
     </React.Fragment>
 
              )): "no files"}
@@ -467,11 +490,11 @@ const SchduleForm = (props) => {
               multiple="true"
               customRequest={dummyRequest}
               // aswin 10/16/2021 start //
-
+              onPreview={handlePreview}
               onChange={ async (e)=>{
                let files=[]
                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
-               console.log(files)
+             //  console.log("episode files ",files)
                props.handleChange('file',files)
               }}
              
@@ -481,6 +504,16 @@ const SchduleForm = (props) => {
               </p>
               <p className="ant-upload-text">Click or drag file to this area to upload</p>
             </Dragger> 
+            <Modal  
+             footer={[
+                <Button key="back" onClick={()=>setPreviewVisible(false)}>
+                  Done
+                </Button>
+             ]}
+                    closable={false}
+                    keyboard={false} centered width={1000} visible={previewVisible} onOk={()=>setPreviewVisible(false)}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
           {/* {state.file!==undefined&&state.file.map((fil)=>{<React.Fragment>
   <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
   </a> <br/>
@@ -563,17 +596,19 @@ const SchduleForm = (props) => {
                 
                 <Row className="text-center" justify="center" style={{marginBottom:'15px'}}>
                   {/* Dipsikha start 23/10 */}
-                <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button>
+                <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button> 
                 { console.log('opacity' + props.opacity1)}
                    {
                      props.opacity1=='1' ?  <Button htmlType="submit" style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button  onClick={props.onSubmit} className="updateBtn" >Update</Button> : 
+                     <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
                    }
                   
-                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<button htmlType="button" className="button1" id="bnid" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></button>  : null}
+                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button className="updateBtn" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={props.onSubmit} >Update</Button> :
+                    <Button className="button1"  style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
                    
                 </Row>
             </Form>

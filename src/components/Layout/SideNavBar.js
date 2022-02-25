@@ -240,9 +240,9 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             {(userInfo.role === "physio" || userInfo.role === "admin") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin") && episodeItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin") && schedulingItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && carePlanItem()}
             {(userInfo.role === "physio" || userInfo.role === "admin") && assessmentItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin") && notesItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin") && carePlanItem()}
         </Menu>
     )
 }

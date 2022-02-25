@@ -23,6 +23,7 @@ import { getEpisode } from "../../API/Episode/EpisodeApi";
 import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
 import {STATECHANGE}  from '../../contextStore/actions/Assesment'
+import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -138,17 +139,6 @@ const EpisodeVisitDetails = () => {
         // })
         // eslint-disable-next-line
     }, []);
-    // useEffect( async () => {
-    //   console.log("history loaction ",history.location)
-    //   if(history.location.state){
-    //       if(history.location.state.prevPath==='/visit')
-    //       if(!isNaN(history.location.state.id)){
-    //           const res = await Patient_profile(parseInt(history.location.state.id))
-    //           console.log("working ",res)
-    //       }
-    //   }
-
-    // }, []);
     //update Patient State 
     const updatePatientState = async (val) => {
         //Updating Care Plan Episode Details
@@ -179,6 +169,49 @@ const EpisodeVisitDetails = () => {
             FamilyHistory: val.patient_Family_History
         });
     }
+    useEffect( async () => {
+        let state = { ...history.location.state };
+        console.log("history loaction ",state)
+        if(history.location.state){
+            if(history.location.state.prevPath==='/visit')
+            if(!isNaN(history.location.state.id)){
+                const res = await Patient_profile(parseInt(history.location.state.id))
+                console.log("working ",res)
+                updatePatientState(res)
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_main_code',
+                        value: res.patient_code
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_name',
+                        value: res.first_name+" "+res.last_name
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'Patient_no',
+                        value: res.mobile_no
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_code',
+                        value: res.pp_patm_id
+                    }
+                })
+                history.replace({ ...history.location, state:{} })
+               // window.history.location.state = {}
+            }
+        }
+  
+      }, []);
     const episodeClick = () => {
         
         history.push({
@@ -266,7 +299,7 @@ const EpisodeVisitDetails = () => {
         return (
             <Row gutter={[10, 10]}>
                 <Col lg={6} md={6} sm={4} xs={24}>
-                    <h3 className="fw-bold">Patient Details</h3>{process.env.NODE_ENV}
+                    <h3 className="fw-bold">Patient Details</h3>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
                     <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
@@ -377,17 +410,28 @@ const EpisodeVisitDetails = () => {
                         marginwidth="0" 
                         scrolling="no"
                     >
-
+                        // http://13.127.176.250:8089/r/2
                         </iframe> */}
+                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
                         <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
-                            src="http://3.83.136.152:8089/superset/dashboard/5/?physio_id=%32"
+                            //physio_id=${localStorage.getItem('userId')}&
+                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
+                            src={`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
                             >
                         </iframe>
+                         {/* <iframe
+                         width={100}
+                         className="iframeDashboard"
+                          height={100}
+                        frameBorder="0"
+                         src="http://13.127.176.250:8089/superset/dashboard/1/?native_filters=%28%29?standalone=true"
+                         >
+                         </iframe> */}
                         {/* <Tempdashboard viewstate={viewState}  /> */}
                     </TabPane>
                 </Tabs>

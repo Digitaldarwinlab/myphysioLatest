@@ -96,6 +96,14 @@ function Tabs({
                 </Col>
               </td>
             </tr>
+            <tr>
+              <td>Line of Gravity</td>
+              <td>
+                <Col span={20}>
+                  <Input className="text-center" value={frontAngles[5]&&frontAngles[5].toFixed(2)} />
+                </Col>
+              </td>
+            </tr>
           </table>
           <hr style={{ margin: "0" }} />
           <Row>
@@ -203,6 +211,7 @@ function Tabs({
                             res[2],
                             res[3],
                             res[4],
+                            res[5]
                           ]);
                           console.log('backward')
                           darwin.stop()

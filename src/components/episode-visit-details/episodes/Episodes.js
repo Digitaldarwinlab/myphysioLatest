@@ -154,7 +154,7 @@ const Episodes = ({ handleClick2 }) => {
   dispatch({
     type: EPISODE_STATECHANGE,
     payload: {
-        key: 'file',
+        key: 'files',
         value: newData.files,
     }
 })

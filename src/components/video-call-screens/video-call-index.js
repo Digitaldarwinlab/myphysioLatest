@@ -340,7 +340,7 @@ const ifCheck = () => {
           </div>
           <div style={{display:videoVisible}} > 
           <div class="d-flex flex-row-reverse mt-4">
-          <video src={'https://myphysio.digitaldarwin.in/'+videoUrl} autoPlay controls loop className="videoScreenCon" />
+          <video src={`${process.env.REACT_APP_EXERCISE_URL}/${videoUrl}`} autoPlay controls loop className="videoScreenCon" />
           </div>
           <div class="d-flex flex-row-reverse mt-2 mr-3">
           <select name="ex" id="ex" onChange={ExChanges}>

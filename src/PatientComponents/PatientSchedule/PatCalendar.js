@@ -738,10 +738,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
      <>
         <div className="prescription-row">
          <span className="presription-col">
-           <b>Prescription Detail ({convert(new Date)}) </b>  
+           <b>Prescription Detail ({convert(new Date())}) </b>  
          </span>
        </div>
-     {
+     {state.current_pres&&
       Object.keys(state.current_pres).length>0 && <div className="p-2  border visit-card-2" id="visit-card-2">
        <div className="presription-row">
              <b>Medication Details </b> <br/>

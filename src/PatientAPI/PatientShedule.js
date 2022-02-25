@@ -30,6 +30,27 @@ export const GetPatientCarePlan = async (episodeId, date) => {
     }
 }
 
+export const updatePainMeter = async (id,pain) => {
+    let body = {
+        id:id,
+        pain_meter:pain
+    }
+    console.log('pain meter ',body)
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    try {
+        await fetch(process.env.REACT_APP_API + "/update_pain_meter/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const  update_careplan=async (object,exercise,pain,exerciseTime,careplanId)=>{
     console.log(exercise)
     console.log('careplanId ::::::::::::',careplanId)
