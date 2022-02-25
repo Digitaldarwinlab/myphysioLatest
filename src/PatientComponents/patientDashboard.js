@@ -288,8 +288,8 @@ const PatientDashboard = () => {
                             </p>}
                         </Col>
                     </Row>
-                    <BottomCard
-                        therapy="Shoulder Therapy" about={about} progress={70} />
+                    {/* <BottomCard
+                        therapy="Shoulder Therapy" about={about} progress={70} /> */}
 
                     <PreviousWeekAchievements data={AchievcemntsData} />
                     <div className="card mb-2 mt-2 pb-2">

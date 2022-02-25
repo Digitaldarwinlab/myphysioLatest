@@ -671,7 +671,6 @@ class AI extends Component {
 
         console.log("Joints ",joints)
         console.log('Joint pre ',this.state.PreKey)
-        console.log('url ','https://myphysio.digitaldarwin.in/' + this.state.videoUrl)
 
         return (
             <Profiler
@@ -708,7 +707,7 @@ class AI extends Component {
                         </Col>
                         <Col md={8} lg={8} sm={24} xs={8} id="Ex_vid" className="Ex_vid">
                             <div className="">
-                                <video src={'https://myphysio.digitaldarwin.in/' + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
+                                <video src={ + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>
                             <Card style={{ marginTop: 5, borderRadius: 10 }} actions={[
                                 <Button className="mx-2"

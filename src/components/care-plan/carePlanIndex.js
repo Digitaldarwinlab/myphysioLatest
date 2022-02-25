@@ -76,6 +76,13 @@ export const getEpisodeDetails = async (pData, dispatch) => {
                 value: ""
             }
         })
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "pp_pm",
+                value: profile.pp_pm
+            }
+        })
         {/*  aswin 10/24/2021 stop */}
         if (episode.length !== 0) {
             // if(episode[0].end_date.length>0){
@@ -256,7 +263,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-          const res = await fetch("https://myphysio.digitaldarwin.in/api/basic_detail/",{
+          const res = await fetch(`${process.env.REACT_APP_API}/basic_detail/`,{
             headers:headers,
             method:"POST",
             body:JSON.stringify(body)
@@ -550,6 +557,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     //filtered Exercise
     const filterExercise = async (checked, type, name) => {
         if (checked) {
+            console.log("filter inside checked")
             const newData = { ...checkedList };
             let index = newData[type].indexOf(name);
             if (index === -1) {
@@ -559,9 +567,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             }
             const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
         
-            if (!data['total_exercise with applied filter']) {
-                data['total_exercise with applied filter'] = data.length
-            }
+            // if (!data['total_exercise with applied filter']) {
+            //     data['total_exercise with applied filter'] = data.length
+            // }
             console.log('filter full exercise ',data)
             let cartActualData = data.data.filter((val) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
@@ -581,6 +589,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             setCheckedList(newData);
             setLength(cartActualData.length);
         } else {
+            console.log("filter inside not checked")
             const newData = { ...checkedList };
             let index = newData[type].indexOf(name);
             newData[type].splice(index, 1);
@@ -594,12 +603,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             // console.log('filter pageSize ',Pagination1.pageSize)
             // console.log('filter totalPage ', data['total_exercise with applied filter'] / (Pagination1.pageSize))
             // console.log('filter maxIndex ',(Pagination1.pageSize))
-            console.log('filter total_exercise ',data.total_exercise)
+            console.log('filter total_exercise ',data.total_exercise?data.total_exercise : data['total_exercise with applied filter'])
             console.log('filter pageSize ',Pagination1.pageSize)
-            console.log('filter pageSize ',data.total_exercise / (Pagination1.pageSize))
+            console.log('filter pageSize ',(data.total_exercise?data.total_exercise : data['total_exercise with applied filter']) / (Pagination1.pageSize))
             console.log('calliung')
             newPagData['current'] = 1
-            newPagData["totalPage"] = data.total_exercise / (Pagination1.pageSize);
+            newPagData["totalPage"] = (data.total_exercise?data.total_exercise : data['total_exercise with applied filter']) / (Pagination1.pageSize);
             //newPagData['pageSize']
          //   newPagData["minIndex"] = 0;
           //  newPagData["maxIndex"] = (Pagination1.pageSize);

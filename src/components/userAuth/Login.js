@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AuthForm from './Form';
 import loginImage from "./../../assets/loginImage.JPG";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
@@ -11,6 +11,22 @@ import withClearCache from "../../ClearCache";
 const ClearCacheComponent = withClearCache(MainApp);
 //const [visible, setVisible] = useState(false);
 const Login = (props)=>{
+    useEffect(() => {
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia(
+            {audio:true,video: { width: 1280, height: 720 } },
+            function (stream) {v
+            console.log(stream)
+            },
+            function (err) {
+              console.log("The following error occurred: " + err.name);
+            }
+          );
+        } else {
+          console.log("getUserMedia not supported");
+        }
+      }, []);
+
     return (
         <>
         <Row className="cont-fluid">

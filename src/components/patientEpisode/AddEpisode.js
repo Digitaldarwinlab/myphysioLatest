@@ -64,6 +64,8 @@ const AddEpisode = () => {
                     value: value.dateString
                 }
             })
+        
+        console.log("episode ",key , " ", value)
         } else {
             dispatch({
                 type: EPISODE_STATECHANGE,

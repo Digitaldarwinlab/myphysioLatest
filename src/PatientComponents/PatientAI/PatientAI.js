@@ -11,7 +11,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import UseStopwatchDemo from './components/UseStopwatchDemo';
 import { STATECHANGE } from '../../contextStore/actions/Assesment'
-import { update_careplan } from "../../PatientAPI/PatientShedule";
+import { updatePainMeter, update_careplan } from "../../PatientAPI/PatientShedule";
 //colors
 const colors = ["#74b551", "#80bb51", "#97c24c", "#97c24c", "#c0ca43", "#f1ca2d", "#ebb231", "#e29830", "#db7f2c", "#d6662c", "#d04b29", "#c43839"];
 //styles
@@ -283,15 +283,9 @@ class PatientAI extends Component {
             </>
         )
     }
-    finish = async () => {
-        // arr[0].currenset=0;
-        // arr[0].currenRep=0; 
-        // console.log("careplanId :" +this.state.careplanId)
-        // const response = await update_careplan(this.state.exerciseData, this.state.currentexercise,
-        //     this.state.pain, this.state.exerciseTime, this.state.careplanId)
-        // console.log('response')
-        // console.log(response)
-        //this.props.history.push('/#');
+    finish = async (id) => {
+        console.log('pain meter ',this.props.history.location.state.exercises[0].pp_cp_id, " ",this.props.FirstAssesmentReducer.PainMeter)
+            await updatePainMeter(this.props.history.location.state.exercises[0].pp_cp_id,this.props.FirstAssesmentReducer.PainMeter)
             window.darwin.stop();
             const video = document.getElementById('video');
             const mediaStream = video.srcObject;
@@ -648,6 +642,7 @@ class PatientAI extends Component {
                     title=""
                     //closable
                     visible={this.state.visible}
+                  //  visible={true}
                     footer={null}
                     closable={false}
                     keyboard={false}
@@ -690,5 +685,8 @@ const mapDispatchToProps = dispatch => ({
         });
     },
 });
+const mapStateToProps = (state) => ({
+    FirstAssesmentReducer:state.FirstAssesment
+  });
 
-export default connect(null, mapDispatchToProps)(PatientAI)
+export default connect(mapStateToProps, mapDispatchToProps)(PatientAI)

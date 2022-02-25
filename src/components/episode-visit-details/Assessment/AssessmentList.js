@@ -937,6 +937,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                  {<Descriptions.Item label=" Umbilicus">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[2]}</Descriptions.Item>}
                                                   {<Descriptions.Item label="Knees">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[3]}</Descriptions.Item>}
                                                  {<Descriptions.Item label="Ankle/Foot">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[4]}</Descriptions.Item>}
+                                                 {<Descriptions.Item label="Line of Gravity">{Object.keys(data.posture).length > 0&&data.posture['Posterial_view']&&data.posture['Posterial_view'].Angles[5]}</Descriptions.Item>}
                                               </Descriptions>
                                               </Col>
                                               <Descriptions title="">

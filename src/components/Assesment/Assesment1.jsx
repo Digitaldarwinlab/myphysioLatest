@@ -1570,6 +1570,7 @@ const [tempstate ,setTemp] = useState(true)
                  <Descriptions.Item label="Umbilicus">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[2]}</Descriptions.Item>
                  <Descriptions.Item label="Knees">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[3]}</Descriptions.Item>
                  <Descriptions.Item label="Ankle/Foot">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[4]}</Descriptions.Item>
+                 <Descriptions.Item label="Line of Gravity">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[5]}</Descriptions.Item>
              </Descriptions>
          </Col>
          {state.FirstAssesment.FrontCheck.length>0&&<Col md={24} lg={24} sm={24} xs={24}>
