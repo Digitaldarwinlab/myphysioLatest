@@ -4,6 +4,7 @@ import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../../styles/userAuth/userAuth.css"; 
 import { Row,Col} from 'antd';
 
+
 const Signup = ()=>{
     return (
         <Row className="cont-fluid">

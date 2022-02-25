@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,Profiler } from "react";
 import { Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { EPISODE_STATECHANGE, EPISODE_BOOK_SUCCESS, EPISODE_BOOK_FAILURE, EPISODE_CLEAR_STATE } from "./../../contextStore/actions/episode";
@@ -222,7 +222,24 @@ const AddEpisode = () => {
 
 
     return (
-        
+        <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
             <SchduleForm 
             issuccess={issuccess}
                 isModalVisible={isModalVisible}
@@ -246,7 +263,7 @@ const AddEpisode = () => {
                 isupdating={isupdating}
                 Setupdating={Setupdating}
             />
-
+</Profiler>
        
     )
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Profiler } from 'react';
 import { Row, Col, Switch, Checkbox, Card, Button, notification } from "antd"
 import { CaretLeftFilled, CameraFilled, MinusCircleOutlined, PlayCircleOutlined, PauseCircleOutlined, SwapOutlined, RollbackOutlined } from '@ant-design/icons';
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
@@ -674,6 +674,24 @@ class AI extends Component {
         console.log('url ','https://myphysio.digitaldarwin.in/' + this.state.videoUrl)
 
         return (
+            <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
             <>
                 <div className="body" id="body">
                     <div id="info" style={{ display: 'none' }}>
@@ -761,6 +779,7 @@ class AI extends Component {
                     </Row>
                 </div>
             </>
+            </Profiler>
         )
     }
 }

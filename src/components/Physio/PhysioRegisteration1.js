@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,Profiler } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { PHYSIO_STATE_CHANGE } from "./../../contextStore/actions/physioRegAction";
 import { VALIDATION } from "../../contextStore/actions/authAction";
@@ -147,6 +147,7 @@ const PhysioRegisteration1 = (props) => {
         }, 10000);
     }
     return (
+      
         <>
             <div style={{ minHeight: "20px" }}></div>
             <Row>

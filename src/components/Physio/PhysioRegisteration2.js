@@ -238,6 +238,7 @@ const PhysioRegisteration2 = (props) => {
         props.back();
     }
     return (
+       
         <>
             <div style={{ minHeight: "20px" }}></div>
             <h3 className="page-heading" id="page-heading" ><i class="fas fa-user-plus" ></i> Physiotherapist </h3>
@@ -483,6 +484,7 @@ const PhysioRegisteration2 = (props) => {
                
             </Form>
         </>
+        
     )
 }
 export default PhysioRegisteration2;

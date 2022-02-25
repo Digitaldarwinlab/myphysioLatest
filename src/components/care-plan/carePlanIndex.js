@@ -165,6 +165,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     })
     const reduxState = useSelector(state => state);
     const [firstTotalEx, setFirstTotalEx] = useState([])
+
+    console.log('careplanStarted', reduxState.carePlanRedcucer);
+
     useEffect(()=>{
         {/*  aswin 10/22/2021 start */}
         if(reduxState.carePlanRedcucer.pp_patm_id===""){

@@ -138,7 +138,7 @@ export const getPatientList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
-
+        console.log('Id:',id);
         const response = await fetch(process.env.REACT_APP_API + "/get-patient/", {
             method: "POST",
             headers: headers,
