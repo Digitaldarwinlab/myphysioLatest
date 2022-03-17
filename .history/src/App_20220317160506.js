@@ -104,9 +104,7 @@ const App = () => {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
 
-	if (process.env.REACT_APP_STAGE === 'PROD')
-  console.log = function no_console() {};
-
+	
 
 	return (
 		<React.Fragment>

@@ -439,7 +439,7 @@ const SearchPatient = () => {
                                                             <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
                                                         {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null} 
                                                         
-                                                      {item.status_flag==0 ?<FaKey onClick={() => handleAuthorizeClick(item)}/>: ''}
+                                                      {item.status_flag===0 <FaKey onClick={() => handleAuthorizeClick(item)}/>}
                                                         </Col>
                                                 </Row>
                                             )

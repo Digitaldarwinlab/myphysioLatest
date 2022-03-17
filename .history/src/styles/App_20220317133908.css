@@ -1030,7 +1030,7 @@ body input {
   border: 0px !important;
 }
 button.userAuthbtn {
-  /* background: #fff !important; */
+  background: #fff !important;
   height: 48px;
 }
 .userNameLogin {
@@ -1076,7 +1076,7 @@ button.skip-button,
 button,
 button.ant-btn.SchForm {
   background: #2d7ecb !important;
-  border: 0px !important;
+  border: px !important;
   border-radius: 0px !important;
   height: 40px;
 }

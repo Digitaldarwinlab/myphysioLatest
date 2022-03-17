@@ -81,7 +81,7 @@ const SearchPatient = () => {
             <PatDetails title={val.title} />
         );
     }
-    console.log(patientData);
+    console.log(patientData)
 
     const onSearch = async (value) => {
      //  console.log(value.target.value)
@@ -438,8 +438,8 @@ const SearchPatient = () => {
                                                             <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
                                                             <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
                                                         {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null} 
-                                                        
-                                                      {item.status_flag==0 ?<FaKey onClick={() => handleAuthorizeClick(item)}/>: ''}
+                                                        {console.log(it)}
+                                                      {<FaKey onClick={() => handleAuthorizeClick(item)}/>}
                                                         </Col>
                                                 </Row>
                                             )
