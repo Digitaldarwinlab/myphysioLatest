@@ -1,0 +1,32 @@
+
+
+.login-logo{
+
+    max-height: 250px;
+    width: auto;
+}
+
+.logo {
+   paddi
+}
+
+
+.initial-login{
+ 
+    display: block;
+
+    
+}
+.initial-dashboard{
+    display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+}
+.dashboard-logo{
+    min-height: 40px;
+    width: auto;
+}
+
+.pp{
+    background: red;
+}
