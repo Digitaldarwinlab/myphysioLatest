@@ -7,7 +7,7 @@ const PatientRoute = ({component: Component, ...rest}) => {
         // Otherwise, redirect the user to /signin page
         <Route {...rest} render={props => (
             isAuthenticated() ?
-                (getUserData() === "admin" || getUserData() === "physio")
+                (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")
                 ?<Redirect to="/dashboard" />
                 :(<Component {...props} />)
             : <Redirect to="/" />

@@ -112,15 +112,15 @@ const PhysioRegisteration3 = (props) => {
             } else {
                 result = await physioUpdate(state.physioRegisterReducer, dispatch);
             }
-            if (result && result[0]) {
-                window.location.href = "/physio/list";
-            } else {
-                dispatch({ type: PHYSIO_REGISTER_FAILURE });
-                dispatch({ type: VALIDATION, payload: { error: result[1] } });
-                setTimeout(() => {
-                    dispatch({ type: VALIDATION, payload: { error: "" } });
-                }, 10000);
-            }
+            // if (result && result[0]) {
+            //     window.location.href = "/physio/list";
+            // } else {
+            //     dispatch({ type: PHYSIO_REGISTER_FAILURE });
+            //     dispatch({ type: VALIDATION, payload: { error: result[1] } });
+            //     setTimeout(() => {
+            //         dispatch({ type: VALIDATION, payload: { error: "" } });
+            //     }, 10000);
+            // }
       //  }
     }
 

@@ -419,6 +419,7 @@ const [tempstate ,setTemp] = useState(true)
   let plainOptions1 =['Diabetes','HYN','COPD','Cardiac']
   const [medic ,setMedic] = useState(true)
   const [others ,setOthers] = useState(true)
+  const [Surgical_History_Notes ,SetSurgical_History_Notes] = useState(true)
   const handleAddFields = () => {
    // setInputFields([...inputFields, { Occupation: '', Duration: '' }])
    dispatch({ type: ASSESSMENT_ADD_SUB_INPUT, payload: { type: "subjective" } })
@@ -447,19 +448,36 @@ const [tempstate ,setTemp] = useState(true)
   const [RomVisibility, setRomVisibility] = useState('block');
 
   const [angleValues, setAngleValues] = useState({
-      LeftShoulder_ver: '',
-      RightShoulder_ver: '',
-      LeftElbow: '',
-      RightElbow: '',
-      LeftHip: '',
-      RightHip: '',
-      LeftKnee: '',
-      RightKnee: '',
-      LeftNeck: '',
-      RightNeck: '',
-      LeftPelvic: '',
-      RightPelvic: '',
+      leftShoulder: '',
+      rightShoulder: '',
+      leftElbow: '',
+      rightElbow: '',
+      leftHip: '',
+      rightHip: '',
+      leftKnee: '',
+      rightKnee: '',
+      leftNeck: '',
+      rightNeck: '',
+      leftPelvic: '',
+      rightPelvic: '',
   })
+
+  const [angleValuesL, setAngleValuesL] = useState({
+    leftShoulder: '',
+    leftElbow: '',
+    leftHip: '',
+    leftKnee: '',
+    leftNeck: '',
+    leftPelvic: '',
+})
+const [angleValuesR, setAngleValuesR] = useState({
+  rightShoulder: '',
+  rightElbow: '',
+  rightHip: '',
+  rightKnee: '',
+  rightNeck: '',
+  rightPelvic: '',
+})
 
 
   useEffect(() => {
@@ -500,38 +518,38 @@ const [tempstate ,setTemp] = useState(true)
       {
           key: '1',
           angles: 'Left Shoulder(ver)',
-          min: angleValues.LeftShoulder_ver.min,
-          max: angleValues.LeftShoulder_ver.max
+          min: angleValues.leftShoulder.min,
+          max: angleValues.leftShoulder.max
       },
       {
           key: '2',
           angles: 'Right Shoulder(ver)',
-          min: angleValues.RightShoulder_ver.min,
-          max: angleValues.RightShoulder_ver.max
+          min: angleValues.rightShoulder.min,
+          max: angleValues.rightShoulder.max
       },
       {
           key: '3',
           angles: 'Left Elbow',
-          min: angleValues.LeftElbow.min,
-          max: angleValues.LeftElbow.max
+          min: angleValues.leftElbow.min,
+          max: angleValues.leftElbow.max
       },
       {
           key: '4',
           angles: 'Right Elbow',
-          min: angleValues.RightElbow.min,
-          max: angleValues.RightElbow.max
+          min: angleValues.rightElbow.min,
+          max: angleValues.rightElbow.max
       },
       {
           key: '5',
           angles: 'Neck Left',
-          min: angleValues.LeftNeck.min,
-          max: angleValues.LeftNeck.max
+          min: angleValues.leftNeck.min,
+          max: angleValues.leftNeck.max
       },
       {
           key: '6',
           angles: 'Neck Right',
-          min: angleValues.RightNeck.min,
-          max: angleValues.RightNeck.max
+          min: angleValues.rightNeck.min,
+          max: angleValues.rightNeck.max
       }
 
   ]
@@ -540,36 +558,112 @@ const [tempstate ,setTemp] = useState(true)
       {
           key: '7',
           angles: 'Left Hip',
-          min: angleValues.LeftHip.min,
-          max: angleValues.LeftHip.max
+          min: angleValues.leftHip.min,
+          max: angleValues.leftHip.max
       }, {
           key: '8',
           angles: 'Right Hip',
-          min: angleValues.RightHip.min,
-          max: angleValues.RightHip.max
+          min: angleValues.rightHip.min,
+          max: angleValues.rightHip.max
       }, {
           key: '9',
           angles: 'Left Knee',
-          min: angleValues.LeftKnee.min,
-          max: angleValues.LeftKnee.max
+          min: angleValues.leftKnee.min,
+          max: angleValues.leftKnee.max
       }, {
           key: '10',
           angles: 'Right Knee',
-          min: angleValues.RightKnee.min,
-          max: angleValues.RightKnee.max
+          min: angleValues.rightKnee.min,
+          max: angleValues.rightKnee.max
       }, {
           key: '11',
           angles: 'Pelvic Left',
-          min: angleValues.LeftPelvic.min,
-          max: angleValues.LeftPelvic.max
+          min: angleValues.leftPelvic.min,
+          max: angleValues.leftPelvic.max
       }, {
           key: '12',
           angles: 'Pelvic Right',
-          min: angleValues.RightPelvic.min,
-          max: angleValues.RightPelvic.max
+          min: angleValues.rightPelvic.min,
+          max: angleValues.rightPelvic.max
       }
   ]
-  
+
+  const tableDataL = [
+    {
+      key: '1',
+      angles: 'Left Shoulder(ver)',
+      min: angleValuesL.leftShoulder.min,
+      max: angleValuesL.leftShoulder.max
+  },
+  {
+      key: '3',
+      angles: 'Left Elbow',
+      min: angleValuesL.leftElbow.min,
+      max: angleValuesL.leftElbow.max
+  },
+  {
+      key: '5',
+      angles: 'Neck Left',
+      min: angleValuesL.leftNeck.min,
+      max: angleValuesL.leftNeck.max
+  },
+  {
+    key: '7',
+    angles: 'Left Hip',
+    min: angleValuesL.leftHip.min,
+    max: angleValuesL.leftHip.max
+},
+ {
+    key: '9',
+    angles: 'Left Knee',
+    min: angleValuesL.leftKnee.min,
+    max: angleValuesL.leftKnee.max
+}, 
+ {
+    key: '11',
+    angles: 'Pelvic Left',
+    min: angleValuesL.leftPelvic.min,
+    max: angleValuesL.leftPelvic.max
+},
+]
+const tableDataR = [
+  {
+      key: '2',
+      angles: 'Right Shoulder(ver)',
+      min: angleValuesR.rightShoulder.min,
+      max: angleValuesR.rightShoulder.max
+  },
+ 
+  {
+      key: '4',
+      angles: 'Right Elbow',
+      min: angleValuesR.rightElbow.min,
+      max: angleValuesR.rightElbow.max
+  },
+  {
+      key: '6',
+      angles: 'Neck Right',
+      min: angleValuesR.rightNeck.min,
+      max: angleValuesR.rightNeck.max
+  },
+  {
+    key: '8',
+    angles: 'Right Hip',
+    min: angleValuesR.rightHip.min,
+    max: angleValuesR.rightHip.max
+},
+ {
+    key: '10',
+    angles: 'Right Knee',
+    min: angleValuesR.rightKnee.min,
+    max: angleValuesR.rightKnee.max
+}, {
+    key: '12',
+    angles: 'Pelvic Right',
+    min: angleValuesR.rightPelvic.min,
+    max: angleValuesR.rightPelvic.max
+}
+]
   useEffect(() => {
       const question = document.getElementById("question")
       const rom = document.getElementById("rom")
@@ -595,15 +689,18 @@ const [tempstate ,setTemp] = useState(true)
       setPosture(true)
     }
       // Check if AI_Data
-      if (state.FirstAssesment.AI_data === "") {
+      if (state.FirstAssesment.Anterior_AI_Data == "" || state.FirstAssesment.LeftLateral_AI_Data == "" || state.FirstAssesment.RightLateral_AI_Data == ""  ) {
           rom.innerHTML = "AROM Assesment"
           setRomVisibility('none')
       }
       else {
-          const exercise = state.FirstAssesment.Exercise_Name
+         // const exercise = state.FirstAssesment.Exercise_Name
           //instead of fetching from store
           //fetch from loalstorage directly
-          const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+      //    const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+          const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
+          const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
+          const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
           //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
           console.log("Ai data in body.js from localstorage: ", AI_Data)
           // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
@@ -613,64 +710,102 @@ const [tempstate ,setTemp] = useState(true)
           setRomVisibility('block')
           setAngleValues(preValues => ({
               ...preValues,
-              ['LeftShoulder_ver']: AI_Data["Left Shoulder(ver)"],
-              ['RightShoulder_ver']: AI_Data["Right Shoulder(ver)"],
-              ['LeftElbow']: AI_Data["Left Elbow"],
-              ['RightElbow']: AI_Data["Right Elbow"],
-              ['LeftHip']: AI_Data["Left Hip"],
-              ['RightHip']: AI_Data["Right Hip"],
-              ['LeftKnee']: AI_Data["Left Knee"],
-              ['RightKnee']: AI_Data["Right Knee"],
-              ['LeftNeck']: AI_Data["Neck Left"],
-              ['RightNeck']: AI_Data["Neck Right"],
-              ['LeftPelvic']: AI_Data["Pelvic Left"],
-              ['RightPelvic']: AI_Data["Pelvic Right"]
+              ['leftShoulder']: Anterior_AI_Data["Left Shoulder(ver)"],
+              ['rightShoulder']: Anterior_AI_Data["Right Shoulder(ver)"],
+              ['leftElbow']: Anterior_AI_Data["Left Elbow"],
+              ['rightElbow']: Anterior_AI_Data["Right Elbow"],
+              ['leftHip']: Anterior_AI_Data["Left Hip"],
+              ['rightHip']: Anterior_AI_Data["Right Hip"],
+              ['leftKnee']: Anterior_AI_Data["Left Knee"],
+              ['rightKnee']: Anterior_AI_Data["Right Knee"],
+              ['leftNeck']: Anterior_AI_Data["Neck Left"],
+              ['rightNeck']: Anterior_AI_Data["Neck Right"],
+              ['leftPelvic']: Anterior_AI_Data["Pelvic Left"],
+              ['rightPelvic']: Anterior_AI_Data["Pelvic Right"]
           }))
+          setAngleValuesL(preValues => ({
+            ...preValues,
+            ['leftShoulder']: LeftLateral_AI_Data["Left Shoulder(ver)"],
+            ['leftElbow']: LeftLateral_AI_Data["Left Elbow"],
+            ['leftHip']: LeftLateral_AI_Data["Left Hip"],
+            ['leftKnee']: LeftLateral_AI_Data["Left Knee"],
+            ['leftNeck']: LeftLateral_AI_Data["Neck Left"],
+            ['leftPelvic']: LeftLateral_AI_Data["Pelvic Left"],
+        }))
+        setAngleValuesR(preValues => ({
+          ...preValues,
+          ['rightShoulder']: RightLateral_AI_Data["Right Shoulder(ver)"],
+          ['rightElbow']: RightLateral_AI_Data["Right Elbow"],
+          ['rightHip']: RightLateral_AI_Data["Right Hip"],
+          ['rightKnee']: RightLateral_AI_Data["Right Knee"],
+          ['rightNeck']: RightLateral_AI_Data["Neck Right"],
+          ['rightPelvic']: RightLateral_AI_Data["Pelvic Right"]
+      }))
       }
   }, angleValues)
   // NOTE: Above useEffect does same thing, repeated code 
-  useEffect(() => {
-      function checkUserData() {
-          var AI = JSON.parse(localStorage.getItem("AI_Data"))
-          var data = JSON.parse(localStorage.getItem("ExerciseName"))
-          //  console.log(AI,data)
-          state.FirstAssesment.Exercise_Name = data
-          state.FirstAssesment.AI_data = AI
-          const exercise = state.FirstAssesment.Exercise_Name
-         const AI_Data = state.FirstAssesment.AI_data[exercise].angles
-
-         // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+  // useEffect(() => {
+  //     function checkUserData() {
+  //         var AI = JSON.parse(localStorage.getItem("AI_Data"))
+  //         var data = JSON.parse(localStorage.getItem("ExerciseName"))
+  //         //  console.log(AI,data)
+  //         state.FirstAssesment.Exercise_Name = data
+  //         state.FirstAssesment.AI_data = AI
+  //         const exercise = state.FirstAssesment.Exercise_Name
+  //        const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+  //        const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
+  //        const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
+  //        const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
+  //        // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
           
-          console.log("Ai data in body.js from localstorage: ", AI_Data)
+  //         console.log("Ai data in body.js from localstorage: ", AI_Data)
 
-          rom.innerHTML = "AROM Assement calculated"
-          rom.style.backgroundColor = "honeydew"
-          rom.style.borderColor = "limegreen"
-          setRomVisibility('block')
-          setAngleValues(preValues => ({
-              ...preValues,
-              ['LeftShoulder_ver']: AI_Data["Left Shoulder(ver)"],
-              ['RightShoulder_ver']: AI_Data["Right Shoulder(ver)"],
-              ['LeftElbow']: AI_Data["Left Elbow"],
-              ['RightElbow']: AI_Data["Right Elbow"],
-              ['LeftHip']: AI_Data["Left Hip"],
-              ['RightHip']: AI_Data["Right Hip"],
-              ['LeftKnee']: AI_Data["Left Knee"],
-              ['RightKnee']: AI_Data["Right Knee"],
-              ['LeftNeck']: AI_Data["Neck Left"],
-              ['RightNeck']: AI_Data["Neck Right"],
-              ['LeftPelvic']: AI_Data["Pelvic Left"],
-              ['RightPelvic']: AI_Data["Pelvic Right"]
-          }))
+  //         rom.innerHTML = "AROM Assement calculated"
+  //         rom.style.backgroundColor = "honeydew"
+  //         rom.style.borderColor = "limegreen"
+  //         setRomVisibility('block')
+  //         setAngleValues(preValues => ({
+  //           ...preValues,
+  //           ['leftShoulder']: Anterior_AI_Data["Left Shoulder(ver)"],
+  //           ['rightShoulder']: Anterior_AI_Data["Right Shoulder(ver)"],
+  //           ['leftElbow']: Anterior_AI_Data["Left Elbow"],
+  //           ['rightElbow']: Anterior_AI_Data["Right Elbow"],
+  //           ['leftHip']: Anterior_AI_Data["Left Hip"],
+  //           ['rightHip']: Anterior_AI_Data["Right Hip"],
+  //           ['leftKnee']: Anterior_AI_Data["Left Knee"],
+  //           ['rightKnee']: Anterior_AI_Data["Right Knee"],
+  //           ['leftNeck']: Anterior_AI_Data["Neck Left"],
+  //           ['rightNeck']: Anterior_AI_Data["Neck Right"],
+  //           ['leftPelvic']: Anterior_AI_Data["Pelvic Left"],
+  //           ['rightPelvic']: Anterior_AI_Data["Pelvic Right"]
+  //       }))
+  //       setAngleValuesL(preValues => ({
+  //         ...preValues,
+  //         ['leftShoulder']: LeftLateral_AI_Data["Left Shoulder(ver)"],
+  //         ['leftElbow']: LeftLateral_AI_Data["Left Elbow"],
+  //         ['leftHip']: LeftLateral_AI_Data["Left Hip"],
+  //         ['leftKnee']: LeftLateral_AI_Data["Left Knee"],
+  //         ['leftNeck']: LeftLateral_AI_Data["Neck Left"],
+  //         ['leftPelvic']: LeftLateral_AI_Data["Pelvic Left"],
+  //     }))
+  //     setAngleValuesR(preValues => ({
+  //       ...preValues,
+  //       ['rightShoulder']: RightLateral_AI_Data["Right Shoulder(ver)"],
+  //       ['rightElbow']: RightLateral_AI_Data["Right Elbow"],
+  //       ['rightHip']: RightLateral_AI_Data["Right Hip"],
+  //       ['rightKnee']: RightLateral_AI_Data["Right Knee"],
+  //       ['rightNeck']: RightLateral_AI_Data["Neck Right"],
+  //       ['rightPelvic']: RightLateral_AI_Data["Pelvic Right"]
+  //   }))
 
-      }
+  //     }
 
-      window.addEventListener('storage', checkUserData)
+  //     window.addEventListener('storage', checkUserData)
 
-      return () => {
-          window.removeEventListener('storage', checkUserData)
-      }
-  }, [])
+  //     return () => {
+  //         window.removeEventListener('storage', checkUserData)
+  //     }
+  // }, [])
 
 
   const handleChange1 = (key, value, id = 0) => {
@@ -1210,16 +1345,25 @@ const [tempstate ,setTemp] = useState(true)
                         <option value="Desk Job">Desk Job</option>
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
+                        <option value="Home Maker">Home Maker</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Sports">Sports</option>
                       </select>
                     </Col>
                        {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}
                  
-                    <Col md={24} lg={12} sm={24} xs={24}>
+                    <Col md={24} lg={state.FirstAssesment.subjective[index].occupation==='Sports'?5:12} sm={24} xs={24}>
                       <h4>Duration</h4>
                       <Radio.Group required options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
                       </Radio.Group>
-                    </Col>
+                      </Col>
+                      { state.FirstAssesment.subjective[index].occupation==='Sports'&&<Col md={24} lg={6} sm={24} xs={24}>
+                      <h4>Sports Type</h4>
+                    <input class="mx-3 p-2" onChange={(e)=>{
+                          handleChange('Sports Type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                      }} value={state.FirstAssesment.Others} type="text" name='othText' placeholder="Sports Type" />
+                </Col>}
                   </Row>
                 </div>
             )
@@ -1231,7 +1375,7 @@ const [tempstate ,setTemp] = useState(true)
 
           <div className="row py-0 mx-1">
             <div className="col" style={{paddingLeft:'0px'}}>
-              <button type="button" disabled={state.FirstAssesment.subjective.length===3?true:false} onClick={() => handleAddFields()} class="btn btn-primary ">+</button>
+              <button type="button" onClick={() => handleAddFields()} class="btn btn-primary ">+</button>
               <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
 
             </div>
@@ -1259,10 +1403,10 @@ const [tempstate ,setTemp] = useState(true)
 
         <Row gutter={[10, 10]} className="py-3">
           <Col md={24} lg={24} sm={24} xs={24}>
-            <h4><b>History Of Presenting Complaint</b></h4>
+            <h4><b>History Of Present Complaint</b></h4>
           </Col>
           <Col md={24} lg={24} sm={24} xs={24} className="mx-2" style={{paddingLeft:'0px'}}>
-          <Radio.Group options={['Sudden','Gradual','History of Fail','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
+          <Radio.Group options={['Sudden','Gradual','History of Fail','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
             {/* <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
@@ -1316,9 +1460,24 @@ const [tempstate ,setTemp] = useState(true)
                 }}
                 options={['Others']}
               />
-                <input class="mx-3 p-2" onChange={(e)=>{
+                <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
                     handleChange('Others',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
                 }} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
+
+                 <Checkbox.Group
+                style={{ paddingLeft: "0px" }}
+                name="Surgical History Notes"
+                value={state.FirstAssesment.Surgical_History_Notes1}
+                onChange={(e) => {
+                  SetSurgical_History_Notes(!Surgical_History_Notes)
+                  handleChange('Surgical_History_Notes_check',Surgical_History_Notes)
+                  handleChange('Surgical_History_Notes1',e)
+                }}
+                options={['Surgical History Notes']}
+              />
+                <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
+                    handleChange('Surgical_History_Notes',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                }} value={state.FirstAssesment.Surgical_History_Notes} disabled={Surgical_History_Notes} type="text" name='Surgical_History_NotesText' placeholder="Surgical History Notes" />
               {/* <div className="row" name="past_medical_history" >
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
@@ -1376,6 +1535,22 @@ const [tempstate ,setTemp] = useState(true)
               <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
    
               </Radio.Group>
+            </Col>
+          </Row>
+        </div>
+        <div className="container-fuild">
+          <Row gutter={[20, 20]} className="py-3">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4><b>Any Other Details</b></h4>
+            </Col>
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <input type="text" className="p-2 w-50" placeholder="Any Other Details"
+                name="any_other_details"
+                value={state.FirstAssesment.any_other_details}
+                onChange={(e) => {
+                    handleChange("any_other_details", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                }}
+              />
             </Col>
           </Row>
         </div>
@@ -1511,6 +1686,7 @@ const [tempstate ,setTemp] = useState(true)
              </div>
          </Col>
      </Row> */}
+     <h1 style={{margin:0,padding:0}}><b>Cheif Complaint Area</b></h1>
 <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
 
  </>
@@ -1907,11 +2083,42 @@ const [tempstate ,setTemp] = useState(true)
           <Col lg={12} md={18} sm={12} xs={12}></Col>
         </Row>
             )}
+            {state.FirstAssesment.special_others&&Object.keys(state.FirstAssesment.special_others).length>0 && (
+        <Row gutter={[10, 10]} className="px-4 py-2">
+          <Col lg={12} md={18} sm={12} xs={12}>
+              <>
+                <Descriptions.Item label="" span={3}>
+                  <b>Others </b>
+                </Descriptions.Item>
+                <table style={{ width: `${screen.width / 2}px` }} border="1px">
+                  <tr>
+                  <td style={{ width: "80%" }}>
+                      {" "}
+                      <center>Questions</center>
+                    </td>
+                    <td style={{ width: "20%" }}>
+                      <center>Pass/Fail</center>
+                    </td>
+                  </tr>
+                  {Object.entries(state.FirstAssesment.special_others).map((an) => (
+                    <tr>
+                      <td>{an[0]}</td>
+                      <td>
+                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
+              </>
+          </Col>
+          <Col lg={12} md={18} sm={12} xs={12}></Col>
+        </Row>
+            )}
       </div>}
  <div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
      <Row className="border">
          <Col md={24} lg={24} sm={24} xs={24}>
-             <h4 className="p-2">ROM Assesment</h4>
+             <h4 className="p-2">Anterior ROM Assesment</h4>
          </Col>
      </Row>
      <Row gutter={[10, 10]} className="px-4 py-2">
@@ -1920,6 +2127,27 @@ const [tempstate ,setTemp] = useState(true)
          </Col>
          <Col md={12} lg={12} sm={24} xs={24}>
              <Table pagination={false} columns={columns} dataSource={tableData1} />
+         </Col>
+     </Row>
+     <Row className="border">
+         <Col md={24} lg={24} sm={24} xs={24}>
+             <h4 className="p-2">Lateral ROM Assesment</h4>
+         </Col>
+     </Row>
+     <Row gutter={[10, 10]} className="px-4 py-2">
+         <Col md={12} lg={12} sm={24} xs={24}>
+            <h5 className="p-2">Left side</h5>
+         </Col>
+         <Col md={12} lg={12} sm={24} xs={24}>
+             <h5 className="p-2">Right side</h5>
+         </Col>
+     </Row>
+     <Row gutter={[10, 10]} className="px-4 py-2">
+         <Col md={12} lg={12} sm={24} xs={24}>
+             <Table pagination={false} columns={columns} dataSource={tableDataL} />
+         </Col>
+         <Col md={12} lg={12} sm={24} xs={24}>
+             <Table pagination={false} columns={columns} dataSource={tableDataR} />
          </Col>
      </Row>
  </div>

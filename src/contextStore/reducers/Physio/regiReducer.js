@@ -37,7 +37,10 @@ const registerInitialState = {
     isLoading: false,
     success: "",
     gender: "",
-    id: ""
+    id: "",
+    role:'',
+    type:'',
+    isHeadPhysio:false
 }
 
 export const physioRegisterReducer = (state = registerInitialState, action) => {

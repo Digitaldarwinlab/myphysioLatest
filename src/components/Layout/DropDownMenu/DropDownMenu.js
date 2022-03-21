@@ -41,7 +41,7 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu,setDisCamSelection
         fetch();
     }, [handleDevices]);
     const clickHandler = (id) => {
-        darwin.cameraId(id)
+        darwin.cameraIdFunc(id)
         console.log("isClocked")
         setshowDevices(prev => !prev);
         setDisCamSelection(true)
@@ -80,7 +80,7 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu,setDisCamSelection
     const PhysioMenu = () => {
         return (
             <>
-                {
+                {/* {
                     Items.map((item, index) => {
                         return (
                             <>
@@ -99,7 +99,23 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu,setDisCamSelection
                             </>
                         )
                     })
-                }
+                } */}
+                 {showDevice && <>
+                    {
+                        devices.map((item, index) => {
+                            return (
+                                <Menu.Item key={index}
+                                    onClick={() => clickHandler(item.deviceId)}
+                                    style={{ borderTop: "solid 1px black", marginTop: '0px' }}
+                                >
+
+                                    {item.label}
+
+                                </Menu.Item>
+                            )
+                        })
+                    }
+                </>}
             </>
         )
     }
@@ -107,6 +123,7 @@ const DropDownMenu = ({ getCurrentPath, setShowMenu, showMenu,setDisCamSelection
     const PatientMenu = () => {
         return (
             <>
+            {/* BsGlobe */}
                 <Menu.Item
                     className="hiddenDropDown"
                     onClick={() => { getCurrentPath("") }}

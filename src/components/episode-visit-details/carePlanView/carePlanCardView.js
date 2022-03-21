@@ -7,7 +7,7 @@ import TimePickerComp from './../../care-plan/care-plan-allocate-plan/TimePicker
 
 export default function CarePlanCardView({ data }) {
     console.log('data in dashboard')
-    console.log(data)
+    console.log("data in dashboard ",data)
     return (
         <>
             <Row gutter={[10, 10]}>

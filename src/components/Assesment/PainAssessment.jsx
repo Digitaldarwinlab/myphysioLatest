@@ -356,7 +356,8 @@ const PainAssessment = ({setActive ,next}) => {
                     style={{ paddingLeft: "45px" }}
                   >
                     <Radio value={"Pitting"}>Pitting</Radio>
-                    <Radio value={"Non-itting"}>Non-pitting</Radio>
+                    <Radio value={"Non-pitting"}>Non-pitting</Radio>
+                    <Radio value={"Absent"}>Absent</Radio>
                   </Radio.Group>
                 </Col>
             <Col

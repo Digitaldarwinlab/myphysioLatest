@@ -77,7 +77,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 name: val.title ? val.title : "Exercise",
                 Rep: {
                     set: 1,
-                    rep_count: 5
+                    rep_count: 5,
+                    hold_time: 5
                 },
                 angle :val.angle ? val.angle : [],    
                 Rom: {
@@ -154,7 +155,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     index :id
                 }
             });
-        } else if (key === "set" || key === "rep_count") {
+        } else if (key === "set" || key === "rep_count"||key==="hold_time") {
             dispatch({
                 type: CARE_PLAN_REP_CHANGE,
                 payload: {

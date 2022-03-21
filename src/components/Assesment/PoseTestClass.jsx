@@ -271,7 +271,6 @@ class PoseTestClass extends Component {
           <Col md={12} lg={12} sm={24} xs={12}>
             <Col id="Ai_vid" className="Ad_vid">
               <video
-                className
                 id="video"
                 className="video"
                 playsInline

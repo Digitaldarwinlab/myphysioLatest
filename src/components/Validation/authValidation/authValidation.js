@@ -38,7 +38,7 @@ const checkAddrValidation = (value) => {
 }
 
 const checkNameValidation = (value) => {
-    const validName = new RegExp('^[a-zA-Z0-9_.]{2,20}$');
+    const validName = new RegExp('^[a-zA-Z0-9_]{2,20}$');
     let error = {};
 
     if(value)

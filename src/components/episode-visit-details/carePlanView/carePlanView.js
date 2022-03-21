@@ -28,7 +28,7 @@ const CarePlanView = (props) => {
             setLoading(false);
             
             console.log('data is coming')
-            console.log(data)
+            console.log("data is coming ",data)
 
             setCarePlanData(data);
             setPaginationState({

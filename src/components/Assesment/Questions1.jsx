@@ -142,7 +142,7 @@ useEffect(() => {
 
                             {state.FirstAssesment.Questionnaire.question[data].questions&&state.FirstAssesment.Questionnaire.question[data].questions.map((ques, key) => {
 
-                                    console.log('quest value ',ques[1])
+                                    console.log('quest value ',ques[1][3])
                                 return (
                                     <>
                                         <p className="mt-2">
@@ -154,11 +154,11 @@ useEffect(() => {
                                            // value={state.FirstAssesment[data].key}
 
                                         >
-                                            <Option value="0">{Array.isArray(ques[1][0])?ques[1][0][0]:ques[1][0]}</Option>
-                                            <Option value="1">{Array.isArray(ques[1][1])?ques[1][1][0]:ques[1][1]}</Option>
-                                            <Option value="2">{Array.isArray(ques[1][2])?ques[1][2][0]:ques[1][2]}</Option>
-                                            <Option value="3">{Array.isArray(ques[1][3])?ques[1][3][0]:ques[1][3]}</Option>
-                                            <Option value="4">{Array.isArray(ques[1][4])?ques[1][4][0]:ques[1][4]}</Option>
+                                            {ques[1][0]&&<Option value="0">{Array.isArray(ques[1][0])?ques[1][0][0]:ques[1][0]}</Option>}
+                                            {ques[1][1]&&<Option value="1">{Array.isArray(ques[1][1])?ques[1][1][0]:ques[1][1]}</Option>}
+                                            {ques[1][2]&&<Option value="2">{Array.isArray(ques[1][2])?ques[1][2][0]:ques[1][2]}</Option>}
+                                            {ques[1][3]&&<Option value="3">{Array.isArray(ques[1][3])?ques[1][3][0]:ques[1][3]}</Option>}
+                                            {ques[1][4]&&<Option value="4">{Array.isArray(ques[1][4])?ques[1][4][0]:ques[1][4]}</Option>}
                                             
                                             {/* <Option value="1">{ques[1][1][0]}</Option>
                                             <Option value="2">{ques[1][2][0]}</Option>

@@ -105,12 +105,12 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
      if(d[0]===b){
        console.log("plz chacek ",d[1])
        let temp = Object.values(d[1])
-       if(temp.includes('planned')){
+       if(temp.includes('completed')){
         console.log('status not completed')
-        setExStatCheck('no')
+        setExStatCheck('yes')
        }else{
         console.log('status completed')
-        setExStatCheck('yes')
+        setExStatCheck('no')
        }
         //  Object.values(d[1]).map(p=>{
         //      if(p==="planned"){
@@ -129,14 +129,14 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log('making exercise_status ',temp)
     console.log('making exercise_status ',b)
     console.log('making 1')
-    let tempStat = false
+    let tempStat = true
     for(let i= 0;i<temp.length;i++){
       Object.entries(temp[i]).map(d=>{
         if(d[0]===b){
           console.log("plz chacek ",d[1])
           let temp1 = Object.values(d[1])
-          if(temp1.includes('planned')){
-           tempStat = true
+          if(temp1.includes('completed')){
+           tempStat = false
            console.log('making 2 true ',i)
           }else{
               console.log('status completed captured')

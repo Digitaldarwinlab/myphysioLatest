@@ -174,7 +174,9 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
   AssesmentDetails["joint1score"] = details.joint1score;
   AssesmentDetails["joint2score"] = details.joint2score;
   AssesmentDetails["types"] = details.Type;
-  AssesmentDetails["AI_data"] = details.AI_data;
+  AssesmentDetails["AI_data"] = details.Anterior_AI_Data;
+  AssesmentDetails["LeftLateral_AI_Data"] = details.LeftLateral_AI_Data;
+  AssesmentDetails["RightLateral_AI_Data"] = details.RightLateral_AI_Data;
   AssesmentDetails["Exercise_Name"] = details.Exercise_Name;
   AssesmentDetails['Numbmess']=details.Numbness
   AssesmentDetails['pain_scale']=details.pain_scale;
@@ -191,6 +193,8 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
   AssesmentDetails['Cervical_Spine'] = details.cervical_spine;
   AssesmentDetails['Thoracic_Spine'] = details.thoracic_spine;
   AssesmentDetails['Lumbar_Spine'] = details.lumbar_spine;
+  AssesmentDetails['Others'] = details.special_others;
+  AssesmentDetails['Reopen_notes'] = details.Reopen_notes
   AssesmentDetails['Forearm_wrist_Hand'] = details.forearm;
   AssesmentDetails['Knee'] = details.knee;
   AssesmentDetails['posture'] = details.posture

@@ -15,7 +15,7 @@ const Login = (props)=>{
         if (navigator.getUserMedia) {
           navigator.getUserMedia(
             {audio:true,video: { width: 1280, height: 720 } },
-            function (stream) {v
+            function (stream) {
             console.log(stream)
             },
             function (err) {

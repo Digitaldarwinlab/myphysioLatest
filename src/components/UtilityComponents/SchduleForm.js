@@ -15,7 +15,7 @@ import "../../styles/Layout/Episode.css"
 import moment from "moment"
 import Error from './ErrorHandler';
 import { useHistory } from 'react-router-dom';
-import {EPISODE_CLEAR_STATE} from '../../contextStore/actions/episode'
+import {EPISODE_CLEAR_STATE, EPISODE_STATECHANGE} from '../../contextStore/actions/episode'
 import '../../styles/Layout/Heading.css'
 const btnStyle = {
     backgroundColor: "#273647",
@@ -30,7 +30,7 @@ const font = {
 }
 
 const SchduleForm = (props) => {
-  console.log(props)
+  console.log("special form ",props)
     const { Dragger } = Upload;
     const state = useSelector(state => state.episodeReducer)
     const [visibility, setVisibility] = useState("none");
@@ -44,6 +44,7 @@ const SchduleForm = (props) => {
     const [issubmit,Setissubmit]=useState(false)
     const [isclosuredisabled,Setisclosurediabled]=useState(false)
     const [starteDate,SetstartDate]=useState()
+    const [endClosure , setEndClosure] = useState(false)
     useEffect(() => {
         const data = state;
 
@@ -55,6 +56,7 @@ const SchduleForm = (props) => {
          {/* aswin 10/17/2021 start */}
          form.setFieldsValue({ file: data.files });
          {/* aswin 10/17/2021 stop */}
+
         form.setFieldsValue({ Patient_History: data.Patient_History });
         form.setFieldsValue({ start_date: data.start_date ? moment(data.start_date, "YYYY-MM-DD") : props.startDateState });
         console.log(data)
@@ -186,7 +188,7 @@ const SchduleForm = (props) => {
       
 
       const Cancel = () => {
-       
+        setEndClosure(true)
             if (window.confirm(" All your Data will be lost?")) {
                // dispatch({ type: CLEAR_STATE });
                    form.resetFields()
@@ -218,7 +220,9 @@ const SchduleForm = (props) => {
             unblock();
         };
     }, [history,state])
-
+    useEffect(() => {
+    
+    }, []);
     const { Panel } = Collapse;
     const {Title}=Typography
 
@@ -244,6 +248,31 @@ const SchduleForm = (props) => {
       setPreviewVisible(true)
       setPreviewImage(file.url || file.preview)
     }
+
+    const reOpen = () => {
+      if (window.confirm("Check the fields and click on conform Reopen")) {
+      Setupdating1()
+      dispatch({
+       type: EPISODE_STATECHANGE,
+       payload: {
+           key: 'end_date',
+           value: ''
+       }
+   })
+   dispatch({
+     type: EPISODE_STATECHANGE,
+     payload: {
+         key: 'Closure_Notes',
+         value: '',
+     }
+ })
+  document.getElementsByClassName('updateBtn').innerHTML = 'Conform Reopen'
+     Setisclosurediabled(true)
+     setEndClosure(true)
+    // setColsure(false)
+}
+    }
+
     return (
         <>
         <div style={{ background: '#fff' }}>
@@ -263,8 +292,8 @@ const SchduleForm = (props) => {
         </div>
 
             
-            <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" form={form} name="control-hooks">
-               
+            <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" name="control-hooks">
+            
                { props.validationState.error && <Error error={props.validationState.error} />}
                {props.state.success && <Success success={props.state.success} />}
                 <Modal title="Message" visible={props.isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -331,7 +360,7 @@ const SchduleForm = (props) => {
                 <Panel header="Other Details" key="1" className="bold">
                 <Row gutter={[10, 10]}>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <FormDate
+                      {!endClosure?<FormDate
                          className="input-field"
                             value={props.startDateState ? props.startDateState : state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
                             label= {<span style={{fontSize:'15px',fontWeight:'semibold'}} >{'Start Date'}</span>}
@@ -341,10 +370,21 @@ const SchduleForm = (props) => {
                             name="start_date"
                             required={!Colsure}
                             onChange={props.handleChange}
-                        />
+                        />:
+                        <FormDate
+                            className="input-field"
+                            value={props.startDateState ? props.startDateState : state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
+                            label= {<span style={{fontSize:'15px',fontWeight:'semibold'}} >{'Start Date'}</span>}
+                            disabled={true}
+                            defaultValue={state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
+                            placeholder="Start Date"
+                            name="start_date"
+                            required={!Colsure}
+                            onChange={props.handleChange}
+                        />}
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <FormDate
+                       {!endClosure?<FormDate
                         disabledDate={['true',starteDate]}
                          className="input-field"
                             value={props.endDateState ? props.endDateState : state.end_date && moment(state.end_date, 'YYYY-MM-DD')}
@@ -355,7 +395,15 @@ const SchduleForm = (props) => {
                             name="end_date"
                             onChange={props.handleChange}
                             disabled={Colsure}
-                        />
+                        />: <FormDate
+                            className="input-field"
+                            required={!Colsure}
+                            label={<span style={{fontSize:'15px'}}>{'End Date'}</span>}
+                            placeholder="End Date"
+                            name="enddate"
+                            disabled={true}
+                            onChange={props.handleChange}
+                        />}
                     </Col>
                 </Row>
                 </Panel>
@@ -385,9 +433,9 @@ const SchduleForm = (props) => {
                     </Form.Item>
                     </Col>
                     <Col md={24} lg={12} sm={12} xs={12}>
-                    <Form.Item label={<span style={{fontSize:'15px'}}>{'Operative Types'}</span>}
+                    <Form.Item label={<span style={{fontSize:'15px'}}>{'Rehab Type'}</span>}
                         name="Operative_Types"
-                        rules={[{ required: Colsure, message: `Please Select Operative Types` }]}>
+                        rules={[{ required: Colsure, message: `Please Select Rehab Type` }]}>
                         <Select
                          className="input-field"
                             name="Operative_Types"
@@ -400,6 +448,8 @@ const SchduleForm = (props) => {
                             <Select.Option value="Pre Op">Pre Op</Select.Option>
                             <Select.Option value="Post Op">Post Op</Select.Option>
                             <Select.Option value="Presentive">Presentive</Select.Option>
+                            <Select.Option value="Non-Operative Type">Non-Operative Type</Select.Option>
+                            <Select.Option value="Others">Others</Select.Option>
                         </Select>
                     </Form.Item>
                     </Col>
@@ -599,19 +649,22 @@ const SchduleForm = (props) => {
                 <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button> 
                 { console.log('opacity' + props.opacity1)}
                    {
-                     props.opacity1=='1' ?  <Button htmlType="submit" style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
+                     props.opacity1=='1' ?  <Button onClick={props.handleSubmit} style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button  onClick={props.onSubmit} className="updateBtn" >Update</Button> : 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button onClick={props.onSubmit} className="updateBtn" >Update</Button> : state.end_date.length>0?
+                     <Button onClick={reOpen} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Re-open</b></Button>:
                      <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
                    }
                   
-                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button className="updateBtn" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={props.onSubmit} >Update</Button> :
+                    {  props.opacity1=='0'  ? props.isupdating===true ? !endClosure?<Button className="updateBtn" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={props.onSubmit} >Update</Button> : 
+                    <Button onClick={props.onSubmit} className="button1"  style={{ color:"white" }}><b>Conform Re-open</b></Button>:
                     <Button className="button1"  style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
                    
                 </Row>
             </Form>
+           
         </>
     )
 }

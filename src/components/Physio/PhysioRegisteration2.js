@@ -14,6 +14,7 @@ import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import { getPhysioList } from '../../API/Physio/PhysioRegister';
 import { CLEAR_STATE, PHYSIO_REGISTER_FAILURE } from '../../contextStore/actions/physioRegAction';
 import '../../styles/Layout/Heading.css'
+import { degree, expertise } from './PhysioConstants';
 const { Title } = Typography;
 const PhysioRegisteration2 = (props) => {
     const [stateList, setStateList] = useState([]);
@@ -421,19 +422,34 @@ const PhysioRegisteration2 = (props) => {
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="degree" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Degree"}</span>} placeholder="Physio Degree"
+                            {/* <FormInput name="degree" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Degree"}</span>} placeholder="Physio Degree"
                                 className="input-field"
                                 value={state.physioRegisterReducer.degree}
                                 onChange={handleChange}
                              //   onBlur={handleBlur}
-                                required={true}
+                              //  required={true}
                                 defaultValue={state.physioRegisterReducer.degree}
-                            />
+                            /> */}
+                               <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Degree'}</span>} name="Clinic"
+                                rules={[{ required: true, message: `Please Select Clinic` }]}
+                              >
+                                <Select placeholder="Physio Degree"
+                                    className="input-field w-100"
+                                    onChange={(value) => handleChange("degree", value)}
+                                    value={state.physioRegisterReducer.degree}
+                                    defaultValue={state.physioRegisterReducer.degree}
+                                    
+                                >
+                                    {
+                                        degree.map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                    }
+                                </Select>
+                            </Form.Item>
                         </Col>
                     </Row>
                     <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="expertise_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 1"}</span>}
+                            {/* <FormInput name="expertise_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 1"}</span>}
                                 value={state.physioRegisterReducer.expertise_1}
                                 placeholder="Expertise 1"
                                 className="input-field"
@@ -441,10 +457,26 @@ const PhysioRegisteration2 = (props) => {
                               //  onBlur={handleBlur}
                                 required={true}
                                 defaultValue={state.physioRegisterReducer.expertise_1}
-                            />
+                            /> */}
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 1'}</span>} name="Expertise 1"
+                                rules={[{ required: true, message: `Please Select Expertise 1` }]}
+                              >
+                                <Select placeholder="Expertise 1"
+                                    className="input-field w-100"
+                                    onChange={(value) => handleChange("expertise_1", value)}
+                                    value={state.physioRegisterReducer.expertise_1}
+                                   // defaultValue={state.physioRegisterReducer.expertise_1}
+                                    
+                                >
+                                    {
+                                        //expertise.filter(item=>item!==state.physioRegisterReducer.expertise_2&&item!==state.physioRegisterReducer.expertise_3).map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                        expertise.map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                    }
+                                </Select>
+                            </Form.Item>
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="expertise_2" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 2"}</span>}
+                            {/* <FormInput name="expertise_2" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 2"}</span>}
                                 value={state.physioRegisterReducer.expertise_2}
                                 placeholder="Expertise 2"
                                 className="input-field"
@@ -452,10 +484,26 @@ const PhysioRegisteration2 = (props) => {
                              //   onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_2}
-                            />
+                            /> */}
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 2'}</span>} name="Expertise 2"
+                             //   rules={[{ required: true, message: `Please Select Expertise 2` }]}
+                              >
+                                <Select placeholder="Expertise 2"
+                                    className="input-field w-100"
+                                    onChange={(value) => handleChange("expertise_2", value)}
+                                    value={state.physioRegisterReducer.expertise_2}
+                                   // defaultValue={state.physioRegisterReducer.expertise_2}
+                                    
+                                >
+                                    {
+                                       // expertise.filter(item=>item!==state.physioRegisterReducer.expertise_1&&item!==state.physioRegisterReducer.expertise_3).map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                       expertise.map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                    }
+                                </Select>
+                            </Form.Item>
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="expertise_3" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 3"}</span>}
+                            {/* <FormInput name="expertise_3" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{"Expertise 3"}</span>}
                                 value={state.physioRegisterReducer.expertise_3}
                                 placeholder="Expertise 3"
                                 className="input-field"
@@ -463,7 +511,23 @@ const PhysioRegisteration2 = (props) => {
                               //  onBlur={handleBlur}
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_3}
-                            />
+                            /> */}
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 3'}</span>} name="Expertise 3"
+                               // rules={[{ required: true, message: `Please Select Expertise 3` }]}
+                              >
+                                <Select placeholder="Expertise 3"
+                                    className="input-field w-100"
+                                    onChange={(value) => handleChange("expertise_3", value)}
+                                    value={state.physioRegisterReducer.expertise_3}
+                                   // defaultValue={state.physioRegisterReducer.expertise_3}
+                                    
+                                >
+                                    {
+                                       // expertise.filter(item=>item!==state.physioRegisterReducer.expertise_2&&item!==state.physioRegisterReducer.expertise_1).map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                       expertise.map(item=><Select.Option value={item}>{item}</Select.Option>)
+                                    }
+                                </Select>
+                            </Form.Item>
                         </Col>
                     </Row>
                 </div>

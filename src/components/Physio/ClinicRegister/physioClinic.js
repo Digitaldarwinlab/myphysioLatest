@@ -209,7 +209,7 @@ const PhysioClinic = ()=>{
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={value}
-                required={true}
+               // required={true}
             />
         )
     }
@@ -224,7 +224,15 @@ const PhysioClinic = ()=>{
                 <div className="border mt-2 mb-4">
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={12} sm={24} xs={24}>
-                            {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)}
+                            {/* {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)} */}
+                            <FormInput name="name" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Name'}</span>}
+                                value={state.clinicReg.name}
+                                placeholder="Name" 
+                                onChange={handleChange}
+                                className="input-field"
+                                onBlur = {handleBlur} 
+                                required={true}
+                              />
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
                         <FormTextArea name="address_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 1'}</span>}
@@ -275,12 +283,12 @@ const PhysioClinic = ()=>{
                              <Form.Item
                                 label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="country"
-                                rules={[{ required: true, message: `Please Select Country.` }]}
+                              //  rules={[{ required: true, message: `Please Select Country.` }]}
                             >
                                 <Select
                                     //showSearch
                                     optionFilterProp="children"
-                                    placeholder="plaese select country"
+                                    placeholder="please select country"
                                     value={state.clinicReg.country}
                                     onChange={(value) => { handleChange("country", value) }}
                                     allowClear
@@ -304,7 +312,7 @@ const PhysioClinic = ()=>{
                             <Form.Item
                                 label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'State'}</span>}
                                 name="state"
-                                rules={[{ required: true, message: `Please Select State.` }]}
+                               // rules={[{ required: true, message: `Please Select State.` }]}
                             >
                                 <Select
                                     showSearch
@@ -339,7 +347,7 @@ const PhysioClinic = ()=>{
                             <Form.Item
                                 label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'City'}</span>}
                                 name="city"
-                                rules={[{ required: true, message: `Please Select City.` }]}
+                              //  rules={[{ required: true, message: `Please Select City.` }]}
                             >
                                 <Select
                                     showSearch
@@ -372,7 +380,7 @@ const PhysioClinic = ()=>{
                                 onChange={handleChange}
                                 className="input-field"
                                 onBlur = {handleBlur} 
-                                required={true}
+                              //  required={true}
                             /> 
                          </Col>
                          <Col md={24} lg={8} sm={24} xs={24}>
@@ -392,7 +400,7 @@ const PhysioClinic = ()=>{
                                 placeholder="Whatsapp No" 
                                 onChange={handleChange}
                                 onBlur = {handleBlur} 
-                                required="true"
+                              //  required="true"
                             />
                          </Col>
                     </Row>
@@ -415,7 +423,7 @@ const PhysioClinic = ()=>{
                                 placeholder="Estb date" 
                                 onChange={handleChange}
                                 onBlur = {handleBlur} 
-                                required="true"
+                               // required="true"
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>

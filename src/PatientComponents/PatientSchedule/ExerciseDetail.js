@@ -55,7 +55,7 @@ export default class ExerciseDetailsClass extends Component {
               <Col className="left-box m-1">
                 <div className="top-heading" id="top-heading">
                   <h2 className="heading" id="heading">
-                    <b>{exercise.exercise_shortname}</b>
+                    <b>{exercise.title}</b>
                   </h2>
 
                   <h3 className="subtext" id="subtext">

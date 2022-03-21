@@ -13,7 +13,7 @@ const PublicRoute = ({component: Component, ...rest}) => {
         // restricted = true meaning restricted route
         <Route {...rest} render={props => (
             isAuthenticated()?
-                (getUserData() === "admin" || getUserData() === "physio")
+                (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")
                 ?<Redirect to="/dashboard" />
                 :<Redirect to="/patient/dashboard" />
             : <Component {...props} />

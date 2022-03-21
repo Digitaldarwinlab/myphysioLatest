@@ -18,7 +18,7 @@ import AppointmentTooltip from './AppointmentToolTip';
 import { Button } from 'antd';
 import Loading from './../UtilityComponents/Loading';
 import { getExercise, getPatientList } from "../../API/PatientRegistration/Patient.js";
-import { AddVisit, GetVisit, UpdateVisit, getEndDate } from './../../API/Visit/visitApi';
+import { AddVisit, GetVisit, UpdateVisit, getEndDate, GetClinicVisits } from './../../API/Visit/visitApi';
 import Error from './../UtilityComponents/ErrorHandler';
 import Success from './../UtilityComponents/SuccessHandler';
 import DataCell from "./../UtilityComponents/SchedularDataRender/DataCellRender.js";
@@ -113,7 +113,19 @@ const Appointments = () => {
             const showVisits = parseVisits(responseData);
             setData(showVisits)
         }
-        getVisits();
+        let role = JSON.parse(localStorage.getItem("user"))
+        const getClinicVisits = async () => {
+            const responseData = await GetClinicVisits(role.clinic_id);
+            const showVisits = parseVisits(responseData);
+            setData(showVisits)
+        }
+        if(role.role=="admin"){
+            console.log("role is ",role.role)
+            getVisits();
+        }else{
+            console.log("role is ",role.role)
+            getClinicVisits()
+        }
         if (patientData && patientData.patient) {
             const info = patientData.patient.map((data, ind) => data.name + " " + data.code);
             setusers(info);

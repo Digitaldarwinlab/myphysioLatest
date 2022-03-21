@@ -1,4 +1,6 @@
-
+.clinicInput:disabled{
+    color:black
+}
 
 .page-heading{
     font-size: 28px;
