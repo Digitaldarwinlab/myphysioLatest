@@ -72,12 +72,12 @@ export const EpisodeApi = async (details, dispatch) => {
   
     try {
        
-        console.log(formdata)
+        // console.log(formdata)
         const response = await fetch(process.env.REACT_APP_API + "/add_episode/", {
             method: "POST",
             body: formdata
         });
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
         // aswin 10/16/2021 //
         if (response.status !== 200 && response.status !== 201) {
@@ -199,8 +199,8 @@ const labsDetails = (labs) => {
 //@param Labs And Medication details
 //@return- Message.
 export const AddLabsAndMedicationApi = async (details, dispatch) => {
-    console.log('detail inside api')
-    console.log(details)
+    // console.log('detail inside api')
+    // console.log(details)
     dispatch({ type: ASSESSMENT_REQUEST });
     let PrescreptionDetails = {};
     PrescreptionDetails["date"] = details.date;
@@ -209,8 +209,8 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
     PrescreptionDetails["lab_tests"] = labsDetails(details.labsList);
     PrescreptionDetails["medication_detail"] = MedicationDetailsArray(details.medicationList);
     PrescreptionDetails["notes"] = details.labs_notes;
-    console.log('detail insdie api')
-    console.log(details)
+    // console.log('detail insdie api')
+    // console.log(details)
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
@@ -223,8 +223,8 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
             body: JSON.stringify(PrescreptionDetails)
         });
         const data = await response.json();
-        console.log('api k andrx')
-        console.log(data)
+        // console.log('api k andrx')
+        // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error: " + response.status + " " + response.statusText];
         }
@@ -233,8 +233,8 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
         }
         throw new Error(data.pp_ed_id[0]);
     } catch (err) {
-        console.log('error in error')
-        console.log(err)
+        // console.log('error in error')
+        // console.log(err)
         return [false,  { message:err.message}];
     }
 }

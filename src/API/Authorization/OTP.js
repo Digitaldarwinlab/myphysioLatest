@@ -1,48 +1,51 @@
-export const getQuestions =async (joint) =>{
+
+
+export const getOTP =async (uid) =>{
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
-    // console.log('joint : ' + joint)
     try{
-        const response = await fetch(process.env.REACT_APP_API+"/get_questions/",{
+        const response = await fetch(process.env.REACT_APP_API+"/send_otp/",{
             headers:headers,
             method:"POST",
-            body:JSON.stringify({query:joint})
+            body:JSON.stringify(uid)
         });
         const data = await response.json();
-       // console.log('ins API')
-     //   console.log(data)
+      
         if(response.status === 200 || response.status === 201){
                 return data;
         }else{
              return [];
         }
     }catch(err){
-        // console.log(err,"From Get Questions for Questionnaire");
+        console.log(err,"From send OTP section");
         return [];
     }
 }
-export const getTemplateName =async (joint) =>{
+
+
+export const verifyOTP =async (otp) =>{
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
     try{
-        const response = await fetch(process.env.REACT_APP_API+"/get_template_name/",{
+        const response = await fetch(process.env.REACT_APP_API+"/verify_otp/",{
             headers:headers,
-            method:"GET",
+            method:"POST",
+            body:JSON.stringify(otp)
         });
         const data = await response.json();
-       // console.log('ins API')
-     //   console.log(data)
+      
         if(response.status === 200 || response.status === 201){
                 return data;
         }else{
              return [];
         }
     }catch(err){
-        // console.log(err,"From Get template for Questionnaire");
+        console.log(err,"From verify OTP section");
         return [];
     }
 }
+

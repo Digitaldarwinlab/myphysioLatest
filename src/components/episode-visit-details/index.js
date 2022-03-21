@@ -171,12 +171,12 @@ const EpisodeVisitDetails = () => {
     }
     useEffect( async () => {
         let state = { ...history.location.state };
-        console.log("history loaction ",state)
+        // console.log("history loaction ",state)
         if(history.location.state){
             if(history.location.state.prevPath==='/visit')
             if(!isNaN(history.location.state.id)){
                 const res = await Patient_profile(parseInt(history.location.state.id))
-                console.log("working ",res)
+                // console.log("working ",res)
                 updatePatientState(res)
                 dispatch({
                     type: EPISODE_STATECHANGE,

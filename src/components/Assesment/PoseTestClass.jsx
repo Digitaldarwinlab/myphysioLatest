@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Space } from "antd";
+import { Button, Col, Input, Row } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import bodyImage from "../.././assets/lateral.jpg";
@@ -29,7 +29,7 @@ class PoseTestClass extends Component {
     this.state = {
       url1: bodyImage,
       url2: side_img,
-      frontAngles: [0, 0, 0, 0, 0, 0],
+      frontAngles: [0, 0, 0, 0, 0],
       sideAngles: [0, 0, 0, 0],
       notes: "",
     };
@@ -308,8 +308,8 @@ class PoseTestClass extends Component {
           </Col>
         </Row>
 
-        {/* <Row style={{paddingTop:"15px", paddingBottom:"15px" }}> */}
-        {/* <Col md={24} lg={24} sm={24} xs={24} className="text-center">
+        <Row style={{paddingTop:"15px", paddingBottom:"15px" }}>
+        <Col md={24} lg={24} sm={24} xs={24} className="text-center">
         <Button
                 onClick={this.handleSubmit}
               style={{
@@ -331,14 +331,8 @@ class PoseTestClass extends Component {
             >
               Back
             </Button>
-              </Col> */}
-               <div className="text-end" style={{ padding: 10 }}>
-                <Space>
-                    <Button size="large" className="mb-3 btncolor"  onClick={this.handleSubmit}>save</Button>
-                    <Button size="large" className="mb-3 btncolor"    onClick={this.GoBack}>Back</Button>
-                </Space>
-            </div>
-      {/* </Row> */}
+              </Col>
+      </Row>
       </div>
     );
   }

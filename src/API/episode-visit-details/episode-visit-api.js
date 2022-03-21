@@ -28,17 +28,17 @@ export const fetchVisits = async (patId) => {
             headers: headers,
             body: JSON.stringify({ id: patId })
         });
-        console.log('inside patient visit api')
-        console.log(patId)
-        console.log(response)
+        // console.log('inside patient visit api')
+        // console.log(patId)
+        // console.log(response)
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             throw new Error("Error: " + response.status + response.statusText)
         }
         return data;
     } catch (err) {
-        console.log(err, "Error in Fetching Patient Visits");
+        // console.log(err, "Error in Fetching Patient Visits");
         return [];
     }
 }
@@ -86,7 +86,7 @@ export const fetchCarePlan = async (eid) => {
         return filterCarePlanData(data);
         // return data;
     } catch (err) {
-        console.log(err, "Error in Fetching Patient Care Plan");
+        // console.log(err, "Error in Fetching Patient Care Plan");
         return [];
     }
 }
@@ -94,5 +94,5 @@ export const fetchCarePlan = async (eid) => {
 //@param - 
 //@return - Fetched History.
 export const fetchHistory = () => {
-    console.log("Fetched History");
+    // console.log("Fetched History");
 }

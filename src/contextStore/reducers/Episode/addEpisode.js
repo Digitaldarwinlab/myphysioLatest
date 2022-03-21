@@ -33,7 +33,7 @@ const consentFormState = {
 }
 
 export const episodeReducer = (state = episodeInitialState, action) => {
-    console.log('EPISODE_CLEAR_STATE')
+    // console.log('EPISODE_CLEAR_STATE')
     // console.log(action.type)
     switch (action.type) {
         case EPISODE_STATECHANGE:

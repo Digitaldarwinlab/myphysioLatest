@@ -464,7 +464,6 @@ const Appointments = () => {
      //method for adding visit
     const onAppointmentAdded = async (e) => {
     //   console.log('add app')
-  //  console.log("update appointment data ",e.component.getDataSource().reload();)
         setLoading(true);
         if(e.appointmentData.location!=='Video Conference'){
             e.appointmentData.video_link=''
@@ -473,8 +472,6 @@ const Appointments = () => {
         setLoading(false);
         if (result && result[0]) {
             setSuccess("Visit Added Successfully.");
-            // e.component.getDataSource().reload()
-            // history.push('/dashboard')
             history.push({
                 pathname:'/dashboard',
                 state:{
@@ -482,7 +479,7 @@ const Appointments = () => {
                     prevPath:'/visit'
                 }
                })
-            window.location.reload();
+           // window.location.reload();
         } else {
            
             setError(result[1]);
@@ -494,7 +491,7 @@ const Appointments = () => {
         // console.log('update app')
        //  console.log(e)
        setLoading(true);
-       console.log("update appointment data ",e)
+       console.log("update appointment data ",e.appointmentData)
        if(e.appointmentData.location==='Video Conference'){
         e.appointmentData.video_link = channel
     }
@@ -511,7 +508,7 @@ const Appointments = () => {
                      prevPath:'/visit'
                  }
                 })
-             window.location.reload();
+           //  window.location.reload();
          } else {
            
              setError(result[1]);
@@ -565,7 +562,6 @@ const Appointments = () => {
                     <Loading />
                 ) : (
                     <Scheduler
-                        recurrenceEditMode="occurrence"
                         timeZone="Asia/Kolkata"
                         dataSource={data}
                         defaultCurrentView="day"

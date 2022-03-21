@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { AiFillMedicineBox } from "react-icons/ai";
@@ -147,6 +147,8 @@ const Assesment1 = ({back ,next}) => {
 
   }, [])
 
+  
+
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -177,7 +179,7 @@ const Assesment1 = ({back ,next}) => {
       }
     });
 
-
+ 
   
 
 
@@ -194,6 +196,17 @@ const Assesment1 = ({back ,next}) => {
     };
 
   }, [history, state.FirstAssesment.episode_id])
+
+  const setJoints =useCallback((joints) => {
+    console.log(joints);
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+          key:'allJoint',
+          value:joints
+      }
+  });
+  },[dispatch])
 
 
   const com = () => {
@@ -1733,7 +1746,6 @@ const tableDataR = [
                  <Descriptions.Item label="Umbilicus">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[2]}</Descriptions.Item>
                  <Descriptions.Item label="Knees">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[3]}</Descriptions.Item>
                  <Descriptions.Item label="Ankle/Foot">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[4]}</Descriptions.Item>
-                 <Descriptions.Item label="Line of Gravity">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[5]}</Descriptions.Item>
              </Descriptions>
          </Col>
          {state.FirstAssesment.FrontCheck.length>0&&<Col md={24} lg={24} sm={24} xs={24}>

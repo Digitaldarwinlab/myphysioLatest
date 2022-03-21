@@ -65,7 +65,7 @@ const Visits = ({ handleClick, patId }) => {
   
 
     const handleEdit = (id) => {
-        console.log(id, "Visit Edit Button");
+        // console.log(id, "Visit Edit Button");
     }
 
     const consultClick=()=>{
@@ -88,22 +88,22 @@ const Visits = ({ handleClick, patId }) => {
             remove_visit(value)
           },
           onCancel() {
-            console.log('Cancel');
+            // console.log('Cancel');
           },
         });
       }
     const remove_visit=async (e)=>{
 
-       console.log('on clicsk')
-       console.log(e.pp_vd_id)
+       // console.log('on clicsk')
+       // console.log(e.pp_vd_id)
     const response=await  delete_visit(e.pp_vd_id)
-    console.log(response)
+    // console.log(response)
     if (state.patient_code) {
         const newdata = await fetchVisits(state.patient_code);
         
         const filteredData1 = newdata.map((val, index) => {
-            console.log('visit iss')
-            console.log(val)
+            // console.log('visit iss')
+            // console.log(val)
             return {
                 key: val.pp_vd_id,
                 visit: (index + 1),
@@ -127,7 +127,7 @@ const Visits = ({ handleClick, patId }) => {
             setLoading(true);
             if (state.patient_code) {
                 const data = await fetchVisits(state.patient_code);
-                console.log(data)
+                // console.log(data)
                 const filteredData = data.map((val, index) => {
                     return {
                         key: val.pp_vd_id,

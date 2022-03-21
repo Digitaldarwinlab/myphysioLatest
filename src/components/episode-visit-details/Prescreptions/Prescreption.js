@@ -38,8 +38,8 @@ const Prescreptions = ({ prescriptionClick }) => {
   };
   const [loading, setLoading] = useState(false);
   useEffect(async () => {
-    console.log("stateee");
-    console.log(state);
+    // console.log("stateee");
+    // console.log(state);
     setLoading(true);
     //    try{
     //     const data=await getEpisode(state.patient_code)
@@ -75,9 +75,9 @@ const Prescreptions = ({ prescriptionClick }) => {
     }
   }, [state.patient_code]);
 
-  console.log("HHHHHHHHHHHHsH");
-  console.log(prescriptions);
-  console.log(typeof prescriptions);
+  // console.log("HHHHHHHHHHHHsH");
+  // console.log(prescriptions);
+  // console.log(typeof prescriptions);
   return (
     <Col span={24} className="px-3 py-3">
       <Row className="m-2">

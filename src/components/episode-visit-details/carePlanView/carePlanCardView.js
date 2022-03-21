@@ -12,8 +12,8 @@ export default function CarePlanCardView({ data }) {
         <>
             <Row gutter={[10, 10]}>
                 <Col lg={12} md={12} sm={12} xs={12}>
-                {console.log('start date isss hh')}
-                    {console.log(data.end_date)}
+                {/* {console.log('start date isss hh')}
+                    {console.log(data.end_date)} */}
                     <FormDate
                         label="Start Date"
                         name="Start Data"
@@ -45,7 +45,7 @@ export default function CarePlanCardView({ data }) {
                                     image={exercise.image_url && exercise.image_url !== null ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
                                     video={exercise.video_url && exercise.video_url !== null ? exercise.video_url : ""}
                                     actions={false}
-                                    handleChange={() => console.log("Hello")}
+                                    // handleChange={() => console.log("Hello")}
                                     index={index}
                                     carePlanView={true}
                                     data={exercise}
@@ -59,7 +59,7 @@ export default function CarePlanCardView({ data }) {
                 {
                     data.time_slot && data.time_slot.length !== 0 && (
                         data.time_slot.map((val, index) => {
-                            return <TimePickerComp time={val[0]} showWatch={false} handleChange={() => console.log("Hello")} key={index} index={index} />
+                            return <TimePickerComp time={val[0]} showWatch={false}  key={index} index={index} />
                         })
                     )
                 }
@@ -68,7 +68,7 @@ export default function CarePlanCardView({ data }) {
                 {
                     data.time_slots && data.time_slots.length !== 0 && (
                         data.time_slots.map((val, index) => {
-                            return <TimePickerComp time={val[0]} showWatch={false} handleChange={() => console.log("Hello")} key={index} index={index} />
+                            return <TimePickerComp time={val[0]} showWatch={false}  key={index} index={index} />
                         })
                     )
                 }

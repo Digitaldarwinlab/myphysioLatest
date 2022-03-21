@@ -45,7 +45,7 @@ const Body = (props) => {
 
 
   const redclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
+    // console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color active-color");
     setGreenClass("color");
@@ -55,7 +55,7 @@ const Body = (props) => {
   };
 
   const greenclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
+    // console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
     setGreenClass("color active-color");
@@ -65,7 +65,7 @@ const Body = (props) => {
   };
 
   const orangeclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
+    // console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
     setGreenClass("color");
@@ -75,7 +75,7 @@ const Body = (props) => {
   };
 
   const blueclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
+    // console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
     setGreenClass("color");
@@ -85,7 +85,7 @@ const Body = (props) => {
   };
 
   const purpleclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
+    // console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
     setGreenClass("color");
@@ -95,7 +95,7 @@ const Body = (props) => {
   };
 
   const getData = useCallback((data) => {
-    console.log(data)
+    // console.log(data)
     dispatch({type:'ADD',joint:data})
     setData(data);
   },[dispatch]);

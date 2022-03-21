@@ -17,7 +17,7 @@ export const getAssesment =async (patient_id) =>{
              return [];
         }
     }catch(err){
-        console.log(err,"From Get Assesment data");
+        // console.log(err,"From Get Assesment data");
         return [];
     }
 }

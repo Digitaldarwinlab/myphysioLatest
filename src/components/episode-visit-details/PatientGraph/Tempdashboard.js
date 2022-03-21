@@ -30,8 +30,8 @@ import { useSelector ,useDispatch} from 'react-redux'
 import { getEpisodeDetails } from '../../care-plan/carePlanIndex'
 const { Option } = Select;
 const Tempdashboard=({viewstate})=>{
-  console.log('stateee comeeddd is')
-  console.log(viewstate) 
+  // console.log('stateee comeeddd is')
+  // console.log(viewstate) 
     var doc = new jsPDF();
    
         const [date,Setdate]=useState('20-09-2021')
@@ -49,8 +49,8 @@ const Tempdashboard=({viewstate})=>{
  // alert(state.patient_main_code)
         useEffect( async()=>{
             const data=await get_progress(state.patient_code)
-            console.log('data  progress')
-            console.log("new ",data.data_vertical_bar)
+            // console.log('data  progress')
+            // console.log("new ",data.data_vertical_bar)
            if (data.data_vertical_bar){
             data.data_vertical_bar.map(obj=>{
               if(obj.Joints === "Left Shoulder(ver)"){
@@ -79,10 +79,10 @@ const Tempdashboard=({viewstate})=>{
             }
             Setminmaxgraphdata(data.data_vertical_bar)
             SetfinalData(data)
-            console.log("find 1 ",data.data_vertical_bar2)
+            // console.log("find 1 ",data.data_vertical_bar2)
             Setsetcompletionratedata(data.data_vertical_bar2)
-            console.log('episode aaingg')
-            console.log(state)
+            // console.log('episode aaingg')
+            // console.log(state)
 
         },[state.patient_code])
 

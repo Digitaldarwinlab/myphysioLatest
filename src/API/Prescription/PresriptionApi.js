@@ -1,5 +1,5 @@
 export  const get_prescription=async (episodeId)=>{
-    console.log(episodeId)
+    // console.log(episodeId)
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
@@ -17,10 +17,10 @@ export  const get_prescription=async (episodeId)=>{
             if (response.status !== 200 && response.status !== 201) {
                 return [];
             }
-            console.log(data)
+            // console.log(data)
             return data;
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             return [];
         }
     }

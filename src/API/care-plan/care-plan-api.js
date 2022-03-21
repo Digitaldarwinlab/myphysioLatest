@@ -54,13 +54,13 @@ export const getFiteredExercistData = async (data, dispatch, pageSize, current) 
             body: JSON.stringify(data)
         });
         if (response.status !== 200 && response.status !== 201) {
-            console.log(response.statusText)
+            // console.log(response.statusText)
             return { data: [], total_exercise: 0 };
         }
         const filteredData = await response.json();
         return filteredData;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return { data: [], total_exercise: 0 };
     }
 }

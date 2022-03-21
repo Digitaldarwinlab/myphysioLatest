@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Profiler } from "react";
 import { Row, Col, Button } from "antd";
 import VideoScreen from './../shared/VideScreen';
 import BackButton from './../shared/BackButton';
@@ -75,6 +75,24 @@ const ChangeVideoUrl = (url1) => {
 //     }
 // }
 return (
+    <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
     <>
         <h3 className="fw-bold mt-2 ms-2"><BackButton /></h3>
         <Row className="m-0" justify="space-around">
@@ -96,6 +114,7 @@ return (
             </Col>
         </Row>
     </>
+    </Profiler>
 )
 };
 

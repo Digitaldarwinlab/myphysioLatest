@@ -18,7 +18,7 @@ export default function UseStopwatchDemo({starttimer,Setstarttimer}) {
     reset,
   } = useStopwatch({ autoStart: starttimer });
 
-  console.log("ssss:"+starttimer);
+  // console.log("ssss:"+starttimer);
 
   useEffect(()=>{
 

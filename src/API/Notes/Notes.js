@@ -35,7 +35,7 @@ export const getNotes = async (eid) => {
         const data = await response.json();
         if (response.status === 200 || response.status === 201) {
             if (data && data[0].notes) {
-                console.log(data)
+                // console.log(data)
                 return data.reverse();
             }
             else
@@ -44,7 +44,7 @@ export const getNotes = async (eid) => {
             return [];
         }
     } catch (err) {
-        console.log(err, "From Get Notes on Dashboard");
+        // console.log(err, "From Get Notes on Dashboard");
         return [];
     }
 }

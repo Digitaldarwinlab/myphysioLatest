@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Slider, Form, Checkbox, Radio, Card, Space, Button } from "antd";
+import { Row, Col, Slider, Form, Checkbox, Radio, Card } from "antd";
 //import "../../styles/Assessment/PainAssessment.css";
 import { AiFillMedicineBox } from "react-icons/ai";
 import Body from "./Body";
@@ -430,16 +430,10 @@ const PainAssessment = ({setActive ,next}) => {
                 </Col>
               </Card>
             </Col>
-            <div className="text-end" style={{ padding: 10 }}>
-                <Space>
-                    <Button size="large" className="mb-3 btncolor" onClick={goBack}>Back</Button>
-                    <Button size="large" className="mb-3 btncolor" onClick={saveData}>Save</Button>
-                </Space>
-            </div>
-            {/* <div className="text-center mb-3 mt-3">
+            <div className="text-center mb-3 mt-3">
               <button onClick={goBack}>Back</button>
               <button style={{marginLeft:"20px"}} onClick={saveData}>save</button>
-            </div> */}
+            </div>
           </Form>
         </Col>
       </Row>

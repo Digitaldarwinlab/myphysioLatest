@@ -9,6 +9,7 @@ import { getPatientList, searchPatient } from '../../API/PatientRegistration/Pat
 import { BiEdit } from "react-icons/bi";
 import { NavLink } from 'react-router-dom';
 import { BsFillEyeFill } from "react-icons/bs";
+import { FaKey} from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { UpdateState } from './../../API/PatientRegistration/Patient';
@@ -16,6 +17,7 @@ import { EPISODE_STATECHANGE } from './../../contextStore/actions/episode';
 import { forgotPassword } from '../../API/userAuth/userAuth';
 import { postNewPassword } from '../../API/userAuth/userAuth';
 import FormPassword from '../UI/antInputs/FormPassword';
+import FormInput from '../UI/antInputs/FormInput';
 import Success from '../UtilityComponents/SuccessHandler';
 import Error from '../UtilityComponents/ErrorHandler';
 import Loading from '../UtilityComponents/Loading';
@@ -24,6 +26,7 @@ import {AiFillUnlock} from 'react-icons/ai'
 import {MailOutlined } from '@ant-design/icons'
 import {BsSearch} from 'react-icons/bs'
 import '../../styles/Layout/Heading.css'
+import {getOTP, verifyOTP} from "../../API/Authorization/OTP"
 
 import { HiUserAdd } from 'react-icons/hi';
 import { Item } from 'rc-menu';
@@ -40,11 +43,14 @@ const SearchPatient = () => {
     const history = useHistory();
      const [new_password, setNewPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");
+    const [otp,setOTP] = useState('');
     const [physios, setPhysios] = useState([]);
+    const [message,setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" } 
     const [passwordmodal,Setpasswordmodal]=useState(false)
+    const [authorizeModal,setAuthorizeModal] = useState(false)
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [temp_uid,Settemp_uid]=useState(0)
@@ -69,7 +75,7 @@ const SearchPatient = () => {
             maxIndex: paginationState.pageSize,
         });
     }, [refresh]);
-   // console.log(patientData)
+   console.log(patientData)
     function Pahead(val) {
         return (
             <>
@@ -93,6 +99,86 @@ const SearchPatient = () => {
             maxIndex: paginationState.pageSize,
         });
     }
+    //Authorize
+    const handleAuthorizeClick = async (item) => {
+        const message = await getOTP({
+            "uid":item.uid
+            });
+            setMessage(message.message);
+            console.log('Message from OTP:',message);
+// console.log(item.uid);
+        showAuthorizemodal(item.uid)
+        console.log('patientData:',item)
+    }
+
+    function showAuthorizemodal(e)
+    {   console.log(e)
+       Settemp_uid(e)
+       setAuthorizeModal(true)
+        Setbuttondiable(false)
+    }
+
+    const handleAuhtorizationSubmit = async (event) => {
+      
+        setLoading(true)
+        if (otp.length !== 6) {
+            setLoading(false);
+            setError("Enter Valid OTP");
+            setTimeout(() => {
+                setError("");
+            }, 3000);
+            return;
+        }
+        const message = await verifyOTP({
+            "uid":temp_uid,
+            "otp":otp
+            })
+            setMessage(message.message);
+            console.log('Message from verify OTP',message);
+        setLoading(false);
+        setOTP('');
+    }
+
+    const show_Authorize_Modal=()=>
+    {   
+        return(
+        <Modal
+        visible={authorizeModal}
+        footer={null}
+        closable
+        onCancel={() => setAuthorizeModal(false)}
+        title="Authorization"
+        centered
+    >
+        {error && <Error error={error} />}
+                {success && <Success success={success} />}
+          {/* <Button  size={'medium'}  icon={<MailOutlined  style={{fontSize: '20px'}} />} style={{marginBottom:'10px',marginTop:'5px',backgroundColor:buttondisable ? 'white' : 'red',borderRadius:'5px'}} disabled={buttondisable}  onClick={()=>Sendpasswordemail(temp_uid)}></Button> */}
+
+        <form onSubmit={handleAuhtorizationSubmit}>
+            {message && <p>{message}</p>}
+            <label htmlFor="otp">Enter OTP</label>
+            <input style={{width:"100%"}} name='otp' onChange={(e) => {setOTP(e.target.value)}} value={otp} required>
+            </input>
+            <center>
+                        <Button type="primary" htmlType="submit" className="userAuthbtn" >
+                            Verify OTP
+                        </Button>
+                        </center>
+                        <center>
+                        <Button type="primary" htmlType="button" className="userAuthbtn" onClick={async() => {const message = await getOTP({
+            "uid":temp_uid
+            });
+            
+            console.log('message from resend otp',message);
+            setMessage(message.message);}}>
+                            Resend OTP
+                        </Button>
+                        </center>
+            </form>  
+    </Modal>
+        )
+    }
+
     //View 
     const handleView = (val) => {
         dispatch({
@@ -203,6 +289,8 @@ const SearchPatient = () => {
        Setpasswordmodal(true)
         Setbuttondiable(false)
     }
+
+
 
     const show_password_modal=()=>
     {   
@@ -370,6 +458,7 @@ const SearchPatient = () => {
                         onChange={PaginationChange}
                     />}
                     {show_password_modal()}
+                    {show_Authorize_Modal()}
                 </div>
             </Form>
         </>

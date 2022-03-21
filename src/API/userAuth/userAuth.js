@@ -90,7 +90,7 @@ export const forgotPassword = async (user) => {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
-    console.log(user)
+    // console.log(user)
     try {
         const response = await fetch(process.env.REACT_APP_API + "/password_reset/", {
             method: "POST",
@@ -117,7 +117,7 @@ export const forgotPassword = async (user) => {
 }
 // Reset Password Confirm
 export const postNewPassword = async (user) => {
-   // console.log(user)
+   // // console.log(user)
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
@@ -148,13 +148,13 @@ export const postNewPassword = async (user) => {
 }
 
 export const admin_password_reset=async(detail)=>{
-    console.log(detail)
+    // console.log(detail)
     const newdata={
         id:detail.userid,
         uid:detail.temp_uid,
         new_password:detail.new_password
     }
-    console.log(newdata)
+    // console.log(newdata)
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
@@ -167,7 +167,7 @@ export const admin_password_reset=async(detail)=>{
         });
         
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             
             if (data && data.detail) {
@@ -177,7 +177,7 @@ export const admin_password_reset=async(detail)=>{
                 return [false, "Error " + response.status + response.statusText];
             }
         } else if (data && data.message) {
-            console.log('true returning')
+            // console.log('true returning')
             return [true];
         }
         return [false, "Error " + response.status + response.statusText];
@@ -195,7 +195,7 @@ export const logout = async () => {
         })
         return [true];
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 }
 //@param user,token
@@ -211,7 +211,7 @@ export const getUserData = () => {
         let data = JSON.parse(localStorage.getItem("user"));
         return data.role;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return "";
     }
 }

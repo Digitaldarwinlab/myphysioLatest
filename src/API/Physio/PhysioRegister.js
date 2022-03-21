@@ -136,7 +136,7 @@ export const searchPhysio = async (value) => {
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }
@@ -160,7 +160,7 @@ export const getPhysioList = async () => {
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }

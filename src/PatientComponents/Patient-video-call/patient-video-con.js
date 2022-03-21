@@ -63,7 +63,7 @@ const PatientVideoCallIndex = (props) => {
   }
 
   const Exit=()=>{
-    console.log("so sad to see you leave the channel");
+    // console.log("so sad to see you leave the channel");
     leaveChannel();
     setModalvisible(true)
   }

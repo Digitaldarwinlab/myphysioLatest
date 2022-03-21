@@ -100,8 +100,8 @@ const AssessmentList = ({ assesmentClick }) => {
       //  const key = Object.keys(item.AI_data)
         const AI_data = item.AI_data
         let exercise = item.Exercise_Name[0]
-        console.log('exercise name',item)
-        console.log(exercise)
+        // console.log('exercise name',item)
+        // console.log(exercise)
 
 
         if (exercise) {
@@ -298,7 +298,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
 
     })
-    console.log('data array',dataArray)
+    // console.log('data array',dataArray)
 
     const tableNOdata1 = [
         {
@@ -411,8 +411,8 @@ const AssessmentList = ({ assesmentClick }) => {
         // setTimeout(() => {
         //     setAssesmentData(a)
         // }, 10);
-        console.log("reverse not ",data)
-        console.log("reverse ",a)
+        // console.log("reverse not ",data)
+        // console.log("reverse ",a)
         setLoading(false)
 
 
@@ -481,7 +481,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
     {/* aswin start 10/30/2021 stop */ }
     const updateAssesment = (data) => {
-        console.log(data)
+        // console.log(data)
         let assesmentDate = moment(data.assesmentdate)
         dispatch({
             type: STATECHANGE,

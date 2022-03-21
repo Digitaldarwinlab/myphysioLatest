@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,Profiler } from 'react';
 import { Modal, Form, Button } from "antd";
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -36,6 +36,24 @@ const PatientConsuntForm = () => {
     }
 
     return (
+        <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
         <React.Fragment>
             <Modal
                 title={<><h5 className="text-center">INFORMED CONSENT</h5><br /><h6 className="text-center">(MyAIPhysio)</h6></>}
@@ -86,6 +104,7 @@ const PatientConsuntForm = () => {
                 </div>
             </Modal>
         </React.Fragment>
+        </Profiler>
     )
 }
 export default PatientConsuntForm;

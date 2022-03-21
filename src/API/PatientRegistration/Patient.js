@@ -101,7 +101,7 @@ export const Patient_Update = async (user, dispatch) => {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
-    console.log(patientDetails)
+    // console.log(patientDetails)
     try {
         const response = await fetch(process.env.REACT_APP_API + "/update-patient/", {
             headers: headers,
@@ -109,7 +109,7 @@ export const Patient_Update = async (user, dispatch) => {
             body: JSON.stringify(patientDetails)
         });
 
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
         
         if (data && data.message) {
@@ -138,7 +138,7 @@ export const getPatientList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
-
+        // console.log('Id:',id);
         const response = await fetch(process.env.REACT_APP_API + "/get-patient/", {
             method: "POST",
             headers: headers,
@@ -151,14 +151,14 @@ export const getPatientList = async () => {
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }
 //search-patient
 export const searchPatient = async (value) => {
     const id = JSON.parse(localStorage.getItem("userId"))
-    console.log(JSON.stringify({ id: id, query: value}))
+    // console.log(JSON.stringify({ id: id, query: value}))
     
     try {
         const headers = {
@@ -172,16 +172,16 @@ export const searchPatient = async (value) => {
             headers: headers,
             body: JSON.stringify({ id: id, query: value})
         });
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
        
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }
@@ -210,7 +210,7 @@ export const getExercise = async (patid) => {
         }
         return ""
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return "";
     }
 }
@@ -236,7 +236,7 @@ export const Patient_profile = async (Id) => {
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }

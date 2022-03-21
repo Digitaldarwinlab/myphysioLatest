@@ -57,8 +57,8 @@ const Episodes = ({ handleClick2 }) => {
         });
         // eslint-disable-next-line
     }, [state.patient_code]);
-    console.log('episode iss')
-    console.log(episodeData)
+    // console.log('episode iss')
+    // console.log(episodeData)
     const Assesment = (id, complaint, Sdate) => {
         dispatch({
             type: STATECHANGE,
@@ -97,8 +97,8 @@ const Episodes = ({ handleClick2 }) => {
         const data = await getEpisode(state.patient_code)
         let newData = data[0]
         newData.treating_doc_details = JSON.parse(newData.treating_doc_details);
-        console.log('new Data')
-        console.log(data)
+        // console.log('new Data')
+        // console.log(data)
         dispatch({
             type: EPISODE_STATECHANGE,
             payload: {

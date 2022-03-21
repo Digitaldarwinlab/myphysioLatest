@@ -785,6 +785,24 @@ class AI extends Component {
         console.log('Joint pre ',this.state.PreKey)
 
         return (
+            <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
             <>
                 <div className="body" id="body">
                     <div id="info" style={{ display: 'none' }}>
@@ -967,6 +985,7 @@ class AI extends Component {
                     </Row>
                 </div>
             </>
+            </Profiler>
         )
     }
 }

@@ -4,21 +4,21 @@ import fetch from "isomorphic-fetch";
 
 //Recurrence Rule Logic 
 const GenerateRecurrenceEvents = (recrule, date) => {
-    console.log(date);
+    // console.log(date);
     date = JSON.stringify(date);
-    console.log(date);
+    // console.log(date);
     let dateVal = date.split(".");
-    console.log(dateVal);
+    // console.log(dateVal);
     date = dateVal[0];
-    console.log(date);
+    // console.log(date);
     for (let i = 0; i < 3; i++) {
         date = date.replace(":", "");
         date = date.replace("-", "");
     }
-    console.log(date);
+    // console.log(date);
     date = date.substring(1);
-    console.log(date);
-    console.log(recrule);
+    // console.log(date);
+    // console.log(recrule);
 
     //  byhour: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     const rule = new RRule.fromString(
@@ -30,8 +30,8 @@ if (recrule.includes("HOURLY")) {
 const rrule = RRule.fromString(originalString)
     const backToString = new RRule({ ...rrule.options }).toString()
 
-    console.log(backToString);
-    console.log(rule);
+    // console.log(backToString);
+    // console.log(rule);
     return rule;
 };
 
@@ -76,13 +76,13 @@ const seperateVisitData = (data, update = false) => {
             }
             return newData;
         } else {
-            console.log("new Date(data.startDate) :"+new Date(data.startDate));
+            // console.log("new Date(data.startDate) :"+new Date(data.startDate));
             const generatedData = GenerateRecurrenceEvents(data.recurrenceRule, new Date(data.startDate));
             let newData = [];
-            console.log(generatedData.length);
+            // console.log(generatedData.length);
             for (let i = 0; i < generatedData.length; i++) {
-                console.log("start time->"+new Date(generatedData[i]).toLocaleTimeString());
-                console.log("end time->"+new Date(new Date(generatedData[i]).getTime() + getEndDate(data.duration)).toLocaleTimeString());
+                // console.log("start time->"+new Date(generatedData[i]).toLocaleTimeString());
+                // console.log("end time->"+new Date(new Date(generatedData[i]).getTime() + getEndDate(data.duration)).toLocaleTimeString());
                 let newVisitData = {
                     pp_ed_id: data.episode,
                     visit_number: 2,
@@ -108,7 +108,7 @@ const seperateVisitData = (data, update = false) => {
             return newData;
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 }
 //get Visit
@@ -131,7 +131,7 @@ export const GetVisit = async () => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return [];
     }
 }
@@ -163,8 +163,8 @@ export const GetClinicVisits = async (id) => {
 //@param Visit details
 //@return Message.
 export const AddVisit = async (details) => {
-    console.log('Add   :')
-   console.log(details)
+    // console.log('Add   :')
+   // console.log(details)
 
  // aswin 10/16/2021 //
  sessionStorage.removeItem('newDate')
@@ -174,7 +174,7 @@ export const AddVisit = async (details) => {
 
   
     var allVisitData = seperateVisitData(details);
-   // console.log(allVisitData)
+   // // console.log(allVisitData)
    if(details.location!=='Video Conference')
     {  
 
@@ -182,7 +182,7 @@ export const AddVisit = async (details) => {
             if(allVisitData[0].video_link ){
                 allVisitData[0].video_link='' 
             }
-            console.log(allVisitData)
+            // console.log(allVisitData)
     }
     try {
         const headers = {
@@ -211,8 +211,8 @@ export const AddVisit = async (details) => {
 //@param Visit details
 //@return Message.
 export const UpdateVisit = async (details) => {
-   //console.log(details)
-   console.log('update ',details)
+   //// console.log(details)
+   // console.log('update ',details)
    
 //    if(details)
 //    {    alert('update')
@@ -226,14 +226,14 @@ export const UpdateVisit = async (details) => {
             if(allVisitData[0].video_link ){
                 allVisitData[0].video_link='' 
             }
-            console.log("update 1 ",allVisitData)
+            // console.log("update 1 ",allVisitData)
     }
     if(details.location==='Video Conferance'){
         if(allVisitData[0].video_link ){
-           console.log('update inside video link')
+           // console.log('update inside video link')
         }
     }
-    console.log("update ",allVisitData[0])
+    // console.log("update ",allVisitData[0])
     try {
         const headers = {
             "Accept": 'application/json',
@@ -245,7 +245,7 @@ export const UpdateVisit = async (details) => {
             body: JSON.stringify(allVisitData[0])
         });
         if (response.status !== 200 && response.status !== 201) {
-            console.log(response)
+            // console.log(response)
             return [false, "Error " + response.status + ": " + response.statusText];
         }
         const data = await response.json();
@@ -262,8 +262,8 @@ export const UpdateVisit = async (details) => {
 export   const delete_visit= async (id)=>{
 
 
-    console.log('idd ion api')
-    console.log(id)
+    // console.log('idd ion api')
+    // console.log(id)
     
       try {
           const headers = {
@@ -276,7 +276,7 @@ export   const delete_visit= async (id)=>{
               body: JSON.stringify({id:id})
           });
           if (response.status !== 200 && response.status !== 201) {
-              console.log(response)
+              // console.log(response)
               return [false, "Error " + response.status + ": " + response.statusText];
           }
           const data = await response.json();

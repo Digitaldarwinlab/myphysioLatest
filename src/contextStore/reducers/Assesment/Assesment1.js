@@ -109,11 +109,11 @@ const FirstAssesmentIniState ={
 }
 
 const handleIndexValue = (arr,value,index,ques,ans) => {
-    console.log('arr ',arr)
-    console.log('arr ',value)
-    console.log('arr ',index)
-    console.log('arr ',ques)
-    console.log('arr ',ans)
+    // console.log('arr ',arr)
+    // console.log('arr ',value)
+    // console.log('arr ',index)
+    // console.log('arr ',ques)
+    // console.log('arr ',ans)
     const newArr = {...arr};
     if(index+1>newArr.length){
         newArr.score.push(value)

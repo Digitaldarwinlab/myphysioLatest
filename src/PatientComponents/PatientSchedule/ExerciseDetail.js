@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { Component } from "react";
+import React, { Component,Profiler } from "react";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
 import AchievedResult from "../shared/AchievedResult";
@@ -37,6 +37,24 @@ export default class ExerciseDetailsClass extends Component {
   };
   render() {
     return (
+      <Profiler
+              id="AuthForm"
+              onRender={(
+                id,
+                actualDuration,
+                baseDuration,
+                startTime,
+                commitTime,
+                interactions
+              ) => {
+                console.log(id);
+                console.log(actualDuration);
+                console.log(baseDuration);
+                console.log(startTime);
+                console.log(commitTime);
+                console.log(interactions);
+              }}
+            >
       <div className="exercise-detail" id="exercise-detail">
         <h3 className="fw-bold mt-2 ms-2">
           <BackButton />
@@ -112,6 +130,7 @@ export default class ExerciseDetailsClass extends Component {
             </Row>
           ))}
       </div>
+      </Profiler>
     );
   }
 }

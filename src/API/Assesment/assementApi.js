@@ -5,8 +5,8 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 export const  AssesmentAPI = async (details,url, dispatch) => {
-  console.log('inside assesment api')
-  console.log(details)
+  // console.log('inside assesment api')
+  // console.log(details)
   dispatch({ type: FETCH_DATA });
   let AssesmentDetails = {};
 
@@ -169,7 +169,7 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
     deep:details.deep,
     cortial:details.cortial
   }
-  console.log('body ',url)
+  // console.log('body ',url)
   AssesmentDetails["pp_ed_id"] = details.episode_id;
   AssesmentDetails["joint1score"] = details.joint1score;
   AssesmentDetails["joint2score"] = details.joint2score;
@@ -199,7 +199,7 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
   AssesmentDetails['Knee'] = details.knee;
   AssesmentDetails['posture'] = details.posture
   AssesmentDetails['body_image'] = details.body_image.length>0?details.body_image:url
-  console.log('checking ',AssesmentDetails)
+  // console.log('checking ',AssesmentDetails)
   // formdata.append('pp_ed_id',details.episode_id===undefined?'':details.episode_id)
   // formdata.append('joint1score',details.joint1score)
   // formdata.append('joint2score',details.joint2score)
@@ -259,7 +259,7 @@ export const  add_angles= async (newdata)=>{
   };
 
   const date=new Date()
-  console.log('insed add_angles')
+  // console.log('insed add_angles')
  
 
   try {
@@ -269,13 +269,13 @@ export const  add_angles= async (newdata)=>{
       body: JSON.stringify({patient_id:'56',date:date,result:newdata}),
     });
     const data = await res.json();
-    console.log(data)
+    // console.log(data)
     if (data) {
     //  dispatch({ type: RECEIVED_DATA });
       return true;
     }
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     return [false, "Error: 501" + " " + err.message];
   }
 }

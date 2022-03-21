@@ -22,13 +22,13 @@ const AddQuestions = ({back,next}) => {
   const dispatch = useDispatch();
   useEffect(async() => {
   const res = await getTemplateName()
-    console.log('template is ',res)
+    // console.log('template is ',res)
   setTemplateName(res)
   }, []);
   async function handleChange(value) {
     setShowQuestion(false)
     let data = await getQuestions(value);
-    console.log('res data ',data)
+    // console.log('res data ',data)
     let temp = []
     Object.keys(data.question).map((d,index)=>{
       if(d!=='description'){
@@ -43,7 +43,7 @@ const AddQuestions = ({back,next}) => {
       }
   })
   setQuestLabel(temp)
-  console.log('calcu ',temp)
+  // console.log('calcu ',temp)
     //QUESTION_CLEARSTATE
     dispatch({
       type: STATECHANGE,

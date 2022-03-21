@@ -91,7 +91,7 @@ const PhysioList = () => {
     }, []);
 
     useEffect(()=>{
-        console.log(visible+' visible')
+        // console.log(visible+' visible')
     },[visible])
   
     //Search Result
@@ -140,7 +140,7 @@ const PhysioList = () => {
             }
         });
         setData(tempData);
-       console.log(val)
+       // console.log(val)
         setVisible(true);
     }
     // Edit
@@ -150,11 +150,11 @@ const PhysioList = () => {
     if(confirm)
     {
         Setbuttondiable(true)
-          console.log(uid)
+          // console.log(uid)
         const result = await forgotPassword(uid);
         setLoading(false);
         if (result && result[0]) {
-            console.log("An email has been sent on your registered mail-Id for further process.");
+            // console.log("An email has been sent on your registered mail-Id for further process.");
             setSuccess('"An email has been sent on the registered mail-Id."')
           
             setTimeout(()=>{
@@ -226,14 +226,14 @@ const PhysioList = () => {
         else {
             let result = await admin_password_reset({userid ,temp_uid, new_password });
             setLoading(false);
-            console.log(result)
+            // console.log(result)
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
                 try{
                     form.resetFields()
                 }
                 catch{
-                    console.log('not resetting')
+                    // console.log('not resetting')
                 }
                 Settemp_uid(0)
                           
@@ -241,7 +241,7 @@ const PhysioList = () => {
                 
             } else {
                 setError(result[1]);
-                console.log(result[1])
+                // console.log(result[1])
                 setTimeout(() => {
                     setError("");
                 }, 3000);
@@ -341,6 +341,7 @@ const PhysioList = () => {
     // 
     //Rendered Part
     return (
+        
         <>
             <div style={{ minHeight: "20px" }}></div>
             <div className="top-bar" id="top-bar">

@@ -505,7 +505,7 @@ const SpecialTest = ({ setActive, back, next }) => {
               </table>
             </Panel>
           </Collapse>
-          {/* <button
+          <button
             onClick={() => history.goBack()}
             style={{
               marginLeft: `${screen.width / 2 - 115}px`,
@@ -516,7 +516,7 @@ const SpecialTest = ({ setActive, back, next }) => {
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
             Save
-          </button> */}
+          </button> 
           <div className="text-end" style={{ padding: 10 }}>
             <Space>
               <Button
