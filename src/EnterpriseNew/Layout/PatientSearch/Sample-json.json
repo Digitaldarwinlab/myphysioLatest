@@ -1,0 +1,97 @@
+[{
+    "id": 1,
+    "DOB":"10/02/1999",
+    "first_name": "Robbie",
+    "last_name": "Marle",
+    "email": "rmarle0@timesonline.co.uk",
+    "gender": "Agender",
+    "ip_address": "209.202.165.7"
+  }, {
+    "id": 2,
+    "DOB":"10/02/1999",
+    "first_name": "Matthus",
+    "last_name": "Fache",
+    "email": "mfache1@amazon.co.jp",
+    "gender": "Male",
+    "ip_address": "115.194.182.203"
+  }, {
+    "id": 3,
+    "DOB":"10/02/1999",
+    "first_name": "Mariellen",
+    "last_name": "Durie",
+    "email": "mdurie2@elpais.com",
+    "gender": "Non-binary",
+    "ip_address": "19.36.99.4"
+  }, {
+    "id": 4,
+    "DOB":"10/02/1999",
+    "first_name": "Patty",
+    "last_name": "Nineham",
+    "email": "pnineham3@si.edu",
+    "gender": "Polygender",
+    "ip_address": "184.251.64.9"
+  }, {
+    "id": 5,
+    "DOB":"10/02/1999",
+    "first_name": "Kailey",
+    "last_name": "Mulqueeny",
+    "email": "kmulqueeny4@wix.com",
+    "gender": "Polygender",
+    "ip_address": "223.109.57.0"
+  }, {
+    "id": 6,
+    "DOB":"10/02/1999",
+    "first_name": "Kerk",
+    "last_name": "Gosswell",
+    "email": "kgosswell5@simplemachines.org",
+    "gender": "Non-binary",
+    "ip_address": "47.185.111.46"
+  }, {
+    "id": 7,
+    "DOB":"10/02/1999",
+    "first_name": "Lorry",
+    "last_name": "Sheer",
+    "email": "lsheer6@a8.net",
+    "gender": "Polygender",
+    "ip_address": "62.144.15.241"
+  }, {
+    "id": 8,
+    "DOB":"10/02/1999",
+    "first_name": "Lotta",
+    "last_name": "Pemberton",
+    "email": "lpemberton7@arstechnica.com",
+    "gender": "Bigender",
+    "ip_address": "192.48.99.85"
+  }, {
+    "id": 9,
+    "DOB":"10/02/1999",
+    "first_name": "Jamey",
+    "last_name": "Oxlee",
+    "email": "joxlee8@slideshare.net",
+    "gender": "Non-binary",
+    "ip_address": "152.62.6.252"
+  },{
+    "id": 9,
+    "DOB":"10/02/1999",
+    "first_name": "Jamey",
+    "last_name": "Oxlee",
+    "email": "joxlee8@slideshare.net",
+    "gender": "Non-binary",
+    "ip_address": "152.62.6.252"
+  },{
+    "id": 9,
+    "DOB":"10/02/1999",
+    "first_name": "Jamey",
+    "last_name": "Oxlee",
+    "email": "joxlee8@slideshare.net",
+    "gender": "Non-binary",
+    "ip_address": "152.62.6.252"
+  }, {
+    "id":10,
+    "DOB":"10/02/1999",
+    "first_name": "Artur",
+    "last_name": "Aherne",
+    "email": "aaherne9@php.net",
+    "gender": "Polygender",
+    "ip_address": "156.131.42.212"
+  }]

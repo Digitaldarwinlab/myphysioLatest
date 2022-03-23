@@ -1,0 +1,41 @@
+{
+    "episode":{
+        "id":1,
+        "name":"Neck Pain",
+        "start_date":"04/06/2021",
+        "status":"Active"
+    },
+    "Diagnosis":{
+        "start_date":"04/06/2021",
+        "end_date":"08/06/2021",
+        "complaint":"Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum."
+    },
+    "CarePlan":[
+            {
+                "id":1,
+                "name":"Neck Pain",
+                "start_date":"04/06/2021",
+                "end_date":"08/06/2021"
+            },
+            {
+                "id":2,
+                "name":"Neck Pain",
+                "start_date":"04/06/2021",
+                "end_date":"08/06/2021"
+            }
+    ],
+    "Medications":[
+        {
+            "id":1,
+            "med_name":"Paracetamol",
+            "start_date":"04/06/2021",
+            "duration":"6"
+        },
+        {
+            "id":2,
+            "med_name":"Paracetamol",
+            "start_date":"04/06/2021",
+            "duration":"6"
+        }
+    ]
+}

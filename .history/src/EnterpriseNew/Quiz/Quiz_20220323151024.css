@@ -1,0 +1,249 @@
+
+#question_section {
+    padding: 2% 15%;
+  }
+  
+  .questions {
+    display: flex;
+    background-color: rgb(192, 241, 241);
+    border-radius: 10px;
+  
+    box-shadow: 5px 5px 5px 2px rgba(190, 190, 190, 0.5);
+  }
+  
+  .image {
+    width: 30%;
+    text-align: center;
+    padding: 1% 0;
+  }
+  
+  img {
+    width: 90%;
+  }
+  
+  .question {
+    width: 60%;
+    padding: 0 2%;
+    text-align: left;
+  
+  }
+  
+  .question_number {
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  
+  .question_number p {
+    margin-left: auto;
+  }
+  
+  
+  .dots {
+    
+    width: 65%;
+   height: 20px;
+  }
+  
+  .dot {
+    float: left;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 2px;
+  }
+  
+  .dot .active {
+    background-color: #36aca8;
+  }
+  
+  .question p {
+    font-size: 1.25rem;
+    color: #30777c;
+    padding: 0.5%;
+  }
+  
+  span {
+    font-size: 1.5rem;
+    padding: 0;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 5%;
+  }
+  
+  .option {
+    margin: 1% 0;
+    border: 1.5px solid #4fbdba;
+    color: grey;
+    font-size: 1.125rem;
+    color: #4fbdba !important;
+    width: 38%;
+    padding: 1.2% 0;
+    border-radius: 18px;
+    background-color: azure;
+  }
+  
+  .option.active {
+    background-color: #4fbdba;
+    color: white !important;
+  }
+  
+  .option:hover {
+    background-color: #4fbdba;
+    color: white !important;
+  }
+  
+  
+  .action-buttons {
+    text-align: right;
+  }
+  
+  .action-buttons button {
+    margin-left: 10px;
+    background-color: #36aca8;
+    color: white;
+    border: 1px solid #35858b;
+    font-size: 1.125rem;
+    width: 20%;
+    padding: 1.2% 0;
+    border-radius: 20px;
+  }
+  
+  .action-buttons button:hover {
+    background-color: #4fbdba;
+  }
+  
+  .action-buttons .disable {
+    background-color: rgb(126, 125, 125);
+    border: grey;
+  }
+  
+  .action-buttons .disable:hover {
+    background-color: rgb(126, 125, 125);
+  }
+  
+  .en
+  
+  .end p{
+    font-size: 4rem !important;
+    margin: auto !important;
+  }
+  
+  
+  .loading {
+    font-size: 2rem;
+    margin: auto;
+  }
+  
+  .end button{
+    margin-left: 10px;
+    background-color: #36aca8;
+    color: white;
+    border: 1px solid #35858b;
+    font-size: 1.125rem;
+    width: 20%;
+    padding: 1.2% 0;
+    border-radius: 20px;
+  }
+  
+  .logout {
+    text-align: right;
+  }
+  
+  .logout button {
+    background-color: #36aca8;
+    color: white;
+    border: 1px solid #35858b;
+    font-size: 1.125rem;
+    width: 10%;
+    margin-top: 1%;
+    margin-right: 1%;
+    padding: 0.75% 0;
+    border-radius: 20px;
+  }
+  
+  @media (max-width: 1080px) {
+  
+    #question_section {
+      padding: 2% 6%;
+    }
+    .questions {
+      flex-direction: column;
+    }
+  
+    .question_number span{
+      font-size: 1.025rem;
+    }
+  
+    .question {
+      text-align: center;
+    
+    }
+  
+  
+  
+    .image {
+      display: none;
+    }
+  
+    .question {
+      width: 95%;
+    }
+  
+    .options {
+      align-items: center;
+    }
+  
+    .option {
+      width: 80%;
+      margin: 1.5%;
+    }
+  
+    .action-buttons {
+      text-align: center;
+      margin: 5%;
+    }
+  
+    .action-buttons button {
+     
+      font-size: 1.125rem;
+      padding: 2% 0;
+     
+    }
+  
+    .end {
+      font-size: 3rem;
+      margin: 10%;
+    }
+  
+    .loading {
+      font-size: 2rem;
+      margin:10%;
+    }
+  
+    .logout button {
+   
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width:375px) {
+  
+    .logout button {
+      width:15%;
+      font-size: 12px;
+    }
+    
+      .dots {
+      margin-bottom: 5%;
+    }
+  
+  
+  }
+  
