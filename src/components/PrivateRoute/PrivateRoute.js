@@ -11,7 +11,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
             isAuthenticated()?(
                 (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio" )
                 ?<Component {...props} />
-                :<Redirect to="/patient/dashboard" />
+                :(getUserData()==='enterprise_patient')?<Redirect to="/patient/enterprise/dashboard" />:<Redirect to="/patient/dashboard" />
                 )
             : <Redirect to="/" />
         )} />

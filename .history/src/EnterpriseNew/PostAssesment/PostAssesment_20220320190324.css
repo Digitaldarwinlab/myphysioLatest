@@ -1,0 +1,33 @@
+.post {
+    background-color: aliceblue;
+    height: 100vh;
+    padding: 5% 25%;
+}
+
+.postcompletion {
+    
+    padding: 8% 10%;
+    background-color: white;
+    
+}
+
+
+.postcompletion button {
+    
+   margin: auto;
+   padding: 
+    
+}
+.postcompletion label {
+    font-size: 25px;
+}
+
+.notes {
+    width: 100%;
+    background-color: antiquewhite;
+    padding:2%
+}
+
+.notes label {
+    width: 100%;
+}

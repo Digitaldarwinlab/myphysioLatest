@@ -83,7 +83,7 @@ const SearchPatient = () => {
             </>
         );
     }
-    console.log(patientData)
+    console.log(patientData);
 
     const onSearch = async (value) => {
      //  console.log(value.target.value)

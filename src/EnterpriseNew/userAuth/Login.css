@@ -1,0 +1,11 @@
+.cont-fluid {
+    display: flex;
+}
+
+.vectImg {
+    width: 60%;
+}
+
+.LoginMain {
+    width: 40%;
+}

@@ -1,0 +1,32 @@
+[
+    {
+        "id":1,
+        "Level":"Easy",
+        "Name":"Squats",
+        "img":"https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    },
+    {
+        "id":2,
+        "Level":"Medium",
+        "Name":"Lunges",
+        "img":"https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+    },
+    {
+        "id":3,
+        "Level":"Easy",
+        "Name":"Squats",
+        "img":"https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+    },
+    {
+        "id":4,
+        "Level":"Hard",
+        "Name":"Jumping Jacks",
+        "img":"https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+    },
+    {
+        "id":5,
+        "Level":"Expert",
+        "Name":"Burpies",
+        "img":"https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+    }
+]
