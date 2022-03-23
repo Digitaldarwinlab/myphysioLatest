@@ -45,6 +45,7 @@ import Signup from "./components/userAuth/Signup.js";
 // const PrivateRoute = lazy(() => import('./components/PrivateRoute/PrivateRoute'));
 // const PublicRoute = lazy(() => import('./components/PrivateRoute/PublicRoute'));
 // const PatientRoute = lazy(() => import('./components/PrivateRoute/PatientRoute'));
+// const ViewClinic = lazy(()=>import('./components/Physio/ClinicRegister/ViewClinic'))
 
 import Assesment1 from "./components/Assesment/Assesment1";
 import Assesment2 from "./components/Assesment/AddQuestions";
@@ -122,7 +123,7 @@ const App = () => {
 				<Suspense fallback={<Loading />}>
 				{isAuthenticated() && (<Navigationbar getCurrentPath={getCurrentPath} SideNavbarCollpased={SideNavbarCollpased} isSideNavbarCollpased={isSideNavbarCollpased} />)}
 				<div className="padT-0">
-					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio")) && (
+					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && (
 						<div className={`${isSideNavbarCollpased ? '' : 'col-md-2'} sideNavbar position-fixed`}
 							style={{ width: isSideNavbarCollpased ? "90px" : "" }}>
 							{
@@ -137,7 +138,7 @@ const App = () => {
 							}
 						</div>)}
 					<div className={
-						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio")) && sidebarshow
+						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && sidebarshow
 							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content white-backgorund` : "MainConatiner"}>
 						<Switch>
 							<PublicRoute exact path="/change-password" component={Signup} />
@@ -150,6 +151,7 @@ const App = () => {
 							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
+							{/* <PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} /> */}
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />

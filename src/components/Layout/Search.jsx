@@ -78,7 +78,9 @@ const SearchPatient = () => {
    console.log(patientData)
     function Pahead(val) {
         return (
-            <PatDetails title={val.title} />
+            <>
+            {JSON.parse(localStorage.getItem("user")).role=="physio"?val.title!=="Mobile No"&&<PatDetails title={val.title} />:<PatDetails title={val.title} />}
+            </>
         );
     }
     console.log(patientData);
@@ -432,14 +434,12 @@ const SearchPatient = () => {
 
                                                         <Col md={4} lg={4} sm={4} xs={4}> <p> <p>{item.dob}</p></p></Col>
 
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>
+                                                        {JSON.parse(localStorage.getItem("user")).role!=="physio"&&<Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>}
 
                                                         <Col md={4} lg={4} sm={4} xs={4}>
                                                             <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
-                                                            <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
-                                                        {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null} 
-                                                        
-                                                      {item.status_flag==0 ?<FaKey onClick={() => handleAuthorizeClick(item)}/>: ''}
+                                                            {JSON.parse(localStorage.getItem("user")).role!=="physio"&&<BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />}
+                                                        {userInfo.role=='admin'|| userInfo.role=='HeadPhysio' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null}    
                                                         </Col>
                                                 </Row>
                                             )

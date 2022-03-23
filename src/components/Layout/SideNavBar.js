@@ -68,14 +68,14 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     >Dashboard
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="link3"
+               {userInfo.role !== "physio"&&<Menu.Item key="link3"
                     icon={<HiUserAdd size={22} style={{position:'relative',top:"1px"}} className="iconClass1" />}
                     className="text-decoration-none"
                 >
                     <Link to="/pateints/new"
                         style={{ color: "black" }}
                     >New Patient</Link>
-                </Menu.Item>
+                </Menu.Item>}
                 <Menu.Item key="link4"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
@@ -95,22 +95,30 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 onClick={() => handleClick("physio")}
                 icon={<i className="fas fa-user-md iconClass1"></i>}
                 title="Physio">
-                <Menu.Item key="link37"
+               { userInfo.role == "admin"&& <Menu.Item key="link37"
                     icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
                     className="text-decoration-none"
                 >
                     <Link to="/physio/register"
                         style={{ color: "black" }}
                     >Physio Register</Link>
-                </Menu.Item>
-                <Menu.Item key="link4"
+                </Menu.Item>}
+               { userInfo.role == "admin" && <Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
                     <Link to="/physio/clinic/register"
                         style={{ color: "black" }}
                     >Clinic Register</Link>
-                </Menu.Item>
+                </Menu.Item>}
+                {userInfo.role == "HeadPhysio"&&<Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/physio/clinic/view"
+                        style={{ color: "black" }}
+                    >View Clinic</Link>
+                </Menu.Item>}
                 <Menu.Item key="link56"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
@@ -236,13 +244,13 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
             
-            {userInfo.role === "admin" && physioItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && pateintItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && episodeItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && schedulingItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && assessmentItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && notesItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && carePlanItem()}
+            {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && schedulingItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
         </Menu>
     )
 }

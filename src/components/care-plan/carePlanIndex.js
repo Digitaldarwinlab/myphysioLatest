@@ -702,7 +702,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     const searchExercise = async (search_query) => {
         const newData = { ...checkedList };
         newData['search_query']= search_query
-        const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
+        const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
         if(data.total_exercise){
             data['total_exercise with applied filter'] = data.total_exercise
         }

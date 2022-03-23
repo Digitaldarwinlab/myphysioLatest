@@ -1,5 +1,5 @@
-import React, { Component,Profiler } from 'react';
-import { Row, Col, Switch, Checkbox, Card, Button, notification } from "antd"
+import React, { Component } from 'react';
+import { Row, Col, Switch, Checkbox, Card, Button, notification, Radio } from "antd"
 import { CaretLeftFilled, CameraFilled, MinusCircleOutlined, PlayCircleOutlined, PauseCircleOutlined, SwapOutlined, RollbackOutlined } from '@ant-design/icons';
 import { STATECHANGE } from "../../contextStore/actions/Assesment"
 import { connect } from "react-redux";
@@ -11,6 +11,7 @@ import {add_angles} from '../../API/Assesment/assementApi'
 import Cookies from 'js-cookie';
 
 import './Ai.css'
+import AiTab from './AiTab';
 // import {Video} from "../../styles/ScreenDesign/ypga.jpg"
 
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -35,13 +36,32 @@ const joints = [
     { value: 7, label: "rightKnee" },
     { value: 8, label: "leftNeck" },
     { value: 9, label: "rightNeck" },
-    { value: 10, label: "rightPelvic" },
-    { value: 11, label: "leftPelvic" },
+    { value: 10, label: "leftPelvic" },
+    { value: 11, label: "rightPelvic" },
+]
+const leftJoints = [
+  { value: 0, label: "leftShoulder" },
+  { value: 2, label: "leftElbow" },
+  { value: 4, label: "leftHip" },
+  { value: 6, label: "leftKnee" },
+  { value: 8, label: "leftNeck" },
+  { value: 10, label: "leftPelvic" },
+]
+
+const rightJoints = [
+
+  { value: 1, label: "rightShoulder" },
+  { value: 3, label: "rightElbow" },
+  { value: 5, label: "rightHip" },
+  { value: 7, label: "rightKnee" },
+  { value: 9, label: "rightNeck" },
+  { value: 11, label: "rightPelvic" },
 ]
 
 
 let data = "";
 let screenshot = [];
+
 console.log('in careplan')
 class AI extends Component {
 
@@ -83,7 +103,12 @@ class AI extends Component {
             exerciseId: this.props.history.location.exerciseId,
             arrayIndex:0,
             primaryExercise:this.props.history.location.state.exercisePrimary,
-            selectedExercise:preveState[0]
+            selectedExercise:preveState[0],
+            selectedOrientation:1,
+            angles:[],
+            ref:1,
+            toggleState:1,
+            lateralJoints:leftJoints
         };
 
         // window.darwin.setExcersiseParams({
@@ -132,7 +157,12 @@ class AI extends Component {
 
         this.props.history.push("/assessment/1")
     }
-
+    setSelectOrientation = (value) => {
+      this.setState({ selectedOrientation : value })
+    }
+    setAngles = (value) => {
+      this.setState({ angles : value })
+    }
     // innerHTML1 = () => {
     //     const anglesEle = document.getElementById('angles1');
 
@@ -155,16 +185,36 @@ class AI extends Component {
 
     
 
-    ifCheck = () => {
+    ifCheck = (tempjoints) => {
         var check = [];
         const PreLable = this.state.preValue;
-        for (let i = 0; i < joints.length; i++) {
+        for (let i = 0; i < tempjoints.length; i++) {
            
-                check.push(joints[i].value)
+                check.push(tempjoints[i].value)
            
         }
         return check;
     }
+
+    changeSide = (value) => {
+        if(value=='left'){
+          //setLateralJoints(leftJoints)
+          this.setState({lateralJoints: leftJoints })
+          this.setAngles([0,2,4,6,8,10])
+          this.setSelectOrientation(2)
+        }
+        if(value=='right'){
+          //setLateralJoints(rightJoints)
+          this.setState({lateralJoints: rightJoints })
+          this.setAngles([1,3,5,7,9,11])
+          this.setSelectOrientation(3)
+        }
+        if(this.state.SWITCH){
+          this.handleChange()
+        }
+      
+    }
+    
     timer=()=>{
         this.interval= setInterval(() => {
         
@@ -415,6 +465,10 @@ class AI extends Component {
            })
         })
         console.log("primaryAnglesValue ",primaryAnglesValue)
+        this.setState({selectedOrientation:1})
+        this.setState({angles : [0,1,2,3,4,5,6,7,8,9,10,11]})
+        this.setState({toggleState:1})
+        this.setState({lateralJoints: leftJoints })
         window.darwin.setExcersiseParams({
             "name": this.state.ExcerciseName,
             "primaryKeypoint": 0,
@@ -427,7 +481,6 @@ class AI extends Component {
             "totalSets": 2
         });
         //aswin 11/27/2021 start
-        
         fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
             method: "POST",
             headers: {
@@ -460,13 +513,71 @@ class AI extends Component {
         this.setState({ start_stop: !this.state.start_stop });
         if (!this.state.start_stop) {
             window.darwin.restart();
+            window.darwin.setExcersiseParams({
+              angles: this.state.angles,
+            });
+            darwin.selectOrientation(this.state.selectedOrientation);
             this.timer();
         } else {
         //    clearInterval(this.interval)
 
            clearInterval(this.interval)
             console.log('FINALLL!!!!')
-
+            let data = darwin.getAssesmentData()
+            console.log("front", data);
+            if(this.state.selectedOrientation==1){
+              this.props.FirstAssesment("Anterior_AI_Data", data)
+            //   if(this.props.history.location.state.Excercise.length===1){
+            //     console.log("Ai data ",data[Object.keys(data)[0]])
+            //     let name = {}
+            //     name[Object.keys(data)[0]] = data[Object.keys(data)[0]]
+            //     this.props.FirstAssesment("Anterior_AI_Data", name)
+            //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+            //     console.log("Ai data captured if ",name)
+            //     notification.success({
+            //         message: 'Angles have been calculated',
+            //         placement: 'bottomLeft',
+            //         duration: 2
+            //     })
+            // }else{
+            //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
+            //     this.props.FirstAssesment("AI_data", data[Object.keys(data)[0]])
+            //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+            //     notification.success({
+            //         message: 'Angles have been calculated',
+            //         placement: 'bottomLeft',
+            //         duration: 2
+            //     })
+            //   }
+            }
+            if(this.state.selectedOrientation==2){
+              this.props.FirstAssesment("LeftLateral_AI_Data", data)
+            //   if(this.props.history.location.state.Excercise.length===1){
+            //     console.log("Ai data ",data[Object.keys(data)[0]])
+            //     let name = {}
+            //     name[Object.keys(data)[0]] = data[Object.keys(data)[0]]
+            //     this.props.FirstAssesment("LeftLateral_AI_Data", name)
+            //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+            //     console.log("Ai data captured if ",name)
+            //     notification.success({
+            //         message: 'Angles have been calculated',
+            //         placement: 'bottomLeft',
+            //         duration: 2
+            //     })
+            // }else{
+            //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
+            //     this.props.FirstAssesment("LeftLateral_AI_Data", data[Object.keys(data)[0]])
+            //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
+            //     notification.success({
+            //         message: 'Angles have been calculated',
+            //         placement: 'bottomLeft',
+            //         duration: 2
+            //     })
+            //   }
+            }
+            if(this.state.selectedOrientation==3){
+              this.props.FirstAssesment("RightLateral_AI_Data", data)
+            }
            console.log(this.state.data)
            this.array=JSON.stringify(this.state.data)
            console.log('hashedd')
@@ -489,6 +600,7 @@ class AI extends Component {
     };
 
     angles = (checkedValues) => {
+      console.log(checkedValues)
         window.darwin.setExcersiseParams({
             "angles": checkedValues
         })
@@ -578,7 +690,7 @@ class AI extends Component {
             "totalReps": 3,
             "totalSets": 2
         });
-
+        this.setState({angles : [0,1,2,3,4,5,6,7,8,9,10,11]})
         fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
             method: "POST",
             headers: {
@@ -701,13 +813,13 @@ class AI extends Component {
                     </div>
                     <Row className="main-row"  id="main-row">
                         <Col md={14} lg={14} sm={24} xs={14} id="Ai_vid" className="Ad_vid" >
-                            <video  className id="video" className="video" playsInline style={{ display: "none" }}>
+                            <video  id="video" className="video" playsInline style={{ display: "none" }}>
                             </video>
                             <canvas id="output" className="output" style={{height:'440px'}}/>
                         </Col>
                         <Col md={8} lg={8} sm={24} xs={8} id="Ex_vid" className="Ex_vid">
                             <div className="">
-                                <video src={ + this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
+                                <video src={process.env.REACT_APP_EXERCISE_URL+'/'+this.state.videoUrl} controls autoPlay loop id="videoscreen" className="videoScreen" />
                             </div>
                             <Card style={{ marginTop: 5, borderRadius: 10 }} actions={[
                                 <Button className="mx-2"
@@ -730,6 +842,7 @@ class AI extends Component {
                                             </Col>
                                             <Col>
                                                 <Button className="mx-2"
+                                                    disabled={this.state.SWITCH}
                                                     style={{ border: 'none' }}
                                                     icon={<MinusCircleOutlined />}
                                                     onClick={this.stop}>
@@ -756,7 +869,7 @@ class AI extends Component {
                                     <p style={{marginBottom:'4px'}}> <b>Excercise Name :</b>  {this.state.selectedExercise}</p>
                                     <p style={{marginBottom:'4px'}}> <b>Joints :</b> </p>
                                     </div>
-                                    <div >
+                                    {/* <div >
                                         <Checkbox.Group 
                                        // defaultValue={joints}
                                         defaultValue={this.ifCheck()} 
@@ -768,7 +881,101 @@ class AI extends Component {
                                                     </Col>))}
                                             </Row>
                                         </Checkbox.Group>
-                                    </div>
+                                    </div> */}
+                                     <>
+      <div className="containerrr">
+        <div className="bloc-tabss">
+          <span
+            aria-disabled
+            style={{ width: "460px", padding: "0px 0 0 0", height: "35px" }}
+            className={this.state.toggleState == 1 ? "tabss active-tabss" : "tabss"}
+            onClick={() => {
+              //setToggleState(1);
+              this.setState({toggleState:1})
+              this.setAngles([0,1,2,3,4,5,6,7,8,9,10,11])
+              this.setSelectOrientation(1)
+              if(this.state.SWITCH){
+                this.handleChange()
+              }
+            }}
+          >
+            <div className="fw-bold ant-tabss-btn">Anterior</div>
+          </span>
+          <span
+            style={{ width: "460px", padding: "0px 0 0 0", height: "35px" }}
+            className={this.state.toggleState == 2 ? "tabss active-tabss" : "tabss"}
+            onClick={() => {
+              //setToggleState(2);
+              this.setState({toggleState:2})
+              this.setAngles([0,2,4,6,8,10])
+              this.setSelectOrientation(2)
+              if(this.state.SWITCH){
+                this.handleChange()
+              }
+            }}
+          >
+            <div className="fw-bold ant-tabss-btn">Lateral</div>
+          </span>
+        </div>
+
+        <div
+          className={
+            this.state.toggleState == 1 ? "contentt  active-contentt" : "contentt"
+          }
+        >
+          {/* <Radio checked value={"front"}>
+            front
+          </Radio> */}
+          <br />
+          <div>
+            <Checkbox.Group onChange={this.angles} defaultValue={()=>this.ifCheck(joints)} >
+              <Row>
+                {joints.map((item) => (
+                  <Col span={8}>
+                    <Checkbox value={item.value}>{labels[item.value]}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </div>
+        </div>
+        <div
+          className={
+            this.state.toggleState == 2 ? "contentt  active-contentt" : "contentt"
+          }
+        >
+          <Radio.Group defaultValue={"left"} onChange={(e)=>this.changeSide(e.target.value)}>
+            <Radio  value={"left"}>left</Radio>
+            <Radio value={"right"}>right</Radio>
+          </Radio.Group>
+          <br />
+          <br />
+          <div>
+          <Checkbox.Group onChange={this.angles} value={()=>this.ifCheck(this.state.lateralJoints)} >
+              <Row>
+                {this.state.lateralJoints.map((item) => (
+                  <Col span={8}>
+                    <Checkbox value={item.value}>{labels[item.value]}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </div>
+        </div>
+      </div>
+    </>
+                                    {/* <AiTab 
+                                      refSpan={this.state.ref}
+                                      ifCheck={this.ifCheck}
+                                      changeAngles={this.angles}
+                                      setSelectOrientation={this.setSelectOrientation}
+                                      setAngles={this.setAngles}
+                                      handleChange={this.handleChange}
+                                      switchstate={this.state.SWITCH}  
+                                      leftJoints={leftJoints} 
+                                      rightJoints={rightJoints} 
+                                      joints={joints} 
+                                      labels={labels}/> */}
                                     <div id="scr_out">
                                         <h5 style={{ visibility: this.state.visible }}>Preview:</h5>
                                     </div>

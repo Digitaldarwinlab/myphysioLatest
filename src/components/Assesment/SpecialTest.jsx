@@ -1,12 +1,22 @@
-import { Col, Collapse, Row, Form, Radio, List, Skeleton } from "antd";
+import {
+  Col,
+  Collapse,
+  Row,
+  Form,
+  Radio,
+  List,
+  Skeleton,
+  Space,
+  Button,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { AiFillMedicineBox } from "react-icons/ai";
 import { drp1, drp2, drp3, drp4, drp5, drp6, drp7, drp8, drp9 } from "./Test";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import { STATECHANGE } from "../../contextStore/actions/Assesment"
+import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import BackButton from "../../PatientComponents/shared/BackButton";
-const SpecialTest = ({setActive,back,next}) => {
+const SpecialTest = ({ setActive, back, next }) => {
   const { Panel } = Collapse;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -42,12 +52,12 @@ const SpecialTest = ({setActive,back,next}) => {
   };
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      if (sessionStorage.getItem('specialsubmit')) {
-        sessionStorage.removeItem('specialsubmit')
+      if (sessionStorage.getItem("specialsubmit")) {
+        sessionStorage.removeItem("specialsubmit");
         return;
       }
       if (window.confirm("Special Test data will be lost. Is it okay?")) {
-        dispatch({type:"SPECIAL_TEST_CLEARSTATE"})
+        dispatch({ type: "SPECIAL_TEST_CLEARSTATE" });
         return true;
       } else {
         console.log("no check...");
@@ -59,14 +69,21 @@ const SpecialTest = ({setActive,back,next}) => {
     };
   }, [history]);
   const handleSubmit = () => {
-    sessionStorage.setItem('specialsubmit',true)
+    console.log("special ",OthersText)
+    console.log("special ",OthersStatus)
+    let temp = {}
+    OthersStatus.map((item,index)=>{
+      temp[OthersText[index]] = item
+    })
+    console.log("special ",temp)
+    sessionStorage.setItem("specialsubmit", true);
     //setActive(4)
     if (window.confirm("Special Test data will be saved")) {
       dispatch({
         type: STATECHANGE,
         payload: {
           key: "special_visibility",
-          value: 'block',
+          value: "block",
         },
       });
       dispatch({
@@ -132,9 +149,33 @@ const SpecialTest = ({setActive,back,next}) => {
           value: lumbar,
         },
       });
-      history.push('/assessment/1')
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "special_others",
+          value: temp,
+        },
+      });
+      history.push("/assessment/1");
     }
   };
+  const handleAddFields = () =>{}
+  const handleRemoveFields = () =>{}
+  const [Others, setOthers] = useState([{
+    temp:' '
+  }])
+  const [OthersText, setOthersText] = useState([])
+  const [OthersStatus, setOthersStatus] = useState([])
+  const handleText = (text,index) =>{
+    let temp = OthersText
+    temp[index] = text
+    setOthersText(temp)
+  }
+  const handleStatus = (value,index) =>{
+    let temp = OthersStatus
+    temp[index] = value
+    setOthersStatus(temp)
+  }
   return (
     <>
       <Form className="p-3">
@@ -142,26 +183,76 @@ const SpecialTest = ({setActive,back,next}) => {
           <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
             <h3>
-            <i
-              className="fas fa-arrow-left"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                history.goBack();
-              }}
-              title="Go Back"
-              role="button"
-            ></i>
-          </h3>
-            <h3><b>Special Test Type</b></h3>{" "}
+              <i
+                className="fas fa-arrow-left"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  history.goBack();
+                }}
+                title="Go Back"
+                role="button"
+              ></i>
+            </h3>
+            <h3>
+              <b>Special Test Type</b>
+            </h3>{" "}
           </Col>
         </Row>
         <div className="mb-3 special-test" style={{ paddingTop: "15px" }}>
           <Collapse
-          accordion
+            accordion
             defaultActiveKey={["1"]}
             // style={{ width: `${screen.width / 2}px` }}
           >
-            <Panel header="Shoulder" key="1" className="bold">
+            <Panel header="Others" key="1" className="bold">
+              <table style={{ width: "100%" }}>
+                <tr>
+                  <th>Others</th>
+                  <th>Pass</th>
+                  <th>Fail</th>
+                </tr>
+                {Others.map((item, index) => (
+                  <tr>
+                    <td>
+                      {" "}
+                      <input
+                        className='className="p-2 w-100'
+                        onChange={(e)=>{
+                          handleText(e.target.value,index)
+                        }}
+                        type="text"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        name={index+' '}
+                        onChange={()=>handleStatus(1,index)}
+                        type="radio"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        name={index+' '}
+                        onChange={()=>handleStatus(0,index)}
+                        type="radio"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </table>
+              <div className="row py-0 mx-1">
+              <div className="col" style={{paddingLeft:'0px',paddingTop:'10px'}}>
+              <button type="button" onClick={() => setOthers([...Others ,{temp:' '}])} class="btn btn-primary ">+</button>
+              <button type="button" disabled={Others.length>1?false:true} onClick={() => {
+                let temp1 = Others.filter((item, index)=>index!==Others.length-1)
+                setOthers(temp1)
+              }} class="btn btn-primary mx-2">-</button>
+
+            </div>
+
+          </div>
+            </Panel>
+            <Panel header="Shoulder" key="8" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
                   <th></th>
@@ -425,7 +516,25 @@ const SpecialTest = ({setActive,back,next}) => {
           </button>
           <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
             Save
-          </button>
+          </button> 
+          <div className="text-end" style={{ padding: 10 }}>
+            <Space>
+              <Button
+                size="large"
+                className="mb-3 btncolor"
+                onClick={() => history.goBack()}
+              >
+                Back
+              </Button>
+              <Button
+                size="large"
+                className="mb-3 btncolor"
+                onClick={handleSubmit}
+              >
+                Save
+              </Button>
+            </Space>
+          </div>
         </div>
       </Form>
     </>

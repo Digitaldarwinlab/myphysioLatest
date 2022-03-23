@@ -27,8 +27,8 @@ const CarePlanView = (props) => {
             const data = await fetchCarePlan(props.eid);
             setLoading(false);
             
-            // console.log('data is coming')
-            // console.log(data)
+            console.log('data is coming')
+            console.log("data is coming ",data)
 
             setCarePlanData(data);
             setPaginationState({

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, InputNumber,Input, Form, Row, Col, Modal } from 'antd';
+import { Card, InputNumber,Input, Form, Row, Col, Modal, Select } from 'antd';
 import { FaHeart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinusCircle, AiTwotoneSwitcher } from "react-icons/ai";
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     const state = useSelector(state => state.carePlanRedcucer);
     const [visible, setVisible] = useState(false);
     console.log('careplanreducer')
-    console.log(state)
+    console.log("careplanreducer ",data)
     const AddIntoCart = (id) => {
         console.log('cart ',id)
         UpdateCart(id);
@@ -93,7 +93,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                     <>
                         <div className="border m-1">
                             <h4 className="border">Repitition</h4>
-                            <div style={{ minHeight: "33px" }}></div>
+                            
                             <Row gutter={[10, 10]}>
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                     <Form.Item name={"set" + index} label="Set" required={true}>
@@ -120,11 +120,31 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                     </Form.Item>
                                 </Col>
                             </Row>
+                            <Row gutter={[10,10]}>
+                            <Col lg={24} md={24} sm={24} xs={24}>
+                                    <Form.Item name={"hold_time" + index} label="Hold Time(sec)" required={true}>
+                                       <Select 
+                                        onChange={(value) => handleChange("hold_time", value, index)}
+                                        //value={state.exercises[index].Rep.hold_time}
+                                        disabled={carePlanView}
+                                        value={(data && data.Rep) ? data.Rep.hold_time :
+                                            (state.exercises.length > 0 && state.exercises[index]) ? state.exercises[index]["Rep"]["hold_time"] : 5}
+                                        defaultValue={(data && data.Rep) ? data.Rep.hold_time :
+                                            (state.exercises && state.exercises[index]) ? state.exercises[index]["Rep"]["hold_time"] : 5}
+                                       >
+                                           <Select.Option value={5}>5</Select.Option>
+                                           <Select.Option value={10}>10</Select.Option>
+                                           <Select.Option value={15}>15</Select.Option>
+                                       </Select>
+                                    </Form.Item>
+                                </Col>
+                                </Row>
                         </div>
                     </>,
                     <>
                         <div className="border m-1">
                             <h4 className="border">Rom</h4>
+                            <div style={{ minHeight: "31px" }}></div>
                             <Form.Item name={"joint" + index} required={true}>
                                 <label for={"joint" + index}>Joint </label>
                                 <select disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>

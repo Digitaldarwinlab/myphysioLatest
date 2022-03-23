@@ -108,7 +108,7 @@ const AssessmentList = ({ assesmentClick }) => {
 
             // console.log('AI datas is')
             // console.log(exercise)
-            if (Object.values(AI_data).length>0 && Object.values(AI_data)[0].angles && Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min) {
+            if (Object.values(AI_data).length>0 && Object.values(AI_data)[0].angles && Object.values(AI_data)[0].angles['leftShoulder'].min) {
                 //   console.log(item.AI_data[exercise].angles)
 
                 return (
@@ -117,38 +117,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '1',
                                 angles: 'Left Shoulder',
-                                min: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].min,
-                                max: Object.values(AI_data)[0].angles['Left Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['leftShoulder'].min,
+                                max: Object.values(AI_data)[0].angles['leftShoulder'].max
                             },
                             {
                                 key: '2',
                                 angles: 'Right Shoulder',
-                                min: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].min,
-                                max: Object.values(AI_data)[0].angles['Right Shoulder(ver)'].max
+                                min: Object.values(AI_data)[0].angles['rightShoulder'].min,
+                                max: Object.values(AI_data)[0].angles['rightShoulder'].max
                             },
                             {
                                 key: '3',
                                 angles: 'Left Elbow',
-                                min: Object.values(AI_data)[0].angles['Left Elbow'].min,
-                                max: Object.values(AI_data)[0].angles['Left Elbow'].max
+                                min: Object.values(AI_data)[0].angles['leftElbow'].min,
+                                max: Object.values(AI_data)[0].angles['leftElbow'].max
                             },
                             {
                                 key: '4',
                                 angles: 'Right Elbow',
-                                min: Object.values(AI_data)[0].angles['Right Elbow'].min,
-                                max: Object.values(AI_data)[0].angles['Right Elbow'].max
+                                min: Object.values(AI_data)[0].angles['rightElbow'].min,
+                                max: Object.values(AI_data)[0].angles['rightElbow'].max
                             },
                             {
                                 key: '5',
                                 angles: 'Left Neck',
-                                min: Object.values(AI_data)[0].angles['Neck Left'].min,
-                                max: Object.values(AI_data)[0].angles['Neck Left'].max
+                                min: Object.values(AI_data)[0].angles['leftNeck'].min,
+                                max: Object.values(AI_data)[0].angles['leftNeck'].max
                             },
                             {
                                 key: '6',
                                 angles: 'Right Neck',
-                                min: Object.values(AI_data)[0].angles['Neck Right'].min,
-                                max: Object.values(AI_data)[0].angles['Neck Right'].max
+                                min: Object.values(AI_data)[0].angles['rightNeck'].min,
+                                max: Object.values(AI_data)[0].angles['rightNeck'].max
                             },
 
                         ],
@@ -161,38 +161,38 @@ const AssessmentList = ({ assesmentClick }) => {
                             {
                                 key: '7',
                                 angles: 'Left Hip',
-                                min: Object.values(AI_data)[0].angles['Left Hip'].min,
-                                max: Object.values(AI_data)[0].angles['Left Hip'].max
+                                min: Object.values(AI_data)[0].angles['leftHip'].min,
+                                max: Object.values(AI_data)[0].angles['leftHip'].max
                             },
                             {
                                 key: '8',
                                 angles: 'Right Hip',
-                                min: Object.values(AI_data)[0].angles['Right Hip'].min,
-                                max: Object.values(AI_data)[0].angles['Right Hip'].max
+                                min: Object.values(AI_data)[0].angles['rightHip'].min,
+                                max: Object.values(AI_data)[0].angles['rightHip'].max
                             },
                             {
                                 key: '9',
                                 angles: 'Left Knee',
-                                min: Object.values(AI_data)[0].angles['Left Knee'].min,
-                                max: Object.values(AI_data)[0].angles['Left Knee'].max
+                                min: Object.values(AI_data)[0].angles['leftKnee'].min,
+                                max: Object.values(AI_data)[0].angles['leftKnee'].max
                             },
                             {
                                 key: '10',
                                 angles: 'Right Knee',
-                                min: Object.values(AI_data)[0].angles['Right Knee'].min,
-                                max: Object.values(AI_data)[0].angles['Right Knee'].max
+                                min: Object.values(AI_data)[0].angles['rightKnee'].min,
+                                max: Object.values(AI_data)[0].angles['rightKnee'].max
                             },
                             {
                                 key: '11',
                                 angles: 'Left Pelvic',
-                                min: Object.values(AI_data)[0].angles['Pelvic Left'].min,
-                                max: Object.values(AI_data)[0].angles['Pelvic Left'].max
+                                min: Object.values(AI_data)[0].angles['leftPelvic'].min,
+                                max: Object.values(AI_data)[0].angles['leftPelvic'].max
                             },
                             {
                                 key: '12',
                                 angles: 'Right Pelvic ',
-                                min: Object.values(AI_data)[0].angles['Pelvic Right'].min,
-                                max: Object.values(AI_data)[0].angles['Pelvic Right'].max
+                                min: Object.values(AI_data)[0].angles['rightPelvic'].min,
+                                max: Object.values(AI_data)[0].angles['rightPelvic'].max
                             },
                         ]
                     }

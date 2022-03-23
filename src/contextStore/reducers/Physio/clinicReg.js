@@ -21,7 +21,8 @@ const clinicInitialState = {
     email:"",
     website_url:"",
     isLoading:false,
-    success:""
+    success:"",
+    clinics:[]
 }
 export const clinicReg = (state = clinicInitialState,action)=>{
     switch (action.type) {

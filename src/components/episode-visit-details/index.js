@@ -114,7 +114,7 @@ const EpisodeVisitDetails = () => {
         MedicalHistory: "",
         FamilyHistory: ""
     });
-
+    const userInfo = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
         async function getPatients() {
             let data = await getPatientList();
@@ -313,12 +313,12 @@ const EpisodeVisitDetails = () => {
                        
                     </div>
                 </Col>
-                <Col lg={6} md={6} sm={12} xs={24}>
+               {userInfo.role!='physio'&&<Col lg={6} md={6} sm={12} xs={24}>
                     <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
                         <p className="fw-bold p"><strong> Contact Number : </strong> {state.Patient_no} </p>
                         
                     </div>
-                </Col>
+                </Col>}
             </Row>
         )
     }
@@ -412,8 +412,8 @@ const EpisodeVisitDetails = () => {
                     >
                         // http://13.127.176.250:8089/r/2
                         </iframe> */}
-                        {/* {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)} */}
-                        <iframe
+                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                        {process.env.NODE_ENV=="development"?  <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"
@@ -423,7 +423,17 @@ const EpisodeVisitDetails = () => {
                             //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
                             src={`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
                             >
-                        </iframe>
+                        </iframe>:  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            //physio_id=${localStorage.getItem('userId')}&
+                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
+                            src={`http://13.127.176.250:8089/superset/dashboard/2/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
+                            >
+                        </iframe>}
                          {/* <iframe
                          width={100}
                          className="iframeDashboard"

@@ -135,6 +135,30 @@ export const GetVisit = async () => {
         return [];
     }
 }
+
+export const GetClinicVisits = async (id) => {
+    try {
+        const headers = {
+            "Accept": 'application/json',
+            "Content-type": "application/json"
+        }
+
+        const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ id: id })
+        });
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
 //@Add Visit 
 //@param Visit details
 //@return Message.
