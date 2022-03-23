@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { ImPlus } from "react-icons/im";
 import { CgProfile } from "react-icons/cg";
+import { AiTwotoneSetting } from "react-icons/ai";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import "./../../styles/Layout/Navbar.css";
@@ -11,18 +12,33 @@ import MyPhysioLogo from "./../UtilityComponents/MyPhysioLogo";
 import { GoCalendar } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaWindowClose } from "react-icons/fa";
-import { FaLanguage } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
+
+const { SubMenu } = Menu;
 const Navigationbar = (props) => {
   //	console.log(props)
   const [showMenu, setShowMenu] = useState(false);
-  const [showMenu1, setShowMenu1] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
+  const [devices, setDevices] = useState([]);
   const userInfo = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : { role: "physio", info: { first_name: "User" } };
-  const [disCamSelection, setDisCamSelection] = useState(false);
-  const [disCamSelection1, setDisCamSelection1] = useState(false);
+
+  const handleDevices = useCallback(
+    (mediaDevices) =>
+      setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+    [setDevices]
+  );
+  useEffect(() => {
+    const fetch = async () => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      console.log("available devices ", devices);
+      handleDevices(devices);
+    };
+
+    fetch();
+  }, [handleDevices]);
+
   const LogoutMenu = () => {
     return (
       <Menu className="dropDownMenu UserDropDown">
@@ -36,7 +52,7 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" && (
+        {userInfo.role !== "admin" && userInfo.role !== "physio" && (
           <Menu.Item key="2" style={{ borderTop: "0px solid black" }}>
             <Link
               to="/patient/profile"
@@ -85,7 +101,7 @@ const Navigationbar = (props) => {
           </a>
         </Dropdown>
 
-        {userInfo.role == "admin" || userInfo.role == "physio" || userInfo.role == "HeadPhysio"  ? (
+        {userInfo.role == "admin" || userInfo.role == "physio" ? (
           <Menu className={`d-md-inline  hamburgerMenu `} id="hamburgerMenu">
             {/* aswin 10/27/2021 start */}
             <Menu.Item
@@ -109,7 +125,7 @@ const Navigationbar = (props) => {
         <Link
           style={{ position: "relative", top: "0px" }}
           to={
-            userInfo.role === "physio" || userInfo.role === "admin" || userInfo.role == "HeadPhysio"
+            userInfo.role === "physio" || userInfo.role === "admin"
               ? "/dashboard"
               : "/patient/dashboard"
           }
@@ -119,96 +135,49 @@ const Navigationbar = (props) => {
         </Link>
 
         <div className="d-inline-flex p-2 text-white navigationMenu topScheduleIcon">
-          {
-            userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" ? (
-              <>
-                <Dropdown
-                  disabled={disCamSelection1}
-                  overlay={
-                    <Menu className="dropDownMenu">
-                      <Menu.Item
-                        onClick={() => darwin.selectLang("en-US")}
-                        style={{
-                          borderTop: "solid 1px black",
-                          marginTop: "0px",
-                        }}
-                      >
-                        English
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={() => darwin.selectLang("hi-IN")}
-                        style={{
-                          borderTop: "solid 1px black",
-                          marginTop: "0px",
-                        }}
-                      >
-                        Hindi
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={() => darwin.selectLang("ar-SA")}
-                        style={{
-                          borderTop: "solid 1px black",
-                          marginTop: "0px",
-                        }}
-                      >
-                        Arabic
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
+          {userInfo.role !== "admin" &&
+          userInfo.role !== "physio" &&
+          userInfo.role !== "HeadPhysio" ? (
+            <Link to="/patient/schedule">
+              <h4 className="text-white me-3 ">
+                <GoCalendar /> Schedule
+              </h4>
+            </Link>
+          ) : (
+            <Dropdown
+              overlay={
+                <Menu
+                  className="dropDownMenu"
+                  style={{ borderTop: "solid 1px black"}}
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["sub1"]}
+                  mode="inline"
                 >
-                  {/* : (<Dropdown overlay={<Devices />} trigger={['click']}> */}
-                  <a
-                    className="ant-dropdown-link text-white"
-                    onClick={(e) => {
-                      setShowMenu1((prev) => !prev);
-                      e.preventDefault();
-                    }}
-                  >
-                    <FaLanguage style={{ paddingRight: "15px" }} size={30} />
-                 
-                    {/* {!showMenu ? <IoMdArrowDropdown size={25} /> : <IoMdArrowDropup size={25} />} */}
-                  </a>
-                </Dropdown>
-                <Link to="/patient/schedule">
-                  <h4 className="text-white me-3 ">
-                   
-                    <GoCalendar /> Schedule
-                  </h4>
-                </Link>
-              </>
-            ) : (
-              <>
-                {" "}
-                <Dropdown
-                  disabled={disCamSelection}
-                  overlay={
-                    <DropDownMenu
-                      setDisCamSelection={setDisCamSelection}
-                      setShowMenu={setShowMenu}
-                      showMenu={showMenu}
-                      getCurrentPath={props.getCurrentPath}
-                    />
-                  }
-                  trigger={["click"]}
-                >
-                  {/* : (<Dropdown overlay={<Devices />} trigger={['click']}> */}
-                  <a
-                    className="ant-dropdown-link text-white"
-                    onClick={(e) => {
-                      setShowMenu((prev) => !prev);
-                      e.preventDefault();
-                    }}
-                  >
-                    <IoMdVideocam />
-                    {/* {!showMenu ? <IoMdArrowDropdown size={25} /> : <IoMdArrowDropup size={25} />} */}
-                  </a>
-                </Dropdown>{" "}
-              </>
-            )
-            //:<Devices />
-          }
-
+                  <SubMenu key="sub2" title="  Camera" icon={<IoMdVideocam />}>
+                    {devices.map((item) => (
+                      <Menu.Item
+                        onClick={() => darwin.cameraIdFunc(item.deviceId)}
+                        key="7"
+                      >
+                        {item.label}
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                </Menu>
+              }
+              trigger={["click"]}
+            >
+              <a
+                className="ant-dropdown-link text-white"
+                onClick={(e) => {
+                  setShowMenu(!showMenu);
+                  e.preventDefault();
+                }}
+              >
+                <AiTwotoneSetting />
+              </a>
+            </Dropdown>
+          )}
           <div>
             <Dropdown overlay={LogoutMenu()} type="button" trigger={["hover"]}>
               <a

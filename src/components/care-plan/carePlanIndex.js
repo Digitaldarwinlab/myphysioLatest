@@ -707,6 +707,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             data['total_exercise with applied filter'] = data.total_exercise
         }
         const newPagData = { ...Pagination1 };
+        newPagData["current"] = 1
         newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
         setPagination1(newPagData)
         setExerciseList(data.data);

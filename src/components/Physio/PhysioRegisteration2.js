@@ -533,8 +533,18 @@ const PhysioRegisteration2 = (props) => {
                     </Row>
                 </div>
              
-                   
-                    <Row className="text-center" justify="center" style={{marginBottom:'10px'}}>
+                <Row justify="center">
+      <Col span={2}>  <Button  size="large" 
+      //className="me-2 " 
+       style={{borderRadius:"10px"}}  onClick={Back}>Back</Button></Col>
+      <Col span={2}>  <Button size="large" 
+      //className="me-2  " 
+      style={{backgroundColor:'#1bbc9b',borderRadius:"10px"}}  onClick={handleReset}>Reset</Button></Col>
+      <Col span={2}> <Button type="primary" size="large" 
+      //className="me-2 btncolor " 
+      htmlType="submit">Next</Button></Col>
+    </Row>
+                    {/* <Row className="text-center" justify="center" style={{marginBottom:'10px'}}>
                     <Col >
                     <Button  size="large" className="me-2 "  style={{borderRadius:"10px"}}  onClick={Back}>Back</Button>
                     </Col>
@@ -544,7 +554,7 @@ const PhysioRegisteration2 = (props) => {
                     <Col >
                     <Button type="primary" size="large" className="me-2 btncolor " htmlType="submit">Next</Button>
                     </Col>
-                </Row>
+                </Row> */}
                
             </Form>
         </>

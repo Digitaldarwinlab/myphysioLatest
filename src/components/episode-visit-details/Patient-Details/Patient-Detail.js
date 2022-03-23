@@ -5,6 +5,7 @@ import FormDate from './../../UI/antInputs/FormDate';
 import { calculate } from './../../PatientRegistration/Register1';
 import moment from "moment";
 import FormTextArea from './../../UI/antInputs/FormTextArea';
+import { getUserData } from '../../../API/userAuth/userAuth';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -108,7 +109,7 @@ export default function Patient({ viewState }) {
                             </Col>
                         </Row>
 
-                        <Row gutter={[20, 20]} className="pt-4">
+                      {(getUserData()==="admin" || getUserData()==="HeadPhysio") &&  <Row gutter={[20, 20]} className="pt-4">
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Mobile No"
                                     name="MobileNo"
@@ -133,7 +134,7 @@ export default function Patient({ viewState }) {
                                     disabled={true}
                                 />
                             </Col>
-                        </Row>
+                        </Row>}
                     </div>
                 </Form>
             </>
@@ -215,7 +216,7 @@ export default function Patient({ viewState }) {
                                     disabled={true}
                                 />
                             </Col>
-                            <Col md={24} lg={8} sm={24} xs={24}>
+                        <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Email"
                                     name="Email"
                                     className="input-field w-100"
@@ -231,8 +232,9 @@ export default function Patient({ viewState }) {
                                     disabled={true}
                                 />
                             </Col>
+                           
                         </Row>
-                        <Row gutter={[20, 20]}>
+                       <Row gutter={[20, 20]}>
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="LinkedIn"
                                     name="LinkedIn"
@@ -305,9 +307,9 @@ export default function Patient({ viewState }) {
                 <Panel header="Basic Information" key="1">
                     {BasicInfo()}   
                 </Panel>
-                <Panel header="Contact Information" key="2">
-                    {ContactInfo()}
-                </Panel>
+               {(getUserData()==="admin" || getUserData()==="HeadPhysio") && <Panel header="Contact Information" key="2">
+              {ContactInfo()}
+                </Panel>}
                 <Panel header="History" key="3">
                     {History()}
                 </Panel>

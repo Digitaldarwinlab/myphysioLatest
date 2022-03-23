@@ -68,14 +68,14 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     >Dashboard
                     </Link>
                 </Menu.Item>
-               {userInfo.role !== "physio"&&<Menu.Item key="link3"
+               <Menu.Item key="link3"
                     icon={<HiUserAdd size={22} style={{position:'relative',top:"1px"}} className="iconClass1" />}
                     className="text-decoration-none"
                 >
                     <Link to="/pateints/new"
                         style={{ color: "black" }}
                     >New Patient</Link>
-                </Menu.Item>}
+                </Menu.Item>
                 <Menu.Item key="link4"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"

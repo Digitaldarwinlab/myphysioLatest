@@ -4,6 +4,7 @@ import { FaCalendarPlus, FaColumns, FaPills, FaMicroscope } from "react-icons/fa
 import { GrGroup } from "react-icons/gr";
 import { AiFillCalendar, AiFillCamera, AiTwotoneSetting } from "react-icons/ai";
 import { RiFileTextFill } from "react-icons/ri";
+import { IoMdVideocam } from "react-icons/io";
 
 export const Items = [
     {
@@ -117,6 +118,10 @@ export const Items = [
         Icon: <AiTwotoneSetting className="iconClass2" />,
         path: "/setting",
         name: "Settings",
+        options:[{
+            Icon:<IoMdVideocam className="iconClass2"/>,
+            name:"Camera",
+        }],
         isDivider: false,
         role: "physio"
     },
