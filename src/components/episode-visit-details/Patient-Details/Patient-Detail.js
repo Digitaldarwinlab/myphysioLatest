@@ -17,7 +17,7 @@ export default function Patient({ viewState }) {
         return (
             <>
                <Form layout="vertical">
-                    <div className="border p-4 mb-4">
+                    <div className="border mb-4">
                         <Row gutter={[20, 20]}>
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="First Name"

@@ -291,9 +291,6 @@ body {
 .border {
   border: 0px solid #dee2e6 !important;
 }
-.border1 {
-  border: 1px solid #dee2e6;
-}
 .rounded {
   border-radius: 0.25rem !important;
 }
@@ -694,7 +691,6 @@ body {
   font-size: 1.25rem;
   text-decoration: none;
   white-space: nowrap;
-  margin-right: auto;
 }
 .navbar-nav {
   display: flex;
@@ -1011,8 +1007,7 @@ body {
 
 /* Neeraj Pathania CSS */
 body {
-  /* font-family: "Quicksand", sans-serif !important; */
-  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Quicksand", sans-serif !important;
   background-color: #f2f2f2 !important;
 }
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
@@ -1030,7 +1025,7 @@ body input {
   border: 0px !important;
 }
 button.userAuthbtn {
-  /* background: #fff !important; */
+  background: #fff !important;
   height: 48px;
 }
 .userNameLogin {
@@ -1073,6 +1068,7 @@ nav.navbar.navigationBar {
   margin-top: -3px;
 }
 button.skip-button,
+button,
 button.ant-btn.SchForm {
   background: #2d7ecb !important;
   border: 0px !important;
@@ -1127,10 +1123,10 @@ button.ant-modal-close .ant-modal-close-x {
   line-height: 35px;
   color: #fff;
 }
-/* .ant-menu-submenu-title:hover span,
+.ant-menu-submenu-title:hover span,
 .ant-menu-submenu-title:hover svg {
-  color: #fff;
-} */
+  /* color: #fff; */
+}
 .ant-menu-vertical .ant-menu-item::after,
 .ant-menu-vertical-left .ant-menu-item::after,
 .ant-menu-vertical-right .ant-menu-item::after,
@@ -1146,7 +1142,7 @@ button.ant-modal-close .ant-modal-close-x {
 }
 button.ant-btn {
   border-radius: 0px !important;
-  /* min-width: 80px; */
+  min-width: 60px;
   
   text-align: center !important;
 }
@@ -1197,9 +1193,6 @@ button.ant-btn {
 .ant-switch-checked {
   border-radius: 24px !important;
 }
-.ant-switch {
-  border-radius: 100px !important;
-  }
 .ant-btn:hover,
 .ant-btn:focus {
   color: #1bbc9b !important;
@@ -1545,8 +1538,8 @@ i.fas.fa-user-plus {
     font-size: 18px;
   }
 
-  /* element.style {
-  } */
+  element.style {
+  }
   [class^="ant-"],
   [class*="ant-"],
   [class^="ant-"] *,
@@ -1568,11 +1561,11 @@ i.fas.fa-user-plus {
   }
 }
 
-/* .sideNavbar.position-fixed
+.sideNavbar.position-fixed
   .ant-menu-submenu-title
   i.fas.fa-notes-medical.iconClass1 {
-  color: #fff;
-} */
+  /* color: #fff; */
+}
 button {
   color: #fff !important;
 }
@@ -1680,9 +1673,6 @@ div#right-box .detail-row b {
   margin-right: 5px;
 }
 
-.dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-hover {
-  background-color:#e5e5e5 !important; 
-}
 
 /* 
 table {

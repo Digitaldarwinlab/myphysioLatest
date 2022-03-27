@@ -17,7 +17,7 @@ import Signup from "./components/userAuth/Signup.js";
 // const Prescription = lazy(() => import('./components/patientEpisode/Prescription/Prescription'));
 // const PatientConsuntForm = lazy(() => import('./components/patientEpisode/PatientConsuntForm'));
 // const EpisodeVisitDetails = lazy(() => import('./components/episode-visit-details'));
-// const Careplan = lazy(() => import('./components/care-plan/carePlanIndex'));
+ //const Careplan = lazy(() => import('./components/care-plan/carePlanIndex'));
 // const AI = lazy(() => import('./components/AI/AI.jsx'));
 // const ActiveSearch = lazy(() => import("./components/UtilityComponents/ActiveSearch.js"));
 // const VideoCallIndex = lazy(() => import('./components/video-call-screens/video-call-index'));
@@ -99,6 +99,7 @@ import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
 import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
 import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
 import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
+import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
 
 const App = () => {
 	const path = window.location.pathname;
@@ -151,7 +152,7 @@ const App = () => {
 							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
-							{/* <PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} /> */}
+							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />

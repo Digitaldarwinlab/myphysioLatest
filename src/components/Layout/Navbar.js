@@ -13,6 +13,7 @@ import { GoCalendar } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaWindowClose } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
+import SideDrawer from "./SideDrawer";
 
 const { SubMenu } = Menu;
 const Navigationbar = (props) => {
@@ -70,10 +71,32 @@ const Navigationbar = (props) => {
       </Menu>
     );
   };
-
+  const [visState, setVisState] = useState(false)
   return (
     <>
       <nav className="navbar navbar-expand-lg sticky-top navigationBar">
+      {/* <Dropdown
+          overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
+          className="navbar-toggler"
+          type="button"
+          id="navbar-toggler"
+          trigger={["click"]}
+        >
+          <a
+            className="ant-dropdown-link text-white border"
+            onClick={(e) => {
+              setShowToggleMenu(!showToggleMenu);
+              e.preventDefault();
+              setVisState(true)
+            }}
+          >
+            <AiOutlineMenu
+              style={{ fontSize: "20px" }}
+              className="navbar-toggler-icon"
+            />
+          </a>
+        </Dropdown> */}
+        
         <Dropdown
           overlay={
             <DropDownMenu
@@ -102,7 +125,7 @@ const Navigationbar = (props) => {
         </Dropdown>
 
         {userInfo.role == "admin" || userInfo.role == "physio" ? (
-          <Menu className={`d-md-inline  hamburgerMenu `} id="hamburgerMenu">
+          <Menu className={`d-md-inline  hamburgerMenu ham_one `} id="hamburgerMenu">
             {/* aswin 10/27/2021 start */}
             <Menu.Item
               key="1"
@@ -114,9 +137,9 @@ const Navigationbar = (props) => {
             >
               {/* aswin 10/27/2021 stop */}
               {props.isSideNavbarCollpased ? (
-                <GiHamburgerMenu style={{ marginTop: "5px" }} size={25} />
+                <GiHamburgerMenu className="ham_one" style={{ marginTop: "5px" }} size={25} />
               ) : (
-                <GiHamburgerMenu style={{ marginTop: "5px" }} size={25} />
+                <GiHamburgerMenu className="ham_one" style={{ marginTop: "5px" }} size={25} />
               )}
             </Menu.Item>
           </Menu>

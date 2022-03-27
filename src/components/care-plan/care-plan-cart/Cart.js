@@ -85,7 +85,15 @@ const newEx = await Exercise.map(async(ex)=>{
     }
   })
 })
-// console.log("sorted array " ,exercisePrimary)
+ console.log("sorted array " ,{
+  pathname: "/assessment/AI",
+  state: {
+    Excercise: allExcercise,
+    Joints: Joints,
+    stateName :state.carePlanRedcucer,
+    exercisePrimary : exercisePrimary
+  },
+})
       history.push({
         pathname: "/assessment/AI",
         state: {

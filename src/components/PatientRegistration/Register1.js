@@ -409,7 +409,7 @@ const Register1 = (props) => {
                     </Row>
                 </div>
 
-                <Row className="text-center" justify="center">
+                {/* <Row className="text-center" justify="center">
                     <Col >
                         <Link to='/dashboard'>  <Button className="me-2 " style={{ borderRadius: '10px' }} >Cancel</Button></Link>
                     </Col>
@@ -417,9 +417,20 @@ const Register1 = (props) => {
                         <Button className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }} onClick={handleReset}>Reset</Button>
                     </Col>
                     <Col >
-                        {/* Dipsikha start 23/10 */}
                         <Button className="button1" id="bnid" style={{ color: "white" }} htmlType="submit">Next</Button>
                     </Col>
+                </Row> */}
+                   <Row justify="center">
+                     <Col span={2}> <Link to='/dashboard'>  <Button 
+                    //  className="me-2 " 
+                    //  style={{ borderRadius: '10px' }} 
+                     >Cancel</Button></Link></Col>
+                     <Col span={2}>  <Button 
+                     //className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }} 
+                     onClick={handleReset}>Reset</Button></Col>
+                     <Col span={2}> <Button 
+                     //className="button1" id="bnid" style={{ color: "white" }} 
+                     htmlType="submit">Next</Button></Col>
                 </Row>
 
             </Form>

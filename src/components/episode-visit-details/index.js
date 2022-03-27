@@ -278,12 +278,12 @@ const EpisodeVisitDetails = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col lg={18} md={14} sm={14} xs={24}>
-                        <h3 className="page-heading">
+                        <h3 className="fw-bold page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                                 onClick={() => { history.push('/pateints') }}
                                 title="Go Back"
                                 role="button"></i>
-                             <b> Patient</b>
+                             <b className="fw-bold"> Patient</b>
                         </h3>
                     </Col>
                     <Col lg={6} md={10} sm={10} xs={24}>
@@ -297,27 +297,27 @@ const EpisodeVisitDetails = () => {
     //Patient Detail
     const PatientDetails = () => {
         return (
-            <Row gutter={[10, 10]}>
+            <Row >
                 <Col lg={6} md={6} sm={4} xs={24}>
                     <h3 className="fw-bold">Patient Details</h3>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
+                        <p className="fw-bold" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
+                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                     
-                    </div>
+                    </div> */}
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24}>
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p"> <strong>Patient Name :</strong> {state.patient_name}</p>
+                        <p className="fw-bold"> <strong>Patient Name :</strong> {state.patient_name}</p>
+                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                        
-                    </div>
+                    </div> */}
                 </Col>
                {userInfo.role!='physio'&&<Col lg={6} md={6} sm={12} xs={24}>
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p"><strong> Contact Number : </strong> {state.Patient_no} </p>
+                        <p className="fw-bold"><strong> Contact Number : </strong> {state.Patient_no} </p>
+                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                         
-                    </div>
+                    </div> */}
                 </Col>}
             </Row>
         )
@@ -450,13 +450,13 @@ const EpisodeVisitDetails = () => {
     }
 
     return (
-        <div className="ms-2 me-2" style={{maxWidth:'100%',msOverflowX:'hidden'}}>
+        <div className="" style={{maxWidth:'100%',msOverflowX:'hidden'}}>
             {Header()}
             <div className="rest">
                 {/* aswin 11/15/2021 start */}
                 {episodeDetail.Validation.episode_check==='failed'&&<Error error={episodeDetail.Validation.msg} />}
                 {/* aswin 11/15/2021 start */}
-            <div style={{ minHeight: "20px" }}></div>
+            {/* <div style={{ minHeight: "20px" }}></div> */}
             {PatientDetails()}
             <div style={{ minHeight: "20px" }}></div>
             {DetailTabs()}

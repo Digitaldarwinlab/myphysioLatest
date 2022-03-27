@@ -275,7 +275,7 @@ const SchduleForm = (props) => {
 
     return (
         <>
-        <div style={{ background: '#fff' }}>
+        {/* <div style={{ background: '#fff' }}>
            <div style={{ minHeight: "20px" }}></div>
           <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
               <Col >
@@ -289,8 +289,21 @@ const SchduleForm = (props) => {
               {props.state.isLoading && <Loading />}
               </Col>
           </Row>
-        </div>
-
+        </div> */}
+        <div style={{ minHeight: "20px" }}></div>
+          <Row gutter={[10,10]}>
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <h3 className="page-heading" id="page-heading"> <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i><strong> Add Episode </strong></h3>
+          </Col>
+        
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <ActiveSearch  />
+              {props.state.isLoading && <Loading />}
+          </Col>
+          </Row>
             
             <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" name="control-hooks">
             
@@ -303,17 +316,17 @@ const SchduleForm = (props) => {
                     {props.state.success && <Success success={props.state} />}
 
                 </div>
-      </Modal>
-                <Row className="border ps-2 pe-2 pt-2 mb-2">
-                    <Col span={8}>
+              </Modal>
+                <Row justify="space-between">
+                <Col md={8} lg={8} sm={24} xs={24}>
                         <p className="fw-600 p f-15" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
                     </Col>
-                    <Col span={8}>
+                    <Col md={8} lg={8} sm={24} xs={24}>
                         <p className="fw-600 p f-15" style={font}>
                         <b>Patient Name: </b>{state.patient_name}
                         </p>
                     </Col>
-                    <Col span={8}> 
+                    <Col md={8} lg={8} sm={24} xs={24}>
                     <p className="fw-600 p f-15" style={font}>
                     <b>Contact No: </b>{state.Patient_no}
                     </p>
@@ -410,12 +423,12 @@ const SchduleForm = (props) => {
                 </Collapse>
 
                 <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-                    <Col md={24} lg={12} sm={12} xs={12}>
+                    <Col md={12} lg={12} sm={24} xs={24}>
                     <Form.Item label={<span  style={{fontSize:'15px'}}>{props.episode ? "Episode Type"  : "Visit Type" }</span> }
                         name={props.episode ? "complaint" : "type"}
                         rules={[{ required: Colsure, message: `Please Select a ${props.episode ? "Primary Complaint" : "Type"}` }]}>
                         <Select
-                         className="input-field"
+                         className="input-field w-100"
                             name={props.episode ? "complaint" : "type"}
                             placeholder="Type"
                             value={props.episode ? props.state.complaint : props.state.type}
@@ -432,12 +445,12 @@ const SchduleForm = (props) => {
                         </Select>
                     </Form.Item>
                     </Col>
-                    <Col md={24} lg={12} sm={12} xs={12}>
+                    <Col md={12} lg={12} sm={24} xs={24}>
                     <Form.Item label={<span style={{fontSize:'15px'}}>{'Rehab Type'}</span>}
                         name="Operative_Types"
                         rules={[{ required: Colsure, message: `Please Select Rehab Type` }]}>
                         <Select
-                         className="input-field"
+                     //    className="input-field"
                             name="Operative_Types"
                             placeholder="Operative Types"
                             value={props.state.Operative_Types}
@@ -645,24 +658,32 @@ const SchduleForm = (props) => {
                 
                 
                 <Row className="text-center" justify="center" style={{marginBottom:'15px'}}>
-                  {/* Dipsikha start 23/10 */}
-                <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button> 
-                { console.log('opacity' + props.opacity1)}
+                <Button  className="button1" id="bnid" style={{color:"white",backgroundColor:'#2d7ecb'}} onClick={Cancel} ><b>Cancel</b></Button> 
                    {
-                     props.opacity1=='1' ?  <Button onClick={props.handleSubmit} style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
+                     props.opacity1=='1' &&  <Button onClick={props.handleSubmit} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } className="button1" id="bnid" ><b>Submit</b></Button> 
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button onClick={props.onSubmit} className="updateBtn" >Update</Button> : state.end_date.length>0?
-                     <Button onClick={reOpen} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Re-open</b></Button>:
-                     <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } onClick={props.onSubmit} className="updateBtn" >Update</Button> : state.end_date.length>0?
+                     <Button  onClick={reOpen} className="button1" disabled={isclosuredisabled} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} }><b>Re-open</b></Button>:
+                     <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} }><b>Closure</b></Button> : null 
                    }
                   
                     {  props.opacity1=='0'  ? props.isupdating===true ? !endClosure?<Button className="updateBtn" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={props.onSubmit} >Update</Button> : 
-                    <Button onClick={props.onSubmit} className="button1"  style={{ color:"white" }}><b>Conform Re-open</b></Button>:
+                    <Button onClick={props.onSubmit} className="button1"  style={{ color:"white",marginLeft:"5px" }}><b>Conform Re-open</b></Button>:
                     <Button className="button1"  style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
                    
                 </Row>
+                {/* <Row justify="center">
+                     <Col span={2}> <Button  className="button1" id="bnid" style={{color:"white",backgroundColor:'#2d7ecb', marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button> </Col>
+                     <Col span={2}>  <Button  
+                     //className="me-2  " 
+                     style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}  onClick={handleReset}>Reset</Button></Col>
+                     <Col span={2}> <Button type="primary"  
+                     //className="me-2 btncolor " 
+                     style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+                     htmlType="submit">Next</Button></Col>
+                </Row> */}
             </Form>
            
         </>

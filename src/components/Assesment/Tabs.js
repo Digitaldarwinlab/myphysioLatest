@@ -30,6 +30,123 @@ function Tabs({
 
   return (
     <>
+     {toggleState === 1 ? <Row className="pose_mobile_view_row">
+          <Col
+                span={24}
+                style={{
+                  // position: "absolute",
+                  right: "0",
+                  bottom: "0",
+                  left: "0",
+                  display: 'none'
+                  
+                }}
+                className="pose_mobile_view"
+                >
+                <table width="100%">
+                  <tr>
+                    <th style={{width:'50%'}}>
+                      <Switch
+                        checked={checked1}
+                        onChange={() => {
+                          if(!checked1){
+                            console.log('forward')
+                            darwin.restart()
+                            darwin.postureView("front");
+                          }else{
+                            console.log('backward')
+                            darwin.stop()
+                          }
+                          console.log('check PostureView(front) is calling')
+                          setChecked1(!checked1);
+                        }}
+                        style={{ color: "red", marginTop: 5 }}
+                      />
+                    </th>
+                    <th>
+                      <Button
+                        disabled={!checked1}
+                        onClick={async () => {
+                          darwin.postureView("screenshotTaken");
+                          captureFront();
+                          setChecked1(false);
+                          const res = await darwin.showAngles();
+                          console.log("show front angles ", res);
+                          setFrontAngles([
+                            res[0],
+                            res[1],
+                            res[2],
+                            res[3],
+                            res[4],
+                            res[5]
+                          ]);
+                          console.log('backward')
+                          darwin.stop()
+                        }}
+                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
+                        icon={<CameraFilled />}
+                      >
+                        Snapshot
+                      </Button>
+                    </th>
+                  </tr>
+                </table>
+              </Col>
+          </Row>: <Row >
+          <Col
+                span={24}
+                style={{
+                //  position: "absolute",
+                  right: "0",
+                  bottom: "0",
+                  left: "0",
+                  display: 'none'
+                }}
+                className="pose_mobile_view"
+              >
+                <table   width="100%">
+                  <tr>
+                  <th style={{width:'50%'}}>
+                      <Switch
+                        checked={checked2}
+                        onChange={() => {
+                          if(!checked2){
+                            darwin.restart()
+                            darwin.postureView("left")
+                            console.log('forward')
+                          }else{
+                            darwin.stop()
+                            console.log('backward')
+                          }
+                          console.log('check PostureView(left) is calling')
+                          setChecked2(!checked2);
+                        }}
+                        style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
+                      />
+                    </th>
+                    <th>
+                      <Button
+                        disabled={!checked2}
+                        onClick={async () => {
+                          darwin.postureView("screenshotTaken");
+                          captureSide();
+                          setChecked2(false);
+                          const res = await darwin.showAngles();
+                          console.log("show side angles ", res);
+                          setSideAngles([res[0], res[1], res[2], res[3]]);
+                          console.log('backward')
+                          darwin.stop()
+                        }}
+                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
+                        icon={<CameraFilled />}
+                      >
+                        Snapshot
+                      </Button>
+                    </th>
+                  </tr>
+                </table>
+              </Col>
+          </Row>}
       <div className="containerr">
         <div className="bloc-tabss">
           <span
@@ -106,15 +223,16 @@ function Tabs({
             </tr>
           </table>
           <hr style={{ margin: "0" }} />
-          <Row>
+          <Row className="pose_mobile_view_row_video_screen">
             <Col md={12} lg={12} sm={24} xs={24}>
-              <img width="100%" id="scr_out1" src={url1} alt="" />
+              <img className="pose_mobile_view_row_img" width="100%" id="scr_out1" src={url1} alt="" />
             </Col>
             <Col
               md={12}
               lg={12}
               sm={24}
               xs={24}
+              className="pose_check_div"
               style={{ borderLeft: "1px solid" }}
             >
               <div style={{ padding: "4px" }}>
@@ -147,7 +265,7 @@ function Tabs({
               </div>
             </Col>
           </Row>
-          <row>
+          <Row>
           <Col
                 span={24}
                 style={{
@@ -155,7 +273,10 @@ function Tabs({
                   right: "0",
                   bottom: "0",
                   left: "0",
+                  display:'block'
+                  
                 }}
+                className="pose_large_view"
                 >
                 <table width="100%">
                   <tr>
@@ -177,25 +298,6 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 }}
                       />
                     </th>
-                    {/* <th style={{width:'25%'}}>
-                      test
-                      <Switch
-                      //  checked={checked1}
-                        onChange={() => {
-                         // darwin.postureView("front");
-                         console.log('check test button is calling')
-                         if(!checked1){
-                          console.log('toggle forward')
-                          darwin.restart()
-                        }else{
-                          console.log('toggle backward')
-                          darwin.stop()
-                        }
-                          setChecked1(!checked1);
-                        }}
-                        style={{ color: "red", marginTop: 5 }}
-                      />
-                    </th> */}
                     <th>
                       <Button
                         disabled={!checked1}
@@ -225,7 +327,7 @@ function Tabs({
                   </tr>
                 </table>
               </Col>
-          </row>
+          </Row>
         </div>
         <div
           className={toggleState === 2 ? "contentt  active-contentt" : "contentt"}
@@ -271,15 +373,16 @@ function Tabs({
           <br />
           <br />
           <hr style={{ margin: "0" }} />
-          <Row>
+          <Row className="pose_mobile_view_row_video_screen" >
             <Col md={12} lg={12} sm={24} xs={24}>
-              <img width="100%" id="scr_out2" src={url2} alt="" />
+              <img className="pose_mobile_view_row_img" width="100%" id="scr_out2" src={url2} alt="" />
             </Col>
             <Col
               md={12}
               lg={12}
               sm={24}
               xs={24}
+              className="pose_check_div"
               style={{ borderLeft: "1px solid" }}
             >
               <div style={{ padding: "4px" }}>
@@ -315,7 +418,7 @@ function Tabs({
               </div>
             </Col>
           </Row>
-          <row>
+          <Row >
           <Col
                 span={24}
                 style={{
@@ -323,9 +426,11 @@ function Tabs({
                   right: "0",
                   bottom: "0",
                   left: "0",
+                  display:'block'
                 }}
+                className="pose_large_view"
               >
-                <table width="100%">
+                <table   width="100%">
                   <tr>
                   <th style={{width:'50%'}}>
                       <Switch
@@ -345,25 +450,6 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
                       />
                     </th>
-                    {/* <th style={{width:'25%'}}>
-                      test
-                      <Switch
-                      //  checked={checked2}
-                        onChange={() => {
-                            //darwin.postureView("left")
-                            console.log('check test button is calling')
-                            if(!checked2){
-                              console.log('toggle forward')
-                              darwin.restart()
-                            }else{
-                              console.log('toggle backward')
-                              darwin.stop()
-                            }
-                          setChecked2(!checked2);
-                        }}
-                        style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
-                      />
-                    </th> */}
                     <th>
                       <Button
                         disabled={!checked2}
@@ -386,7 +472,7 @@ function Tabs({
                   </tr>
                 </table>
               </Col>
-          </row>
+          </Row>
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Items } from "./Items";
+import { Items, PhysioItems } from "./Items";
 import { Menu } from "antd";
 import { GoCalendar } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
@@ -94,10 +94,10 @@ const DropDownMenu = ({ getCurrentPath }) => {
   const PhysioMenu = () => {
     return (
       <>
-        {Items.map((item, index) => {
+        {PhysioItems.map((item, index) => {
           return (
             <>
-              {item.role === "physio" && (
+              {item.name !== "Settings" ? (
                 <Menu.Item
                   key={index}
                   className={item.isHidden ? "hiddenDropDown" : ""}
@@ -105,7 +105,7 @@ const DropDownMenu = ({ getCurrentPath }) => {
                     getCurrentPath(item.currentPath);
                   }}
                   icon={item.Icon}
-                  style={{ borderTop: "1px solid red" }}
+                  style={{ borderTop: "solid 1px black", marginTop: "0px" }}
                 >
                   <Link
                     to={item.path}
@@ -114,6 +114,38 @@ const DropDownMenu = ({ getCurrentPath }) => {
                     {item.name}
                   </Link>
                 </Menu.Item>
+              ) : (
+                <SubMenu
+                  className="text-secondary text-decoration-none"
+                  style={{ borderTop: "solid 1px black" }}
+                  icon={item.Icon}
+                  title={item.name}
+                  mode="inline"
+                >
+                  {item.options.map((opt, index) => (
+                    <>
+                      {opt.name === "Camera" && (
+                        <SubMenu
+                          className="text-secondary text-decoration-none"
+                          icon={opt.Icon}
+                          title={opt.name}
+                        >
+                          {devices.map((item, index) => (
+                            <Menu.Item
+                              onClick={() => darwin.cameraIdFunc(item.deviceId)}
+                            >
+                              {item.label}
+                            </Menu.Item>
+                          ))}
+                        </SubMenu>
+                      )}
+                    </>
+                  ))}
+                  {/* {item.name == "Camera" && (
+                    <SubMenu icon={item.Icon} key="sub3" title="Camera">
+                      <Menu.Item key="7">Option 7</Menu.Item>
+                    </SubMenu> */}
+                </SubMenu>
               )}
             </>
           );

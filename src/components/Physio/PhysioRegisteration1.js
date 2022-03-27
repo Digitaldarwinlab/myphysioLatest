@@ -397,19 +397,20 @@ const PhysioRegisteration1 = (props) => {
       <Col span={2}> <Link to="/dashboard">
               <Button 
               //className="me-2" 
-              style={{ borderRadius: "10px" }}>
+              //style={{ borderRadius: "1px", backgroundColor:'#2d7ecb' }}
+              >
                 Cancel
               </Button>
             </Link></Col>
       <Col span={2}> <Button
              // className="me-2  "
-              style={{ backgroundColor: "#41A0A2", borderRadius: "10px" }}
+            // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
               onClick={handleReset}
             >
               Reset
             </Button></Col>
       <Col span={2}> <Button 
-      style={{ borderRadius: "10px" }}
+     // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
             //className="me-2 btncolor" 
             htmlType="submit">
               Next

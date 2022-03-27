@@ -144,10 +144,10 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                     <>
                         <div className="border m-1">
                             <h4 className="border">Rom</h4>
-                            <div style={{ minHeight: "31px" }}></div>
-                            <Form.Item name={"joint" + index} required={true}>
-                                <label for={"joint" + index}>Joint </label>
-                                <select disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
+                          
+                            <Form.Item name={"joint" + index} label="Joint" required={true}>
+                                {/* <label for={"joint" + index}>Joint </label> */}
+                                <select style={{width:'100%'}} disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
                                     
                                     {
                                         state.exercises && state.exercises[index] 
