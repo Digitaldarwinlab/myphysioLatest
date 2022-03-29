@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 
 const Body = (props) => {
   const [color, setColor] = useState("rgb(255, 0, 0)");
-  const [redClass, setRedClass] = useState("color active");
+  const [redClass, setRedClass] = useState("color activee");
   const [greenClass, setGreenClass] = useState("color");
   const [orangeClass, setOrangeClass] = useState("color");
   const [blueClass, setBlueClass] = useState("color");
@@ -41,7 +41,7 @@ const Body = (props) => {
   const redclickHandler = (event) => {
     console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
-    setRedClass("color active");
+    setRedClass("color activee");
     setGreenClass("color");
     setOrangeClass("color");
     setBlueClass("color");
@@ -52,7 +52,7 @@ const Body = (props) => {
     console.log(event.target.style.backgroundColor);
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
-    setGreenClass("color active");
+    setGreenClass("color activee");
     setOrangeClass("color");
     setBlueClass("color");
     setPurpleClass("color");
@@ -63,7 +63,7 @@ const Body = (props) => {
     setColor(event.target.style.backgroundColor);
     setRedClass("color ");
     setGreenClass("color");
-    setOrangeClass("color active");
+    setOrangeClass("color activee");
     setBlueClass("color");
     setPurpleClass("color");
   };
@@ -74,7 +74,7 @@ const Body = (props) => {
     setRedClass("color ");
     setGreenClass("color");
     setOrangeClass("color");
-    setBlueClass("color active");
+    setBlueClass("color activee");
     setPurpleClass("color");
   };
 
@@ -85,7 +85,7 @@ const Body = (props) => {
     setGreenClass("color");
     setOrangeClass("color");
     setBlueClass("color");
-    setPurpleClass("color active");
+    setPurpleClass("color activee");
   };
 
   const getData = useCallback((data) => {
@@ -166,7 +166,7 @@ const Body = (props) => {
             <p>Burning</p>
           </div>
         </div>
-        <svg x="0px" y="0px" viewBox="0 80 612 792" className="body-svg">
+        <svg x="0px" y="0px" viewBox="0 0 612 792" className="body-svg">
           {front_paths.map((path) => (
             <Path
               d={path.d}
@@ -181,7 +181,7 @@ const Body = (props) => {
             />
           ))}
         </svg>
-        <svg x="0px" y="0px" viewBox="170 80 612 792" className="body-svg">
+        <svg x="0px" y="0px" viewBox="0 0 612 792" className="body-svg">
           {back_paths.map((path) => (
             <Path
               d={path.d}

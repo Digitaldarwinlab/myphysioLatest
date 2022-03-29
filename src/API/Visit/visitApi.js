@@ -1,5 +1,6 @@
 import { RRule } from "rrule";
 import fetch from "isomorphic-fetch";
+import { Decode, Encode } from "../../Encode/hashing";
 
 
 //Recurrence Rule Logic 
@@ -113,52 +114,30 @@ const seperateVisitData = (data, update = false) => {
 }
 //get Visit
 export const GetVisit = async () => {
+    
     try {
         const headers = {
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"));
-
-        const response = await fetch(process.env.REACT_APP_API + "/get_visit_physio/", {
+        const encodedData = Encode({ id: id })
+        const response = await fetch(process.env.REACT_APP_API + "/get_visit_physio_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(encodedData)
         });
         if (response.status !== 200 && response.status !== 201) {
             throw new Error(response.statusText);
         }
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
         return data;
     } catch (error) {
         // console.log(error);
         return [];
     }
 }
-
-export const GetClinicVisits = async (id) => {
-    try {
-        const headers = {
-            "Accept": 'application/json',
-            "Content-type": "application/json"
-        }
-
-        const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify({ id: id })
-        });
-        if (response.status !== 200 && response.status !== 201) {
-            throw new Error(response.statusText);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
-}
-
 //@Add Visit 
 //@param Visit details
 //@return Message.
@@ -189,15 +168,17 @@ export const AddVisit = async (details) => {
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
-        const response = await fetch(process.env.REACT_APP_API + "/add_visit/", {
+        const encodedData = Encode(allVisitData)
+        const response = await fetch(process.env.REACT_APP_API + "/add_visit_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(allVisitData)
+            body: JSON.stringify(encodedData)
         });
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error " + response.status + ": " + response.statusText];
         }
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data.message) {
             return [true];
         } else {
@@ -290,3 +271,26 @@ export   const delete_visit= async (id)=>{
       }
   
   }
+
+  export const GetClinicVisits = async (id) => {
+    try {
+        const headers = {
+            "Accept": 'application/json',
+            "Content-type": "application/json"
+        }
+
+        const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ id: id })
+        });
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}

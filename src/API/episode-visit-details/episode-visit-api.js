@@ -1,4 +1,5 @@
 // import Visit from "./../../components/UtilityComponents/dummyData/episode-visit-dummy/visits.json";
+import { Encode } from "../../Encode/hashing";
 import Episode from "./../../components/UtilityComponents/dummyData/episode-visit-dummy/Episode.json";
 import SingleEpisode from "./../../components/UtilityComponents/dummyData/episode-visit-dummy/Single-Episode.json";
 //@func - for fetching episodes.
@@ -17,22 +18,24 @@ export const fetchSingleEpisode = (id) => {
 //@param - patient Id
 //@return - Fetched Patient Visits.
 export const fetchVisits = async (patId) => {
+    const encodedData = Encode({ id: patId })
     try {
         const headers = {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
 
-        const response = await fetch(process.env.REACT_APP_API + "/patient_visit/", {
+        const response = await fetch(process.env.REACT_APP_API + "/patient_visit_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: patId })
+            body: JSON.stringify(encodedData)
         });
         // console.log('inside patient visit api')
         // console.log(patId)
         // console.log(response)
-        const data = await response.json();
-        // console.log(data)
+        const responseData = await response.json();
+        const data = Decode(responseData)
+        console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             throw new Error("Error: " + response.status + response.statusText)
         }
@@ -72,13 +75,14 @@ export const fetchCarePlan = async (eid) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-
-        const response = await fetch(process.env.REACT_APP_API + "/get-all-care-plan/", {
+        const encodedData = Encode({ id: eid });
+        const response = await fetch(process.env.REACT_APP_API + "/get-all-care-plan_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: eid })
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         // console.log(data);
         if (response.status !== 200 && response.status !== 201) {
             throw new Error("Error: " + response.status + response.statusText);

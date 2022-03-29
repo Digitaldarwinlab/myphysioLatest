@@ -163,7 +163,7 @@ class PoseTestClass extends Component {
     };
     if (window.confirm("Posture data will be saved")) {
       this.props.FirstAssesment("posture", posture);
-      this.props.history.push("/post-assesment")
+      this.props.history.push("/patient/enterprise/post-assesment")
     }
     console.log("posture ", posture);
   };

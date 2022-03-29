@@ -80,4 +80,9 @@ path:hover {
     .submit button {
         font-size: 12px;
       }
+
+      .svg-img {
+          flex-direction: column;
+      }
+      
 }

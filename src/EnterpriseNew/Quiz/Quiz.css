@@ -60,7 +60,7 @@
   }
   
   .question p {
-    font-size: 1.25rem;
+    font-size: 1.25rem !important;
     color: #30777c;
     padding: 0.5%;
   }

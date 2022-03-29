@@ -1,5 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
+import { encode } from "js-base64";
+import { Decode, Encode } from "../../Encode/hashing";
 import {
     EPISODE_BOOK_REQUEST,
     EPISODE_BOOK_SUCCESS,
@@ -215,14 +217,16 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(PrescreptionDetails)
 
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/add_pres/", {
+        const response = await fetch(process.env.REACT_APP_API + "/add_pres_v1/", {
             headers: headers,
             method: "POST",
-            body: JSON.stringify(PrescreptionDetails)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
         // console.log('api k andrx')
         // console.log(data)
         if (response.status !== 200 && response.status !== 201) {

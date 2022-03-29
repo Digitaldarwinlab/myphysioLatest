@@ -152,7 +152,7 @@ function Quiz() {
     setSelected(true);
     const q = que[question].exercise_question;
     const qId = que[question].id;
-    const ans = e.target.value;
+    const ans = que[question].options[e.target.value];
     const section = que[question].exercise_name;
     const qAns = {
      
@@ -173,7 +173,7 @@ function Quiz() {
       if (questionAnswers[question]) {
         if (
           que[question].options[index] ===
-          que[question].options[questionAnswers[question].answer]
+         questionAnswers[question].answer
         ) {
           console.log("active");
           return "option active";

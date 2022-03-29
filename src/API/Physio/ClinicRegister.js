@@ -2,6 +2,7 @@ import {
   CLINIC_REGISTER_REQUEST,
   CLINIC_REGISTER_SUCCESS,
 } from "../../contextStore/actions/ClinicRegister";
+import { Decode, Encode } from "../../Encode/hashing";
 //@Register Clinic
 //@param Clinic details
 //@return- Message.
@@ -26,16 +27,18 @@ export const clinicRegisterApi = async (details, dispatch) => {
     Accept: "application/json",
     "Content-type": "application/json",
   };
+  const encodedData = Encode(body);
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/add-clinic/",
+      process.env.REACT_APP_API + "/add-clinic_v1/",
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify(encodedData),
       }
     );
-    const data = await response.json();
+    const responseData = await response.json();
+    const data = Decode(responseData);
     console.log(data)
     dispatch({ type: CLINIC_REGISTER_SUCCESS });
   } catch (error) {
@@ -48,12 +51,13 @@ export const clinicRegisterApi = async (details, dispatch) => {
 export const getClinics = async () => {
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/get-clinic/",
+      process.env.REACT_APP_API + "/get-clinic_v1/",
       {
         method: "GET",
       }
     );
-    const data = await response.json();
+    const responseData = await response.json();
+    const data = Decode(responseData);
     console.log(data)
     return data
   } catch (error) {

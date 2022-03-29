@@ -659,7 +659,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
     history.push({
-      pathname: "/patient/exercises/brief",
+      pathname: "/patient/enterprise/exercises/brief",
       state: {
         exercise:exercises[0],
         exercises,
