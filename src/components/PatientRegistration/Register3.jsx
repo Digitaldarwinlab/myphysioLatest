@@ -425,7 +425,7 @@ const Register3 = (props) => {
                         </Col>
                     </Row>
                 </div>
-                <div className="m-3 text-end">
+                {/* <div className="m-3 text-end">
                     <Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button>
                     <Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
                         {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
@@ -443,7 +443,26 @@ const Register3 = (props) => {
                         />
                     </Modal>
                     
-                </div>
+                </div> */}
+                  <Row justify="center">
+                     <Col span={2}><Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button></Col>
+                     <Col span={2}><Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
+                        {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
+                    </Button></Col>
+                     <Col span={2}><Button htmlType="submit" className="me-3 my-3 btncolor"   onClick={showModal}>
+                        {state.BasicDetails.pp_patm_id ? "Update" : "Submit"}
+                    </Button></Col>
+                    <Modal title="Confirm Details" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                        <Table
+                            pagination={false}
+                            scroll={{ y: 400 }}
+                            showHeader={false}
+                            columns={[{ title: "Field", dataIndex: "Field", render: (text) => <p className="fw-bold">{text}</p> },
+                            { title: "Value", dataIndex: "Value" }]} dataSource={tableData}
+                        />
+                    </Modal>
+                </Row>
+
             </Form>
         </>
     )

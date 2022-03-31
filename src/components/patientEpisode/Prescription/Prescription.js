@@ -28,6 +28,7 @@ import {
 import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from 'react-router-dom';
 import ActiveSearch from './../../UtilityComponents/ActiveSearch';
+import BackButton from "../../../PatientComponents/shared/BackButton";
 
 const Prescription = ({ dashboard = false, eid }) => {
     const state = useSelector(state => state)
@@ -214,7 +215,26 @@ const Prescription = ({ dashboard = false, eid }) => {
     //Upper part of medication page.
     const PresecriptionHeader = () => {
         return (
-            <Row gutter={[20, 20]}>
+            <>
+           
+            <Row>
+            <Col xs={24} sm={24} md={8} lg={5}>
+                     <p><strong> Patient Name : </strong>{episodedata.patientName}</p>  
+                     </Col>
+                     <Col xs={24} sm={24} md={8} lg={5}>
+                     <p><strong> Patient Code : </strong>{episodedata.patientCode}</p>
+                     </Col>
+                     <Col xs={24} sm={24} md={8} lg={4}>
+                     <p><strong> Episode No:  </strong>{episodedata.episode_no || episodedata.episodeId}</p>
+                     </Col>
+                     <Col xs={24} sm={24} md={8} lg={5}>
+                     <p> <strong>Start Date : </strong> {episodedata.start_date}</p>
+                     </Col>
+                     <Col xs={24} sm={24} md={8} lg={5}>
+                     <p> <strong>Primary Complaint:  </strong>{episodedata.primary_complaint}</p>
+                     </Col>
+            </Row>
+            {/* <Row gutter={[20, 20]}>
                 <Col md={24} lg={12} sm={24} xs={24}>
                     <FormDate style={{ width: '50%' }}
                         disabledDate={true}
@@ -223,17 +243,9 @@ const Prescription = ({ dashboard = false, eid }) => {
                         placeholder="date"
                         name="date"
                         required={true} onChange={handleChange} />
-                </Col>
-                <Col sm={24} md={24} lg={24} xl={24}>
-                    <Row>
-
-                        <Col xs={24} sm={12} md={12} lg={12} xl={16} className="border px-2 py-2">
-                            {state.labsAndMedicRedu.episode.start_date && <EpisodeDetail details={episodedata} />}
-                            {!state.labsAndMedicRedu.episode.start_date && <EpisodeDetail details={episodedata} />}
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+                </Col>   
+            </Row> */}
+        </>
         )
     }
 
@@ -307,28 +319,59 @@ const Prescription = ({ dashboard = false, eid }) => {
         }
     }
     return (
-        <div className="px-2 py-4">
+        // <div className="px-2 py-4">
+        <>
+       
             {state.Validation.error && <Error error={state.Validation.error} />}
             {state.labsAndMedicRedu.isLoading && <Loading />}
             {state.labsAndMedicRedu.success && <Success success={state.labsAndMedicRedu.success} />}
             {state.Validation.episode_check === 'failed' && <Error error={state.Validation.msg} />}
-            <Row>
-                <Col md={12} lg={12} sm={24} xs={24}>
+            {/* <Row>
+                <Col style={{fontSize:"25px"}} md={12} lg={12} sm={24} xs={24}>
                     <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                         onClick={() => { history.goBack() }}
                         title="Go Back"
                         role="button"></i>
-                    <h3><i className="fas fa-pills"></i> Prescriptions</h3>
+                    <p style={{fontSize:"25px"}}><i className="fas fa-pills"></i> Prescriptions</p>
                 </Col>
                 <Col md={12} lg={12} sm={24} xs={24}>
                     <ActiveSearch />
                 </Col>
-            </Row>
-            <Form style={{ marginTop: "50px" }} onFinish={handleSubmit} layout="vertical" form={form} name="control-hooks">
+            </Row> */}
+            <div style={{ minHeight: "20px" }}></div>
+          <Row gutter={[10,10]}>
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <h3 className="page-heading" id="page-heading"> <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i>{" "}<strong>Prescriptions</strong></h3>
+          </Col>
+        
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <ActiveSearch  />
+          </Col>
+          </Row>
+             {/* <Row  gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                <Col md={12} sm={12} xs={12} style={{fontSize:"25px"}}>
+                   <BackButton/>{" "}<i className="fas fa-pills"></i> Prescriptions
+                </Col>
+                <Col md={12} sm={12} xs={12}>
+                <Row >
+                <Col span={24}>
+                         <ActiveSearch />
+                </Col>
+                </Row>
+                </Col>
+            </Row> */}
+             <div style={{ minHeight: "20px" }}></div>
+              <PresecriptionHeader />
+            <div style={{ minHeight: "20px" }}></div>
+            <Form style={{ margin: 0,padding:0 }} onFinish={handleSubmit} layout="vertical" form={form} name="control-hooks">
+              
 
-                <PresecriptionHeader />
-                {Headline("Medications")}
-                <Row gutter={[20, 20]}>
+                {/* {Headline("Medications")} */}
+                <h4 >Medications</h4>
+                {/* <Row gutter={[20, 20]}>
                     <Col xs={24} sm={24} lg={12} xl={12}>
                         <FormInput label="Patient Names" name="patient_name"
 
@@ -348,10 +391,10 @@ const Prescription = ({ dashboard = false, eid }) => {
                             disabled={true}
                         />
                     </Col>
-                </Row>
+                </Row> */}
                 {state.labsAndMedicRedu.medicationList.map((value, index) => {
                     return (
-                        <Row key={index} className="border PrescriptionsMain px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
+                        <Row  key={index} className="border PrescriptionsMain px-0 py-4 mt-1 mb-1" gutter={[20, 5]}>
                             <Col xs={24} sm={24} lg={10} xl={10}>
                                 <FormInput
                                     className="input-field"
@@ -425,7 +468,7 @@ const Prescription = ({ dashboard = false, eid }) => {
 
                 {state.labsAndMedicRedu.labsList.map((value, index) => {
                     return (
-                        <Row key={index} className="border px-0 py-4 mt-1 mb-1" gutter={[20, 20]}>
+                        <Row key={index} className="border px-0 py-4 mt-1 mb-1" gutter={[20, 5]}>
                             <Col span={24}>
                                 <FormInput
                                     label="Path"
@@ -460,7 +503,7 @@ const Prescription = ({ dashboard = false, eid }) => {
                             length={state.labsAndMedicRedu.labsList.length}
                             Decrease={LabsDecrease} />
                     )}
-                <Row gutter={[20, 20]} style={{ marginBottom: '15px' }}>
+                <Row gutter={[20, 5]} style={{ marginBottom: '15px' }}>
                     <Col md={24} lg={12} sm={24} xs={24} className="mt-4">
                         <FormTextArea label="Notes"
                             required={true}
@@ -470,14 +513,15 @@ const Prescription = ({ dashboard = false, eid }) => {
                         />
                     </Col>
                 </Row>
-                <Row gutter={[20, 20]} style={{ marginBottom: '15px' }}>
+                <Row gutter={[20, 5]}  justify="center" style={{ marginBottom: '15px' }}>
                     <Col md={24} lg={24} sm={24} xs={24} className="text-center">
                         <Button type="primary" htmlType="submit" className="text-center btncolor mt-2">Submit</Button>
                     </Col>
                 </Row>
 
             </Form>
-        </div>
+    {/* </div> */}
+        </>
     )
 }
 export default Prescription;

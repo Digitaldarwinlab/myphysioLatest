@@ -63,6 +63,7 @@ function Quiz() {
 
   const joints = useSelector((state) => state.jointReducer.joints);
   console.log(joints);
+  const id = JSON.parse(localStorage.getItem("userId"));
 
   let allsections = [];
 
@@ -218,7 +219,7 @@ function Quiz() {
   };
 
   const lastNextClickHandler = () => {
-    const answerss = {...questionAnswers};
+    const answerss = {...questionAnswers,"pp_eep_id":id};
     console.log(answerss);
     axios
       .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))

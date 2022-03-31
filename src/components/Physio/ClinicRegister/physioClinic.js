@@ -445,10 +445,18 @@ const PhysioClinic = ()=>{
                     </Row>
                 </div>
               
-                <div className="text-center">
+                {/* <div className="text-center">
                     <Button className=" m-2"  style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} onClick={handleSubmit}>Submit</Button>
                     <Button className="btncolor m-2" onClick={handleReset}>Reset</Button>
-                </div>
+                </div> */}
+                 <Row justify="center">
+                 <Col span={2}> <Button 
+     // className="btncolor m-2"   
+      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleReset}>Reset</Button></Col>
+      <Col span={2}> <Button 
+    //  className=" m-2"    
+      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleSubmit}>Submit</Button></Col>
+    </Row>
             </Form>
         </> 
     )

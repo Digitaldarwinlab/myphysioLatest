@@ -29,6 +29,7 @@ import Utils from './../UtilityComponents/SchedularDataRender/Utils';
 import './style.css'
 import '../../styles/Layout/Heading.css'
 import SchduleForm from "../UtilityComponents/SchduleForm";
+import BackButton from "../../PatientComponents/shared/BackButton";
 
 export const parseVisits = (visits) => {
     let newVisits = [];
@@ -217,7 +218,7 @@ const Appointments = () => {
                             value: patientName,
                             dataSource: users,
                             readOnly: UpdationForm,
-                            width: "100%",
+                            width: "95%",
                             itemTemplate: function (itemData) {
                                 patientName = itemData;
                                 return `${itemData}`;
@@ -263,7 +264,7 @@ const Appointments = () => {
                         editorType: "dxDateBox",
                         isRequired: true,
                         editorOptions: {
-                            width: "100%",
+                             width: "95%",
                             height:'80%',
                             type: "datetime",
                             value: startDate,
@@ -331,7 +332,7 @@ const Appointments = () => {
                         dataField: "complaint",
                         isRequired: true,
                         editorOptions: {
-                            width: "100%",
+                             width: "95%",
                             items: complaint,
                             onValueChanged: function (args) {
                                 // console.log(args.value);
@@ -360,6 +361,7 @@ const Appointments = () => {
                         dataField: "location",
                         isRequired: true,
                         editorOptions: {
+                            width: "95%",
                             items: location,
                             onValueChanged: function (args) {
                                 // console.log(args.value);
@@ -534,7 +536,7 @@ const Appointments = () => {
     //
     return ( 
         <>
-            <div style={{ background: '#fff', marginTop: '15px' }}>
+            {/* <div style={{ background: '#fff', marginTop: '15px' }}>
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col xs={24} sm={12} md={12} lg={16} xl={16}>
@@ -554,7 +556,24 @@ const Appointments = () => {
                         </Button>
                     </Col>
                 </Row>
-            </div>
+            </div> */}
+              <div style={{ minHeight: "20px" }}></div>
+            <Row justify="space-between" gutter={[0,10]}>
+                <Col span={16} style={{fontSize:"25px"}}>
+                   <BackButton/> <GoCalendar style={{position:"relative",bottom:'3px'}} />{" "}<b>Visits</b>
+                </Col>
+                <Row justify="end" >
+                <Col span={24}>
+                <Button
+                            //className="border text-white"
+                            style={{width:'100%'}}
+                            onClick={showNewAppointment}>
+                            <ImPlus style={{marginRight:'5px',position:'relative',bottom:'2px'}} />New Visit
+                        </Button>
+                </Col>
+                </Row>
+            </Row>
+            <div style={{ minHeight: "20px" }}></div>
             {error && <Error error={error} />}
             {success && <Success success={success} />}
             <Col span={24}>

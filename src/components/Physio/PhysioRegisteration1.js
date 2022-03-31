@@ -393,33 +393,61 @@ const PhysioRegisteration1 = (props) => {
           </Row>
         </div>
 
-        <Row
-          className="text-center"
-          justify="center"
+        <Row justify="center">
+      <Col span={2}> <Link to="/dashboard">
+              <Button 
+              //className="me-2" 
+              //style={{ borderRadius: "1px", backgroundColor:'#2d7ecb' }}
+              >
+                Cancel
+              </Button>
+            </Link></Col>
+      <Col span={2}> <Button
+             // className="me-2  "
+            // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+              onClick={handleReset}
+            >
+              Reset
+            </Button></Col>
+      <Col span={2}> <Button 
+     // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+            //className="me-2 btncolor" 
+            htmlType="submit">
+              Next
+            </Button></Col>
+    </Row>
+        {/* <Row
+         // className="text-center"
+         gutter={[20, 20]}
+          justify="space-between"
           style={{ marginBottom: "15px" }}
         >
-          <Col>
+           <Col md={8} lg={8} sm={8} xs={24}>
             <Link to="/dashboard">
-              <Button className="me-2" style={{ borderRadius: "10px" }}>
+              <Button 
+              //className="me-2" 
+              style={{ borderRadius: "10px" }}>
                 Cancel
               </Button>
             </Link>
           </Col>
-          <Col>
+          <Col md={8} lg={8} sm={8} xs={24} justify="center">
             <Button
-              className="me-2  "
+             // className="me-2  "
               style={{ backgroundColor: "#41A0A2", borderRadius: "10px" }}
               onClick={handleReset}
             >
               Reset
             </Button>
           </Col>
-          <Col>
-            <Button className="me-2 btncolor" htmlType="submit">
+          <Col md={8} lg={8} sm={8} xs={24}>
+            <Button 
+            //className="me-2 btncolor" 
+            htmlType="submit">
               Next
             </Button>
           </Col>
-        </Row>
+        </Row> */}
       </Form>
     </>
   );

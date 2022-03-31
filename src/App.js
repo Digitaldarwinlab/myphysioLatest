@@ -17,7 +17,7 @@ import Signup from "./components/userAuth/Signup.js";
 // const Prescription = lazy(() => import('./components/patientEpisode/Prescription/Prescription'));
 // const PatientConsuntForm = lazy(() => import('./components/patientEpisode/PatientConsuntForm'));
 // const EpisodeVisitDetails = lazy(() => import('./components/episode-visit-details'));
-// const Careplan = lazy(() => import('./components/care-plan/carePlanIndex'));
+ //const Careplan = lazy(() => import('./components/care-plan/carePlanIndex'));
 // const AI = lazy(() => import('./components/AI/AI.jsx'));
 // const ActiveSearch = lazy(() => import("./components/UtilityComponents/ActiveSearch.js"));
 // const VideoCallIndex = lazy(() => import('./components/video-call-screens/video-call-index'));
@@ -100,6 +100,7 @@ import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
 import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
 import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
 import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
+import Qa from "./EnterpriseNew/QA/Qa.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -188,6 +189,7 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/muscle-selection" component={Body} />
 							<EnterpriseRoute exact path="/patient/enterprise/quiz" component={Quiz} />
 							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
+							<EnterpriseRoute exact path="/patient/enterprise/qa" component={Qa} />
 							<PatientRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
 							<PatientRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
 							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />

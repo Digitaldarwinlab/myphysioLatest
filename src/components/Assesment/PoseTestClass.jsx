@@ -232,12 +232,12 @@ class PoseTestClass extends Component {
   render() {
     return (
       <div className="px-2 py-2">
-        <Row>
+        <Row className="pose_mobile_view_row_video_screen">
           <Col
-            md={16}
-            lg={16}
-            sm={16}
-            xs={16}
+            md={24}
+            lg={24}
+            sm={24}
+            xs={24}
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             {" "}
@@ -253,21 +253,21 @@ class PoseTestClass extends Component {
             </h3>
             <p style={{ paddingTop: "4px" }}>
               {" "}
-              <b>Patient Name</b> :{" "}
+              <b className="pose_mobile_view_details">Patient Name :</b>{" "}
               {this.props.episodeReducer.patient_name
                 ? this.props.episodeReducer.patient_name
                 : "not selected"}
             </p>
             <p style={{ paddingTop: "4px" }}>
               {" "}
-              <b>Patient Code</b> :{" "}
+              <b className="pose_mobile_view_details">Patient Code :</b>{" "}
               {this.props.episodeReducer.patient_code
                 ? this.props.episodeReducer.patient_main_code
                 : "not selected"}
             </p>
           </Col>
         </Row>
-        <Row>
+        <Row className="pose_mobile_view_row_video_screen">
           <Col md={12} lg={12} sm={24} xs={12}>
             <Col id="Ai_vid" className="Ad_vid">
               <video
@@ -296,8 +296,9 @@ class PoseTestClass extends Component {
           </Col>
         </Row>
         <Row style={{ paddingBottom: "15px" }}>
-          <Col md={12} lg={12} sm={12} xs={12} style={{ marginTop: "-48px" }}>
+          <Col md={12} lg={12} sm={24} xs={24} style={{ marginTop: "-48px" }}>
             <Input.TextArea
+            //  className="pose_note_input"
               width="100%"
               placeholder="Notes"
                 onChange={(e) => this.state.notes = e.target.value}
@@ -310,16 +311,7 @@ class PoseTestClass extends Component {
 
         <Row style={{paddingTop:"15px", paddingBottom:"15px" }}>
         <Col md={24} lg={24} sm={24} xs={24} className="text-center">
-        <Button
-                onClick={this.handleSubmit}
-              style={{
-                marginRight: "10px",
-                marginTop: "5px",
-                backgroundColor: "#2d7ecb",
-              }}
-            >
-              Save
-            </Button>
+       
 
             <Button
               onClick={this.GoBack}
@@ -330,6 +322,16 @@ class PoseTestClass extends Component {
               }}
             >
               Back
+            </Button>
+            <Button
+                onClick={this.handleSubmit}
+              style={{
+                marginRight: "10px",
+                marginTop: "5px",
+                backgroundColor: "#2d7ecb",
+              }}
+            >
+              Save
             </Button>
               </Col>
       </Row>

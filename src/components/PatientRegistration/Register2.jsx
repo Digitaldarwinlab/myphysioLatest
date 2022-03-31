@@ -181,7 +181,7 @@ const Register2 = (props) => {
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Country'}</span>}
                                 name="Country"
                               //  rules={[{ required: true, message: `Please Select Country.` }]}
-                                className="input-field w-100"
+                             //   className="input-field w-100"
                             >
                                 {/* aswin start 10/30/2021 stop */}
                                 <Select
@@ -204,7 +204,7 @@ const Register2 = (props) => {
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'State'}</span>}
                                 name="State"
                                // rules={[{ required: true, message: `Please Select State.` }]}
-                                className="input-field w-100"
+                               // className="input-field w-100"
                             >
                                 <Select
                                     showSearch
@@ -229,13 +229,13 @@ const Register2 = (props) => {
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <Form.Item
-                              className="input-field w-100"
+                            //  className="input-field w-100"
                                 label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'City'}</span>}
                                 name="City"
                               //  rules={[{ required: true, message: `Please Select City.` }]}
                             >
                                 <Select
-                                 style={{width:'200px'}}
+                                // style={{width:'200px'}}
                                     showSearch
                                     optionFilterProp="children"
                                     placeholder="plaese select City."
@@ -316,7 +316,7 @@ const Register2 = (props) => {
                     </Row>
 
                 </div>
-                <Row justify="end" className="text-end">
+                {/* <Row justify="end" className="text-end">
                     <Col >    <Button size="large" className="my-3 me-2 " onClick={handleReset} style={{borderRadius:'10px'}} >Reset</Button></Col>
                     
                     <Col>
@@ -325,6 +325,17 @@ const Register2 = (props) => {
                     <Col>
                         <Button type="primary" size="large" className="my-3  me-2 btncolor"  htmlType="submit">Next</Button>
                     </Col>
+                </Row> */}
+                      <Row justify="center">
+                     <Col span={2}>  <Button  
+                   //  className="my-3 me-2 " 
+                     onClick={handleReset} style={{borderRadius:'10px'}} >Reset</Button></Col>
+                     <Col span={2}>  <Button  
+                   //  className="my-3  me-2" 
+                     style={{backgroundColor:'#41A0A2',borderRadius:'10px'}} onClick={Back}>Back</Button></Col>
+                     <Col span={2}> <Button type="primary"  
+                    // className="my-3  me-2 btncolor"  
+                     htmlType="submit">Next</Button></Col>
                 </Row>
 
             </Form>

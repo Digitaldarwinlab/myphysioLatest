@@ -16,9 +16,9 @@ setNotes(event.target.value)
 
 <div className="notes">
 <label>Notes</label>
-<textarea onChange={changeHandler} value={notes}/>
+<textarea className="notesbox" onChange={changeHandler} value={notes}/>
 </div>
-<button onClick={() => {history.push("/patient/enterprise/dashboard")}}>Next</button>
+<button className="submitt" onClick={() => {history.push("/patient/enterprise/dashboard")}}>Next</button>
     </div>
     </section>
 }

@@ -3,9 +3,9 @@
 }
 
 .page-heading{
-    font-size: 28px;
+    font-size: 30px;
     font-weight:bolder;
-    margin-left: 5px;
+    /* margin-left: 5px; */
 
 }
 
@@ -29,6 +29,10 @@
 .input-field{
     height: 40px;
 }
+.patd{
+    visibility: hidden;
+}
+
 @media only screen and (max-width:991px){
     #top-bar{
         width:100%;

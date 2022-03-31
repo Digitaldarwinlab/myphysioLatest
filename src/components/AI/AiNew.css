@@ -1,0 +1,78 @@
+.arom_container {
+  margin: 10px;
+}
+.arom_vid {
+  border: 30px solid #111;
+  padding: 0 !important;
+  height: 510px;
+}
+.arom_button_grp2 {
+  display: none;
+}
+.arom_video_screen {
+  max-height: fit-content !important;
+}
+@media only screen and (min-width: 1024px) {
+  .arom_vid {
+    height: 510px;
+  }
+}
+@media only screen and (min-device-width: 650px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .arom_vid {
+    border: 15px solid #111 !important;
+    height: 480px;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .arom_details_tab {
+    display: none;
+  }
+  .arom_vid {
+    border: 15px solid #111 !important;
+    height: 480px;
+  }
+  .arom_video_screen {
+    margin: 5px 0 0 0 !important;
+    max-height: fit-content;
+  }
+  .arom_container {
+    margin: 0;
+  }
+  .arom_button_grp {
+    display: none;
+  }
+  .arom_button_grp2 {
+    display: contents !important;
+  }
+  .ant-card-actions {
+    width: 100% !important;
+  }
+  button.ant-btn {
+    margin-left: 0;
+    border-radius: 2px !important;
+  }
+  .arom_play_btn {
+    display: none;
+  }
+  .ant-card-body {
+    display: none;
+  }
+  .ant-switch {
+    width: 50px;
+  }
+  .screenshot_btn {
+    display: none;
+  }
+  .arom_containerrr,
+  .ant-card-body {
+    display: contents !important;
+  }
+  .arom_switch{
+      padding-top: 5px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .arom_vid {
+    border: 15px solid #111 !important;
+  }
+}

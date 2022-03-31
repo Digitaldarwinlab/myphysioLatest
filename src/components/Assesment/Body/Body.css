@@ -71,3 +71,51 @@ path:hover {
    margin-bottom: 20px;
     }
 }
+
+@media (max-width: 750px) {
+    .svg-img {
+       flex-direction: column;
+    }
+.both-body {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* .color_text p {
+    display: none;
+} */
+
+.color_text {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.colors {
+    width: 100% ;
+    flex-direction: row ;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.color {
+   padding: 15%;
+   margin-bottom: 0;
+   align-self: center;
+}
+
+.color_text p{
+    align-self: flex-start;
+    margin: 0;
+    font-size: 0.725rem;
+    margin-left: 8% ;
+}
+}
+
+@media (max-width: 500px) {
+    .both-body {
+      
+        width: 150%;
+    }
+}

@@ -64,6 +64,12 @@ nav{
     padding-right:0px !important;
     padding-left:0px !important;
 }
+@media only screen and (max-width:991px) {
+	.ham_one{
+		 display: none !important ;
+	}
+}
+
 @media only screen and (min-width:992px){
     .dropDownMenu{
         position: absolute !important;

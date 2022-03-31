@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {Form, Button, Radio } from 'antd';
-import {Typography, Row, Col, Spin, Input, Modal, Pagination, Table } from "antd";
+import {Typography, Row, Col, Spin, Input, Modal, Pagination, Table ,Space} from "antd";
 import { searchPhysio, UpdatePhysioState } from "../../../API/Physio/PhysioRegister";
 import { NavLink } from 'react-router-dom'
 import { HiUserAdd } from "react-icons/hi"
@@ -9,7 +9,7 @@ import { BsFillEyeFill } from "react-icons/bs";
 import { getPhysioList } from './../../../API/Physio/PhysioRegister';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { forgotPassword } from "../../../API/userAuth/userAuth";
+import { forgotPassword, getUserData } from "../../../API/userAuth/userAuth";
 import { admin_password_reset } from "../../../API/userAuth/userAuth";
 import FormPassword from "../../UI/antInputs/FormPassword";
 import Success from "../../UtilityComponents/SuccessHandler";
@@ -337,88 +337,88 @@ const PhysioList = () => {
             maxIndex: page * (pageSize)
         })
     }
-   
+    let locale = {
+        emptyText: 'No Physio Found',
+      };
     // 
+   // let columns = ["Physio Code", "Given Name", "Mobile No", "Actions"]
+    const columns = [
+        {
+          title: "Name",
+          dataIndex: "first_name",
+          fixed: 'left',
+          width: "20%",
+         
+        },
+        {
+          title: "Physio Code",
+          dataIndex: "pp_pm_id",
+          width: "20%",
+         
+        },
+        {
+          title: "Mobile No",
+          dataIndex: "mobile_no",
+          width: "20%",
+         
+        },
+        {
+          title: "Actions",
+          dataIndex: "address",
+          fixed:'right',
+          width: "20%",
+          render: (text, record) => (
+            <Space size="middle">
+               <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+              <BiEdit onClick={() => handleEdit(record)} size={20} />
+              <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+            </Space>
+          )
+        }
+      ];
     //Rendered Part
     return (
         
         <>
-            <div style={{ minHeight: "20px" }}></div>
-            <div className="top-bar" id="top-bar">
-                <div>
-                    <h3 className="page-heading" id="page-heading" style={{fontSize:'28px'}}><i className="fas fa-user-md" /> Physiotherapist </h3>
-                </div>
-                <div>
-        
-                <NavLink  title="Add Physio" to="/physio/register" className="text-blue navlink" id="navlink">
-                <i  className="fas fa-user-md"  />  New Physio 
-                </NavLink>
-            </div>
-
-            </div>
-            
-            <BsSearch style={{position:'relative',top:'0px',left:'10px',zIndex:'2'}} />
-            <input
-                type="search"
-                               
-                className="px-5 py-2 input-field my-3"
-                style={{width:'40%',right:'15px',position:"relative"}}
-                placeholder="Seacrh Physio.."
-                onChange={onSearch}
-                
-                loading={loading}
-                
-            />
-            <Row className="bg-search text-center" justify="space-around">
-                {["Physio Code", "Given Name", "Mobile No", "Actions"].map((val, key) => {
-                    return (
-                        <Col lg={key === 4 ? 4 : 5} md={key === 4 ? 4 : 5} sm={key === 4 ? 4 : 5} xs={key === 4 ? 4 : 5} key={key} className="p-2">
-                            <h5>{val}</h5>
-                        </Col>
-                    )
-                })}
+             <div style={{ minHeight: "20px" }}></div>
+            <Row justify='space-between'>          
+       <Col  style={{fontSize:"25px"}} span={16}>
+       <i className="fas fa-user-md" /> <b>  Physiotherapist</b>
+                    </Col>
+    
+                   
             </Row>
-            {loading &&
-                <div className="mt-2 text-center">
-                    <Spin tip="Searching Physio..." size="large">
-                    </Spin>
-                </div>
-            }
-            {
-                !loading && physios.length === 0 &&
-                <div className="mt-2 text-center">
-                    <p className="p">No Physio Found....</p>
-                </div>
-            }
-            {(physios.length !== 0 && !loading) &&
-                physios.map((val, key) => key >= paginationState.minIndex && key < paginationState.maxIndex && (
-                    <Row className="PhysiotherapistList  text-center" justify="space-around"  key={val.pp_pm_id}>
-                        <Col md={4} lg={4} sm={4} xs={4}>
-                            <p>{val.pp_pm_id}</p>
-                        </Col>
+            <div style={{ minHeight: "20px" }}></div>
+             <Row justify="space-between">
+             <Col md={12} sm={12} xs={12}>
+        <input
+                     //   className="p-2 input-field my-3"
+                    
+                        placeholder="Search Physio.."
+                        onChange={onSearch}
+                    
+                        loading={loading}
+                        style={{width:'100%'}}
+                    /> 
+                    </Col>
+                  
+                   {getUserData()==="admin"&& <Row justify="end">
 
-                        <Col  md={4} lg={4} sm={4} xs={4}>
-                            <p >{val.first_name[0].toUpperCase() + val.first_name.slice(1).toLowerCase() +' ' +val.last_name.slice(0).toLowerCase() }</p>
-                        </Col>
+                    <Col md={24} sm={24} xs={24}>
 
-                        <Col md={4} lg={4} sm={4} xs={4}><p>{val.mobile_no}</p></Col>
-
-                        <Col md={4} lg={4} sm={4} xs={4}>
-                            <BsFillEyeFill className=" me-1 action-icon" id="action-icon" title="View" onClick={() => handleView(val)} />
-                            <BiEdit className="  me-1 action-icon" id="action-icon" title="Edit" onClick={() => handleEdit(val)} />
-                            <AiFillUnlock className=" me-1 action-icon" id="action-icon"  title="Reset Password" onClick={()=>showmodal(val.uid)} />                         
-                        </Col>
+<NavLink to="/physio/register">
+         <i  className="fas fa-user-md"  />  New Physio 
+         </NavLink>
+ </Col>
+             </Row>}
+                  
                     </Row>
-                ))
-            }
-            <Pagination className="text-center"
-                pageSize={paginationState.pageSize}
-                current={paginationState.current}
-                total={physios.length}
-                showSizeChanger
-                onChange={PaginationChange}
-                style={{marginTop:'3%'}}
-            />
+                    <div style={{ minHeight: "20px" }}></div>
+                    <Row>
+        <Col md={24} sm={24} xs={24}>
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={physios} />
+        </Col>
+      </Row>
             {ShowPhysioInfo()}
             {show_password_modal()}
         </>

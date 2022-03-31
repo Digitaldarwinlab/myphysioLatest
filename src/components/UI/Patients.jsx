@@ -5,10 +5,10 @@ import {HiUserAdd} from "react-icons/hi"
 
 const Patients = () => {
     return (
-        <>
-            <div style={{minHeight:"30px"}}></div>
+        // <>
+        //     <div style={{minHeight:"30px"}}></div>
+        // </>
             <SearchPatient/> 
-        </>
     ) 
 } 
 

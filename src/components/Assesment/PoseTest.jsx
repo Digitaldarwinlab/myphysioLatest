@@ -331,7 +331,7 @@ console.log("checks ",sideChecks)
           <Col id="Ai_vid" className="Ad_vid">
             <img src="../../assets/webcam.png" />
             <video
-              className
+             
               id="video"
               className="video"
               playsInline

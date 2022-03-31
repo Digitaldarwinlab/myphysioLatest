@@ -249,6 +249,22 @@
       .dots {
       margin-bottom: 5%;
     }
+
+    .action-buttons button {
+      margin-left: 10px;
+      background-color: #36aca8;
+      color: white;
+      border: 1px solid #35858b;
+      font-size: 0.825rem;
+      width: 25%;
+      padding: 1.2% 0;
+      border-radius: 20px;
+    }
+
+    .end p{
+      font-size: 1.25rem !important;
+      
+    }
   
   
   }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Body.css";
+import "./Body.css"; 
 // import paths from "./svg-path";
 import Path from "./Path";
 import { front_paths } from "../body-svg";
@@ -113,14 +113,14 @@ const Body = (props) => {
 
   return (
     <>
-    <div className="logout">
-        {/* <button onClick={logoutHandler}>Logout</button> */}
-      </div>
+    {/* <div className="logout">
+        <button onClick={logoutHandler}>Logout</button>
+      </div> */}
       <div className="submit">
         <button onClick={submitClickHandler}>Submit</button>
       </div>
       <div className="svg-img">
-        <div className="colors">
+        {/* <div className="colors">
           <div className="color_text">
             <div
               onClick={redclickHandler}
@@ -165,7 +165,7 @@ const Body = (props) => {
             ></div>
             <p>Burning</p>
           </div>
-        </div>
+        </div> */}
         <svg x="0px" y="0px" viewBox="0 0 612 792" className="body-svg">
           {front_paths.map((path) => (
             <Path

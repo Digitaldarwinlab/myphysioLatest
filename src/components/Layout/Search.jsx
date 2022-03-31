@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Phead from "../Layout/PatientSearch/PatientHead";
 import PatDetails from '../Layout/PatientSearch/PatDetails';
-import {Typography, Row, Col, Input, Pagination,Button ,Modal,Form} from "antd"
+import {Typography, Row, Col, Input, Pagination,Button ,Modal,Form, Space, Table} from "antd"
 import "./../../styles/Layout/Search.css"
 import { getPatientList, searchPatient } from '../../API/PatientRegistration/Patient';
 import { BiEdit } from "react-icons/bi";
@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { UpdateState } from './../../API/PatientRegistration/Patient';
 import { EPISODE_STATECHANGE } from './../../contextStore/actions/episode';
-import { forgotPassword } from '../../API/userAuth/userAuth';
+import { forgotPassword, getUserData } from '../../API/userAuth/userAuth';
 import { postNewPassword } from '../../API/userAuth/userAuth';
 import FormPassword from '../UI/antInputs/FormPassword';
 import FormInput from '../UI/antInputs/FormInput';
@@ -27,7 +27,7 @@ import {MailOutlined } from '@ant-design/icons'
 import {BsSearch} from 'react-icons/bs'
 import '../../styles/Layout/Heading.css'
 import {getOTP, verifyOTP} from "../../API/Authorization/OTP"
-
+import { Empty } from 'antd';
 import { HiUserAdd } from 'react-icons/hi';
 import { Item } from 'rc-menu';
 const { Search } = Input;
@@ -36,6 +36,12 @@ const SearchPatient = () => {
 
 
     const {Title}=Typography
+    const [newLoading, setNewLoading] = useState(false)
+    const [scroll ,setScroll] = useState(0)
+    let locale = {
+        emptyText: 'No Patients Found',
+      };
+      const [columns ,setColumn] = useState([])
     const [patientData, setPatientData] = useState([]);
     const [searchvalue,Setsearchvalue]=useState('')    
     const state = useSelector(state => state.basicDetailsInitialState);
@@ -65,7 +71,9 @@ const SearchPatient = () => {
     const [form] = Form.useForm();
     const [buttondisable,Setbuttondiable]=useState(false)
     useEffect(async () => {
+        setNewLoading(true)
         const data = await getPatientList();
+        setNewLoading(false)
         setPatientData(data);
         //  console.log(patientData)
         setPaginationState({
@@ -87,10 +95,12 @@ const SearchPatient = () => {
 
     const onSearch = async (value) => {
      //  console.log(value.target.value)
+     setNewLoading(true)
      Setsearchvalue(value.target.value)
         setLoading(true);
         const searchedData = await searchPatient(value.target.value);
         setPatientData(searchedData);
+        setNewLoading(false)
         setLoading(false);
         setPaginationState({
             ...paginationState,
@@ -376,93 +386,130 @@ const SearchPatient = () => {
         
         
     }
-    return (
-        <>
-               <div style={{ minHeight: "0px" }}></div>
-            <Row justify="space-between" style={{marginBottom:'15px'}}>
-                <Col>
-                <h3 className="page-heading" id="page-heading"> 
+    useEffect(() => {
+        const AdminColumn = [
+            {
+                title: "Name",
+                dataIndex: "first_name",
+                width: "20%",
+                fixed: 'left',
+               
+              },
+              {
+                title: "Patient Code",
+                dataIndex: "patient_code",
+                width: "20%",
+               
+              },
+            {
+              title: "Date of Birth",
+              dataIndex: "dob",
+              width: "20%",
+             
+            },
+            {
+              title: "Mobile No",
+              dataIndex: "mobile_no",
+              width: "20%",
+             
+            },
+            {
+              title: "Actions",
+              dataIndex: "address",
+              fixed:'right',
+              width: "25%",
+              render: (text, record) => (
+                <Space size="middle">
+                   <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+                  <BiEdit onClick={() => handleEdit(record)} size={20} />
+                  <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+                </Space>
+              )
+            }
+          ];
+          const PhysioColumn = [
+            {
+              title: "Name",
+              dataIndex: "first_name",
+              width: "20%",
+              fixed: 'left',
+            },
+            {
+              title: "Patient Code",
+              dataIndex: "patient_code",
+              width: "20%",
+             
+            },
+            {
+              title: "Date of Birth",
+              dataIndex: "dob",
+              width: "20%",
+             
+            },
+            {
+              title: "Actions",
+              dataIndex: "address",
+              fixed:'right',
+              width: "17%",
+              render: (text, record) => (
+                <Space size="middle">
+                  <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+                </Space>
+              )
+            }
+          ];
+          if(getUserData() == "physio"){
+              setColumn(PhysioColumn)
+          }else{
+              setColumn(AdminColumn)
+              setScroll(500)
+          }
+
+       
+    }, []);
+    return (  <>
+     <div style={{ minHeight: "20px" }}></div>
+            <Row justify='space-between'>          
+            <Col  style={{fontSize:"25px"}} span={16}>
                     <i className="fa fa-users"></i><b> Patients</b>
-                </h3>
+                    </Col>
+                    </Row>
+                    <div style={{ minHeight: "20px" }}></div>
+        <Row justify="space-between">
 
-                </Col> 
-                <Col>
-                <h4 className="text-end">
-                    <NavLink to="pateints/new" className="navlink">
-                        New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
-                    </NavLink>
-                </h4>
-                </Col>
-            </Row>
-
-            <Form className="p-2"  autoComplete="off" layout="vertical" name="control-hooks">
-                <div className="PatientsListing">
-    
-                <input
-                        className="p-2 input-field my-3"
+        <Col md={12} sm={12} xs={12}>
+        <input
+                     //   className="p-2 input-field my-3"
                     
                         placeholder="Search Patient.."
                         onChange={onSearch}
                     
                         loading={loading}
-                        style={{width:'40%'}}
-                    />
-                    <Row className="bg-search text-center" justify="space-around">
-                        {Phead.map(Pahead)}
+                        style={{width:'100%'}}
+                    /> 
+        </Col>
+        <Row justify="end">
+
+                    <Col md={24} sm={24} xs={24}>
+
+<NavLink to="/patient/new">
+         <i  className="fas fa-user-md"  />  New Patient
+         </NavLink>
+ </Col>
+             </Row>
                     </Row>
-
-                    {
-                        patientData.length === 0
-                            ?  
-                                <div className="mt-2 text-center">
-                                    <p className="p">No Patient Found....</p>
-                                </div>
-                            : 
-                                <div>
-                                    {
-                                        
-                                                                    
-                                        patientData.map((item,index) =>{
-                                        if(index >= paginationState.minIndex && index < paginationState.maxIndex)
-                                            return (
-                                                <Row  justify="space-around" className="text-center">
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.patient_code}</p></Col>
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}><p>{item.first_name} {' '} {item.last_name} </p></Col>
-
-
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}> <p> <p>{item.dob}</p></p></Col>
-
-                                                        {JSON.parse(localStorage.getItem("user")).role!=="physio"&&<Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>}
-
-                                                        <Col md={4} lg={4} sm={4} xs={4}>
-                                                            <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
-                                                            {JSON.parse(localStorage.getItem("user")).role!=="physio"&&<BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />}
-                                                        {userInfo.role=='admin'|| userInfo.role=='HeadPhysio' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null}    
-                                                        </Col>
-                                                </Row>
-                                            )
-
-                                        })
-                                        
-                                    }
-                                </div>
-                    }
-                    { searchvalue=='' && patientData.length !== 0 && <Pagination
-                    className="text-center" style={{marginTop:'2%'}}
-                        pageSize={paginationState.pageSize}
-                        current={paginationState.current}
-                        total={patientData.length}
-                    
-                        onChange={PaginationChange}
-                    />}
-                    {show_password_modal()}
-                    {show_Authorize_Modal()}
-                </div>
-            </Form>
-        </>
-    )
+                    <div style={{ minHeight: "20px" }}></div>
+           
+        <Row>
+        <Col md={24} sm={24} xs={24}>
+          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={patientData} />
+          {show_password_modal()}
+        </Col>
+      </Row>
+      </>)
+        
+      
+    
 }
 
 export default SearchPatient;
