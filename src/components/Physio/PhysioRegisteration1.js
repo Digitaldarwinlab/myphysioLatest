@@ -9,7 +9,7 @@ import { Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import StepBar from "./../UtilityComponents/StepBar";
 import validation from "./../Validation/authValidation/authValidation";
-import { Typography, Select, Row, Button, Col, Form, Checkbox } from "antd";
+import { Typography, Select, Row, Button, Col, Form, Checkbox,Space } from "antd";
 import FormInput from "./../UI/antInputs/FormInput";
 import { getPhysioList } from "../../API/Physio/PhysioRegister";
 import {
@@ -36,6 +36,7 @@ const PhysioRegisteration1 = (props) => {
     form.setFieldsValue({ whatsapp_no: data.whatsapp_no });
     form.setFieldsValue({ Doctor_type: data.Doctor_type });
     form.setFieldsValue({ gender: data.gender });
+    form.setFieldsValue({ Clinic: data.clinic });
     dispatch({ type: "NOERROR" });
   }, [props.clearState]);
 
@@ -294,11 +295,6 @@ const PhysioRegisteration1 = (props) => {
               </span>{" "}
               <br />
               <Checkbox checked={state.physioRegisterReducer.isHeadPhysio}  onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}>Head Physio</Checkbox>
-              {/* <Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                defaultChecked
-              /> */}
             </Col>
           </Row>
           <Row gutter={[20, 20]} style={{ marginBottom: "15px" }}>
@@ -394,6 +390,7 @@ const PhysioRegisteration1 = (props) => {
         </div>
 
         <Row justify="center">
+        <Space size={'middle'}>
       <Col span={2}> <Link to="/dashboard">
               <Button 
               //className="me-2" 
@@ -415,6 +412,7 @@ const PhysioRegisteration1 = (props) => {
             htmlType="submit">
               Next
             </Button></Col>
+            </Space>
     </Row>
         {/* <Row
          // className="text-center"

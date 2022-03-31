@@ -656,7 +656,9 @@ class AI extends Component {
     window.darwin.launchModel();
     window.darwin.stop();
   };
-
+  setrLabels = () => {
+    
+  }
   // start();
 
   componentWillUnmount() {
@@ -1104,7 +1106,7 @@ class AI extends Component {
                             >
                               <Row>
                                 {joints.map((item) => (
-                                  <Col span={24}>
+                                  <Col span={12}>
                                     <Checkbox value={item.value}>
                                       {labels[item.value]}
                                     </Checkbox>
@@ -1139,7 +1141,7 @@ class AI extends Component {
                             >
                               <Row>
                                 {this.state.lateralJoints.map((item) => (
-                                  <Col span={24}>
+                                  <Col span={12}>
                                     <Checkbox value={item.value}>
                                       {labels[item.value]}
                                     </Checkbox>

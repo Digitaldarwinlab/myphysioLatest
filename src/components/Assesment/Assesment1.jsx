@@ -465,10 +465,8 @@ const [tempstate ,setTemp] = useState(true)
       rightShoulder: '',
       leftElbow: '',
       rightElbow: '',
-      leftHip: '',
-      rightHip: '',
-      leftKnee: '',
-      rightKnee: '',
+      leftHipAdductionAdbuction: '',
+      rightHipAdductionAdbuction: '',
       leftNeck: '',
       rightNeck: '',
       leftPelvic: '',
@@ -476,20 +474,20 @@ const [tempstate ,setTemp] = useState(true)
   })
 
   const [angleValuesL, setAngleValuesL] = useState({
-    leftShoulder: '',
-    leftElbow: '',
-    leftHip: '',
-    leftKnee: '',
-    leftNeck: '',
-    leftPelvic: '',
+    leftShoulder:'',
+    leftHip:'',
+    cervicalForwardFlexion:'',
+    leftKnee:'',
+    leftWrist:'',
+    leftAnkle:'',
 })
 const [angleValuesR, setAngleValuesR] = useState({
-  rightShoulder: '',
-  rightElbow: '',
-  rightHip: '',
-  rightKnee: '',
-  rightNeck: '',
-  rightPelvic: '',
+  rightShoulder:'',
+  rightHip:'',
+  cervicalForwardFlexion:'',
+  rightKnee:'',
+  rightWrist:'',
+  rightAnkle:'',
 })
 
 
@@ -530,37 +528,37 @@ const [angleValuesR, setAngleValuesR] = useState({
   const tableData = [
       {
           key: '1',
-          angles: 'Left Shoulder(ver)',
+          angles: 'L Shoulder Abd/Add',
           min: angleValues.leftShoulder.min,
           max: angleValues.leftShoulder.max
       },
       {
           key: '2',
-          angles: 'Right Shoulder(ver)',
+          angles: 'R Shoulder Abd/Add',
           min: angleValues.rightShoulder.min,
           max: angleValues.rightShoulder.max
       },
       {
           key: '3',
-          angles: 'Left Elbow',
+          angles: 'L Elbow Flex',
           min: angleValues.leftElbow.min,
           max: angleValues.leftElbow.max
       },
       {
           key: '4',
-          angles: 'Right Elbow',
+          angles: 'R Elbow Flex',
           min: angleValues.rightElbow.min,
           max: angleValues.rightElbow.max
       },
       {
           key: '5',
-          angles: 'Neck Left',
+          angles: 'L Cervical Side flex',
           min: angleValues.leftNeck.min,
           max: angleValues.leftNeck.max
       },
       {
           key: '6',
-          angles: 'Neck Right',
+          angles: 'R Cervical Side flex',
           min: angleValues.rightNeck.min,
           max: angleValues.rightNeck.max
       }
@@ -570,32 +568,22 @@ const [angleValuesR, setAngleValuesR] = useState({
   const tableData1 = [
       {
           key: '7',
-          angles: 'Left Hip',
-          min: angleValues.leftHip.min,
-          max: angleValues.leftHip.max
+          angles: 'L Hip Fwd Flex',
+          min: angleValues.leftHipAdductionAdbuction.min,
+          max: angleValues.leftHipAdductionAdbuction.max
       }, {
           key: '8',
-          angles: 'Right Hip',
-          min: angleValues.rightHip.min,
-          max: angleValues.rightHip.max
-      }, {
-          key: '9',
-          angles: 'Left Knee',
-          min: angleValues.leftKnee.min,
-          max: angleValues.leftKnee.max
+          angles: 'R Hip Fwd Flex',
+          min: angleValues.rightHipAdductionAdbuction.min,
+          max: angleValues.rightHipAdductionAdbuction.max
       }, {
           key: '10',
-          angles: 'Right Knee',
-          min: angleValues.rightKnee.min,
-          max: angleValues.rightKnee.max
-      }, {
-          key: '11',
-          angles: 'Pelvic Left',
+          angles: 'L Lateral Side Flex',
           min: angleValues.leftPelvic.min,
           max: angleValues.leftPelvic.max
       }, {
-          key: '12',
-          angles: 'Pelvic Right',
+          key: '11',
+          angles: 'R Lateral Side Flex',
           min: angleValues.rightPelvic.min,
           max: angleValues.rightPelvic.max
       }
@@ -604,78 +592,78 @@ const [angleValuesR, setAngleValuesR] = useState({
   const tableDataL = [
     {
       key: '1',
-      angles: 'Left Shoulder(ver)',
+      angles: 'L Shoulder Abd/Add',
       min: angleValuesL.leftShoulder.min,
       max: angleValuesL.leftShoulder.max
   },
   {
-      key: '3',
-      angles: 'Left Elbow',
-      min: angleValuesL.leftElbow.min,
-      max: angleValuesL.leftElbow.max
-  },
-  {
-      key: '5',
-      angles: 'Neck Left',
-      min: angleValuesL.leftNeck.min,
-      max: angleValuesL.leftNeck.max
-  },
-  {
     key: '7',
-    angles: 'Left Hip',
+    angles: 'L Hip Abd/Add',
     min: angleValuesL.leftHip.min,
     max: angleValuesL.leftHip.max
 },
  {
     key: '9',
-    angles: 'Left Knee',
-    min: angleValuesL.leftKnee.min,
-    max: angleValuesL.leftKnee.max
+    angles: 'Cervical Fwd Flex',
+    min: angleValuesL.cervicalForwardFlexion.min,
+    max: angleValuesL.cervicalForwardFlexion.max
+}, 
+{
+  key: '11',
+  angles: 'L Knee Abd/Add',
+  min: angleValuesL.leftKnee.min,
+  max: angleValuesL.leftKnee.max
+}, 
+{
+  key: '13',
+  angles: 'L Wrist',
+  min: angleValuesL.leftWrist.min,
+  max: angleValuesL.leftWrist.max
 }, 
  {
-    key: '11',
-    angles: 'Pelvic Left',
-    min: angleValuesL.leftPelvic.min,
-    max: angleValuesL.leftPelvic.max
+    key: '15',
+    angles: 'L Ankle',
+    min: angleValuesL.leftAnkle.min,
+    max: angleValuesL.leftAnkle.max
 },
 ]
 const tableDataR = [
   {
-      key: '2',
-      angles: 'Right Shoulder(ver)',
-      min: angleValuesR.rightShoulder.min,
-      max: angleValuesR.rightShoulder.max
-  },
- 
-  {
-      key: '4',
-      angles: 'Right Elbow',
-      min: angleValuesR.rightElbow.min,
-      max: angleValuesR.rightElbow.max
-  },
-  {
-      key: '6',
-      angles: 'Neck Right',
-      min: angleValuesR.rightNeck.min,
-      max: angleValuesR.rightNeck.max
-  },
-  {
-    key: '8',
-    angles: 'Right Hip',
-    min: angleValuesR.rightHip.min,
-    max: angleValuesR.rightHip.max
+    key: '1',
+    angles: 'R Shoulder Abd/Add',
+    min: angleValuesR.rightShoulder.min,
+    max: angleValuesR.rightShoulder.max
 },
- {
-    key: '10',
-    angles: 'Right Knee',
-    min: angleValuesR.rightKnee.min,
-    max: angleValuesR.rightKnee.max
-}, {
-    key: '12',
-    angles: 'Pelvic Right',
-    min: angleValuesR.rightPelvic.min,
-    max: angleValuesR.rightPelvic.max
-}
+{
+  key: '7',
+  angles: 'R Hip Abd/Add',
+  min: angleValuesR.rightHip.min,
+  max: angleValuesR.rightHip.max
+},
+{
+  key: '9',
+  angles: 'Cervical Fwd Flex',
+  min: angleValuesR.cervicalForwardFlexion.min,
+  max: angleValuesR.cervicalForwardFlexion.max
+}, 
+{
+key: '11',
+angles: 'R Knee Abd/Add',
+min: angleValuesR.rightKnee.min,
+max: angleValuesR.rightKnee.max
+}, 
+{
+key: '13',
+angles: 'R Wrist',
+min: angleValuesR.rightWrist.min,
+max: angleValuesR.rightWrist.max
+}, 
+{
+  key: '15',
+  angles: 'R Ankle',
+  min: angleValuesR.rightAnkle.min,
+  max: angleValuesR.rightAnkle.max
+},
 ]
   useEffect(() => {
       const question = document.getElementById("question")
@@ -689,7 +677,7 @@ const tableDataR = [
 
       }
       else {
-        question.innerHTML = "Scales & Index filled"
+        question.innerHTML = "Scales & Index"
         // question.innerHTML = " "
           question.style.backgroundColor = "honeydew"
           question.style.borderColor = "limegreen"
@@ -717,42 +705,40 @@ const tableDataR = [
           //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
           console.log("Ai data in body.js from localstorage: ", AI_Data)
           // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
-          rom.innerHTML = "ROM Assement calculated"
+          rom.innerHTML = "ROM calculated"
           rom.style.backgroundColor = "honeydew"
           rom.style.borderColor = "limegreen"
           setRomVisibility('block')
           setAngleValues(preValues => ({
               ...preValues,
-              ['leftShoulder']: Anterior_AI_Data["Left Shoulder(ver)"],
-              ['rightShoulder']: Anterior_AI_Data["Right Shoulder(ver)"],
-              ['leftElbow']: Anterior_AI_Data["Left Elbow"],
-              ['rightElbow']: Anterior_AI_Data["Right Elbow"],
-              ['leftHip']: Anterior_AI_Data["Left Hip"],
-              ['rightHip']: Anterior_AI_Data["Right Hip"],
-              ['leftKnee']: Anterior_AI_Data["Left Knee"],
-              ['rightKnee']: Anterior_AI_Data["Right Knee"],
-              ['leftNeck']: Anterior_AI_Data["Neck Left"],
-              ['rightNeck']: Anterior_AI_Data["Neck Right"],
-              ['leftPelvic']: Anterior_AI_Data["Pelvic Left"],
-              ['rightPelvic']: Anterior_AI_Data["Pelvic Right"]
+              ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
+              ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
+              ['leftElbow']: Anterior_AI_Data["leftElbow"],
+              ['rightElbow']: Anterior_AI_Data["rightElbow"],
+              ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
+              ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
+              ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
+              ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
+              ['leftNeck']: Anterior_AI_Data["leftNeck"],
+              ['rightNeck']: Anterior_AI_Data["rightNeck"],
           }))
           setAngleValuesL(preValues => ({
             ...preValues,
-            ['leftShoulder']: LeftLateral_AI_Data["Left Shoulder(ver)"],
-            ['leftElbow']: LeftLateral_AI_Data["Left Elbow"],
-            ['leftHip']: LeftLateral_AI_Data["Left Hip"],
-            ['leftKnee']: LeftLateral_AI_Data["Left Knee"],
-            ['leftNeck']: LeftLateral_AI_Data["Neck Left"],
-            ['leftPelvic']: LeftLateral_AI_Data["Pelvic Left"],
+            ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
+            ['leftHip']: LeftLateral_AI_Data["leftHip"],
+            ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
+            ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
+            ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
+            ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
         }))
         setAngleValuesR(preValues => ({
           ...preValues,
-          ['rightShoulder']: RightLateral_AI_Data["Right Shoulder(ver)"],
-          ['rightElbow']: RightLateral_AI_Data["Right Elbow"],
-          ['rightHip']: RightLateral_AI_Data["Right Hip"],
-          ['rightKnee']: RightLateral_AI_Data["Right Knee"],
-          ['rightNeck']: RightLateral_AI_Data["Neck Right"],
-          ['rightPelvic']: RightLateral_AI_Data["Pelvic Right"]
+          ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
+          ['rightHip']: RightLateral_AI_Data["rightHip"],
+          ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
+          ['rightKnee']: RightLateral_AI_Data["rightKnee"],
+          ['rightWrist']: RightLateral_AI_Data["rightWrist"],
+          ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
       }))
       }
   }, angleValues)
@@ -1134,7 +1120,7 @@ const tableDataR = [
   // const [romAss, setRomAss] = useState(true)
 
   return (
-    <div className="px-2 py-2">
+    <div className="px-2 assessment_main_new py-2">
 
       <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
@@ -1256,7 +1242,7 @@ const tableDataR = [
         </Row>
       </Form>
 
-      <Row className="">
+      <Row >
           <Col md={24} lg={24} sm={24} xs={24}>
             <h3 className="p-0"><b>Physical Assesment</b></h3>
           </Col>
@@ -1265,75 +1251,15 @@ const tableDataR = [
      {state.FirstAssesment.Type==="First"&& <div className="border1 mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
         
         
-        <Form form={form} >
-         
-          {/* 
-          <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-              <Col md={24} lg={12} sm={24} xs={24}>
-                <FormInput label="Scars"
-                  name="Scars"
-                  value={state.FirstAssesment.Scars}
-                  defaultValue={state.FirstAssesment.Scars}
-                  onChange={handleChange} required={true}>
-                </FormInput>
-                <div style={{ display: visibility, padding: 5, width: '100%' }} id="pdfViewer">
-                </div>
-              </Col>
-             
-          </Row> */}
-        </Form>
-        <Form form={form} layout="vertical">
+       
 
-          {/* <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-               <FormTextArea label="Recent History"
-                  name="RecentHistory"
-                  value={state.FirstAssesment.RecentHistory}
-                  defaultValue={state.FirstAssesment.RecentHistory}
-                  onChange={handleChange} required={true} />
-            </Col>
+      
 
-            <Col  md={24} lg={12} sm={24} xs={24}>
-             
-              <Dragger {...props} id="myPdf"
-                listType="picture-card"
-                accept="application/pdf,image/*,application/msword"
-                multiple="true"
-
-               onInput={handleUploadScars}
-               onChange={ async (e)=>{
-                let files=[]
-                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
-                console.log(files)
-                handleChange('ScareFile',files)
-               }}
-              >
-                Choose Files
-              </Dragger>
-           
-
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-            
-              </Col>
-          </Row> */}
-
-        </Form>
-        {/* gaurav 4/12 */}
-
-        <div className="container-fuild">
-
-          <Row gutter={[20, 20]} className="py-0">
+          <Row gutter={[20, 20]}>
               <Col md={24} lg={24} sm={24} xs={24}>
                   <h4><b>Subjective</b></h4>
               </Col>
             </Row>
-          {/* <div className="row">
-            <div className="col">
-              <h2>Subjective</h2>
-            </div>
-
-          </div> */}
 
 
 
@@ -1395,7 +1321,7 @@ const tableDataR = [
 
           </div>
 
-        </div>
+      
 
         <div className="container-fuild">
           <Row gutter={[20, 20]} className="py-3">
@@ -1422,12 +1348,6 @@ const tableDataR = [
           <Radio.Group options={['Sudden','Gradual','History of Fail','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
-            {/* <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
-              <div className="col  form-check-inline"><input type="radio" value="Sudden" name="History" /> Sudden</div>
-              <div className="col  form-check-inline"><input type="radio" value="Gradual" name="History" /> Gradual</div>
-              <div className="col  form-check-inline"><input type="radio" value="History of fall" name="History" />History of fall</div>
-              <div className="col  form-check-inline"><input type="radio" value="Any other injury" name="History" /> Any other injury</div>
-            </div> */}
           </Col>
         </Row>
 
@@ -1447,38 +1367,38 @@ const tableDataR = [
                 onChange={(e) => handleChange("past_medical_history", e)}
                 options={plainOptions1}
               />
-                <Checkbox.Group
-                style={{ paddingLeft: "20px" }}
+                <Checkbox
                 name="Medication"
-                value={state.FirstAssesment.Medication1}
+              //  value={state.FirstAssesment.Medication1}
                 onChange={(e) =>{
                    setMedic(!medic)
                    handleChange("medicCheck",medic)
-                   handleChange("Medication1",e)
+                   handleChange("Medication1",e.target.value)
                   }}
-                options={['Medication']}
-              />
+                  value={'Medication'}
+                // options={['Medication']}
+              >
                 <input class="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => {
                     handleChange("Medication", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
                 }} name='medText' placeholder="Medication" />
-                <br/>
-                <Checkbox.Group
-                style={{ paddingLeft: "0px" }}
+                </Checkbox>
+                <Checkbox
+                style={{ marginLeft: "0px" }}
                 name="Others"
-                value={state.FirstAssesment.Others1}
+               // value={state.FirstAssesment.Others1}
                 onChange={(e) => {
                   setOthers(!others)
                   handleChange('othCheck',others)
-                  handleChange('Others1',e)
+                  handleChange('Others1',e.target.value)
                 }}
-                options={['Others']}
-              />
+                value={'Others'}
+              >  
                 <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
                     handleChange('Others',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
                 }} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
-
-                 <Checkbox.Group
-                style={{ paddingLeft: "0px" }}
+              </Checkbox>
+                 <Checkbox
+                   style={{ marginLeft: "0px" }}
                 name="Surgical History Notes"
                 value={state.FirstAssesment.Surgical_History_Notes1}
                 onChange={(e) => {
@@ -1487,40 +1407,11 @@ const tableDataR = [
                   handleChange('Surgical_History_Notes1',e)
                 }}
                 options={['Surgical History Notes']}
-              />
+              > 
                 <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
                     handleChange('Surgical_History_Notes',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
                 }} value={state.FirstAssesment.Surgical_History_Notes} disabled={Surgical_History_Notes} type="text" name='Surgical_History_NotesText' placeholder="Surgical History Notes" />
-              {/* <div className="row" name="past_medical_history" >
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="Diabetes" onChange={(e) => handleChange("Diabetes", e.target.checked)} value={state.FirstAssesment.Diabetes} />
-                  <label class="form-check-label" for="inlineCheckbox1">Diabetes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="HYN" onChange={(e) => handleChange("HYN", e.target.checked)} value={state.FirstAssesment.HYN} />
-                  <label class="form-check-label" for="inlineCheckbox2">HYN</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="COPD" onChange={(e) => handleChange("COPD", e.target.checked)} value={state.FirstAssesment.COPD} />
-                  <label class="form-check-label" for="inlineCheckbox3">COPD</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="Cardiac" onChange={(e) => handleChange("Cardiac", e.target.checked)} value={state.FirstAssesment.Cardiac} />
-                  <label class="form-check-label" for="inlineCheckbox4">Cardiac</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="Medication" onChange={(e) => handleChange("Medication", e.target.checked)} value={state.FirstAssesment.Medication} />
-                  <label class="form-check-label" for="inlineCheckbox5">Medication</label>
-                  <input class="mx-5 p-2" type="text" name='medText' placeholder="Medication" />
-                </div>
-              </div>
-            </Col>
-            <Col md={24} lg={24} sm={24} xs={24} className="p-0" name="past_check">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox6" onChange={(e) => handleChange("Other", e.target.checked)} value={state.FirstAssesment.Other} />
-                <label class="form-check-label" for="inlineCheckbox6">Other</label>
-                <input class="mx-5 p-2" type="text" name='othText' placeholder="Other" />
-              </div> */}
+                </Checkbox>
             </Col>
           </Row>
         </div>
@@ -1531,20 +1422,6 @@ const tableDataR = [
               <h4><b>Built Type</b></h4>
             </Col>
             <Col md={24} lg={24} sm={24} xs={24} className="mx-2 p-0">
-              {/* <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
-              >
-                <div className="col  form-check-inline">
-                  <input type="radio" value="ectomorphic"
-                    name="Built"
-                  /> Ectomorphic</div>
-                <div className="col  form-check-inline"><input type="radio" value="mesomorphic"
-                  name="Built"
-                /> Mesomorphic</div>
-                <div className="col  form-check-inline"><input type="radio" value="endomorphic"
-                  name="Built"
-                />Endomorphic</div>
-
-              </div> */}
               <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
    
               </Radio.Group>
@@ -1568,57 +1445,6 @@ const tableDataR = [
           </Row>
         </div>
 
-        {/* <Form form={form} layout="vertical">
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Recent History"
-                  name="RecentHistory"
-                  value={state.FirstAssesment.RecentHistory}
-                  defaultValue={state.FirstAssesment.RecentHistory}
-                  onChange={handleChange} required={true} />
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Trauma / Hospitalization History "
-                  name="Trauma"
-                  value={state.FirstAssesment.Trauma}
-                  defaultValue={state.FirstAssesment.Trauma}
-                  onChange={handleChange} required={true} />
-              </Col>
-        </Row>
-
-        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <FormTextArea label="Special Test "
-                  name="Test"
-                  value={state.FirstAssesment.Test}
-                  defaultValue={state.FirstAssesment.Test}
-                  onChange={handleChange} required={true} />
-            </Col>
-          </Row> 
-          <Row gutter={[10, 10]} className="px-0 py-4 pb-0" style={{ marginBottom: -0 }}>
-          
-            <Col md={12} lg={12} sm={24} xs={24}>
-              <Dragger {...props} id="myPdf"
-                listType="picture-card"
-                accept="application/pdf,image/*,application/msword"
-                multiple="true"
-                customRequest={dummyRequest}
-               onChange={ async (e)=>{
-                let files=[]
-                await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
-                console.log(files)
-                handleChange('TraumaFile',files)
-               }}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              </Dragger>
-              </Col>
-        </Row>
-        </Form> */}
-
 
       </div>
 
@@ -1627,78 +1453,7 @@ const tableDataR = [
 
       <div className="border1 mb-3 mt-0 text-center" style={{ background: '#fff', padding: '20px' }}>
 <>
-     {/* <Button style={{backgroundColor:'#2d7ecb'}} className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
-     <Row>
-         <Col md={24} lg={24} sm={24} xs={24} className="text-center"> 
-             <div id="malefigures" ref={myRef}>
-                 <div id="mobile-muscle-map"><img alt="body-img" id="mobilebg" src={MobBackground} alt="male-background" />
-                     <img alt="body-img11" alt="body-img" className="FullBody" id="traps-a1" src={TrapsLeft} alt="male-1" onClick={() => { handleClick("TrapsA", "traps-a1") }} />
-                     <img alt="body-img22" alt="body-img" className="FullBody" id="traps-b2" src={Trapsright} alt="male-2" onClick={() => { handleClick("TrapsB", "traps-b2") }} />
-                     <img alt="body-img33" alt="body-img" className="FullBody" id="shoulders-a1" src={DeltoidsA} alt="male-3" onClick={() => { handleClick("ShoulderA", "shoulders-a1") }} />
-                     <img alt="body-img44" alt="body-img" className="FullBody" id="shoulders-b2" src={DeltoidsB} alt="male-4" onClick={() => { handleClick("ShoulderB", "shoulders-b2") }} />
-                     <img alt="body-img55" alt="body-img" className="FullBody" id="pecs1" src={Pecs} alt="male-5" onClick={() => { handleClick("Pecs", "pecs1") }} />
-                     <img alt="body-img66" alt="body-img" className="FullBody" id="biceps-a1" src={bicepsA} alt="male-6" onClick={() => { handleClick("BicepsA", "biceps-a1") }} />
-                     <img alt="body-img77" alt="body-img" className="FullBody" id="biceps-b2" src={bicepsB} alt="male-7" onClick={() => { handleClick("BicepsB", "biceps-b2") }} />
-                     <img alt="body-img88" alt="body-img" className="FullBody" id="forearm-a1" src={forearmA} alt="male-8" onClick={() => { handleClick("ForearmsA", "forearm-a1") }} />
-                     <img alt="body-img99" alt="body-img" className="FullBody" id="forearm-b2" src={forearmB} alt="male-9" onClick={() => { handleClick("ForearmsB", "forearm-a2") }} />
-                     <img alt="body-img98" alt="body-img" className="FullBody" id="obliques1" src={obliques} alt="male-10" onClick={() => { handleClick("Abdominals", "obliques1") }} />
-                     <img alt="body-img97" alt="body-img" className="FullBody" id="quads-a1" src={quadsA} alt="male-11" onClick={() => { handleClick("QuadsA", "quads-a1") }} />
-                     <img alt="body-img96" alt="body-img" className="FullBody" id="quads-b2" src={quadsB} alt="male-12" onClick={() => { handleClick("QuadsB", "quads-b2") }} />
-                     <img alt="body-img95" alt="body-img" className="FullBody" id="calves-a1" src={calvesA} alt="male-13" onClick={() => { handleClick("CalvesA", "calves-a1") }} />
-                     <img alt="body-img94" alt="body-img" className="FullBody" id="calves-b2" src={calvesB} alt="male-14" onClick={() => { handleClick("CalvesB", "calves-a2") }} />
-                     <img alt="body-img93" alt="body-img" className="FullBody" id="back-traps-a1" src={backtrapsA} alt="male-15" onClick={() => { handleClick("BacktrapsA", "back-traps-a1") }} />
-                     <img alt="body-img92" className="FullBody" id="back-traps-b2" src={backtrapsB} alt="male-16" onClick={() => { handleClick("BacktrapsB", "back-traps-a2") }} />
-                     <img alt="body-img91" className="FullBody" id="back-shoulders-a1" src={backshouldersA} alt="male-17" onClick={() => { handleClick("BackshouldersA", "back-shoulders-a1") }} />
-                     <img alt="body-img89" className="FullBody" id="back-shoulders-b2" src={backshouldersB} alt="male-18" onClick={() => { handleClick("BackshouldersB", "back-shoulders-a2") }} />
-                     <img alt="body-img87" className="FullBody" id="triceps-a1" src={tricepsA} alt="male-19" onClick={() => { handleClick("TricepsA", "triceps-a1") }} />
-                     <img alt="body-img86" className="FullBody" id="triceps-b2" src={tricepsB} alt="male-20" onClick={() => { handleClick("TricepsB", "triceps-a2") }} />
-                     <img alt="body-img85" className="FullBody" id="back-lats-a1" src={backLatsA} alt="male-21" onClick={() => { handleClick("LatsA", "back-lats-a1") }} />
-                     <img alt="body-img84" className="FullBody" id="back-lats-b2" src={backLatsB} alt="male-22" onClick={() => { handleClick("LatsB", "back-lats-a2") }} />
-                     <img alt="body-img83" className="FullBody" id="back-lower1" src={backlower} alt="male-23" onClick={() => { handleClick("LowerBack", "back-lower1") }} />
-                     <img alt="body-img82" className="FullBody" id="back-forearms-a1" src={backforearmsA} alt="male-24" onClick={() => { handleClick("BackforearmsA", "back-forearms-a1") }} />
-                     <img alt="body-img81" className="FullBody" id="back-forearms-b2" src={backforearmsB} alt="male-25" onClick={() => { handleClick("BackforearmsB", "back-forearms-a2") }} />
-                     <img alt="body-img80" className="FullBody" id="back-glutes1" src={backglutes} alt="male-26" onClick={() => { handleClick("Glutes", "back-glutes1") }} />
-                     <img alt="body-img79" className="FullBody" id="back-hamstrings-a1" src={backhamstringsA} alt="male-27" onClick={() => { handleClick("HamstringsA", "back-hamstrings-a1") }} />
-                     <img alt="body-img78" className="FullBody" id="back-hamstrings-a2" src={backhamstringsB} alt="male-28" onClick={() => { handleClick("HamstringsB", "back-hamstrings-a2") }} />
-                     <img alt="body-img76" className="FullBody" id="back-calves-a1" src={backcalvesA} alt="male-29" onClick={() => { handleClick("BackcalvesA", "back-calves-a1") }} />
-                     <img alt="body-img75" className="FullBody" id="back-calves-b2" src={backcalvesB} alt="male-30" onClick={() => { handleClick("BackcalvesB", "back-calves-a2") }} />
-                 </div>
-
-                 <div id="muscle-map"><img alt="body-img" id="background" src={background} alt="male-background-1" />
-                     <img alt="body-img74" className="FullBody" id="traps-a" src={TrapsLeft} alt="male-31" onClick={() => { handleClick("TrapsA", "traps-a") }} />
-                     <img alt="body-img73" className="FullBody" id="traps-b" src={Trapsright} alt="male-32" onClick={() => { handleClick("TrapsB", "traps-b") }} />
-                     <img alt="body-img72" className="FullBody" id="shoulders-a" src={DeltoidsA} alt="male-33" onClick={() => { handleClick("ShoulderA", "shoulders-a") }} />
-                     <img alt="body-img71" className="FullBody" id="shoulders-b" src={DeltoidsB} alt="male-34" onClick={() => { handleClick("ShoulderB", "shoulders-b") }} />
-                     <img alt="body-img70" className="FullBody" id="pecs" src={Pecs} alt="male-35" onClick={() => { handleClick("Pecs", "pecs") }} />
-                     <img alt="body-img69" className="FullBody" id="biceps-a" src={bicepsA} alt="male-36" onClick={() => { handleClick("BicepsA", "biceps-a") }} />
-                     <img alt="body-img68" className="FullBody" id="biceps-b" src={bicepsB} alt="male-37" onClick={() => { handleClick("BicepsB", "biceps-b") }} />
-                     <img alt="body-img67" className="FullBody" id="forearm-a" src={forearmA} alt="male-38" onClick={() => { handleClick("ForearmsA", "forearm-a") }} />
-                     <img alt="body-img65" className="FullBody" id="forearm-b" src={forearmB} alt="male-39" onClick={() => { handleClick("ForearmsB", "forearm-b") }} />
-                     <img alt="body-img64" className="FullBody" id="obliques" src={obliques} alt="male-40" onClick={() => { handleClick("Abdominals", "obliques") }} />
-                     <img alt="body-img63" className="FullBody" id="quads-a" src={quadsA} alt="male-41" onClick={() => { handleClick("QuadsA", "quads-a") }} />
-                     <img alt="body-img62" className="FullBody" id="quads-b" src={quadsB} alt="male-42" onClick={() => { handleClick("QuadsB", "quads-b") }} />
-                     <img alt="body-img61" className="FullBody" id="calves-a" src={calvesA} alt="male-43" onClick={() => { handleClick("CalvesA", "calves-a") }} />
-                     <img alt="body-img59" className="FullBody" id="calves-b" src={calvesB} alt="male-44" onClick={() => { handleClick("CalvesB", "calves-b") }} />
-                     <img alt="body-img58" className="FullBody" id="back-traps-a" src={backtrapsA} alt="male-45" onClick={() => { handleClick("BacktrapsA", "back-traps-a") }} />
-                     <img alt="body-img57" className="FullBody" id="back-traps-b" src={backtrapsB} alt="male-46" onClick={() => { handleClick("BacktrapsB", "back-traps-b") }} />
-                     <img alt="body-img56" className="FullBody" id="back-shoulders-a" src={backshouldersA} alt="male-47" onClick={() => { handleClick("BackshouldersA", "back-shoulders-a") }} />
-                     <img alt="body-img54" className="FullBody" id="back-shoulders-b" src={backshouldersB} alt="male-48" onClick={() => { handleClick("BackshouldersB", "back-shoulders-b") }} />
-                     <img alt="body-img53" className="FullBody" id="triceps-a" src={tricepsA} alt="male-49" onClick={() => { handleClick("TricepsA", "triceps-a") }} />
-                     <img alt="body-img52" className="FullBody" id="triceps-b" src={tricepsB} alt="male-50" onClick={() => { handleClick("TricepsB", "triceps-b") }} />
-                     <img alt="body-img51" className="FullBody" id="back-lats-a" src={backLatsA} alt="male-51" onClick={() => { handleClick("LatsA", "back-lats-a") }} />
-                     <img alt="body-img101" className="FullBody" id="back-lats-b" src={backLatsB} alt="male-52" onClick={() => { handleClick("LatsB", "back-lats-b") }} />
-                     <img alt="body-img102" className="FullBody" id="back-lower" src={backlower} alt="male-53" onClick={() => { handleClick("LowerBack", "back-lower") }} />
-                     <img alt="body-img103" className="FullBody" id="back-forearms-a" src={backforearmsA} alt="male-54" onClick={() => { handleClick("BackforearmsA", "back-forearms-a") }} />
-                     <img alt="body-img104" className="FullBody" id="back-forearms-b" src={backforearmsB} alt="male-55" onClick={() => { handleClick("BackforearmsB", "back-forearms-b") }} />
-                     <img alt="body-img105" className="FullBody" id="back-glutes" src={backglutes} alt="male-56" onClick={() => { handleClick("Glutes", "back-glutes") }} />
-                     <img alt="body-img106" className="FullBody" id="back-hamstrings-a" src={backhamstringsA} alt="male-57" onClick={() => { handleClick("HamstringsA", "back-hamstrings-a") }} />
-                     <img alt="body-img107" className="FullBody" id="back-hamstrings-b" src={backhamstringsB} alt="male-58" onClick={() => { handleClick("HamstringsB", "back-hamstrings-b") }} />
-                     <img alt="body-img108" className="FullBody" id="back-calves-a" src={backcalvesA} alt="male-59" onClick={() => { handleClick("BackcalvesA", "back-calves-a") }} />
-                     <img alt="body-img109" className="FullBody" id="back-calves-b" src={backcalvesB} alt="male-60" onClick={() => { handleClick("BackcalvesB", "back-calves-b") }} />
-                 </div>
-             </div>
-         </Col>
-     </Row> */}
+    
      <h1 style={{margin:0,padding:0}}><b>Cheif Complaint Area</b></h1>
 <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
 
@@ -1770,20 +1525,20 @@ const tableDataR = [
          </Col>}
      </Row>
  </div>}
- {state.FirstAssesment.pain_state && <div className=" border1 mb-3 mt-3">
-     <Row gutter={[10, 10]} className="px-4 py-2">
+ {state.FirstAssesment.pain_state && <div className="  mb-3 mt-3">
+     <Row gutter={[10, 10]} >
          <Col md={24} lg={24} sm={24} xs={24}>
              <Descriptions title="Pain Assessment" bordered>
                  <Descriptions.Item label="Nature Of Pain">{state.FirstAssesment.nature_of_pain_here}</Descriptions.Item>
                  <Descriptions.Item label="Swelling">{state.FirstAssesment.pain_swelling}</Descriptions.Item>
-                 <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d => d + ",")}</Descriptions.Item>
-                 <Descriptions.Item label="Pain Relieving">{state.FirstAssesment.pain_relieving_here.map(d => d + ",")}</Descriptions.Item>
+                 <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d => d + " , ")}</Descriptions.Item>
+                 <Descriptions.Item label="Pain Relieving">{state.FirstAssesment.pain_relieving_here.map(d => d + " , ")}</Descriptions.Item>
                  <Descriptions.Item label="Pain Scale">{state.FirstAssesment.pain_scale}</Descriptions.Item>
                  <Descriptions.Item label="Scars">{state.FirstAssesment.pain_scars}</Descriptions.Item>
              </Descriptions>
          </Col>
      </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
+     <Row gutter={[10, 10]} >
          <Col md={24} lg={24} sm={24} xs={24}>
              <Descriptions title="Sensory Inputs" bordered>
                  <Descriptions.Item label="Superficial">{state.FirstAssesment.superficial}</Descriptions.Item>
@@ -1793,7 +1548,7 @@ const tableDataR = [
          </Col>
      </Row>
  </div>}
- {<div  style={{ display: state.FirstAssesment.special_visibility }} className=" border1 mb-3 mt-3" >
+ {<div  style={{ display: state.FirstAssesment.special_visibility }} className=" special_test_new1 border1 mb-3 mt-3" >
         <Row className="border1">
           <Col lg={18} md={18} sm={18} xs={24}>
             {state.FirstAssesment.shoulder ||
@@ -1814,8 +1569,8 @@ const tableDataR = [
           </Col>
         </Row>
             {state.FirstAssesment.shoulder&&Object.keys(state.FirstAssesment.shoulder).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} className="">
+          <Col lg={12} md={24} sm={24} xs={24}>
             {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
               <>
                 <Descriptions.Item label="" span={3}>
@@ -1848,8 +1603,8 @@ const tableDataR = [
       
         
           {state.FirstAssesment.ankle&&Object.keys(state.FirstAssesment.ankle).length>0 && (
-               <Row gutter={[10, 10]} className="px-4 py-2">
-               <Col lg={12} md={18} sm={12} xs={12}>
+               <Row gutter={[10, 10]} >
+               <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Ankle </b>
@@ -1875,12 +1630,12 @@ const tableDataR = [
                 </table>
               </>
               </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row> 
             )}
           {state.FirstAssesment.elbow&&Object.keys(state.FirstAssesment.elbow).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Elbow </b>
@@ -1906,12 +1661,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.hip&&Object.keys(state.FirstAssesment.hip).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Hip </b>
@@ -1937,12 +1692,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.knee&&Object.keys(state.FirstAssesment.knee).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Knee </b>
@@ -1968,12 +1723,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.cervical_spine&&Object.keys(state.FirstAssesment.cervical_spine).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Cervical Spine </b>
@@ -1999,12 +1754,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.thoracic_spine&&Object.keys(state.FirstAssesment.thoracic_spine).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Thoracic Spine </b>
@@ -2030,12 +1785,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.lumbar_spine&&Object.keys(state.FirstAssesment.lumbar_spine).length>0&& (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Lumbar Spine </b>
@@ -2061,12 +1816,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
           {state.FirstAssesment.forearm&&Object.keys(state.FirstAssesment.forearm).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Forearm_wrist_Hand </b>
@@ -2092,12 +1847,12 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
             {state.FirstAssesment.special_others&&Object.keys(state.FirstAssesment.special_others).length>0 && (
-        <Row gutter={[10, 10]} className="px-4 py-2">
-          <Col lg={12} md={18} sm={12} xs={12}>
+        <Row gutter={[10, 10]} >
+          <Col lg={12} md={24} sm={24} xs={24}>
               <>
                 <Descriptions.Item label="" span={3}>
                   <b>Others </b>
@@ -2123,7 +1878,7 @@ const tableDataR = [
                 </table>
               </>
           </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
+          <Col lg={12} md={24} sm={24} xs={24}></Col>
         </Row>
             )}
       </div>}
@@ -2146,19 +1901,21 @@ const tableDataR = [
              <h4 className="p-2">Lateral ROM Assesment</h4>
          </Col>
      </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
+     {/* <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={12} lg={12} sm={24} xs={24}>
             <h5 className="p-2">Left side</h5>
          </Col>
          <Col md={12} lg={12} sm={24} xs={24}>
              <h5 className="p-2">Right side</h5>
          </Col>
-     </Row>
+     </Row> */}
      <Row gutter={[10, 10]} className="px-4 py-2">
          <Col md={12} lg={12} sm={24} xs={24}>
+         <h5 className="p-2">Right side</h5>
              <Table pagination={false} columns={columns} dataSource={tableDataL} />
          </Col>
          <Col md={12} lg={12} sm={24} xs={24}>
+         <h5 className="p-2">Right side</h5>
              <Table pagination={false} columns={columns} dataSource={tableDataR} />
          </Col>
      </Row>
@@ -2190,11 +1947,11 @@ const tableDataR = [
       <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
         <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
-        {/* {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
+        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
         <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>
-        } */}
-        {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
-                {/* {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+        }
+     
+                {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
                 <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
                 }
                 {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
@@ -2205,20 +1962,46 @@ const tableDataR = [
                 }
                 {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">Rom Assessment</Button>:
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Rom Assessment</Button>
-                } */}
-                {/* <Button className="ms-3" >save</Button> */}
-                {/* <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
+                }
         </Col>
         <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
       </Row> */}
-       <Row>
-        <Col className="text-center" style={{paddingBottom:'10px'}} md={24} lg={24} sm={24} xs={24}>
-        <Checkbox checked={!state.FirstAssesment.quest} style={{paddingRight:'10px'}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+      <Row gutter={[10,10]}>
+      
+    <Col md={8} lg={5} sm={12} xs={12}><Checkbox checked={!state.FirstAssesment.quest} onChange={(e)=>handleChange('quest',!e.target.checked)}>
+    {state.FirstAssesment.quest?<Button className="btn-new-check" disabled={state.FirstAssesment.quest} type="text" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
+    <Button type="text"  disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
+      </Checkbox></Col>
+    <Col md={8} lg={5} sm={12} xs={12}>   <Checkbox checked={!state.FirstAssesment.pain1}  onChange={(e)=>handleChange('pain1',!e.target.checked)}>
+    {state.FirstAssesment.pain1?<Button  className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} >Pain Assessment</Button>:
+                <Button type="text"  style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} >Pain Assessment</Button>
+                }
+      </Checkbox ></Col>
+    <Col md={8} lg={4} sm={12} xs={12}>  <Checkbox checked={!state.FirstAssesment.special} onChange={(e)=>handleChange('special',!e.target.checked)}>
+    {state.FirstAssesment.special?<Button className="btn-new-check" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')}>Special Test</Button>:
+                <Button type="text"  style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')}>Special Test</Button>
+                }
+      </Checkbox></Col>
+    <Col md={8} lg={4} sm={12} xs={12}> <Checkbox checked={!state.FirstAssesment.pose} onChange={(e)=>handleChange('pose',!e.target.checked)}>
+    {state.FirstAssesment.pose?<Button className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>:
+                <Button type="text"  style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>
+                }
+      </Checkbox></Col>
+    <Col md={8} lg={4} sm={12} xs={12}>   <Checkbox checked={!state.FirstAssesment.romAss} onChange={(e)=>handleChange('romAss',!e.target.checked)}>
+    {state.FirstAssesment.romAss?<Button  style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="btn-new-check" onClick={Rom} id="rom">AROM Assessment</Button>:
+                <Button  style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} type="text"  onClick={Rom} id="rom">AROM Assessment</Button>
+                }
+      </Checkbox></Col>
+   
+  </Row>
+     
+      {/* <Row justify='space-between'>
+        <Col  md={24} lg={24} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.quest} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
           <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
-          {/* if any problem with color of button refer styles/App.css on line 1073 and 1576 */}
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
+          <Checkbox checked={!state.FirstAssesment.pain1}  onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
           {state.FirstAssesment.pain1?<button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</button>:
                 <button  className="ms-3 ant-btn" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</button>
                 }
@@ -2238,13 +2021,42 @@ const tableDataR = [
                 <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">AROM Assessment</Button>
                 }
          
-          {/* <Button className="ms-3" >save</Button> */}
         
         </Col>
-        <Col md={2} lg={2} sm={2} xs={2}>
+     </Row> */}
+      {/* <Row>
+        <Col  md={12} lg={5} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.quest} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
+        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
+          <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
         </Col>
-     </Row>
-<div className="text-center mb-3">
+        <Col  md={12} lg={5} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.pain1}  onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
+          {state.FirstAssesment.pain1?<Button  className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
+                <Button  className="ms-3 ant-btn" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
+                }
+        </Col>
+        <Col  md={12} lg={5} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
+          {state.FirstAssesment.special?<button class="btn-new-check" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
+                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+                }
+        </Col>
+        <Col  md={12} lg={5} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
+          {state.FirstAssesment.pose?<Button className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>:
+                <Button className="ant-btn" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>
+                }
+        </Col>
+        <Col  md={12} lg={5} sm={24} xs={24}>
+        <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'10px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
+          {state.FirstAssesment.romAss?<Button style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className=" btn-new-check" onClick={Rom} id="rom">AROM</Button>:
+                <Button style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} onClick={Rom} id="rom">AROM</Button>
+                }
+        </Col>
+     </Row> */}
+     
+<div className="text-center m-3">
 <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
 </div>
     </div >

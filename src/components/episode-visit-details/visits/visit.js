@@ -183,8 +183,19 @@ const Visits = ({ handleClick, patId }) => {
             <Button onClick={consultClick}>Consultation</Button>
           </Space>
         </Col>
-        <Col span={24} className="mt-2">
+        <Col  className="pag_large mt-2" span={24}>
           <Table
+            columns={columns}
+            scroll={{x:500}}
+            dataSource={visitsData}
+            bordered
+            loading={loading}
+            sticky
+          />
+        </Col>
+        <Col style={{display:'none'}} className="pag_mob mt-2" span={24}>
+          <Table
+          pagination={{ size: "small" }}
             columns={columns}
             scroll={{x:500}}
             dataSource={visitsData}

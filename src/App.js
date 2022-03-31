@@ -85,6 +85,7 @@ import ExerciseDetail from "./PatientComponents/PatientSchedule/ExerciseDetail.j
 import PatientProgress from "./PatientComponents/PatientSchedule/PatientProgress.js";
 import Tempdashboard from "./PatientComponents/Tempdashboard.js";
 import PainAssessment from "./components/Assesment/PainAssessment.jsx";
+//import PainAssessment from "./components/Assesment/paintemp";
 import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";

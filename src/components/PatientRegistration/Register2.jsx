@@ -6,7 +6,7 @@ import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
 import svg from "././../../assets/step2.png";
-import { Typography, Select, Row, Col, Button, Form } from 'antd';
+import { Typography, Select, Row, Col, Button, Form, Space } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormInput from '../UI/antInputs/FormInput';
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
@@ -327,6 +327,7 @@ const Register2 = (props) => {
                     </Col>
                 </Row> */}
                       <Row justify="center">
+                      <Space size={"middle"}>  
                      <Col span={2}>  <Button  
                    //  className="my-3 me-2 " 
                      onClick={handleReset} style={{borderRadius:'10px'}} >Reset</Button></Col>
@@ -336,6 +337,7 @@ const Register2 = (props) => {
                      <Col span={2}> <Button type="primary"  
                     // className="my-3  me-2 btncolor"  
                      htmlType="submit">Next</Button></Col>
+                        </Space>
                 </Row>
 
             </Form>

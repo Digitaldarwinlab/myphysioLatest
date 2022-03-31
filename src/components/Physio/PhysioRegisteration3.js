@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import svg from "./../../assets/step3.png";
 import StepBar from './../UtilityComponents/StepBar';
 import { physioRegister, physioUpdate } from './../../API/Physio/PhysioRegister';
-import { Typography, Row, Modal, Button, Col, Form, Table } from 'antd';
+import { Typography, Row, Modal, Button, Col, Form, Table ,Space } from 'antd';
 import FormInput from './../UI/antInputs/FormInput';
 import Error from './../UtilityComponents/ErrorHandler';
 import FormDate from './../UI/antInputs/FormDate';
@@ -48,6 +48,13 @@ const PhysioRegisteration3 = (props) => {
                         key: index,
                         Field: "Doctor Type",
                         Value: state.physioRegisterReducer.Doctor_type === 1 ? "Treating Doctor" : state.physioRegisterReducer.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
+                    });
+                    index += 1;
+                }else if (key ==="isHeadPhysio"){
+                    tempData.push({
+                        key: index,
+                        Field: "Head Physio",
+                        Value: state.physioRegisterReducer.isHeadPhysio?"Yes":"No"
                     });
                     index += 1;
                 } else if (state.physioRegisterReducer[key] !== null && state.physioRegisterReducer[key] !== "NULL" && (state.physioRegisterReducer[key] !== "")) {

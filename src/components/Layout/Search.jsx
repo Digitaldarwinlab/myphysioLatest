@@ -390,7 +390,7 @@ const SearchPatient = () => {
         const AdminColumn = [
             {
                 title: "Name",
-                dataIndex: "first_name",
+                dataIndex: "full_name",
                 width: "20%",
                 fixed: 'left',
                
@@ -398,7 +398,7 @@ const SearchPatient = () => {
               {
                 title: "Patient Code",
                 dataIndex: "patient_code",
-                width: "20%",
+                width: "25%",
                
               },
             {
@@ -421,8 +421,8 @@ const SearchPatient = () => {
               render: (text, record) => (
                 <Space size="middle">
                    <BsFillEyeFill onClick={() => handleView(record)} size={20} />
-                  <BiEdit onClick={() => handleEdit(record)} size={20} />
-                  <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+                   {getUserData() == "admin"&&<BiEdit onClick={() => handleEdit(record)} size={20} />}
+                  {getUserData() == "admin"&&<AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />}
                 </Space>
               )
             }
@@ -430,14 +430,14 @@ const SearchPatient = () => {
           const PhysioColumn = [
             {
               title: "Name",
-              dataIndex: "first_name",
+              dataIndex: "full_name",
               width: "20%",
               fixed: 'left',
             },
             {
               title: "Patient Code",
               dataIndex: "patient_code",
-              width: "20%",
+              width: "25%",
              
             },
             {
@@ -481,7 +481,7 @@ const SearchPatient = () => {
         <input
                      //   className="p-2 input-field my-3"
                     
-                        placeholder="Search Patient.."
+                        placeholder="Search Patient.."gg
                         onChange={onSearch}
                     
                         loading={loading}
@@ -492,7 +492,7 @@ const SearchPatient = () => {
 
                     <Col md={24} sm={24} xs={24}>
 
-<NavLink to="/patient/new">
+<NavLink to="/pateints/new">
          <i  className="fas fa-user-md"  />  New Patient
          </NavLink>
  </Col>
@@ -501,10 +501,13 @@ const SearchPatient = () => {
                     <div style={{ minHeight: "20px" }}></div>
            
         <Row>
-        <Col md={24} sm={24} xs={24}>
+        <Col className="pag_large" md={24} sm={24} xs={24}>
           <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={patientData} />
-          {show_password_modal()}
         </Col>
+        <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
+          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small" }} bordered columns={columns} dataSource={patientData} />
+        </Col>
+          {show_password_modal()}
       </Row>
       </>)
         

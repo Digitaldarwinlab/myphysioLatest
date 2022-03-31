@@ -168,7 +168,7 @@ const Body = (props) => {
             />
           ))}
         </svg>
-        <svg x="0px" y="0px" viewBox="170 0 612 792" class="body-svg">
+        <svg x="0px" y="0px" viewBox="0 0 612 792" class="body-svg">
           {back_paths.map((path) => (
             <Path
               screenShotRef={props.screenShotRef}

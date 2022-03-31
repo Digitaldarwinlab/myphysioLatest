@@ -7,7 +7,7 @@ import Error from "./../UtilityComponents/ErrorHandler.js";
 import svg from "./../../assets/step2.png";
 import StepBar from './../UtilityComponents/StepBar';
 import validation from "./../Validation/authValidation/authValidation";
-import { Typography, Row, Button, Col, Form, Select } from 'antd';
+import { Typography, Row, Button, Col, Form, Select ,Space } from 'antd';
 import FormInput from './../UI/antInputs/FormInput';
 import FormTextArea from './../UI/antInputs/FormTextArea';
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
@@ -431,8 +431,8 @@ const PhysioRegisteration2 = (props) => {
                               //  required={true}
                                 defaultValue={state.physioRegisterReducer.degree}
                             /> */}
-                               <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Degree'}</span>} name="Clinic"
-                                rules={[{ required: true, message: `Please Select Clinic` }]}
+                               <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Degree'}</span>} name="degree"
+                                rules={[{ required: true, message: `Please Select Degree` }]}
                               >
                                 <Select placeholder="Physio Degree"
                                     className="input-field w-100"
@@ -459,7 +459,7 @@ const PhysioRegisteration2 = (props) => {
                                 required={true}
                                 defaultValue={state.physioRegisterReducer.expertise_1}
                             /> */}
-                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 1'}</span>} name="Expertise 1"
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 1'}</span>} name="expertise_1"
                                 rules={[{ required: true, message: `Please Select Expertise 1` }]}
                               >
                                 <Select placeholder="Expertise 1"
@@ -486,7 +486,7 @@ const PhysioRegisteration2 = (props) => {
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_2}
                             /> */}
-                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 2'}</span>} name="Expertise 2"
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 2'}</span>} name="expertise_2"
                              //   rules={[{ required: true, message: `Please Select Expertise 2` }]}
                               >
                                 <Select placeholder="Expertise 2"
@@ -513,7 +513,7 @@ const PhysioRegisteration2 = (props) => {
                                 required={false}
                                 defaultValue={state.physioRegisterReducer.expertise_3}
                             /> */}
-                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 3'}</span>} name="Expertise 3"
+                             <Form.Item label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Expertise 3'}</span>} name="expertise_3"
                                // rules={[{ required: true, message: `Please Select Expertise 3` }]}
                               >
                                 <Select placeholder="Expertise 3"
@@ -534,6 +534,7 @@ const PhysioRegisteration2 = (props) => {
                 </div>
              
                 <Row justify="center">
+                <Space size={'middle'}>
       <Col span={2}>  <Button   
       //className="me-2 " 
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}  onClick={Back}>Back</Button></Col>
@@ -544,6 +545,7 @@ const PhysioRegisteration2 = (props) => {
       //className="me-2 btncolor " 
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
       htmlType="submit">Next</Button></Col>
+      </Space>
     </Row>
                     {/* <Row className="text-center" justify="center" style={{marginBottom:'10px'}}>
                     <Col >

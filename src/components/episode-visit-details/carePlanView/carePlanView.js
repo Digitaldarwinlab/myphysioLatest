@@ -104,13 +104,24 @@ const CarePlanView = (props) => {
                             </div>
                         ))
                 }
-                <div>
+                <div className="pag_large">
                     <Pagination
                         pageSize={paginationState.pageSize}
                         current={paginationState.current}
                         total={carePlanData.length}
                         onChange={PaginationChange}
                     />
+                </div>
+                <div className="pag_mob" style={{display:'none'}}>
+                    <div style={{minHeight:'15px'}}></div>
+                    <Pagination
+                        size={'small'}
+                        pageSize={paginationState.pageSize}
+                        current={paginationState.current}
+                        total={carePlanData.length}
+                        onChange={PaginationChange}
+                    />
+                    <div style={{minHeight:'15px'}}></div>
                 </div>
             </div>
         )

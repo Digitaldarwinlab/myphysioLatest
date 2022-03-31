@@ -279,7 +279,20 @@ const Prescreptions = ({ prescriptionClick }) => {
                         </Row>
                       </div>
                       <center>
-                        <Pagination
+                       <div className="pag_large">
+                       <Pagination
+                          pageSize={paginationState.pageSize}
+                          current={paginationState.current}
+                          total={prescriptions.length}
+                          onChange={PaginationChange}
+                          style={{ marginBottom: "10px" }}
+                        />
+                    </div>
+                      </center>
+                      <div style={{display:'none'}} className="pag_mob">
+                      <center>
+                      <Pagination
+                          size="small"
                           pageSize={paginationState.pageSize}
                           current={paginationState.current}
                           total={prescriptions.length}
@@ -287,6 +300,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                           style={{ marginBottom: "10px" }}
                         />
                       </center>
+                      </div>
                     </>
                   )}
                 </Col>
@@ -417,8 +431,31 @@ const Prescreptions = ({ prescriptionClick }) => {
                           </Col>
                         </Row>
                       </div>
-                      <center>
+                      {/* <center>
                         <Pagination
+                          size="small"
+                          pageSize={paginationState.pageSize}
+                          current={paginationState.current}
+                          total={prescriptions.length}
+                          onChange={PaginationChange}
+                          style={{ marginBottom: "10px" }}
+                        />
+                      </center> */}
+                        <center>
+                       <div className="pag_large">
+                       <Pagination
+                          pageSize={paginationState.pageSize}
+                          current={paginationState.current}
+                          total={prescriptions.length}
+                          onChange={PaginationChange}
+                          style={{ marginBottom: "10px" }}
+                        />
+                    </div>
+                      </center>
+                      <div style={{display:'none'}} className="pag_mob">
+                      <center>
+                      <Pagination
+                          size="small"
                           pageSize={paginationState.pageSize}
                           current={paginationState.current}
                           total={prescriptions.length}
@@ -426,6 +463,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                           style={{ marginBottom: "10px" }}
                         />
                       </center>
+                      </div>
                     </>
                   )}
                 </Col>

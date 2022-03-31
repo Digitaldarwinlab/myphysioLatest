@@ -14,7 +14,9 @@ const Login = (props)=>{
     useEffect(() => {
         if (navigator.getUserMedia) {
           navigator.getUserMedia(
-            {audio:true,video: { width: 1280, height: 720 } },
+            {audio:true,video: true
+              // { width: 1280, height: 720 } 
+              },
             function (stream) {
             console.log(stream)
             },

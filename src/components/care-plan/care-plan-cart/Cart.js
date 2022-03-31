@@ -139,17 +139,17 @@ const newEx = await Exercise.map(async(ex)=>{
     ExcerJoints();
   };
   return (
-    <React.Fragment>
+    <React.Fragment style={{marginBottom:'10px'}}>
       {Exercise.filter((val) => {
         if (items.indexOf(val.ex_em_id) !== -1) return val;
       }).map((item, index) => {
         return (
           <div key={item.ex_em_id}>
-            <Row style={{width: "700px"}}>
+            <Row style={{width: "700px", marginLeft: "20px"}}>
               <Col lg={1} className="">
                 <i className="fas fa-running iconClass3"></i>
               </Col>
-              <Col lg={6} style={{position: "relative", marginLeft: "2px"}} >{item.title}
+              <Col lg={6} style={{position: "relative", marginLeft: "10px"}} >{item.title}
               
                <AiOutlineMinusCircle
                   onClick={() => {
@@ -169,7 +169,7 @@ const newEx = await Exercise.map(async(ex)=>{
           </div>
         );
       })}
-      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px', marginLeft:"-22px"}}>
+      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px'}}>
       <Button className="ant-btn-cart me-1" onClick={AddRom}>
         Start
       </Button>
@@ -180,7 +180,9 @@ const newEx = await Exercise.map(async(ex)=>{
         Allocate Plan
       </Button>
       
-      <Button className="ant-btn-cart me-1"  style={{marginLeft:'4px'}} onClick={AddVideoRom}>
+      <Button className="ant-btn-cart me-1" 
+       style={{marginLeft:'8px'}}
+        onClick={AddVideoRom}>
         Start Video Assessment
       </Button>
       </div>

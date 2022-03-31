@@ -75,7 +75,7 @@ const Navigationbar = (props) => {
   return (
     <>
       <nav className="navbar navbar-expand-lg sticky-top navigationBar">
-      {/* <Dropdown
+      <Dropdown
           overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
           className="navbar-toggler"
           type="button"
@@ -95,9 +95,9 @@ const Navigationbar = (props) => {
               className="navbar-toggler-icon"
             />
           </a>
-        </Dropdown> */}
+        </Dropdown>
         
-        <Dropdown
+        {/* <Dropdown
           overlay={
             <DropDownMenu
               classname="navbar-toggler"
@@ -122,7 +122,7 @@ const Navigationbar = (props) => {
               className="navbar-toggler-icon"
             />
           </a>
-        </Dropdown>
+        </Dropdown> */}
 
         {userInfo.role == "admin" || userInfo.role == "physio" ? (
           <Menu className={`d-md-inline  hamburgerMenu ham_one `} id="hamburgerMenu">

@@ -8,7 +8,7 @@ import ClinicValidation from './../../Validation/clinicValidation/clinicValidati
 import Validation from './../../Validation/authValidation/authValidation';
 import { VALIDATION } from './../../../contextStore/actions/authAction';
 // import apiValidation from './../../../API/apiValidation/apiValidation';
-import { Typography, Row,Button,Col, Form ,Select } from 'antd';
+import { Typography, Row,Button,Col, Form ,Select, Space } from 'antd';
 import FormInput from './../../UI/antInputs/FormInput';
 import FormTextArea from './../../UI/antInputs/FormTextArea';
 import FormDate from './../../UI/antInputs/FormDate';
@@ -100,11 +100,15 @@ const PhysioClinic = ()=>{
         }
         else if(name==='name')
         {
+            const validName = new RegExp('^[a-zA-Z0-9_]{2,20}$');
             if(value){
                 if(value.length<4){
                  error["error"] = "Name must contain atleast 4 characters."; 
                 }
-             }
+            }
+            if (!validName.test(value)) {
+                error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
+            }
            // error=Validation.checkNameValidation(value,false)
         }
         else if(name=='address_1' || name=='address_2' || name=='address_3')
@@ -438,7 +442,7 @@ const PhysioClinic = ()=>{
                         </Col>
                     </Row>
 
-                    <Row style={{marginBottom:'15px'}}>
+                    <Row style={{marginBottom:'15px'}}> 
                         <Col span={24} >
                         {handleNameAndWebsite("website_url","Website Url","text","Website Url",state.clinicReg.website_url)}
                         </Col>
@@ -450,12 +454,14 @@ const PhysioClinic = ()=>{
                     <Button className="btncolor m-2" onClick={handleReset}>Reset</Button>
                 </div> */}
                  <Row justify="center">
+                 <Space size={'middle'}>
                  <Col span={2}> <Button 
      // className="btncolor m-2"   
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleReset}>Reset</Button></Col>
       <Col span={2}> <Button 
     //  className=" m-2"    
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleSubmit}>Submit</Button></Col>
+      </Space>
     </Row>
             </Form>
         </> 

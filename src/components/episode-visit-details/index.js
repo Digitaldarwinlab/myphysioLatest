@@ -297,7 +297,7 @@ const EpisodeVisitDetails = () => {
     //Patient Detail
     const PatientDetails = () => {
         return (
-            <Row >
+            <Row className="pat_details_mobile" >
                 <Col lg={6} md={6} sm={4} xs={24}>
                     <h3 className="fw-bold">Patient Details</h3>
                 </Col>
@@ -315,9 +315,6 @@ const EpisodeVisitDetails = () => {
                 </Col>
                {userInfo.role!='physio'&&<Col lg={6} md={6} sm={12} xs={24}>
                         <p className="fw-bold"><strong> Contact Number : </strong> {state.Patient_no} </p>
-                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
-                        
-                    </div> */}
                 </Col>}
             </Row>
         )

@@ -67,13 +67,13 @@ const AddQuestions = ({back,next}) => {
         </Row>
 
         <Row gutter={[20,20]} style={{marginTop:'15px'}}>
-           <Col md={24} lg={12} sm={24} xs={24}>
+           <Col md={12} lg={12} sm={24} xs={24}>
               <p className="border1 p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br /><br />
                 Start Date : {state.carePlanRedcucer.episode_start_date} <br /><br />
                 Episode Type : {state.carePlanRedcucer.complaint}</p>
             </Col>
 
-            <Col md={24} lg={12} sm={24} xs={24}>
+            <Col md={12} lg={12} sm={24} xs={24}>
               <Form.Item label="Scales & Index" name="Episode" required="true" >
                 <Select placeholder="Select"
                   className="" onChange={handleChange} >

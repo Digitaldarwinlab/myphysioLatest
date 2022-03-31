@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Body.css";
+// import "./Body.css";
 // import paths from "./svg-path";
 import Path from "./Path";
 import { front_paths } from "../body-svg";
@@ -181,7 +181,7 @@ const Body = (props) => {
             />
           ))}
         </svg>
-        <svg x="0px" y="0px" viewBox="170 80 612 792" className="body-svg">
+        <svg x="0px" y="0px" viewBox="0 80 612 792" className="body-svg">
           {back_paths.map((path) => (
             <Path
               d={path.d}
