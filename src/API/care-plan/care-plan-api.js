@@ -1,4 +1,6 @@
 // import Exercise from "./../../components/UtilityComponents/dummyData/care-plan-dummy-data/Exercises.json";
+import { encode } from 'js-base64';
+import { Decode, Encode } from '../../Encode/hashing';
 import {
     CARE_PLAN_SUCCESS,
     CARE_PLAN_FAILURE,
@@ -15,16 +17,18 @@ export const GetExerciseList = async (dispatch, pageSize, current) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-        const response = await fetch(process.env.REACT_APP_API + "/get-exercise/", {
+        const encodedData = Encode({
+            "page_no": current,
+            "page_size": pageSize
+        })
+        const response = await fetch(process.env.REACT_APP_API + "/get-exercise_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({
-                "page_no": current,
-                "page_size": pageSize
-            })
+            body: JSON.stringify(encodedData)
         });
         
-        const exerciresponseData = await response.json();
+        const responseData = await response.json();
+        const exerciresponseData = Decode(responseData);
       //  console.log(exerciresponseData)
         // console.log(exerciresponseData);
         if (response.status === 200 || response.status === 201)
@@ -47,17 +51,19 @@ export const getFiteredExercistData = async (data, dispatch, pageSize, current) 
     }
     data["page_no"] = current;
     data["page_size"] = pageSize;
+    const encodedData = Encode(data);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/exercise-filter/", {
+        const response = await fetch(process.env.REACT_APP_API + "/exercise-filter_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(data)
+            body: JSON.stringify(encodedData)
         });
         if (response.status !== 200 && response.status !== 201) {
             // console.log(response.statusText)
             return { data: [], total_exercise: 0 };
         }
-        const filteredData = await response.json();
+        const responseData = await response.json();
+        const filteredData = Decode(responseData);
         return filteredData;
     } catch (err) {
         // console.log(err);
@@ -89,13 +95,15 @@ export const postCarePlanAllocation = async (data, dispatch) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-        const response = await fetch(process.env.REACT_APP_API + "/add-care-plan/", {
+        const encodedData = Encode(newData)
+        const response = await fetch(process.env.REACT_APP_API + "/add-care-plan_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(newData)
+            body: JSON.stringify(encodedData)
         });
 
-        const result = await response.json();
+        const responseData = await response.json();
+        const result = Decode(responseData)
         if (response.status !== 200 && response.status !== 201)
             return [false, "Error: " + response.status + " " + response.statusText];
         if (result && result.message) {

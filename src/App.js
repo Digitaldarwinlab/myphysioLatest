@@ -45,7 +45,6 @@ import Signup from "./components/userAuth/Signup.js";
 // const PrivateRoute = lazy(() => import('./components/PrivateRoute/PrivateRoute'));
 // const PublicRoute = lazy(() => import('./components/PrivateRoute/PublicRoute'));
 // const PatientRoute = lazy(() => import('./components/PrivateRoute/PatientRoute'));
-// const ViewClinic = lazy(()=>import('./components/Physio/ClinicRegister/ViewClinic'))
 
 import Assesment1 from "./components/Assesment/Assesment1";
 import Assesment2 from "./components/Assesment/AddQuestions";
@@ -99,8 +98,10 @@ import Pose from "./EnterpriseNew/Posture/PoseTestClass";
 import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
 import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
 import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
-import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
-import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
+import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
+import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
+import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
+import Qa from "./EnterpriseNew/QA/Qa.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -125,7 +126,7 @@ const App = () => {
 				<Suspense fallback={<Loading />}>
 				{isAuthenticated() && (<Navigationbar getCurrentPath={getCurrentPath} SideNavbarCollpased={SideNavbarCollpased} isSideNavbarCollpased={isSideNavbarCollpased} />)}
 				<div className="padT-0">
-					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && (
+					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio")) && (
 						<div className={`${isSideNavbarCollpased ? '' : 'col-md-2'} sideNavbar position-fixed`}
 							style={{ width: isSideNavbarCollpased ? "90px" : "" }}>
 							{
@@ -140,7 +141,7 @@ const App = () => {
 							}
 						</div>)}
 					<div className={
-						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && sidebarshow
+						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio")) && sidebarshow
 							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content white-backgorund` : "MainConatiner"}>
 						<Switch>
 							<PublicRoute exact path="/change-password" component={Signup} />
@@ -153,7 +154,6 @@ const App = () => {
 							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
-							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
@@ -190,9 +190,12 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/muscle-selection" component={Body} />
 							<EnterpriseRoute exact path="/patient/enterprise/quiz" component={Quiz} />
 							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
+							<EnterpriseRoute exact path="/patient/enterprise/qa" component={Qa} />
 							<PatientRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
 							<PatientRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
 							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
+							<PatientRoute exact path="/patient/enterprise/exercises/brief" forceRefresh={true} component={ExerciseDetailEnterprise} />
+							<PatientRoute exact path="/patient/enterprise/ai"  forceRefresh={true} component={EnterpriseAI} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />

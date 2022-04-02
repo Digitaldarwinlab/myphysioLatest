@@ -1,5 +1,6 @@
 import { PHYSIO_REGISTER_REQUEST, PHYSIO_REGISTER_SUCCESS, PHYSIO_STATE_CHANGE, PHYSIO_UPDATE_SUCCESS } from "./../../contextStore/actions/physioRegAction";
 import fetch from "isomorphic-fetch";
+import {Encode, Decode} from "../../Encode/hashing"
 //@Register Physio 
 //@param Physio details
 //@return- Message.
@@ -34,14 +35,16 @@ export const physioRegister = async (details, dispatch) => {
     }
 
     dispatch({ type: PHYSIO_REGISTER_REQUEST });
+    const encodedData = Encode(physioData);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/register_physio/", {
+        const response = await fetch(process.env.REACT_APP_API + "/register_physio_v1/", {
             credentials: 'same-origin',
             method: "POST",
             headers: headers,
-            body: JSON.stringify(physioData)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data && data.role) {
             dispatch({ type: PHYSIO_REGISTER_SUCCESS });
             return [true];
@@ -124,13 +127,14 @@ export const searchPhysio = async (value) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-
-        const response = await fetch(process.env.REACT_APP_API + "/physio-filter/", {
+        const encodedData = Encode({ query: value });
+        const response = await fetch(process.env.REACT_APP_API + "/physio-filter_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ query: value })
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }
@@ -148,13 +152,14 @@ export const getPhysioList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
-
-        const response = await fetch(process.env.REACT_APP_API + "/get_physio/", {
+const encodedData = Encode({ id: id })
+        const rsponse = await fetch(process.env.REACT_APP_API + "/get_physio_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        data = Decode(responseData)
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }

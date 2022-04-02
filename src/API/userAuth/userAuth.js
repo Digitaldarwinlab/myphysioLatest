@@ -6,6 +6,7 @@ import {
 } from "../../contextStore/actions/authAction.js";
 import fetch from "isomorphic-fetch";
 import Cookies from 'js-cookie';
+import { Encode,Decode } from "../../Encode/hashing.js";
 //@signup 
 //@param user Info
 //@return- signup success Message.
@@ -49,18 +50,21 @@ export const signup = async (user, dispatch) => {
 //@return- Authentication token
 // async () => async 
 export const signin = async (user, dispatch) => {
+    const encodedData = Encode(user);
     dispatch({ type: LOGIN_REQUEST });
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/login/", {
+        const response = await fetch(process.env.REACT_APP_API + "/login_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(user)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
+        // const data = JSON.parse(decode(responseData));
         if (response.status !== 200 && response.status !== 201) {
             if (data && data.detail) {
                 return [false, "Invalid Login Credentials!"];
@@ -73,7 +77,7 @@ export const signin = async (user, dispatch) => {
                 localStorage.setItem("userId", JSON.stringify(data.user_id));
                 return [false, "Please Change Your Password."];
             }
-            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id }, data.user_id);
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info }, data.user_id);
             dispatch({ type: LOGIN_SUCCESS });
             return [true];
         }
@@ -91,14 +95,16 @@ export const forgotPassword = async (user) => {
         "Content-type": "application/json"
     }
     // console.log(user)
+    const encodedData = Encode({ uid: user });
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ uid: user })
+            body: JSON.stringify(encodedData)
         });
 
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (response.status !== 200 && response.status !== 201) {
             if (data && data.detail) {
                 return [false, "Email Doesn't Exist."];
@@ -122,15 +128,16 @@ export const postNewPassword = async (user) => {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(user);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset_confirm/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_confirm_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(user)
+            body: JSON.stringify(encodedData)
         });
         
-        const data = await response.json();
-        
+        const responseData = await response.json();
+        const data = Decode(responseData);
         
         if (response.status !== 200 && response.status !== 201) {
             if (data && data.detail) {
@@ -159,14 +166,16 @@ export const admin_password_reset=async(detail)=>{
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(newdata);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset_by_admin/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_by_admin_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(newdata)
+            body: JSON.stringify(encodedData)
         });
         
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             

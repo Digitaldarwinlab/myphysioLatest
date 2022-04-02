@@ -63,6 +63,7 @@ function Quiz() {
 
   const joints = useSelector((state) => state.jointReducer.joints);
   console.log(joints);
+  const id = JSON.parse(localStorage.getItem("userId"));
 
   let allsections = [];
 
@@ -152,7 +153,7 @@ function Quiz() {
     setSelected(true);
     const q = que[question].exercise_question;
     const qId = que[question].id;
-    const ans = e.target.value;
+    const ans = que[question].options[e.target.value];
     const section = que[question].exercise_name;
     const qAns = {
      
@@ -173,7 +174,7 @@ function Quiz() {
       if (questionAnswers[question]) {
         if (
           que[question].options[index] ===
-          que[question].options[questionAnswers[question].answer]
+         questionAnswers[question].answer
         ) {
           console.log("active");
           return "option active";
@@ -218,7 +219,7 @@ function Quiz() {
   };
 
   const lastNextClickHandler = () => {
-    const answerss = {...questionAnswers};
+    const answerss = {...questionAnswers,"pp_eep_id":id};
     console.log(answerss);
     axios
       .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))

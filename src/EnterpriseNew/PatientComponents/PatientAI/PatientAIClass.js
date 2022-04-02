@@ -11,7 +11,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useDispatch, useSelector } from "react-redux";
 import UseStopwatchDemo from './components/UseStopwatchDemo';
-import {STATECHANGE} from '../../contextStore/actions/Assesment'
+import {STATECHANGE} from '../../../contextStore/actions/Assesment'
 import { update_careplan } from "../../PatientAPI/PatientShedule";
 //colors
 const colors = ["#74b551", "#80bb51", "#97c24c", "#97c24c", "#c0ca43", "#f1ca2d", "#ebb231", "#e29830", "#db7f2c", "#d6662c", "#d04b29", "#c43839"];

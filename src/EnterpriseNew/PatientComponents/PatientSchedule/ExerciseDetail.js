@@ -28,7 +28,7 @@ export default class ExerciseDetailsClass extends Component {
   
   handleClick = () => {
     this.props.history.push({
-      pathname: "/patient/ai",
+      pathname: "/patient/enterprise/ai",
       state: {
         exercise: this.props.location.state.exercises[0],
         exercises: this.props.location.state.exercises,

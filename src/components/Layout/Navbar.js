@@ -153,9 +153,8 @@ const Navigationbar = (props) => {
                 />
               )}
             </Menu.Item>
-          </Menu>
-        ) : null}
-
+			</Menu>)
+			:null}
         <Link
           style={{ position: "relative", top: "0px" }}
           to={

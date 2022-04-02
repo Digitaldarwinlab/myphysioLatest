@@ -58,7 +58,8 @@ import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
 import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
 import background from './../../assets/Crops/00.-Blank-Figures.png';
 import MobBackground from "./../../assets/Crops//mobilebg.png";
-import { useRef } from 'react';
+import { useRef } from 'react'; 
+import {useReactToPrint} from "react-to-print";
 
 
 const muscle = [
@@ -112,6 +113,7 @@ darwin.addProgressListener((setCount, repCount) => {
 
 const Assesment1 = ({back ,next}) => {
 
+  const assesmentRef = useRef();
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
@@ -805,7 +807,9 @@ max: angleValuesR.rightWrist.max
   //         window.removeEventListener('storage', checkUserData)
   //     }
   // }, [])
-
+const handlePrint = useReactToPrint({
+  content: () => assesmentRef.current,
+});
 
   const handleChange1 = (key, value, id = 0) => {
           dispatch({
@@ -1125,12 +1129,12 @@ max: angleValuesR.rightWrist.max
       <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-
+        
         form={form}
       // form={form} name="control-hooks"
       >
 
-<Row>
+<Row >
         <Col md={12} lg={12} sm={24} xs={24}>
           <h3>
             <i

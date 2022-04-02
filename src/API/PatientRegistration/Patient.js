@@ -5,6 +5,7 @@ import {
 } from "../../contextStore/actions/authAction";
 import fetch from "isomorphic-fetch";
 import { STATECHANGE } from './../../contextStore/actions/authAction';
+import { Decode, Encode } from "../../Encode/hashing";
 
 export const Patient_Register = async (user, dispatch) => {
     dispatch({ type: PATIENT_REG_REQUEST });
@@ -41,13 +42,15 @@ export const Patient_Register = async (user, dispatch) => {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(patientDetails);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/add-patient/", {
+        const response = await fetch(process.env.REACT_APP_API + "/add-patient_v1/", {
             headers: headers,
             method: "POST",
-            body: JSON.stringify(patientDetails)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data && data.role) {
             dispatch({ type: PATIENT_REG_SUCCESS });
             return [true];
@@ -101,17 +104,18 @@ export const Patient_Update = async (user, dispatch) => {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(patientDetails)
     // console.log(patientDetails)
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/update-patient/", {
+        const response = await fetch(process.env.REACT_APP_API + "/update-patient_v1/", {
             headers: headers,
             method: "POST",
-            body: JSON.stringify(patientDetails)
+            body: JSON.stringify(encodedData)
         });
 
         // console.log(response)
-        const data = await response.json();
-        
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data && data.message) {
             dispatch({ type: PATIENT_UPD_SUCCESS });
             return [true];
@@ -138,14 +142,16 @@ export const getPatientList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
+        const encodedData = Encode({ id: id })
         // console.log('Id:',id);
-        const response = await fetch(process.env.REACT_APP_API + "/get-patient/", {
+        const response = await fetch(process.env.REACT_APP_API + "/get-patient_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(encodedData)
         });
 
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }
@@ -223,14 +229,15 @@ export const Patient_profile = async (Id) => {
             "Content-type": "application/json"
         }
         
-
-        const response = await fetch(process.env.REACT_APP_API + "/patient-profile/", {
+        const encodedData = Encode({ id: Id });
+        const response = await fetch(process.env.REACT_APP_API + "/patient-profile_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: Id })
+            body: JSON.stringify(encodedData)
         });
 
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }

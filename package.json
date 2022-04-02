@@ -19,6 +19,7 @@
     "env-cmd": "^10.1.0",
     "html2canvas": "^1.4.1",
     "isomorphic-fetch": "^3.0.0",
+    "js-base64": "^3.7.2",
     "js-cookie": "^2.2.1",
     "jspdf": "^2.4.0",
     "moment": "^2.29.1",
@@ -35,6 +36,7 @@
     "react-scripts": "^4.0.3",
     "react-timekeeper": "^2.1.3",
     "react-timer-hook": "^3.0.4",
+    "react-to-print": "^2.14.5",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
@@ -82,5 +84,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1648885364152
+  "buildDate": 1648898176434
 }
