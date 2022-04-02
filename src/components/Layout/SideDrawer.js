@@ -11,6 +11,7 @@ import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiOutlineLogout, AiFillMedicineBox ,AiTwotoneSetting } from "react-icons/ai";
 import "antd/dist/antd.css";
 import "./SideDrawer.css";
+import { FaLanguage} from "react-icons/fa";
 import { Drawer, Button, Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -69,7 +70,7 @@ const SideDrawer = ({ visState, setVisState }) => {
           // defaultOpenKeys={['sub1']}
           mode="inline"
         >
-          {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") && <SubMenu key="sub1"  icon={<i className="fas fa-user-md iconClass1"></i>} title="Physio">
+          {(userInfo.role === "admin") && <SubMenu key="sub1"  icon={<i className="fas fa-user-md iconClass1"></i>} title="Physio">
             <Menu.Item
              icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
               onClick={() => {
@@ -234,6 +235,17 @@ const SideDrawer = ({ visState, setVisState }) => {
             >
               Schedule
             </Menu.Item>
+            <SubMenu icon={  <FaLanguage  className="iconClass2" />} mode="inline" title="Language">
+          <Menu.Item onClick={() => darwin.selectLang("en-US")} key="0">
+            English
+          </Menu.Item>
+          <Menu.Item onClick={() => darwin.selectLang("hi-IN")} key="1">
+            Hindi
+          </Menu.Item>
+          <Menu.Item onClick={() => darwin.selectLang("ar-SA")} key="3">
+            Arabic
+          </Menu.Item>
+        </SubMenu>
             <Menu.Item
               icon={<IoMdPerson className="iconClass2" />}
               onClick={() => {

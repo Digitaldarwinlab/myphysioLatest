@@ -1082,10 +1082,10 @@ button.ant-btn.SchForm {
   border-radius: 0px !important;
   height: 40px;
 }
-button.skip-button:hover,
+/* button.skip-button:hover,
 button:hover {
   background: rgba(27, 188, 156, 0.596) !important;
-}
+} */
 video.border {
   width: 100% !important;
   height: auto !important;
@@ -1533,6 +1533,7 @@ i.fas.fa-user-plus {
 @media only screen and (max-width: 500px) {
   .time-slot-buttons {
     display: block !important;
+    justify-content: space-between !important;
   }
   div#exercise-card button.ant-btn.time-button {
     max-width: 31% !important;
@@ -1580,7 +1581,7 @@ button {
 .ant-btn:focus,
 .ant-btn:active {
   text-decoration: none;
-  background: #2d7ecb !important;
+  background: #2d7ecb  !important;
   color: #fff !important;
 }
 .main-content {

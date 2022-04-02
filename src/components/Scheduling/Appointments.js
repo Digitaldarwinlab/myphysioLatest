@@ -478,7 +478,7 @@ const Appointments = () => {
                 pathname:'/dashboard',
                 state:{
                     id:state.episodeReducer.patient_code,
-                    prevPath:'/visit'
+                   // prevPath:'/visit'
                 }
                })
            // window.location.reload();
@@ -507,7 +507,7 @@ const Appointments = () => {
                  pathname:'/dashboard',
                  state:{
                      id:state.episodeReducer.patient_code,
-                     prevPath:'/visit'
+                 //    prevPath:'/visit'
                  }
                 })
            //  window.location.reload();

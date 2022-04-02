@@ -253,8 +253,8 @@ const PatientDashboard = () => {
                     <Row className="right-container">
 
                         <Col className="progress">
-                            <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
-                            <div className="px-1 py-1" style={flexStyle}>
+                            {/* <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4> */}
+                            {/* <div className="px-1 py-1" style={flexStyle}>
                                 <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
@@ -263,7 +263,7 @@ const PatientDashboard = () => {
                                 <AchievedResult
                                     icon={<FaStopwatch size={25} color="black" />}
                                     score="30 min" message="Your Practice Time" />
-                            </div>
+                            </div> */}
                         </Col>
                     {/*<Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
@@ -276,38 +276,38 @@ const PatientDashboard = () => {
                     </Row>
                     <Row className="mt-2 right-middle card" >
                         <Col>
-                            <h4 className="fw-bold">Notes</h4>
-                            {episode.length !== 0 && (<p className="p text-justify">
+                            {/* <h4 className="fw-bold">Notes</h4> */}
+                            {/* {episode.length !== 0 && (<p className="p text-justify">
                                 {episode[0].Closure_Notes}
-                            </p>)}
+                            </p>)} */}
                         </Col>
                         <Col className="text-center">
-                            <h4 className="fw-bold">Episode</h4>
+                            {/* <h4 className="fw-bold">Episode</h4>
                             {episode.length !== 0 && <p className="p">
                                 {episode[0].episode_number}
-                            </p>}
+                            </p>} */}
                         </Col>
                     </Row>
-                    <BottomCard
+                    {/* <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
 
-                    <PreviousWeekAchievements data={AchievcemntsData} />
+                    <PreviousWeekAchievements data={AchievcemntsData} /> */}
                     <div className="card mb-2 mt-2 pb-2">
                 <Row className="VideoConferencing">
                     <Col >
-                        <h4 className="fw-bold p-2">Video Conferencing</h4>
+                        {/* <h4 className="fw-bold p-2">Video Conferencing</h4> */}
                     </Col>
                 </Row>
-                <Row className="px-4 py-2">
+                {/* <Row className="px-4 py-2">
                 <Col >
                 <Button type="primary" size="large" onClick={VideoCon}>Video Con</Button>
                 </Col>
-                </Row>
+                </Row> */}
             </div>
                 </Col>
             </Row>
 
-           
+{/*            
                 <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
                <div class="col mr-1 card dashboardChart">
                     <Pie data={pie_data1}/>
@@ -316,9 +316,9 @@ const PatientDashboard = () => {
                 <div class="col ml-1 card dashboardChart">
                     <Pie data={pie_data2}/>
                 </div>     
-            </div>
+            </div> */}
             
-            <div class=" m-2">
+            {/* <div class=" m-2">
             <Row>
                 <Col  className="pt-2 mt-2">
                         <h4 className="fw-bold p-2 text-center">Left Shoulder</h4>
@@ -343,13 +343,13 @@ const PatientDashboard = () => {
                     <Bar data={koos_score}/>
                     </div> 
                 </div>  
-            </div>
+            </div> */}
 
-            <div class="row m-0" style={{ height: 500}}>
+            {/* <div class="row m-0" style={{ height: 500}}>
                 <div class="col m-2 p-0 card">
                     <StreamLine data={stream_data}/>
                 </div>        
-            </div>
+            </div> */}
         </>
     )
 }

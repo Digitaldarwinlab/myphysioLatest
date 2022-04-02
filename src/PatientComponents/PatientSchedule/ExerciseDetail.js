@@ -93,7 +93,7 @@ export default class ExerciseDetailsClass extends Component {
                 </div>
               </Col>
               <Col className="right-box">
-                <div className="today-progress" id="total-progress">
+                {/* <div className="today-progress" id="total-progress">
                   <h4 className="fw-bold text-center p">
                     Last Week's Practice Result
                   </h4>
@@ -114,7 +114,7 @@ export default class ExerciseDetailsClass extends Component {
                       message="Your Practice Time"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="instructions" id="instructions">
                   <center>
                     <h3>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ReactHorizontalDatePicker from "react-horizontal-strip-datepicker";
+// import DatePicker from "react-horizontal-datepicker";
 import "react-horizontal-strip-datepicker/dist/ReactHorizontalDatePicker.css";
 import { Button, Spin } from "antd";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
 } from "../../PatientAPI/PatientDashboardApi";
 import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
 import "./Calendar.css";
+import './patNew.css'
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
@@ -31,7 +32,7 @@ const timeColors = [
 ];
 //Selected Time Style
 const selectedStyle = {
-  backgroundColor: "#00294C",
+  backgroundColor: "#00294C !important",
   color: "white",
   cursor: "pointer",
 };
@@ -177,9 +178,12 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   }
   //  console.log('date is : ' + todaysdate.getDate())
   function convert(str) {
+    console.log(str)
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
+      console.log([date.getFullYear(), mnth, day].join("-"))
+
     return [date.getFullYear(), mnth, day].join("-");
   }
 
@@ -547,7 +551,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //TimeSlot Buttons
 
   const TimeSlots = (times) => {
-    console.log("get times")
+    console.log("get times",selectedTime)
     return (
       <div
         className="p-2  border   text-start exercise-card"
@@ -602,7 +606,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                     //pass
                   }
                 }}
-                className="time-button"
+                className="time-button "
+              // className={selectedTime === index
+              //   && "selectedStyle"
+              // }
               >
                 {time}
               </Button>
@@ -976,8 +983,21 @@ useEffect(() => {
   return (
     <>
       <center>
+      <Row justify="center">
+        <h2 style={{position:'absolute',margin:'-10px'}}>{selectedMonth} - {selectedYear}</h2>
+      </Row>  
         <Row justify="center">
-          <div class="calenderView">
+        <DatePicker
+        endDate={9}
+        getSelectedDay={(e)=>{
+          onSelectedDay(convert(e))
+          console.log('datepicker ',e)
+        }}
+        labelFormat={"MMMM"}
+     //   color={"#2d7ecb"}
+     //   onClick={(e)=>console.log(e)}
+      />
+          {/* <div class="calenderView">
             <div class="monthName">
               <h2>{selectedMonth} - {selectedYear}</h2>
             </div>
@@ -991,7 +1011,7 @@ useEffect(() => {
                 
                return (
    
-                // Dipsikha 24/10
+              
      <a onClick={() => {onSelectedDay(data.date,index)
       console.log("plz check data",data);
      setSelectedMonth(data.displayMonth) 
@@ -1008,7 +1028,7 @@ useEffect(() => {
               <li></li>
             </ul>
             <div class="nextBTN">next</div>
-          </div>
+          </div> */}
 
         </Row>
       </center>
@@ -1032,7 +1052,7 @@ useEffect(() => {
           <Row className="p-2 main-card">{Prescriptions()}</Row>
         </Col>
         <Col className="exercises-cards">
-          {times.length !== 0 && TimeSlots(times)}
+          {times.length !== 0 && TimeSlots(times)}        
           {exercises.length !== 0
             ?<>{exercises.map((ex, index) => {
               console.log("ex inside ",ex)
@@ -1048,6 +1068,9 @@ useEffect(() => {
                   </>
                 );
               })}
+              {exercises.length>0&&<div style={{display:'none'}} className="p-2 start_now_div"><Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck} p-2` }
+       disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
+       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button></div>}
               </>
             : !loading && (
                 <p className="text-center p border nothing-present">
@@ -1056,9 +1079,9 @@ useEffect(() => {
               )}
         </Col>
       </div>
-      {exercises.length>0&&<Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck}`}
+      {exercises.length>0&&<div className="p-2 start_now_div_large"><Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck} p-2` }
        disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
-       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button>}
+       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button></div>}
     </>
   );
 };
