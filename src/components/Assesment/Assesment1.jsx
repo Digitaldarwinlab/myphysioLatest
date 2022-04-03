@@ -258,6 +258,7 @@ const [tempstate ,setTemp] = useState(true)
   }
   const handleChange = (key, value, id = 0) => {
     //alert(value+", "+key+" , "+id)
+    console.log(key, value)
     if(key === "chiefCom" || key === "Medication" || key === "Others"){
       if(value.length>0){
         dispatch({
@@ -299,7 +300,7 @@ const [tempstate ,setTemp] = useState(true)
         }
       });
       setFiles([...files, value])
-    }else if(key==='occupation' || key==='duration'){
+    }else if(key==='occupation' || key==='duration' || key==="Sports_type"){
       dispatch({
         type:ASSESSMENT_SUBJECTIVE,
         payload:{
@@ -1304,8 +1305,8 @@ const handlePrint = useReactToPrint({
                       { state.FirstAssesment.subjective[index].occupation==='Sports'&&<Col md={24} lg={6} sm={24} xs={24}>
                       <h4>Sports Type</h4>
                     <input class="mx-3 p-2" onChange={(e)=>{
-                          handleChange('Sports Type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                      }} value={state.FirstAssesment.Others} type="text" name='othText' placeholder="Sports Type" />
+                          handleChange('Sports_type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
+                      }} value={state.FirstAssesment.subjective[index].Sports_type} type="text" name='othText' placeholder="Sports Type" />
                 </Col>}
                   </Row>
                 </div>

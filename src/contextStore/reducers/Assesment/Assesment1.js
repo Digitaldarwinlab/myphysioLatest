@@ -71,7 +71,8 @@ const FirstAssesmentIniState ={
     subjective:[{
         id:1,
         occupation:'',
-        duration:''
+        duration:'',
+        Sports_type:''
     }],
     posture:{},
     Medication1:[],

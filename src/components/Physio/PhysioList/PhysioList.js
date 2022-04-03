@@ -358,7 +358,7 @@ const PhysioList = () => {
     const columns = [
         {
           title: "Name",
-          dataIndex: "first_name",
+          dataIndex: "full_name",
           fixed: 'left',
           width: "20%",
          

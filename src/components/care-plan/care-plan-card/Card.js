@@ -120,7 +120,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            <Row gutter={[10,10]}>
+                            {/* <Row gutter={[10,10]}>
                             <Col lg={24} md={24} sm={24} xs={24}>
                                     <Form.Item name={"hold_time" + index} label="Hold Time(sec)" required={true}>
                                        <Select 
@@ -138,7 +138,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                        </Select>
                                     </Form.Item>
                                 </Col>
-                                </Row>
+                                </Row> */}
                         </div>
                     </>,
                     <>

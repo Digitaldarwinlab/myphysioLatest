@@ -2,7 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import StateCity from "../../UtilityComponents/dummyData/state_city.json"
 import Error from './../../UtilityComponents/ErrorHandler';
-import { CLINIC_CLEAR_STATE, CLINIC_REGISTER_SUCCESS, CLINIC_STATE_CHANGE } from './../../../contextStore/actions/ClinicRegister';
+import { CLINIC_CLEAR_STATE, CLINIC_REGISTER_FAILED, CLINIC_REGISTER_SUCCESS, CLINIC_STATE_CHANGE } from './../../../contextStore/actions/ClinicRegister';
 import { clinicRegisterApi } from './../../../API/Physio/ClinicRegister';
 import ClinicValidation from './../../Validation/clinicValidation/clinicValidation';
 import Validation from './../../Validation/authValidation/authValidation';
@@ -200,6 +200,17 @@ const PhysioClinic = ()=>{
         }
         else {
             await clinicRegisterApi(state.clinicReg,dispatch);
+            // if(res[0].error){
+            //     console.log(res[0].res)
+            //     //CLINIC_REGISTER_FAILED
+            //     dispatch({ type: CLINIC_REGISTER_FAILED });
+            //     Object.keys(res[0].res).map(item=>{
+            //        console.log("clinic error is ",res[0].res[item][0])
+            //        dispatch({ type: VALIDATION, payload: { error: res[0].res[item][0] } });
+            //     })
+            // }
+            // if(!res){
+            // }
             form.resetFields()
         }
     }
@@ -460,7 +471,10 @@ const PhysioClinic = ()=>{
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleReset}>Reset</Button></Col>
       <Col span={2}> <Button 
     //  className=" m-2"    
-      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleSubmit}>Submit</Button></Col>
+    htmlType='submit'
+      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} 
+      //onClick={handleSubmit}
+      >Submit</Button></Col>
       </Space>
     </Row>
             </Form>

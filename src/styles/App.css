@@ -1075,7 +1075,7 @@ nav.navbar.navigationBar {
   margin-top: -3px;
 }
 button.skip-button,
-/* button, */
+button,
 button.ant-btn.SchForm {
   background: #2d7ecb !important;
   border: 0px !important;

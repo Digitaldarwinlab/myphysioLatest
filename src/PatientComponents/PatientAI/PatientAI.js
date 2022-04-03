@@ -694,10 +694,13 @@ class PatientAI extends Component {
             <BackButton /> {"Squat"}
           </h3>
               </Col>
-            <Col lg={8} md={8} sm={12} xs={12}>
+              <Col className="ex_detail_mobile" style={{display:'none'}} lg={16} md={16} sm={12} xs={12}>
                 <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
               </Col>
-              <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+            <Col className="ex_detail_large" lg={8} md={8} sm={12} xs={12}>
+                <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
+              </Col>
+              <Col className="ex_detail_large" lg={8} md={8} sm={12} xs={12}>
                 <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
               </Col>
         </Row>

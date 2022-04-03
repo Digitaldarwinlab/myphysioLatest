@@ -27,19 +27,18 @@ export const clinicRegisterApi = async (details, dispatch) => {
     Accept: "application/json",
     "Content-type": "application/json",
   };
-  const encodedData = Encode(body);
+  //const encodedData = Encode(body);
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/add-clinic_v1/",
+      process.env.REACT_APP_API + "/add-clinic/",
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(encodedData),
+        body: JSON.stringify(body),
       }
     );
     const responseData = await response.json();
-    const data = Decode(responseData);
-    console.log(data)
+  //  const data = Decode(responseData);
     dispatch({ type: CLINIC_REGISTER_SUCCESS });
   } catch (error) {
     console.log(error)
@@ -51,13 +50,13 @@ export const clinicRegisterApi = async (details, dispatch) => {
 export const getClinics = async () => {
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/get-clinic_v1/",
+      process.env.REACT_APP_API + "/get-clinic",
       {
         method: "GET",
       }
     );
-    const responseData = await response.json();
-    const data = Decode(responseData);
+    const data = await response.json();
+  //  const data = Decode(responseData);
     console.log(data)
     return data
   } catch (error) {
