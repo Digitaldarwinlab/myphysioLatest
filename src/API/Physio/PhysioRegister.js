@@ -159,7 +159,9 @@ const encodedData = Encode({ id: id })
             body: JSON.stringify(encodedData)
         });
         const responseData = await response.json();
-        data = Decode(responseData)
+   
+       data = Decode(responseData);
+
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }

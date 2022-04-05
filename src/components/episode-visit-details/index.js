@@ -24,11 +24,14 @@ import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
 import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
 
 const EpisodeVisitDetails = () => {
+    const episodeRef = useRef(null);
     const episodeDetail=useSelector(state=>state)
     const history = useHistory();
     const checkEpisodeId = async () => {
@@ -240,6 +243,11 @@ const EpisodeVisitDetails = () => {
         }
     }
 
+    
+  const handlePrint = useReactToPrint({
+    content: () => episodeRef.current,
+  });
+
     const assesmentClick = async () => {
         const res = await checkEpisodeId()
         if(res===true){
@@ -450,7 +458,7 @@ const EpisodeVisitDetails = () => {
     }
 
     return (
-        <div className="" style={{maxWidth:'100%',msOverflowX:'hidden'}}>
+        <div className="" style={{maxWidth:'100%',msOverflowX:'hidden'}} ref={episodeRef}>
             {Header()}
             <div className="rest">
                 {/* aswin 11/15/2021 start */}
@@ -461,6 +469,7 @@ const EpisodeVisitDetails = () => {
             <div style={{ minHeight: "20px" }}></div>
             {DetailTabs()}
             </div>
+           
         </div>
     )
 }

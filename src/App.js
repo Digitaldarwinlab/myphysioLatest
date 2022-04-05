@@ -88,6 +88,7 @@ import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
+import Invoice from "./components/Invoice/Invoice"
 import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
 import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
@@ -101,6 +102,7 @@ import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
 import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
 import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
 import Qa from "./EnterpriseNew/QA/Qa.js";
+import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -115,8 +117,8 @@ const App = () => {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
 
-	if (process.env.REACT_APP_STAGE === 'PROD')
-  console.log = function no_console() {};
+// 	if (process.env.REACT_APP_STAGE === 'PROD')
+//   console.log = function no_console() {};
 
 
 	return (
@@ -154,10 +156,10 @@ const App = () => {
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
-
+							<PrivateRoute exact path="/invoice" component={Invoice} />
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
-
+							<PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} />
 							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
 							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
 

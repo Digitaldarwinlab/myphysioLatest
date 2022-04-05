@@ -2,6 +2,7 @@
 import { Encode } from "../../Encode/hashing";
 import Episode from "./../../components/UtilityComponents/dummyData/episode-visit-dummy/Episode.json";
 import SingleEpisode from "./../../components/UtilityComponents/dummyData/episode-visit-dummy/Single-Episode.json";
+import { Decode } from "../../Encode/hashing";
 //@func - for fetching episodes.
 //@param - 
 //@return - Fetched Episodes.

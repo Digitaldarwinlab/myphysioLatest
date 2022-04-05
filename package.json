@@ -19,6 +19,7 @@
     "env-cmd": "^10.1.0",
     "html2canvas": "^1.4.1",
     "isomorphic-fetch": "^3.0.0",
+    "js-base64": "^3.7.2",
     "js-cookie": "^2.2.1",
     "jspdf": "^2.4.0",
     "moment": "^2.29.1",

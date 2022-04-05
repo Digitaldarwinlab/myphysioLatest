@@ -160,7 +160,7 @@ const Navigationbar = (props) => {
           {userInfo.role !== "admin" &&
           userInfo.role !== "physio" &&
           userInfo.role !== "HeadPhysio" ? (
-            <Link to="/patient/schedule">
+            <Link to={userInfo.role === "enterprise_patient" ?"/patient/enterprise/schedule":"/patient/schedule"}>
               <h4 className="text-white me-3 ">
                 <GoCalendar /> Schedule
               </h4>

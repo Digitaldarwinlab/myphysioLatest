@@ -59,7 +59,6 @@ import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
 import background from './../../assets/Crops/00.-Blank-Figures.png';
 import MobBackground from "./../../assets/Crops//mobilebg.png";
 import { useRef } from 'react'; 
-import {useReactToPrint} from "react-to-print";
 
 
 const muscle = [
@@ -113,7 +112,7 @@ darwin.addProgressListener((setCount, repCount) => {
 
 const Assesment1 = ({back ,next}) => {
 
-  const assesmentRef = useRef();
+  const assesmentRef = useRef(null);
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
@@ -821,9 +820,7 @@ const tableDataR = [
   //         window.removeEventListener('storage', checkUserData)
   //     }
   // }, [])
-const handlePrint = useReactToPrint({
-  content: () => assesmentRef.current,
-});
+
 
   const handleChange1 = (key, value, id = 0) => {
           dispatch({
@@ -1138,12 +1135,12 @@ const handlePrint = useReactToPrint({
   // const [romAss, setRomAss] = useState(true)
 
   return (
-    <div className="px-2 py-2" ref={assesmentRef} >
+    <div className="px-2 py-2" >
 
       <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        
+       
         form={form}
       // form={form} name="control-hooks"
       >
@@ -2248,10 +2245,7 @@ const handlePrint = useReactToPrint({
         <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
      </Row>
-     <div className="text-center mb-3">
-  
-<Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={handlePrint}>Print</Button>
-</div>
+    
 <div className="text-center mb-3">
   
 <Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
