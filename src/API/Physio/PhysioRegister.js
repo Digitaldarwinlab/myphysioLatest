@@ -152,16 +152,16 @@ export const getPhysioList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
-///const encodedData = Encode({ id: id })
-        const response = await fetch(process.env.REACT_APP_API + "/get_physio/", {
+const encodedData = Encode({ id: id })
+        const response = await fetch(process.env.REACT_APP_API + "/get_physio_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({id})
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
-      //  data = Decode(responseData)
-        console.log("physio list")
-        console.log("physio list",data)
+        const responseData = await response.json();
+   
+       const data = Decode(responseData);
+
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }

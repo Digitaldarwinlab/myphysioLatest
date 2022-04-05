@@ -14,11 +14,8 @@
     .pat_main_div{
         margin: 5px 0 5px 5px ;
     }
-    .ex_detail_large{
+    .ex_detail_name{
         display: none !important;
-    }
-    .ex_detail_mobile{
-        display: contents !important;
     }
     
 }

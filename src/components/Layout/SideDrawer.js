@@ -70,8 +70,8 @@ const SideDrawer = ({ visState, setVisState }) => {
           // defaultOpenKeys={['sub1']}
           mode="inline"
         >
-          {(userInfo.role === "admin") && <SubMenu key="sub1"  icon={<i className="fas fa-user-md iconClass1"></i>} title="Physio">
-            <Menu.Item
+          {(userInfo.role === "admin" ||userInfo.role == "HeadPhysio") && <SubMenu key="sub1"  icon={<i className="fas fa-user-md iconClass1"></i>} title="Physio">
+           {userInfo.role === "admin"&& <Menu.Item
              icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
               onClick={() => {
                 history.push("/physio/register");
@@ -80,7 +80,7 @@ const SideDrawer = ({ visState, setVisState }) => {
               key="11"
             >
               Physio Register
-            </Menu.Item>
+            </Menu.Item>}
             { userInfo.role == "admin" && <Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"

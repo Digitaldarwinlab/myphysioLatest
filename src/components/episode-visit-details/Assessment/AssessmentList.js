@@ -606,7 +606,9 @@ const AssessmentList = ({ assesmentClick }) => {
                           <Panel header="Areas of Pain/Impairment" key="1">
                             <div className=" border mb-3 mt-3">
                               <h4 className="p-2">Areas of Pain/Impairment </h4>
-                              <img src={data.body_image} />
+                              <Row >
+                              <img width="100%" src={data.body_image} />
+                              </Row>
                             </div>
                           </Panel>
                         )}
@@ -672,14 +674,18 @@ const AssessmentList = ({ assesmentClick }) => {
                                   </Descriptions.Item>
                                   <Row gutter={[10, 10]} className="px-4 py-2">
                                     <table
-                                      style={{ width: `${screen.width / 2}px` }}
+                                    style={{ width: "50%" }}
+                                      //style={{ width: `${screen.width / 2}px` }}
                                     >
                                       <tr>
-                                        <td style={{ width: "25%" }}>
+                                        <td style={{ width: "33%" }}>
                                           <b>Occupation</b>
                                         </td>
-                                        <td>
+                                        <td style={{ width: "33%" }}>
                                           <b>Duration</b>
+                                        </td>
+                                        <td style={{ width: "33%" }}>
+                                          <b>Sports-type</b>
                                         </td>
                                       </tr>
                                       {data.physical_assessement.Subjective.map(
@@ -687,6 +693,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           <tr>
                                             <td>{data.occupation}</td>
                                             <td>{data.duration}</td>
+                                            {data.occupation==='Sports'&&<td>{data.Sports_type}</td>}
                                           </tr>
                                         )
                                       )}
@@ -1353,8 +1360,8 @@ const AssessmentList = ({ assesmentClick }) => {
                           )}
                         {console.log("rom data is ", data)}
                         {(data.AI_data != null ||
-                          data.LeftLateral_AI_Data != null ||
-                          data.RightLateral_AI_Data != null) && (
+                          (data.LeftLateral_AI_Data&&data.LeftLateral_AI_Data != null )||
+                          (data.RightLateral_AI_Data&&data.RightLateral_AI_Data != null)) && (
                           <Panel header="AROM Assessment" key="7">
                             {" "}
                             <div className=" border mb-3 mt-3">
@@ -1375,7 +1382,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           pagination={false}
                                           columns={columns}
                                           dataSource={
-                                            data.AI_data != null
+                                            (data.AI_data&&data.AI_data != null)
                                               ? Object.keys(
                                                   data.AI_data[
                                                     Object.keys(data.AI_data)[0]

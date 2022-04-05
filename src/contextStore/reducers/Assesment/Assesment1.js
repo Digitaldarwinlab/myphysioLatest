@@ -40,13 +40,13 @@ const FirstAssesmentIniState ={
     Others:'',
     medicCheck:false,
     othCheck:false,
+    Surgical_History_Notes_check:false,
     past_medical_history:[],
     frontChecks:{},
     sideChecks:{},
     FrontCheck:[],
     SideCheck:[],
     Surgical_History_Notes:'',
-    Surgical_History_Notes_check:false,
     Surgical_History_Notes1:[],
     any_other_details:'',
 //     Diabetes:"false",
@@ -71,8 +71,7 @@ const FirstAssesmentIniState ={
     subjective:[{
         id:1,
         occupation:'',
-        duration:'',
-        Sports_type:''
+        duration:''
     }],
     posture:{},
     Medication1:[],

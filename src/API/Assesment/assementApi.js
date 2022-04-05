@@ -44,6 +44,7 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
 
   details.medicCheck&&details.past_medical_history.push(details.Medication)
   details.othCheck&&details.past_medical_history.push(details.Others)
+  details.Surgical_History_Notes_check&&details.past_medical_history.push(details.Surgical_History_Notes1)
 
   AssesmentDetails["physical_assessement"] = {
    

@@ -5,6 +5,14 @@
     justify-content: space-evenly;
    
 }
+.newMain_container{
+    margin:30px;
+}
+@media only screen and (max-width: 650px) {
+    .newMain_container{
+        margin:10px !important;
+    }
+}
 .video-play{
     width:100%;
 }

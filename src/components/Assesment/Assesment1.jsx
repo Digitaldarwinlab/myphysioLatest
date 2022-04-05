@@ -58,8 +58,7 @@ import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
 import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
 import background from './../../assets/Crops/00.-Blank-Figures.png';
 import MobBackground from "./../../assets/Crops//mobilebg.png";
-import { useRef } from 'react'; 
-import {useReactToPrint} from "react-to-print";
+import { useRef } from 'react';
 
 
 const muscle = [
@@ -113,7 +112,6 @@ darwin.addProgressListener((setCount, repCount) => {
 
 const Assesment1 = ({back ,next}) => {
 
-  const assesmentRef = useRef();
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
@@ -258,7 +256,6 @@ const [tempstate ,setTemp] = useState(true)
   }
   const handleChange = (key, value, id = 0) => {
     //alert(value+", "+key+" , "+id)
-    console.log(key, value)
     if(key === "chiefCom" || key === "Medication" || key === "Others"){
       if(value.length>0){
         dispatch({
@@ -461,7 +458,10 @@ const [tempstate ,setTemp] = useState(true)
 
   const [posture ,setPosture] = useState(false)
 
-  const [RomVisibility, setRomVisibility] = useState('block');
+  const [RomVisibility, setRomVisibility] = useState('none');
+  const [RomVisibilityM, setRomVisibilityM] = useState('none');
+  const [RomVisibilityL, setRomVisibilityL] = useState('none');
+  const [RomVisibilityR, setRomVisibilityR] = useState('none');
 
   const [angleValues, setAngleValues] = useState({
       leftShoulder: '',
@@ -693,26 +693,13 @@ max: angleValuesR.rightWrist.max
       setPosture(true)
     }
       // Check if AI_Data
-      if (state.FirstAssesment.Anterior_AI_Data == "" || state.FirstAssesment.LeftLateral_AI_Data == "" || state.FirstAssesment.RightLateral_AI_Data == ""  ) {
+      if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 || Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
+        console.log("Ai data in body.js from localstorage: ", Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0)
           rom.innerHTML = "AROM Assesment"
-          setRomVisibility('none')
-      }
-      else {
-         // const exercise = state.FirstAssesment.Exercise_Name
-          //instead of fetching from store
-          //fetch from loalstorage directly
-      //    const AI_Data = state.FirstAssesment.AI_data[exercise].angles
-          const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
-          const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
-          const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
-          //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
-          console.log("Ai data in body.js from localstorage: ", AI_Data)
-          // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
-          rom.innerHTML = "ROM calculated"
-          rom.style.backgroundColor = "honeydew"
-          rom.style.borderColor = "limegreen"
-          setRomVisibility('block')
-          setAngleValues(preValues => ({
+          setRomVisibility('contents')
+          if(Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0){
+            const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
+            setAngleValues(preValues => ({
               ...preValues,
               ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
               ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
@@ -725,24 +712,40 @@ max: angleValuesR.rightWrist.max
               ['leftNeck']: Anterior_AI_Data["leftNeck"],
               ['rightNeck']: Anterior_AI_Data["rightNeck"],
           }))
-          setAngleValuesL(preValues => ({
-            ...preValues,
-            ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
-            ['leftHip']: LeftLateral_AI_Data["leftHip"],
-            ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
-            ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
-            ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
-            ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
-        }))
-        setAngleValuesR(preValues => ({
-          ...preValues,
-          ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
-          ['rightHip']: RightLateral_AI_Data["rightHip"],
-          ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
-          ['rightKnee']: RightLateral_AI_Data["rightKnee"],
-          ['rightWrist']: RightLateral_AI_Data["rightWrist"],
-          ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
-      }))
+          }
+          if(Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0){
+            const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
+            setRomVisibilityM('contents')
+            setRomVisibilityL('contents')
+            setAngleValuesL(preValues => ({
+              ...preValues,
+              ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
+              ['leftHip']: LeftLateral_AI_Data["leftHip"],
+              ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
+              ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
+              ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
+              ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
+          }))
+          }
+          if(Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0){
+            const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
+            setRomVisibilityM('contents')
+            setRomVisibilityR('contents')
+            setAngleValuesR(preValues => ({
+              ...preValues,
+              ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
+              ['rightHip']: RightLateral_AI_Data["rightHip"],
+              ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
+              ['rightKnee']: RightLateral_AI_Data["rightKnee"],
+              ['rightWrist']: RightLateral_AI_Data["rightWrist"],
+              ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
+          }))
+          }
+          
+          rom.innerHTML = "ROM calculated"
+          rom.style.backgroundColor = "honeydew"
+          rom.style.borderColor = "limegreen"
+          setRomVisibility('contents')
       }
   }, angleValues)
   // NOTE: Above useEffect does same thing, repeated code 
@@ -808,9 +811,7 @@ max: angleValuesR.rightWrist.max
   //         window.removeEventListener('storage', checkUserData)
   //     }
   // }, [])
-const handlePrint = useReactToPrint({
-  content: () => assesmentRef.current,
-});
+
 
   const handleChange1 = (key, value, id = 0) => {
           dispatch({
@@ -1130,12 +1131,12 @@ const handlePrint = useReactToPrint({
       <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        
+
         form={form}
       // form={form} name="control-hooks"
       >
 
-<Row >
+<Row>
         <Col md={12} lg={12} sm={24} xs={24}>
           <h3>
             <i
@@ -1887,13 +1888,16 @@ const handlePrint = useReactToPrint({
         </Row>
             )}
       </div>}
- <div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
-     <Row className="border">
+ <div className=" border mb-3 mt-3">
+   <Row style={{ display: RomVisibility }}>
+   <Row  className="border">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">Anterior ROM Assesment</h4>
          </Col>
      </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
+     <Row 
+     //style={{ display: RomVisibility }} 
+     gutter={[10, 10]} className="px-4 py-2">
          <Col md={12} lg={12} sm={24} xs={24}>
              <Table pagination={false} columns={columns} dataSource={tableData} />
          </Col>
@@ -1901,7 +1905,9 @@ const handlePrint = useReactToPrint({
              <Table pagination={false} columns={columns} dataSource={tableData1} />
          </Col>
      </Row>
-     <Row className="border">
+   </Row>
+    
+     <Row style={{ display: RomVisibilityM }} className="border">
          <Col md={24} lg={24} sm={24} xs={24}>
              <h4 className="p-2">Lateral ROM Assesment</h4>
          </Col>
@@ -1915,15 +1921,32 @@ const handlePrint = useReactToPrint({
          </Col>
      </Row> */}
      <Row gutter={[10, 10]} className="px-4 py-2">
-         <Col md={12} lg={12} sm={24} xs={24}>
-         <h5 className="p-2">Right side</h5>
+        <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
+           <Row>
+             <Col span={24}>
+             <h5 className="p-2">Left side</h5>
+             </Col>
+             <Col span={24}>
              <Table pagination={false} columns={columns} dataSource={tableDataL} />
+             </Col>
+           </Row>
          </Col>
-         <Col md={12} lg={12} sm={24} xs={24}>
+         {/* <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
+         <h5 className="p-2">Left side</h5><br/>
+             <Table pagination={false} columns={columns} dataSource={tableDataL} />
+         </Col> */}
+         <Col style={{ display: RomVisibilityR }} md={12} lg={12} sm={24} xs={24}>
+           <Row>
+             <Col span={24}>
          <h5 className="p-2">Right side</h5>
+             </Col>
+             <Col span={24}>
              <Table pagination={false} columns={columns} dataSource={tableDataR} />
+             </Col>
+           </Row>
          </Col>
      </Row>
+     
  </div>
 
 </div>
