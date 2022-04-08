@@ -41,9 +41,9 @@
     color: white;
     border: 1px solid #35858b;
     font-size: 1.125rem;
-    width: 20%;
+    width: 35%;
     margin-top: 5% !important;
-    margin:2%  40% !important;
+    margin:2%  30% !important;
     border-radius: 20px;
 }
 
@@ -57,7 +57,9 @@
     
 .submitt {
     
-    width: 25%;
+    width: 100%;
+    margin:0 !important;
     margin-top: 8% !important;
+    
 }
 }

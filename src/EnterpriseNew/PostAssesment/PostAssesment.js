@@ -1,11 +1,20 @@
 import "./PostAssesment.css"
 import {useState} from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import Dashboard from "../../components/Dashboard/dashboard";
 
 const AssesmentCompletion = () => {
     const history = useHistory();
 
     const [notes,setNotes] = useState('');
+
+    const id = JSON.parse(localStorage.getItem("userId"));
+
+    const nextClickHandler = () => {
+        axios.post(process.env.REACT_APP_API+"/employee_note/",{empolyee_id:id, note:notes}).then(res =>  history.push('/patient/enterprise/dashboard')).catch(err => alert(err));
+       
+    }
 
     const changeHandler = (event) => {
 setNotes(event.target.value)
@@ -15,10 +24,10 @@ setNotes(event.target.value)
 </h3>
 
 <div className="notes">
-<label>Notes</label>
-<textarea className="notesbox" onChange={changeHandler} value={notes}/>
+<label><b>If you want to share something with us.</b></label>
+<textarea rows={10} className="notesbox" onChange={changeHandler} value={notes}/>
 </div>
-<button className="submitt" onClick={() => {history.push("/patient/enterprise/dashboard")}}>Next</button>
+<button className="submitt" onClick={nextClickHandler}>Go To Dashboard</button>
     </div>
     </section>
 }

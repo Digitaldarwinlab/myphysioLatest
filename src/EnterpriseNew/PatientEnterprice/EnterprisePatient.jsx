@@ -2,27 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Modal, Table, Button } from "antd";
 import VideoScreen from '../PatientComponents/shared/VideScreen';
 import BackButton from '../PatientComponents/shared/BackButton';
-// import AchievedResult from '../PatientComponents/shared/AchievedResult';
-// import { FaMedal, FaStopwatch } from "react-icons/fa";
-// import CircularBar from '../PatientComponents/shared/CircularProgress';
+import AchievedResult from '../PatientComponents/shared/AchievedResult';
+import { FaMedal, FaStopwatch } from "react-icons/fa";
+import CircularBar from '../PatientComponents/shared/CircularProgress';
 import BottomCard from '../PatientComponents/shared/BottomCard';
 import PreviousWeekAchievements from '../PatientComponents/PatientSchedule/PreviousWeekAchievement';
 import { GetPatientCurrentEpisode, getPatientProgress } from '../PatientAPI/PatientDashboardApi';
-import { useDispatch } from 'react-redux';
-import { keyMapping } from '../Physio/PhysioList/PhysioList';
+import { useDispatch, useSelector } from 'react-redux';
+import { keyMapping } from '../components/Physio/PhysioList/PhysioList';
 import { getAssesment } from "../API/Assesment/getAssesment";
 import { fetchCarePlan } from "../API/episode-visit-details/episode-visit-api";
 import { fetchVisits } from "../API/episode-visit-details/episode-visit-api";
 import { get_prescription } from "../API/Prescription/PresriptionApi";
-// import Line from '../PatientComponents/Charts/ChartComponents/line';
-// import Pie from "../PatientComponents/Charts/ChartComponents/pie";
-// import Bar from "../PatientComponents/Charts/ChartComponents/bar";
-// import StreamLine from "../PatientComponents/Charts/ChartComponents/streamline";
-// import pie_data1 from '../PatientComponents/Charts/ChartData/data_pie';
-// import pie_data2 from '../PatientComponents/Charts/ChartData/data_pie_2';
-// import line_data1 from '../PatientComponents/Charts/ChartData/data_line';
-// import bar_data from '../PatientComponents/Charts/ChartData/data_bar';
-// import stream_data from '../PatientComponents/Charts/ChartData/data_stream.json';
+import Line from '../PatientComponents/Charts/ChartComponents/line';
+import Pie from "../PatientComponents/Charts/ChartComponents/pie";
+import Bar from "../PatientComponents/Charts/ChartComponents/bar";
+import StreamLine from "../PatientComponents/Charts/ChartComponents/streamline";
+import pie_data1 from '../PatientComponents/Charts/ChartData/data_pie';
+import pie_data2 from '../PatientComponents/Charts/ChartData/data_pie_2';
+import line_data1 from '../PatientComponents/Charts/ChartData/data_line';
+import bar_data from '../PatientComponents/Charts/ChartData/data_bar';
+import stream_data from '../PatientComponents/Charts/ChartData/data_stream.json';
 import "./enterprises.css";
 
 
@@ -40,6 +40,7 @@ const flexStyle = {
     border: '0px',
 
 }
+
 //Data of Achievemetns
 const AchievcemntsData = [
     { key: 'Movement', number: 23000 },
@@ -59,6 +60,11 @@ const EnterprisePatient = () => {
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
     const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
+
+    
+const assesment = useSelector(state => state.FirstAssesmentReducer);
+
+console.log(assesment)
     //UseEffect
     useEffect( async () => {
         const progres = await getPatientProgress();
@@ -251,8 +257,6 @@ const EnterprisePatient = () => {
                         <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                             src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
                     </div>
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <img title="Click to see or" onClick={() => setVisible(true)}
@@ -263,6 +267,9 @@ const EnterprisePatient = () => {
                             <b>Contact within this organization  :</b> +91 9834343535
                         </Col>
                     </Row>
+                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                   
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
@@ -272,6 +279,7 @@ const EnterprisePatient = () => {
                             <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
                             <div className="px-1 py-1" style={flexStyle}>
                             <PreviousWeekAchievements data={AchievcemntsData} />
+                              
                                 {/* <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
@@ -282,6 +290,7 @@ const EnterprisePatient = () => {
                                     score="30 min" message="Your Practice Time" /> */}
                             </div>
                         </Col>
+                       
             
                         {/* <Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
@@ -292,7 +301,8 @@ const EnterprisePatient = () => {
                             </h6>}
                         </Col> */}
                     </Row>
-                    <Row className="mt-2 right-middle card" >
+                   
+                    {/* <Row className="mt-2 right-middle card" >
                         <Col>
                             <h4 className="fw-bold">Notes</h4>
                             {episode.length !== 0 && (<p className="p text-justify">
@@ -305,12 +315,47 @@ const EnterprisePatient = () => {
                                 {episode[0].episode_number}
                             </p>}
                         </Col>
-                    </Row>
+                    </Row> */}
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
-
+                        <Row className="px-3 py-3" style={{margin:"0 auto"}} >
+                <Col className="text-center">
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/qa');
+                    }}>Previous Assesment</button>
+                </Col>
+                <Col className="text-center" style={{marginLeft:"20px"}}>
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/form');
+                    }}>New Assesment</button>
+                </Col>
+            </Row>
+ {/* <Row className="px-3 py-3" style={{margin:"0 auto"}} >
+                
+            </Row> */}
+            
                     {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
-                   
+                    {/* <div className="card mb-2 mt-2 pb-2">
+                        <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
+                        <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                            <Col md={24} lg={4} sm={24} xs={24}>
+                                <img title="Click to see or" onClick={() => setVisible(true)}
+                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
+                            </Col>
+                        </Row>
+                    </div> */}
                         {/* <Row className="VideoConferencing">
                             <Col >
                                 <h4 className="fw-bold p-2">Video Conferencing</h4>
@@ -326,6 +371,7 @@ const EnterprisePatient = () => {
                         </Col>
                         </Row> */}
                 </Col>
+             
             </Row>
 
            
@@ -371,11 +417,7 @@ const EnterprisePatient = () => {
                     <StreamLine data={stream_data}/>
                 </div>        
             </div> */}
-            <Row className="px-3 py-3 next-btn"  style={{float:'right'}}>
-                <Col className="text-center">
-                    <Button type="primary" size="large" onClick={() =>{history.push('/body-selection')}}>Next</Button>
-                </Col>
-            </Row>
+           
         </>
     )
 }

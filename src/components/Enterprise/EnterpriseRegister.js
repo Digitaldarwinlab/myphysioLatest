@@ -219,7 +219,7 @@ const EnterpriseRegister = ()=>{
     return(
         <>  
            <div style={{ minHeight: "20px" }}></div>
-                 <h3 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical"></i> <b> Enterprise Registration </b></h3>
+                 <h3 className="page-heading" id="page-heading" ><i className="fas fa-clinic-medical"></i> <b> Organization Registration </b></h3>
                  {state.Validation.error && (<Error error={state.Validation.error} />)}
                 {state.clinicReg.isLoading && (<Loading />)} 
                 {state.clinicReg.success && (<Success success = {state.clinicReg.success}/>)}

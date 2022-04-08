@@ -299,9 +299,9 @@ function Quiz() {
                 </button>
               </div>
             </div>
-          ) : !isLoading && joints.length > 0 ? (
+          ) : !isLoading && joints.length > 0 && question!==0? (
             <div className="end"><p>Thanks For Completing The Quiz</p>
-            <button className="" onClick={lastNextClickHandler}>Next</button></div>
+            <button className="end-button" onClick={lastNextClickHandler}>Get Ready for Postural Analysis</button></div>
           ) : (
             <>
               {!isLoading ? (

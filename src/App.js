@@ -103,6 +103,9 @@ import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientS
 import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
 import Qa from "./EnterpriseNew/QA/Qa.js";
 import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
+import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
+import organizationList from "./components/Enterprise/OrganzationList.js";
+import EmployeeList from "./components/Enterprise/EmployeeList.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -160,6 +163,9 @@ const App = () => {
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
 							<PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/employee-register" component={EmployeeRegister} />
+							<PrivateRoute exact path="/organization-list" component={organizationList} />
+							<PrivateRoute exact path="/employee-list" component={EmployeeList} />
 							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
 							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
 

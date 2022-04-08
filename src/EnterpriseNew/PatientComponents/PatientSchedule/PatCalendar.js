@@ -1018,8 +1018,8 @@ useEffect(() => {
           <Spin tip="Loading..." size="large"></Spin>
         </div>
       )}
-      <div className="conten" id="content">
-        <Col className="exercises-cards">
+      <div className="content" id="content">
+        {/* <Col className="exercises-cards">
           <Row className="p-2 main-card">
             <ol>
               {sortedVisits.length > 0
@@ -1031,8 +1031,8 @@ useEffect(() => {
             </ol>
           </Row>
           <Row className="p-2 main-card">{Prescriptions()}</Row>
-        </Col>
-        <Col className="exercises-cards">
+        </Col> */}
+       
           {times.length !== 0 && TimeSlots(times)}
           {exercises.length !== 0
             ?<>{exercises.map((ex, index) => {
@@ -1055,11 +1055,11 @@ useEffect(() => {
                   <b> No Plan For Today</b>{" "}
                 </p>
               )}
-        </Col>
+     
       </div>
-      {exercises.length>0&&<Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck}`}
+      {exercises.length>0&&<Button className={`btnn status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck}` }
        disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
-       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button>}
+       onClick={() => handleClick(exercises)} >Start Now</Button>}
     </>
   );
 };

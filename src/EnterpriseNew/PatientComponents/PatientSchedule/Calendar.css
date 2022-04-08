@@ -83,15 +83,17 @@
   }
 
 .content {
-  width: 100%;
+  width: 50%;
   display: inline-block;
   justify-content: center;
   margin-top: 30px;
 }
 .exercises-cards {
   min-width: 500px;
-  margin-top: 10px;
+ 
   text-align: start;
+ 
+  margin-top: 10px;
 }
 .upper-visit-row {
   display: flex;
@@ -287,4 +289,17 @@ ul.daysName {
 }
 .dx-theme-generic-typography h3 {
   font-size: 20px;
+}
+
+.btnn {position:"absolute";
+  top:100px ;
+
+}
+
+
+@media (max-width:600px){
+  .btnn {
+    top:0;
+  
+  }
 }

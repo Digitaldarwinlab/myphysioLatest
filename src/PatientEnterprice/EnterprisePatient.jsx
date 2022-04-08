@@ -8,7 +8,7 @@ import CircularBar from '../PatientComponents/shared/CircularProgress';
 import BottomCard from '../PatientComponents/shared/BottomCard';
 import PreviousWeekAchievements from '../PatientComponents/PatientSchedule/PreviousWeekAchievement';
 import { GetPatientCurrentEpisode, getPatientProgress } from '../PatientAPI/PatientDashboardApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { keyMapping } from '../components/Physio/PhysioList/PhysioList';
 import { getAssesment } from "../API/Assesment/getAssesment";
 import { fetchCarePlan } from "../API/episode-visit-details/episode-visit-api";
@@ -40,6 +40,7 @@ const flexStyle = {
     border: '0px',
 
 }
+
 //Data of Achievemetns
 const AchievcemntsData = [
     { key: 'Movement', number: 23000 },
@@ -59,6 +60,11 @@ const EnterprisePatient = () => {
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
     const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
+
+    
+const assesment = useSelector(state => state.FirstAssesmentReducer);
+
+console.log(assesment)
     //UseEffect
     useEffect( async () => {
         const progres = await getPatientProgress();
@@ -251,8 +257,6 @@ const EnterprisePatient = () => {
                         <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                             src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
                     </div>
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <img title="Click to see or" onClick={() => setVisible(true)}
@@ -263,6 +267,9 @@ const EnterprisePatient = () => {
                             <b>Contact within this organization  :</b> +91 9834343535
                         </Col>
                     </Row>
+                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                   
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
@@ -313,18 +320,19 @@ const EnterprisePatient = () => {
                         therapy="Shoulder Therapy" about={about} progress={70} />
                         <Row className="px-3 py-3" style={{margin:"0 auto"}} >
                 <Col className="text-center">
-                    <Button type="primary" size="large" onClick={() => {
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
                         history.push('/patient/enterprise/qa');
-                    }}>Previous Assesment</Button>
+                    }}>Previous Assesment</button>
                 </Col>
-            </Row>
- <Row className="px-3 py-3" style={{margin:"0 auto"}} >
-                <Col className="text-center">
-                    <Button type="primary" size="large" onClick={() => {
+                <Col className="text-center" style={{marginLeft:"20px"}}>
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
                         history.push('/patient/enterprise/form');
-                    }}>Next</Button>
+                    }}>New Assesment</button>
                 </Col>
             </Row>
+ {/* <Row className="px-3 py-3" style={{margin:"0 auto"}} >
+                
+            </Row> */}
             
                     {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
                     {/* <div className="card mb-2 mt-2 pb-2">
