@@ -43,6 +43,7 @@ const AssesmentCompletion = () => {
             dispatch({type:ASSESMENT_CLEARSTATE});
             dispatch({ type: "CLEAR" });
     dispatch({type:'JOINT_CLEARSTATE'});
+            alert("Your data has been saved.")
             history.push('/patient/enterprise/dashboard')
         }).catch(err => alert(err));
        

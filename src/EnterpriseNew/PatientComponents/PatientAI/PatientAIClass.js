@@ -553,10 +553,10 @@ const dispatch = useDispatch();
                     </Col>
                     <Col lg={8} md={8} sm={24} xs={24} id="greenChannel">
                         <Row gutter={[5, 5]}>
-                        <Col lg={24} md={24} sm={12} xs={24}  className="border" >
+                        {/* <Col lg={24} md={24} sm={12} xs={24}  className="border" >
                      <UseStopwatchDemo starttimer={starttimer} Setstarttimer={Setstarttimer} />
                      
-                            </Col>
+                            </Col> */}
                             <Col lg={24} md={24} sm={12} xs={24}  className="border">
                               {Statistics()}
                             </Col>

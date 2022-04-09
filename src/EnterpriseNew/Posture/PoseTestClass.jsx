@@ -236,12 +236,12 @@ class PoseTestClass extends Component {
   render() {
     return (
       <div className="px-2 py-2">
-        <Row>
+        <Row className="pose_mobile_view_row_video_screen">
           <Col
-            md={16}
-            lg={16}
-            sm={16}
-            xs={16}
+            md={24}
+            lg={24}
+            sm={24}
+            xs={24}
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             {" "}
@@ -255,24 +255,24 @@ class PoseTestClass extends Component {
               ></i>{" "}
               <span className="CarePlanTitle ml-1"> Postural Analysis</span>
             </h3>
-            <p style={{ paddingTop: "4px" }}>
+            {/* <p style={{ paddingTop: "4px" }}>
               {" "}
-              <b>Patient Name</b> :{" "}
+              <b className="pose_mobile_view_details">Patient Name :</b>{" "}
               {this.props.episodeReducer.patient_name
                 ? this.props.episodeReducer.patient_name
                 : "not selected"}
             </p>
             <p style={{ paddingTop: "4px" }}>
               {" "}
-              <b>Patient Code</b> :{" "}
+              <b className="pose_mobile_view_details">Patient Code :</b>{" "}
               {this.props.episodeReducer.patient_code
                 ? this.props.episodeReducer.patient_main_code
                 : "not selected"}
-            </p>
+            </p> */}
           </Col>
         </Row>
-        <Row className="poseAnalysis">
-          <Col md={12} lg={12} sm={24} xs={12} className="videoScreen">
+        <Row className="pose_mobile_view_row_video_screen">
+          <Col md={12} lg={12} sm={24} xs={12}>
             <Col id="Ai_vid" className="Ad_vid">
               <video
                 id="video"
@@ -280,11 +280,11 @@ class PoseTestClass extends Component {
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" style={{ height: '440px' }} />
+              <canvas id="output" className="output" style={{height:'440px'}}/>
               <canvas id="jcanvas" />
             </Col>
           </Col>
-          <Col className="border px-2 py-2 sideBox" md={12} lg={12} sm={24} xs={12}>
+          <Col className="border px-2 py-2 " md={12} lg={12} sm={24} xs={12}>
             <Tabs
               url1={this.state.url1}
               url2={this.state.url2}
@@ -299,31 +299,23 @@ class PoseTestClass extends Component {
             />
           </Col>
         </Row>
-        {/* <Row style={{ paddingBottom: "15px" }}>
-          <Col md={12} lg={12} sm={12} xs={12} style={{ marginTop: "-48px" }}>
-            <Input.TextArea
+        <Row style={{ paddingBottom: "15px" }}>
+          <Col md={12} lg={12} sm={24} xs={24} style={{ marginTop: "-48px" }}>
+            {/* <Input.TextArea
+            //  className="pose_note_input"
               width="100%"
               placeholder="Notes"
-              onChange={(e) => this.state.notes = e.target.value}
-            />
+                onChange={(e) => this.state.notes = e.target.value}
+            /> */}
           </Col>
           <Col md={24} lg={12} sm={24} xs={24}>
-
+            
           </Col>
-        </Row> */}
+        </Row>
 
-        {/* <Row style={{paddingTop:"15px", paddingBottom:"15px" }}> */}
-        {/* <Col md={24} lg={24} sm={24} xs={24} className="text-center">
-        <Button
-                onClick={this.handleSubmit}
-              style={{
-                marginRight: "10px",
-                marginTop: "5px",
-                backgroundColor: "#2d7ecb",
-              }}
-            >
-              Save
-            </Button>
+        <Row style={{paddingTop:"15px", paddingBottom:"15px" }}>
+        <Col md={24} lg={24} sm={24} xs={24} className="text-center">
+       
 
             <Button
               onClick={this.GoBack}
@@ -335,14 +327,18 @@ class PoseTestClass extends Component {
             >
               Back
             </Button>
-              </Col> */}
-        <div className="text-end" style={{ padding: 10 }}>
-          <Space>
-            <Button size="large" className="mb-3 btncolor" onClick={this.handleSubmit}>save</Button>
-            <Button size="large" className="mb-3 btncolor" onClick={this.GoBack}>Back</Button>
-          </Space>
-        </div>
-        {/* </Row> */}
+            <Button
+                onClick={this.handleSubmit}
+              style={{
+                marginRight: "10px",
+                marginTop: "5px",
+                backgroundColor: "#2d7ecb",
+              }}
+            >
+              Save
+            </Button>
+              </Col>
+      </Row>
       </div>
     );
   }
@@ -360,6 +356,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 const mapStateToProps = (state) => ({
   episodeReducer: state.episodeReducer,
-  FirstAssesmentReducer: state.FirstAssesment
+  FirstAssesmentReducer:state.FirstAssesment
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PoseTestClass);

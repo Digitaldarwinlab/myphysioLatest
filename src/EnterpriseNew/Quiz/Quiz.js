@@ -9,6 +9,9 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import axios from "axios";
 import questions from "../question";
 import "./Quiz.css";
+import Path from "../../components/Assesment/Body/Path";
+import { front_paths } from "../body-svg";
+import { back_paths } from "../body-svg";
 // import { logout } from './API/userAuth/userAuth';
 
 // const questions = [
@@ -243,7 +246,38 @@ function Quiz() {
       <section id="question_section">
         <div className="questions">
           <div className="image">
-            <img src={img} alt="body" />
+            {/* <img src={img} alt="body" /> */}
+            <svg x="0px" y="0px" viewBox="0 0 612 792" style={{width:"80%"}} className="body-svg">
+          {front_paths.map((path) => (
+            <Path
+              d={path.d}
+              key={path.id}
+              id={path.id}
+              muscle={path.muscle}
+              joint={path.joint}
+              // color={color}
+              section={path.section}
+              joints={joints}
+              // getData={getData}
+            />
+          ))}
+        </svg>
+        <svg x="0px" y="0px" viewBox="0 120 612 792" style={{width:"80%"}} className="body-svg">
+          {back_paths.map((path) => (
+            <Path
+              d={path.d}
+              key={path.id}
+              id={path.id}
+              muscle={path.muscle}
+              joint={path.joint}
+              section={path.section}
+              // color={color}
+              joints={joints}
+              // getData={getData}
+            />
+          ))}
+        </svg>
+
           </div>
           {question < que.length ? (
             <div className="question">

@@ -312,7 +312,7 @@ class PatientAI extends Component {
             <>
                 <Row className="px-2 py-2 nameplate" >
                     <Col lg={8} md={8} sm={8} xs={8}>
-                        <p className="fw-bold p" >Patient Name: </p>
+                        <p className="fw-bold p" >Employee Name: </p>
                         <p className="fw-bold p">Exercise Name: </p>
                         {/* <p className="fw-bold p">Repititon Count: </p>
                         <p className="fw-bold p">Set Value: </p> */}

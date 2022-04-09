@@ -5,7 +5,7 @@
   
   .questions {
     display: flex;
-    background-color: rgb(192, 241, 241);
+    background-color: #f4f4ff;
     border-radius: 10px;
   
     box-shadow: 5px 5px 5px 2px rgba(190, 190, 190, 0.5);
@@ -15,6 +15,7 @@
     width: 30%;
     text-align: center;
     padding: 1% 0;
+    pointer-events: none;  
   }
   
   img {
@@ -51,12 +52,13 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    border: 0.125px solid #b0e0f3;
     background-color: white;
     margin: 2px;
   }
   
   .dot .active {
-    background-color: #36aca8;
+    background-color: #368bac;
   }
   
   .question p {
@@ -95,7 +97,7 @@
   }
   
   .option:hover {
-    background-color: #4fbdba;
+    background-color: #2d7ecb !important;
     color: white !important;
   }
   
@@ -106,7 +108,7 @@
   
   .action-buttons button {
     margin-left: 10px;
-    background-color: #36aca8;
+    background-color: #2d7ecb;
     color: white;
     border: 1px solid #35858b;
     font-size: 1.125rem;
@@ -116,7 +118,7 @@
   }
   
   .action-buttons button:hover {
-    background-color: #4fbdba;
+    background-color: #68a5df !important;
   }
   
   .action-buttons .disable {
@@ -148,9 +150,10 @@
   }
   
   .end button{
-    margin-left: 10px;
-    background-color: #36aca8;
+    margin-left: 120px;
+    background-color: #2d7ecb;
     color: white;
+   
     border: 1px solid #35858b;
     font-size: 1.125rem;
     width: 40%;
@@ -163,7 +166,7 @@
   }
   
   .logout button {
-    background-color: #36aca8;
+    background-color: #2d7ecb;
     color: white;
     border: 1px solid #35858b;
     font-size: 1.125rem;
@@ -192,7 +195,9 @@
     
     }
   
-  
+    .end button {
+      margin-left: 150px;
+    }
   
     .image {
       display: none;
@@ -252,7 +257,7 @@
 
     .action-buttons button {
       margin-left: 10px;
-      background-color: #36aca8;
+      background-color: #2d7ecb;
       color: white;
       border: 1px solid #35858b;
       font-size: 0.825rem;
@@ -265,6 +270,10 @@
       font-size: 1.25rem !important;
       
     }
+
+    .end button {
+      margin-left: 80px;
+    }
   
   
   }
@@ -272,7 +281,7 @@
   .dashbutton {
     border-radius: 20px;
     padding : 2% 1% !important;
-  background-color:#36aca8;
+  background-color:#2d7ecb;
   color:white !important;
   width:200px;
   margin-bottom: 20px ;

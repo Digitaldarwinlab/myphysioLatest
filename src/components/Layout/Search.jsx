@@ -423,7 +423,7 @@ const SearchPatient = () => {
                    <BsFillEyeFill onClick={() => handleView(record)} size={20} />
                   <BiEdit onClick={() => handleEdit(record)} size={20} />
                   <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
-                  <FaKey onClick={() => handleAuthorizeClick(record)} />
+                  {record.status_flag === 0 && <FaKey onClick={() => handleAuthorizeClick(record)} />}
                 </Space>
               )
             }

@@ -24,7 +24,7 @@
 
 .notes {
     width: 100%;
-    background-color: antiquewhite;
+    background-color: rgb(233, 232, 232);
     padding:2%
 }
 
@@ -37,9 +37,9 @@
 }
 
 .submitt {
-    background-color: #36aca8;
+    background-color: #2d7ecb;
     color: white;
-    border: 1px solid #35858b;
+    border: 1px solid #2d7ecb;
     font-size: 1.125rem;
     width: 35%;
     margin-top: 5% !important;
