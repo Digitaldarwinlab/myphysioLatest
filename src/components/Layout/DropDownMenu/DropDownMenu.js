@@ -187,6 +187,7 @@ const DropDownMenu = ({ getCurrentPath }) => {
             Account
           </Link>
         </Menu.Item>
+       
         <Menu.Item
           className="hiddenDropDown"
           onClick={() => {
@@ -204,9 +205,9 @@ const DropDownMenu = ({ getCurrentPath }) => {
   };
   return (
     <Menu className="dropDownMenu">
-      {userInfo.role === "admin" && AdminMenu()}
+      {/* {userInfo.role === "admin" && AdminMenu()}
       {userInfo.role === "physio" && PhysioMenu()}
-      {userInfo.role !== "admin" && userInfo.role !== "physio" && PatientMenu()}
+      {userInfo.role !== "admin" && userInfo.role !== "physio" && PatientMenu()} */}
     </Menu>
   );
 };

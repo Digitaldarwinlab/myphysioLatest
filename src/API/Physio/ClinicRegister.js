@@ -1,6 +1,8 @@
+import { VALIDATION } from "../../contextStore/actions/authAction";
 import {
   CLINIC_REGISTER_REQUEST,
   CLINIC_REGISTER_SUCCESS,
+  CLINIC_REGISTER_FAILED
 } from "../../contextStore/actions/ClinicRegister";
 import { Decode, Encode } from "../../Encode/hashing";
 //@Register Clinic
@@ -8,19 +10,19 @@ import { Decode, Encode } from "../../Encode/hashing";
 //@return- Message.
 export const clinicRegisterApi = async (details, dispatch) => {
   let body = {
-    name: details.name.length>0?details.name:null,
-    address_1: details.address_1.length>0?details.address_1:null,
-    address_2: details.address_2.length>0?details.address_2:null,
-    address_3: details.address_3.length>0?details.address_3:null,
-    city: details.city.length>0?details.city:null,
-    state: details.state.length>0?details.state:null,
-    country: details.country.length>0?details.country:null,
-    zip: details.zip.length>0?details.zip:null,
-    estab_date: details.estab_date.length>0?details.estab_date:null,
-    mobile_no: details.mobile_no.length>0?details.mobile_no:null,
-    landline_no: details.landline_no.length>0?details.landline_no:null,
-    whatsapp_no: details.whatsapp_no.length>0?details.whatsapp_no:null,
-    email: details.email.length>0?details.email:null,
+    name: details.name,
+    address_1: details.address_1,
+    address_2: details.address_2,
+    address_3: details.address_3,
+    city: details.city,
+    state: details.state,
+    country: details.country,
+    zip: details.zip,
+    estab_date: details.estab_date,
+    mobile_no: details.mobile_no,
+    landline_no: details.landline_no,
+    whatsapp_no: details.whatsapp_no,
+    email: details.email,
   };
   dispatch({ type: CLINIC_REGISTER_REQUEST });
   const headers = {
@@ -39,8 +41,16 @@ export const clinicRegisterApi = async (details, dispatch) => {
     );
     const responseData = await response.json();
     const data = Decode(responseData);
-    console.log(data)
-    dispatch({ type: CLINIC_REGISTER_SUCCESS });
+  // dispatch({ type: VALIDATION, payload: "etrrrpo tests"});
+    // if(Object.keys(data).length>0){
+    //   dispatch({ type: CLINIC_REGISTER_FAILED });
+    //   Object.keys(data).map(item=>{
+    //     dispatch({ type: VALIDATION, payload: {error :item+" "+data[item][0]} });
+    //   })
+    //   return 
+    // }
+     dispatch({ type: CLINIC_REGISTER_SUCCESS });
+//CLINIC_REGISTER_FAILED
   } catch (error) {
     console.log(error)
  //   return [false, "Error 501: Internal Server Error. Try After Some Time."];
@@ -51,13 +61,13 @@ export const clinicRegisterApi = async (details, dispatch) => {
 export const getClinics = async () => {
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/get-clinic_v1/",
+      process.env.REACT_APP_API + "/get-clinic",
       {
         method: "GET",
       }
     );
-    const responseData = await response.json();
-    const data = Decode(responseData);
+    const data = await response.json();
+  //  const data = Decode(responseData);
     console.log(data)
     return data
   } catch (error) {

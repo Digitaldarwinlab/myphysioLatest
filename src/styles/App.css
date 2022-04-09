@@ -16,7 +16,14 @@ body {
   opacity: 0.6;
   pointer-events: none !important;
 }
-
+@media only screen and (max-width: 650px){
+.pag_mob {
+    display: contents !important;
+}
+.pag_large{
+  display: none !important ;
+}
+}
 .SchForm {
   background-color: #273647 !important;
   color: white !important;
@@ -1075,7 +1082,7 @@ button.ant-btn.SchForm {
   border-radius: 0px !important;
   height: 40px;
 }
-button.skip-button:hover,
+/* button.skip-button:hover,
 button:hover {
   background: rgba(13, 108, 187, 0.596) !important;
 }
@@ -1126,7 +1133,7 @@ button.ant-modal-close .ant-modal-close-x {
 .ant-menu-submenu-title:hover span,
 .ant-menu-submenu-title:hover svg {
   /* color: #fff; */
-}
+/* } */
 .ant-menu-vertical .ant-menu-item::after,
 .ant-menu-vertical-left .ant-menu-item::after,
 .ant-menu-vertical-right .ant-menu-item::after,
@@ -1526,6 +1533,7 @@ i.fas.fa-user-plus {
 @media only screen and (max-width: 500px) {
   .time-slot-buttons {
     display: block !important;
+    justify-content: space-between !important;
   }
   div#exercise-card button.ant-btn.time-button {
     max-width: 31% !important;
@@ -1538,8 +1546,8 @@ i.fas.fa-user-plus {
     font-size: 18px;
   }
 
-  element.style {
-  }
+  /* element.style {
+  } */
   [class^="ant-"],
   [class*="ant-"],
   [class^="ant-"] *,
@@ -1561,11 +1569,11 @@ i.fas.fa-user-plus {
   }
 }
 
-.sideNavbar.position-fixed
+/* .sideNavbar.position-fixed
   .ant-menu-submenu-title
   i.fas.fa-notes-medical.iconClass1 {
   /* color: #fff; */
-}
+/* } */ 
 /* button {
   color: #fff !important;
 } */
@@ -1573,7 +1581,7 @@ i.fas.fa-user-plus {
 .ant-btn:focus,
 .ant-btn:active {
   text-decoration: none;
-  background: #2d7ecb !important;
+  background: #2d7ecb  !important;
   color: #fff !important;
 }
 .main-content {

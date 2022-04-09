@@ -8,6 +8,7 @@ import {
   Skeleton,
   Space,
   Button,
+  Tooltip 
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { AiFillMedicineBox } from "react-icons/ai";
@@ -16,19 +17,35 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import BackButton from "../../PatientComponents/shared/BackButton";
+import './SpecialTest.css'
+let shoulder = {};
+let elbow = {};
+let hip = {};
+let ankle = {};
+let cervical = {};
+let forearm = {};
+let thoracic = {};
+let lumbar = {};
+let knee = {};
 const SpecialTest = ({ setActive, back, next }) => {
   const { Panel } = Collapse;
   const history = useHistory();
   const dispatch = useDispatch();
-  let shoulder = {};
-  let elbow = {};
-  let hip = {};
-  let ankle = {};
-  let cervical = {};
-  let forearm = {};
-  let thoracic = {};
-  let lumbar = {};
-  let knee = {};
+  const [Others, setOthers] = useState([{
+    temp:' '
+  }])
+  const [OthersText, setOthersText] = useState([])
+  const [OthersStatus, setOthersStatus] = useState([])
+  const handleText = (text,index) =>{
+    let temp = OthersText
+    temp[index] = text
+    setOthersText(temp)
+  }
+  const handleStatus = (value,index) =>{
+    let temp = OthersStatus
+    temp[index] = value
+    setOthersStatus(temp)
+  }
   let handleChange = (name, value, state) => {
     if (name == "shoulder") {
       shoulder[value] = state;
@@ -75,6 +92,7 @@ const SpecialTest = ({ setActive, back, next }) => {
     OthersStatus.map((item,index)=>{
       temp[OthersText[index]] = item
     })
+    console.log(shoulder,elbow,hip,knee)
     console.log("special ",temp)
     sessionStorage.setItem("specialsubmit", true);
     //setActive(4)
@@ -161,21 +179,7 @@ const SpecialTest = ({ setActive, back, next }) => {
   };
   const handleAddFields = () =>{}
   const handleRemoveFields = () =>{}
-  const [Others, setOthers] = useState([{
-    temp:' '
-  }])
-  const [OthersText, setOthersText] = useState([])
-  const [OthersStatus, setOthersStatus] = useState([])
-  const handleText = (text,index) =>{
-    let temp = OthersText
-    temp[index] = text
-    setOthersText(temp)
-  }
-  const handleStatus = (value,index) =>{
-    let temp = OthersStatus
-    temp[index] = value
-    setOthersStatus(temp)
-  }
+ 
   return (
     <>
       <Form className="p-3">
@@ -200,62 +204,15 @@ const SpecialTest = ({ setActive, back, next }) => {
         </Row>
         <div className="mb-3 special-test" style={{ paddingTop: "15px" }}>
           <Collapse
+          className="special_test_new"
             accordion
             defaultActiveKey={["1"]}
             // style={{ width: `${screen.width / 2}px` }}
           >
-            <Panel header="Others" key="1" className="bold">
+            <Panel header="Shoulder" key="1" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th>Others</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
-                </tr>
-                {Others.map((item, index) => (
-                  <tr>
-                    <td>
-                      {" "}
-                      <input
-                        className='className="p-2 w-100'
-                        onChange={(e)=>{
-                          handleText(e.target.value,index)
-                        }}
-                        type="text"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        name={index+' '}
-                        onChange={()=>handleStatus(1,index)}
-                        type="radio"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        name={index+' '}
-                        onChange={()=>handleStatus(0,index)}
-                        type="radio"
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </table>
-              <div className="row py-0 mx-1">
-              <div className="col" style={{paddingLeft:'0px',paddingTop:'10px'}}>
-              <button type="button" onClick={() => setOthers([...Others ,{temp:' '}])} class="btn btn-primary ">+</button>
-              <button type="button" disabled={Others.length>1?false:true} onClick={() => {
-                let temp1 = Others.filter((item, index)=>index!==Others.length-1)
-                setOthers(temp1)
-              }} class="btn btn-primary mx-2">-</button>
-
-            </div>
-
-          </div>
-            </Panel>
-            <Panel header="Shoulder" key="8" className="bold">
-              <table style={{ width: "100%" }}>
-                <tr>
-                  <th></th>
+                  <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -283,7 +240,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Elbow" key="2" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -311,7 +268,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Forearm,wrist & Hand" key="3" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -339,7 +296,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Hip" key="4" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -367,7 +324,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Knee" key="5" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -395,7 +352,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Ankle" key="6" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                 <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -423,7 +380,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Cervical Spine" key="7" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                 <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -451,7 +408,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Thoracic Spine" key="8" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                 <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -479,7 +436,7 @@ const SpecialTest = ({ setActive, back, next }) => {
             <Panel header="Lumbar Spine" key="9" className="bold">
               <table style={{ width: "100%" }}>
                 <tr>
-                  <th></th>
+                 <th>Test</th>
                   <th>Pass</th>
                   <th>Fail</th>
                 </tr>
@@ -504,19 +461,56 @@ const SpecialTest = ({ setActive, back, next }) => {
                 ))}
               </table>
             </Panel>
+            <Panel header={<Tooltip title="You can create your own Special test">Others</Tooltip>} key="10" className="bold">
+              <table style={{ width: "100%" }}>
+                <tr>
+                <th>Test</th>
+                  <th>Pass</th>
+                  <th>Fail</th>
+                </tr>
+                {Others.map((item, index) => (
+                  <tr>
+                    <td>
+                      {" "}
+                      <input
+                      placeholder="Others.."
+                        className='className="p-2 w-100'
+                        onChange={(e)=>{
+                          handleText(e.target.value,index)
+                        }}
+                        type="text"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        name={index+' '}
+                        onChange={()=>handleStatus(1,index)}
+                        type="radio"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        name={index+' '}
+                        onChange={()=>handleStatus(0,index)}
+                        type="radio"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </table>
+              <div className="row py-0 mx-1">
+              <div style={{paddingLeft:'0px',paddingTop:'10px'}}>
+              <button  onClick={() => setOthers([...Others ,{temp:' '}])} class="btn btn-primary ">+</button>
+              <button  disabled={Others.length>1?false:true} onClick={() => {
+                let temp1 = Others.filter((item, index)=>index!==Others.length-1)
+                setOthers(temp1)
+              }} class="btn btn-primary mx-2">-</button>
+
+            </div>
+
+          </div>
+            </Panel>
           </Collapse>
-          <button
-            onClick={() => history.goBack()}
-            style={{
-              marginLeft: `${screen.width / 2 - 115}px`,
-              marginTop: "10px",
-            }}
-          >
-            Back
-          </button>
-          <button onClick={handleSubmit} style={{ marginLeft: "10px" }}>
-            Save
-          </button> 
           <div className="text-end" style={{ padding: 10 }}>
             <Space>
               <Button

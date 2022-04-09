@@ -18,7 +18,7 @@ import AppointmentTooltip from './AppointmentToolTip';
 import { Button } from 'antd';
 import Loading from './../UtilityComponents/Loading';
 import { getExercise, getPatientList } from "../../API/PatientRegistration/Patient.js";
-import { AddVisit, GetVisit, UpdateVisit, getEndDate, GetClinicVisits } from '../../API/Visit/visitApi';
+import { AddVisit, GetVisit, UpdateVisit, getEndDate, GetClinicVisits } from './../../API/Visit/visitApi';
 import Error from './../UtilityComponents/ErrorHandler';
 import Success from './../UtilityComponents/SuccessHandler';
 import DataCell from "./../UtilityComponents/SchedularDataRender/DataCellRender.js";
@@ -478,7 +478,7 @@ const Appointments = () => {
                 pathname:'/dashboard',
                 state:{
                     id:state.episodeReducer.patient_code,
-                    prevPath:'/visit'
+                   // prevPath:'/visit'
                 }
                })
            // window.location.reload();
@@ -507,7 +507,7 @@ const Appointments = () => {
                  pathname:'/dashboard',
                  state:{
                      id:state.episodeReducer.patient_code,
-                     prevPath:'/visit'
+                 //    prevPath:'/visit'
                  }
                 })
            //  window.location.reload();

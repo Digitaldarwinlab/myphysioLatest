@@ -46,7 +46,9 @@ export let keyMapping = {
     expertise_2: "Expertise 2",
     expertise_3: "Expertise 3",
     start_date: "Start Date",
-    gender: "Gender"
+    gender: "Gender",
+    clinic: "Clinic",
+    uid:'User id'
 };
 const { Search } = Input;
 const PhysioList = () => {
@@ -117,11 +119,12 @@ console.log(data);
     }
     //View
     const handleView = (val) => {
+        console.log(val)
         let tempData = [];
         let keys = Object.keys(val);
         let index = 0;
         keys.forEach(key => {
-            if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+            if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id" ,"full_name"].includes(key))) {
                 if (key === "start_date") {
                     tempData.push({
                         key: index,
@@ -136,7 +139,14 @@ console.log(data);
                         Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
                     });
                     index += 1;
-                } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
+                }else if (key ==="isHeadPhysio"){
+                    tempData.push({
+                        key: index,
+                        Field: "Head Physio",
+                        Value: val.isHeadPhysio?"Yes":"No"
+                    });
+                    index += 1;
+                }else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
                     tempData.push({
                         key: index,
                         Field: keyMapping[key],
@@ -146,6 +156,7 @@ console.log(data);
                 }
             }
         });
+        console.log(tempData)
         setData(tempData);
        // console.log(val)
         setVisible(true);
@@ -236,6 +247,9 @@ console.log(data);
             // console.log(result)
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
+                setTimeout(() => {
+                    Setpasswordmodal(false)
+                }, 1500);
                 try{
                     form.resetFields()
                 }
@@ -352,7 +366,7 @@ console.log(data);
     const columns = [
         {
           title: "Name",
-          dataIndex: "first_name",
+          dataIndex: "full_name",
           fixed: 'left',
           width: "20%",
          
@@ -422,8 +436,11 @@ console.log(data);
                     </Row>
                     <div style={{ minHeight: "20px" }}></div>
                     <Row>
-        <Col md={24} sm={24} xs={24}>
-          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={physios} />
+        <Col className="pag_large" md={24} sm={24} xs={24}>
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8}} bordered columns={columns} dataSource={physios} />
+        </Col>
+        <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8,size: "small" }} bordered columns={columns} dataSource={physios} />
         </Col>
       </Row>
             {ShowPhysioInfo()}

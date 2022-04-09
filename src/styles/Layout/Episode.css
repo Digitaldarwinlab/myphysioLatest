@@ -25,3 +25,16 @@ p{
 .ant-collapse-content{
     border-top: 1px solid #f1f1f1 !important;
 }
+
+@media only screen and (max-width: 650px) {
+    .pag_large{
+        display: none !important;
+    }
+    .pag_mob{
+        display: contents !important;
+    }
+    .ant-pagination.mini .ant-pagination-prev, .ant-pagination.mini .ant-pagination-next {
+        margin: 0px 5px 0px 5px;
+    }
+}
+

@@ -8,7 +8,7 @@ import ClinicValidation from './../../Validation/clinicValidation/clinicValidati
 import Validation from './../../Validation/authValidation/authValidation';
 import { VALIDATION } from './../../../contextStore/actions/authAction';
 // import apiValidation from './../../../API/apiValidation/apiValidation';
-import { Typography, Row,Button,Col, Form ,Select } from 'antd';
+import { Typography, Row,Button,Col, Form ,Select, Space } from 'antd';
 import FormInput from './../../UI/antInputs/FormInput';
 import FormTextArea from './../../UI/antInputs/FormTextArea';
 import FormDate from './../../UI/antInputs/FormDate';
@@ -100,11 +100,15 @@ const PhysioClinic = ()=>{
         }
         else if(name==='name')
         {
+            const validName = new RegExp('^[a-zA-Z0-9_]{2,20}$');
             if(value){
                 if(value.length<4){
                  error["error"] = "Name must contain atleast 4 characters."; 
                 }
-             }
+            }
+            if (!validName.test(value)) {
+                error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
+            }
            // error=Validation.checkNameValidation(value,false)
         }
         else if(name=='address_1' || name=='address_2' || name=='address_3')
@@ -154,50 +158,50 @@ const PhysioClinic = ()=>{
         }
     }
     const handleSubmit = async (value) =>{
-        let error
-        if(Validation.checkNameValidation(state.clinicReg.name))
-        {
-            error=Validation.checkNameValidation(state.clinicReg.name)
+        await clinicRegisterApi(state.clinicReg,dispatch);
+            form.resetFields()
+    //     if(Validation.checkNameValidation(state.clinicReg.name))
+    //     {
+    //         error=Validation.checkNameValidation(state.clinicReg.name)
             
             
           
-        }else if(Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3))
-        {
-            error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
-        }
-        else if(Validation.checkPincodeValidation(state.clinicReg.zip))
-        {
-            error= Validation.checkPincodeValidation(state.clinicReg.zip)
-        }
+    //     }else if(Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3))
+    //     {
+    //         error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
+    //     }
+    //     else if(Validation.checkPincodeValidation(state.clinicReg.zip))
+    //     {
+    //         error= Validation.checkPincodeValidation(state.clinicReg.zip)
+    //     }
 
-        else if(Validation.checkEmailValidation(state.clinicReg.email))
-        {
-            error=Validation.checkEmailValidation(state.clinicReg.email)
-        }
+    //     else if(Validation.checkEmailValidation(state.clinicReg.email))
+    //     {
+    //         error=Validation.checkEmailValidation(state.clinicReg.email)
+    //     }
 
-        else if(Validation.isValidURL(state.clinicReg.url))
-        {
-            error=Validation.isValidURL(state.clinicReg.url)
-        }
-    if(error.error)
-    {
-        dispatch({ type: VALIDATION, payload: { error: error.error } });
-        return false
-    }
+    //     else if(Validation.isValidURL(state.clinicReg.url))
+    //     {
+    //         error=Validation.isValidURL(state.clinicReg.url)
+    //     }
+    // if(error.error)
+    // {
+    //     dispatch({ type: VALIDATION, payload: { error: error.error } });
+    //     return false
+    // } 
 
-    else if(state.Validation.error)
-    {
-        alert("please check all the fields")
-        return false
-    }
-      //  const checkError = state.Validation.error;
-        if(error.error){
-            alert("please check all the fields")
-        }
-        else {
-            await clinicRegisterApi(state.clinicReg,dispatch);
-            form.resetFields()
-        }
+    // else if(state.Validation.error)
+    // {
+    //     alert("please check all the fields")
+    //     return false
+    // }
+    //   //  const checkError = state.Validation.error;
+    //     if(error.error){
+    //         alert("please check all the fields")
+    //     }
+    //     else {
+            
+    //     }
     }
 
     const handleNameAndWebsite = (htmlfor,title,type,place,value) => {
@@ -230,7 +234,7 @@ const PhysioClinic = ()=>{
                                 placeholder="Name" 
                                 onChange={handleChange}
                                 className="input-field"
-                                onBlur = {handleBlur} 
+                              //  onBlur = {handleBlur} 
                                 required={true}
                               />
                         </Col>
@@ -240,7 +244,7 @@ const PhysioClinic = ()=>{
                                 placeholder="Address 1" 
                                 className="input-field"
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                             //   onBlur = {handleBlur} 
                                 required={true}
                             />
                         </Col>
@@ -253,7 +257,7 @@ const PhysioClinic = ()=>{
                             placeholder="Address 2" 
                             className="input-field"
                             onChange={handleChange}
-                            onBlur = {handleBlur} 
+                           // onBlur = {handleBlur} 
                             required={false}
                             />
                         </Col>
@@ -263,7 +267,7 @@ const PhysioClinic = ()=>{
                             placeholder="Address 3" 
                             className="input-field"
                             onChange={handleChange}
-                            onBlur = {handleBlur} 
+                           // onBlur = {handleBlur} 
                             required={false}
                             />
                         </Col>
@@ -379,7 +383,7 @@ const PhysioClinic = ()=>{
                                 placeholder="Pin Code" 
                                 onChange={handleChange}
                                 className="input-field"
-                                onBlur = {handleBlur} 
+                              //  onBlur = {handleBlur} 
                               //  required={true}
                             /> 
                          </Col>
@@ -389,7 +393,7 @@ const PhysioClinic = ()=>{
                                 className="input-field"
                                 placeholder="Mobile No." 
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                             //   onBlur = {handleBlur} 
                                 required="true"
                             />
                          </Col>
@@ -399,7 +403,7 @@ const PhysioClinic = ()=>{
                                 value={state.clinicReg.whatsapp_no}
                                 placeholder="Whatsapp No" 
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                              //  onBlur = {handleBlur} 
                               //  required="true"
                             />
                          </Col>
@@ -412,7 +416,7 @@ const PhysioClinic = ()=>{
                                 value={state.clinicReg.landline_no}
                                 placeholder="Landline No." 
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                               // onBlur = {handleBlur} 
                                 required={false}
                             />
                         </Col>
@@ -422,7 +426,7 @@ const PhysioClinic = ()=>{
                                 value={dateState}
                                 placeholder="Estb date" 
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                             //   onBlur = {handleBlur} 
                                // required="true"
                             />
                         </Col>
@@ -432,13 +436,13 @@ const PhysioClinic = ()=>{
                                 value={state.clinicReg.email}
                                 placeholder="Email" 
                                 onChange={handleChange}
-                                onBlur = {handleBlur} 
+                              //  onBlur = {handleBlur} 
                                 required="true"
                             />
                         </Col>
                     </Row>
 
-                    <Row style={{marginBottom:'15px'}}>
+                    <Row style={{marginBottom:'15px'}}> 
                         <Col span={24} >
                         {handleNameAndWebsite("website_url","Website Url","text","Website Url",state.clinicReg.website_url)}
                         </Col>
@@ -450,12 +454,17 @@ const PhysioClinic = ()=>{
                     <Button className="btncolor m-2" onClick={handleReset}>Reset</Button>
                 </div> */}
                  <Row justify="center">
+                 <Space size={'middle'}>
                  <Col span={2}> <Button 
      // className="btncolor m-2"   
       style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleReset}>Reset</Button></Col>
       <Col span={2}> <Button 
     //  className=" m-2"    
-      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} onClick={handleSubmit}>Submit</Button></Col>
+    htmlType='submit'
+      style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }} 
+      //onClick={handleSubmit}
+      >Submit</Button></Col>
+      </Space>
     </Row>
             </Form>
         </> 

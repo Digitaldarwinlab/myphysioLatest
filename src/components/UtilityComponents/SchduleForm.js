@@ -381,7 +381,7 @@ const SchduleForm = (props) => {
                             defaultValue={state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
                             placeholder="Start Date"
                             name="start_date"
-                            required={!Colsure}
+                            required={Colsure}
                             onChange={props.handleChange}
                         />:
                         <FormDate
@@ -660,7 +660,7 @@ const SchduleForm = (props) => {
                 <Row className="text-center" justify="center" style={{marginBottom:'15px'}}>
                 <Button  className="button1" id="bnid" style={{color:"white",backgroundColor:'#2d7ecb'}} onClick={Cancel} ><b>Cancel</b></Button> 
                    {
-                     props.opacity1=='1' &&  <Button onClick={props.handleSubmit} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } className="button1" id="bnid" ><b>Submit</b></Button> 
+                     props.opacity1=='1' &&  <Button htmlType="submit" style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } className="button1" id="bnid" ><b>Submit</b></Button> 
                      
                    } 
                    {

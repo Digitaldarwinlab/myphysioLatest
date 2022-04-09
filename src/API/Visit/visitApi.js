@@ -153,6 +153,8 @@ export const AddVisit = async (details) => {
 
   
     var allVisitData = seperateVisitData(details);
+    console.log("allVisitData ",allVisitData)
+    delete allVisitData[0].appointment_detail.allDay
    // // console.log(allVisitData)
    if(details.location!=='Video Conference')
     {  

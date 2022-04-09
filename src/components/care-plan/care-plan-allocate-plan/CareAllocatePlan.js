@@ -534,15 +534,19 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
             </Row>
             {repcheck?"value not less than 2":null}
-            <Row>
-                <Form.Item name="count_time_slots" label="Number of Time Slots" required={true} className="m-2">
+            <Row gutter={[10, 10]}>
+            <Col lg={8} md={8} sm={8} xs={16}>
+                <Form.Item style={{width:'80%'}} name="count_time_slots" label="Number of Time Slots" required={true} 
+                className="m-2">
                     <InputNumber
                         min={1} max={6}
                         defaultValue={state.count_time_slots}
                         onChange={(value) => handleChange("count_time_slots", value)}
-                        className="w-75 m-1"
+                        style={{width:'100%'}}
+                       // className="w-75 m-1"
                     />
                 </Form.Item>
+                </Col>
             </Row>
             <Row gutter={[10, 10]}>
                 

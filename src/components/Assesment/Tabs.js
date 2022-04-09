@@ -52,12 +52,11 @@ function Tabs({
                           if(!checked1){
                             console.log('forward')
                             darwin.restart()
-                            darwin.postureView("front");
+                            darwin.selectOrientation(1);
                           }else{
                             console.log('backward')
                             darwin.stop()
                           }
-                          console.log('check PostureView(front) is calling')
                           setChecked1(!checked1);
                         }}
                         style={{ color: "red", marginTop: 5 }}
@@ -67,7 +66,7 @@ function Tabs({
                       <Button
                         disabled={!checked1}
                         onClick={async () => {
-                          darwin.postureView("screenshotTaken");
+                          darwin.screenShot();
                           captureFront();
                           setChecked1(false);
                           const res = await darwin.showAngles();
@@ -112,13 +111,12 @@ function Tabs({
                         onChange={() => {
                           if(!checked2){
                             darwin.restart()
-                            darwin.postureView("left")
+                            darwin.selectOrientation(2)
                             console.log('forward')
                           }else{
                             darwin.stop()
                             console.log('backward')
                           }
-                          console.log('check PostureView(left) is calling')
                           setChecked2(!checked2);
                         }}
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
@@ -128,7 +126,7 @@ function Tabs({
                       <Button
                         disabled={!checked2}
                         onClick={async () => {
-                          darwin.postureView("screenshotTaken");
+                          darwin.screenShot();
                           captureSide();
                           setChecked2(false);
                           const res = await darwin.showAngles();
@@ -287,12 +285,11 @@ function Tabs({
                           if(!checked1){
                             console.log('forward')
                             darwin.restart()
-                            darwin.postureView("front");
+                            darwin.selectOrientation(1);
                           }else{
                             console.log('backward')
                             darwin.stop()
                           }
-                          console.log('check PostureView(front) is calling')
                           setChecked1(!checked1);
                         }}
                         style={{ color: "red", marginTop: 5 }}
@@ -302,7 +299,7 @@ function Tabs({
                       <Button
                         disabled={!checked1}
                         onClick={async () => {
-                          darwin.postureView("screenshotTaken");
+                          darwin.screenShot();
                           captureFront();
                           setChecked1(false);
                           const res = await darwin.showAngles();
@@ -438,13 +435,12 @@ function Tabs({
                         onChange={() => {
                           if(!checked2){
                             darwin.restart()
-                            darwin.postureView("left")
+                            darwin.selectOrientation(2)
                             console.log('forward')
                           }else{
                             darwin.stop()
                             console.log('backward')
                           }
-                          console.log('check PostureView(left) is calling')
                           setChecked2(!checked2);
                         }}
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
@@ -454,7 +450,7 @@ function Tabs({
                       <Button
                         disabled={!checked2}
                         onClick={async () => {
-                          darwin.postureView("screenshotTaken");
+                          darwin.screenShot();
                           captureSide();
                           setChecked2(false);
                           const res = await darwin.showAngles();

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { STATECHANGE, STATE_ARRAY_CHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
 import { duration } from 'moment';
-
+import './Questions1.css'
 const Questions1 = ({questLabel}) => {
     const [form] = Form.useForm();
     const { Option } = Select;
@@ -138,18 +138,21 @@ useEffect(() => {
                     <h5>{state.FirstAssesment.Questionnaire.question[data].description&&state.FirstAssesment.Questionnaire.question[data].description}</h5>
 
                     <Row>
-                        <Col md={18} lg={18} sm={24} xs={24}>
+                        <Col md={24} lg={24} sm={24} xs={24}>
 
                             {state.FirstAssesment.Questionnaire.question[data].questions&&state.FirstAssesment.Questionnaire.question[data].questions.map((ques, key) => {
 
-                                    console.log('quest value ',ques[1][3])
+                                 
                                 return (
                                     <>
                                         <p className="mt-2">
                                             {ques[0]}
                                         </p>
-
-                                        <Select placeholder="Select" className="w-50 mb-2"
+                                        <Row>
+                                        <Col md={12} lg={12} sm={24} xs={24}>
+                                        <Select placeholder="Select"
+                                         //className="w-100 mb-2"
+                                         className="quest_new"
                                             onChange={(value) => handleChange(data, value, key, ques[0], ques[1][value])}
                                            // value={state.FirstAssesment[data].key}
 
@@ -165,7 +168,8 @@ useEffect(() => {
                                             <Option value="3">{ques[1][3][0]}</Option>
                                             <Option value="4">{ques[1][4][0]}</Option> */}
                                         </Select>
-
+                                        </Col>
+                                        </Row>
 
                                     </>
                                 )

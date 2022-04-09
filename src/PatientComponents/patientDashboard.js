@@ -239,117 +239,19 @@ const PatientDashboard = () => {
 
     return (
         <>
-            <h3 className="fw-bold m-2">
-                <BackButton />
-
-            </h3>
-            {episode.length !== 0 && DoctorDetails()}
-            <Row className="main-container">
-                <Col  className=" left-side border" >
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                </Col>
-                <Col className="px-4 right-side">
-                    <div className="right-upper"></div>
-                    <Row className="right-container">
-
-                        <Col className="progress">
-                            <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
-                            <div className="px-1 py-1" style={flexStyle}>
-                                <AchievedResult
-
-                                    icon={<FaMedal size={25} color="black" />}
-                                    score="8/10" message="Your Success" />
-                                <CircularBar precentage={5000 / 6000 * 100} score={5000} color='#0559a9' />
-                                <AchievedResult
-                                    icon={<FaStopwatch size={25} color="black" />}
-                                    score="30 min" message="Your Practice Time" />
-                            </div>
-                        </Col>
-                    {/*<Col className="treating-doctor card" >
-                            <h4 className="fw-bold text-center p">Treating Doctor</h4>
-                            <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
-                                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="profile"  className="border doctor-image" style={{ cursor: "pointer" }} />
-                            {episode.length !== 0 && episode[0].treating_doctor_detail.length!==0 && <h6 className="fw-bold text-center">
-                                {episode[0].treating_doctor_detail[0].first_name + " " + episode[0].treating_doctor_detail[0].last_name}
-                            </h6>}
-                        </Col> */}
-                    </Row>
-                    <Row className="mt-2 right-middle card" >
-                        <Col>
-                            <h4 className="fw-bold">Notes</h4>
-                            {episode.length !== 0 && (<p className="p text-justify">
-                                {episode[0].Closure_Notes}
-                            </p>)}
-                        </Col>
-                        <Col className="text-center">
-                            <h4 className="fw-bold">Episode</h4>
-                            {episode.length !== 0 && <p className="p">
-                                {episode[0].episode_number}
-                            </p>}
-                        </Col>
-                    </Row>
-                    <BottomCard
-                        therapy="Shoulder Therapy" about={about} progress={70} />
-
-                    <PreviousWeekAchievements data={AchievcemntsData} />
-                    <div className="card mb-2 mt-2 pb-2">
-                <Row className="VideoConferencing">
-                    <Col >
-                        <h4 className="fw-bold p-2">Video Conferencing</h4>
-                    </Col>
-                </Row>
-                <Row className="px-4 py-2">
-                <Col >
-                <Button type="primary" size="large" onClick={VideoCon}>Video Con</Button>
-                </Col>
-                </Row>
-            </div>
-                </Col>
-            </Row>
-
-           
-                <div class="row m-3 dashboardChartMain" style={{ height: 500}}>
-               <div class="col mr-1 card dashboardChart">
-                    <Pie data={pie_data1}/>
-                </div>     
-            
-                <div class="col ml-1 card dashboardChart">
-                    <Pie data={pie_data2}/>
-                </div>     
-            </div>
-            
-            <div class=" m-2">
-            <Row>
-                <Col  className="pt-2 mt-2">
-                        <h4 className="fw-bold p-2 text-center">Left Shoulder</h4>
-                </Col>
-            </Row>
-            <Row>
-                <Col  className="pt-2 mt-2">
-                        <h4 className="fw-bold p-2 text-center">Min and Max ROM</h4>
-                </Col>
-                <Col  className="pt-2 mt-2">
-                        <h4 className="fw-bold p-2 text-center">Koos Score</h4>
-                </Col>
-            </Row>
-           
-                    <div class="row m-0 dashboardChartMain" style={{ height: 400}}>
-                  <div class="col mr-1 card dashboardChart">
-                        <Line data={dataLine1} 
-                        min={40} max={190}
-                        ylegend={"Angles"}/>
-                    </div>     
-                    <div class="col ml-1 card dashboardChart " >
-                    <Bar data={koos_score}/>
-                    </div> 
-                </div>  
-            </div>
-
-            <div class="row m-0" style={{ height: 500}}>
-                <div class="col m-2 p-0 card">
-                    <StreamLine data={stream_data}/>
-                </div>        
-            </div>
+        <div className="newMain_container">
+         <Row justify="center">
+            <Col span={24}>
+            <h1>Introduction Video</h1>
+            <div style={{minHeight:'20px'}}></div>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col span={24}>
+            <VideoScreen className="video-play" video={process.env.REACT_APP_EXERCISE_URL+"/images/v1/introVideo.mp4"} height={true} />
+            </Col>
+          </Row>
+          </div>
         </>
     )
 }

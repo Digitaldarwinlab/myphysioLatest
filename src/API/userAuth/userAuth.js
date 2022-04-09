@@ -77,7 +77,7 @@ export const signin = async (user, dispatch) => {
                 localStorage.setItem("userId", JSON.stringify(data.user_id));
                 return [false, "Please Change Your Password."];
             }
-            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info }, data.user_id);
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id}, data.user_id);
             dispatch({ type: LOGIN_SUCCESS });
             return [true];
         }
@@ -209,7 +209,7 @@ export const logout = async () => {
 }
 //@param user,token
 //Add User Data into localstorage after login.
-const AddUserInfo = (token, user, user_id) => {
+const AddUserInfo = (token, user, user_id, clinic_id) => {
     localStorage.setItem("jwt", JSON.stringify(token))
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("userId", JSON.stringify(user_id));

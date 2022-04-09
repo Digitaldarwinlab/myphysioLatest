@@ -40,13 +40,13 @@ const FirstAssesmentIniState ={
     Others:'',
     medicCheck:false,
     othCheck:false,
+    Surgical_History_Notes_check:false,
     past_medical_history:[],
     frontChecks:{},
     sideChecks:{},
     FrontCheck:[],
     SideCheck:[],
     Surgical_History_Notes:'',
-    Surgical_History_Notes_check:false,
     Surgical_History_Notes1:[],
     any_other_details:'',
 //     Diabetes:"false",
@@ -134,13 +134,15 @@ const Addsubjective = (list) => {
         return [{
             id:1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }]
     } else {
         let newEntry = {
             id: list[list.length - 1].id + 1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }
         let newList = [...list, newEntry];
         return newList

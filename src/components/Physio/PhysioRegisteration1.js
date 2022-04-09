@@ -9,16 +9,18 @@ import { Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import StepBar from "./../UtilityComponents/StepBar";
 import validation from "./../Validation/authValidation/authValidation";
-import { Typography, Select, Row, Button, Col, Form, Checkbox } from "antd";
+import { Typography, Select, Row, Button, Col, Form, Checkbox,Space } from "antd";
 import FormInput from "./../UI/antInputs/FormInput";
 import { getPhysioList } from "../../API/Physio/PhysioRegister";
+import { FaSearch } from "react-icons/fa";
 import {
   CLEAR_STATE,
   PHYSIO_REGISTER_FAILURE,
 } from "../../contextStore/actions/physioRegAction";
 import "../../styles/Layout/Heading.css";
+import { doctor_type } from "./PhysioConstants";
 const { Title } = Typography;
-
+const { Option } = Select;
 const PhysioRegisteration1 = (props) => {
   const history = useHistory();
   const state = useSelector((state) => state);
@@ -36,6 +38,7 @@ const PhysioRegisteration1 = (props) => {
     form.setFieldsValue({ whatsapp_no: data.whatsapp_no });
     form.setFieldsValue({ Doctor_type: data.Doctor_type });
     form.setFieldsValue({ gender: data.gender });
+    form.setFieldsValue({ Clinic: data.clinic });
     dispatch({ type: "NOERROR" });
   }, [props.clearState]);
 
@@ -273,16 +276,21 @@ const PhysioRegisteration1 = (props) => {
                 rules={[{ required: true, message: `Please Select Clinic` }]}
               >
                 <Select
-                  placeholder="Clinic"
-                  className="input-field w-100"
+                  showSearch
+                  allowClear
+                  suffixIcon={<FaSearch/>}
+                  placeHolder="Search to Select Clinic"
                   onChange={(value) => handleChange("clinic", value)}
-                  value={state.physioRegisterReducer.clinic}
+                  value={state.physioRegisterReducer.clinic?state.physioRegisterReducer.clinic:undefined}
                   defaultValue={state.physioRegisterReducer.clinic}
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {state.clinicReg.clinics.map((clinic) => (
-                    <Select.Option value={clinic.pp_cm_id}>
+                    <Option key={clinic.pp_cm_id} value={clinic.pp_cm_id}>
                       {clinic.name}
-                    </Select.Option>
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -294,11 +302,6 @@ const PhysioRegisteration1 = (props) => {
               </span>{" "}
               <br />
               <Checkbox checked={state.physioRegisterReducer.isHeadPhysio}  onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}>Head Physio</Checkbox>
-              {/* <Switch
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                defaultChecked
-              /> */}
             </Col>
           </Row>
           <Row gutter={[20, 20]} style={{ marginBottom: "15px" }}>
@@ -359,11 +362,9 @@ const PhysioRegisteration1 = (props) => {
                     handleChange("Doctor_type", value);
                   }}
                   value={state.physioRegisterReducer.Doctor_type}
-                  defaultValue={state.physioRegisterReducer.Doctor_type}
+                //  defaultValue={state.physioRegisterReducer.Doctor_type}
                 >
-                  <Select.Option value="1">Treating Doctor</Select.Option>
-                  <Select.Option value="2">Referring Doctor</Select.Option>
-                  <Select.Option value="3">Both</Select.Option>
+                 {doctor_type.map((item,index)=><Option key={item} value={index+1}>{item}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -384,9 +385,9 @@ const PhysioRegisteration1 = (props) => {
                   value={state.physioRegisterReducer.gender}
                   defaultValue={state.physioRegisterReducer.gender}
                 >
-                  <Select.Option value="Male">Male</Select.Option>
-                  <Select.Option value="Female">Female</Select.Option>
-                  <Select.Option value="Other">Other</Select.Option>
+                  <Option value="Male">Male</Option>
+                  <Option value="Female">Female</Option>
+                  <Option value="Other">Other</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -394,6 +395,7 @@ const PhysioRegisteration1 = (props) => {
         </div>
 
         <Row justify="center">
+        <Space size={'middle'}>
       <Col span={2}> <Link to="/dashboard">
               <Button 
               //className="me-2" 
@@ -415,6 +417,7 @@ const PhysioRegisteration1 = (props) => {
             htmlType="submit">
               Next
             </Button></Col>
+            </Space>
     </Row>
         {/* <Row
          // className="text-center"

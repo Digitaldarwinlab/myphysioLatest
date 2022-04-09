@@ -1,5 +1,4 @@
 import fetch from "isomorphic-fetch";
-import { Decode, Encode } from "../Encode/hashing";
 //@get Care plan Data
 //@Input - Episode Id, date
 
@@ -10,16 +9,15 @@ export const GetPatientCarePlan = async (episodeId, date) => {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
-    const encodedData = Encode({ id: episodeId, date })
+  
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/get-care-plan_v1/", {
+        const response = await fetch(process.env.REACT_APP_API + "/get-care-plan/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(encodedData)
+            body: JSON.stringify({ id: episodeId, date })
         });
       //  console.log(response)
-        const responseData = await response.json();
-        const data = Decode(responseData);
+        const data = await response.json();
         console.log("get careplan ",data)
       //  console.log(data, "Information")
         if (response.status !== 200 && response.status !== 201) {
@@ -93,16 +91,15 @@ const headers = {
         console.log('careplan data inside api')
         console.log('request in api',JSON.stringify(json_data))
         console.log(json_data)
-        const encodedData = Encode(json_data);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/update_care_plan_v1/", {
+        const response = await fetch(process.env.REACT_APP_API + "/update_care_plan/", {
             method: "POST",
             headers: headers,
-            body:JSON.stringify(encodedData)
+            body:JSON.stringify(json_data)
         });
         
-        const responseData = await response.json();
-        const data = Decode(responseData);
+        const data = await response.json();
+ 
         console.log(data)
        console.log(data, "Information")
         if (response.status !== 200 && response.status !== 201) {

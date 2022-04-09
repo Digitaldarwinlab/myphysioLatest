@@ -1,7 +1,5 @@
 import { Form, Input } from "antd";
 const FormInput = (props) => {
-    console.log('erorr iss')
-    console.log(props)
     return (
         <Form.Item
             label={props.label}

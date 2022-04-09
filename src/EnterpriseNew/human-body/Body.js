@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import "./Body.css"; 
+import { useState } from "react";
+import "./Body.css";
 // import paths from "./svg-path";
 import Path from "./Path";
 import { front_paths } from "../body-svg";

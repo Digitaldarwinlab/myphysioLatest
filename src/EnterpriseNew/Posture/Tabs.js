@@ -282,7 +282,7 @@ function Tabs({
               xs={24}
               style={{ borderLeft: "1px solid" }}
             >
-              {/* <div style={{ padding: "4px" }}>
+              <div style={{ padding: "4px" }}>
                 <Checkbox.Group
                   style={{ width: "100%" }}
                   onChange={(e) => onChangeSide(e)}
@@ -312,7 +312,8 @@ function Tabs({
                     </Col>
                   </Row>
                 </Checkbox.Group>
-              </div> */}
+              </div>
+             
             </Col>
           </Row>
           <row>

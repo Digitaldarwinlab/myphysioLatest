@@ -3,6 +3,7 @@ import { Spin, Pagination, Row, Col, Button } from "antd";
 import Careplan from "../../care-plan/carePlanIndex";
 import CarePlanCardView from './carePlanCardView';
 import { ImPlus } from 'react-icons/im';
+import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
 import { fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
@@ -99,18 +100,35 @@ const CarePlanView = (props) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                
+                                {/* <Row  justify="end">
+                                <Col lg={24} md={24} sm={24} xs={24}>
+                            <h4 className="fw-bold"><BiEdit 
+                            //onClick={() => handleEdit(record)} size={20}
+                             />Edit</h4>
+                        </Col>
+                                </Row> */}
                                 <CarePlanCardView data={data} />
                             </div>
                         ))
                 }
-                <div>
+                <div className="pag_large">
                     <Pagination
                         pageSize={paginationState.pageSize}
                         current={paginationState.current}
                         total={carePlanData.length}
                         onChange={PaginationChange}
                     />
+                </div>
+                <div className="pag_mob" style={{display:'none'}}>
+                    <div style={{minHeight:'15px'}}></div>
+                    <Pagination
+                        size={'small'}
+                        pageSize={paginationState.pageSize}
+                        current={paginationState.current}
+                        total={carePlanData.length}
+                        onChange={PaginationChange}
+                    />
+                    <div style={{minHeight:'15px'}}></div>
                 </div>
             </div>
         )

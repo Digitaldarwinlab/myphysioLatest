@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { RiLayout6Fill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
-import { Row, Col, Tabs, Input, Drawer, Pagination, Spin, notification, Button } from 'antd';
+import { Row, Col, Tabs, Input, Drawer, Pagination, Spin, notification, Button, Badge, Card } from 'antd';
 import CarePlanCard from './care-plan-card/Card';
 import Filter from './care-plan-Filters/Filter';
+import 'antd/dist/antd.css';
+import { GrClose} from "react-icons/gr";
 import EpisodeDetail from './../patientEpisode/Prescription/EpisodeDetail';
 import Cart from './care-plan-cart/Cart';
+import { FaRunning} from "react-icons/fa";
+import { IconContext } from "react-icons";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
 import { GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
@@ -21,6 +25,7 @@ import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 {/*  aswin 10/22/2021 start */}
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import Error from "../UtilityComponents/ErrorHandler";
+import './Careplan.css'
 {/*  aswin 10/22/2021 stop */}
 
 const { TabPane } = Tabs;
@@ -530,24 +535,56 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     //upper tab menu
     const operations = (
         <React.Fragment>
-            <Row className="me-4">
+            <div  style={{display:'none'}} className="careplan_mobile_view_tabs"><Button type="text" className="car_btn1"
+            icon={<IconContext.Provider value={{ color: "black", className: "global-class-name" }}>
+                <div>
+
+            <AiOutlineMenuUnfold
+                        className="iconClass4"
+                        onClick={() => setFilterMenu(true)}
+                        />
+                        </div>
+                        </IconContext.Provider>
+                        }/>
+           <Button type="text" className="car_btn2"
+            icon={<IconContext.Provider value={{ color: "black", className: "global-class-name" }}>
+                <div>
+
+                <FaHeart className="iconClass3" />
+                    
+                        </div>
+                        </IconContext.Provider>
+                        }/>
+           <Button type="text" className="car_btn3"  onClick={async() => { 
+                    await checkEpisodeId() == true && setState(!state)
+
+                    }}  icon={<IconContext.Provider value={{ color: "black", className: "global-class-name" }}>
+                <div>
+
+                <FaRunning className="iconClass3" />
+                        </div>
+                        </IconContext.Provider>
+                        }>
+                    <span className="cart-plan-item-count">{length}</span>
+               </Button></div>
+            <Row className="me-4 careplan_large_view">
                 <Col className="ant-filter-hidden-icon">
                     <AiOutlineMenuUnfold
                         className="iconClass4 me-1 ms-1"
                         onClick={() => setFilterMenu(true)}
                     />
                 </Col>
-                <Col className="text-center me-2">
+                <Col className="text-center me-2 col_careplan1">
                     <FaHeart className="iconClass3" />
                     <p style={{ fontSize: "10px" }}>Wishlist</p>
                 </Col>
                 {/* aswin start 10/30/2021 start */}
-                <Col className="text-center cart-plan" onClick={async() => { 
+                <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
                     await checkEpisodeId() == true && setState(!state)
 
                     }}>
                         {/* aswin start 10/30/2021 stop */}
-                    <i className="fas fa-running iconClass3"></i>
+                    <i className="fas fa-running iconClass3 running_icon"></i>
                     <p style={{ fontSize: "10px" }}>Plan</p>
                     <span className="cart-plan-item-count">{length}</span>
                 </Col>
@@ -732,7 +769,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
 
 
             <Row>
-                <Col span={16}>
+                <Col md={16} lg={16} sm={24} sx={24}>
                     <Search
                         allowClear
                         placeholder="search exercise..."
@@ -799,6 +836,22 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                   })))
                   }
                     </Row>
+                    <div style={{display:'none'}} className="pag_mob">
+                    <div style={{minHeight:'15px'}}></div>
+                    <Pagination
+                       size="small"
+                       pageSize={Pagination1.pageSize}
+                        current={Pagination1.current}
+                       // total={Pagination1.totalPage * Exerciselist.length}
+                         total={Pagination1.pageSize * Pagination1.totalPage}
+                        pageSizeOptions={["2", "5", "10", "20", "50", "100"]}
+                        showSizeChanger
+                        onChange={PaginationChange}
+                        style={{ bottom: "0px" }}
+                    />
+                    <div style={{minHeight:'15px'}}></div>
+                </div>
+                <div className="pag_large">
                     <Pagination
                         pageSize={Pagination1.pageSize}
                         current={Pagination1.current}
@@ -809,6 +862,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         onChange={PaginationChange}
                         style={{ bottom: "0px" }}
                     />
+                    </div>
                 </Col>
             </Row>
 
@@ -839,9 +893,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     return (
 
         <React.Fragment>
-                 {
-            refreshHtml()
-        }
             {searchBar && <div style={{ minHeight: "20px" }}></div>}
             <h3 className="fw-bold">
                 <i className="fas fa-arrow-left"
@@ -877,8 +928,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                             }
                         </Col>
 
-                        <Col md={24} lg={24} xl={19} sm={24} xs={24} className="px-2 py-2 gray-border">
+                        <Col md={24} lg={24} xl={19} sm={24} xs={24} className="px-2 py-2 gray-border careplan_drawer">
                             <Tabs
+                            className="careplan_new_tabs"
                                 tabBarExtraContent={operations}
                                 defaultActiveKey="2">
                                 {/* <TabPane
@@ -897,22 +949,25 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                         <span className="iconClass2">
                                             <i className="fas fa-running iconClass3"></i>{" "}
                                             Exercises
+                                            
                                         </span>
                                     }
                                     key="2"
                                 >
-                                    {ExerciseTab()}
+                                {ExerciseTab()}
                                 </TabPane>
                             </Tabs>
                             <Drawer
+                            className="careplan_drawer"
                                 title="Plan"
+                               closeIcon={<GrClose/>}
                                 placement="right"
                                 closable={true}
                                 onClose={() => { setState(false) }}
                                 visible={state}
                                 getContainer={false}
                                 style={{ top: "50px" }}
-                                width={400}
+                                width={"70%"}
                             >
                                 {cartItems.length === 0 && <p>No Plan is Present now...</p>}
                                 {cartItems.length !== 0 && <Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
@@ -925,15 +980,15 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 onClose={() => { setFilterMenu(false) }}
                                 visible={filterMenu}
                                 getContainer={false}
-                                style={{ top: "60px" }}
-                                width={270}
+                                style={{ top: "50px" }}
+                                width={"70%"}
                             >
                                 {AssessmentInfo()}
                                 {
-                                    checkedList.length === 0 && <Filter filterExercise={filterExercise} checkedList={checkedList} />
+                                    checkedList.length === 0 && <Filter setFilterData={setFilterData} filterExercise={filterExercise} checkedList={checkedList} />
                                 }
                                 {
-                                    checkedList.length !== 0 && <Filter filterExercise={filterExercise} checkedList={checkedList} />
+                                    checkedList.length !== 0 && <Filter setFilterData={setFilterData} filterExercise={filterExercise} checkedList={checkedList} />
                                 }
                             </Drawer>
                         </Col>

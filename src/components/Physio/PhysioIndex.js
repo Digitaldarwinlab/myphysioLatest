@@ -32,7 +32,7 @@ const PhysioIndex = () => {
       ) {
         if (
           window.confirm(
-            "You will lost your Form Data. Do You really wantsssss?"
+            "You will lost your Form Data. Do You really wants?"
           )
         ) {
           dispatch({ type: CLEAR_STATE });
@@ -56,6 +56,18 @@ const PhysioIndex = () => {
     const getAllClinics = async () => {
       const res = await getClinics();
       console.log("clinics ", res);
+      res.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+            fb = b.name.toLowerCase();
+    
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+    })
       dispatch({
         type: CLINIC_STATE_CHANGE,
         payload: { key: "clinics", value: res },

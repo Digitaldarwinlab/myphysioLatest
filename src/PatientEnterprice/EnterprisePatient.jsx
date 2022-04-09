@@ -284,7 +284,6 @@ console.log(assesment)
                             <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
                             <div className="px-1 py-1" style={flexStyle}>
                             <PreviousWeekAchievements data={AchievcemntsData} />
-                              
                                 {/* <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
@@ -295,7 +294,6 @@ console.log(assesment)
                                     score="30 min" message="Your Practice Time" /> */}
                             </div>
                         </Col>
-                       
             
                         {/* <Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
@@ -306,8 +304,7 @@ console.log(assesment)
                             </h6>}
                         </Col> */}
                     </Row>
-                   
-                    {/* <Row className="mt-2 right-middle card" >
+                    <Row className="mt-2 right-middle card" >
                         <Col>
                             <h4 className="fw-bold">Notes</h4>
                             {episode.length !== 0 && (<p className="p text-justify">
@@ -320,7 +317,7 @@ console.log(assesment)
                                 {episode[0].episode_number}
                             </p>}
                         </Col>
-                    </Row> */}
+                    </Row>
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
                         <Row className="px-3 py-3" style={{margin:"0 auto"}} >
@@ -340,7 +337,7 @@ console.log(assesment)
             </Row> */}
             
                     {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
-                    {/* <div className="card mb-2 mt-2 pb-2">
+                    <div className="card mb-2 mt-2 pb-2">
                         <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
                         <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                             <Col md={24} lg={4} sm={24} xs={24}>
@@ -360,7 +357,7 @@ console.log(assesment)
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                             </Col>
                         </Row>
-                    </div> */}
+                    </div>
                         {/* <Row className="VideoConferencing">
                             <Col >
                                 <h4 className="fw-bold p-2">Video Conferencing</h4>
@@ -376,7 +373,6 @@ console.log(assesment)
                         </Col>
                         </Row> */}
                 </Col>
-             
             </Row>
 
            
@@ -422,7 +418,13 @@ console.log(assesment)
                     <StreamLine data={stream_data}/>
                 </div>        
             </div> */}
-           
+            <Row className="px-3 py-3" style={{float:'right'}}>
+                <Col className="text-center">
+                    <Button type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/muscle-selection');
+                    }}>Next</Button>
+                </Col>
+            </Row>
         </>
     )
 }

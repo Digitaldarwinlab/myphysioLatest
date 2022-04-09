@@ -263,7 +263,7 @@ const Register3 = (props) => {
          let keys = Object.keys(state.BasicDetails);
          let index = 0;
          keys.forEach(key => {
-             if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
+             if (!(["isLoading", "success", "pp_patm_id" ,"is_enterprise"].includes(key))) {
                  if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
                      tempData.push({
                          key: index,

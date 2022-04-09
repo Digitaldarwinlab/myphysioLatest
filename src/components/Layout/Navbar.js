@@ -6,15 +6,15 @@ import { AiTwotoneSetting } from "react-icons/ai";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import "./../../styles/Layout/Navbar.css";
-import DropDownMenu from './DropDownMenu/DropDownMenu';
-import { Dropdown, Menu ,Row,Col} from 'antd';
-import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
+import DropDownMenu from "./DropDownMenu/DropDownMenu";
+import { Dropdown, Menu, Row, Col ,Space } from "antd";
+import MyPhysioLogo from "./../UtilityComponents/MyPhysioLogo";
 import { GoCalendar } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaWindowClose } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
 import SideDrawer from "./SideDrawer";
-
+import { FaLanguage} from "react-icons/fa";
 const { SubMenu } = Menu;
 const Navigationbar = (props) => {
   //	console.log(props)
@@ -71,11 +71,11 @@ const Navigationbar = (props) => {
       </Menu>
     );
   };
-  const [visState, setVisState] = useState(false)
+  const [visState, setVisState] = useState(false);
   return (
     <>
       <nav className="navbar navbar-expand-lg sticky-top navigationBar">
-      {/* <Dropdown
+        <Dropdown
           overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
           className="navbar-toggler"
           type="button"
@@ -87,7 +87,7 @@ const Navigationbar = (props) => {
             onClick={(e) => {
               setShowToggleMenu(!showToggleMenu);
               e.preventDefault();
-              setVisState(true)
+              setVisState(true);
             }}
           >
             <AiOutlineMenu
@@ -95,9 +95,9 @@ const Navigationbar = (props) => {
               className="navbar-toggler-icon"
             />
           </a>
-        </Dropdown> */}
-        
-        <Dropdown
+        </Dropdown>
+
+        {/* <Dropdown
           overlay={
             <DropDownMenu
               classname="navbar-toggler"
@@ -122,10 +122,13 @@ const Navigationbar = (props) => {
               className="navbar-toggler-icon"
             />
           </a>
-        </Dropdown>
+        </Dropdown> */}
 
         {userInfo.role == "admin" || userInfo.role == "physio" ? (
-          <Menu className={`d-md-inline  hamburgerMenu ham_one `} id="hamburgerMenu">
+          <Menu
+            className={`d-md-inline  hamburgerMenu ham_one `}
+            id="hamburgerMenu"
+          >
             {/* aswin 10/27/2021 start */}
             <Menu.Item
               key="1"
@@ -137,13 +140,22 @@ const Navigationbar = (props) => {
             >
               {/* aswin 10/27/2021 stop */}
               {props.isSideNavbarCollpased ? (
-                <GiHamburgerMenu className="ham_one" style={{ marginTop: "5px" }} size={25} />
+                <GiHamburgerMenu
+                  className="ham_one"
+                  style={{ marginTop: "5px" }}
+                  size={25}
+                />
               ) : (
-                <GiHamburgerMenu className="ham_one" style={{ marginTop: "5px" }} size={25} />
+                <GiHamburgerMenu
+                  className="ham_one"
+                  style={{ marginTop: "5px" }}
+                  size={25}
+                />
               )}
             </Menu.Item>
-			</Menu>)
-			:null}
+          </Menu>
+        ) : null}
+
         <Link
           style={{ position: "relative", top: "0px" }}
           to={
@@ -160,17 +172,37 @@ const Navigationbar = (props) => {
           {userInfo.role !== "admin" &&
           userInfo.role !== "physio" &&
           userInfo.role !== "HeadPhysio" ? (
-            <Link to={userInfo.role === "enterprise_patient" ?"/patient/enterprise/schedule":"/patient/schedule"}>
-              <h4 className="text-white me-3 ">
-                <GoCalendar /> Schedule
-              </h4>
-            </Link>
+            <Space>
+              <Dropdown
+                overlay={() => (
+                  <Menu>
+                    <Menu.Item onClick={()=>darwin.selectLang("en-US")} key="0">English</Menu.Item>
+                    <Menu.Item onClick={()=>darwin.selectLang("hi-IN")} key="1">Hindi</Menu.Item>
+                    <Menu.Item onClick={()=>darwin.selectLang("ar-SA")} key="3">Arabic</Menu.Item>
+                  </Menu>
+                )}
+                trigger={["click"]}
+              >
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <FaLanguage size={30} />
+                </a>
+              </Dropdown>
+              {"  "}
+              <Link to="/patient/schedule">
+                <h4 className="text-white me-3 ">
+                  <GoCalendar /> Schedule
+                </h4>
+              </Link>
+            </Space>
           ) : (
             <Dropdown
               overlay={
                 <Menu
                   className="dropDownMenu"
-                  style={{ borderTop: "solid 1px black"}}
+                  style={{ borderTop: "solid 1px black" }}
                   defaultSelectedKeys={["1"]}
                   defaultOpenKeys={["sub1"]}
                   mode="inline"

@@ -161,6 +161,7 @@ class AI extends Component {
       ref: 1,
       toggleState: 1,
       lateralJoints: leftJoints,
+      latSide:'left'
     };
 
     // window.darwin.setExcersiseParams({
@@ -244,12 +245,14 @@ class AI extends Component {
   changeSide = (value) => {
     if (value == "left") {
       //setLateralJoints(leftJoints)
+      this.setState({latSide:'left'})
       this.setState({ lateralJoints: leftJoints });
       this.setAngles([0, 4, 6, 12, 14, 18]);
       this.setSelectOrientation(2);
     }
     if (value == "right") {
       //setLateralJoints(rightJoints)
+      this.setState({latSide:'right'})
       this.setState({ lateralJoints: rightJoints });
       this.setAngles([1, 5, 7, 13, 15, 18]);
       this.setSelectOrientation(3);
@@ -516,20 +519,20 @@ class AI extends Component {
     this.setState({ angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] });
     this.setState({ toggleState: 1 });
     this.setState({ lateralJoints: leftJoints });
-    // window.darwin.setExcersiseParams({
-    //   name: this.state.ExcerciseName,
-    //   primaryKeypoint: 0,
-    //   angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    //   dir: 1,
-    //   minAmp: 30,
-    //   primaryAngles: primaryAnglesValue,
-    //   ROMs: [
-    //     [30, 160],
-    //     [30, 160],
-    //   ],
-    //   totalReps: 3,
-    //   totalSets: 2,
-    // });
+    window.darwin.setExcersiseParams({
+      name: this.state.ExcerciseName,
+      primaryKeypoint: 0,
+      angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      dir: 1,
+      minAmp: 30,
+      primaryAngles: primaryAnglesValue,
+      ROMs: [
+        [30, 160],
+        [30, 160],
+      ],
+      totalReps: 3,
+      totalSets: 2,
+    });
     //aswin 11/27/2021 start
     fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
       method: "POST",
@@ -573,7 +576,14 @@ class AI extends Component {
       let data = darwin.getAssesmentData();
       console.log("front", data);
       if (this.state.selectedOrientation == 1) {
-        this.props.FirstAssesment("Anterior_AI_Data", data);
+        if(data!==undefined&&data!==null){
+          this.props.FirstAssesment("Anterior_AI_Data", data);
+          notification.success({
+            message: 'Angles have been calculated',
+            placement: 'bottomLeft',
+            duration: 2
+        })
+        }
         //   if(this.props.history.location.state.Excercise.length===1){
         //     console.log("Ai data ",data[Object.keys(data)[0]])
         //     let name = {}
@@ -590,15 +600,17 @@ class AI extends Component {
         //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
         //     this.props.FirstAssesment("AI_data", data[Object.keys(data)[0]])
         //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //     notification.success({
-        //         message: 'Angles have been calculated',
-        //         placement: 'bottomLeft',
-        //         duration: 2
-        //     })
         //   }
       }
       if (this.state.selectedOrientation == 2) {
-        this.props.FirstAssesment("LeftLateral_AI_Data", data);
+        if(data!==undefined&&data!==null){
+          this.props.FirstAssesment("LeftLateral_AI_Data", data);
+          notification.success({
+            message: 'Angles have been calculated',
+            placement: 'bottomLeft',
+            duration: 2
+        })
+        }
         //   if(this.props.history.location.state.Excercise.length===1){
         //     console.log("Ai data ",data[Object.keys(data)[0]])
         //     let name = {}
@@ -615,15 +627,17 @@ class AI extends Component {
         //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
         //     this.props.FirstAssesment("LeftLateral_AI_Data", data[Object.keys(data)[0]])
         //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //     notification.success({
-        //         message: 'Angles have been calculated',
-        //         placement: 'bottomLeft',
-        //         duration: 2
-        //     })
         //   }
       }
       if (this.state.selectedOrientation == 3) {
-        this.props.FirstAssesment("RightLateral_AI_Data", data);
+        if(data!==undefined&&data!==null){
+          this.props.FirstAssesment("RightLateral_AI_Data", data);
+          notification.success({
+            message: 'Angles have been calculated',
+            placement: 'bottomLeft',
+            duration: 2
+        })
+        }
       }
       console.log(this.state.data);
       this.array = JSON.stringify(this.state.data);
@@ -656,7 +670,9 @@ class AI extends Component {
     window.darwin.launchModel();
     window.darwin.stop();
   };
-
+  setrLabels = () => {
+    
+  }
   // start();
 
   componentWillUnmount() {
@@ -869,17 +885,17 @@ class AI extends Component {
                   <PlayCircleOutlined className="arom_play_btn" />
                 )}
               </Row>,
-              <Row justify="start" span={6}>
-                <Button
-                  // className="mx-2"
-                  disabled={this.state.SWITCH}
-                  style={{ border: "none" }}
-                  icon={<MinusCircleOutlined />}
-                  onClick={this.stop}
-                >
-                  Stop
-                </Button>
-              </Row>,
+              // <Row justify="start" span={6}>
+              //   <Button
+              //     // className="mx-2"
+              //     disabled={this.state.SWITCH}
+              //     style={{ border: "none" }}
+              //     icon={<MinusCircleOutlined />}
+              //     onClick={this.stop}
+              //   >
+              //     Stop
+              //   </Button>
+              // </Row>,
 
               <Row justify="start" span={6}>
                 <Button
@@ -944,7 +960,7 @@ class AI extends Component {
                     style={{ border: "none" }}
                     icon={<CaretLeftFilled />}
                     onClick={this.back}
-                    // disabled={this.state.BACK}
+                    disabled={this.state.SWITCH}
                   >
                     Backs
                   </Button>,
@@ -967,7 +983,7 @@ class AI extends Component {
                       <PlayCircleOutlined />
                     )}
                   </Row>
-                  <Row justify="center" span={8}>
+                  {/* <Row justify="center" span={8}>
                     <Button
                       // className="mx-2"
                       disabled={this.state.SWITCH}
@@ -977,7 +993,7 @@ class AI extends Component {
                     >
                       Stop
                     </Button>
-                  </Row>
+                  </Row> */}
 
                   <Row justify="center" span={8}>
                     <Button
@@ -1104,7 +1120,7 @@ class AI extends Component {
                             >
                               <Row>
                                 {joints.map((item) => (
-                                  <Col span={24}>
+                                  <Col span={12}>
                                     <Checkbox value={item.value}>
                                       {labels[item.value]}
                                     </Checkbox>
@@ -1130,7 +1146,7 @@ class AI extends Component {
                           </Radio.Group>
                           <br />
                           <br />
-                          <div>
+                          {/* <div>
                             <Checkbox.Group
                               onChange={this.angles}
                               value={() =>
@@ -1139,7 +1155,7 @@ class AI extends Component {
                             >
                               <Row>
                                 {this.state.lateralJoints.map((item) => (
-                                  <Col span={24}>
+                                  <Col span={12}>
                                     <Checkbox value={item.value}>
                                       {labels[item.value]}
                                     </Checkbox>
@@ -1147,7 +1163,43 @@ class AI extends Component {
                                 ))}
                               </Row>
                             </Checkbox.Group>
-                          </div>
+                          </div> */}
+                         {this.state.latSide=="left"&& <div>
+                            <Checkbox.Group
+                              onChange={this.angles}
+                            defaultValue={() =>
+                                this.ifCheck(leftJoints)
+                              }
+                            >
+                              <Row>
+                                {leftJoints.map((item) => (
+                                  <Col span={12}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                          {this.state.latSide=="right"&& <div>
+                            <Checkbox.Group
+                              onChange={this.angles}
+                            defaultValue={() =>
+                                this.ifCheck(rightJoints)
+                              }
+                            >
+                              <Row>
+                                {rightJoints.map((item) => (
+                                  <Col span={12}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
                         </div>
                       </div>
                     </>
