@@ -106,6 +106,7 @@ import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
 import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
 import organizationList from "./components/Enterprise/OrganzationList.js";
 import EmployeeList from "./components/Enterprise/EmployeeList.js";
+import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -158,6 +159,7 @@ const App = () => {
 							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
+							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 							<PrivateRoute exact path="/invoice" component={Invoice} />
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />

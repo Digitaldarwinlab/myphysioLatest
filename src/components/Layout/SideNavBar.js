@@ -112,7 +112,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                         style={{ color: "black" }}
                     >Clinic Register</Link>
                 </Menu.Item>}
-                {userInfo.role == "HeadPhysio"&&<Menu.Item key="link4"
+                {(userInfo.role == "HeadPhysio" || userInfo.role == "admin")&&<Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >

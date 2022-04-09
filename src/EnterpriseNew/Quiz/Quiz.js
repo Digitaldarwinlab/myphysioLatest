@@ -219,12 +219,12 @@ function Quiz() {
   };
 
   const lastNextClickHandler = () => {
-    const answerss = {...questionAnswers,"pp_eep_id":id};
-    console.log(answerss);
-    axios
-      .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))
-    dispatch({ type: "CLEAR" });
-    dispatch({type:'JOINT_CLEARSTATE'})
+    // const answerss = {...questionAnswers,"pp_eep_id":id};
+    // console.log(answerss);
+    // axios
+    //   .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))
+    // dispatch({ type: "CLEAR" });
+    // dispatch({type:'JOINT_CLEARSTATE'})
 
     history.push('/patient/enterprise/PoseTest')
   }

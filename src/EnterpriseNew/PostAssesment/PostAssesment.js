@@ -3,8 +3,29 @@ import {useState} from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Dashboard from "../../components/Dashboard/dashboard";
+import {useSelector,useDispatch} from "react-redux";
+import {ASSESMENT_CLEARSTATE} from "../../contextStore/actions/Assesment";
 
 const AssesmentCompletion = () => {
+    const dispatch = useDispatch();
+    const FirstAssesment = useSelector(state => state.FirstAssesment);
+    const questionAnswer = useSelector(state => state.questionAnswerReducer)
+    const Assesment = {
+        subjective:FirstAssesment.subjective,
+        build:FirstAssesment.Built,
+        history:FirstAssesment.History,
+        medication:FirstAssesment.medication,
+        others:FirstAssesment.Others,
+        past_medical_history:FirstAssesment.past_medical_history,
+        any_other_details:FirstAssesment.any_other_details,
+        surgical_history_notes:FirstAssesment.Surgical_History_Notes,
+    }
+
+   
+
+    const posture = {
+        posture : FirstAssesment.posture
+    }
     const history = useHistory();
 
     const [notes,setNotes] = useState('');
@@ -12,7 +33,18 @@ const AssesmentCompletion = () => {
     const id = JSON.parse(localStorage.getItem("userId"));
 
     const nextClickHandler = () => {
-        axios.post(process.env.REACT_APP_API+"/employee_note/",{empolyee_id:id, note:notes}).then(res =>  history.push('/patient/enterprise/dashboard')).catch(err => alert(err));
+        const data = {
+            assesment :Assesment,
+            quiz:questionAnswer,
+            posture: posture,
+            notes:notes
+        }
+        axios.post(process.env.REACT_APP_API+"/add_emp_assessment/",{empolyee_id:id, data}).then(res =>  {
+            dispatch({type:ASSESMENT_CLEARSTATE});
+            dispatch({ type: "CLEAR" });
+    dispatch({type:'JOINT_CLEARSTATE'});
+            history.push('/patient/enterprise/dashboard')
+        }).catch(err => alert(err));
        
     }
 

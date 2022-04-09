@@ -129,7 +129,7 @@ const SearchPatient = () => {
     }
 
     const handleAuhtorizationSubmit = async (event) => {
-      
+      event.preventDefault();
         setLoading(true)
         if (otp.length !== 6) {
             setLoading(false);
@@ -423,6 +423,7 @@ const SearchPatient = () => {
                    <BsFillEyeFill onClick={() => handleView(record)} size={20} />
                   <BiEdit onClick={() => handleEdit(record)} size={20} />
                   <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+                  <FaKey onClick={() => handleAuthorizeClick(record)} />
                 </Space>
               )
             }
@@ -504,6 +505,7 @@ const SearchPatient = () => {
         <Col md={24} sm={24} xs={24}>
           <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={patientData} />
           {show_password_modal()}
+          {show_Authorize_Modal()}
         </Col>
       </Row>
       </>)

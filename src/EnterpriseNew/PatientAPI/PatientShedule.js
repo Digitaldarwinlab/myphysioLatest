@@ -92,7 +92,8 @@ const headers = {
         console.log('request in api',JSON.stringify(json_data))
         console.log(json_data)
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/update_care_plan/", {
+        // const response = await fetch(process.env.REACT_APP_API + "/update_care_plan/", {
+            const response = await fetch(process.env.REACT_APP_API + "/update_emp_careplan/", {
             method: "POST",
             headers: headers,
             body:JSON.stringify(json_data)
