@@ -4,6 +4,7 @@ import {
 } from "../../contextStore/actions/Assesment";
 
 import { useDispatch, useSelector } from "react-redux";
+import { Decode, Encode } from "../../Encode/hashing";
 export const  AssesmentAPI = async (details,url, dispatch) => {
   // console.log('inside assesment api')
   // console.log(details)
@@ -44,13 +45,13 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
 
   details.medicCheck&&details.past_medical_history.push(details.Medication)
   details.othCheck&&details.past_medical_history.push(details.Others)
-  details.Surgical_History_Notes_check&&details.past_medical_history.push(details.Surgical_History_Notes1)
+  details.Surgical_History_Notes_check&&details.past_medical_history.push(details.Surgical_History_Notes)
 
   AssesmentDetails["physical_assessement"] = {
    
     Scars: details.Scars,
     past_medical_history: details.past_medical_history,
-    
+    any_other_details:details.any_other_details,
     Subjective:details.subjective,
     Swelling: details.Swelling,
     PainMeter: details.PainMeter,
@@ -230,13 +231,16 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
     Accept: "application/json",
     "Content-type": "application/json",
   };
+  const encodedData = Encode(AssesmentDetails);
   try {
-    const res = await fetch(process.env.REACT_APP_API + "/add_assessment/", {
+    const res = await fetch(process.env.REACT_APP_API + "/add_assessment_v1/", {
       headers : headers,
       method: "POST",
-      body: JSON.stringify(AssesmentDetails)
+      body: JSON.stringify(encodedData)
     });
-    const data = await res.json();
+    const responseData = await res.json();
+    const data = Decode(responseData);
+   // const data = await res.json();
     if (data) {
       dispatch({ type: RECEIVED_DATA });
       return true;

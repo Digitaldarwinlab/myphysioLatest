@@ -47,6 +47,7 @@ export let keyMapping = {
     start_date: "Start Date",
     gender: "Gender",
     clinic: "Clinic",
+    uid:'User id'
 };
 const { Search } = Input;
 const PhysioList = () => {

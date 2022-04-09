@@ -19,6 +19,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const [assessmentItemActive, setAssessmentItemActive] = useState(pathName.includes("assessment"));
     const [notesItemActive, setNotesItemActive] = useState(pathName.includes("notes"));
     const [physioItemActive, setPhysioItemActive] = useState(pathName.includes("physio"));
+    const [clinicItemActive, setClinicItemActive] = useState(pathName.includes("clinic"));
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" }
     const handleClick = listItem => {
         if (listItem === "patients") {
@@ -47,6 +48,10 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         else if (listItem === "physio") {
             setPhysioItemActive(!physioItemActive);
             getCurrentPath("physio");
+        }
+        else if (listItem === "clinic") {
+            setClinicItemActive(!clinicItemActive);
+            getCurrentPath("clinic");
         }
     }
 
@@ -103,6 +108,14 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                         style={{ color: "black" }}
                     >Physio Register</Link>
                 </Menu.Item>}
+                {/* { userInfo.role == "admin" && <Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic-list"
+                        style={{ color: "black" }}
+                    >Clinic View</Link>
+                </Menu.Item>}
                { userInfo.role == "admin" && <Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
@@ -110,7 +123,8 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     <Link to="/physio/clinic/register"
                         style={{ color: "black" }}
                     >Clinic Register</Link>
-                </Menu.Item>}
+                </Menu.Item>} */}
+              
                 {userInfo.role == "HeadPhysio"&&<Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
@@ -130,7 +144,33 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             </Menu.SubMenu>
         )
     }
-    // Scheduling 
+
+    const clinicItems = () => {
+        return (
+            <Menu.SubMenu key="link46"
+                className={pathName.includes("clinic") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("clinic")}
+                icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />} 
+                title="  Clinics">
+                       { userInfo.role == "admin" && <Menu.Item key="link4986"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/physio/clinic/register"
+                        style={{ color: "black" }}
+                    >Clinic Register</Link>
+                </Menu.Item>}
+                { userInfo.role == "admin" && <Menu.Item key="link451"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic-list"
+                        style={{ color: "black" }}
+                    >Clinic List</Link>
+                </Menu.Item>}
+            </Menu.SubMenu>
+        )
+    }    // Scheduling 
     const schedulingItems = () => {
         return (
             <Menu.SubMenu key="link5"
@@ -243,7 +283,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     return (
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
-            
+            {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  clinicItems()}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}

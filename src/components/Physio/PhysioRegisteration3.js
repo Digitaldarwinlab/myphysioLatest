@@ -29,13 +29,24 @@ const PhysioRegisteration3 = (props) => {
     const state = useSelector(state => state);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
+    //cityclinic2
+    const findClinicName = (id) => {
+        let res 
+        state.clinicReg.clinics.map(clinic=>{
+            if(clinic.pp_cm_id==id){
+                console.log("clinic name is ",clinic.name)
+                res = clinic.name
+            }
+        })
+        return res
+    }
     const showModal = (e) => {
         e.preventDefault();
         let tempData = [];
         let keys = Object.keys(state.physioRegisterReducer);
         let index = 0;
         keys.forEach(key => {
-            if (!(["end_date", "status_flag", "roleid", "isLoading", "success", "id"].includes(key))) {
+            if (!(["end_date", "status_flag", "roleid", "isLoading", "success", "id","expertise_1_temp"].includes(key))) {
                 if (key === "start_date") {
                     tempData.push({
                         key: index,
@@ -55,6 +66,20 @@ const PhysioRegisteration3 = (props) => {
                         key: index,
                         Field: "Head Physio",
                         Value: state.physioRegisterReducer.isHeadPhysio?"Yes":"No"
+                    });
+                    index += 1;
+                }else if (key ==="expertise_1"){
+                    tempData.push({
+                        key: index,
+                        Field: "Expertise 1",
+                        Value: state.physioRegisterReducer.expertise_1==="Others"?state.physioRegisterReducer.expertise_1_temp:state.physioRegisterReducer.expertise_1
+                    });
+                    index += 1;
+                }else if (key ==="clinic"){
+                    tempData.push({
+                        key: index,
+                        Field: "Clinic",
+                        Value: findClinicName(state.physioRegisterReducer.clinic)
                     });
                     index += 1;
                 } else if (state.physioRegisterReducer[key] !== null && state.physioRegisterReducer[key] !== "NULL" && (state.physioRegisterReducer[key] !== "")) {
@@ -119,15 +144,16 @@ const PhysioRegisteration3 = (props) => {
             } else {
                 result = await physioUpdate(state.physioRegisterReducer, dispatch);
             }
-            // if (result && result[0]) {
-            //     window.location.href = "/physio/list";
-            // } else {
-            //     dispatch({ type: PHYSIO_REGISTER_FAILURE });
-            //     dispatch({ type: VALIDATION, payload: { error: result[1] } });
-            //     setTimeout(() => {
-            //         dispatch({ type: VALIDATION, payload: { error: "" } });
-            //     }, 10000);
-            // }
+         //   history.push("/physio/list")
+            if (result && result[0]) {
+                window.location.href = "/physio/list";
+            } else {
+                dispatch({ type: PHYSIO_REGISTER_FAILURE });
+                dispatch({ type: VALIDATION, payload: { error: result[1] } });
+                setTimeout(() => {
+                    dispatch({ type: VALIDATION, payload: { error: "" } });
+                }, 10000);
+            }
       //  }
     }
 

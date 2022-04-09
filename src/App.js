@@ -101,6 +101,7 @@ import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 // import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
 // import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
+import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -154,6 +155,7 @@ const App = () => {
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
 							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
+							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />

@@ -8,11 +8,19 @@ export const degree = [
 ];
 
 export const expertise = [
-    "Orthopedics or Musculoskeletal Disorders",
-    "Sports",
-    "Neurological & Psychosomatic disorder",
-    "CardioRespiratory Disorders/Cardiopulmonary Sciences",
+  "CRS & CPS",
+  "Orthopedics or Musculoskeletal Disorders",
+  "Sports",
+  "Neurological & Psychosomatic disorder",
     "Gynaecology and Obstetrics",
     "Community Rehabilitation",
-    "Paediatrics"
+    "Paediatrics",
+    "Others"
 ];
+
+
+export const doctor_type = [
+"Treating Doctor",
+"Referring Doctor",
+"Both"
+]

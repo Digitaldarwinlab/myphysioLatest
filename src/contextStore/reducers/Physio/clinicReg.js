@@ -2,7 +2,8 @@ import {
     CLINIC_STATE_CHANGE,
     CLINIC_REGISTER_REQUEST,
     CLINIC_REGISTER_SUCCESS,
-    CLINIC_CLEAR_STATE
+    CLINIC_CLEAR_STATE,
+    CLINIC_REGISTER_FAILED
 } from './../../actions/ClinicRegister';
 
 const clinicInitialState = {
@@ -49,6 +50,11 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...clinicInitialState
             }
+        case CLINIC_REGISTER_FAILED:
+            return {
+                    ...state,
+                    isLoading:false,
+                }    
         default:
             return {
                 ...state

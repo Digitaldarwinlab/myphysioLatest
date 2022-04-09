@@ -24,6 +24,7 @@ const registerInitialState = {
     email: "",
     facebook: "",
     linkedin: "",
+    expertise_1_temp:'',
     regd_no_1: "",
     regd_no_2: "",
     degree: "",

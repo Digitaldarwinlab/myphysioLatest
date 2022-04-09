@@ -693,12 +693,13 @@ max: angleValuesR.rightWrist.max
       setPosture(true)
     }
       // Check if AI_Data
-      if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 || Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
+      if (state.FirstAssesment.Anterior_AI_Data&&Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 || Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
         console.log("Ai data in body.js from localstorage: ", Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0)
           rom.innerHTML = "AROM Assesment"
-          setRomVisibility('contents')
+         // setRomVisibility('contents')
           if(Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0){
             const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
+            setRomVisibility('contents')
             setAngleValues(preValues => ({
               ...preValues,
               ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
@@ -715,8 +716,8 @@ max: angleValuesR.rightWrist.max
           }
           if(Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0){
             const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
-            setRomVisibilityM('contents')
-            setRomVisibilityL('contents')
+            setRomVisibilityM('inline')
+            setRomVisibilityL('inline')
             setAngleValuesL(preValues => ({
               ...preValues,
               ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
@@ -729,8 +730,8 @@ max: angleValuesR.rightWrist.max
           }
           if(Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0){
             const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
-            setRomVisibilityM('contents')
-            setRomVisibilityR('contents')
+            setRomVisibilityM('inline')
+            setRomVisibilityR('inline')
             setAngleValuesR(preValues => ({
               ...preValues,
               ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
@@ -745,7 +746,7 @@ max: angleValuesR.rightWrist.max
           rom.innerHTML = "ROM calculated"
           rom.style.backgroundColor = "honeydew"
           rom.style.borderColor = "limegreen"
-          setRomVisibility('contents')
+          
       }
   }, angleValues)
   // NOTE: Above useEffect does same thing, repeated code 
@@ -1306,8 +1307,8 @@ max: angleValuesR.rightWrist.max
                       { state.FirstAssesment.subjective[index].occupation==='Sports'&&<Col md={24} lg={6} sm={24} xs={24}>
                       <h4>Sports Type</h4>
                     <input class="mx-3 p-2" onChange={(e)=>{
-                          handleChange('Sports_type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                      }} value={state.FirstAssesment.subjective[index].Sports_type} type="text" name='othText' placeholder="Sports Type" />
+                          handleChange('Sports_type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'',index)
+                      }} value={state.FirstAssesment.subjective[index].Sports_type} type="text" name={'sports_type'+index} placeholder="Sports Type" />
                 </Col>}
                   </Row>
                 </div>
@@ -1351,7 +1352,7 @@ max: angleValuesR.rightWrist.max
             <h4><b>History Of Present Complaint</b></h4>
           </Col>
           <Col md={24} lg={24} sm={24} xs={24} className="mx-2" style={{paddingLeft:'0px'}}>
-          <Radio.Group options={['Sudden','Gradual','History of Fail','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
+          <Radio.Group options={['Sudden','Gradual','History of Fall','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
    
             </Radio.Group>
           </Col>
@@ -1379,7 +1380,7 @@ max: angleValuesR.rightWrist.max
                 onChange={(e) =>{
                    setMedic(!medic)
                    handleChange("medicCheck",medic)
-                   handleChange("Medication1",e.target.value)
+                   handleChange("Medication1",e.target.checked)
                   }}
                   value={'Medication'}
                 // options={['Medication']}
@@ -1395,7 +1396,7 @@ max: angleValuesR.rightWrist.max
                 onChange={(e) => {
                   setOthers(!others)
                   handleChange('othCheck',others)
-                  handleChange('Others1',e.target.value)
+                  handleChange('Others1',e.target.checked)
                 }}
                 value={'Others'}
               >  
@@ -1410,7 +1411,7 @@ max: angleValuesR.rightWrist.max
                 onChange={(e) => {
                   SetSurgical_History_Notes(!Surgical_History_Notes)
                   handleChange('Surgical_History_Notes_check',Surgical_History_Notes)
-                  handleChange('Surgical_History_Notes1',e)
+                  handleChange('Surgical_History_Notes1',e.target.checked)
                 }}
                 options={['Surgical History Notes']}
               > 

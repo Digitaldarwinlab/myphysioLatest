@@ -134,13 +134,15 @@ const Addsubjective = (list) => {
         return [{
             id:1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }]
     } else {
         let newEntry = {
             id: list[list.length - 1].id + 1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }
         let newList = [...list, newEntry];
         return newList

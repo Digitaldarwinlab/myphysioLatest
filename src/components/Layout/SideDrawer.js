@@ -231,18 +231,27 @@ const SideDrawer = ({ visState, setVisState }) => {
                 history.push("/patient/schedule");
                 setVisState(false);
               }}
-              key="81"
+              key="91"
             >
               Schedule
             </Menu.Item>
             <SubMenu icon={  <FaLanguage  className="iconClass2" />} mode="inline" title="Language">
-          <Menu.Item onClick={() => darwin.selectLang("en-US")} key="0">
+          <Menu.Item onClick={() => {
+            darwin.selectLang("en-US")
+            setVisState(false);
+            }} key="0">
             English
           </Menu.Item>
-          <Menu.Item onClick={() => darwin.selectLang("hi-IN")} key="1">
+          <Menu.Item onClick={() => {
+            darwin.selectLang("hi-IN")
+            setVisState(false);
+            }} key="1">
             Hindi
           </Menu.Item>
-          <Menu.Item onClick={() => darwin.selectLang("ar-SA")} key="3">
+          <Menu.Item onClick={() => {
+            darwin.selectLang("ar-SA")
+            setVisState(false);
+            }} key="3">
             Arabic
           </Menu.Item>
         </SubMenu>
@@ -252,7 +261,7 @@ const SideDrawer = ({ visState, setVisState }) => {
                 history.push("/patient/profile");
                 setVisState(false);
               }}
-              key="81"
+              key="101"
             >
              Account
             </Menu.Item>
@@ -262,7 +271,7 @@ const SideDrawer = ({ visState, setVisState }) => {
                 history.push("/logout");
                 setVisState(false);
               }}
-              key="81"
+              key="111"
             >
               Logout
             </Menu.Item>

@@ -645,6 +645,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {" "}
                                     {data.physical_assessement.chiefCom}
                                   </Descriptions.Item>
+                               
                                   <Descriptions.Item
                                     label="Past Medical History"
                                     span={3}
@@ -658,6 +659,11 @@ const AssessmentList = ({ assesmentClick }) => {
                                         (p) => `${p + " ,"}`
                                       )}
                                   </Descriptions.Item>
+                                  <Descriptions.Item label="Any Other details ">
+                                    {" "}
+                                    {data.physical_assessement.any_other_details}
+                                  </Descriptions.Item>
+                                  {/* any_other_details */}
                                 </Descriptions>
                               </Row>
                             </div>
@@ -791,6 +797,7 @@ const AssessmentList = ({ assesmentClick }) => {
                           data.Forearm_wrist_Hand ||
                           data.Hip ||
                           data.Knee ||
+                          data.Others||
                           data.Elbow) && (
                           <Panel header="Special Test" key="4">
                             <div className=" border mb-3 mt-3">
@@ -1417,7 +1424,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </Col>
                                     </>
                                   )}
-                                  {data.LeftLateral_AI_Data&&data.LeftLateral_AI_Data != null && (
+                                  {(data.LeftLateral_AI_Data&&data.LeftLateral_AI_Data != null||data.RightLateral_AI_Data&&data.RightLateral_AI_Data != null) && (
                                     <>
                                       {/* <Row className="border">
                                         <Col md={24} lg={24} sm={24} xs={24}>
@@ -1444,7 +1451,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         <Row
                                           gutter={[10, 10]}
                                         >
-                                          <Col md={12} lg={12} sm={24} xs={24}>
+                                         {data.LeftLateral_AI_Data != null&& <Col md={12} lg={12} sm={24} xs={24}>
                                             <h5 className="p-2">Left side</h5>
                                             <Table
                                           pagination={false}
@@ -1484,9 +1491,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                               : []
                                           }
                                         />
-                                          </Col>
+                                          </Col>}
 
-                                          <Col md={12} lg={12} sm={24} xs={24}>
+                                         {data.RightLateral_AI_Data != null&& <Col md={12} lg={12} sm={24} xs={24}>
                                             <h5 className="p-2">Right side</h5>
                                             <Table
                                         pagination={false}
@@ -1524,7 +1531,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             : []
                                         }
                                       />
-                                          </Col>
+                                          </Col>}
                                         </Row>
                                       </Col>
                                     </>
