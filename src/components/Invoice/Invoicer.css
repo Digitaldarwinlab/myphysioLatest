@@ -1,0 +1,64 @@
+
+
+.client {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    text-align: left;
+}
+
+.clinic-info {
+  padding-left: 5%;
+}
+
+.clinic-logo {
+    align-self: center;
+}
+
+.clinic-info h2 {
+    margin: 0;
+    margin-bottom: 1rem;
+   } 
+.clinic-info p {
+ margin: 0;
+}
+
+.clinic-details {
+ 
+    align-self: center;
+}
+
+.clinic-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.patient {
+    text-align: left;
+}
+
+.patient h4 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+.patient ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: flex-start;
+}
+
+.patient li {
+    margin-right: 10% ;
+}
+
+.datern{
+  text-align: right;  
+    }
+
+.datern ul{
+list-style: none;
+}
+

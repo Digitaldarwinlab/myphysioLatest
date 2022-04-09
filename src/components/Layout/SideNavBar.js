@@ -10,6 +10,7 @@ import { FaCalendarPlus, FaPills, FaMicroscope } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiFillCamera, AiFillMedicineBox } from "react-icons/ai";
+import { FaFileInvoiceDollar} from "react-icons/fa";
 
 const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getCurrentPath }) => {
     const [pateintItemActive, setPatientItemActive] = useState(pathName.includes("pateints"));
@@ -272,6 +273,22 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
 
         )
     }
+
+    const Invoice = () => {
+        
+        return (
+           
+                <Menu.Item key="link12" title="Invoice"
+                    icon={<FaFileInvoiceDollar className="iconClass1" />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/invoice"
+                        style={{ color: "black" }}
+                    >Invoice</Link>
+                </Menu.Item>
+           
+        )
+    }
         /*
             <Menu.Item key="1" style={{backgroundColor:'transparent',color:'black'}} onClick={() => { SideNavbarCollpased() }}>
                 {isSideNavbarCollpased
@@ -291,6 +308,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()}
         </Menu>
     )
 }

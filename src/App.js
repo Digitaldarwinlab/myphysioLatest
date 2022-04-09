@@ -88,6 +88,7 @@ import PainAssessment from "./components/Assesment/PainAssessment.jsx";
 //import PainAssessment from "./components/Assesment/paintemp";
 import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
+import Invoice from "./components/Invoice/Invoice"
 import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 // import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
 // import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
@@ -116,8 +117,8 @@ const App = () => {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
 
-	if (process.env.REACT_APP_STAGE === 'PROD')
-  console.log = function no_console() {};
+// 	if (process.env.REACT_APP_STAGE === 'PROD')
+//   console.log = function no_console() {};
 
 
 	return (
@@ -157,10 +158,10 @@ const App = () => {
 							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
 							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
-
+							<PrivateRoute exact path="/invoice" component={Invoice} />
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
-
+							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
 							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
 							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
 

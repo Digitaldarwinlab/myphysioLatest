@@ -119,7 +119,7 @@ const Body = (props) => {
       <div className="submit">
         <button onClick={submitClickHandler}>Submit</button>
       </div>
-      <div className="svg-img">
+      <div className="svg-img" style={{width:"60%", margin:"auto"}}>
         {/* <div className="colors">
           <div className="color_text">
             <div

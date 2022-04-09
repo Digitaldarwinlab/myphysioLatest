@@ -20,7 +20,8 @@ import {MdEmail} from 'react-icons/md'
 import {MailOutlined } from '@ant-design/icons'
 import {FaUserNurse} from 'react-icons/fa'
 import {BsSearch} from 'react-icons/bs'
-import '../../../styles/Layout/Heading.css'
+import '../../../styles/Layout/Heading.css';
+import {getClinicDetails} from "../../../API/Physio/ClinicRegister"
 //let keyMapping
 export let keyMapping = {
     first_name: "First Name",
@@ -74,6 +75,12 @@ const PhysioList = () => {
         maxIndex: 0,
         pageSize: 10
     });
+
+
+    useEffect(async() => {
+const data = getClinicDetails(10);
+console.log(data);
+    },[])
 
     useEffect(() => {
         async function getPhysioData() {

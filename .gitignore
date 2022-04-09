@@ -51,4 +51,7 @@ Thumbs.db
 build/
 build.zip
 
+/.history
+
 src/EnterpriseNew
+

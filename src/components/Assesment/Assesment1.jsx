@@ -112,6 +112,7 @@ darwin.addProgressListener((setCount, repCount) => {
 
 const Assesment1 = ({back ,next}) => {
 
+  const assesmentRef = useRef(null);
   const state = useSelector(state => state);
   const [form] = Form.useForm();
   const myRef = useRef(null)
@@ -1132,7 +1133,6 @@ max: angleValuesR.rightWrist.max
       <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-
         form={form}
       // form={form} name="control-hooks"
       >
