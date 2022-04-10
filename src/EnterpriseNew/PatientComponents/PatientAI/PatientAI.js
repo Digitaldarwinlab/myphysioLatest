@@ -312,7 +312,7 @@ class PatientAI extends Component {
             <>
                 <Row className="px-2 py-2 nameplate" >
                     <Col lg={8} md={8} sm={8} xs={8}>
-                        <p className="fw-bold p" >Patient Name: </p>
+                        <p className="fw-bold p" >Employee Name: </p>
                         <p className="fw-bold p">Exercise Name: </p>
                         {/* <p className="fw-bold p">Repititon Count: </p>
                         <p className="fw-bold p">Set Value: </p> */}
@@ -593,89 +593,71 @@ class PatientAI extends Component {
     }
        AiModelProps = this.AiModel.bind(this);
    // AiModelProps = this.AiModel.bind(this);
-    render() {
-        return (
-            <>
-                <div id="info" style={{ display: "none" }}>
-                </div>
-                <div className="m-3">
-                    <h3 className="fw-bold">
-                        <BackButton />
-                        {" "}{this.state.exerciseName}
-                    </h3>
-                    <Row gutter={[10, 5]} className="outerai">
-                        <Col lg={16} md={16} sm={24} xs={24}
-                            id="myVideo"
-                            className="border" style={{ minHeight: '600px', cursor: "pointer" }}>
-                         {this.AiModelProps()}
-                          
-                            {/* {this.AiModel()} */}
-                        </Col>
-                        <Col lg={8} md={8} sm={24} xs={24} id="greenChannel">
-                            <Row gutter={[5, 5]}>
-                                {/* <Col lg={24} md={24} sm={12} xs={24} className="border" >
-                                    <UseStopwatchDemo starttimer={this.state.starttimer} Setstarttimer={this.setstarttimer
-                                       
-                                        } />
-
-                                </Col> */}
-                                <Col lg={24} md={24} sm={12} xs={24} className="border">
-                                    {this.Statistics()}
-                                </Col>
-                                <Col lg={24} md={24} sm={12} xs={24} style={{ minHeight: "32vh" }}>
-                                    {/* <VideoScreen
-                                        height={true}
-                                        video={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-
-                                    /> */}
-                                      <video
-                                          autoPlay controls loop
-                                         id='exercise_video'
-                                        style={{ width: "97%", height: "100%" }} className="border">
-                                         <source id='video_source' src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`} type="video/mp4" />
-                                        </video>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </div>
-                {this.state.visible &&<div className="Modal-outer">
-                <Modal
-                className="Modal"
-                    title=""
-                    //closable
-                    visible={this.state.visible}
-                  //  visible={true}
-                    footer={null}
-                    closable={false}
-                    keyboard={false}
-                   // onCancel={() => this.setState({ visible: false })}
+   render() {
+    return (
+      <div className="pat_main_div">
+       <Row>
+       <Col lg={8} md={8} sm={12} xs={12}>
+ <h3 className="fw-bold">
+            <BackButton /> {"Squat"}
+          </h3>
+              </Col>
+            <Col lg={8} md={8} sm={12} xs={12}>
+                <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
+              </Col>
+              <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+                <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
+              </Col>
+        </Row>
+        <Row>
+            {this.AiModelProps()}
+         
+          <Col lg={8} md={8} sm={24} xs={24}>
+            <Row className="pat_det_div">
+              <Col lg={24} md={24} sm={24} xs={24}>
+                <video
+                  autoPlay
+                  controls
+                  loop
+                  id="exercise_video"
+                  style={{ width: "97%", height: "100%" }}
+                  className="border"
                 >
-                    <h3 className="fw-bold text-center">Congratulation</h3>
-                    <p className="p text-center mt-2">You have successfully completed the session.</p>
-                    {this.PainMeter()}
+                  <source
+                    id="video_source"
+                    src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+                    type="video/mp4"
+                  />
+                </video>
+              </Col>
+            </Row>
+          </Col>
+          <Modal
+            visible={this.state.visible}
+            footer={null}
+            closable={false}
+            keyboard={false}
+          >
+            <h3 className="fw-bold text-center">Congratulation</h3>
+            <p className="p text-center mt-2">
+              You have successfully completed the session.
+            </p>
+            {this.PainMeter()}
 
-                    <div style={{ display: "flex", justifyContent: "space-around", marginTop: 20 }}>
-                        <AchievedResult icon={<FaMedal size={25} color="black" />}
-                            score="8/10" message="Your Success" />
-                        <AchievedResult
-                            icon={<FaStopwatch size={25} color="black" />}
-                            score="30 min" message="Your Practice Time" />
-                    </div>
-
-                    <div style={{ marginTop: 20 }}>
-                        <h4 className="fw-bold">Notes-</h4>
-                        <p className="text-justify p">
-                        </p>
-                    </div>
-                    <div className="text-end">
-                        <Button className="okay" onClick={this.finish}>Okay</Button>
-                    </div>
-                </Modal>
-                </div>}
-            </>
-        )
-    }
+            {/* <div style={{ marginTop: 20 }}>
+              <h4 className="fw-bold">Notes-</h4>
+              <p className="text-justify p"></p>
+            </div> */}
+            <div className="text-end">
+              <Button className="okay" onClick={this.finish}>
+                Okay
+              </Button>
+            </div>
+          </Modal>
+        </Row>
+      </div>
+    );
+  }
 }
 const mapDispatchToProps = dispatch => ({
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import "./Body.css";
+import "./Body.css";
 // import paths from "./svg-path";
 import Path from "./Path";
 import { front_paths } from "../body-svg";
@@ -16,14 +16,10 @@ import { useHistory } from "react-router-dom";
 
 const Body = (props) => {
   const [color, setColor] = useState("rgb(255, 0, 0)");
-  const [redClass, setRedClass] = useState("color activee");
-  const [greenClass, setGreenClass] = useState("color");
-  const [orangeClass, setOrangeClass] = useState("color");
-  const [blueClass, setBlueClass] = useState("color");
-  const [purpleClass, setPurpleClass] = useState("color");
+ 
   const [data, setData] = useState("Click on Body Part");
 
-  const authCtx = useContext(AuthContext);
+
   const history = useHistory();
 
   const joints = useSelector(state => state.jointReducer.joints);
@@ -38,55 +34,7 @@ const Body = (props) => {
   allJoints = [...new Set(allJoints)];
   console.log(allJoints);
 
-  const redclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
-    setColor(event.target.style.backgroundColor);
-    setRedClass("color activee");
-    setGreenClass("color");
-    setOrangeClass("color");
-    setBlueClass("color");
-    setPurpleClass("color");
-  };
-
-  const greenclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
-    setColor(event.target.style.backgroundColor);
-    setRedClass("color ");
-    setGreenClass("color activee");
-    setOrangeClass("color");
-    setBlueClass("color");
-    setPurpleClass("color");
-  };
-
-  const orangeclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
-    setColor(event.target.style.backgroundColor);
-    setRedClass("color ");
-    setGreenClass("color");
-    setOrangeClass("color activee");
-    setBlueClass("color");
-    setPurpleClass("color");
-  };
-
-  const blueclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
-    setColor(event.target.style.backgroundColor);
-    setRedClass("color ");
-    setGreenClass("color");
-    setOrangeClass("color");
-    setBlueClass("color activee");
-    setPurpleClass("color");
-  };
-
-  const purpleclickHandler = (event) => {
-    console.log(event.target.style.backgroundColor);
-    setColor(event.target.style.backgroundColor);
-    setRedClass("color ");
-    setGreenClass("color");
-    setOrangeClass("color");
-    setBlueClass("color");
-    setPurpleClass("color activee");
-  };
+  
 
   const getData = useCallback((data) => {
     dispatch({type:'ADD',joint:data})
@@ -119,6 +67,7 @@ const Body = (props) => {
       <div className="submit">
         <button onClick={submitClickHandler}>Submit</button>
       </div>
+      <h3 style={{marginTop:"2%"}}><center><b>Please Select the area of discomfort.</b></center></h3>
       <div className="svg-img" style={{width:"60%", margin:"auto"}}>
         {/* <div className="colors">
           <div className="color_text">
@@ -181,7 +130,7 @@ const Body = (props) => {
             />
           ))}
         </svg>
-        <svg x="0px" y="0px" viewBox="0 80 612 792" className="body-svg">
+        <svg x="0px" y="0px" viewBox="0 0 612 792" className="body-svg">
           {back_paths.map((path) => (
             <Path
               d={path.d}

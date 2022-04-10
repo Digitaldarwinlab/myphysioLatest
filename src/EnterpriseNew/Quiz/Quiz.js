@@ -9,6 +9,9 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import axios from "axios";
 import questions from "../question";
 import "./Quiz.css";
+import Path from "../../components/Assesment/Body/Path";
+import { front_paths } from "../body-svg";
+import { back_paths } from "../body-svg";
 // import { logout } from './API/userAuth/userAuth';
 
 // const questions = [
@@ -219,12 +222,12 @@ function Quiz() {
   };
 
   const lastNextClickHandler = () => {
-    const answerss = {...questionAnswers,"pp_eep_id":id};
-    console.log(answerss);
-    axios
-      .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))
-    dispatch({ type: "CLEAR" });
-    dispatch({type:'JOINT_CLEARSTATE'})
+    // const answerss = {...questionAnswers,"pp_eep_id":id};
+    // console.log(answerss);
+    // axios
+    //   .post("https://myphysio.digitaldarwin.in/api/get_answer", answerss).then(res => console.log(res)).catch(err => console.log(err))
+    // dispatch({ type: "CLEAR" });
+    // dispatch({type:'JOINT_CLEARSTATE'})
 
     history.push('/patient/enterprise/PoseTest')
   }
@@ -243,7 +246,38 @@ function Quiz() {
       <section id="question_section">
         <div className="questions">
           <div className="image">
-            <img src={img} alt="body" />
+            {/* <img src={img} alt="body" /> */}
+            <svg x="0px" y="0px" viewBox="0 0 612 792" style={{width:"80%"}} className="body-svg">
+          {front_paths.map((path) => (
+            <Path
+              d={path.d}
+              key={path.id}
+              id={path.id}
+              muscle={path.muscle}
+              joint={path.joint}
+              // color={color}
+              section={path.section}
+              joints={joints}
+              // getData={getData}
+            />
+          ))}
+        </svg>
+        <svg x="0px" y="0px" viewBox="0 120 612 792" style={{width:"80%"}} className="body-svg">
+          {back_paths.map((path) => (
+            <Path
+              d={path.d}
+              key={path.id}
+              id={path.id}
+              muscle={path.muscle}
+              joint={path.joint}
+              section={path.section}
+              // color={color}
+              joints={joints}
+              // getData={getData}
+            />
+          ))}
+        </svg>
+
           </div>
           {question < que.length ? (
             <div className="question">
@@ -299,9 +333,9 @@ function Quiz() {
                 </button>
               </div>
             </div>
-          ) : !isLoading && joints.length > 0 ? (
+          ) : !isLoading && joints.length > 0 && question!==0? (
             <div className="end"><p>Thanks For Completing The Quiz</p>
-            <button className="" onClick={lastNextClickHandler}>Next</button></div>
+            <button className="end-button" onClick={lastNextClickHandler}>Get Ready for Postural Analysis</button></div>
           ) : (
             <>
               {!isLoading ? (

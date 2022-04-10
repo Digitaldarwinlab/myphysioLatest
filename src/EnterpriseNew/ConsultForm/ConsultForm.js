@@ -102,12 +102,13 @@ const ConsultForm = () => {
     dispatch({ type: "ASSESSMENT_REMOVE_SUB_INPUT", payload: { type: "subjective" } });
   }
 
-    return <div className="consultForm">
+    return <div className="consultForm" style={{padding:"5%"}} >
+      <div style={{border:"1px solid",padding:"5%"}}>
     <div className="container-fuild">
 
 <Row gutter={[20, 20]} className="py-0">
     <Col md={24} lg={24} sm={24} xs={24}>
-        <h4><b>Subjective</b></h4>
+        <h2><b>Assesment</b></h2>
     </Col>
   </Row>
 {/* <div className="row">
@@ -120,12 +121,13 @@ const ConsultForm = () => {
 
 
  <Col md={24} lg={24} sm={24} xs={24} className="mx-0 p-0">
+ <h4 styles={{marginTop:"10%"}}><b>Subjective</b></h4>
     {state.FirstAssesment.subjective.map((data, index) => {
   let
     occupation = `occupation-${index}`,
     Duration = `Duration-${index}`;
   return (
-     <div className="container-fuild p-4 my-3 border1" key={index}>
+     <div className="container-fuild p-4 my-3 border1" key={index} style={{paddingTop: "0 !important"}}>
        <Row gutter={[20, 20]} className="py-0">
           <Col md={24} lg={12} sm={24} xs={24} style={{paddingLeft:'0px'}}>
              <h4>Occupation</h4>
@@ -201,7 +203,7 @@ const ConsultForm = () => {
   <h4><b>History Of Present Complaint</b></h4>
 </Col>
 <Col md={24} lg={24} sm={24} xs={24} className="mx-2" style={{paddingLeft:'0px'}}>
-<Radio.Group options={['Sudden','Gradual','History of Fail','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
+<Radio.Group options={['Sudden','Gradual','History of Fall','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
 
   </Radio.Group>
   {/* <div className="row " name="History" value={state.FirstAssesment.History} onChange={(e) => handleChange("History", e.target.value)}>
@@ -351,7 +353,7 @@ const ConsultForm = () => {
 </div>
 <button className="fomr-button" onClick={() =>history.push('/patient/enterprise/muscle-selection')}>Submit</button>
 </div>
-    // return <div class="Formdiv">
+    {/* // return <div class="Formdiv">
     // <form>
     //     <label>
     //         Occupation
@@ -409,8 +411,9 @@ const ConsultForm = () => {
        
        
     // </form>
-    // </div>
 
+    // </div> */}
+    </div>
 }
 
 export default ConsultForm;

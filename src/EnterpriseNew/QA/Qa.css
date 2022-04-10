@@ -6,3 +6,8 @@
     margin-bottom: 5%;
     font-weight: bolder;
 }
+
+.grid-col {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}

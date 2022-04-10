@@ -7,7 +7,7 @@
 }
 
 .fomr-button {
-    background-color: #36aca8;
+    background-color: #2d7ecb;
     color: white;
     border: 1px solid #35858b;
     font-size: 1.125rem;
@@ -16,4 +16,11 @@
     margin-top: 5% !important;
     margin:2%  40% !important;
     border-radius: 20px;
+}
+
+@media (max-width:700px){
+    .fomr-button {
+        width: 40%;
+        margin:2%  30% !important;
+    }
 }

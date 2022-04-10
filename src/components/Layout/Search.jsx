@@ -129,7 +129,7 @@ const SearchPatient = () => {
     }
 
     const handleAuhtorizationSubmit = async (event) => {
-      
+      event.preventDefault();
         setLoading(true)
         if (otp.length !== 6) {
             setLoading(false);
@@ -421,8 +421,9 @@ const SearchPatient = () => {
               render: (text, record) => (
                 <Space size="middle">
                    <BsFillEyeFill onClick={() => handleView(record)} size={20} />
-                   {getUserData() == "admin"&&<BiEdit onClick={() => handleEdit(record)} size={20} />}
-                  {getUserData() == "admin"&&<AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />}
+                  <BiEdit onClick={() => handleEdit(record)} size={20} />
+                  <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+                  {record.status_flag === 0 && <FaKey onClick={() => handleAuthorizeClick(record)} />}
                 </Space>
               )
             }
@@ -503,6 +504,8 @@ const SearchPatient = () => {
         <Row>
         <Col className="pag_large" md={24} sm={24} xs={24}>
           <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={patientData} />
+          {show_password_modal()}
+          {show_Authorize_Modal()}
         </Col>
         <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
           <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small" }} bordered columns={columns} dataSource={patientData} />
