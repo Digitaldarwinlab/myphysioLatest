@@ -90,23 +90,23 @@ import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
 import Invoice from "./components/Invoice/Invoice"
 import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
-import EnterprisePatient from "./PatientEnterprice/EnterprisePatient";
-import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
-import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
-import Body from "./EnterpriseNew/human-body/Body";
-import Quiz from "./EnterpriseNew/Quiz/Quiz";
-import Pose from "./EnterpriseNew/Posture/PoseTestClass";
-import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
-import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
-import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
-import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
-import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
-import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
-import Qa from "./EnterpriseNew/QA/Qa.js";
-import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
-import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
-import organizationList from "./components/Enterprise/OrganzationList.js";
-import EmployeeList from "./components/Enterprise/EmployeeList.js";
+// import EnterprisePatient from "./PatientEnterprice/EnterprisePatient";
+// import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
+// import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
+// import Body from "./EnterpriseNew/human-body/Body";
+// import Quiz from "./EnterpriseNew/Quiz/Quiz";
+// import Pose from "./EnterpriseNew/Posture/PoseTestClass";
+// import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
+// import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
+// import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
+// import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
+// import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
+// import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
+// import Qa from "./EnterpriseNew/QA/Qa.js";
+// import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
+// import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
+// import organizationList from "./components/Enterprise/OrganzationList.js";
+// import EmployeeList from "./components/Enterprise/EmployeeList.js";
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js";
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList"
 
@@ -192,9 +192,9 @@ const App = () => {
 							<PrivateRoute exact path="/patient/consent-form" component={PatientConsuntForm} />
 							<Route exact path="/logout" component={Logout} />
 							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
-							<PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  />
+							{/* <PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
-							{/* <EnterpriseRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} /> */}
+							<EnterpriseRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} />
 							<EnterpriseRoute exact path="/patient/enterprise/muscle-selection" component={Body} />
@@ -204,7 +204,7 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/ai" forceRefresh={true} component={EnterpriseAI} />
 							<PatientRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
 							<PatientRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
-							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
+							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} /> */}
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
