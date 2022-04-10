@@ -154,8 +154,9 @@ const App = () => {
 							<PrivateRoute exact path="/pateints" component={patients} />
 							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
 							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
-							<PrivateRoute exact path="/physio/clinic/register" component={PhysioClinic} />
-							<PrivateRoute exact path="/physio/clinic/view" component={ViewClinic} />
+							<PrivateRoute exact path="/clinic/register" component={PhysioClinic} />
+							<PrivateRoute exact path="/clinic/update" component={PhysioClinic} />
+							<PrivateRoute exact path="/clinic/view" component={ViewClinic} />
 							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 							<PrivateRoute exact path="/invoice" component={Invoice} />

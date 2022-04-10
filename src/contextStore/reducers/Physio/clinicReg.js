@@ -23,7 +23,8 @@ const clinicInitialState = {
     website_url:"",
     isLoading:false,
     success:"",
-    clinics:[]
+    clinics:[],
+    status_flag:true,
 }
 export const clinicReg = (state = clinicInitialState,action)=>{
     switch (action.type) {
@@ -44,7 +45,7 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...state,
                 isLoading:false,
-                success:"Clinic Registered SuccessFully."
+                success:action.payload.msg
             }
         case CLINIC_CLEAR_STATE:
             return {

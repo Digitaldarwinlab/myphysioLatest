@@ -48,7 +48,12 @@ export let keyMapping = {
     start_date: "Start Date",
     gender: "Gender",
     clinic: "Clinic",
-    uid:'User id'
+    uid:'User id',
+    clinic_code : 'Clinic Code',
+    zip:'Zip',
+    estab_date : 'Establishment Date',
+    landline_no : 'Landline',
+    website_url : 'Website'
 };
 const { Search } = Input;
 const PhysioList = () => {

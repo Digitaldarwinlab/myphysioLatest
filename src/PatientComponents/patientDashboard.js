@@ -248,7 +248,9 @@ const PatientDashboard = () => {
           </Row>
           <Row justify="center">
             <Col span={24}>
-            <VideoScreen className="video-play" video={process.env.REACT_APP_EXERCISE_URL+"/images/v1/introVideo.mp4"} height={true} />
+            <VideoScreen className="video-play" 
+            video={process.env.REACT_APP_EXERCISE_URL+"/images/v1/introVideo.mp4"} 
+            height={true} />
             </Col>
           </Row>
           </div>

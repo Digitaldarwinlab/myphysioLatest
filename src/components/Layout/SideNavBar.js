@@ -130,7 +130,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
-                    <Link to="/physio/clinic/view"
+                    <Link to="/clinic/view"
                         style={{ color: "black" }}
                     >View Clinic</Link>
                 </Menu.Item>}
@@ -157,7 +157,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
-                    <Link to="/physio/clinic/register"
+                    <Link to="/clinic/register"
                         style={{ color: "black" }}
                     >Clinic Register</Link>
                 </Menu.Item>}
@@ -300,7 +300,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     return (
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
-            {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  clinicItems()}
+            {(userInfo.role === "admin") &&  clinicItems()}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}
