@@ -73,6 +73,7 @@ const SearchPatient = () => {
     useEffect(async () => {
         setNewLoading(true)
         const data = await getPatientList();
+        console.log('patient list',data)
         setNewLoading(false)
         setPatientData(data);
         //  console.log(patientData)
@@ -144,6 +145,14 @@ const SearchPatient = () => {
             "otp":otp
             })
             setMessage(message.message);
+            if(message.status_code==5){
+                setTimeout(() => {
+                    setAuthorizeModal(false)
+                    window.location.reload(false)
+                }, 2000);
+            }else{
+                setMessage('OTP Verification Failed');
+            }
             console.log('Message from verify OTP',message);
         setLoading(false);
         setOTP('');
@@ -169,13 +178,19 @@ const SearchPatient = () => {
             <label htmlFor="otp">Enter OTP</label>
             <input style={{width:"100%"}} name='otp' onChange={(e) => {setOTP(e.target.value)}} value={otp} required>
             </input>
-            <center>
-                        <Button type="primary" htmlType="submit" className="userAuthbtn" >
+            {/* <center className="userAuthBtnMain">
+                     
+                        </center> */}
+                    <Space size="middle">
+                           <Button type="primary" htmlType="submit" 
+                        style={{background:'blue'}}
+                        className="Autherizebtn" 
+                        >
                             Verify OTP
-                        </Button>
-                        </center>
-                        <center>
-                        <Button type="primary" htmlType="button" className="userAuthbtn" onClick={async() => {const message = await getOTP({
+                        </Button> {"  "}
+                        <Button type="primary" htmlType="button" 
+                        className="Autherizebtn" 
+                        onClick={async() => {const message = await getOTP({
             "uid":temp_uid
             });
             
@@ -183,7 +198,10 @@ const SearchPatient = () => {
             setMessage(message.message);}}>
                             Resend OTP
                         </Button>
-                        </center>
+                        </Space>
+                        {/* <center className="userAuthBtnMain">
+                      
+                        </center> */}
             </form>  
     </Modal>
         )
@@ -272,6 +290,9 @@ const SearchPatient = () => {
             setLoading(false);
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
+                setTimeout(() => {
+                    Setpasswordmodal(false)
+                }, 2000);
                try{
                    form.resetFields()
                }
@@ -339,13 +360,16 @@ const SearchPatient = () => {
                         onChange={(key, value, id) => setConfirmPassword(value)}
                         required={true}
                     />
-                    <Form.Item>
+                
                         <center>
-                        <Button type="primary" htmlType="submit" className="userAuthbtn">
+                        <Button type="primary" htmlType="submit" size='large'
+                        style={{margin:'10px'}}
+                        //className="userAuthFRGTbtn"
+                        >
                             Change Password
                         </Button>
                         </center>
-                    </Form.Item>
+                   
                 </Form>   
     </Modal>
         )
@@ -455,6 +479,7 @@ const SearchPatient = () => {
               render: (text, record) => (
                 <Space size="middle">
                   <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+                  {record.status_flag === 0 && <FaKey onClick={() => handleAuthorizeClick(record)} size={20} />}
                 </Space>
               )
             }
@@ -510,7 +535,7 @@ const SearchPatient = () => {
         <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
           <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small" }} bordered columns={columns} dataSource={patientData} />
         </Col>
-          {show_password_modal()}
+          {/* {show_password_modal()} */}
       </Row>
       </>)
         

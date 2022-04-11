@@ -21,6 +21,7 @@ import FormTextArea from "./../../UI/antInputs/FormTextArea";
 import FormDate from "./../../UI/antInputs/FormDate";
 import Loading from "./../../UtilityComponents/Loading";
 import Success from "./../../UtilityComponents/SuccessHandler";
+import moment from "moment"
 import { useHistory } from "react-router-dom";
 import "../../../styles/Layout/Heading.css";
 import { ItemDragging } from "devextreme-react/list";
@@ -98,14 +99,20 @@ const PhysioClinic = () => {
     return () => {
       unblock();
     };
-  }, [history, state]);
+  }, [history]);
   useEffect(() => {
     let res = state.clinicReg;
     if (Object.keys(res).length > 0) {
       Object.keys(res).map((data) => {
-        if (res[data] !== null) {
+        if (res[data] !== null && data !=='estab_date' && data !=='start_date') {
           let temp = {};
           temp[data] = res[data];
+          form.setFieldsValue(temp);
+        }
+        if(data =='estab_date'){
+        //  console.log(res[data])
+          let temp = {};
+          temp[data] = moment(res[data], "YYYY-MM-DD") 
           form.setFieldsValue(temp);
         }
       });

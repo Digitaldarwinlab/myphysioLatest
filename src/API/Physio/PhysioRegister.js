@@ -211,12 +211,15 @@ export const getClincList = async () => {
 }
 //search clinic
 export const searchClinic = async (value) => {
+    let qr = {
+        query : value
+    }
     try {
         const headers = {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-        const encodedData = Encode({ payload: value })
+        const encodedData = Encode(qr)
         const response = await fetch(process.env.REACT_APP_API + "/search_clinic_v1/", {
             method: "POST",
             headers: headers,

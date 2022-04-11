@@ -142,7 +142,8 @@ const ClinicList = () => {
     if (Object.keys(record).length > 0) {
       Object.keys(record).map((data) => {
         if (record[data] !== null) {
-          if (data !== "last_update_date" && data !== "last_update_by") {
+          if ((data !== "last_update_date" && data !== "last_update_by")) {
+            console.log(data," ", record[data])
             dispatch({
               type: CLINIC_STATE_CHANGE,
               payload: {
@@ -150,7 +151,7 @@ const ClinicList = () => {
                 value: record[data],
               },
             });
-          }
+           }
         }
       });
     }
@@ -228,7 +229,7 @@ const ClinicList = () => {
           <Row justify="end">
             <Col md={24} sm={24} xs={24}>
               <NavLink to="/clinic/register">
-                <i className="fas fa-user-md" /> New Clinic
+                <i     className="fas fa-clinic-medical" /> New Clinic
               </NavLink>
             </Col>
           </Row>

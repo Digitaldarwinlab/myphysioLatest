@@ -316,13 +316,14 @@ console.log(data);
                         onChange={(key, value, id) => setConfirmPassword(value)}
                         required={true}
                     />
-                    <Form.Item>
-                        <center>
-                        <Button type="primary"  htmlType="submit" className="userAuthbtn">
+                    <center>
+                        <Button type="primary" htmlType="submit" size='large'
+                        style={{margin:'10px'}}
+                        //className="userAuthFRGTbtn"
+                        >
                             Change Password
                         </Button>
                         </center>
-                    </Form.Item>
                 </Form>   
     </Modal>
         )

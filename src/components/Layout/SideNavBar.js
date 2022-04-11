@@ -308,7 +308,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
-            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()}
+            {/* {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()} */}
         </Menu>
     )
 }

@@ -7,7 +7,7 @@ import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import svg from "././../../assets/step3.png";
 import StepBar from './../UtilityComponents/StepBar';
-import { Typography, Modal, Row, Col, Table, Button, Form } from 'antd';
+import { Typography, Modal, Row, Col, Table, Button, Form, Space } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormInput from '../UI/antInputs/FormInput';
 import Loading from './../UtilityComponents/Loading';
@@ -445,6 +445,7 @@ const Register3 = (props) => {
                     
                 </div> */}
                   <Row justify="center">
+                  <Space size={"middle"}> 
                      <Col span={2}><Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button></Col>
                      <Col span={2}><Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
                         {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
@@ -452,6 +453,7 @@ const Register3 = (props) => {
                      <Col span={2}><Button htmlType="submit" className="me-3 my-3 btncolor"   onClick={showModal}>
                         {state.BasicDetails.pp_patm_id ? "Update" : "Submit"}
                     </Button></Col>
+                    </Space>
                     <Modal title="Confirm Details" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                         <Table
                             pagination={false}
