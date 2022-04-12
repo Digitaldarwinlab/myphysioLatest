@@ -26,7 +26,7 @@ const ClinicList = () => {
       const data = await getClincList();
       let rev = data.reverse();
       setLoading(false);
-      setClinics(rev);
+       setClinics(rev);
       // setPaginationState({
       //     ...paginationState,
       //     totalPage: data.length / paginationState.pageSize,
