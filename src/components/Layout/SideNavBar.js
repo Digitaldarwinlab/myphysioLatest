@@ -135,7 +135,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
-                    <Link to="/physio/clinic/view"
+                    <Link to="/clinic/view"
                         style={{ color: "black" }}
                     >View Clinic</Link>
                 </Menu.Item>}
@@ -151,8 +151,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         )
     }
 
-
-    const EnterpriseItems = () => {
+    const clinicItems = () => {
         return (
             <Menu.SubMenu key="link45"
                 className={pathName.includes("enterprise") ? "active text-decoration-none" : "text-decoration-none"}
@@ -164,8 +163,18 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     className="text-decoration-none"
                 >
                     <Link to="/enterprise/organization-register"
+            <Menu.SubMenu key="link46"
+                className={pathName.includes("clinic") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("clinic")}
+                icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />} 
+                title="  Clinics">
+                       { userInfo.role == "admin" && <Menu.Item key="link4986"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic/register"
                         style={{ color: "black" }}
-                    >Organization Register</Link>
+                    >Clinic Register</Link>
                 </Menu.Item>}
 
                { userInfo.role == "admin"&& <Menu.Item key="link37"
@@ -194,10 +203,17 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                         style={{ color: "black" }}
                     >Employee List</Link>
                 </Menu.Item>
+                { userInfo.role == "admin" && <Menu.Item key="link451"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic-list"
+                        style={{ color: "black" }}
+                    >Clinic List</Link>
+                </Menu.Item>}
             </Menu.SubMenu>
         )
-    }
-    // Scheduling 
+    }    // Scheduling 
     const schedulingItems = () => {
         return (
             <Menu.SubMenu key="link5"
@@ -328,6 +344,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
             
             {(userInfo.role === "admin") &&  EnterpriseItems()}
+            {(userInfo.role === "admin") &&  clinicItems()}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}
@@ -335,7 +352,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
-            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()}
+            {/* {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()} */}
         </Menu>
     )
 }

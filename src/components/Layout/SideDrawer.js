@@ -70,6 +70,28 @@ const SideDrawer = ({ visState, setVisState }) => {
           // defaultOpenKeys={['sub1']}
           mode="inline"
         >
+           {(userInfo.role === "admin" ) && <SubMenu key="sub165"  icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}  title="  Clinic">
+            <Menu.Item key="link456"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />} 
+                    className="text-decoration-none"
+                    onClick={() => {
+                      history.push("/clinic/register");
+                      setVisState(false);
+                    }}
+                >
+                    Clinic Register
+                </Menu.Item>
+                <Menu.Item key="link498"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                    onClick={() => {
+                      history.push("/clinic-list");
+                      setVisState(false);
+                    }}
+                >
+                   Clinic List
+                </Menu.Item>
+          </SubMenu>}
           {(userInfo.role === "admin" ||userInfo.role == "HeadPhysio") && <SubMenu key="sub1"  icon={<i className="fas fa-user-md iconClass1"></i>} title="Physio">
            {userInfo.role === "admin"&& <Menu.Item
              icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
@@ -81,21 +103,11 @@ const SideDrawer = ({ visState, setVisState }) => {
             >
               Physio Register
             </Menu.Item>}
-            { userInfo.role == "admin" && <Menu.Item key="link4"
-                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
-                    className="text-decoration-none"
-                    onClick={() => {
-                      history.push("/physio/clinic/register");
-                      setVisState(false);
-                    }}
-                >
-                    Clinic Register
-                </Menu.Item>}
                 {userInfo.role == "HeadPhysio"&&<Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                     onClick={() => {
-                      history.push("/physio/clinic/view");
+                      history.push("/clinic/view");
                       setVisState(false);
                     }}
                 >

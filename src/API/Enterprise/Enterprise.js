@@ -42,17 +42,8 @@ import {
       const responseData = await response.json();
       const data = Decode(responseData);
       console.log(data)
-      
-
-      if(Object.keys(data).length>0){
-        Object.keys(data).map(item=>{
-           dispatch({ type: VALIDATION, payload: item+" "+data[item][0] });
-        })
-        dispatch({ type: CLINIC_REGISTER_SUCCESS });
-    }
+      dispatch({ type: CLINIC_REGISTER_SUCCESS });
     } catch (error) {
-        dispatch({ type: "CLINIC_REGISTER_FAILURE" });
-        // dispatch({ type: CLINIC_REGISTER_SUCCESS });
       console.log(error)
    //   return [false, "Error 501: Internal Server Error. Try After Some Time."];
   }

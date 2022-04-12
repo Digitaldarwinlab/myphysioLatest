@@ -83,7 +83,8 @@ export const EpisodeApi = async (details, dispatch) => {
         const data = await response.json();
         // aswin 10/16/2021 //
         if (response.status !== 200 && response.status !== 201) {
-            return [false, `Error ${response.status}: ` + " " + response.statusText];
+            console.log("response data",data)
+            return [false, data.message];
         }
         if (data && data.message === "episode added") {
             return [true];

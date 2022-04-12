@@ -18,10 +18,10 @@ const BottomCard = (props) => {
             <Col lg={12} md={12} sm={12} xs={24} className="text-center mt-2 mb-2 px-1">
                 <LinearProgress progress={props.progress} />
                 <p className="fw-bold p">{props.progress}%</p>
-                {/* {props.button === undefined && (
+                {props.button === undefined && (
                     <Button className="skip-button">
                         Continue
-                    </Button>)} */}
+                    </Button>)}
             </Col>
         </Row>
     )

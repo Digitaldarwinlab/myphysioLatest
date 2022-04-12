@@ -154,8 +154,14 @@ export const AddVisit = async (details) => {
   
     var allVisitData = seperateVisitData(details);
     console.log("allVisitData ",allVisitData)
-    delete allVisitData[0].appointment_detail.allDay
-   // // console.log(allVisitData)
+    allVisitData.map(item=>{
+        if(item.appointment_detail.allDay==true){
+            item.appointment_detail.allDay = 1
+        }else if(item.appointment_detail.allDay==false){
+            item.appointment_detail.allDay = 0
+        }
+    })
+   // console.log(allVisitData)
    if(details.location!=='Video Conference')
     {  
 
@@ -211,6 +217,13 @@ export const UpdateVisit = async (details) => {
             }
             // console.log("update 1 ",allVisitData)
     }
+    allVisitData.map(item=>{
+        if(item.appointment_detail.allDay==true){
+            item.appointment_detail.allDay = 1
+        }else if(item.appointment_detail.allDay==false){
+            item.appointment_detail.allDay = 0
+        }
+    })
     if(details.location==='Video Conferance'){
         if(allVisitData[0].video_link ){
            // console.log('update inside video link')
