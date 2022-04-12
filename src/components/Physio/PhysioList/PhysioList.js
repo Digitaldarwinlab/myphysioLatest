@@ -48,12 +48,7 @@ export let keyMapping = {
     start_date: "Start Date",
     gender: "Gender",
     clinic: "Clinic",
-    uid:'User id',
-    clinic_code : 'Clinic Code',
-    zip:'Zip',
-    estab_date : 'Establishment Date',
-    landline_no : 'Landline',
-    website_url : 'Website'
+    uid:'User id'
 };
 const { Search } = Input;
 const PhysioList = () => {
@@ -316,14 +311,13 @@ console.log(data);
                         onChange={(key, value, id) => setConfirmPassword(value)}
                         required={true}
                     />
-                    <center>
-                        <Button type="primary" htmlType="submit" size='large'
-                        style={{margin:'10px'}}
-                        //className="userAuthFRGTbtn"
-                        >
+                    <Form.Item>
+                        <center>
+                        <Button type="primary"  htmlType="submit" className="userAuthbtn">
                             Change Password
                         </Button>
                         </center>
+                    </Form.Item>
                 </Form>   
     </Modal>
         )

@@ -25,7 +25,6 @@ import { useHistory } from "react-router-dom";
 import "../../../styles/Layout/Heading.css";
 import { ItemDragging } from "devextreme-react/list";
 import { useForm } from "antd/lib/form/Form";
-import { useLocation } from "react-router-dom";
 const { Title } = Typography;
 const ViewClinic = () => {
   // const formRef = React.createRef();
@@ -35,11 +34,10 @@ const ViewClinic = () => {
   const dispatch = useDispatch();
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
-  const location = useLocation()
+
   const [clinicDetails, setClinicDetails] = useState([]);
-  let status_flag = state.clinicReg.status_flag
+
   useEffect(() => {
-    console.log("clinic details keys : ",location);
     dispatch({ type: "NOERROR" });
     const data = state.clinicReg;
     const keys = Object.keys(StateCity);
@@ -62,6 +60,13 @@ const ViewClinic = () => {
       Object.keys(res).map((data) => {
         if (res[data] !== null) {
           console.log("clinic details keys : ", data, " value ", res[data]);
+        //   dispatch({
+        //     type: CLINIC_STATE_CHANGE,
+        //     payload: {
+        //       key: data,
+        //       value: res[data],
+        //     },
+        //   });
         let temp={}
         temp[data] = res[data]
         form.setFieldsValue(temp)
@@ -79,7 +84,7 @@ const ViewClinic = () => {
         className="clinicInput"
         name={htmlfor}
         value={value}
-        disabled={status_flag}
+        disabled={true}
       />
     );
   };
@@ -104,7 +109,7 @@ const ViewClinic = () => {
               <FormInput name="name" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Name'}</span>}
                                // value={state.clinicReg.name}
                                 //defaultValue={state.clinicReg.name}
-                                disabled={status_flag}
+                                disabled={true}
                             
                                 className="clinicInput"
                               />
@@ -118,7 +123,7 @@ const ViewClinic = () => {
                   </span>
                 }
                 value={state.clinicReg.address_1}
-                disabled={status_flag}
+                disabled={true}
                 className="clinicInput"
               />
             </Col>
@@ -134,7 +139,7 @@ const ViewClinic = () => {
                   </span>
                 }
                 value={state.clinicReg.address_2}
-                disabled={status_flag}
+                disabled={true}
                 className="clinicInput"
                 required={false}
               />
@@ -148,7 +153,7 @@ const ViewClinic = () => {
                   </span>
                 }
                 value={state.clinicReg.address_3}
-                disabled={status_flag}
+                disabled={true}
                 className="clinicInput"
                 required={false}
               />
@@ -174,7 +179,7 @@ const ViewClinic = () => {
                 <Select
                   //showSearch
                   className="clinicInput"
-                  disabled={status_flag}
+                  disabled={true}
                   optionFilterProp="children"
                   value={state.clinicReg.country}
                   allowClear
@@ -205,7 +210,7 @@ const ViewClinic = () => {
               >
                 <Select
                  className="clinicInput"
-                  disabled={status_flag}
+                  disabled={true}
                   showSearch
                   optionFilterProp="children"
                   value={state.clinicReg.state}
@@ -244,7 +249,7 @@ const ViewClinic = () => {
                 <Select
                   showSearch
                   className="clinicInput"
-                  disabled={status_flag}
+                  disabled={true}
                   optionFilterProp="children"
                   value={state.clinicReg.city}
                   allowClear
@@ -277,7 +282,7 @@ const ViewClinic = () => {
                   </span>
                 }
                 value={state.clinicReg.zip}
-                disabled={status_flag}
+                disabled={true}
                 className="clinicInput"
               />
             </Col>
@@ -290,7 +295,7 @@ const ViewClinic = () => {
                   </span>
                 }
                 value={state.clinicReg.mobile_no}
-                disabled={status_flag}
+                disabled={true}
                  className="clinicInput"
               />
             </Col>
@@ -303,7 +308,7 @@ const ViewClinic = () => {
                   </span>
                 }
                  className="clinicInput"
-                disabled={status_flag}
+                disabled={true}
                 value={state.clinicReg.whatsapp_no}
               />
             </Col>
@@ -319,7 +324,7 @@ const ViewClinic = () => {
                   </span>
                 }
                  className="clinicInput"
-                disabled={status_flag}
+                disabled={true}
                 value={state.clinicReg.landline_no}
                 required={false}
               />
@@ -333,7 +338,7 @@ const ViewClinic = () => {
                   </span>
                 }
                  className="clinicInput"
-                disabled={status_flag}
+                disabled={true}
                 value={dateState}
                 // required="true"
               /> */}
@@ -345,7 +350,7 @@ const ViewClinic = () => {
                    </span>
                  }
                   className="clinicInput"
-                 disabled={status_flag}
+                 disabled={true}
                  value={dateState}
               />
             </Col>
@@ -358,7 +363,7 @@ const ViewClinic = () => {
                   </span>
                 }
                  className="clinicInput"
-                disabled={status_flag}
+                disabled={true}
                 value={state.clinicReg.email}
               />
             </Col>

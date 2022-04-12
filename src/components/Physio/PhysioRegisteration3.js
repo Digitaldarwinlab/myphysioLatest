@@ -233,9 +233,9 @@ const PhysioRegisteration3 = (props) => {
                 </Button> */}
                  {/* aswin 10/15/2021 start (button disabled) */}
                 <Button  htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={Back}>Back</Button>    
-                {/* <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} disabled onClick={handleReset}>
+                <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} disabled onClick={handleReset}>
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}
-                </Button> */}
+                </Button>
                 {/* aswin 10/15/2021 end */}
                 <Button onClick={showModal} className=" me-3 btncolor" >
                     {state.physioRegisterReducer.id ? "Update" : "Submit"}

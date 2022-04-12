@@ -50,7 +50,7 @@ useEffect(() => {
  
 
   useEffect(() =>{
-    const id = JSON.parse(localStorage.getItem('user')).clinic_id;
+    const id = JSON.parse(localStorage.getItem('userId'));
     axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id}).then(res => setClinic(res.data[0]));
     },[])
 

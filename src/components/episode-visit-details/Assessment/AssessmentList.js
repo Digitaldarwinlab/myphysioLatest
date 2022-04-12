@@ -1008,46 +1008,6 @@ const AssessmentList = ({ assesmentClick }) => {
                               </Row>
                               <Row gutter={[10, 10]} className="px-4 py-2">
                                 <Col lg={12} md={18} sm={12} xs={12}>
-                                  {data.Others && data.Others.length > 0 && (
-                                    <>
-                                      <Descriptions.Item label="" span={3}>
-                                        <b>Others </b>
-                                      </Descriptions.Item>
-                                      <table
-                                        style={{
-                                          width: `${screen.width / 2}px`,
-                                        }}
-                                        border="1px"
-                                      >
-                                        <tr>
-                                          <td>
-                                            {" "}
-                                            <center>Questions</center>
-                                          </td>
-                                          <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
-                                          </td>
-                                        </tr>
-                                        {data.Others.map((an) => (
-                                          <tr>
-                                            <td>{an[0]}</td>
-                                            <td>
-                                              <center>
-                                                {an[1] == 1
-                                                  ? " Pass "
-                                                  : " Fail "}
-                                              </center>
-                                            </td>
-                                          </tr>
-                                        ))}
-                                      </table>
-                                    </>
-                                  )}
-                                </Col>
-                                <Col lg={12} md={18} sm={12} xs={12}></Col>
-                              </Row>
-                              <Row gutter={[10, 10]} className="px-4 py-2">
-                                <Col lg={12} md={18} sm={12} xs={12}>
                                   {data.Cervical_Spine &&
                                     data.Cervical_Spine.length > 0 && (
                                       <>
