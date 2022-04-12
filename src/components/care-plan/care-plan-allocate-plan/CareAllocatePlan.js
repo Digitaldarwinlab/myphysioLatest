@@ -1,22 +1,27 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
+import Switch from "react-switch";
 import { useState, useEffect } from "react";
 import CarePlanCard from './../care-plan-card/Card';
-import { Row, Col, Form, InputNumber, Button } from 'antd';
+import { Row, Col, Form, InputNumber, Button, Checkbox, Space  } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
 import { useSelector, useDispatch } from 'react-redux';
 import { CARE_PLAN_ROM_CHANGE, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE, CARE_PLAN_TIME_CHANGE } from "../../../contextStore/actions/care-plan-action";
 import { postCarePlanAllocation } from './../../../API/care-plan/care-plan-api';
+import { FaCheck } from "react-icons/fa";
+import { AiOutlineClose} from "react-icons/ai";
 import TimePickerComp from './TimePickerComp';
 import Loading from './../../UtilityComponents/Loading';
 import Success from './../../UtilityComponents/SuccessHandler';
 import Error from './../../UtilityComponents/ErrorHandler';
 import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+//import { Switch } from "react-router-dom";
 
 
 const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const [startDate, setStartDate] = useState("");
+    const [aiState ,setAIState] = useState(false)
     const [endDate, setEndDate] = useState("");
     const [countArray, setCountArray] = useState([]);
     const state = useSelector(state => state.carePlanRedcucer);
@@ -476,13 +481,37 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
        
     }
     }
+    const changeToggle = () => {
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key:'status_flag',
+                value: !state.status_flag
+            }
+        })
+    }
     const [repcheck, setRepCheck] = useState(false)
     return (
         <Form layout="vertical" onFinish={onFinish} className="px-1 py-1">
             {state.isLoading && <Loading />}
             {state.success && <Success success={state.success} />}
             {validationState.error && <Error error={validationState.error} />}
-            <Row gutter={[10, 10]}>
+            <Row >
+            {/* <Switch defaultChecked /> */}
+            <Space size={"middle"}> 
+            <span>AI-Mode {"  "}</span>
+            <Switch
+           // uncheckedIcon={<AiOutlineClose size={20}/>}
+           // checkedIcon={<FaCheck size={20}/>}
+             onColor="#2d7ecb" 
+             checked={state.status_flag} 
+             onChange={()=>changeToggle()} />
+               {state.status_flag?  <span>Activated {"  "}</span>:
+                 <span>Not-Activated {"  "}</span>}
+            </Space>
+            </Row>
+            <div style={{ minHeight: "10px" }}></div>    
+            <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
                     <FormDate
                         label="Start Dates"

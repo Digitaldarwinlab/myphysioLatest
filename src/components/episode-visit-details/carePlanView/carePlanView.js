@@ -6,13 +6,16 @@ import { ImPlus } from 'react-icons/im';
 import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
 import { fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
+import { CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
+import { useDispatch } from "react-redux";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
 
 const CarePlanView = (props) => {
     const [carePlanData, setCarePlanData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [ChangeView, setChangeView] = useState(false);
-
+    const [carePlanViewState ,setCarePlanViewState] = useState(true)
+    const dispatch = useDispatch();
     const [paginationState, setPaginationState] = React.useState({
         totalPage: 0,
         current: 1,
@@ -70,8 +73,42 @@ const CarePlanView = (props) => {
         });
     }
     //change View
+  
+    const handleChange = (key, value, id = 0) => {
+        if (key === "set" || key === "rep_count"||key==="hold_time") {
+            dispatch({
+                type: CARE_PLAN_REP_CHANGE,
+                payload: {
+                    key,
+                    value,
+                    index: id
+                }
+            })
+        }
+    }
 
+const handleEdit = (data) => {
 
+   // setChangeView(true);
+   setCarePlanViewState(false)
+    console.log(data.exercise_details)
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"exercises",
+            value: data.exercise_details
+        }
+    })
+    console.log(carePlanData)
+
+}
+const handleCancel = () => {
+	setCarePlanViewState(true)
+}
+const handleSubmit = (data) => {
+	setCarePlanViewState(true)
+    console.log(data)
+}
     const handleViewChange = () => {
         setChangeView(false);
         fetchData();
@@ -102,15 +139,27 @@ const CarePlanView = (props) => {
                             <div key={index} className="px-1 py-1">
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
-                            <h4 className="fw-bold"><BiEdit 
-                            //onClick={() => handleEdit(record)} size={20}
-                             />Edit</h4>
+                                    <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
+                                        
+                                        <BiEdit 
+                            
+                             />{"  "}Edit
+                                       
+                                    </Button>
+                                    {"  "}
+                                    {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
                         </Col>
                                 </Row> */}
-                                <CarePlanCardView data={data} />
+                                <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
+                                {/* <Row  justify="end">
+                                <Col lg={24} md={24} sm={24} xs={24}>
+                                    {!carePlanViewState&&<Button onClick={() => handleSubmit(data)} className="button1" style={{color:"white"}}>Submit</Button>}
+                        </Col>
+                                </Row> */}
                             </div>
                         ))
                 }
+                {/* {carePlanViewState&&<> */}
                 <div className="pag_large">
                     <Pagination
                         pageSize={paginationState.pageSize}
@@ -130,6 +179,7 @@ const CarePlanView = (props) => {
                     />
                     <div style={{minHeight:'15px'}}></div>
                 </div>
+                {/* </>} */}
             </div>
         )
     } else {

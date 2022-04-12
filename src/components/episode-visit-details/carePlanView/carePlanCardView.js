@@ -1,11 +1,11 @@
 import React from 'react'
 import CarePlanCard from './../../care-plan/care-plan-card/Card';
-import { Row, Col } from 'antd';
+import { Row, Col, Checkbox } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
 import moment from "moment";
 import TimePickerComp from './../../care-plan/care-plan-allocate-plan/TimePickerComp';
 
-export default function CarePlanCardView({ data }) {
+export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
     console.log('data in dashboard')
     console.log("data in dashboard ",data)
     return (
@@ -46,8 +46,9 @@ export default function CarePlanCardView({ data }) {
                                     video={exercise.video_url && exercise.video_url !== null ? exercise.video_url : ""}
                                     actions={false}
                                     // handleChange={() => console.log("Hello")}
+                                    handleChange={handleChange}
                                     index={index}
-                                    carePlanView={true}
+                                    carePlanView={carePlanView}
                                     data={exercise}
                                 />
                             </Col>
