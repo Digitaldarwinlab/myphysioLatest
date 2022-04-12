@@ -101,7 +101,7 @@ import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedul
 import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
 import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
 import ExerciseDetailEnterprise from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail";
-import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAIClass";
+import EnterpriseAI from "./EnterpriseNew/PatientComponents/PatientAI/PatientAI";
 import Qa from "./EnterpriseNew/QA/Qa.js";
 import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
 import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
@@ -167,7 +167,11 @@ const App = () => {
 							<PrivateRoute exact path="/invoice" component={Invoice} />
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
-							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
+							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/employee-register" component={EmployeeRegister} />
+							<PrivateRoute exact path="/enterprise/employee-list" component={EmployeeList} />
+							<PrivateRoute exact path="/enterprise/organization-list" component={organizationList} />
 							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
 							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
 
@@ -194,9 +198,10 @@ const App = () => {
 							<PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
 							{/* <EnterpriseRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} /> */}
-							<EnterpriseRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
-							<EnterpriseRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} />
+							{/* <EnterpriseRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
+							<EnterpriseRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} /> */}
 							<EnterpriseRoute exact path="/patient/enterprise/muscle-selection" component={Body} />
+							<EnterpriseRoute exact path="/patient/enterprise/qa" component={Qa} />
 							<EnterpriseRoute exact path="/patient/enterprise/quiz" component={Quiz} />
 							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
 							<EnterpriseRoute exact path="/patient/enterprise/exercises/brief" forceRefresh={true} component={ExerciseDetailEnterprise} />

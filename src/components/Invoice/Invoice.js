@@ -30,9 +30,16 @@ useEffect(() => {
         let tTax = 0 ;
 
       for(let item in list){
-        const cost = list[item].UnitCost;
-        const discount = cost * list[item].Discount / 100;
-        const tax = cost * list[item].Tax / 100;
+        const cost = Number(list[item].UnitCost);
+        const quantity =Number( list[item].Quantity);
+        const disc = Number(list[item].Discount);
+        const taxx = Number(list[item].Tax);
+        console.log(typeof(cost))
+        console.log(typeof(quantity))
+        console.log(typeof(disc))
+        console.log(typeof(taxx))
+        const discount = cost * quantity * disc / 100;
+        const tax = cost * quantity * taxx * disc / (10000);
         tDiscount = discount + tDiscount;
         tTax = tTax + tax;
       }
@@ -67,12 +74,15 @@ useEffect(() => {
 
   console.log("clinic",clinic);
 
-  const CalculateAmount = (desc,cost, quantity) => {
+  const CalculateAmount = (desc,cost, quantity,discount,tax) => {
     let Cost = +cost;
     let Quantity = +quantity;
+    let Discount = +discount;
+    let Tax = + tax;
     
 
-    return Cost * Quantity
+    // return Math.round(Cost * Quantity - Cost * Quantity*Discount/100 + Cost * Quantity*Tax / 100)
+    return Cost * Quantity;
   };
 
   const handleSubmit = (e) => {

@@ -280,7 +280,7 @@ class PoseTestClass extends Component {
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" style={{height:'440px'}}/>
+              <canvas id="output" className="output" style={{ height: '440px' }} />
               <canvas id="jcanvas" />
             </Col>
           </Col>
@@ -309,13 +309,13 @@ class PoseTestClass extends Component {
             /> */}
           </Col>
           <Col md={24} lg={12} sm={24} xs={24}>
-            
+
           </Col>
         </Row>
 
-        <Row style={{paddingTop:"15px", paddingBottom:"15px" }}>
-        <Col md={24} lg={24} sm={24} xs={24} className="text-center">
-       
+        <Row style={{ paddingTop: "15px", paddingBottom: "15px" }}>
+          <Col md={24} lg={24} sm={24} xs={24} className="text-center">
+
 
             <Button
               onClick={this.GoBack}
@@ -328,7 +328,7 @@ class PoseTestClass extends Component {
               Back
             </Button>
             <Button
-                onClick={this.handleSubmit}
+              onClick={this.handleSubmit}
               style={{
                 marginRight: "10px",
                 marginTop: "5px",
@@ -337,8 +337,8 @@ class PoseTestClass extends Component {
             >
               Save
             </Button>
-              </Col>
-      </Row>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -356,6 +356,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 const mapStateToProps = (state) => ({
   episodeReducer: state.episodeReducer,
-  FirstAssesmentReducer:state.FirstAssesment
+  FirstAssesmentReducer: state.FirstAssesment
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PoseTestClass);

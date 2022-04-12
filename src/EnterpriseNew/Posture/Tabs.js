@@ -51,81 +51,88 @@ function Tabs({
         <div
           className={toggleState === 1 ? "contentt  active-contentt" : "contentt"}
         >
-          <table style={{ marginLeft: "5px" }}>
-            <tr>
-              <td width="75%"></td>
-              <td>Deviation</td>
-            </tr>
-            <tr>
-              <td>Nasal Bridge</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[0]&&frontAngles[0].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Shoulder levels(Acrimion)</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[1]&&frontAngles[1].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Umbilicus</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[2]&&frontAngles[2].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Knees</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[3]&&frontAngles[3].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Ankle/Foot</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[4]&&frontAngles[4].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Line of Gravity</td>
-              <td>
-                <Col span={20}>
-                  <Input className="text-center" value={frontAngles[5]&&frontAngles[5].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-          </table>
-          <hr style={{ margin: "0" }} />
           <Row>
             <Col md={12} lg={12} sm={24} xs={24}>
+              <table style={{ marginLeft: "5px" }}>
+                <tr>
+                  <td width="75%"></td>
+                  <td>Deviation</td>
+                </tr>
+                <tr>
+                  <td>Nasal Bridge</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[0] && frontAngles[0].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shoulder levels(Acrimion)</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[1] && frontAngles[1].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Umbilicus</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[2] && frontAngles[2].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Knees</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[3] && frontAngles[3].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Ankle/Foot</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[4] && frontAngles[4].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Line of Gravity</td>
+                  <td>
+                    <Col span={20}>
+                      <Input className="text-center" value={frontAngles[5] && frontAngles[5].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+              </table>
+            </Col>
+            <Col md={12} lg={12} sm={24} xs={24} style={{ borderLeft: "1px solid" }}>
               <img width="100%" id="scr_out1" src={url1} alt="" />
             </Col>
-            <Col
+          </Row>
+          <hr style={{ margin: "0" }} />
+          <Row>
+            {/* <Col md={12} lg={12} sm={24} xs={24}>
+              <img width="100%" id="scr_out1" src={url1} alt="" />
+            </Col> */}
+            {/* <Col
               md={12}
               lg={12}
               sm={24}
               xs={24}
               style={{ borderLeft: "1px solid" }}
-            >
-              <div style={{ padding: "4px" }}>
-                <Checkbox.Group
+            > */}
+            <div style={{ padding: "4px" }}>
+              {/* <Checkbox.Group
                   style={{ width: "100%" }}
                   onChange={(e) =>{
                     onChangeFront(e)
                   }
                   } 
                 >
-                  {/* <Row>
+                  <Row>
                     <Col span={24} style={{ lineHeight: "200%" }}>
                       <Checkbox value="Genu Valgum">Genu Valgum</Checkbox>
                     </Col>
@@ -142,42 +149,47 @@ function Tabs({
                         Grosshoppers eyed platella
                       </Checkbox>
                     </Col>
-                  </Row> */}
-                </Checkbox.Group>
+                  </Row>
+                </Checkbox.Group> */}
+              <div style={{ padding: "20px" }}>
+                <p>1) Please Press the toggle button below the body Image.</p>
+                <p>2) Please Place your Body according to the image given besides</p>
+                <p>3) Once it start showing the angles(red and green lines on camera ) please capture the screenshot of your body. </p>
               </div>
-            </Col>
+            </div>
+            {/* </Col> */}
           </Row>
           <row>
-          <Col
-                span={24}
-                style={{
-                  // position: "absolute",
-                  right: "0",
-                  bottom: "0",
-                  left: "0",
-                }}
-                >
-                <table width="100%">
-                  <tr>
-                    <th style={{width:'50%'}}>
-                      <Switch
-                        checked={checked1}
-                        onChange={() => {
-                          if(!checked1){
-                            console.log('forward')
-                            darwin.restart()
-                            darwin.selectOrientation(1);
-                          }else{
-                            console.log('backward')
-                            darwin.stop()
-                          }
-                          console.log('check SelectOrientation(front) is calling')
-                          setChecked1(!checked1);
-                        }}
-                        style={{ color: "red", marginTop: 5 }}
-                      />
-                    </th>
-                    {/* <th style={{width:'25%'}}>
+            <Col
+              span={24}
+              style={{
+                // position: "absolute",
+                right: "0",
+                bottom: "0",
+                left: "0",
+              }}
+            >
+              <table width="100%">
+                <tr>
+                  <th style={{ width: '50%' }}>
+                    <Switch
+                      checked={checked1}
+                      onChange={() => {
+                        if (!checked1) {
+                          console.log('forward')
+                          darwin.restart()
+                          darwin.selectOrientation(1);
+                        } else {
+                          console.log('backward')
+                          darwin.stop()
+                        }
+                        console.log('check SelectOrientation(front) is calling')
+                        setChecked1(!checked1);
+                      }}
+                      style={{ color: "red", marginTop: 5 }}
+                    />
+                  </th>
+                  {/* <th style={{width:'25%'}}>
                       test
                       <Switch
                       //  checked={checked1}
@@ -196,83 +208,91 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 }}
                       />
                     </th> */}
-                    <th>
-                      <Button
-                        disabled={!checked1}
-                        onClick={async () => {
-                          darwin.screenShot();
-                          captureFront();
-                          setChecked1(false);
-                          const res = await darwin.showAngles();
-                          console.log("show front angles ", res);
-                          setFrontAngles([
-                            res[0],
-                            res[1],
-                            res[2],
-                            res[3],
-                            res[4],
-                            res[5]
-                          ]);
-                          console.log('backward')
-                          darwin.stop()
-                        }}
-                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
-                        icon={<CameraFilled />}
-                      >
-                        Snapshot
-                      </Button>
-                    </th>
-                  </tr>
-                </table>
-              </Col>
+                  <th>
+                    <Button
+                      disabled={!checked1}
+                      onClick={async () => {
+                        darwin.screenShot();
+                        captureFront();
+                        setChecked1(false);
+                        const res = await darwin.showAngles();
+                        console.log("show front angles ", res);
+                        setFrontAngles([
+                          res[0],
+                          res[1],
+                          res[2],
+                          res[3],
+                          res[4],
+                          res[5]
+                        ]);
+                        console.log('backward')
+                        darwin.stop()
+                      }}
+                      style={{ border: "none", backgroundColor: '#2d7ecb' }}
+                      icon={<CameraFilled />}
+                    >
+                      Snapshot
+                    </Button>
+                  </th>
+                </tr>
+              </table>
+            </Col>
           </row>
         </div>
         <div
           className={toggleState === 2 ? "contentt  active-contentt" : "contentt"}
         >
-          <table style={{ marginLeft: "5px" }}>
-            <tr>
-              <td width="75%"></td>
-              <td>Deviation</td>
-            </tr>
-            <tr>
-              <td>Head deviation</td>
-              <td>
-                <Col span={12}>
-                  <Input value={sideAngles[0]&&sideAngles[0].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Shoulder</td>
-              <td>
-                <Col span={12}>
-                  <Input value={sideAngles[1]&&sideAngles[1].toFixed(2)} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Hip/Pelvic Deviation</td>
-              <td>
-                <Col span={12}>
-                  <Input value={sideAngles[2]} />
-                </Col>
-              </td>
-            </tr>
-            <tr>
-              <td>Knees Deviation</td>
-              <td>
-                <Col span={12}>
-                  <Input value={sideAngles[3]} />
-                </Col>
-              </td>
-            </tr>
-          </table>
-          <br />
-          <br />
-          <hr style={{ margin: "0" }} />
           <Row>
             <Col md={12} lg={12} sm={24} xs={24}>
+              <table style={{ marginLeft: "5px" }}>
+                <tr>
+                  <td width="75%"></td>
+                  <td>Deviation</td>
+                </tr>
+                <tr>
+                  <td>Head deviation</td>
+                  <td>
+                    <Col span={12}>
+                      <Input value={sideAngles[0] && sideAngles[0].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shoulder</td>
+                  <td>
+                    <Col span={12}>
+                      <Input value={sideAngles[1] && sideAngles[1].toFixed(2)} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Hip/Pelvic Deviation</td>
+                  <td>
+                    <Col span={12}>
+                      <Input value={sideAngles[2]} />
+                    </Col>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Knees Deviation</td>
+                  <td>
+                    <Col span={12}>
+                      <Input value={sideAngles[3]} />
+                    </Col>
+                  </td>
+                </tr>
+              </table>
+              <br />
+              <br /></Col>
+            <Col md={12} lg={12} sm={24} xs={24} style={{ borderLeft: "1px solid" }}>
+              <img width="100%" id="scr_out2" src={url2} alt="" />
+            </Col>
+          </Row>
+
+
+          <hr style={{ margin: "0" }} />
+          <Row>
+            {/* <Col md={12} lg={12} sm={24} xs={24}>
               <img width="100%" id="scr_out2" src={url2} alt="" />
             </Col>
             <Col
@@ -281,8 +301,8 @@ function Tabs({
               sm={24}
               xs={24}
               style={{ borderLeft: "1px solid" }}
-            >
-              <div style={{ padding: "4px" }}>
+            > */}
+              {/* <div style={{ padding: "4px" }}>
                 <Checkbox.Group
                   style={{ width: "100%" }}
                   onChange={(e) => onChangeSide(e)}
@@ -312,41 +332,45 @@ function Tabs({
                     </Col>
                   </Row>
                 </Checkbox.Group>
+              </div> */}
+              <div style={{ padding: "20px" }}>
+                <p>1) Please Press the toggle button below the body Image.</p>
+                <p>2) Please Place your Body according to the image given besides</p>
+                <p>3) Once it start showing the angles(red and green lines on camera) please capture the screenshot of your body. </p>
               </div>
-             
-            </Col>
+            {/* </Col> */}
           </Row>
           <row>
-          <Col
-                span={24}
-                style={{
+            <Col
+              span={24}
+              style={{
                 //  position: "absolute",
-                  right: "0",
-                  bottom: "0",
-                  left: "0",
-                }}
-              >
-                <table width="100%">
-                  <tr>
-                  <th style={{width:'50%'}}>
-                      <Switch
-                        checked={checked2}
-                        onChange={() => {
-                          if(!checked2){
-                            darwin.restart()
-                            darwin.selectOrientation(2)
-                            console.log('forward')
-                          }else{
-                            darwin.stop()
-                            console.log('backward')
-                          }
-                          console.log('check SelectOrientation(left) is calling')
-                          setChecked2(!checked2);
-                        }}
-                        style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
-                      />
-                    </th>
-                    {/* <th style={{width:'25%'}}>
+                right: "0",
+                bottom: "0",
+                left: "0",
+              }}
+            >
+              <table width="100%">
+                <tr>
+                  <th style={{ width: '50%' }}>
+                    <Switch
+                      checked={checked2}
+                      onChange={() => {
+                        if (!checked2) {
+                          darwin.restart()
+                          darwin.selectOrientation(2)
+                          console.log('forward')
+                        } else {
+                          darwin.stop()
+                          console.log('backward')
+                        }
+                        console.log('check SelectOrientation(left) is calling')
+                        setChecked2(!checked2);
+                      }}
+                      style={{ color: "red", marginTop: 5, backgroundColor: '#2d7ecb' }}
+                    />
+                  </th>
+                  {/* <th style={{width:'25%'}}>
                       test
                       <Switch
                       //  checked={checked2}
@@ -365,28 +389,28 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
                       />
                     </th> */}
-                    <th>
-                      <Button
-                        disabled={!checked2}
-                        onClick={async () => {
-                          darwin.screenShot();
-                          captureSide();
-                          setChecked2(false);
-                          const res = await darwin.showAngles();
-                          console.log("show side angles ", res);
-                          setSideAngles([res[0], res[1], res[2], res[3]]);
-                          console.log('backward')
-                          darwin.stop()
-                        }}
-                        style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
-                        icon={<CameraFilled />}
-                      >
-                        Snapshot
-                      </Button>
-                    </th>
-                  </tr>
-                </table>
-              </Col>
+                  <th>
+                    <Button
+                      disabled={!checked2}
+                      onClick={async () => {
+                        darwin.screenShot();
+                        captureSide();
+                        setChecked2(false);
+                        const res = await darwin.showAngles();
+                        console.log("show side angles ", res);
+                        setSideAngles([res[0], res[1], res[2], res[3]]);
+                        console.log('backward')
+                        darwin.stop()
+                      }}
+                      style={{ border: "none", backgroundColor: '#2d7ecb' }}
+                      icon={<CameraFilled />}
+                    >
+                      Snapshot
+                    </Button>
+                  </th>
+                </tr>
+              </table>
+            </Col>
           </row>
         </div>
       </div>

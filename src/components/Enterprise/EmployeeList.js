@@ -11,6 +11,7 @@ const EmployeeList = () => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [data,setData] = useState([]);
+    const [organizations, setOrganizations] = useState([]);
     let keyMapping = {
         "pp_patm_id": "Employee Id",
         "first_name": "First Name",
@@ -46,7 +47,7 @@ const EmployeeList = () => {
     };
 
     let locale = {
-        emptyText: 'No Physio Found',
+        emptyText: 'No Employee Found Please search for Organization',
       };
 
     const columns = [
@@ -90,11 +91,15 @@ const EmployeeList = () => {
         }
       ];
 
+    const searchOrganizations = (val) => {
+
+    }
+
       const onSearch = async (e) => {
         let val=e.target.value
         setLoading(true);
-        const searchedData = await searchPhysio(val);
-        setPhysios(searchedData);
+        const searchedData = await searchOrganizations(val);
+        setOrganizations(searchedData);
        
     }
 
@@ -190,7 +195,7 @@ const EmployeeList = () => {
 <input
             //   className="p-2 input-field my-3"
            
-               placeholder="Search Physio.."
+               placeholder="Search Organization"
                onChange={onSearch}
            
                loading={loading}

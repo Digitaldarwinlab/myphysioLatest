@@ -21,6 +21,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const [notesItemActive, setNotesItemActive] = useState(pathName.includes("notes"));
     const [physioItemActive, setPhysioItemActive] = useState(pathName.includes("physio"));
     const [clinicItemActive, setClinicItemActive] = useState(pathName.includes("clinic"));
+    const [EnterpriseItemActive, setEnterpriseItemActive] = useState(pathName.includes("enterprise"));
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" }
     const handleClick = listItem => {
         if (listItem === "patients") {
@@ -53,6 +54,10 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         else if (listItem === "clinic") {
             setClinicItemActive(!clinicItemActive);
             getCurrentPath("clinic");
+        }
+        else if(listItem === "enterprise"){
+            setEnterpriseItemActive(!EnterpriseItemActive);
+            getCurrentPath("enterprise");
         }
     }
 
@@ -150,15 +155,15 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const EnterpriseItems = () => {
         return (
             <Menu.SubMenu key="link45"
-                className={pathName.includes("physio") ? "active text-decoration-none" : "text-decoration-none"}
-                onClick={() => handleClick("physio")}
+                className={pathName.includes("enterprise") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("enterprise")}
                 icon={<i className="fas fa-user-md iconClass1"></i>}
                 title="Enterprise">
                      { userInfo.role == "admin" && <Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
-                    <Link to="/enterprise-register"
+                    <Link to="/enterprise/organization-register"
                         style={{ color: "black" }}
                     >Organization Register</Link>
                 </Menu.Item>}
@@ -167,17 +172,17 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
                     className="text-decoration-none"
                 >
-                    <Link to="/employee-register"
+                    <Link to="/enterprise/employee-register"
                         style={{ color: "black" }}
                     >Employee Register</Link>
                 </Menu.Item>}
-              
+
                 
                 <Menu.Item key="link56"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
                 >
-                    <Link to="/organization-list"
+                    <Link to="/enterprise/organization-list"
                         style={{ color: "black" }}
                     >Organization List</Link>
                 </Menu.Item>
@@ -185,7 +190,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
                 >
-                    <Link to="/employee-list"
+                    <Link to="/enterprise/employee-list"
                         style={{ color: "black" }}
                     >Employee List</Link>
                 </Menu.Item>
@@ -322,7 +327,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
             
-            {/* {(userInfo.role === "admin") &&  EnterpriseItems()} */}
+            {(userInfo.role === "admin") &&  EnterpriseItems()}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}

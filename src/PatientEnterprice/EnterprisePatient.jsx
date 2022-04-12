@@ -272,8 +272,8 @@ console.log(assesment)
                             <b>Email :</b> {org.contact_email ? org.contact_email : "digitaldarwin@gmail.com"}
                         </Col>
                     </Row>
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                    {/* <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4> */}
                    
                 </Col>
                 <Col className="px-4 right-side">
@@ -337,7 +337,7 @@ console.log(assesment)
             </Row> */}
             
                     {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
-                    <div className="card mb-2 mt-2 pb-2">
+                    {/* <div className="card mb-2 mt-2 pb-2">
                         <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
                         <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                             <Col md={24} lg={4} sm={24} xs={24}>
@@ -357,7 +357,7 @@ console.log(assesment)
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                             </Col>
                         </Row>
-                    </div>
+                    </div> */}
                         {/* <Row className="VideoConferencing">
                             <Col >
                                 <h4 className="fw-bold p-2">Video Conferencing</h4>
@@ -418,13 +418,13 @@ console.log(assesment)
                     <StreamLine data={stream_data}/>
                 </div>        
             </div> */}
-            <Row className="px-3 py-3" style={{float:'right'}}>
+            {/* <Row className="px-3 py-3" style={{float:'right'}}>
                 <Col className="text-center">
                     <Button type="primary" size="large" onClick={() => {
                         history.push('/patient/enterprise/muscle-selection');
                     }}>Next</Button>
                 </Col>
-            </Row>
+            </Row> */}
         </>
     )
 }

@@ -64,10 +64,7 @@ const Body = (props) => {
     {/* <div className="logout">
         <button onClick={logoutHandler}>Logout</button>
       </div> */}
-      <div className="submit">
-        <button onClick={submitClickHandler}>Submit</button>
-      </div>
-      <h3 style={{marginTop:"2%"}}><center><b>Please Select the area of discomfort.</b></center></h3>
+     
       <div className="svg-img" style={{width:"60%", margin:"auto"}}>
         {/* <div className="colors">
           <div className="color_text">
@@ -145,8 +142,13 @@ const Body = (props) => {
             />
           ))}
         </svg>
+       
+     
       </div>
-      
+      <h3 style={{marginTop:"2%"}}><center><b>Please Select the area of discomfort.</b></center></h3>
+      <div className="submit">
+        <button onClick={submitClickHandler}>Next</button>
+      </div>  
     </>
   );
 };

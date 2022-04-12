@@ -2,6 +2,7 @@ import {
     CLINIC_REGISTER_REQUEST,
     CLINIC_REGISTER_SUCCESS,
   } from "../../contextStore/actions/ClinicRegister";
+  import { Encode,Decode } from "../../Encode/hashing";
   //@Register Clinic
   //@param Clinic details
   //@return- Message.
@@ -75,3 +76,27 @@ import {
    //   return [false, "Error 501: Internal Server Error. Try After Some Time."];
   }
   }
+
+  export const searchOrganizations = async (value) => {
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const encodedData = Encode({ query: value });
+        const response = await fetch(process.env.REACT_APP_API + "/search_org_v1/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(encodedData)
+        });
+        const responseData = await response.json();
+        const data = Decode(responseData)
+        if (response.status !== 200 && response.status !== 201) {
+            return [];
+        }
+        return data;
+    } catch (err) {
+        // console.log(err);
+        return [];
+    }
+}

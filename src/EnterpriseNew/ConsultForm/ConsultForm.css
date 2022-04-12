@@ -18,9 +18,48 @@
     border-radius: 20px;
 }
 
+.build {
+    display:"flex";
+    width: 25%;
+}
+
+.build div {
+    display:flex;
+    align-items:center;
+    /* margin-right:2%; */
+}
+
+.build input {
+    margin-right: 5%;
+}
+
+.build label {
+   
+margin:0
+}
+
+.build img {
+    /* width:20%; */
+}
+
 @media (max-width:700px){
     .fomr-button {
         width: 40%;
         margin:2%  30% !important;
+    }
+}
+
+@media (max-width:450px){
+    .build {
+        display:"flex";
+        /* flex-direction: column; */
+        width: 100%;
+    }
+
+    .build div {
+        display:flex;
+        align-items:center;
+        /* margin-right:2%; */
+        justify-content: center;
     }
 }

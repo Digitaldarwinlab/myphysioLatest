@@ -4,7 +4,10 @@ import React, { useState, useEffect,useCallback } from 'react';
 import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio, Tabs, Badge } from 'antd';
 import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import Endomorph from "../../styles/Endomorph.png";
+import Ectomorph from "../../styles/Ectomorph.png";
+import Mesomorph from "../../styles/Mesomorph.png"
 
 // import Body from './Body';
 
@@ -119,7 +122,7 @@ const ConsultForm = () => {
 </div> */}
 
 
-
+<div style={{border:"0.5px ridge grey", padding:"10px"}}>
  <Col md={24} lg={24} sm={24} xs={24} className="mx-0 p-0">
  <h4 styles={{marginTop:"10%"}}><b>Subjective</b></h4>
     {state.FirstAssesment.subjective.map((data, index) => {
@@ -128,6 +131,7 @@ const ConsultForm = () => {
     Duration = `Duration-${index}`;
   return (
      <div className="container-fuild p-4 my-3 border1" key={index} style={{paddingTop: "0 !important"}}>
+      
        <Row gutter={[20, 20]} className="py-0">
           <Col md={24} lg={12} sm={24} xs={24} style={{paddingLeft:'0px'}}>
              <h4>Occupation</h4>
@@ -168,12 +172,13 @@ const ConsultForm = () => {
 )
 }
 </Col>
+</div>
 
 
 <div className="row py-0 mx-1">
   <div className="col" style={{paddingLeft:'0px'}}>
-    <button type="button" onClick={() => handleAddFields()} classname="btn btn-primary ">+</button>
-    <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} classname="btn btn-primary mx-2">-</button>
+    <button type="button" onClick={() => handleAddFields()} className="btn btn-primary ">+</button>
+    <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} className="btn btn-primary mx-2">-</button>
 
   </div>
 
@@ -242,7 +247,7 @@ const ConsultForm = () => {
         }}
       options={['Medication']}
     />
-      <input classname="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => {
+      <input className="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => {
           handleChange("Medication", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
       }} name='medText' placeholder="Medication" />
       <br/>
@@ -257,7 +262,7 @@ const ConsultForm = () => {
       }}
       options={['Others']}
     />
-      <input classname="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
+      <input className="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
           handleChange('Others',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
       }} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
 
@@ -272,7 +277,7 @@ const ConsultForm = () => {
       }}
       options={['Surgical History Notes']}
     />
-      <input classname="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
+      <input className="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
           handleChange('Surgical_History_Notes',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
       }} value={state.FirstAssesment.Surgical_History_Notes} disabled={Surgical_History_Notes} type="text" name='Surgical_History_NotesText' placeholder="Surgical History Notes" />
     {/* <div className="row" name="past_medical_history" >
@@ -311,9 +316,9 @@ const ConsultForm = () => {
 
 <div className="container-fuild">
 <Row gutter={[10, 10]} className="py-3">
-  <Col md={24} lg={24} sm={24} xs={24}>
+  {/* <Col md={24} lg={24} sm={24} xs={24}>
     <h4><b>Built Type</b></h4>
-  </Col>
+  </Col> */}
   <Col md={24} lg={24} sm={24} xs={24} className="mx-2 p-0">
     {/* <div className="row" name="Built" value={state.FirstAssesment.Built} onChange={(e) => handleChange("Built", e.target.value)}
     >
@@ -329,9 +334,25 @@ const ConsultForm = () => {
       />Endomorphic</div>
 
     </div> */}
-    <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
+    {/* <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
 
-    </Radio.Group>
+    </Radio.Group> */}
+    <h4><b>Build Type</b></h4>
+    <div className="build" style={{display:"flex"}}>
+  <div>
+  <input type="radio" name="Built" value="Ectomorphic" onChange={(e) => handleChange("Built", e.target.value)}></input>
+   <label > <img src={Ectomorph} /></label>
+  </div>
+  <div >
+  <input type="radio" name="Built" value="Mesomorphic" onChange={(e) => handleChange("Built", e.target.value)} ></input>
+   <label ><img src={Mesomorph} /></label>
+  </div>
+  <div className="">
+  <input type="radio" name="Built" value="Endomorphic" onChange={(e) => handleChange("Built", e.target.value)} ></input>
+   <label  ><img src={Endomorph} /></label>
+  </div>
+  </div>
+  
   </Col>
 </Row>
 </div>
@@ -351,7 +372,7 @@ const ConsultForm = () => {
   </Col>
 </Row>
 </div>
-<button className="fomr-button" onClick={() =>history.push('/patient/enterprise/muscle-selection')}>Submit</button>
+<button className="fomr-button" onClick={() =>history.push('/patient/enterprise/muscle-selection')}>Next</button>
 </div>
     {/* // return <div class="Formdiv">
     // <form>
