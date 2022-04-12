@@ -30,7 +30,8 @@ const initialState = {
     count_time_slots: 3,
     success: "",
     episode_number:'',
-    exercises_cart:[]
+    exercises_cart:[],
+    status_flag:false
 }
 // const setExerise=(exe)=>{
 //     let newList = [...state.exercises_cart]

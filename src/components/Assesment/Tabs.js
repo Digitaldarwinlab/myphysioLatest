@@ -276,9 +276,9 @@ function Tabs({
                 }}
                 className="pose_large_view"
                 >
-                <table width="100%">
-                  <tr>
-                    <th style={{width:'50%'}}>
+                <table style={{backgroundColor:'#f1f1f1' }} width="100%">
+                  <tr style={{textAlign:'center'}}>
+                    <th style={{width:'50%',borderTop:'1px solid',borderRight:'1px solid'}}>
                       <Switch
                         checked={checked1}
                         onChange={() => {
@@ -295,7 +295,7 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 }}
                       />
                     </th>
-                    <th>
+                    <th style={{width:'50%',borderTop:'1px solid'}}>
                       <Button
                         disabled={!checked1}
                         onClick={async () => {
@@ -427,9 +427,9 @@ function Tabs({
                 }}
                 className="pose_large_view"
               >
-                <table   width="100%">
-                  <tr>
-                  <th style={{width:'50%'}}>
+             <table style={{backgroundColor:'#f1f1f1' }} width="100%">
+                  <tr style={{textAlign:'center'}}>
+                  <th style={{width:'50%',borderTop:'1px solid',borderRight:'1px solid'}}>
                       <Switch
                         checked={checked2}
                         onChange={() => {
@@ -446,7 +446,7 @@ function Tabs({
                         style={{ color: "red", marginTop: 5 ,backgroundColor:'#2d7ecb'}}
                       />
                     </th>
-                    <th>
+                    <th style={{width:'50%',borderTop:'1px solid'}}>
                       <Button
                         disabled={!checked2}
                         onClick={async () => {
