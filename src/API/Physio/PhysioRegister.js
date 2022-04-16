@@ -421,3 +421,33 @@ export const UpdatePhysioState = (val, dispatch) => {
         }
     })
 }
+
+//search clinic
+export const searchClinic = async (value) => {
+    let qr = {
+        query : value
+    }
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const encodedData = Encode(qr)
+        const response = await fetch(process.env.REACT_APP_API + "/search_clinic_v1/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(encodedData)
+        });
+        const responseData = await response.json();
+   
+       const data = Decode(responseData);
+
+        if (response.status !== 200 && response.status !== 201) {
+            return [];
+        }
+        return data;
+    } catch (err) {
+        // console.log(err);
+        return [];
+    }
+}

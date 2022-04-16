@@ -293,54 +293,51 @@ function Tabs({
           <hr style={{ margin: "0" }} />
           <Row>
             {/* <Col md={12} lg={12} sm={24} xs={24}>
-              <img width="100%" id="scr_out2" src={url2} alt="" />
-            </Col>
-            <Col
+              <img width="100%" id="scr_out1" src={url1} alt="" />
+            </Col> */}
+            {/* <Col
               md={12}
               lg={12}
               sm={24}
               xs={24}
               style={{ borderLeft: "1px solid" }}
             > */}
-              {/* <div style={{ padding: "4px" }}>
-                <Checkbox.Group
+            <div style={{ padding: "4px" }}>
+              {/* <Checkbox.Group
                   style={{ width: "100%" }}
-                  onChange={(e) => onChangeSide(e)}
+                  onChange={(e) =>{
+                    onChangeFront(e)
+                  }
+                  } 
                 >
                   <Row>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Flexed Knee">Flexed Knee</Checkbox>
+                      <Checkbox value="Genu Valgum">Genu Valgum</Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Hyper Extended Knee">
-                        Hyper Extended Knee
+                      <Checkbox value="Genu Varum">Genu Varum</Checkbox>
+                    </Col>
+                    <Col span={24} style={{ lineHeight: "200%" }}>
+                      <Checkbox value="Squinting / cross eyed patella">
+                        Squinting / cross eyed patella
                       </Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Excessive Anterior Pelvic">
-                        Excessive Anterior Pelvic
+                      <Checkbox value="Grosshoppers eyed platella">
+                        Grosshoppers eyed platella
                       </Checkbox>
-                    </Col>
-                    <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Forward Head">Forward Head</Checkbox>
-                    </Col>
-                    <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Lordosis">Lordosis</Checkbox>
-                    </Col>
-                    <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Kyphosis">Kyphosis</Checkbox>
                     </Col>
                   </Row>
-                </Checkbox.Group>
-              </div> */}
+                </Checkbox.Group> */}
               <div style={{ padding: "20px" }}>
                 <p>1) Please Press the toggle button below the body Image.</p>
                 <p>2) Please Place your Body according to the image given besides</p>
-                <p>3) Once it start showing the angles(red and green lines on camera) please capture the screenshot of your body. </p>
+                <p>3) Once it start showing the angles(red and green lines on camera ) please capture the screenshot of your body. </p>
               </div>
+            </div>
             {/* </Col> */}
           </Row>
-          <row>
+          <Row>
             <Col
               span={24}
               style={{
@@ -411,7 +408,7 @@ function Tabs({
                 </tr>
               </table>
             </Col>
-          </row>
+          </Row>
         </div>
       </div>
     </>

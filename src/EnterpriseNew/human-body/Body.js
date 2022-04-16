@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 
 const Body = (props) => {
   const [color, setColor] = useState("rgb(255, 0, 0)");
- 
+  const [error,setError] = useState(false);
   const [data, setData] = useState("Click on Body Part");
 
 
@@ -51,7 +51,8 @@ const Body = (props) => {
     if(allJoints.length !== 0){
       history.push('/patient/enterprise/quiz');
     } else {
-      alert("Select Any Muscles");
+     setError(true);
+     setTimeout(()=>{setError(false);},3000)
     }
     
   }
@@ -64,7 +65,7 @@ const Body = (props) => {
     {/* <div className="logout">
         <button onClick={logoutHandler}>Logout</button>
       </div> */}
-     
+    
       <div className="svg-img" style={{width:"60%", margin:"auto"}}>
         {/* <div className="colors">
           <div className="color_text">
@@ -145,6 +146,7 @@ const Body = (props) => {
        
      
       </div>
+      {error && <center><h3 style={{color:"red",marginTop:"10px"}}>Please select any Muscles</h3></center>}
       <h3 style={{marginTop:"2%"}}><center><b>Please Select the area of discomfort.</b></center></h3>
       <div className="submit">
         <button onClick={submitClickHandler}>Next</button>

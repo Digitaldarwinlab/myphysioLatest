@@ -39,13 +39,13 @@ useEffect(() => {
         console.log(typeof(disc))
         console.log(typeof(taxx))
         const discount = cost * quantity * disc / 100;
-        const tax = cost * quantity * taxx * disc / (10000);
+        const tax = ((cost * quantity - (discount)) * taxx/ 100);
         tDiscount = discount + tDiscount;
         tTax = tTax + tax;
       }
 
-      setTotalDiscount(tDiscount);
-      setTotalTax(tTax);
+      setTotalDiscount(Math.round(tDiscount));
+      setTotalTax(Math.round(tTax));
 },[list])
  
 
@@ -81,8 +81,8 @@ useEffect(() => {
     let Tax = + tax;
     
 
-    // return Math.round(Cost * Quantity - Cost * Quantity*Discount/100 + Cost * Quantity*Tax / 100)
-    return Cost * Quantity;
+    return Math.round(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100)
+    // return Cost * Quantity;
   };
 
   const handleSubmit = (e) => {

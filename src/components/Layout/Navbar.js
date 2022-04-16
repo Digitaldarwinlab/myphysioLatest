@@ -161,7 +161,7 @@ const Navigationbar = (props) => {
           to={
             userInfo.role === "physio" || userInfo.role === "admin"
               ? "/dashboard"
-              : "/patient/dashboard"
+              : userInfo.role === "enterprise_patient" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
           }
           className="navbar-brand text-white text-decoration-none"
         >

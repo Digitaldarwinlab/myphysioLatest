@@ -44,14 +44,26 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...state,
                 isLoading:false,
-                success:"Clinic Registered SuccessFully."
+                success:"Registered SuccessFully."
             }
             case "CLINIC_REGISTER_FAILURE":
             return {
                 ...state,
                 isLoading:false,
-                success:"Clinic Registered Failed."
+                success:"Registration Failed."
             }
+            case "UPDATE_ORGANIZATION_FAILURE":
+                return {
+                    ...state,
+                    isLoading:false,
+                    success:"Failed to Update."
+                }
+                case "UPDATE_ORGANIZATION_SUCCESS":
+                    return {
+                        ...state,
+                        isLoading:false,
+                        success:"Updated Successfully."
+                    }
         case CLINIC_CLEAR_STATE:
             return {
                 ...clinicInitialState

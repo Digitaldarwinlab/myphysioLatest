@@ -154,7 +154,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
 
     const EnterpriseItems = () => {
         return (
-            <Menu.SubMenu key="link45"
+            <Menu.SubMenu key="link46"
                 className={pathName.includes("enterprise") ? "active text-decoration-none" : "text-decoration-none"}
                 onClick={() => handleClick("enterprise")}
                 icon={<i className="fas fa-user-md iconClass1"></i>}
@@ -178,7 +178,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 </Menu.Item>}
 
                 
-                <Menu.Item key="link56"
+                <Menu.Item key="link65"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
                 >
@@ -186,7 +186,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                         style={{ color: "black" }}
                     >Organization List</Link>
                 </Menu.Item>
-                <Menu.Item key="link56"
+                <Menu.Item key="link66"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
                 >

@@ -17,3 +17,17 @@
     border: 1px solid grey;
     margin:2% 0;
 }
+
+@media(max-width:700px) {
+    .grid-col {
+        display: grid;
+        grid-template-columns: auto auto ;
+    }  
+}
+
+@media(max-width:400px) {
+    .grid-col {
+        display: grid;
+        grid-template-columns: auto ;
+    }  
+}

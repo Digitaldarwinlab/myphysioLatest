@@ -21,10 +21,11 @@
         import '../../styles/Layout/Heading.css';
         import {getClinicDetails} from "../../API/Physio/ClinicRegister";
         import axios from "axios";
+        import { CLINIC_STATE_CHANGE } from "../../contextStore/actions/ClinicRegister";
 import { set } from "js-cookie";
         //let keyMapping
          let keyMapping = {
-            pp_org_id:"Organizatio Code",
+            pp_org_id:"Organization Code",
             org_name:"Organization Name",
             org_short_name:"Organization Short Name",
             contact_email:"Email",
@@ -43,8 +44,8 @@ import { set } from "js-cookie";
             linkedin: "Linkedin",
            
            
-            last_update_date:"Last Update Date",
-            last_update_by:"Last Update by",
+            // last_update_date:"Last Update Date",
+            // last_update_by:"Last Update by",
             
         };
         // const { Search } = Input;
@@ -106,7 +107,16 @@ import { set } from "js-cookie";
                 let val=e.target.value
              setLoading(true);
                 const searchedData = await searchOrganizations(val);
-               
+              if(searchedData.message){
+                   setOrganization([]);
+                setLoading(false);
+                setPaginationState({
+                    ...paginationState,
+                    totalPage: 0 / paginationState.pageSize,
+                    minIndex: 0,
+                    maxIndex: paginationState.pageSize,
+                })
+              } else {
                 setOrganization(searchedData);
                 setLoading(false);
                 setPaginationState({
@@ -115,6 +125,8 @@ import { set } from "js-cookie";
                     minIndex: 0,
                     maxIndex: paginationState.pageSize,
                 })
+              }
+                
             }
             //View
             const handleView = (val) => {
@@ -122,7 +134,7 @@ import { set } from "js-cookie";
                 let keys = Object.keys(val);
                 let index = 0;
                 keys.forEach(key => {
-                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id","last_update_date","last_update_by"].includes(key))) {
                         if (key === "start_date") {
                             tempData.push({
                                 key: index,
@@ -309,9 +321,22 @@ import { set } from "js-cookie";
             </Modal>
                 )
             }
-            const handleEdit = (val) => {
-                console.log(val);
-                // UpdateOrganization(val, dispatch);
+            const handleEdit = (record) => {
+                console.log(record);
+                if (Object.keys(record).length > 0) {
+                    Object.keys(record).map((data) => {
+                      if (record[data] !== null) {
+                          console.log(data," ", record[data])
+                          dispatch({
+                            type: CLINIC_STATE_CHANGE,
+                            payload: {
+                              key: data,
+                              value: record[data],
+                            },
+                          });
+                      }
+                    });
+                  }
                 history.push("/enterprise/organization/update");
             }
             //PhysioInfo

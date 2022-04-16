@@ -2,6 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import StateCity from "../UtilityComponents/dummyData/state_city.json"
 import Error from '../UtilityComponents/ErrorHandler';
+import moment from "moment"
 import { CLINIC_CLEAR_STATE, CLINIC_REGISTER_SUCCESS, CLINIC_STATE_CHANGE } from '../../contextStore/actions/ClinicRegister';
 import { clinicRegisterApi } from '../../API/Physio/ClinicRegister';
 import ClinicValidation from '../Validation/clinicValidation/clinicValidation';
@@ -19,11 +20,13 @@ import '../../styles/Layout/Heading.css'
 import { ItemDragging } from 'devextreme-react/list';
 import {EnterpriseOrganization} from "../../API/Enterprise/Enterprise"
 import { useForm } from 'antd/lib/form/Form';
+import { UpdateOrganization } from '../../API/Enterprise/Enterprise';
 const { Title } = Typography;
 
 
 const EnterpriseRegister = ()=>{
    // const formRef = React.createRef();
+   const history = useHistory();
     const [form] = useForm()
     const [dateState,setDateState] = useState("");
     const state = useSelector(state => state);
@@ -44,6 +47,27 @@ const EnterpriseRegister = ()=>{
             }
         }
     },[]);
+
+    useEffect(() => {
+        let res = state.clinicReg;
+        if (Object.keys(res).length > 0) {
+          Object.keys(res).map((data) => {
+            if (res[data] !== null && data !=='estab_date' && data !=='start_date') {
+              let temp = {};
+              temp[data] = res[data];
+              // {name:"value"}
+              form.setFieldsValue(temp);
+            }
+            // if(data =='estab_date'){
+            // //  console.log(res[data])
+            //   let temp = {};
+            //   temp[data] = moment(res[data], "YYYY-MM-DD") 
+            //   form.setFieldsValue(temp);
+            // }
+          });
+        }
+      }, []);
+
 
     const handleChange = (key,value,id=0) =>{
         if(key === "estab_date"){
@@ -198,8 +222,14 @@ const EnterpriseRegister = ()=>{
             alert("please check all the fields")
         }
         else {
+            if(state.clinicReg.pp_org_id){
+                await UpdateOrganization(state.clinicReg,dispatch);
+                
+            }
+           else {
             await EnterpriseOrganization(state.clinicReg,dispatch);
             form.resetFields()
+           }
         }
     }
 
@@ -228,7 +258,7 @@ const EnterpriseRegister = ()=>{
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={12} sm={24} xs={24}>
                             {/* {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)} */}
-                            <FormInput name="name" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Name'}</span>}
+                            <FormInput name="org_name" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Name'}</span>}
                                 value={state.clinicReg.name}
                                 placeholder="Name" 
                                 onChange={handleChange}
@@ -238,7 +268,7 @@ const EnterpriseRegister = ()=>{
                               />
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
-                        <FormTextArea name="address_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 1'}</span>}
+                        <FormTextArea name="Address_1" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 1'}</span>}
                                 value={state.clinicReg.address_1}
                                 placeholder="Address 1" 
                                 className="input-field"
@@ -251,7 +281,7 @@ const EnterpriseRegister = ()=>{
 
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={12} sm={24} xs={24}>
-                            <FormTextArea name="address_2" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 2'}</span>}
+                            <FormTextArea name="Address_2" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 2'}</span>}
                             value={state.clinicReg.address_2}
                             placeholder="Address 2" 
                             className="input-field"
@@ -261,7 +291,7 @@ const EnterpriseRegister = ()=>{
                             />
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
-                        <FormTextArea name="address_3" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 3'}</span>}
+                        <FormTextArea name="Address_3" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Address 3'}</span>}
                             value={state.clinicReg.address_3}
                             placeholder="Address 3" 
                             className="input-field"
@@ -410,7 +440,7 @@ const EnterpriseRegister = ()=>{
 
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="landline_no" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Landline No'}</span>}
+                            <FormInput name="Landline_no" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Landline No'}</span>}
                                 className="input-field"
                                 value={state.clinicReg.landline_no}
                                 placeholder="Landline No." 
@@ -430,7 +460,7 @@ const EnterpriseRegister = ()=>{
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
-                            <FormInput name="email" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'E-mail'}</span>}
+                            <FormInput name="contact_email" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'E-mail'}</span>}
                             className="input-field"
                                 value={state.clinicReg.email}
                                 placeholder="Email" 
