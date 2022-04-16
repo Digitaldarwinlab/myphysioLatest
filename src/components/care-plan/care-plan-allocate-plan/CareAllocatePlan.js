@@ -531,17 +531,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             <div style={{ minHeight: "10px" }}></div>    
             <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
-                   {state.edit_flag? <FormDate
-                        label="Start Dates"
-                        name="startDate"
-                        disabled={true}
-                        className="input-field"
-                        required={true}
-                        placeholder="Start Date"
-                        value={startDate}
-                        onChange={handleChange}
-                        disabledDate={true}
-                    />: <FormDate
+                 <FormDate
                     label="Start Dates"
                     name="startDate"
                     className="input-field"
@@ -550,7 +540,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     value={startDate}
                     onChange={handleChange}
                     disabledDate={true}
-                />}
+                />
                 </Col>
                 <Col lg={12} md={12} sm={12} xs={24}>
                     <FormDate

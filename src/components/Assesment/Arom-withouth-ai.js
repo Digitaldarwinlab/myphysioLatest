@@ -13,61 +13,29 @@ const labels = [
   "R Shoulder Abd/Add",
   "L Elbow Flex",
   "R Elbow Flex",
-  "L Hip Fwd Flex",
-  "R Hip Fwd Flex",
-  "L Knee Abd/Add",
-  "R Knee Abd/Add",
   "L Cervical Side flex",
   "R Cervical Side Flex",
   "L Lateral Side Flex",
   "R Lateral Side Flex",
-  "L Wrist",
-  "R Wrist",
-  "L Ankle",
-  "R Ankle",
   "L Hip Abd/Add",
   "R Hip Abd/Add",
-  "Cervical Fwd Flex",
 ];
 const labelsL = [
   "L Shoulder Abd/Add",
-
-  "L Elbow Flex",
-
   "L Hip Fwd Flex",
-
-  "L Knee Abd/Add",
-
-  "L Cervical Side flex",
-
-  "L Lateral Side Flex",
-
+  "L Elbow Flex",
+  "L Knee Flex/Ext",
   "L Wrist",
-
   "L Ankle",
-
-  "L Hip Abd/Add",
-
-  "Cervical Fwd Flex",
+  "Cervical Fwd Flex"
 ];
 const labelsR = [
   "R Shoulder Abd/Add",
-
-  "R Elbow Flex",
-
   "R Hip Fwd Flex",
-
-  "R Knee Abd/Add",
-
-  "R Cervical Side Flex",
-
-  "R Lateral Side Flex",
-
+  "R Elbow Flex",
+  "R Knee Flex/Ext",
   "R Wrist",
-
   "R Ankle",
-
-  "R Hip Abd/Add",
   "Cervical Fwd Flex",
 ];
 const allNewJoints = {
@@ -77,8 +45,8 @@ const allNewJoints = {
   "R Elbow Flex": "rightElbow",
   "L Hip Fwd Flex": "leftHip",
   "R Hip Fwd Flex": "rightHip",
-  "L Knee Abd/Add": "leftKnee",
-  "R Knee Abd/Add": "rightKnee",
+  "L Knee Flex/Ext": "leftKnee",
+  "R Knee Flex/Ext": "rightKnee",
   "L Cervical Side flex": "leftNeck",
   "R Cervical Side Flex": "rightNeck",
   "L Lateral Side Flex": "leftPelvic",
@@ -137,7 +105,8 @@ const AromWithouthAi = () => {
   };
   const SaveData1 = () => {
     console.log(tableData1);
-    let angles = {};
+    if(tableData1.length>0){
+      let angles = {};
     tableData1.map((item) => {
       let val = { min: item.min, max: item.max };
       angles[allNewJoints[item.joint]] = val;
@@ -152,26 +121,30 @@ const AromWithouthAi = () => {
         value: a,
       },
     });
-    angles = {};
-    tableData1.map((item) => {
+    }
+    if(tableData2.length>0){
+      let angles = {};
+      tableData2.map((item) => {
+        let val = { min: item.min, max: item.max };
+        angles[allNewJoints[item.joint]] = val;
+      });
+     let a = {};
+      a["AROM"] = { angles };
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "LeftLateral_AI_Data",
+          value: a,
+        },
+      });
+    }
+    if(tableData3){
+      let angles = {};
+    tableData3.map((item) => {
       let val = { min: item.min, max: item.max };
       angles[allNewJoints[item.joint]] = val;
     });
-    a = {};
-    a["AROM"] = { angles };
-    dispatch({
-      type: STATECHANGE,
-      payload: {
-        key: "LeftLateral_AI_Data",
-        value: a,
-      },
-    });
-    angles = {};
-    tableData1.map((item) => {
-      let val = { min: item.min, max: item.max };
-      angles[allNewJoints[item.joint]] = val;
-    });
-    a = {};
+   let a = {};
     a["AROM"] = { angles };
     dispatch({
       type: STATECHANGE,
@@ -180,6 +153,7 @@ const AromWithouthAi = () => {
         value: a,
       },
     });
+    }
       history.push("/assessment/1")
   };
   useEffect(() => {
