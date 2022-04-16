@@ -1,0 +1,65 @@
+.post {
+    background-color: aliceblue;
+    height: 100vh;
+    padding: 5% 25%;
+}
+
+.postcompletion {
+    
+    padding: 8% 10%;
+    background-color: white;
+    
+}
+
+
+.postcompletion button {
+    
+   margin: auto;
+   padding: 5px;
+    
+}
+.postcompletion label {
+    font-size: 25px;
+}
+
+.notes {
+    width: 100%;
+    background-color: rgb(233, 232, 232);
+    padding:2%
+}
+
+.notes label {
+    width: 100%;
+}
+
+.notesbox {
+    width: 100%;
+}
+
+.submitt {
+    background-color: #2d7ecb;
+    color: white;
+    border: 1px solid #2d7ecb;
+    font-size: 1.125rem;
+    width: 35%;
+    margin-top: 5% !important;
+    margin:2%  30% !important;
+    border-radius: 20px;
+}
+
+@media (max-width: 700px){
+    .post {
+        background-color: aliceblue;
+        height: 100vh;
+        padding: 5% 10%;
+    }
+
+    
+.submitt {
+    
+    width: 100%;
+    margin:0 !important;
+    margin-top: 8% !important;
+    
+}
+}
