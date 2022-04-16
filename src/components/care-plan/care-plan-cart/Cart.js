@@ -132,7 +132,7 @@ const newEx = await Exercise.map(async(ex)=>{
         state: {
           Excercise: excer,
           Joints: Joints,
-          stateName :state.carePlanRedcucer
+          stateName : state.carePlanRedcucer
         },
       });
     };
@@ -177,7 +177,7 @@ const newEx = await Exercise.map(async(ex)=>{
         className="ant-btn-cart"
         onClick={() => ChangePageToAllocatePlan()}
       >
-        Allocate Plan
+        {state.carePlanRedcucer.edit_flag?"Edit":'Allocate'} Plan
       </Button>
       
       <Button className="ant-btn-cart me-1" 

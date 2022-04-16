@@ -74,6 +74,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [choosencareplan, Setchoosencareplan] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toDateString().slice(4,7));
   const [selectedYear, setSelectedYear] = useState(new Date().toDateString().slice(-4))
+  const [status_flag, setStatusFlag] = useState(false);
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
   );
@@ -189,7 +190,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
-     
+    setStatusFlag(data[0].status_flag==2?false:true)
     setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
@@ -294,6 +295,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
+    console.log("careplan ",data)
+    setStatusFlag(data[0].status_flag==2?false:true)
     setUpdate(true)
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
@@ -670,7 +673,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       state: {
         exercise:exercises[0],
         exercises,
-        exNameList:exArr
+        exNameList:exArr,
+        status_flag
       },
     });
   };

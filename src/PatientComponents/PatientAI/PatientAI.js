@@ -328,6 +328,7 @@ class PatientAI extends Component {
     return (
         <Col
          //style={{ border: "5px solid" }}
+         className="patientside_new_vid_main"
           id="myVideo"
           lg={16}
           md={16}
@@ -343,7 +344,7 @@ class PatientAI extends Component {
             <canvas
               id="output"
               className="output"
-              style={{ height: "450px" }}
+             // style={{ height: "450px" }}
             />
             <canvas id="jcanvas" />
         </Col>
@@ -477,12 +478,12 @@ class PatientAI extends Component {
     var jcanvas = document.getElementById("jcanvas");
     const myVideo = document.getElementById("myVideo");
     let { width, height } = myVideo.getBoundingClientRect();
-    video.width = width;
+  //  video.width = width;
    // canvas.width = width
     const options = {
       video,
-      videoWidth: 640,
-      videoHeight: 480,
+      videoWidth: width,
+      videoHeight: height,
       canvas,
       supervised: false,
       showAngles: false,
@@ -687,67 +688,67 @@ class PatientAI extends Component {
   // AiModelProps = this.AiModel.bind(this);
   render() {
     return (
-      <div className="pat_main_div">
-       <Row>
-       <Col lg={8} md={8} sm={12} xs={12}>
- <h3 className="fw-bold">
-            <BackButton /> {"Squat"}
-          </h3>
-              </Col>
-            <Col lg={8} md={8} sm={12} xs={12}>
-                <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
-              </Col>
-              <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
-                <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
-              </Col>
-        </Row>
-        <Row>
-            {this.AiModelProps()}
+            this.AiModelProps()
+//       <div className="pat_main_div">
+//        <Row>
+//        <Col lg={8} md={8} sm={12} xs={12}>
+//  <h3 className="fw-bold">
+//             <BackButton /> {"Squat"}
+//           </h3>
+//               </Col>
+//             <Col lg={8} md={8} sm={12} xs={12}>
+//                 <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
+//               </Col>
+//               <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+//                 <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
+//               </Col>
+//         </Row>
+//         <Row>
          
-          <Col lg={8} md={8} sm={24} xs={24}>
-            <Row className="pat_det_div">
-              <Col lg={24} md={24} sm={24} xs={24}>
-                <video
-                  autoPlay
-                  controls
-                  loop
-                  id="exercise_video"
-                  style={{ width: "97%", height: "100%" }}
-                  className="border"
-                >
-                  <source
-                    id="video_source"
-                    src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-                    type="video/mp4"
-                  />
-                </video>
-              </Col>
-            </Row>
-          </Col>
-          <Modal
-            visible={this.state.visible}
-            footer={null}
-            closable={false}
-            keyboard={false}
-          >
-            <h3 className="fw-bold text-center">Congratulation</h3>
-            <p className="p text-center mt-2">
-              You have successfully completed the session.
-            </p>
-            {this.PainMeter()}
+//           <Col lg={8} md={8} sm={24} xs={24}>
+//             <Row className="pat_det_div">
+//               <Col lg={24} md={24} sm={24} xs={24}>
+//                 <video
+//                   autoPlay
+//                   controls
+//                   loop
+//                   id="exercise_video"
+//                   style={{ width: "97%", height: "100%" }}
+//                   className="border"
+//                 >
+//                   <source
+//                     id="video_source"
+//                     src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+//                     type="video/mp4"
+//                   />
+//                 </video>
+//               </Col>
+//             </Row>
+//           </Col>
+//           <Modal
+//             visible={this.state.visible}
+//             footer={null}
+//             closable={false}
+//             keyboard={false}
+//           >
+//             <h3 className="fw-bold text-center">Congratulation</h3>
+//             <p className="p text-center mt-2">
+//               You have successfully completed the session.
+//             </p>
+//             {this.PainMeter()}
 
-            {/* <div style={{ marginTop: 20 }}>
-              <h4 className="fw-bold">Notes-</h4>
-              <p className="text-justify p"></p>
-            </div> */}
-            <div className="text-end">
-              <Button className="okay" onClick={this.finish}>
-                Okay
-              </Button>
-            </div>
-          </Modal>
-        </Row>
-      </div>
+//             {/* <div style={{ marginTop: 20 }}>
+//               <h4 className="fw-bold">Notes-</h4>
+//               <p className="text-justify p"></p>
+//             </div> */}
+//             <div className="text-end">
+//               <Button className="okay" onClick={this.finish}>
+//                 Okay
+//               </Button>
+//             </div>
+//           </Modal>
+//         </Row>
+//       </div>
     );
   }
 }

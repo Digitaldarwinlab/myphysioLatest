@@ -172,8 +172,8 @@ class PoseTestClass extends Component {
     // video.width = width;
     const options = {
       video,
-      videoWidth: 640,
-      videoHeight: 480,
+      videoWidth: width,
+      videoHeight: height,
       canvas,
       //  supervised: false,
       //showAngles: false,
@@ -276,7 +276,9 @@ class PoseTestClass extends Component {
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" style={{height:'440px'}}/>
+              <canvas id="output" className="output" 
+              //style={{height:'440px'}}
+              />
               <canvas id="jcanvas" />
             </Col>
           </Col>

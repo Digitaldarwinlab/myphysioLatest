@@ -32,6 +32,7 @@ import Cookies from "js-cookie";
 import "./Ai.css";
 import "./AiNew.css";
 import AiTab from "./AiTab";
+import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
 // import {Video} from "../../styles/ScreenDesign/ypga.jpg"
 const { Meta } = Card;
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -161,7 +162,7 @@ class AI extends Component {
       ref: 1,
       toggleState: 1,
       lateralJoints: leftJoints,
-      latSide:'left'
+      latSide: "left",
     };
 
     // window.darwin.setExcersiseParams({
@@ -245,14 +246,14 @@ class AI extends Component {
   changeSide = (value) => {
     if (value == "left") {
       //setLateralJoints(leftJoints)
-      this.setState({latSide:'left'})
+      this.setState({ latSide: "left" });
       this.setState({ lateralJoints: leftJoints });
       this.setAngles([0, 4, 6, 12, 14, 18]);
       this.setSelectOrientation(2);
     }
     if (value == "right") {
       //setLateralJoints(rightJoints)
-      this.setState({latSide:'right'})
+      this.setState({ latSide: "right" });
       this.setState({ lateralJoints: rightJoints });
       this.setAngles([1, 5, 7, 13, 15, 18]);
       this.setSelectOrientation(3);
@@ -576,67 +577,85 @@ class AI extends Component {
       let data = darwin.getAssesmentData();
       console.log("front", data);
       if (this.state.selectedOrientation == 1) {
-        if(data!==undefined&&data!==null){
-          this.props.FirstAssesment("Anterior_AI_Data", data);
+        if (data !== undefined && data !== null) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          //   (item, index) => {
+          //     let t = {};
+          //     t["key"] = index;
+          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          //     t["min"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].min
+          //     );
+          //     t["max"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].max
+          //     );
+          //     return t;
+          //   }
+          // );
+          this.props.FirstAssesment("Anterior_AI_Data", TEMP);
+
           notification.success({
-            message: 'Angles have been calculated',
-            placement: 'bottomLeft',
-            duration: 2
-        })
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
         }
-        //   if(this.props.history.location.state.Excercise.length===1){
-        //     console.log("Ai data ",data[Object.keys(data)[0]])
-        //     let name = {}
-        //     name[Object.keys(data)[0]] = data[Object.keys(data)[0]]
-        //     this.props.FirstAssesment("Anterior_AI_Data", name)
-        //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //     console.log("Ai data captured if ",name)
-        //     notification.success({
-        //         message: 'Angles have been calculated',
-        //         placement: 'bottomLeft',
-        //         duration: 2
-        //     })
-        // }else{
-        //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
-        //     this.props.FirstAssesment("AI_data", data[Object.keys(data)[0]])
-        //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //   }
       }
       if (this.state.selectedOrientation == 2) {
-        if(data!==undefined&&data!==null){
-          this.props.FirstAssesment("LeftLateral_AI_Data", data);
+        if (data !== undefined && data !== null) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          //   (item, index) => {
+          //     let t = {};
+          //     t["key"] = index;
+          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          //     t["min"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].min
+          //     );
+          //     t["max"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].max
+          //     );
+          //     return t;
+          //   }
+          // );
+          this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
           notification.success({
-            message: 'Angles have been calculated',
-            placement: 'bottomLeft',
-            duration: 2
-        })
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
         }
-        //   if(this.props.history.location.state.Excercise.length===1){
-        //     console.log("Ai data ",data[Object.keys(data)[0]])
-        //     let name = {}
-        //     name[Object.keys(data)[0]] = data[Object.keys(data)[0]]
-        //     this.props.FirstAssesment("LeftLateral_AI_Data", name)
-        //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //     console.log("Ai data captured if ",name)
-        //     notification.success({
-        //         message: 'Angles have been calculated',
-        //         placement: 'bottomLeft',
-        //         duration: 2
-        //     })
-        // }else{
-        //     console.log("Ai data captured else ",data[Object.keys(data)[0]])
-        //     this.props.FirstAssesment("LeftLateral_AI_Data", data[Object.keys(data)[0]])
-        //     this.props.FirstAssesment("Exercise_Name", this.props.history.location.state.Excercise)
-        //   }
       }
       if (this.state.selectedOrientation == 3) {
-        if(data!==undefined&&data!==null){
-          this.props.FirstAssesment("RightLateral_AI_Data", data);
+        if (data !== undefined && data !== null) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          //   (item, index) => {
+          //     let t = {};
+          //     t["key"] = index;
+          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          //     t["min"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].min
+          //     );
+          //     t["max"] = Math.round(
+          //       data[Object.keys(data)[0]]["angles"][item].max
+          //     );
+          //     return t;
+          //   }
+          // );
+          this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
           notification.success({
-            message: 'Angles have been calculated',
-            placement: 'bottomLeft',
-            duration: 2
-        })
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
         }
       }
       console.log(this.state.data);
@@ -661,6 +680,7 @@ class AI extends Component {
 
   angles = (checkedValues) => {
     console.log(checkedValues);
+    this.setState({angles:checkedValues})
     window.darwin.setExcersiseParams({
       angles: checkedValues,
     });
@@ -670,9 +690,7 @@ class AI extends Component {
     window.darwin.launchModel();
     window.darwin.stop();
   };
-  setrLabels = () => {
-    
-  }
+  setrLabels = () => {};
   // start();
 
   componentWillUnmount() {
@@ -698,12 +716,12 @@ class AI extends Component {
     const canvas = document.getElementById("output");
     const myVideo = document.getElementById("New_Ai_vid");
     let { width, height } = myVideo.getBoundingClientRect();
-    video.width = width;
-    video.height = height;
+    //  video.width = width;
+    //  video.height = height;
     const options = {
       video,
-      videoWidth: 640,
-      videoHeight: 540,
+      videoWidth: width,
+      videoHeight: height,
       canvas,
       supervised: true,
       showAngles: true,
@@ -859,14 +877,14 @@ class AI extends Component {
           >
             <video
               id="video"
-              className="video"
+              //  className="video"
               playsInline
               style={{ display: "none" }}
             ></video>
             <canvas
               id="output"
               className="output"
-              style={{ height: "450px" }}
+              // style={{ height: "450px" }}
             />
           </Col>
           <Card
@@ -1164,42 +1182,42 @@ class AI extends Component {
                               </Row>
                             </Checkbox.Group>
                           </div> */}
-                         {this.state.latSide=="left"&& <div>
-                            <Checkbox.Group
-                              onChange={this.angles}
-                            defaultValue={() =>
-                                this.ifCheck(leftJoints)
-                              }
-                            >
-                              <Row>
-                                {leftJoints.map((item) => (
-                                  <Col span={12}>
-                                    <Checkbox value={item.value}>
-                                      {labels[item.value]}
-                                    </Checkbox>
-                                  </Col>
-                                ))}
-                              </Row>
-                            </Checkbox.Group>
-                          </div>}
-                          {this.state.latSide=="right"&& <div>
-                            <Checkbox.Group
-                              onChange={this.angles}
-                            defaultValue={() =>
-                                this.ifCheck(rightJoints)
-                              }
-                            >
-                              <Row>
-                                {rightJoints.map((item) => (
-                                  <Col span={12}>
-                                    <Checkbox value={item.value}>
-                                      {labels[item.value]}
-                                    </Checkbox>
-                                  </Col>
-                                ))}
-                              </Row>
-                            </Checkbox.Group>
-                          </div>}
+                          {this.state.latSide == "left" && (
+                            <div>
+                              <Checkbox.Group
+                                onChange={this.angles}
+                                defaultValue={() => this.ifCheck(leftJoints)}
+                              >
+                                <Row>
+                                  {leftJoints.map((item) => (
+                                    <Col span={12}>
+                                      <Checkbox value={item.value}>
+                                        {labels[item.value]}
+                                      </Checkbox>
+                                    </Col>
+                                  ))}
+                                </Row>
+                              </Checkbox.Group>
+                            </div>
+                          )}
+                          {this.state.latSide == "right" && (
+                            <div>
+                              <Checkbox.Group
+                                onChange={this.angles}
+                                defaultValue={() => this.ifCheck(rightJoints)}
+                              >
+                                <Row>
+                                  {rightJoints.map((item) => (
+                                    <Col span={12}>
+                                      <Checkbox value={item.value}>
+                                        {labels[item.value]}
+                                      </Checkbox>
+                                    </Col>
+                                  ))}
+                                </Row>
+                              </Checkbox.Group>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </>

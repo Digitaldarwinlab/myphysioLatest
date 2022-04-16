@@ -118,3 +118,40 @@ export const postCarePlanAllocation = async (data, dispatch) => {
         return [false, "Error 501: Internal Server Error"];
     }
 }
+
+export const EditCarePlanAllocation = async (data, dispatch, careplan_code) => {
+    dispatch({ type: CARE_PLAN_POST_DATA });
+    let newData = AllocateExerciseData(data);
+    newData["careplan_code"] = data.editCareplanCode
+    newData["startDate"] = data.editEndDate
+    newData["endDate"] = data.endDate.length>0?data.endDate:data.editStateDate
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const encodedData = Encode(newData)
+        const response = await fetch(process.env.REACT_APP_API + "/update_care_plan_details/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(encodedData)
+        });
+
+        const responseData = await response.json();
+        const result = Decode(responseData)
+        if (response.status !== 200 && response.status !== 201)
+            return [false, "Error: " + response.status + " " + response.statusText];
+        if (result && result.message) {
+            dispatch({ type: CARE_PLAN_SUCCESS });
+            return [true];
+        } else {
+            dispatch({ type: CARE_PLAN_FAILURE });
+            return [false, "Error: " + response.status + " " + response.statusText];
+        }
+    } catch (err) {
+        dispatch({ type: CARE_PLAN_FAILURE });
+        return [false, "Error 501: Internal Server Error"];
+    }
+}
+
+//EditCarePlanAllocation

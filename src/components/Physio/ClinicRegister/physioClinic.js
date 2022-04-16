@@ -107,6 +107,7 @@ const PhysioClinic = () => {
         if (res[data] !== null && data !=='estab_date' && data !=='start_date') {
           let temp = {};
           temp[data] = res[data];
+          // {name:"value"}
           form.setFieldsValue(temp);
         }
         if(data =='estab_date'){

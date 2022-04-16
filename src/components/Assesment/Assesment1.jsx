@@ -1,30 +1,54 @@
-import React, { useState, useEffect,useCallback } from 'react';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
+import React, { useState, useEffect, useCallback } from "react";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
 import { AiFillMedicineBox } from "react-icons/ai";
-import { Select, Row, Col, Input, Form, Upload, Button,Checkbox, Modal, Space,Radio, Tabs, Badge } from 'antd';
-import { ASSESMENT_CLEARSTATE, ASSESSMENT_ADD_SUB_INPUT, ASSESSMENT_REMOVE_SUB_INPUT,ASSESSMENT_SUBJECTIVE, STATECHANGE } from "../../contextStore/actions/Assesment"
+import {
+  Select,
+  Row,
+  Col,
+  Input,
+  Form,
+  Upload,
+  Button,
+  Checkbox,
+  Modal,
+  Space,
+  Radio,
+  Tabs,
+  Badge,
+} from "antd";
+import {
+  ASSESMENT_CLEARSTATE,
+  ASSESSMENT_ADD_SUB_INPUT,
+  ASSESSMENT_REMOVE_SUB_INPUT,
+  ASSESSMENT_SUBJECTIVE,
+  STATECHANGE,
+} from "../../contextStore/actions/Assesment";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom'
-import FormInput from '../UI/antInputs/FormInput';
-import FormTextArea from '../UI/antInputs/FormTextArea';
+import { useHistory } from "react-router-dom";
+import FormInput from "../UI/antInputs/FormInput";
+import FormTextArea from "../UI/antInputs/FormTextArea";
 import FormDate from "../UI/antInputs/FormDate";
 // import Body from './Body';
-import Body from "../Assesment/Body/Body"
-{/* aswin 10/25/2021 start */ }
-import html2canvas from 'html2canvas'
-import moment from 'moment'
-import ActiveSearch from '../UtilityComponents/ActiveSearch';
-{/* aswin 10/25/2021 start */ }
-import "../../styles/Layout/Body.css"
-import { AssesmentAPI } from '../../API/Assesment/assementApi';
-import { getEpisode } from '../../API/Episode/EpisodeApi';
-import { RECEIVED_DATA } from '../../contextStore/actions/Assesment';
+import Body from "../Assesment/Body/Body";
+{
+  /* aswin 10/25/2021 start */
+}
+import html2canvas from "html2canvas";
+import moment from "moment";
+import ActiveSearch from "../UtilityComponents/ActiveSearch";
+{
+  /* aswin 10/25/2021 start */
+}
+import "../../styles/Layout/Body.css";
+import { AssesmentAPI } from "../../API/Assesment/assementApi";
+import { getEpisode } from "../../API/Episode/EpisodeApi";
+import { RECEIVED_DATA } from "../../contextStore/actions/Assesment";
 import JointData from "../UtilityComponents/dummyData/MuscleMap.json";
-import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 // aswin 10/24/2021 start
-import { notification, Descriptions, Table} from "antd";
-import './Assesment1.css'
+import { notification, Descriptions, Table } from "antd";
+import "./Assesment1.css";
 // aswin 10/24/2021 stop
 import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
 import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
@@ -56,45 +80,69 @@ import backhamstringsA from "./../../assets/Crops/12.A-Hamstrings.png";
 import backhamstringsB from "./../../assets/Crops/12.B-Hamstrings.png";
 import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
 import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
-import background from './../../assets/Crops/00.-Blank-Figures.png';
+import background from "./../../assets/Crops/00.-Blank-Figures.png";
 import MobBackground from "./../../assets/Crops//mobilebg.png";
-import { useRef } from 'react';
-
+import { useRef } from "react";
+import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
 
 const muscle = [
-    "TrapsA", "TrapsB", "BacktrapsA", "BacktrapsB",
-    "ShoulderA", "ShoulderB", "Pecs", "BackshouldersA", "BackshouldersB",
-    "BicepsA", "BicepsB", "ForearmsA", "ForearmsB", "BackforearmsA",
-    "BackforearmsB", "Abdominals", "QuadsA", "QuadsB", "CalvesA", "CalvesB",
-    "BackcalvesA", "BackcalvesB", "TricepsA", "TricepsB", "LatsA", "LatsB",
-    "LowerBack", "Glutes", "HamstringsA", "HamstringsB"
-]
+  "TrapsA",
+  "TrapsB",
+  "BacktrapsA",
+  "BacktrapsB",
+  "ShoulderA",
+  "ShoulderB",
+  "Pecs",
+  "BackshouldersA",
+  "BackshouldersB",
+  "BicepsA",
+  "BicepsB",
+  "ForearmsA",
+  "ForearmsB",
+  "BackforearmsA",
+  "BackforearmsB",
+  "Abdominals",
+  "QuadsA",
+  "QuadsB",
+  "CalvesA",
+  "CalvesB",
+  "BackcalvesA",
+  "BackcalvesB",
+  "TricepsA",
+  "TricepsB",
+  "LatsA",
+  "LatsB",
+  "LowerBack",
+  "Glutes",
+  "HamstringsA",
+  "HamstringsB",
+];
 
 const marks1 = {
-    0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
-    1: <MehOutlined style={{ fontSize: 25, color: 'limegreen' }} />,
-    2: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
-    3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
+  0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
+  1: <MehOutlined style={{ fontSize: 25, color: "limegreen" }} />,
+  2: <FrownOutlined style={{ fontSize: 25, color: "orange" }} />,
+  3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
 
 const marks = {
-    0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
-    2: <i class="far fa-smile" style={{ fontSize: 25, color: 'lime' }}></i>,
-    4: <i class="far fa-meh" style={{ fontSize: 25, color: 'limegreen' }}></i>,
-    6: <i class="far fa-frown" style={{ fontSize: 25, color: 'lightsalmon' }}></i>,
-    8: <i class="far fa-frown" style={{ fontSize: 25, color: 'orange' }}></i>,
-    10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
+  0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
+  2: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
+  4: <i class="far fa-meh" style={{ fontSize: 25, color: "limegreen" }}></i>,
+  6: (
+    <i class="far fa-frown" style={{ fontSize: 25, color: "lightsalmon" }}></i>
+  ),
+  8: <i class="far fa-frown" style={{ fontSize: 25, color: "orange" }}></i>,
+  10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
 };
 
-const desc = ['no pain', 'mild', 'moderate', 'severe'];
-
+const desc = ["no pain", "mild", "moderate", "severe"];
 
 const { Dragger } = Upload;
 
-var pdfjsLib = window['pdfjs-dist/build/pdf'];
+var pdfjsLib = window["pdfjs-dist/build/pdf"];
 const { TabPane } = Tabs;
 //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-
 
 const layout = {
   // labelCol: { span: 8 },
@@ -108,81 +156,78 @@ darwin.addProgressListener((setCount, repCount) => {
 
 */
 
-
-
-const Assesment1 = ({back ,next}) => {
-
+const Assesment1 = ({ back, next }) => {
   const assesmentRef = useRef(null);
-  const state = useSelector(state => state);
+  const state = useSelector((state) => state);
   const [form] = Form.useForm();
-  const myRef = useRef(null)
-  const screenShotRef = useRef(null)
-  const executeScroll = () => screenShotRef.current.scrollIntoView()
+  const myRef = useRef(null);
+  const screenShotRef = useRef(null);
+  const executeScroll = () => screenShotRef.current.scrollIntoView();
   // console.log(state.episodeReducer.patient_code +'patient_code')
-  const [episodedata, SetepisodeData] = useState()
+  const [episodedata, SetepisodeData] = useState();
+  const [tableData1, setTableData1] = useState([]);
+  const [tableData2, setTableData2] = useState([]);
+  const [latL ,setLatL] = useState([])
+  const [latR ,setLatR] = useState([])
   useEffect(async () => {
     //aswin 10/25/2021 start
     // if (props1.history.location.state) {
     //   state.FirstAssesment.Type = props1.history.location.state.type
     // }
     //aswin 10/25/2021 stop
-    sessionStorage.removeItem('submit')
-    sessionStorage.removeItem('posesubmit')
-    sessionStorage.removeItem('specialsubmit')
-    const data = await getEpisode(state.episodeReducer.patient_code)
+    sessionStorage.removeItem("submit");
+    sessionStorage.removeItem("posesubmit");
+    sessionStorage.removeItem("specialsubmit");
+    const data = await getEpisode(state.episodeReducer.patient_code);
     if (data[0]) {
       state.FirstAssesment.episode_id = data[0].pp_ed_id;
       SetepisodeData({
         episodeId: data[0].pp_ed_id,
         complaintId: data[0].primary_complaint,
-        start_date: data[0].start_date
-      })
-    }
-    else {
+        start_date: data[0].start_date,
+      });
+    } else {
       SetepisodeData({
-        episodeId: 'No data',
-        complaintId: 'no data',
-        start_date: 'no data'
-      })
+        episodeId: "No data",
+        complaintId: "no data",
+        start_date: "no data",
+      });
     }
-
-  }, [])
-
-  
+  }, []);
 
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     const unblock = history.block((location, action) => {
       if (
-        location.pathname != '/assesment/Questions' &&
-        location.pathname != '/care-plan' && location.pathname != '/assesment/PainAssessment' &&
-        location.pathname != '/assesment/SpecialTest' && location.pathname != '/assesment/PoseTest' &&
-        state.FirstAssesment.episode_id != "") {
+        location.pathname != "/assesment/Questions" &&
+        location.pathname != "/care-plan" &&
+        location.pathname != "/assesment/PainAssessment" &&
+        location.pathname != "/assesment/SpecialTest" &&
+        location.pathname != "/assesment/PoseTest" &&
+        location.pathname != "/assessment/AROM" &&
+        state.FirstAssesment.episode_id != ""
+      ) {
         //aswin 11/11/2021 start
-        if (sessionStorage.getItem('submit')) {
-          sessionStorage.removeItem('submit')
+        if (sessionStorage.getItem("submit")) {
+          sessionStorage.removeItem("submit");
           return;
         }
         //aswin 11/11/2021 stop
         if (window.confirm("Assesment data will be lost. Is it okay?")) {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           dispatch({ type: "JOINT_CLEARSTATE" });
-          console.log("Assesment data cleared")
-           return true;
-         } else {
-           console.log("not cleared");
-           return false;
-         }
+          console.log("Assesment data cleared");
+          return true;
+        } else {
+          console.log("not cleared");
+          return false;
+        }
         // if (window.confirm("Assesment data will be lost. Is it okay?")) {
         //   dispatch({ type: ASSESMENT_CLEARSTATE });
-        // } 
+        // }
       }
     });
-
- 
-  
-
 
     const data = state.FirstAssesment;
     form.setFieldsValue({ Ref_Dr_Name: data.Ref_Dr_Name });
@@ -195,57 +240,50 @@ const Assesment1 = ({back ,next}) => {
     return () => {
       unblock();
     };
+  }, [history, state.FirstAssesment.episode_id]);
 
-  }, [history, state.FirstAssesment.episode_id])
-
-  const setJoints =useCallback((joints) => {
-    console.log(joints);
-    dispatch({
-      type: STATECHANGE,
-      payload: {
-          key:'allJoint',
-          value:joints
-      }
-  });
-  },[dispatch])
-
+  const setJoints = useCallback(
+    (joints) => {
+      console.log(joints);
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "allJoint",
+          value: joints,
+        },
+      });
+    },
+    [dispatch]
+  );
 
   const com = () => {
-    return (
-      <h1>hello world</h1>
-    )
+    return <h1>hello world</h1>;
+  };
+  useEffect(() => {
+    console.log("assesment state is printing");
+    console.log(state.FirstAssesment.Type);
+  }, [state.FirstAssesment]);
+
+  const [tempstate, setTemp] = useState(true);
+  useEffect(() => {
+    if (state.FirstAssesment.Type == "First") setPhysicalVisibility("block");
+    else setPhysicalVisibility("none");
+  }, [state.FirstAssesment.Type]);
+
+  {
+    /* aswin 10/25/2021 start */
   }
-  useEffect(() => {
-
-    console.log('assesment state is printing')
-    console.log(state.FirstAssesment.Type)
-
-  }, [state.FirstAssesment])
-
-
-
-const [tempstate ,setTemp] = useState(true)
-  useEffect(() => {
-    if (state.FirstAssesment.Type == "First")
-      setPhysicalVisibility('block')
-    else
-      setPhysicalVisibility('none')
-  }, [state.FirstAssesment.Type])
-
-
-  {/* aswin 10/25/2021 start */ }
   const [date, setDate] = useState();
-  {/* aswin 10/25/2021 stop */ }
+  {
+    /* aswin 10/25/2021 stop */
+  }
   const [visibility, setVisibility] = useState("none");
 
   const [physicalVisibility, setPhysicalVisibility] = useState("none");
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState([]);
 
   const [fileType, setFileType] = useState(false);
-  console.log("files ", files)
-
-
-
+  console.log("files ", files);
 
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -254,18 +292,18 @@ const [tempstate ,setTemp] = useState(true)
   };
   const Questions = () => {
     history.push("/assesment/Questions");
-  }
+  };
   const handleChange = (key, value, id = 0) => {
     //alert(value+", "+key+" , "+id)
-    if(key === "chiefCom" || key === "Medication" || key === "Others"){
-      if(value.length>0){
+    if (key === "chiefCom" || key === "Medication" || key === "Others") {
+      if (value.length > 0) {
         dispatch({
           type: STATECHANGE,
           payload: {
-              key,
-              value:value[0].toUpperCase()+value.slice(1, value.length)
-          }
-      });
+            key,
+            value: value[0].toUpperCase() + value.slice(1, value.length),
+          },
+        });
       }
     }
     if (key === "Date") {
@@ -274,87 +312,84 @@ const [tempstate ,setTemp] = useState(true)
         type: STATECHANGE,
         payload: {
           key,
-          value: value.dateString
-        }
+          value: value.dateString,
+        },
       });
-
     } else if (key === "ScareFile") {
-      console.log("files ", (value))
+      console.log("files ", value);
       dispatch({
         type: STATECHANGE,
         payload: {
-          key,
-          value
-        }
-      });
-      setFiles([...files, value])
-    } else if (key === "TraumaFile") {
-      console.log("files ", (value))
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-          key,
-          value
-        }
-      });
-      setFiles([...files, value])
-    }else if(key==='occupation' || key==='duration' || key==="Sports_type"){
-      dispatch({
-        type:ASSESSMENT_SUBJECTIVE,
-        payload:{
           key,
           value,
-          id
-        }
-      })
-    }
-    else {
+        },
+      });
+      setFiles([...files, value]);
+    } else if (key === "TraumaFile") {
+      console.log("files ", value);
       dispatch({
         type: STATECHANGE,
         payload: {
           key,
-          value
-        }
+          value,
+        },
+      });
+      setFiles([...files, value]);
+    } else if (
+      key === "occupation" ||
+      key === "duration" ||
+      key === "Sports_type"
+    ) {
+      dispatch({
+        type: ASSESSMENT_SUBJECTIVE,
+        payload: {
+          key,
+          value,
+          id,
+        },
+      });
+    } else {
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key,
+          value,
+        },
       });
     }
     dispatch({ type: "NOERROR" });
-  }
+  };
 
   const handleUploadScars = (e) => {
     var thumbnailBox = document.getElementById("pdfViewer");
 
-    changeThumb(e, thumbnailBox)
-  }
+    changeThumb(e, thumbnailBox);
+  };
 
   const handleUploadTrauma = (e) => {
     var thumbnailBox = document.getElementById("pdfViewer1");
-    console.log(e)
-    changeThumb(e, thumbnailBox)
-  }
-
+    console.log(e);
+    changeThumb(e, thumbnailBox);
+  };
 
   const changeThumb = (e, thumbnailBox) => {
-
     if (e != undefined) {
-      var filein
-      var file
+      var filein;
+      var file;
       if (e.type == "drop") {
-        filein = e.target.value
-
-      }
-      else {
-        filein = e.target.files
+        filein = e.target.value;
+      } else {
+        filein = e.target.files;
       }
 
-      console.log(filein)
-      setVisibility('block')
+      console.log(filein);
+      setVisibility("block");
 
       for (var i = 0; i < filein.length; i++) {
         if (e.type == "drop") {
-          file = filein[i]
-        }
-        else {
-          file = filein[i]
+          file = filein[i];
+        } else {
+          file = filein[i];
         }
         if (file.type == "application/pdf") {
           var fileReader = new FileReader();
@@ -362,63 +397,65 @@ const [tempstate ,setTemp] = useState(true)
             var pdfData = new Uint8Array(this.result);
             // Using DocumentInitParameters object to load binary data.
             var loadingTask = pdfjsLib.getDocument({ data: pdfData });
-            loadingTask.promise.then(function (pdf) {
-              console.log('PDF loaded');
+            loadingTask.promise.then(
+              function (pdf) {
+                console.log("PDF loaded");
 
-              // Fetch the first page
-              var pageNumber = 1;
-              pdf.getPage(pageNumber).then(function (page) {
-                console.log('Page loaded');
+                // Fetch the first page
+                var pageNumber = 1;
+                pdf.getPage(pageNumber).then(function (page) {
+                  console.log("Page loaded");
 
-                var scale = 0.1;
-                var viewport = page.getViewport({ scale: scale });
+                  var scale = 0.1;
+                  var viewport = page.getViewport({ scale: scale });
 
-                // Prepare canvas using PDF page dimensions
-                var canvas = document.createElement('canvas');
-                canvas.style.padding = "10px"
-                var context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+                  // Prepare canvas using PDF page dimensions
+                  var canvas = document.createElement("canvas");
+                  canvas.style.padding = "10px";
+                  var context = canvas.getContext("2d");
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
 
-                // Render PDF page into canvas context
-                var renderContext = {
-                  canvasContext: context,
-                  viewport: viewport
-                };
-                var renderTask = page.render(renderContext);
-                thumbnailBox.appendChild(canvas)
-                renderTask.promise.then(function () {
-                  console.log('Page rendered');
+                  // Render PDF page into canvas context
+                  var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                  };
+                  var renderTask = page.render(renderContext);
+                  thumbnailBox.appendChild(canvas);
+                  renderTask.promise.then(function () {
+                    console.log("Page rendered");
+                  });
                 });
-              });
-            }, function (reason) {
-              // PDF loading error
-              console.error(reason);
-            });
+              },
+              function (reason) {
+                // PDF loading error
+                console.error(reason);
+              }
+            );
           };
           fileReader.readAsArrayBuffer(file);
-        }
-        else {
-          setFileType(true)
+        } else {
+          setFileType(true);
         }
       }
     }
-  }
+  };
 
   const { Option } = Select;
 
   const { TextArea } = Input;
 
   const props = {
-    showUploadList: fileType
-  }
+    showUploadList: fileType,
+  };
 
   const onFinish = (values) => {
     // console.log('Success:', values);
   };
 
-  console.log('state inassesment')
-  console.log(state)
+  console.log("state inassesment");
+  console.log(state);
   const onFinishFailed = (errorInfo) => {
     // console.log('Failed:', errorInfo);
   };
@@ -426,26 +463,30 @@ const [tempstate ,setTemp] = useState(true)
   const [chief, setChief] = useState();
 
   const [inputFields, setInputFields] = useState([
-    { Occupation: '', Duration: '' },
+    { Occupation: "", Duration: "" },
+  ]);
 
-  ])
-
-  let plainOptions1 =['Diabetes','HYN','COPD','Cardiac']
-  const [medic ,setMedic] = useState(true)
-  const [others ,setOthers] = useState(true)
-  const [Surgical_History_Notes ,SetSurgical_History_Notes] = useState(true)
+  let plainOptions1 = ["Diabetes", "HYN", "COPD", "Cardiac"];
+  const [medic, setMedic] = useState(true);
+  const [others, setOthers] = useState(true);
+  const [Surgical_History_Notes, SetSurgical_History_Notes] = useState(true);
   const handleAddFields = () => {
-   // setInputFields([...inputFields, { Occupation: '', Duration: '' }])
-   dispatch({ type: ASSESSMENT_ADD_SUB_INPUT, payload: { type: "subjective" } })
-
-  }
+    // setInputFields([...inputFields, { Occupation: '', Duration: '' }])
+    dispatch({
+      type: ASSESSMENT_ADD_SUB_INPUT,
+      payload: { type: "subjective" },
+    });
+  };
 
   const handleRemoveFields = (index) => {
     // const values = [...inputFields];
     // values.splice(index, 1);
     // setInputFields(values);
-    dispatch({ type: ASSESSMENT_REMOVE_SUB_INPUT, payload: { type: "subjective" } });
-  }
+    dispatch({
+      type: ASSESSMENT_REMOVE_SUB_INPUT,
+      payload: { type: "subjective" },
+    });
+  };
 
   const [MuscleJoint, setMuscleJoint] = useState({});
 
@@ -455,302 +496,356 @@ const [tempstate ,setTemp] = useState(true)
 
   const [MaleFemale, setMaleFemale] = useState(false);
 
-  const [QuestionVisibility, setQuestionVisibility] = useState('block');
+  const [QuestionVisibility, setQuestionVisibility] = useState("block");
 
-  const [posture ,setPosture] = useState(false)
+  const [posture, setPosture] = useState(false);
 
-  const [RomVisibility, setRomVisibility] = useState('none');
-  const [RomVisibilityM, setRomVisibilityM] = useState('none');
-  const [RomVisibilityL, setRomVisibilityL] = useState('none');
-  const [RomVisibilityR, setRomVisibilityR] = useState('none');
+  const [RomVisibility, setRomVisibility] = useState("none");
+  const [RomVisibilityM, setRomVisibilityM] = useState("none");
+  const [RomVisibilityL, setRomVisibilityL] = useState("none");
+  const [RomVisibilityR, setRomVisibilityR] = useState("none");
 
   const [angleValues, setAngleValues] = useState({
-      leftShoulder: '',
-      rightShoulder: '',
-      leftElbow: '',
-      rightElbow: '',
-      leftHipAdductionAdbuction: '',
-      rightHipAdductionAdbuction: '',
-      leftNeck: '',
-      rightNeck: '',
-      leftPelvic: '',
-      rightPelvic: '',
-  })
+    leftShoulder: "",
+    rightShoulder: "",
+    leftElbow: "",
+    rightElbow: "",
+    leftHipAdductionAdbuction: "",
+    rightHipAdductionAdbuction: "",
+    leftNeck: "",
+    rightNeck: "",
+    leftPelvic: "",
+    rightPelvic: "",
+  });
 
   const [angleValuesL, setAngleValuesL] = useState({
-    leftShoulder:'',
-    leftHip:'',
-    cervicalForwardFlexion:'',
-    leftKnee:'',
-    leftWrist:'',
-    leftAnkle:'',
-})
-const [angleValuesR, setAngleValuesR] = useState({
-  rightShoulder:'',
-  rightHip:'',
-  cervicalForwardFlexion:'',
-  rightKnee:'',
-  rightWrist:'',
-  rightAnkle:'',
-})
-
+    leftShoulder: "",
+    leftHip: "",
+    cervicalForwardFlexion: "",
+    leftKnee: "",
+    leftWrist: "",
+    leftAnkle: "",
+  });
+  const [angleValuesR, setAngleValuesR] = useState({
+    rightShoulder: "",
+    rightHip: "",
+    cervicalForwardFlexion: "",
+    rightKnee: "",
+    rightWrist: "",
+    rightAnkle: "",
+  });
 
   useEffect(() => {
-      form.resetFields()
-
-  }, [history])
-  const assesmentstate = useSelector(state => state.FirstAssesment)
+    form.resetFields();
+  }, [history]);
+  const assesmentstate = useSelector((state) => state.FirstAssesment);
 
   // useEffect(()=>{
 
   // },[assesmentstate])
 
   const formatter = (value) => {
-      return `${desc[value]}`
-  }
+    return `${desc[value]}`;
+  };
 
   const columns = [
-      {
-          title: "Angles",
-          dataIndex: "angles",
-          key: "angles"
-      },
-      {
-          title: "Min",
-          dataIndex: "min",
-          key: "min",
-          render: number => Math.round(number)
-      },
-      {
-          title: "Max",
-          dataIndex: "max",
-          key: "max",
-          render: number => Math.round(number)
-      },
-  ]
-
-  const tableData = [
-      {
-          key: '1',
-          angles: 'L Shoulder Abd/Add',
-          min: angleValues.leftShoulder.min,
-          max: angleValues.leftShoulder.max
-      },
-      {
-          key: '2',
-          angles: 'R Shoulder Abd/Add',
-          min: angleValues.rightShoulder.min,
-          max: angleValues.rightShoulder.max
-      },
-      {
-          key: '3',
-          angles: 'L Elbow Flex',
-          min: angleValues.leftElbow.min,
-          max: angleValues.leftElbow.max
-      },
-      {
-          key: '4',
-          angles: 'R Elbow Flex',
-          min: angleValues.rightElbow.min,
-          max: angleValues.rightElbow.max
-      },
-      {
-          key: '5',
-          angles: 'L Cervical Side flex',
-          min: angleValues.leftNeck.min,
-          max: angleValues.leftNeck.max
-      },
-      {
-          key: '6',
-          angles: 'R Cervical Side flex',
-          min: angleValues.rightNeck.min,
-          max: angleValues.rightNeck.max
-      }
-
-  ]
-
-  const tableData1 = [
-      {
-          key: '7',
-          angles: 'L Hip Fwd Flex',
-          min: angleValues.leftHipAdductionAdbuction.min,
-          max: angleValues.leftHipAdductionAdbuction.max
-      }, {
-          key: '8',
-          angles: 'R Hip Fwd Flex',
-          min: angleValues.rightHipAdductionAdbuction.min,
-          max: angleValues.rightHipAdductionAdbuction.max
-      }, {
-          key: '10',
-          angles: 'L Lateral Side Flex',
-          min: angleValues.leftPelvic.min,
-          max: angleValues.leftPelvic.max
-      }, {
-          key: '11',
-          angles: 'R Lateral Side Flex',
-          min: angleValues.rightPelvic.min,
-          max: angleValues.rightPelvic.max
-      }
-  ]
-
-  const tableDataL = [
     {
-      key: '1',
-      angles: 'L Shoulder Abd/Add',
-      min: angleValuesL.leftShoulder.min,
-      max: angleValuesL.leftShoulder.max
-  },
-  {
-    key: '7',
-    angles: 'L Hip Abd/Add',
-    min: angleValuesL.leftHip.min,
-    max: angleValuesL.leftHip.max
-},
- {
-    key: '9',
-    angles: 'Cervical Fwd Flex',
-    min: angleValuesL.cervicalForwardFlexion.min,
-    max: angleValuesL.cervicalForwardFlexion.max
-}, 
-{
-  key: '11',
-  angles: 'L Knee Abd/Add',
-  min: angleValuesL.leftKnee.min,
-  max: angleValuesL.leftKnee.max
-}, 
-{
-  key: '13',
-  angles: 'L Wrist',
-  min: angleValuesL.leftWrist.min,
-  max: angleValuesL.leftWrist.max
-}, 
- {
-    key: '15',
-    angles: 'L Ankle',
-    min: angleValuesL.leftAnkle.min,
-    max: angleValuesL.leftAnkle.max
-},
-]
-const tableDataR = [
-  {
-    key: '1',
-    angles: 'R Shoulder Abd/Add',
-    min: angleValuesR.rightShoulder.min,
-    max: angleValuesR.rightShoulder.max
-},
-{
-  key: '7',
-  angles: 'R Hip Abd/Add',
-  min: angleValuesR.rightHip.min,
-  max: angleValuesR.rightHip.max
-},
-{
-  key: '9',
-  angles: 'Cervical Fwd Flex',
-  min: angleValuesR.cervicalForwardFlexion.min,
-  max: angleValuesR.cervicalForwardFlexion.max
-}, 
-{
-key: '11',
-angles: 'R Knee Abd/Add',
-min: angleValuesR.rightKnee.min,
-max: angleValuesR.rightKnee.max
-}, 
-{
-key: '13',
-angles: 'R Wrist',
-min: angleValuesR.rightWrist.min,
-max: angleValuesR.rightWrist.max
-}, 
-{
-  key: '15',
-  angles: 'R Ankle',
-  min: angleValuesR.rightAnkle.min,
-  max: angleValuesR.rightAnkle.max
-},
-]
+      title: "Angles",
+      dataIndex: "angles",
+      key: "angles",
+    },
+    {
+      title: "Min",
+      dataIndex: "min",
+      key: "min",
+      render: (number) => Math.round(number),
+    },
+    {
+      title: "Max",
+      dataIndex: "max",
+      key: "max",
+      render: (number) => Math.round(number),
+    },
+  ];
+
+  //   const tableData = [
+  //       {
+  //           key: '1',
+  //           angles: 'L Shoulder Abd/Add',
+  //           min: angleValues.leftShoulder.min,
+  //           max: angleValues.leftShoulder.max
+  //       },
+  //       {
+  //           key: '2',
+  //           angles: 'R Shoulder Abd/Add',
+  //           min: angleValues.rightShoulder.min,
+  //           max: angleValues.rightShoulder.max
+  //       },
+  //       {
+  //           key: '3',
+  //           angles: 'L Elbow Flex',
+  //           min: angleValues.leftElbow.min,
+  //           max: angleValues.leftElbow.max
+  //       },
+  //       {
+  //           key: '4',
+  //           angles: 'R Elbow Flex',
+  //           min: angleValues.rightElbow.min,
+  //           max: angleValues.rightElbow.max
+  //       },
+  //       {
+  //           key: '5',
+  //           angles: 'L Cervical Side flex',
+  //           min: angleValues.leftNeck.min,
+  //           max: angleValues.leftNeck.max
+  //       },
+  //       {
+  //           key: '6',
+  //           angles: 'R Cervical Side flex',
+  //           min: angleValues.rightNeck.min,
+  //           max: angleValues.rightNeck.max
+  //       }
+
+  //   ]
+
+  //   const tableData1 = [
+  //       {
+  //           key: '7',
+  //           angles: 'L Hip Fwd Flex',
+  //           min: angleValues.leftHipAdductionAdbuction.min,
+  //           max: angleValues.leftHipAdductionAdbuction.max
+  //       }, {
+  //           key: '8',
+  //           angles: 'R Hip Fwd Flex',
+  //           min: angleValues.rightHipAdductionAdbuction.min,
+  //           max: angleValues.rightHipAdductionAdbuction.max
+  //       }, {
+  //           key: '10',
+  //           angles: 'L Lateral Side Flex',
+  //           min: angleValues.leftPelvic.min,
+  //           max: angleValues.leftPelvic.max
+  //       }, {
+  //           key: '11',
+  //           angles: 'R Lateral Side Flex',
+  //           min: angleValues.rightPelvic.min,
+  //           max: angleValues.rightPelvic.max
+  //       }
+  //   ]
+
+  //   const tableDataL = [
+  //     {
+  //       key: '1',
+  //       angles: 'L Shoulder Abd/Add',
+  //       min: angleValuesL.leftShoulder.min,
+  //       max: angleValuesL.leftShoulder.max
+  //   },
+  //   {
+  //     key: '7',
+  //     angles: 'L Hip Abd/Add',
+  //     min: angleValuesL.leftHip.min,
+  //     max: angleValuesL.leftHip.max
+  // },
+  //  {
+  //     key: '9',
+  //     angles: 'Cervical Fwd Flex',
+  //     min: angleValuesL.cervicalForwardFlexion.min,
+  //     max: angleValuesL.cervicalForwardFlexion.max
+  // },
+  // {
+  //   key: '11',
+  //   angles: 'L Knee Abd/Add',
+  //   min: angleValuesL.leftKnee.min,
+  //   max: angleValuesL.leftKnee.max
+  // },
+  // {
+  //   key: '13',
+  //   angles: 'L Wrist',
+  //   min: angleValuesL.leftWrist.min,
+  //   max: angleValuesL.leftWrist.max
+  // },
+  //  {
+  //     key: '15',
+  //     angles: 'L Ankle',
+  //     min: angleValuesL.leftAnkle.min,
+  //     max: angleValuesL.leftAnkle.max
+  // },
+  // ]
+  // const tableDataR = [
+  //   {
+  //     key: '1',
+  //     angles: 'R Shoulder Abd/Add',
+  //     min: angleValuesR.rightShoulder.min,
+  //     max: angleValuesR.rightShoulder.max
+  // },
+  // {
+  //   key: '7',
+  //   angles: 'R Hip Abd/Add',
+  //   min: angleValuesR.rightHip.min,
+  //   max: angleValuesR.rightHip.max
+  // },
+  // {
+  //   key: '9',
+  //   angles: 'Cervical Fwd Flex',
+  //   min: angleValuesR.cervicalForwardFlexion.min,
+  //   max: angleValuesR.cervicalForwardFlexion.max
+  // },
+  // {
+  // key: '11',
+  // angles: 'R Knee Abd/Add',
+  // min: angleValuesR.rightKnee.min,
+  // max: angleValuesR.rightKnee.max
+  // },
+  // {
+  // key: '13',
+  // angles: 'R Wrist',
+  // min: angleValuesR.rightWrist.min,
+  // max: angleValuesR.rightWrist.max
+  // },
+  // {
+  //   key: '15',
+  //   angles: 'R Ankle',
+  //   min: angleValuesR.rightAnkle.min,
+  //   max: angleValuesR.rightAnkle.max
+  // },
+  // ]
   useEffect(() => {
-      const question = document.getElementById("question")
-      const rom = document.getElementById("rom")
-      const posture_btn = document.getElementById('posture-btn')
+    const question = document.getElementById("question");
+    const rom = document.getElementById("rom");
+    const posture_btn = document.getElementById("posture-btn");
 
-      if (state.FirstAssesment.KOOS === "") {
-          question.innerHTML = "Scales & Index"
-       //  question.innerHTML = " "
-          setQuestionVisibility('none')
-
-      }
-      else {
-        question.innerHTML = "Scales & Index"
-        // question.innerHTML = " "
-          question.style.backgroundColor = "honeydew"
-          question.style.borderColor = "limegreen"
-          setQuestionVisibility('inline')
-
-      }
-     // setQuestionVisibility('none')
-     if(Object.keys(state.FirstAssesment.posture).length > 0){
-      posture_btn.innerHTML = 'Posture Done'
-      setPosture(true)
+    if (state.FirstAssesment.KOOS === "") {
+      question.innerHTML = "Scales & Index";
+      //  question.innerHTML = " "
+      setQuestionVisibility("none");
+    } else {
+      question.innerHTML = "Scales & Index";
+      // question.innerHTML = " "
+      question.style.backgroundColor = "honeydew";
+      question.style.borderColor = "limegreen";
+      setQuestionVisibility("inline");
     }
-      // Check if AI_Data
-      if (state.FirstAssesment.Anterior_AI_Data&&Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 || Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
-        console.log("Ai data in body.js from localstorage: ", Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0)
-          rom.innerHTML = "AROM Assesment"
-         // setRomVisibility('contents')
-          if(Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0){
-            const Anterior_AI_Data = state.FirstAssesment.Anterior_AI_Data[Object.keys(state.FirstAssesment.Anterior_AI_Data)[0]].angles
-            setRomVisibility('contents')
-            setAngleValues(preValues => ({
-              ...preValues,
-              ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
-              ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
-              ['leftElbow']: Anterior_AI_Data["leftElbow"],
-              ['rightElbow']: Anterior_AI_Data["rightElbow"],
-              ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
-              ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
-              ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
-              ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
-              ['leftNeck']: Anterior_AI_Data["leftNeck"],
-              ['rightNeck']: Anterior_AI_Data["rightNeck"],
-          }))
+    // setQuestionVisibility('none')
+    if (Object.keys(state.FirstAssesment.posture).length > 0) {
+      posture_btn.innerHTML = "Posture Done";
+      setPosture(true);
+    }
+    // Check if AI_Data
+    if (
+     ( state.FirstAssesment.Anterior_AI_Data&&Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 )|| Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
+      rom.innerHTML = "AROM Assesment";
+      // setRomVisibility('contents')
+      if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
+        let data = state.FirstAssesment.Anterior_AI_Data
+        setRomVisibility("contents");
+        let TEMP = {};
+        TEMP["AROM"] = data[Object.keys(data)[0]];
+        console.log(TEMP);
+        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          (item, index) => {
+            let t = {};
+            t["key"] = index;
+            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["min"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].min
+            );
+            t["max"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].max
+            );
+            return t;
           }
-          if(Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0){
-            const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
-            setRomVisibilityM('inline')
-            setRomVisibilityL('inline')
-            setAngleValuesL(preValues => ({
-              ...preValues,
-              ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
-              ['leftHip']: LeftLateral_AI_Data["leftHip"],
-              ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
-              ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
-              ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
-              ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
-          }))
-          }
-          if(Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0){
-            const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
-            setRomVisibilityM('inline')
-            setRomVisibilityR('inline')
-            setAngleValuesR(preValues => ({
-              ...preValues,
-              ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
-              ['rightHip']: RightLateral_AI_Data["rightHip"],
-              ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
-              ['rightKnee']: RightLateral_AI_Data["rightKnee"],
-              ['rightWrist']: RightLateral_AI_Data["rightWrist"],
-              ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
-          }))
-          }
-          
-          rom.innerHTML = "ROM calculated"
-          rom.style.backgroundColor = "honeydew"
-          rom.style.borderColor = "limegreen"
-          
+        );
+        setTableData1(tempData.slice(0, 6));
+        if (tempData.length > 6) {
+          setTableData2(tempData.slice(6, tempData.length));
+        }
+
+        //   setAngleValues(preValues => ({
+        //     ...preValues,
+        //     ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
+        //     ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
+        //     ['leftElbow']: Anterior_AI_Data["leftElbow"],
+        //     ['rightElbow']: Anterior_AI_Data["rightElbow"],
+        //     ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
+        //     ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
+        //     ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
+        //     ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
+        //     ['leftNeck']: Anterior_AI_Data["leftNeck"],
+        //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
+        // }))
       }
-  }, angleValues)
-  // NOTE: Above useEffect does same thing, repeated code 
+      if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0) {
+        let data = state.FirstAssesment.LeftLateral_AI_Data
+        setRomVisibilityM("inline");
+        setRomVisibilityL("inline");
+        let TEMP = {};
+        TEMP["AROM"] = data[Object.keys(data)[0]];
+        console.log(TEMP);
+        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          (item, index) => {
+            let t = {};
+            t["key"] = index;
+            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["min"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].min
+            );
+            t["max"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].max
+            );
+            return t;
+          }
+        );
+        setLatL(tempData)
+      //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
+        //   setAngleValuesL(preValues => ({
+        //     ...preValues,
+        //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
+        //     ['leftHip']: LeftLateral_AI_Data["leftHip"],
+        //     ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
+        //     ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
+        //     ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
+        //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
+        // }))
+      }
+      if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0) {
+        setRomVisibilityM("inline");
+        setRomVisibilityR("inline");
+        let data = state.FirstAssesment.RightLateral_AI_Data
+        let TEMP = {};
+        TEMP["AROM"] = data[Object.keys(data)[0]];
+        console.log(TEMP);
+        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          (item, index) => {
+            let t = {};
+            t["key"] = index;
+            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["min"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].min
+            );
+            t["max"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].max
+            );
+            return t;
+          }
+        );
+        setLatR(tempData)
+       // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
+        //   setAngleValuesR(preValues => ({
+        //     ...preValues,
+        //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
+        //     ['rightHip']: RightLateral_AI_Data["rightHip"],
+        //     ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
+        //     ['rightKnee']: RightLateral_AI_Data["rightKnee"],
+        //     ['rightWrist']: RightLateral_AI_Data["rightWrist"],
+        //     ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
+        // }))
+      }
+
+      rom.innerHTML = "ROM calculated";
+      rom.style.backgroundColor = "honeydew";
+      rom.style.borderColor = "limegreen";
+    }
+  }, angleValues);
+  // NOTE: Above useEffect does same thing, repeated code
   // useEffect(() => {
   //     function checkUserData() {
   //         var AI = JSON.parse(localStorage.getItem("AI_Data"))
@@ -764,7 +859,7 @@ max: angleValuesR.rightWrist.max
   //        const LeftLateral_AI_Data = state.FirstAssesment.LeftLateral_AI_Data[Object.keys(state.FirstAssesment.LeftLateral_AI_Data)[0]].angles
   //        const RightLateral_AI_Data = state.FirstAssesment.RightLateral_AI_Data[Object.keys(state.FirstAssesment.RightLateral_AI_Data)[0]].angles
   //        // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
-          
+
   //         console.log("Ai data in body.js from localstorage: ", AI_Data)
 
   //         rom.innerHTML = "AROM Assement calculated"
@@ -814,313 +909,311 @@ max: angleValuesR.rightWrist.max
   //     }
   // }, [])
 
-
   const handleChange1 = (key, value, id = 0) => {
-          dispatch({
-              type: STATECHANGE,
-              payload: {
-                  key,
-                  value
-              }
-          });
-          dispatch({ type: "NOERROR" });
-  }
-
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key,
+        value,
+      },
+    });
+    dispatch({ type: "NOERROR" });
+  };
 
   const handleClick = async (e, id) => {
-      console.log(e, ' : ', id)
-      const index = BodyParts.indexOf(e);
-      //    console.log(BodyParts)
-      var ele = document.getElementById(id);
+    console.log(e, " : ", id);
+    const index = BodyParts.indexOf(e);
+    //    console.log(BodyParts)
+    var ele = document.getElementById(id);
 
-      if (index === -1) {
-          const MappedJoint = JointData[e];
+    if (index === -1) {
+      const MappedJoint = JointData[e];
 
-          const dummyData = { ...MuscleJoint }
+      const dummyData = { ...MuscleJoint };
 
-          for (let i = 0; i < MappedJoint.length; i++) {
-
-              if (MappedJoint[i] in dummyData) {
-                  dummyData[MappedJoint[i]] += 1;
-              } else {
-                  dummyData[MappedJoint[i]] = 1;
-              }
-          }
-
-          setMuscleJoint(dummyData);
-
-          const Body = [...BodyParts, e]
-          setBodyParts(Body);
-          ele.style.opacity = '1';
-
-      } else {
-          const MappedJoint = JointData[e];
-          const dummyData = { ...MuscleJoint }
-
-          for (let i = 0; i < MappedJoint.length; i++) {
-
-              if (MappedJoint[i] in dummyData) {
-                  dummyData[MappedJoint[i]] -= 1;
-
-                  if (dummyData[MappedJoint[i]] === 0) {
-                      delete dummyData[MappedJoint[i]];
-                  }
-              }
-          }
-          setMuscleJoint(dummyData);
-          const Body = [...BodyParts]
-          Body.splice(index, 1)
-          setBodyParts(Body);
-          ele.style.opacity = '0';
+      for (let i = 0; i < MappedJoint.length; i++) {
+        if (MappedJoint[i] in dummyData) {
+          dummyData[MappedJoint[i]] += 1;
+        } else {
+          dummyData[MappedJoint[i]] = 1;
+        }
       }
-      executeScroll()    
+
+      setMuscleJoint(dummyData);
+
+      const Body = [...BodyParts, e];
+      setBodyParts(Body);
+      ele.style.opacity = "1";
+    } else {
+      const MappedJoint = JointData[e];
+      const dummyData = { ...MuscleJoint };
+
+      for (let i = 0; i < MappedJoint.length; i++) {
+        if (MappedJoint[i] in dummyData) {
+          dummyData[MappedJoint[i]] -= 1;
+
+          if (dummyData[MappedJoint[i]] === 0) {
+            delete dummyData[MappedJoint[i]];
+          }
+        }
+      }
+      setMuscleJoint(dummyData);
+      const Body = [...BodyParts];
+      Body.splice(index, 1);
+      setBodyParts(Body);
+      ele.style.opacity = "0";
+    }
+    executeScroll();
     let div = document.getElementById("malefigures");
-    let can =  await html2canvas(div)
-    let url = can.toDataURL()
+    let can = await html2canvas(div);
+    let url = can.toDataURL();
     //handleChange1('body_image',url)
     dispatch({
       type: STATECHANGE,
       payload: {
-          key:'body_image',
-          value:url
-      }
-  });
-  dispatch({ type: "NOERROR" });
+        key: "body_image",
+        value: url,
+      },
+    });
+    dispatch({ type: "NOERROR" });
+  };
 
-  }
-
-
-  const Rom = () => { 
-    console.log(!state.jointReducer.joints)
-      if (!state.jointReducer.joints.length>0) {
-          warningJoint()
-          return false
-      }
-      let temp = []
-      state.jointReducer.joints.map(jo=>{
-       temp.push(...jo.joint)
-      })
-      temp = [...new Set(temp)]
-      console.log(temp)
-      console.log("values ", MuscleJoint)
-      console.log("values ", BodyParts)
-      history.push({
-          pathname: "/care-plan", state: {
-              Joints: temp,
-              Muscles: BodyParts,
-              prevpath: "/assesment"
-          }
-      });
-    //  console.log(Object.keys(MuscleJoint));
-  }
-
-  const goPain = () => {
-    if (state.jointReducer.joints.length===0) {
-      warningJoint()
-      return
+  const RomAI = () => {
+    console.log(!state.jointReducer.joints);
+    if (!state.jointReducer.joints.length > 0) {
+      warningJoint();
+      return false;
     }
-    history.push('/assesment/PainAssessment')
-  }
+    let temp = [];
+    state.jointReducer.joints.map((jo) => {
+      temp.push(...jo.joint);
+    });
+    temp = [...new Set(temp)];
+    console.log(temp);
+    console.log("values ", MuscleJoint);
+    console.log("values ", BodyParts);
+    history.push({
+      pathname: "/care-plan",
+      state: {
+        Joints: temp,
+        Muscles: BodyParts,
+        prevpath: "/assesment",
+      },
+    });
+    //  console.log(Object.keys(MuscleJoint));
+  };
+
+  const Rom = () => {
+    history.push("/assessment/AROM");
+  };
+  const goPain = () => {
+    if (state.jointReducer.joints.length === 0) {
+      warningJoint();
+      return;
+    }
+    history.push("/assesment/PainAssessment");
+  };
 
   const onClick = async () => {
-      if (FullBody === false) {
-          var ele = document.getElementsByClassName("FullBody");
-          const dummyData = { ...MuscleJoint }
-          for (i of muscle) {
-              const MappedJoint = JointData[i];
-              for (let j = 0; j < MappedJoint.length; j++) {
-                  if (MappedJoint[j] in dummyData) {
-                      dummyData[MappedJoint[j]] += 1;
-                  } else {
-                      dummyData[MappedJoint[j]] = 1;
-                  }
-              }
-              setBodyParts(muscle);
-              setMuscleJoint(dummyData);
-
+    if (FullBody === false) {
+      var ele = document.getElementsByClassName("FullBody");
+      const dummyData = { ...MuscleJoint };
+      for (i of muscle) {
+        const MappedJoint = JointData[i];
+        for (let j = 0; j < MappedJoint.length; j++) {
+          if (MappedJoint[j] in dummyData) {
+            dummyData[MappedJoint[j]] += 1;
+          } else {
+            dummyData[MappedJoint[j]] = 1;
           }
-
-          for (var i = 0, len = ele.length | 0; i < len; i = i + 1 | 0) {
-              ele[i].style.opacity = "1";
-          }
-          setFullBody(true);
-
-      } else {
-          // eslint-disable-next-line no-redeclare
-          var ele = document.getElementsByClassName("FullBody");
-          const dummyData = { ...MuscleJoint }
-          const Body = [...BodyParts]
-          for (i of muscle) {
-              const MappedJoint = JointData[i];
-              for (let j = 0; j < MappedJoint.length; j++) {
-                  if (MappedJoint[j] in dummyData) {
-
-                      dummyData[MappedJoint[j]] -= 1;
-
-                      if (dummyData[MappedJoint[j]] === 0) {
-                          delete dummyData[MappedJoint[j]];
-                      }
-                  }
-              }
-              Body.splice(0, muscle.length)
-              setBodyParts(Body);
-              setMuscleJoint(dummyData);
-          }
-
-          for (i = 0, len = ele.length | 0; i < len; i = i + 1 | 0) {
-              ele[i].style.opacity = "0";
-          }
-          setFullBody(false);
+        }
+        setBodyParts(muscle);
+        setMuscleJoint(dummyData);
       }
-      executeScroll()    
+
+      for (var i = 0, len = ele.length | 0; i < len; i = (i + 1) | 0) {
+        ele[i].style.opacity = "1";
+      }
+      setFullBody(true);
+    } else {
+      // eslint-disable-next-line no-redeclare
+      var ele = document.getElementsByClassName("FullBody");
+      const dummyData = { ...MuscleJoint };
+      const Body = [...BodyParts];
+      for (i of muscle) {
+        const MappedJoint = JointData[i];
+        for (let j = 0; j < MappedJoint.length; j++) {
+          if (MappedJoint[j] in dummyData) {
+            dummyData[MappedJoint[j]] -= 1;
+
+            if (dummyData[MappedJoint[j]] === 0) {
+              delete dummyData[MappedJoint[j]];
+            }
+          }
+        }
+        Body.splice(0, muscle.length);
+        setBodyParts(Body);
+        setMuscleJoint(dummyData);
+      }
+
+      for (i = 0, len = ele.length | 0; i < len; i = (i + 1) | 0) {
+        ele[i].style.opacity = "0";
+      }
+      setFullBody(false);
+    }
+    executeScroll();
     let div = document.getElementById("malefigures");
-    let can =  await html2canvas(div)
-    let url = can.toDataURL()
+    let can = await html2canvas(div);
+    let url = can.toDataURL();
     //handleChange1('body_image',url)
     dispatch({
       type: STATECHANGE,
       payload: {
-          key:'body_image',
-          value:url
-      }
-  });
-  dispatch({ type: "NOERROR" });
-  }
+        key: "body_image",
+        value: url,
+      },
+    });
+    dispatch({ type: "NOERROR" });
+  };
 
   function warning() {
-      Modal.warning({
-          title: 'This is a warning message',
-          content: 'Fields missing: All Mandatory fields should be filled in',
-      });
+    Modal.warning({
+      title: "This is a warning message",
+      content: "Fields missing: All Mandatory fields should be filled in",
+    });
   }
   function warningJoint() {
-      Modal.warning({
-          title: 'This is a warning message',
-          content: 'Please Select a joint',
-      });
+    Modal.warning({
+      title: "This is a warning message",
+      content: "Please Select a joint",
+    });
   }
   function warningPatientSelect() {
-      Modal.warning({
-          title: 'This is a warning message',
-          content: 'Please Select a Patient',
-      });
+    Modal.warning({
+      title: "This is a warning message",
+      content: "Please Select a Patient",
+    });
   }
 
-  
   const checkEpisodeId = async () => {
-      if (state.episodeReducer.patient_code) {
-          const res = await getEpisode(state.episodeReducer.patient_code)
-          if (res.length > 0) {
-              if (res[0].end_date.length === 0) {
-                  return 'true';
-              }
-              notification.warning({
-                  message: "Patient don't have an open episode",
-                  placement: 'topRight',
-                  duration: 10,
-                  key: 1,
-                  style: {
-                      marginTop: '10vh',
-                  },
-                  btn: <Button size="small" onClick={() => {
-                      history.push('/add-episode')
-                      notification.close(1)
-                  }}>
-                      Add-episode
-                  </Button>,
-              })
-              return false;
-          } else {
-              notification.warning({
-                  message: "Patient don't have an open episode",
-                  placement: 'topRight',
-                  duration: 10,
-                  key: 1,
-                  style: {
-                      marginTop: '10vh',
-                  },
-                  btn: <Button size="small" onClick={() => {
-                      history.push('/add-episode')
-                      notification.close(1)
-                  }}>
-                      Add-episode
-                  </Button>,
-              })
-          }
+    if (state.episodeReducer.patient_code) {
+      const res = await getEpisode(state.episodeReducer.patient_code);
+      if (res.length > 0) {
+        if (res[0].end_date.length === 0) {
+          return "true";
+        }
+        notification.warning({
+          message: "Patient don't have an open episode",
+          placement: "topRight",
+          duration: 10,
+          key: 1,
+          style: {
+            marginTop: "10vh",
+          },
+          btn: (
+            <Button
+              size="small"
+              onClick={() => {
+                history.push("/add-episode");
+                notification.close(1);
+              }}
+            >
+              Add-episode
+            </Button>
+          ),
+        });
+        return false;
       } else {
-          notification.warning({
-              message: "Please select a patient",
-              placement: 'bottomLeft',
-              duration: 5,
-              style: 'margin-top:20px'
-          });
-          return false;
+        notification.warning({
+          message: "Patient don't have an open episode",
+          placement: "topRight",
+          duration: 10,
+          key: 1,
+          style: {
+            marginTop: "10vh",
+          },
+          btn: (
+            <Button
+              size="small"
+              onClick={() => {
+                history.push("/add-episode");
+                notification.close(1);
+              }}
+            >
+              Add-episode
+            </Button>
+          ),
+        });
       }
-  }
-
+    } else {
+      notification.warning({
+        message: "Please select a patient",
+        placement: "bottomLeft",
+        duration: 5,
+        style: "margin-top:20px",
+      });
+      return false;
+    }
+  };
 
   // aswin 10/30/2021 stop
   const Finalsubmit = async (url) => {
-      const res = await getEpisode(state.episodeReducer.patient_code)
-      if (res.length > 0 && res[0].end_date.length === 0) {
-          if (window.confirm('Assessment data will be submitted')) {
-              const data = await AssesmentAPI(state.FirstAssesment,url, dispatch)
-              dispatch({ type: RECEIVED_DATA })
-              if (data === true) {
-                  sessionStorage.setItem('submit', true)
-                  setTimeout(() => {
-                      dispatch({ type: ASSESMENT_CLEARSTATE });
-                      dispatch({ type: "JOINT_CLEARSTATE" });
-                  }, 1000);
+    const res = await getEpisode(state.episodeReducer.patient_code);
+    if (res.length > 0 && res[0].end_date.length === 0) {
+      if (window.confirm("Assessment data will be submitted")) {
+        const data = await AssesmentAPI(state.FirstAssesment, url, dispatch);
+        dispatch({ type: RECEIVED_DATA });
+        if (data === true) {
+          sessionStorage.setItem("submit", true);
+          setTimeout(() => {
+            dispatch({ type: ASSESMENT_CLEARSTATE });
+            dispatch({ type: "JOINT_CLEARSTATE" });
+          }, 1000);
 
-                  notification.success({
-                      message: 'Assessment successfully submitted!',
-                      placement: 'bottomLeft',
-                      duration: 2
-                  });
-
-                  history.push('/dashboard')
-              }
-
-
-              else {
-                  notification.error({
-                      message: 'Form was not submitted',
-                      placement: 'bottomLeft',
-                      duration: 2
-                  });
-              }
-          }
-          // aswin 11/13/2021 stop
-      } else {
-          return notification.warning({
-              message: "Patient don't have an open episode1",
-              placement: 'bottomRight',
-              duration: 2
+          notification.success({
+            message: "Assessment successfully submitted!",
+            placement: "bottomLeft",
+            duration: 2,
           });
-      }
-  }
-  const Submit = async () => {
-    let video = screenShotRef.current
-    console.log('divvvv ',video)
-    console.log(video.id)
-    let url = ""
-      executeScroll()    
-      let div = document.getElementById(video.id);
-      console.log('divvvv ',video)
-      let can =  await html2canvas(video)
-      url = can.toDataURL()
-      dispatch({
-        type: STATECHANGE,
-        payload: {
-            key:'body_image',
-            value:url
+
+          history.push("/dashboard");
+        } else {
+          notification.error({
+            message: "Form was not submitted",
+            placement: "bottomLeft",
+            duration: 2,
+          });
         }
+      }
+      // aswin 11/13/2021 stop
+    } else {
+      return notification.warning({
+        message: "Patient don't have an open episode1",
+        placement: "bottomRight",
+        duration: 2,
+      });
+    }
+  };
+  const Submit = async () => {
+    let video = screenShotRef.current;
+    console.log("divvvv ", video);
+    console.log(video.id);
+    let url = "";
+    executeScroll();
+    let div = document.getElementById(video.id);
+    console.log("divvvv ", video);
+    let can = await html2canvas(video);
+    url = can.toDataURL();
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "body_image",
+        value: url,
+      },
     });
     dispatch({ type: "NOERROR" });
-    Finalsubmit(url)
-
-  }
+    Finalsubmit(url);
+  };
   // const [quest, setQuest] = useState(true)
   // const [pain, setPain] = useState(true)
   // const [special, setSpecial] = useState(true)
@@ -1129,41 +1222,46 @@ max: angleValuesR.rightWrist.max
 
   return (
     <div className="px-2 assessment_main_new py-2">
-
-      <Form style={{ background: '#fff', marginTop: '0px', marginBottom: '25px', padding: '0px' }} {...layout}
+      <Form
+        style={{
+          background: "#fff",
+          marginTop: "0px",
+          marginBottom: "25px",
+          padding: "0px",
+        }}
+        {...layout}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}
-      // form={form} name="control-hooks"
+        // form={form} name="control-hooks"
       >
+        <Row>
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <h3>
+              <i
+                className="fas fa-arrow-left"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  history.push("/dashboard");
+                }}
+                title="Go Back"
+                role="button"
+              ></i>
+            </h3>
+            <h3 style={{ paddingTop: "10px" }}>
+              <AiFillMedicineBox />
+              <b style={{ paddingLeft: "5px" }}>Assesment/Consultation</b>
+            </h3>
+          </Col>
+          {state.Validation.episode_check === "failed" && (
+            <Error error={state.Validation.msg} />
+          )}
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <ActiveSearch />
+          </Col>
+        </Row>
 
-<Row>
-        <Col md={12} lg={12} sm={24} xs={24}>
-          <h3>
-            <i
-              className="fas fa-arrow-left"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                history.push('/dashboard')
-              }}
-              title="Go Back"
-              role="button"
-            ></i>
-          </h3>
-          <h3 style={{paddingTop:'10px'}} >
-            <AiFillMedicineBox />
-             <b style={{paddingLeft:'5px'}} >Assesment/Consultation</b>
-          </h3>
-        </Col>
-        {state.Validation.episode_check === "failed" && (
-          <Error error={state.Validation.msg} />
-        )}
-        <Col md={12} lg={12} sm={24} xs={24}>
-          <ActiveSearch />
-        </Col>
-      </Row>
-      
-      {/* <Row>
+        {/* <Row>
         <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
         <Col style={{paddingLeft:'50px'}} md={20} lg={20} sm={20} xs={20}>
@@ -1196,22 +1294,26 @@ max: angleValuesR.rightWrist.max
 
         </Row> */}
 
-        <Row gutter={[20,20]} style={{marginBottom:'15px', marginTop:'15px'}}>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <b> Patient Name :</b> {state.episodeReducer.patient_name}
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <b> Patient Code :</b> {state.episodeReducer.patient_main_code}
-             </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <b> Episode ID : </b> {episodedata ? episodedata.episodeId : null}
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <b>  Episode Type : </b> {episodedata ? episodedata.complaintId : null}
-            </Col>
-            <Col md={24} lg={12} sm={24} xs={24}>
-              <b>  Start Date : </b> {episodedata ? episodedata.start_date : null}
-            </Col>
+        <Row
+          gutter={[20, 20]}
+          style={{ marginBottom: "15px", marginTop: "15px" }}
+        >
+          <Col md={24} lg={12} sm={24} xs={24}>
+            <b> Patient Name :</b> {state.episodeReducer.patient_name}
+          </Col>
+          <Col md={24} lg={12} sm={24} xs={24}>
+            <b> Patient Code :</b> {state.episodeReducer.patient_main_code}
+          </Col>
+          <Col md={24} lg={12} sm={24} xs={24}>
+            <b> Episode ID : </b> {episodedata ? episodedata.episodeId : null}
+          </Col>
+          <Col md={24} lg={12} sm={24} xs={24}>
+            <b> Episode Type : </b>{" "}
+            {episodedata ? episodedata.complaintId : null}
+          </Col>
+          <Col md={24} lg={12} sm={24} xs={24}>
+            <b> Start Date : </b> {episodedata ? episodedata.start_date : null}
+          </Col>
         </Row>
 
         <Row className="AssesmentConsultationMain">
@@ -1229,63 +1331,85 @@ max: angleValuesR.rightWrist.max
               onChange={handleChange}
             /> */}
           {/* </Col> */}
-          <Col className="AssesmentConsultationMain_inner" style={{marginLeft:'0px', paddingLeft:'0px'}} md={12} lg={12} sm={24} xs={24}>
+          <Col
+            className="AssesmentConsultationMain_inner"
+            style={{ marginLeft: "0px", paddingLeft: "0px" }}
+            md={12}
+            lg={12}
+            sm={24}
+            xs={24}
+          >
             <Form.Item label="Type" name="Type">
-            {/* //  rules={[{ required: true, message: `Please Select Type.` }]} > */}
-              <Select placeholder="Select Type"
+              {/* //  rules={[{ required: true, message: `Please Select Type.` }]} > */}
+              <Select
+                placeholder="Select Type"
                 className="w-100 input-field"
                 onChange={(value) => handleChange("Type", value)}
                 value={state.FirstAssesment.Type}
-                defaultValue={state.FirstAssesment.Type}>
+                defaultValue={state.FirstAssesment.Type}
+              >
                 {/* aswin 10/24/2021 start */}
-                <Option value="First">{state.FirstAssesment.Type === "First" && "First Assesment"}</Option>
+                <Option value="First">
+                  {state.FirstAssesment.Type === "First" && "First Assesment"}
+                </Option>
                 {/* aswin 10/24/2021 start */}
                 <Option value="Periodic">Periodic</Option>
                 {/* <Option value="Consultation">Consultation</Option> */}
               </Select>
             </Form.Item>
-
           </Col>
         </Row>
       </Form>
 
-      <Row >
-          <Col md={24} lg={24} sm={24} xs={24}>
-            <h3 className="p-0"><b>Physical Assesment</b></h3>
-          </Col>
-        </Row>
+      <Row>
+        <Col md={24} lg={24} sm={24} xs={24}>
+          <h3 className="p-0">
+            <b>Physical Assesment</b>
+          </h3>
+        </Col>
+      </Row>
 
-     {state.FirstAssesment.Type==="First"&& <div className="border1 mb-3 mt-3" style={{ background:'#fff', marginTop:'10px', padding:'20px'}}>
-        
-        
-       
-
-      
-
+      {state.FirstAssesment.Type === "First" && (
+        <div
+          className="border1 mb-3 mt-3"
+          style={{ background: "#fff", marginTop: "10px", padding: "20px" }}
+        >
           <Row gutter={[20, 20]}>
-              <Col md={24} lg={24} sm={24} xs={24}>
-                  <h4><b>Subjective</b></h4>
-              </Col>
-            </Row>
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4>
+                <b>Subjective</b>
+              </h4>
+            </Col>
+          </Row>
 
-
-
-           <Col md={24} lg={24} sm={24} xs={24} className="mx-0 p-0">
-              {state.FirstAssesment.subjective.map((data, index) => {
-            let
-              occupation = `occupation-${index}`,
-              Duration = `Duration-${index}`;
-            return (
-               <div className="container-fuild p-4 my-3 border1">
-                 <Row gutter={[20, 20]} className="py-0">
-                    <Col md={24} lg={12} sm={24} xs={24} style={{paddingLeft:'0px'}}>
-                       <h4>Occupation</h4>
-                       <select className="form-select w-100"
-                        name={"occupation"+index} id={occupation} data-id={index}
+          <Col md={24} lg={24} sm={24} xs={24} className="mx-0 p-0">
+            {state.FirstAssesment.subjective.map((data, index) => {
+              let occupation = `occupation-${index}`,
+                Duration = `Duration-${index}`;
+              return (
+                <div className="container-fuild p-4 my-3 border1">
+                  <Row gutter={[20, 20]} className="py-0">
+                    <Col
+                      md={24}
+                      lg={12}
+                      sm={24}
+                      xs={24}
+                      style={{ paddingLeft: "0px" }}
+                    >
+                      <h4>Occupation</h4>
+                      <select
+                        className="form-select w-100"
+                        name={"occupation" + index}
+                        id={occupation}
+                        data-id={index}
                         aria-label="Default select example"
-                        value={state.FirstAssesment.subjective[index].occupation}
+                        value={
+                          state.FirstAssesment.subjective[index].occupation
+                        }
                         // value={state.FirstAssesment.subjective[index].occupation}
-                        onChange={(e) => handleChange("occupation", e.target.value, index)}
+                        onChange={(e) =>
+                          handleChange("occupation", e.target.value, index)
+                        }
                       >
                         <option selected></option>
                         <option value="Desk Job">Desk Job</option>
@@ -1296,662 +1420,1004 @@ max: angleValuesR.rightWrist.max
                         <option value="Sports">Sports</option>
                       </select>
                     </Col>
-                       {/* <Col md={12} lg={12} sm={12} xs={12}> */}
+                    {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}
-                 
-                    <Col md={24} lg={state.FirstAssesment.subjective[index].occupation==='Sports'?5:12} sm={24} xs={24}>
+
+                    <Col
+                      md={24}
+                      lg={
+                        state.FirstAssesment.subjective[index].occupation ===
+                        "Sports"
+                          ? 5
+                          : 12
+                      }
+                      sm={24}
+                      xs={24}
+                    >
                       <h4>Duration</h4>
-                      <Radio.Group required options={['0-8 hours','0-4 hours','Above 8 hours','Flexible']} onChange={(e) => handleChange("duration", e.target.value,index)} value={state.FirstAssesment.subjective[index].duration}>
-                      </Radio.Group>
+                      <Radio.Group
+                        required
+                        options={[
+                          "0-8 hours",
+                          "0-4 hours",
+                          "Above 8 hours",
+                          "Flexible",
+                        ]}
+                        onChange={(e) =>
+                          handleChange("duration", e.target.value, index)
+                        }
+                        value={state.FirstAssesment.subjective[index].duration}
+                      ></Radio.Group>
+                    </Col>
+                    {state.FirstAssesment.subjective[index].occupation ===
+                      "Sports" && (
+                      <Col md={24} lg={6} sm={24} xs={24}>
+                        <h4>Sports Type</h4>
+                        <input
+                          class="mx-3 p-2"
+                          onChange={(e) => {
+                            handleChange(
+                              "Sports_type",
+                              e.target.value.length > 1
+                                ? e.target.value[0].toUpperCase() +
+                                    e.target.value.slice(
+                                      1,
+                                      e.target.value.length
+                                    )
+                                : e.target.value.length === 1
+                                ? e.target.value.toUpperCase()
+                                : "",
+                              index
+                            );
+                          }}
+                          value={
+                            state.FirstAssesment.subjective[index].Sports_type
+                          }
+                          type="text"
+                          name={"sports_type" + index}
+                          placeholder="Sports Type"
+                        />
                       </Col>
-                      { state.FirstAssesment.subjective[index].occupation==='Sports'&&<Col md={24} lg={6} sm={24} xs={24}>
-                      <h4>Sports Type</h4>
-                    <input class="mx-3 p-2" onChange={(e)=>{
-                          handleChange('Sports_type',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'',index)
-                      }} value={state.FirstAssesment.subjective[index].Sports_type} type="text" name={'sports_type'+index} placeholder="Sports Type" />
-                </Col>}
+                    )}
                   </Row>
                 </div>
-            )
-          }
-          )
-          }
+              );
+            })}
           </Col>
-        
 
           <div className="row py-0 mx-1">
-            <div className="col" style={{paddingLeft:'0px'}}>
-              <button type="button" onClick={() => handleAddFields()} class="btn btn-primary ">+</button>
-              <button type="button" disabled={state.FirstAssesment.subjective.length<=1?true:false} onClick={() => handleRemoveFields()} class="btn btn-primary mx-2">-</button>
-
+            <div className="col" style={{ paddingLeft: "0px" }}>
+              <button
+                type="button"
+                onClick={() => handleAddFields()}
+                class="btn btn-primary "
+              >
+                +
+              </button>
+              <button
+                type="button"
+                disabled={
+                  state.FirstAssesment.subjective.length <= 1 ? true : false
+                }
+                onClick={() => handleRemoveFields()}
+                class="btn btn-primary mx-2"
+              >
+                -
+              </button>
             </div>
-
           </div>
 
-      
-
-        <div className="container-fuild">
-          <Row gutter={[20, 20]} className="py-3">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Chief Complaint</b></h4>
-            </Col>
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <input type="text" className="p-2 w-50" placeholder="Cheif Complaint"
-                name="chiefCom"
-                value={state.FirstAssesment.chiefCom}
-                onChange={(e) => {
-                    handleChange("chiefCom", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                }}
-              />
-            </Col>
-          </Row>
-        </div>
-
-        <Row gutter={[10, 10]} className="py-3">
-          <Col md={24} lg={24} sm={24} xs={24}>
-            <h4><b>History Of Present Complaint</b></h4>
-          </Col>
-          <Col md={24} lg={24} sm={24} xs={24} className="mx-2" style={{paddingLeft:'0px'}}>
-          <Radio.Group options={['Sudden','Gradual','History of Fall','Tumor','Pregnency','Metal implants','Pacemaker-ICD','Any other injury']} onChange={(e) => handleChange("History", e.target.value)} value={state.FirstAssesment.History}>
-   
-            </Radio.Group>
-          </Col>
-        </Row>
-
-        <div className="container-fuild">
-          <Row gutter={[10, 10]} className="pb-1">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Past Medical History</b></h4>
-            </Col>
-          </Row>
-
-          <Row gutter={[20, 20]} className="py-0">
-            <Col md={24} lg={24} sm={24} xs={24} className="ms-0">
-            <Checkbox.Group
-                style={{ paddingLeft: "0px" }}
-                name="past Medical History"
-                value={state.FirstAssesment.past_medical_history}
-                onChange={(e) => handleChange("past_medical_history", e)}
-                options={plainOptions1}
-              />
-                <Checkbox
-                name="Medication"
-              //  value={state.FirstAssesment.Medication1}
-                onChange={(e) =>{
-                   setMedic(!medic)
-                   handleChange("medicCheck",medic)
-                   handleChange("Medication1",e.target.checked)
+          <div className="container-fuild">
+            <Row gutter={[20, 20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4>
+                  <b>Chief Complaint</b>
+                </h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <input
+                  type="text"
+                  className="p-2 w-50"
+                  placeholder="Cheif Complaint"
+                  name="chiefCom"
+                  value={state.FirstAssesment.chiefCom}
+                  onChange={(e) => {
+                    handleChange(
+                      "chiefCom",
+                      e.target.value.length > 1
+                        ? e.target.value[0].toUpperCase() +
+                            e.target.value.slice(1, e.target.value.length)
+                        : e.target.value.length === 1
+                        ? e.target.value.toUpperCase()
+                        : ""
+                    );
                   }}
-                  value={'Medication'}
-                // options={['Medication']}
-              >
-                <input class="mx-3 p-2" type="text" disabled={medic} value={state.FirstAssesment.Medication} onChange={(e) => {
-                    handleChange("Medication", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                }} name='medText' placeholder="Medication" />
-                </Checkbox>
-                <Checkbox
-                style={{ marginLeft: "0px" }}
-                name="Others"
-               // value={state.FirstAssesment.Others1}
-                onChange={(e) => {
-                  setOthers(!others)
-                  handleChange('othCheck',others)
-                  handleChange('Others1',e.target.checked)
-                }}
-                value={'Others'}
-              >  
-                <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
-                    handleChange('Others',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                }} value={state.FirstAssesment.Others} disabled={others} type="text" name='othText' placeholder="Others" />
-              </Checkbox>
-                 <Checkbox
-                   style={{ marginLeft: "0px" }}
-                name="Surgical History Notes"
-                value={state.FirstAssesment.Surgical_History_Notes1}
-                onChange={(e) => {
-                  SetSurgical_History_Notes(!Surgical_History_Notes)
-                  handleChange('Surgical_History_Notes_check',Surgical_History_Notes)
-                  handleChange('Surgical_History_Notes1',e.target.checked)
-                }}
-                options={['Surgical History Notes']}
-              > 
-                <input class="mx-3 p-2" style={{marginTop:'5px'}} onChange={(e)=>{
-                    handleChange('Surgical_History_Notes',e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                }} value={state.FirstAssesment.Surgical_History_Notes} disabled={Surgical_History_Notes} type="text" name='Surgical_History_NotesText' placeholder="Surgical History Notes" />
-                </Checkbox>
-            </Col>
-          </Row>
-        </div>
+                />
+              </Col>
+            </Row>
+          </div>
 
-        <div className="container-fuild">
           <Row gutter={[10, 10]} className="py-3">
             <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Built Type</b></h4>
+              <h4>
+                <b>History Of Present Complaint</b>
+              </h4>
             </Col>
-            <Col md={24} lg={24} sm={24} xs={24} className="mx-2 p-0">
-              <Radio.Group options={['Ectomorphic','Mesomorphic','Endomorphic']} onChange={(e) => handleChange("Built", e.target.value)} value={state.FirstAssesment.Built}>
-   
-              </Radio.Group>
+            <Col
+              md={24}
+              lg={24}
+              sm={24}
+              xs={24}
+              className="mx-2"
+              style={{ paddingLeft: "0px" }}
+            >
+              <Radio.Group
+                options={[
+                  "Sudden",
+                  "Gradual",
+                  "History of Fall",
+                  "Tumor",
+                  "Pregnency",
+                  "Metal implants",
+                  "Pacemaker-ICD",
+                  "Any other injury",
+                ]}
+                onChange={(e) => handleChange("History", e.target.value)}
+                value={state.FirstAssesment.History}
+              ></Radio.Group>
             </Col>
           </Row>
+
+          <div className="container-fuild">
+            <Row gutter={[10, 10]} className="pb-1">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4>
+                  <b>Past Medical History</b>
+                </h4>
+              </Col>
+            </Row>
+
+            <Row gutter={[20, 20]} className="py-0">
+              <Col md={24} lg={24} sm={24} xs={24} className="ms-0">
+                <Checkbox.Group
+                  style={{ paddingLeft: "0px" }}
+                  name="past Medical History"
+                  value={state.FirstAssesment.past_medical_history}
+                  onChange={(e) => handleChange("past_medical_history", e)}
+                  options={plainOptions1}
+                />
+                <Checkbox
+                  name="Medication"
+                  //  value={state.FirstAssesment.Medication1}
+                  onChange={(e) => {
+                    setMedic(!medic);
+                    handleChange("medicCheck", medic);
+                    handleChange("Medication1", e.target.checked);
+                  }}
+                  value={"Medication"}
+                  // options={['Medication']}
+                >
+                  <input
+                    class="mx-3 p-2"
+                    type="text"
+                    disabled={medic}
+                    value={state.FirstAssesment.Medication}
+                    onChange={(e) => {
+                      handleChange(
+                        "Medication",
+                        e.target.value.length > 1
+                          ? e.target.value[0].toUpperCase() +
+                              e.target.value.slice(1, e.target.value.length)
+                          : e.target.value.length === 1
+                          ? e.target.value.toUpperCase()
+                          : ""
+                      );
+                    }}
+                    name="medText"
+                    placeholder="Medication"
+                  />
+                </Checkbox>
+                <Checkbox
+                  style={{ marginLeft: "0px" }}
+                  name="Others"
+                  // value={state.FirstAssesment.Others1}
+                  onChange={(e) => {
+                    setOthers(!others);
+                    handleChange("othCheck", others);
+                    handleChange("Others1", e.target.checked);
+                  }}
+                  value={"Others"}
+                >
+                  <input
+                    class="mx-3 p-2"
+                    style={{ marginTop: "5px" }}
+                    onChange={(e) => {
+                      handleChange(
+                        "Others",
+                        e.target.value.length > 1
+                          ? e.target.value[0].toUpperCase() +
+                              e.target.value.slice(1, e.target.value.length)
+                          : e.target.value.length === 1
+                          ? e.target.value.toUpperCase()
+                          : ""
+                      );
+                    }}
+                    value={state.FirstAssesment.Others}
+                    disabled={others}
+                    type="text"
+                    name="othText"
+                    placeholder="Others"
+                  />
+                </Checkbox>
+                <Checkbox
+                  style={{ marginLeft: "0px" }}
+                  name="Surgical History Notes"
+                  value={state.FirstAssesment.Surgical_History_Notes1}
+                  onChange={(e) => {
+                    SetSurgical_History_Notes(!Surgical_History_Notes);
+                    handleChange(
+                      "Surgical_History_Notes_check",
+                      Surgical_History_Notes
+                    );
+                    handleChange("Surgical_History_Notes1", e.target.checked);
+                  }}
+                  options={["Surgical History Notes"]}
+                >
+                  <input
+                    class="mx-3 p-2"
+                    style={{ marginTop: "5px" }}
+                    onChange={(e) => {
+                      handleChange(
+                        "Surgical_History_Notes",
+                        e.target.value.length > 1
+                          ? e.target.value[0].toUpperCase() +
+                              e.target.value.slice(1, e.target.value.length)
+                          : e.target.value.length === 1
+                          ? e.target.value.toUpperCase()
+                          : ""
+                      );
+                    }}
+                    value={state.FirstAssesment.Surgical_History_Notes}
+                    disabled={Surgical_History_Notes}
+                    type="text"
+                    name="Surgical_History_NotesText"
+                    placeholder="Surgical History Notes"
+                  />
+                </Checkbox>
+              </Col>
+            </Row>
+          </div>
+
+          <div className="container-fuild">
+            <Row gutter={[10, 10]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4>
+                  <b>Built Type</b>
+                </h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24} className="mx-2 p-0">
+                <Radio.Group
+                  options={["Ectomorphic", "Mesomorphic", "Endomorphic"]}
+                  onChange={(e) => handleChange("Built", e.target.value)}
+                  value={state.FirstAssesment.Built}
+                ></Radio.Group>
+              </Col>
+            </Row>
+          </div>
+          <div className="container-fuild">
+            <Row gutter={[20, 20]} className="py-3">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4>
+                  <b>Any Other Details</b>
+                </h4>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <input
+                  type="text"
+                  className="p-2 w-50"
+                  placeholder="Any Other Details"
+                  name="any_other_details"
+                  value={state.FirstAssesment.any_other_details}
+                  onChange={(e) => {
+                    handleChange(
+                      "any_other_details",
+                      e.target.value.length > 1
+                        ? e.target.value[0].toUpperCase() +
+                            e.target.value.slice(1, e.target.value.length)
+                        : e.target.value.length === 1
+                        ? e.target.value.toUpperCase()
+                        : ""
+                    );
+                  }}
+                />
+              </Col>
+            </Row>
+          </div>
         </div>
-        <div className="container-fuild">
-          <Row gutter={[20, 20]} className="py-3">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h4><b>Any Other Details</b></h4>
-            </Col>
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <input type="text" className="p-2 w-50" placeholder="Any Other Details"
-                name="any_other_details"
-                value={state.FirstAssesment.any_other_details}
-                onChange={(e) => {
-                    handleChange("any_other_details", e.target.value.length>1?e.target.value[0].toUpperCase()+e.target.value.slice(1, e.target.value.length):e.target.value.length===1?e.target.value.toUpperCase():'')
-                }}
-              />
-            </Col>
-          </Row>
-        </div>
-
-
-      </div>
-
-      }
+      )}
       {/* <Body back={back} next={next}/> */}
 
-      <div className="border1 mb-3 mt-0 text-center" style={{ background: '#fff', padding: '20px' }}>
-<>
-    
-     <h1 style={{margin:0,padding:0}}><b>Cheif Complaint Area</b></h1>
-<Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
+      <div
+        className="border1 mb-3 mt-0 text-center"
+        style={{ background: "#fff", padding: "20px" }}
+      >
+        <>
+          <h1 style={{ margin: 0, padding: 0 }}>
+            <b>Cheif Complaint Area</b>
+          </h1>
+          <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
+        </>
 
- </>
-
-
- <div style={{ display: QuestionVisibility }} className=" border mb-3 mt-3">
-     <Row className="border1">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <h4 className="p-2">Questionnaire KOOS score</h4>
-         </Col>
-     </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <Descriptions title={state.FirstAssesment.Questionnaire.template_name} bordered>
-               {state.FirstAssesment.question_heading.map((data,index)=>(data!=="description"&&<Descriptions.Item label={data}>{Math.round(state.FirstAssesment.KOOS[index])}</Descriptions.Item>))}
-                 {/* <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
+        <div
+          style={{ display: QuestionVisibility }}
+          className=" border mb-3 mt-3"
+        >
+          <Row className="border1">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Questionnaire KOOS score</h4>
+            </Col>
+          </Row>
+          <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <Descriptions
+                title={state.FirstAssesment.Questionnaire.template_name}
+                bordered
+              >
+                {state.FirstAssesment.question_heading.map(
+                  (data, index) =>
+                    data !== "description" && (
+                      <Descriptions.Item label={data}>
+                        {Math.round(state.FirstAssesment.KOOS[index])}
+                      </Descriptions.Item>
+                    )
+                )}
+                {/* <Descriptions.Item label="KOOS Symptoms">{Math.round(state.FirstAssesment.KOOS[0])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Stiffness">{Math.round(state.FirstAssesment.KOOS[1])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Pain">{Math.round(state.FirstAssesment.KOOS[2])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Daily Life">{Math.round(state.FirstAssesment.KOOS[3])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Sports">{Math.round(state.FirstAssesment.KOOS[4])}</Descriptions.Item>
                  <Descriptions.Item label="KOOS Quality of Life">{Math.round(state.FirstAssesment.KOOS[5])}</Descriptions.Item> */}
-             </Descriptions>
-         </Col>
-     </Row>
- </div>
- {posture&&<div className=" 1 mb-3 mt-3">
-     <Row className="border1">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <h4 className="p-2">Posture Analysis</h4>
-         </Col>
-     </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
-     <Col md={24} lg={24} sm={24} xs={24}>
-         <Descriptions title="" >
-            <Descriptions.Item label="Notes ">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Notes'] }</Descriptions.Item>
               </Descriptions>
-         </Col>
-        </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <Descriptions title="Anterior" bordered>
-                 <Descriptions.Item label="Nasal Bridge">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['Posterial_view'].Angles[0]}</Descriptions.Item>
-                 <Descriptions.Item label="Shoulder levels(Acrimion)">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['Posterial_view'].Angles[1]}</Descriptions.Item>
-                 <Descriptions.Item label="Umbilicus">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[2]}</Descriptions.Item>
-                 <Descriptions.Item label="Knees">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[3]}</Descriptions.Item>
-                 <Descriptions.Item label="Ankle/Foot">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['Posterial_view'].Angles[4]}</Descriptions.Item>
-             </Descriptions>
-         </Col>
-         {state.FirstAssesment.FrontCheck.length>0&&<Col md={24} lg={24} sm={24} xs={24}>
-         <Descriptions title="">
-           {state.FirstAssesment.FrontCheck.map(ob=><Descriptions.Item label=""><Badge color="#000000" />{ob}</Descriptions.Item>)}
-             </Descriptions>
-         </Col>}
-     </Row>
-     <Row gutter={[10, 10]} className="px-4 py-2">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <Descriptions title="Lateral" bordered>
-                 <Descriptions.Item label="Head deviation">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['lateral_view'].Angles[0]}</Descriptions.Item>
-                 <Descriptions.Item label="Shoulder">{Object.keys(state.FirstAssesment.posture).length > 0 &&state.FirstAssesment.posture['lateral_view'].Angles[1]}</Descriptions.Item>
-                 <Descriptions.Item label="Hip/Pelvic Deviation">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['lateral_view'].Angles[2]}</Descriptions.Item>
-                 <Descriptions.Item label="Knees Deviation">{Object.keys(state.FirstAssesment.posture).length > 0&&state.FirstAssesment.posture['lateral_view'].Angles[3]}</Descriptions.Item>
-             </Descriptions>
-         </Col>
-         {state.FirstAssesment.SideCheck.length>0&&<Col md={24} lg={24} sm={24} xs={24}>
-         <Descriptions title="">
-           {state.FirstAssesment.SideCheck.map(ob=><Descriptions.Item label=""><Badge color="#000000" />{ob}</Descriptions.Item>)}
-             </Descriptions>
-         </Col>}
-     </Row>
- </div>}
- {state.FirstAssesment.pain_state && <div className="  mb-3 mt-3">
-     <Row gutter={[10, 10]} >
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <Descriptions title="Pain Assessment" bordered>
-                 <Descriptions.Item label="Nature Of Pain">{state.FirstAssesment.nature_of_pain_here}</Descriptions.Item>
-                 <Descriptions.Item label="Swelling">{state.FirstAssesment.pain_swelling}</Descriptions.Item>
-                 <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d => d + " , ")}</Descriptions.Item>
-                 <Descriptions.Item label="Pain Relieving">{state.FirstAssesment.pain_relieving_here.map(d => d + " , ")}</Descriptions.Item>
-                 <Descriptions.Item label="Pain Scale">{state.FirstAssesment.pain_scale}</Descriptions.Item>
-                 <Descriptions.Item label="Scars">{state.FirstAssesment.pain_scars}</Descriptions.Item>
-             </Descriptions>
-         </Col>
-     </Row>
-     <Row gutter={[10, 10]} >
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <Descriptions title="Sensory Inputs" bordered>
-                 <Descriptions.Item label="Superficial">{state.FirstAssesment.superficial}</Descriptions.Item>
-                 <Descriptions.Item label="Deep">{state.FirstAssesment.deep}</Descriptions.Item>
-                 <Descriptions.Item label="cortial">{state.FirstAssesment.cortial}</Descriptions.Item>
-             </Descriptions>
-         </Col>
-     </Row>
- </div>}
- {<div  style={{ display: state.FirstAssesment.special_visibility }} className=" special_test_new1 border1 mb-3 mt-3" >
-        <Row className="border1">
-          <Col lg={18} md={18} sm={18} xs={24}>
-            {state.FirstAssesment.shoulder ||
-            state.FirstAssesment.Ankle ||
-            state.FirstAssesment.Cervical_Spine ||
-            state.FirstAssesment.Thoracic_Spine ||
-            state.FirstAssesment.Lumbar_Spine ||
-            state.FirstAssesment.Forearm_wrist_Hand ||
-            state.FirstAssesment.Hip ||
-            state.FirstAssesment.Knee ||
-            state.FirstAssesment.Elbow ? (
-              <h4 className="p-2">
-                <u>Special Test</u>
-              </h4>
-            ) : (
-              ""
-            )}
-          </Col>
-        </Row>
-            {state.FirstAssesment.shoulder&&Object.keys(state.FirstAssesment.shoulder).length>0 && (
-        <Row gutter={[10, 10]} className="">
-          <Col lg={12} md={24} sm={24} xs={24}>
-            {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Shoulder </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                    <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.shoulder).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={18} sm={12} xs={12}></Col>
-        </Row>
-            )}
-      
-        
-          {state.FirstAssesment.ankle&&Object.keys(state.FirstAssesment.ankle).length>0 && (
-               <Row gutter={[10, 10]} >
-               <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Ankle </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.ankle).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
+            </Col>
+          </Row>
+        </div>
+        {posture && (
+          <div className=" 1 mb-3 mt-3">
+            <Row className="border1">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4 className="p-2">Posture Analysis</h4>
               </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row> 
-            )}
-          {state.FirstAssesment.elbow&&Object.keys(state.FirstAssesment.elbow).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Elbow </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.elbow).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.hip&&Object.keys(state.FirstAssesment.hip).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Hip </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.hip).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.knee&&Object.keys(state.FirstAssesment.knee).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Knee </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.knee).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.cervical_spine&&Object.keys(state.FirstAssesment.cervical_spine).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Cervical Spine </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.cervical_spine).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.thoracic_spine&&Object.keys(state.FirstAssesment.thoracic_spine).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Thoracic Spine </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.thoracic_spine).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.lumbar_spine&&Object.keys(state.FirstAssesment.lumbar_spine).length>0&& (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Lumbar Spine </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.lumbar_spine).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-          {state.FirstAssesment.forearm&&Object.keys(state.FirstAssesment.forearm).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Forearm_wrist_Hand </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.forearm).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-            {state.FirstAssesment.special_others&&Object.keys(state.FirstAssesment.special_others).length>0 && (
-        <Row gutter={[10, 10]} >
-          <Col lg={12} md={24} sm={24} xs={24}>
-              <>
-                <Descriptions.Item label="" span={3}>
-                  <b>Others </b>
-                </Descriptions.Item>
-                <table style={{ width: `${screen.width / 2}px` }} border="1px">
-                  <tr>
-                  <td style={{ width: "80%" }}>
-                      {" "}
-                      <center>Questions</center>
-                    </td>
-                    <td style={{ width: "20%" }}>
-                      <center>Pass/Fail</center>
-                    </td>
-                  </tr>
-                  {Object.entries(state.FirstAssesment.special_others).map((an) => (
-                    <tr>
-                      <td>{an[0]}</td>
-                      <td>
-                        <center>{an[1] == 1 ? " Pass " : " Fail "}</center>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </>
-          </Col>
-          <Col lg={12} md={24} sm={24} xs={24}></Col>
-        </Row>
-            )}
-      </div>}
- <div className=" border mb-3 mt-3">
-   <Row style={{ display: RomVisibility }}>
-   <Row  className="border">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <h4 className="p-2">Anterior ROM Assesment</h4>
-         </Col>
-     </Row>
-     <Row 
-     //style={{ display: RomVisibility }} 
-     gutter={[10, 10]} className="px-4 py-2">
-         <Col md={12} lg={12} sm={24} xs={24}>
-             <Table pagination={false} columns={columns} dataSource={tableData} />
-         </Col>
-         <Col md={12} lg={12} sm={24} xs={24}>
-             <Table pagination={false} columns={columns} dataSource={tableData1} />
-         </Col>
-     </Row>
-   </Row>
-    
-     <Row style={{ display: RomVisibilityM }} className="border">
-         <Col md={24} lg={24} sm={24} xs={24}>
-             <h4 className="p-2">Lateral ROM Assesment</h4>
-         </Col>
-     </Row>
-     {/* <Row gutter={[10, 10]} className="px-4 py-2">
-         <Col md={12} lg={12} sm={24} xs={24}>
-            <h5 className="p-2">Left side</h5>
-         </Col>
-         <Col md={12} lg={12} sm={24} xs={24}>
-             <h5 className="p-2">Right side</h5>
-         </Col>
-     </Row> */}
-     <Row gutter={[10, 10]} className="px-4 py-2">
-        <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
-           <Row>
-             <Col span={24}>
-             <h5 className="p-2">Left side</h5>
-             </Col>
-             <Col span={24}>
-             <Table pagination={false} columns={columns} dataSource={tableDataL} />
-             </Col>
-           </Row>
-         </Col>
-         {/* <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
+            </Row>
+            <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  <Descriptions.Item label="Notes ">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Notes"]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Row>
+            <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="Anterior" bordered>
+                  <Descriptions.Item label="Nasal Bridge">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Shoulder levels(Acrimion)">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Umbilicus">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Knees">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[3]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Ankle/Foot">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[4]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                      <img src={state.FirstAssesment.posture["Posterial_view"].posterial_view_image}/>
+              </Col>
+              {state.FirstAssesment.FrontCheck.length > 0 && (
+                <Col md={24} lg={24} sm={24} xs={24}>
+                  <Descriptions title="">
+                    {state.FirstAssesment.FrontCheck.map((ob) => (
+                      <Descriptions.Item label="">
+                        <Badge color="#000000" />
+                        {ob}
+                      </Descriptions.Item>
+                    ))}
+                  </Descriptions>
+                </Col>
+              )}
+            </Row>
+            <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="Lateral" bordered>
+                  <Descriptions.Item label="Head deviation">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["lateral_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Shoulder">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["lateral_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Hip/Pelvic Deviation">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["lateral_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Knees Deviation">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["lateral_view"].Angles[3]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                      <img src={state.FirstAssesment.posture["lateral_view"].posterial_view_image}/>
+              </Col>
+              {state.FirstAssesment.SideCheck.length > 0 && (
+                <Col md={24} lg={24} sm={24} xs={24}>
+                  <Descriptions title="">
+                    {state.FirstAssesment.SideCheck.map((ob) => (
+                      <Descriptions.Item label="">
+                        <Badge color="#000000" />
+                        {ob}
+                      </Descriptions.Item>
+                    ))}
+                  </Descriptions>
+                </Col>
+              )}
+            </Row>
+          </div>
+        )}
+        {state.FirstAssesment.pain_state && (
+          <div className="  mb-3 mt-3">
+            <Row gutter={[10, 10]}>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="Pain Assessment" bordered>
+                  <Descriptions.Item label="Nature Of Pain">
+                    {state.FirstAssesment.nature_of_pain_here}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Swelling">
+                    {state.FirstAssesment.pain_swelling}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Pain Aggravating">
+                    {state.FirstAssesment.pain_aggravating_here.map(
+                      (d) => d + " , "
+                    )}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Pain Relieving">
+                    {state.FirstAssesment.pain_relieving_here.map(
+                      (d) => d + " , "
+                    )}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Pain Scale">
+                    {state.FirstAssesment.pain_scale}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Scars">
+                    {state.FirstAssesment.pain_scars}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Row>
+            <Row gutter={[10, 10]}>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="Sensory Inputs" bordered>
+                  <Descriptions.Item label="Superficial">
+                    {state.FirstAssesment.superficial}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Deep">
+                    {state.FirstAssesment.deep}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="cortial">
+                    {state.FirstAssesment.cortial}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Row>
+          </div>
+        )}
+        {
+          <div
+            style={{ display: state.FirstAssesment.special_visibility }}
+            className=" special_test_new1 border1 mb-3 mt-3"
+          >
+            <Row className="border1">
+              <Col lg={18} md={18} sm={18} xs={24}>
+                {state.FirstAssesment.shoulder ||
+                state.FirstAssesment.Ankle ||
+                state.FirstAssesment.Cervical_Spine ||
+                state.FirstAssesment.Thoracic_Spine ||
+                state.FirstAssesment.Lumbar_Spine ||
+                state.FirstAssesment.Forearm_wrist_Hand ||
+                state.FirstAssesment.Hip ||
+                state.FirstAssesment.Knee ||
+                state.FirstAssesment.Elbow ? (
+                  <h4 className="p-2">
+                    <u>Special Test</u>
+                  </h4>
+                ) : (
+                  ""
+                )}
+              </Col>
+            </Row>
+            {state.FirstAssesment.shoulder &&
+              Object.keys(state.FirstAssesment.shoulder).length > 0 && (
+                <Row gutter={[10, 10]} className="">
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Shoulder </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.shoulder).map(
+                          (an) => (
+                            <tr>
+                              <td>{an[0]}</td>
+                              <td>
+                                <center>
+                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                </center>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                </Row>
+              )}
+
+            {state.FirstAssesment.ankle &&
+              Object.keys(state.FirstAssesment.ankle).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Ankle </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.ankle).map(
+                          (an) => (
+                            <tr>
+                              <td>{an[0]}</td>
+                              <td>
+                                <center>
+                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                </center>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.elbow &&
+              Object.keys(state.FirstAssesment.elbow).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Elbow </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.elbow).map(
+                          (an) => (
+                            <tr>
+                              <td>{an[0]}</td>
+                              <td>
+                                <center>
+                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                </center>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.hip &&
+              Object.keys(state.FirstAssesment.hip).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Hip </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.hip).map((an) => (
+                          <tr>
+                            <td>{an[0]}</td>
+                            <td>
+                              <center>
+                                {an[1] == 1 ? " Pass " : " Fail "}
+                              </center>
+                            </td>
+                          </tr>
+                        ))}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.knee &&
+              Object.keys(state.FirstAssesment.knee).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Knee </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.knee).map((an) => (
+                          <tr>
+                            <td>{an[0]}</td>
+                            <td>
+                              <center>
+                                {an[1] == 1 ? " Pass " : " Fail "}
+                              </center>
+                            </td>
+                          </tr>
+                        ))}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.cervical_spine &&
+              Object.keys(state.FirstAssesment.cervical_spine).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Cervical Spine </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(
+                          state.FirstAssesment.cervical_spine
+                        ).map((an) => (
+                          <tr>
+                            <td>{an[0]}</td>
+                            <td>
+                              <center>
+                                {an[1] == 1 ? " Pass " : " Fail "}
+                              </center>
+                            </td>
+                          </tr>
+                        ))}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.thoracic_spine &&
+              Object.keys(state.FirstAssesment.thoracic_spine).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Thoracic Spine </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(
+                          state.FirstAssesment.thoracic_spine
+                        ).map((an) => (
+                          <tr>
+                            <td>{an[0]}</td>
+                            <td>
+                              <center>
+                                {an[1] == 1 ? " Pass " : " Fail "}
+                              </center>
+                            </td>
+                          </tr>
+                        ))}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.lumbar_spine &&
+              Object.keys(state.FirstAssesment.lumbar_spine).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Lumbar Spine </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.lumbar_spine).map(
+                          (an) => (
+                            <tr>
+                              <td>{an[0]}</td>
+                              <td>
+                                <center>
+                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                </center>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.forearm &&
+              Object.keys(state.FirstAssesment.forearm).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Forearm_wrist_Hand </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(state.FirstAssesment.forearm).map(
+                          (an) => (
+                            <tr>
+                              <td>{an[0]}</td>
+                              <td>
+                                <center>
+                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                </center>
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+            {state.FirstAssesment.special_others &&
+              Object.keys(state.FirstAssesment.special_others).length > 0 && (
+                <Row gutter={[10, 10]}>
+                  <Col lg={12} md={24} sm={24} xs={24}>
+                    <>
+                      <Descriptions.Item label="" span={3}>
+                        <b>Others </b>
+                      </Descriptions.Item>
+                      <table
+                        style={{ width: `${screen.width / 2}px` }}
+                        border="1px"
+                      >
+                        <tr>
+                          <td style={{ width: "80%" }}>
+                            {" "}
+                            <center>Questions</center>
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <center>Positive/Negative</center>
+                          </td>
+                        </tr>
+                        {Object.entries(
+                          state.FirstAssesment.special_others
+                        ).map((an) => (
+                          <tr>
+                            <td>{an[0]}</td>
+                            <td>
+                              <center>
+                                {an[1] == 1 ? " Pass " : " Fail "}
+                              </center>
+                            </td>
+                          </tr>
+                        ))}
+                      </table>
+                    </>
+                  </Col>
+                  <Col lg={12} md={24} sm={24} xs={24}></Col>
+                </Row>
+              )}
+          </div>
+        }
+        <div className=" border mb-3 mt-3">
+          <Row style={{ display: RomVisibility }}>
+            <Row className="border">
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h4 className="p-2">Anterior ROM Assesment</h4>
+              </Col>
+            </Row>
+            <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col md={12} lg={12} sm={24} xs={24}>
+                <Table
+                  pagination={false}
+                  columns={columns}
+                  dataSource={tableData1}
+                />
+              </Col>
+              <Col md={12} lg={12} sm={24} xs={24}>
+                <Table
+                  pagination={false}
+                  columns={columns}
+                  dataSource={tableData2}
+                />
+              </Col>
+            </Row>
+          </Row>
+
+          <Row style={{ display: RomVisibilityM }} className="border">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Lateral ROM Assesment</h4>
+            </Col>
+          </Row>
+          <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col
+              style={{ display: RomVisibilityL }}
+              md={12}
+              lg={12}
+              sm={24}
+              xs={24}
+            >
+              <Row>
+                <Col span={24}>
+                  <h5 className="p-2">Left side</h5>
+                </Col>
+                <Col span={24}>
+                  <Table
+                    pagination={false}
+                    columns={columns}
+                    dataSource={latL}
+                  />
+                </Col>
+              </Row>
+            </Col>
+            {/* <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
          <h5 className="p-2">Left side</h5><br/>
              <Table pagination={false} columns={columns} dataSource={tableDataL} />
          </Col> */}
-         <Col style={{ display: RomVisibilityR }} md={12} lg={12} sm={24} xs={24}>
-           <Row>
-             <Col span={24}>
-         <h5 className="p-2">Right side</h5>
-             </Col>
-             <Col span={24}>
-             <Table pagination={false} columns={columns} dataSource={tableDataR} />
-             </Col>
-           </Row>
-         </Col>
-     </Row>
-     
- </div>
-
-</div>
-{/* <Row>
+            <Col
+              style={{ display: RomVisibilityR }}
+              md={12}
+              lg={12}
+              sm={24}
+              xs={24}
+            >
+              <Row>
+                <Col span={24}>
+                  <h5 className="p-2">Right side</h5>
+                </Col>
+                <Col span={24}>
+                  <Table
+                    pagination={false}
+                    columns={columns}
+                    dataSource={latR}
+                  />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      </div>
+      {/* <Row>
       <Col md={2} lg={2} sm={2} xs={2}>
         </Col>
         <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
@@ -1967,12 +2433,15 @@ max: angleValuesR.rightWrist.max
         </Col>
   </Row> */}
       <Row>
-  <Col style={{paddingTop:'23px'}} md={20} lg={20} sm={20} xs={20}>
-    
-    </Col>
-
-  </Row> 
-{/* <Row>
+        <Col
+          style={{ paddingTop: "23px" }}
+          md={20}
+          lg={20}
+          sm={20}
+          xs={20}
+        ></Col>
+      </Row>
+      {/* <Row>
       <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
         <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
@@ -1996,35 +2465,223 @@ max: angleValuesR.rightWrist.max
         <Col md={1} lg={1} sm={1} xs={1}>
         </Col>
       </Row> */}
-      <Row gutter={[10,10]}>
-      
-    <Col md={8} lg={5} sm={12} xs={12}><Checkbox checked={!state.FirstAssesment.quest} onChange={(e)=>handleChange('quest',!e.target.checked)}>
-    {state.FirstAssesment.quest?<Button className="btn-new-check" disabled={state.FirstAssesment.quest} type="text" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>:
-    <Button type="text"  disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>}
-      </Checkbox></Col>
-    <Col md={8} lg={5} sm={12} xs={12}>   <Checkbox checked={!state.FirstAssesment.pain1}  onChange={(e)=>handleChange('pain1',!e.target.checked)}>
-    {state.FirstAssesment.pain1?<Button  className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} >Pain Assessment</Button>:
-                <Button type="text"  style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={goPain} >Pain Assessment</Button>
-                }
-      </Checkbox ></Col>
-    <Col md={8} lg={4} sm={12} xs={12}>  <Checkbox checked={!state.FirstAssesment.special} onChange={(e)=>handleChange('special',!e.target.checked)}>
-    {state.FirstAssesment.special?<Button className="btn-new-check" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')}>Special Test</Button>:
-                <Button type="text"  style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')}>Special Test</Button>
-                }
-      </Checkbox></Col>
-    <Col md={8} lg={4} sm={12} xs={12}> <Checkbox checked={!state.FirstAssesment.pose} onChange={(e)=>handleChange('pose',!e.target.checked)}>
-    {state.FirstAssesment.pose?<Button className="btn-new-check" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>:
-                <Button type="text"  style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')}>Posture Test</Button>
-                }
-      </Checkbox></Col>
-    <Col md={8} lg={4} sm={12} xs={12}>   <Checkbox checked={!state.FirstAssesment.romAss} onChange={(e)=>handleChange('romAss',!e.target.checked)}>
-    {state.FirstAssesment.romAss?<Button  style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="btn-new-check" onClick={Rom} id="rom">AROM Assessment</Button>:
-                <Button  style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} type="text"  onClick={Rom} id="rom">AROM Assessment</Button>
-                }
-      </Checkbox></Col>
-   
-  </Row>
-     
+      <Row gutter={[10, 10]}>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          <Checkbox
+            checked={!state.FirstAssesment.quest}
+            onChange={(e) => handleChange("quest", !e.target.checked)}
+          >
+            {state.FirstAssesment.quest ? (
+              <Button
+                className="btn-new-check"
+                disabled={state.FirstAssesment.quest}
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.quest
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                onClick={Questions}
+                id="question"
+              ></Button>
+            ) : (
+              <Button
+                type="text"
+                disabled={state.FirstAssesment.quest}
+                style={{
+                  backgroundColor: state.FirstAssesment.quest
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                onClick={Questions}
+                id="question"
+              ></Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.pain1}
+            onChange={(e) => handleChange("pain1", !e.target.checked)}
+          >
+            {state.FirstAssesment.pain1 ? (
+              <Button
+                className="btn-new-check"
+                style={{
+                  backgroundColor: state.FirstAssesment.pain1
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.pain1}
+                onClick={goPain}
+              >
+                Pain Assessment
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.pain1
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.pain1}
+                onClick={goPain}
+              >
+                Pain Assessment
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.special}
+            onChange={(e) => handleChange("special", !e.target.checked)}
+          >
+            {state.FirstAssesment.special ? (
+              <Button
+                className="btn-new-check"
+                style={{
+                  backgroundColor: state.FirstAssesment.special
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.special}
+                onClick={() => history.push("/assesment/SpecialTest")}
+              >
+                Special Test
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.special
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.special}
+                onClick={() => history.push("/assesment/SpecialTest")}
+              >
+                Special Test
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.pose}
+            onChange={(e) => handleChange("pose", !e.target.checked)}
+          >
+            {state.FirstAssesment.pose ? (
+              <Button
+                className="btn-new-check"
+                style={{
+                  backgroundColor: state.FirstAssesment.pose
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                id="posture-btn"
+                disabled={state.FirstAssesment.pose}
+                onClick={() => history.push("/assesment/PoseTest")}
+              >
+                Posture Test
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.pose
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                id="posture-btn"
+                disabled={state.FirstAssesment.pose}
+                onClick={() => history.push("/assesment/PoseTest")}
+              >
+                Posture Test
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.romAssAi}
+            onChange={(e) => handleChange("romAssAi", !e.target.checked)}
+          >
+            {state.FirstAssesment.romAssAi ? (
+              <Button
+                style={{
+                  backgroundColor: state.FirstAssesment.romAssAi
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.romAssAi}
+                className="btn-new-check"
+                onClick={RomAI}
+                id="rom"
+              >
+                AROM (using AI)
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  backgroundColor: state.FirstAssesment.romAssAi
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.romAssAi}
+                type="text"
+                onClick={RomAI}
+                id="rom"
+              >
+                AROM (using AI)
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={4} sm={12} xs={12}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.romAss}
+            onChange={(e) => handleChange("romAss", !e.target.checked)}
+          >
+            {state.FirstAssesment.romAss ? (
+              <Button
+                style={{
+                  backgroundColor: state.FirstAssesment.romAss
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.romAss}
+                className="btn-new-check"
+                onClick={Rom}
+                id="rom"
+              >
+                AROM
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  backgroundColor: state.FirstAssesment.romAss
+                    ? "grey"
+                    : "#2d7ecb",
+                }}
+                disabled={state.FirstAssesment.romAss}
+                type="text"
+                onClick={Rom}
+                id="rom"
+              >
+                AROM
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+      </Row>
+
       {/* <Row justify='space-between'>
         <Col  md={24} lg={24} sm={24} xs={24}>
         <Checkbox checked={!state.FirstAssesment.quest} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
@@ -2084,12 +2741,19 @@ max: angleValuesR.rightWrist.max
                 }
         </Col>
      </Row> */}
-     
-<div className="text-center m-3">
-<Button htmlType="submit" style={{backgroundColor:'#2d7ecb'}} className="ms-3" onClick={Submit}>Submit</Button>
-</div>
-    </div >
-  )
-}
 
-export default Assesment1
+      <div className="text-center m-3">
+        <Button
+          htmlType="submit"
+          style={{ backgroundColor: "#2d7ecb" }}
+          className="ms-3"
+          onClick={Submit}
+        >
+          Submit
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default Assesment1;

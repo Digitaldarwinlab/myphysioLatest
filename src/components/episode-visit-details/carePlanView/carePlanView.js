@@ -5,9 +5,10 @@ import CarePlanCardView from './carePlanCardView';
 import { ImPlus } from 'react-icons/im';
 import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
-import { fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
+import { CarePlan, fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
 import { CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
 
 const CarePlanView = (props) => {
@@ -16,6 +17,7 @@ const CarePlanView = (props) => {
     const [ChangeView, setChangeView] = useState(false);
     const [carePlanViewState ,setCarePlanViewState] = useState(true)
     const dispatch = useDispatch();
+    const history = useHistory();
     const [paginationState, setPaginationState] = React.useState({
         totalPage: 0,
         current: 1,
@@ -29,9 +31,10 @@ const CarePlanView = (props) => {
         async function getAllCarePlanData() {
             setLoading(true);
             const data = await fetchCarePlan(props.eid);
+            const resdata = await CarePlan(props.eid)
             setLoading(false);
             
-            console.log('data is coming')
+            console.log('data is coming',resdata)
             console.log("data is coming ",data)
 
             setCarePlanData(data);
@@ -90,8 +93,13 @@ const CarePlanView = (props) => {
 const handleEdit = (data) => {
 
    // setChangeView(true);
-   setCarePlanViewState(false)
-    console.log(data.exercise_details)
+  // setCarePlanViewState(false)
+  let temp = []
+    data.exercise_details.map(item=>{
+        temp.push(item.ex_em_id)
+    })
+    localStorage.setItem("care-plan-cart", JSON.stringify(temp));
+    console.log(data)
     dispatch({
         type: CARE_PLAN_STATE_CHANGE,
         payload: {
@@ -99,7 +107,37 @@ const handleEdit = (data) => {
             value: data.exercise_details
         }
     })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"edit_flag",
+            value: true
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editStateDate",
+            value: data.start_date
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editEndDate",
+            value: data.end_date
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editCareplanCode",
+            value: data.careplan_code
+        }
+    })
+    //careplan_code
     console.log(carePlanData)
+    history.push({pathname: "/care-plan",stateValues:{edit:true}})
 
 }
 const handleCancel = () => {
@@ -137,7 +175,7 @@ const handleSubmit = (data) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                {/* <Row  justify="end">
+                                <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
@@ -149,7 +187,7 @@ const handleSubmit = (data) => {
                                     {"  "}
                                     {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
                         </Col>
-                                </Row> */}
+                                </Row>
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>

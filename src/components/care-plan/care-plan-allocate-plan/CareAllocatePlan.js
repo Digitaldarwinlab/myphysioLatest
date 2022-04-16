@@ -7,7 +7,7 @@ import { Row, Col, Form, InputNumber, Button, Checkbox, Space  } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
 import { useSelector, useDispatch } from 'react-redux';
 import { CARE_PLAN_ROM_CHANGE, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE, CARE_PLAN_TIME_CHANGE } from "../../../contextStore/actions/care-plan-action";
-import { postCarePlanAllocation } from './../../../API/care-plan/care-plan-api';
+import { EditCarePlanAllocation, postCarePlanAllocation } from './../../../API/care-plan/care-plan-api';
 import { FaCheck } from "react-icons/fa";
 import { AiOutlineClose} from "react-icons/ai";
 import TimePickerComp from './TimePickerComp';
@@ -16,6 +16,8 @@ import Success from './../../UtilityComponents/SuccessHandler';
 import Error from './../../UtilityComponents/ErrorHandler';
 import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useForm } from "antd/lib/form/Form";
+import moment from "moment";
 //import { Switch } from "react-router-dom";
 
 
@@ -29,8 +31,16 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const dispatch = useDispatch();
     const [selectvalue,Setselectvalue]=useState([])
     const history = useHistory()
+    const [form] = useForm()
     useEffect(() => {
-         
+        //{state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")}
+        if(state.edit_flag){
+          form.setFieldsValue({startDate:state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")})
+            form.setFieldsValue({endDate:state.editStateDate?  moment(state.editStateDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
+            let timepick = document.getElementsByName("startDate")
+            console.log("timepick ",timepick)
+        }
+
         let timeSlots = changeTimeSlots(state.count_time_slots);
        
        
@@ -428,8 +438,15 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
            
              
         }
+        let result
+        if(state.edit_flag){
+            console.log("timepick ",state)
+            result = await EditCarePlanAllocation(state, dispatch);
+        }else{
+            result = await postCarePlanAllocation(state, dispatch);
+        }
+        
 
-            const  result = await postCarePlanAllocation(state, dispatch);
        
       
         
@@ -492,11 +509,12 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     }
     const [repcheck, setRepCheck] = useState(false)
     return (
-        <Form layout="vertical" onFinish={onFinish} className="px-1 py-1">
+        <Form form={form} layout="vertical" onFinish={onFinish} className="px-1 py-1">
             {state.isLoading && <Loading />}
             {state.success && <Success success={state.success} />}
             {validationState.error && <Error error={validationState.error} />}
-            <Row >
+
+            {!state.edit_flag&&<Row >
             {/* <Switch defaultChecked /> */}
             <Space size={"middle"}> 
             <span>AI-Mode {"  "}</span>
@@ -506,23 +524,33 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
              onColor="#2d7ecb" 
              checked={state.status_flag} 
              onChange={()=>changeToggle()} />
-               {state.status_flag?  <span>Activated {"  "}</span>:
-                 <span>Not-Activated {"  "}</span>}
+               {state.status_flag?  <span>Active {"  "}</span>:
+                <span>Inactive {"  "}</span>}
             </Space>
-            </Row>
+            </Row>}
             <div style={{ minHeight: "10px" }}></div>    
             <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
-                    <FormDate
+                   {state.edit_flag? <FormDate
                         label="Start Dates"
                         name="startDate"
+                        disabled={true}
                         className="input-field"
                         required={true}
                         placeholder="Start Date"
                         value={startDate}
                         onChange={handleChange}
                         disabledDate={true}
-                    />
+                    />: <FormDate
+                    label="Start Dates"
+                    name="startDate"
+                    className="input-field"
+                    required={true}
+                    placeholder="Start Date"
+                    value={startDate}
+                    onChange={handleChange}
+                    disabledDate={true}
+                />}
                 </Col>
                 <Col lg={12} md={12} sm={12} xs={24}>
                     <FormDate
@@ -593,7 +621,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
             </Row>
 
-            <Button style={{ marginTop:"22px"}} size="large" className="mb-3 btncolor" htmlType="submit">Submit</Button>
+            <Button style={{ marginTop:"22px"}} size="large" className="mb-3 btncolor" htmlType="submit">{state.edit_flag?"Update ":"Submit"}</Button>
         </Form>
     )
 }

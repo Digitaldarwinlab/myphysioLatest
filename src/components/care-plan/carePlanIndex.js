@@ -26,6 +26,7 @@ import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import Error from "../UtilityComponents/ErrorHandler";
 import './Careplan.css'
+import { useLocation } from "react-router-dom";
 {/*  aswin 10/22/2021 stop */}
 
 const { TabPane } = Tabs;
@@ -177,7 +178,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     })
     const reduxState = useSelector(state => state);
     const [firstTotalEx, setFirstTotalEx] = useState([])
-
+    const locatoin = useLocation()
     console.log('careplanStarted', reduxState.carePlanRedcucer);
 
     useEffect(()=>{
@@ -461,9 +462,15 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
 
         //Location Change
         useEffect(() => {
-       
-            localStorage.setItem("care-plan-cart", JSON.stringify([]));
-            dispatch({ type: CARE_PLAN_CLEAR_STATE });
+            console.log("locationhistrory ",history)
+            if(!reduxState.carePlanRedcucer.edit_flag){
+                localStorage.setItem("care-plan-cart", JSON.stringify([]));
+            }
+            // if(history.location.stateValues&&history.location.stateValues.edit){
+            //     setState(true)
+            // }
+            
+           // dispatch({ type: CARE_PLAN_CLEAR_STATE });
             
           //  console.log('on refreshh')bb
                // console.log(reduxState)
@@ -484,7 +491,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         let data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         const prevState = history.location.state;
         if (searchBar) {
-            dispatch({ type: CARE_PLAN_CLEAR_STATE });
+            if(history.location.stateValues&&!history.location.stateValues.edit){
+                console.log("calling clear state")
+                dispatch({ type: CARE_PLAN_CLEAR_STATE });
+            }
         }
         if (prevState !== undefined) {
             const { Joints, Muscles } = prevState;

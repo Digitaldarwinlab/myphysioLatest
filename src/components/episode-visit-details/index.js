@@ -119,6 +119,7 @@ const EpisodeVisitDetails = () => {
     });
     const userInfo = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
+        localStorage.setItem("care-plan-cart", JSON.stringify([]));
         async function getPatients() {
             let data = await getPatientList();
             if (state.patient_code) {
@@ -400,32 +401,24 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Exercise Detail</div>
+                            <div className="fw-bold ant-tabs-btn"  onClick={()=>{
+                                console.log('params ',`${`http://3.110.147.171:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)
+                                let url = `${`http://3.110.147.171:8089/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}`
+                                window.open(url,'_blank')
+                            }} >Exercise Detail</div>
                         }
                         key="8"
                     >
-                    {/* <iframe 
-                      //  style="OVERFLOW: hidden" 
-                       // height="1500" 
-                       // style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" 
-                        marginheight="0" 
-                        src="http://3.83.136.152:8089/superset/dashboard/5/?native_filters=%28%29" 
-                        frameborder="0"
-                        width="990" 
-                        marginwidth="0" 
-                        scrolling="no"
-                    >
-                        // http://13.127.176.250:8089/r/2
-                        </iframe> */}
-                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                         <div style={{ margin: 50 }}>
+	                        Always opens in new tab
+                        </div>
+                        {/* {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
                         {process.env.NODE_ENV=="development"?  <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
-                            //physio_id=${localStorage.getItem('userId')}&
-                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
                             src={`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
                             >
                         </iframe>:  <iframe
@@ -434,20 +427,9 @@ const EpisodeVisitDetails = () => {
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
-                            //physio_id=${localStorage.getItem('userId')}&
-                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
                             src={`http://13.127.176.250:8089/superset/dashboard/2/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
                             >
-                        </iframe>}
-                         {/* <iframe
-                         width={100}
-                         className="iframeDashboard"
-                          height={100}
-                        frameBorder="0"
-                         src="http://13.127.176.250:8089/superset/dashboard/1/?native_filters=%28%29?standalone=true"
-                         >
-                         </iframe> */}
-                        {/* <Tempdashboard viewstate={viewState}  /> */}
+                        </iframe>} */}
                     </TabPane>
                 </Tabs>
             </div>

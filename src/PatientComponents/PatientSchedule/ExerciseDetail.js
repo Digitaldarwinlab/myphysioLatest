@@ -21,6 +21,7 @@ export default class ExerciseDetailsClass extends Component {
 //     });
 //   }
   async componentDidMount() {
+    console.log(this.props.location.state.status_flag);
     const res = await exercise_detail(this.props.location.state.exNameList);
     console.log("sdkjhvsdc", res);
     this.setState({ exercises: res });
@@ -59,14 +60,15 @@ export default class ExerciseDetailsClass extends Component {
         <h3 className="fw-bold mt-2 ms-2">
           <BackButton />
         </h3>
-        <button 
+        {!this.props.location.state.status_flag&&  <button 
         style={{float:'right'}}
           className="skip-button"
           id="skip-button"
+          disabled={this.props.location.state.status_flag}
           onClick={this.handleClick}
         >
           Skip
-        </button>
+        </button>}
         {this.state.exercises.length > 0 &&
           this.state.exercises.map((exercise) => (
             <Row className="main-container p-1" id="main-container">

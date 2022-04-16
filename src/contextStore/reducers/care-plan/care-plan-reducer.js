@@ -31,7 +31,8 @@ const initialState = {
     success: "",
     episode_number:'',
     exercises_cart:[],
-    status_flag:false
+    status_flag:false,
+    edit_flag:false
 }
 // const setExerise=(exe)=>{
 //     let newList = [...state.exercises_cart]

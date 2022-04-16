@@ -26,7 +26,7 @@ import { Pagination } from "antd";
 import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 
-const tableLabels = {
+export const tableLabels = {
   leftShoulder: "L Shoulder Abd/Add",
   rightShoulder: "R Shoulder Abd/Add",
   leftElbow: "L Elbow Flex",
@@ -606,8 +606,8 @@ const AssessmentList = ({ assesmentClick }) => {
                           <Panel header="Areas of Pain/Impairment" key="1">
                             <div className=" border mb-3 mt-3">
                               <h4 className="p-2">Areas of Pain/Impairment </h4>
-                              <Row >
-                              <img width="100%" src={data.body_image} />
+                              <Row>
+                                <img width="100%" src={data.body_image} />
                               </Row>
                             </div>
                           </Panel>
@@ -645,7 +645,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     {" "}
                                     {data.physical_assessement.chiefCom}
                                   </Descriptions.Item>
-                               
+
                                   <Descriptions.Item
                                     label="Past Medical History"
                                     span={3}
@@ -661,7 +661,10 @@ const AssessmentList = ({ assesmentClick }) => {
                                   </Descriptions.Item>
                                   <Descriptions.Item label="Any Other details ">
                                     {" "}
-                                    {data.physical_assessement.any_other_details}
+                                    {
+                                      data.physical_assessement
+                                        .any_other_details
+                                    }
                                   </Descriptions.Item>
                                   {/* any_other_details */}
                                 </Descriptions>
@@ -680,7 +683,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                   </Descriptions.Item>
                                   <Row gutter={[10, 10]} className="px-4 py-2">
                                     <table
-                                    style={{ width: "50%" }}
+                                      style={{ width: "50%" }}
                                       //style={{ width: `${screen.width / 2}px` }}
                                     >
                                       <tr>
@@ -699,7 +702,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                           <tr>
                                             <td>{data.occupation}</td>
                                             <td>{data.duration}</td>
-                                            {data.occupation==='Sports'&&<td>{data.Sports_type}</td>}
+                                            {data.occupation === "Sports" && (
+                                              <td>{data.Sports_type}</td>
+                                            )}
                                           </tr>
                                         )
                                       )}
@@ -797,7 +802,7 @@ const AssessmentList = ({ assesmentClick }) => {
                           data.Forearm_wrist_Hand ||
                           data.Hip ||
                           data.Knee ||
-                          data.Others||
+                          data.Others ||
                           data.Elbow) && (
                           <Panel header="Special Test" key="4">
                             <div className=" border mb-3 mt-3">
@@ -825,7 +830,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.shoulder.map((an) => (
@@ -865,7 +870,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.Ankle.map((an) => (
@@ -905,7 +910,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.Elbow.map((an) => (
@@ -945,7 +950,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.Hip.map((an) => (
@@ -985,7 +990,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.Knee.map((an) => (
@@ -1025,7 +1030,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                             <center>Questions</center>
                                           </td>
                                           <td style={{ width: "30%" }}>
-                                            <center>Pass/Fail</center>
+                                            <center>Positive/Negative</center>
                                           </td>
                                         </tr>
                                         {data.Others.map((an) => (
@@ -1066,7 +1071,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <center>Questions</center>
                                             </td>
                                             <td style={{ width: "30%" }}>
-                                              <center>Pass/Fail</center>
+                                              <center>Positive/Negative</center>
                                             </td>
                                           </tr>
                                           {data.Cervical_Spine.map((an) => (
@@ -1107,7 +1112,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <center>Questions</center>
                                             </td>
                                             <td style={{ width: "30%" }}>
-                                              <center>Pass/Fail</center>
+                                              <center>Positive/Negative</center>
                                             </td>
                                           </tr>
                                           {data.Thoracic_Spine.map((an) => (
@@ -1148,7 +1153,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <center>Questions</center>
                                             </td>
                                             <td style={{ width: "30%" }}>
-                                              <center>Pass/Fail</center>
+                                              <center>Positive/Negative</center>
                                             </td>
                                           </tr>
                                           {data.Lumbar_Spine.map((an) => (
@@ -1189,7 +1194,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <center>Questions</center>
                                             </td>
                                             <td style={{ width: "30%" }}>
-                                              <center>Pass/Fail</center>
+                                              <center>Positive/Negative</center>
                                             </td>
                                           </tr>
                                           {data.Forearm_wrist_Hand.map((an) => (
@@ -1336,6 +1341,14 @@ const AssessmentList = ({ assesmentClick }) => {
                                         }
                                       </Descriptions>
                                     </Col>
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <img
+                                        src={
+                                          data.posture["Posterial_view"]
+                                            .posterial_view_image
+                                        }
+                                      />
+                                    </Col>
                                     <Descriptions title="">
                                       {data.posture[
                                         "Posterial_view"
@@ -1386,6 +1399,14 @@ const AssessmentList = ({ assesmentClick }) => {
                                         </Descriptions.Item>
                                       </Descriptions>
                                     </Col>
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <img
+                                        src={
+                                          data.posture["lateral_view"]
+                                            .posterial_view_image
+                                        }
+                                      />
+                                    </Col>
                                     <Descriptions title="">
                                       {data.posture[
                                         "lateral_view"
@@ -1407,13 +1428,15 @@ const AssessmentList = ({ assesmentClick }) => {
                           )}
                         {console.log("rom data is ", data)}
                         {(data.AI_data != null ||
-                          (data.LeftLateral_AI_Data&&data.LeftLateral_AI_Data != null )||
-                          (data.RightLateral_AI_Data&&data.RightLateral_AI_Data != null)) && (
+                          (data.LeftLateral_AI_Data &&
+                            data.LeftLateral_AI_Data != null) ||
+                          (data.RightLateral_AI_Data &&
+                            data.RightLateral_AI_Data != null)) && (
                           <Panel header="AROM Assessment" key="7">
                             {" "}
                             <div className=" border mb-3 mt-3">
                               <div className=" border mb-3 mt-3">
-                                <Row gutter={[10, 10]} >
+                                <Row gutter={[10, 10]}>
                                   {data.AI_data != null && (
                                     <>
                                       <Row className="border">
@@ -1429,7 +1452,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           pagination={false}
                                           columns={columns}
                                           dataSource={
-                                            (data.AI_data&&data.AI_data != null)
+                                            data.AI_data && data.AI_data != null
                                               ? Object.keys(
                                                   data.AI_data[
                                                     Object.keys(data.AI_data)[0]
@@ -1464,7 +1487,10 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </Col>
                                     </>
                                   )}
-                                  {(data.LeftLateral_AI_Data&&data.LeftLateral_AI_Data != null||data.RightLateral_AI_Data&&data.RightLateral_AI_Data != null) && (
+                                  {((data.LeftLateral_AI_Data &&
+                                    data.LeftLateral_AI_Data != null) ||
+                                    (data.RightLateral_AI_Data &&
+                                      data.RightLateral_AI_Data != null)) && (
                                     <>
                                       {/* <Row className="border">
                                         <Col md={24} lg={24} sm={24} xs={24}>
@@ -1488,90 +1514,113 @@ const AssessmentList = ({ assesmentClick }) => {
                                             </h4>
                                           </Col>
                                         </Row>
-                                        <Row
-                                          gutter={[10, 10]}
-                                        >
-                                         {data.LeftLateral_AI_Data != null&& <Col md={12} lg={12} sm={24} xs={24}>
-                                            <h5 className="p-2">Left side</h5>
-                                            <Table
-                                          pagination={false}
-                                          columns={columns}
-                                          dataSource={
-                                            data.LeftLateral_AI_Data != null
-                                              ? Object.keys(
-                                                  data.LeftLateral_AI_Data[
-                                                    Object.keys(
-                                                      data.LeftLateral_AI_Data
-                                                    )[0]
-                                                  ]["angles"]
-                                                ).map((item, index) => {
-                                                  let t = {};
-                                                  t["key"] = index;
-                                                  t["angles"] = tableLabels[
-                                                    item
-                                                  ]
-                                                    ? tableLabels[item]
-                                                    : "Not Available";
-                                                  t["min"] = Math.round(
-                                                    data.LeftLateral_AI_Data[
-                                                      Object.keys(
-                                                        data.LeftLateral_AI_Data
-                                                      )[0]
-                                                    ]["angles"][item].min
-                                                  );
-                                                  t["max"] = Math.round(
-                                                    data.LeftLateral_AI_Data[
-                                                      Object.keys(
-                                                        data.LeftLateral_AI_Data
-                                                      )[0]
-                                                    ]["angles"][item].max
-                                                  );
-                                                  return t;
-                                                })
-                                              : []
-                                          }
-                                        />
-                                          </Col>}
+                                        <Row gutter={[10, 10]}>
+                                          {data.LeftLateral_AI_Data != null && (
+                                            <Col
+                                              md={12}
+                                              lg={12}
+                                              sm={24}
+                                              xs={24}
+                                            >
+                                              <h5 className="p-2">Left side</h5>
+                                              <Table
+                                                pagination={false}
+                                                columns={columns}
+                                                dataSource={
+                                                  data.LeftLateral_AI_Data !=
+                                                  null
+                                                    ? Object.keys(
+                                                        data
+                                                          .LeftLateral_AI_Data[
+                                                          Object.keys(
+                                                            data.LeftLateral_AI_Data
+                                                          )[0]
+                                                        ]["angles"]
+                                                      ).map((item, index) => {
+                                                        let t = {};
+                                                        t["key"] = index;
+                                                        t["angles"] =
+                                                          tableLabels[item]
+                                                            ? tableLabels[item]
+                                                            : "Not Available";
+                                                        t["min"] = Math.round(
+                                                          data
+                                                            .LeftLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.LeftLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].min
+                                                        );
+                                                        t["max"] = Math.round(
+                                                          data
+                                                            .LeftLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.LeftLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].max
+                                                        );
+                                                        return t;
+                                                      })
+                                                    : []
+                                                }
+                                              />
+                                            </Col>
+                                          )}
 
-                                         {data.RightLateral_AI_Data != null&& <Col md={12} lg={12} sm={24} xs={24}>
-                                            <h5 className="p-2">Right side</h5>
-                                            <Table
-                                        pagination={false}
-                                        columns={columns}
-                                        dataSource={
-                                          data.RightLateral_AI_Data != null
-                                            ? Object.keys(
-                                                data.RightLateral_AI_Data[
-                                                  Object.keys(
-                                                    data.RightLateral_AI_Data
-                                                  )[0]
-                                                ]["angles"]
-                                              ).map((item, index) => {
-                                                let t = {};
-                                                t["key"] = index;
-                                                t["angles"] = tableLabels[item]
-                                                  ? tableLabels[item]
-                                                  : "Not Available";
-                                                t["min"] = Math.round(
-                                                  data.RightLateral_AI_Data[
-                                                    Object.keys(
-                                                      data.RightLateral_AI_Data
-                                                    )[0]
-                                                  ]["angles"][item].min
-                                                );
-                                                t["max"] = Math.round(
-                                                  data.RightLateral_AI_Data[
-                                                    Object.keys(
-                                                      data.RightLateral_AI_Data
-                                                    )[0]
-                                                  ]["angles"][item].max
-                                                );
-                                                return t;
-                                              })
-                                            : []
-                                        }
-                                      />
-                                          </Col>}
+                                          {data.RightLateral_AI_Data !=
+                                            null && (
+                                            <Col
+                                              md={12}
+                                              lg={12}
+                                              sm={24}
+                                              xs={24}
+                                            >
+                                              <h5 className="p-2">
+                                                Right side
+                                              </h5>
+                                              <Table
+                                                pagination={false}
+                                                columns={columns}
+                                                dataSource={
+                                                  data.RightLateral_AI_Data !=
+                                                  null
+                                                    ? Object.keys(
+                                                        data
+                                                          .RightLateral_AI_Data[
+                                                          Object.keys(
+                                                            data.RightLateral_AI_Data
+                                                          )[0]
+                                                        ]["angles"]
+                                                      ).map((item, index) => {
+                                                        let t = {};
+                                                        t["key"] = index;
+                                                        t["angles"] =
+                                                          tableLabels[item]
+                                                            ? tableLabels[item]
+                                                            : "Not Available";
+                                                        t["min"] = Math.round(
+                                                          data
+                                                            .RightLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.RightLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].min
+                                                        );
+                                                        t["max"] = Math.round(
+                                                          data
+                                                            .RightLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.RightLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].max
+                                                        );
+                                                        return t;
+                                                      })
+                                                    : []
+                                                }
+                                              />
+                                            </Col>
+                                          )}
                                         </Row>
                                       </Col>
                                     </>
@@ -1601,27 +1650,27 @@ const AssessmentList = ({ assesmentClick }) => {
                                             </div> </Panel> } */}
                       </Collapse>
                       <center>
-                      <div className="pag_large">
-                      <Pagination
-                          pageSize={paginationState.pageSize}
-                          current={paginationState.current}
-                          total={AssesmentData.length}
-                          onChange={PaginationChange}
-                          style={{ marginBottom: "10px" }}
-                        />
-                    </div>
+                        <div className="pag_large">
+                          <Pagination
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
+                        </div>
                       </center>
-                      <div style={{display:'none'}} className="pag_mob">
-                      <center>
-                      <Pagination
-                        size="small"
-                          pageSize={paginationState.pageSize}
-                          current={paginationState.current}
-                          total={AssesmentData.length}
-                          onChange={PaginationChange}
-                          style={{ marginBottom: "10px" }}
-                        />
-                      </center>
+                      <div style={{ display: "none" }} className="pag_mob">
+                        <center>
+                          <Pagination
+                            size="small"
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
+                        </center>
                       </div>
                     </>
                   )}

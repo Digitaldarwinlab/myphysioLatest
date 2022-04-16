@@ -48,6 +48,7 @@ export const fetchVisits = async (patId) => {
 }
 
 const filterCarePlanData = (data) => {
+    console.log("data is coming1 ",data)
     let newData = [];
     let keyObject = {};
     data.forEach(element => {
@@ -60,6 +61,12 @@ const filterCarePlanData = (data) => {
     let keys = Object.keys(keyObject);
     keys.forEach((el) => {
         let element = keyObject[el][0];
+        console.log("data is coming1 ",element)
+        console.log("data is coming1 ",keyObject)
+        console.log("data is coming1 ",el)
+        console.log("data is coming1 ",keyObject[el].length - 1)
+        console.log("data is coming1 ",keyObject[el][keyObject[el].length - 1].date)
+        keyObject[el].length - 1
         element["start_date"] = element.date;
         delete element["date"];
         element["end_date"] = keyObject[el][keyObject[el].length - 1].date;
@@ -83,12 +90,41 @@ export const fetchCarePlan = async (eid) => {
             body: JSON.stringify(encodedData)
         });
         const responseData = await response.json();
+           console.log("data is coming ",responseData);
         const data = Decode(responseData);
         // console.log(data);
+      
         if (response.status !== 200 && response.status !== 201) {
             throw new Error("Error: " + response.status + response.statusText);
         }
         return filterCarePlanData(data);
+        // return data;
+    } catch (err) {
+        // console.log(err, "Error in Fetching Patient Care Plan");
+        return [];
+    }
+}
+export const CarePlan = async (eid) => {
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const encodedData = Encode({ id: eid });
+        const response = await fetch(process.env.REACT_APP_API + "/get-all-care-plan_v1/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(encodedData)
+        });
+        const responseData = await response.json();
+        const data = Decode(responseData);
+        // console.log(data);
+        console.log("data is coming ",data);
+      
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error("Error: " + response.status + response.statusText);
+        }
+        return data
         // return data;
     } catch (err) {
         // console.log(err, "Error in Fetching Patient Care Plan");

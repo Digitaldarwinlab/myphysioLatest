@@ -103,6 +103,7 @@ import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 // import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
+import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -176,6 +177,7 @@ const App = () => {
 							<PrivateRoute exact path="/assesment/SpecialTest" component={SpecialTest} />
 							<PrivateRoute exact path="/assesment/PoseTest" component={PostTestClass} />
 							<PrivateRoute exact path="/assessment/AI" component={AI} />
+							<PrivateRoute exact path="/assessment/AROM" component={AromWithouthAi} />
 
 							<PrivateRoute exact path="/ActiveSearch" component={ActiveSearch} />
 
