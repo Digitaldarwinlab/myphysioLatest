@@ -90,17 +90,17 @@ import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
 import Invoice from "./components/Invoice/Invoice"
 import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
-// import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
-// import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
-// import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
-// import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
-// import Body from "./EnterpriseNew/human-body/Body";
-// import Quiz from "./EnterpriseNew/Quiz/Quiz";
-// import Pose from "./EnterpriseNew/Posture/PoseTestClass";
-// import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
-// import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
-// import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
-// import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
+import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
+import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
+import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
+import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
+import Body from "./EnterpriseNew/human-body/Body";
+import Quiz from "./EnterpriseNew/Quiz/Quiz";
+import Pose from "./EnterpriseNew/Posture/PoseTestClass";
+import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
+import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
+import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
+import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
@@ -189,7 +189,7 @@ const App = () => {
 							<Route exact path="/logout" component={Logout} />
 							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
 							{/* <PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  /> */}
-							{/* <EnterpriseRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
+							<EnterpriseRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/2" component={EnterprisePatient2} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/3" component={EnterprisePatient3} />
@@ -198,7 +198,7 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
 							<PatientRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
 							<PatientRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
-							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} /> */}
+							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
