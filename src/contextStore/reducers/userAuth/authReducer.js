@@ -52,6 +52,7 @@ const basicDetailsInitialState = {
     Email: "",
     Facebook: "",
     LinkedIn: "",
+    Organization:"",
     Allergies: "",
     MedicalHistory: "",
     FamilyHistory: "",
@@ -150,13 +151,13 @@ export const BasicDetails = (state = basicDetailsInitialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                success: "Patient Registered Successfull."
+                success: "Patient Registered Successful."
             }
         case PATIENT_UPD_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                success: "Patient Information Updated Successfull."
+                success: "Patient Information Updated Successful."
             }
         case PATIENT_REG_FAILURE:
             return {
@@ -180,6 +181,7 @@ export const BasicDetails = (state = basicDetailsInitialState, action) => {
                 Email: "",
                 Facebook: "",
                 LinkedIn: "",
+                Organization:"",
             }
         case BASIC_CLEARSTATE3:
             return {

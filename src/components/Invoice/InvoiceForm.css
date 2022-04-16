@@ -9,6 +9,8 @@
   
   }
 
+
+
   .invoice-search {
     position: absolute;
     left: 20px;
@@ -120,10 +122,14 @@
    font-size:large;
   }
 
-  .amount-form p {
+  .amount-form h5 {
     margin-right: 20%;
   }
 
   .invocie-footer {
-    margin: auto;
+    margin-top: 5%;
+  }
+
+  .invoice svg {
+    margin-bottom: 5px;
   }

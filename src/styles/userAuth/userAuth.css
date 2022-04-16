@@ -1,21 +1,5 @@
 .userAuthbtn{
-    background:#2d7ecb !important;
-    color: black !important;
-    border:none !important;
-    margin-top: 40px;
-    width: 50% !important;
-    border-radius:2% !important;
-}
-.Autherizebtn{
-    background:#2d7ecb !important;
-    color: #fff !important;
-    border:none !important;
-    margin-top: 20px;
-    /* width: 40% !important; */
-    border-radius:2% !important;
-}
-.userAuthFRGTbtn{
-    background:#2d7ecb !important;
+    background-color:#1abc9a !important;
     color: black !important;
     border:none !important;
     margin-top: 40px;
@@ -47,4 +31,8 @@
     .vectorImage{
         height:unset;
     }
+}
+
+.employey a{
+    color:white !important;
 }

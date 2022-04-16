@@ -25,7 +25,7 @@ import { VALIDATION } from "../../contextStore/actions/authAction";
 import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+// import { useReactToPrint } from "react-to-print";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -245,9 +245,9 @@ const EpisodeVisitDetails = () => {
     }
 
     
-  const handlePrint = useReactToPrint({
-    content: () => episodeRef.current,
-  });
+//   const handlePrint = useReactToPrint({
+//     content: () => episodeRef.current,
+//   });
 
     const assesmentClick = async () => {
         const res = await checkEpisodeId()
