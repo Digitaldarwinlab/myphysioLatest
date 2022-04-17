@@ -20,6 +20,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const [assessmentItemActive, setAssessmentItemActive] = useState(pathName.includes("assessment"));
     const [notesItemActive, setNotesItemActive] = useState(pathName.includes("notes"));
     const [physioItemActive, setPhysioItemActive] = useState(pathName.includes("physio"));
+    const [EnterpriseItemActive, setEnterpriseItemActive] = useState(pathName.includes("enterprise"));
     const [clinicItemActive, setClinicItemActive] = useState(pathName.includes("clinic"));
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" }
     const handleClick = listItem => {
@@ -171,7 +172,55 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 </Menu.Item>}
             </Menu.SubMenu>
         )
-    }    // Scheduling 
+    }   
+    
+    
+    const EnterpriseItems = () => {
+        return (
+            <Menu.SubMenu key="link506"
+                className={pathName.includes("enterprise") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("enterprise")}
+                icon={<i className="fas fa-user-md iconClass1"></i>}
+                title="Enterprise">
+                     { userInfo.role == "admin" && <Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/organization-register"
+                        style={{ color: "black" }}
+                    >Organization Register</Link>
+                </Menu.Item>}
+
+               { userInfo.role == "admin"&& <Menu.Item key="link37"
+                    icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/employee-register"
+                        style={{ color: "black" }}
+                    >Employee Register</Link>
+                </Menu.Item>}
+
+                
+                <Menu.Item key="link65"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/organization-list"
+                        style={{ color: "black" }}
+                    >Organization List</Link>
+                </Menu.Item>
+                <Menu.Item key="link66"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/employee-list"
+                        style={{ color: "black" }}
+                    >Employee List</Link>
+                </Menu.Item>
+            </Menu.SubMenu>
+        )
+    }
+    // Scheduling 
     const schedulingItems = () => {
         return (
             <Menu.SubMenu key="link5"
@@ -301,6 +350,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
             {(userInfo.role === "admin") &&  clinicItems()}
+            {(userInfo.role === "admin") &&  EnterpriseItems()}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}
@@ -308,7 +358,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
-            {/* {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()} */}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()}
         </Menu>
     )
 }

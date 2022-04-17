@@ -58,6 +58,7 @@ const basicDetailsInitialState = {
     isLoading: false,
     success: "",
     pp_patm_id: "",
+    pp_em_id:"",
     is_enterprise:false,
 }
 

@@ -96,11 +96,18 @@ import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
 import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
 import Body from "./EnterpriseNew/human-body/Body";
 import Quiz from "./EnterpriseNew/Quiz/Quiz";
+import Qa from "./EnterpriseNew/QA/Qa"
 import Pose from "./EnterpriseNew/Posture/PoseTestClass";
 import PostAssesment from "./EnterpriseNew/PostAssesment/PostAssesment";
+import EnterpriseExerciseDetail from "./EnterpriseNew/PatientComponents/PatientSchedule/ExerciseDetail.js";
+import EnterpriseAI from './EnterpriseNew/PatientComponents/PatientAI/PatientAI';
 import EnterpriseSchedule from "./EnterpriseNew/PatientComponents/PatientSchedule/PatSchedule";
 import EnterpriseRoute from "./components/PrivateRoute/EnterpriseRoute.js";
-import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm"
+import ConsultForm from "./EnterpriseNew/ConsultForm/ConsultForm";
+import EnterpriseRegister from "./components/Enterprise/EnterpriseRegister.js";
+import EmployeeRegister from "./components/Enterprise/EmpoyeeRegister.js";
+import organizationList from "./components/Enterprise/OrganzationList.js";
+import EmployeeList from "./components/Enterprise/EmployeeList.js";
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
@@ -164,6 +171,14 @@ const App = () => {
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
 							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
+							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/employee-register" component={EmployeeRegister} />
+							<PrivateRoute exact path="/enterprise/employee-list" component={EmployeeList} />
+							<PrivateRoute exact path="/enterprise/employee/update" component={EmployeeRegister} />
+							
+							<PrivateRoute exact path="/enterprise/organization-list" component={organizationList} />
+							
 							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
 							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
 
@@ -196,9 +211,13 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/muscle-selection" component={Body} />
 							<EnterpriseRoute exact path="/patient/enterprise/quiz" component={Quiz} />
 							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
-							<PatientRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
-							<PatientRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
-							<PatientRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
+							<EnterpriseRoute exact path="/patient/enterprise/qa" component={Qa} />
+							<EnterpriseRoute exact path="/patient/enterprise/exercises/brief" forceRefresh={true} component={EnterpriseExerciseDetail} />
+							<EnterpriseRoute exact path="/patient/enterprise/ai" forceRefresh={true} component={EnterpriseAI} />
+							<EnterpriseRoute exact path="/patient/enterprise/form" component={ConsultForm} />
+							<EnterpriseRoute exact path="/patient/enterprise/PoseTest" component={Pose} />
+							<EnterpriseRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
+							<EnterpriseRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />

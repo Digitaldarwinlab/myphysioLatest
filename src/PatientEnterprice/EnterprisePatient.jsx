@@ -8,22 +8,15 @@ import CircularBar from '../PatientComponents/shared/CircularProgress';
 import BottomCard from '../PatientComponents/shared/BottomCard';
 import PreviousWeekAchievements from '../PatientComponents/PatientSchedule/PreviousWeekAchievement';
 import { GetPatientCurrentEpisode, getPatientProgress } from '../PatientAPI/PatientDashboardApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { keyMapping } from '../components/Physio/PhysioList/PhysioList';
 import { getAssesment } from "../API/Assesment/getAssesment";
 import { fetchCarePlan } from "../API/episode-visit-details/episode-visit-api";
 import { fetchVisits } from "../API/episode-visit-details/episode-visit-api";
 import { get_prescription } from "../API/Prescription/PresriptionApi";
-import Line from '../PatientComponents/Charts/ChartComponents/line';
-import Pie from "../PatientComponents/Charts/ChartComponents/pie";
-import Bar from "../PatientComponents/Charts/ChartComponents/bar";
-import StreamLine from "../PatientComponents/Charts/ChartComponents/streamline";
-import pie_data1 from '../PatientComponents/Charts/ChartData/data_pie';
-import pie_data2 from '../PatientComponents/Charts/ChartData/data_pie_2';
-import line_data1 from '../PatientComponents/Charts/ChartData/data_line';
-import bar_data from '../PatientComponents/Charts/ChartData/data_bar';
-import stream_data from '../PatientComponents/Charts/ChartData/data_stream.json';
+import axios from "axios";
 import "./enterprises.css";
+import {    ASSESMENT_CLEARSTATE  } from "../contextStore/actions/Assesment";
 
 
 import  '../PatientComponents/Dashboard.css'
@@ -40,6 +33,7 @@ const flexStyle = {
     border: '0px',
 
 }
+
 //Data of Achievemetns
 const AchievcemntsData = [
     { key: 'Movement', number: 23000 },
@@ -51,7 +45,7 @@ var filteredData
 let about = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam."
 const EnterprisePatient = () => {
     const userId = JSON.parse(localStorage.getItem("userId"));
-
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const history = useHistory();
     const [visible, setVisible] = React.useState(false);
@@ -59,7 +53,23 @@ const EnterprisePatient = () => {
     const [physioDetailsData, setPhysioDetailsData] = React.useState([]);
     const [dataLine1, setDataLine1] = useState([])
     const dispatch = useDispatch();
+
+    
+const assesment = useSelector(state => state.FirstAssesmentReducer);
+const [org,setOrg] = useState([]);
+
+
+console.log(assesment)
     //UseEffect
+    useEffect(() => {
+        axios.post(process.env.REACT_APP_API+"/get_org_detail/",{id:userId}).then(res =>  {
+            dispatch({type:ASSESMENT_CLEARSTATE});
+            dispatch({ type: "CLEAR" });
+            dispatch({type:'JOINT_CLEARSTATE'});
+            setOrg(res.data)
+        }).catch(err => alert(err));
+    },[])
+
     useEffect( async () => {
         const progres = await getPatientProgress();
         console.log("progress is ",progres)
@@ -246,23 +256,25 @@ const EnterprisePatient = () => {
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
                 <Col className=" left-side border" >
-                    <h4 className="fw-bold text-center p mt-3">Mr. Sahil Sharma</h4>
+                    <h4 className="fw-bold text-center p mt-3">{user.info.first_name} {user.info.last_name}</h4>
                     <div className="px-1 py-1 user-name" style={flexStyle}>
                         <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                             src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
                     </div>
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
                     <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <img title="Click to see or" onClick={() => setVisible(true)}
                             src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                          </Col>
                         <Col md={24} lg={24} sm={24} xs={24}>
-                            <b>Organization Name :</b> Physio AI <br></br> <br></br>
-                            <b>Contact within this organization  :</b> +91 9834343535
+                            <b>Organization Name :</b> {org.org_name ? org.org_name : "Physio AI"  } <br></br> <br></br>
+                            <b>Contact within this organization  :</b> +91 {org.mobile_no ? org.mobile_no :"9834343535"}  <br></br> <br></br>
+                            <b>Email :</b> {org.contact_email ? org.contact_email : "digitaldarwin@gmail.com"}
                         </Col>
                     </Row>
+                    {/* <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4> */}
+                   
                 </Col>
                 <Col className="px-4 right-side">
                     <div className="right-upper"></div>
@@ -308,9 +320,24 @@ const EnterprisePatient = () => {
                     </Row>
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
-
+                        <Row className="px-3 py-3" style={{margin:"0 auto"}} >
+                <Col className="text-center">
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/qa');
+                    }}>Previous Assesment</button>
+                </Col>
+                <Col className="text-center" style={{marginLeft:"20px"}}>
+                    <button className="dashbutton" type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/form');
+                    }}>New Assesment</button>
+                </Col>
+            </Row>
+ {/* <Row className="px-3 py-3" style={{margin:"0 auto"}} >
+                
+            </Row> */}
+            
                     {/* <PreviousWeekAchievements data={AchievcemntsData} /> */}
-                    <div className="card mb-2 mt-2 pb-2">
+                    {/* <div className="card mb-2 mt-2 pb-2">
                         <h4 className="fw-bold text-left p mt-3 mb-3"> Social Link </h4>
                         <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
                             <Col md={24} lg={4} sm={24} xs={24}>
@@ -330,7 +357,7 @@ const EnterprisePatient = () => {
                                 src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                             </Col>
                         </Row>
-                    </div>
+                    </div> */}
                         {/* <Row className="VideoConferencing">
                             <Col >
                                 <h4 className="fw-bold p-2">Video Conferencing</h4>
@@ -391,13 +418,13 @@ const EnterprisePatient = () => {
                     <StreamLine data={stream_data}/>
                 </div>        
             </div> */}
-            <Row className="px-3 py-3" style={{float:'right'}}>
+            {/* <Row className="px-3 py-3" style={{float:'right'}}>
                 <Col className="text-center">
                     <Button type="primary" size="large" onClick={() => {
                         history.push('/patient/enterprise/muscle-selection');
                     }}>Next</Button>
                 </Col>
-            </Row>
+            </Row> */}
         </>
     )
 }

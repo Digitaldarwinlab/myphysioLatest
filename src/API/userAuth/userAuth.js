@@ -241,3 +241,46 @@ const AddCookies = (key, value) => {
 const RemoveCookie = (key) => {
     Cookies.remove(key);
 }
+
+
+export const admin_password_reset_ep=async(detail)=>{
+    // console.log(detail)
+    const newdata={
+        id:detail.userid,
+        uid:detail.temp_uid,
+        new_password:detail.new_password
+    }
+    // console.log(newdata)
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(newdata)
+        });
+        
+        const data = await response.json();
+       
+        // console.log(data)
+        if (response.status !== 200 && response.status !== 201) {
+            
+            if (data && data.detail) {
+                
+                return [false, "Error " + response.status + response.statusText];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else if (data && data.message) {
+            // console.log('true returning')
+            return [true];
+        }
+        return [false, "Error " + response.status + response.statusText];
+    } catch (err) {
+        return [false, err.message];
+    }
+
+}

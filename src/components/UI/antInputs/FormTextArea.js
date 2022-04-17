@@ -3,7 +3,7 @@ export default function FormTextArea(props) {
     return (
         <Form.Item label={props.label}  
             name={props.name}
-            rules ={[{required:props.required, message: `${props.label} must be filled!`}]}
+            rules ={[{required:props.required, message: `${props.name} must be filled!`}]}
         >
         <Input.TextArea 
             className={props.className}

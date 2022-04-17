@@ -23,8 +23,7 @@ const clinicInitialState = {
     website_url:"",
     isLoading:false,
     success:"",
-    clinics:[],
-    status_flag:true,
+    clinics:[]
 }
 export const clinicReg = (state = clinicInitialState,action)=>{
     switch (action.type) {
@@ -45,8 +44,26 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...state,
                 isLoading:false,
-                success:action.payload.msg
+                success:"Registered SuccessFully."
             }
+            case "CLINIC_REGISTER_FAILURE":
+            return {
+                ...state,
+                isLoading:false,
+                success:"Registration Failed."
+            }
+            case "UPDATE_ORGANIZATION_FAILURE":
+                return {
+                    ...state,
+                    isLoading:false,
+                    success:"Failed to Update."
+                }
+                case "UPDATE_ORGANIZATION_SUCCESS":
+                    return {
+                        ...state,
+                        isLoading:false,
+                        success:"Updated Successfully."
+                    }
         case CLINIC_CLEAR_STATE:
             return {
                 ...clinicInitialState
