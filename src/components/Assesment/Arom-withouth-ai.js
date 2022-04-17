@@ -97,6 +97,7 @@ const AromWithouthAi = () => {
   const [tableData3, setTableData3] = useState(dataSource3);
   const dispatch = useDispatch();
   const history = useHistory();
+  const state = useSelector(state=>state)
   const setTotal = (data, index) => {
     // Set total
     data[index]["totalCount"] = Number(
@@ -104,8 +105,8 @@ const AromWithouthAi = () => {
     );
   };
   const SaveData1 = () => {
-    console.log(tableData1);
-    if(tableData1.length>0){
+    if(tableData1.length>0&&tableData1[0].joint!=="select"){
+      console.log(tableData1);
       let angles = {};
     tableData1.map((item) => {
       let val = { min: item.min, max: item.max };
@@ -122,7 +123,8 @@ const AromWithouthAi = () => {
       },
     });
     }
-    if(tableData2.length>0){
+    if(tableData2.length>0&&tableData2[0].joint!=="select"){
+      console.log(tableData2);
       let angles = {};
       tableData2.map((item) => {
         let val = { min: item.min, max: item.max };
@@ -138,7 +140,8 @@ const AromWithouthAi = () => {
         },
       });
     }
-    if(tableData3){
+    if(tableData3.length>0&&tableData3[0].joint!=="select"){
+      console.log(tableData3);
       let angles = {};
     tableData3.map((item) => {
       let val = { min: item.min, max: item.max };
@@ -442,12 +445,12 @@ const AromWithouthAi = () => {
           </h3>
           <p style={{ paddingTop: "4px" }}>
             {" "}
-            <b className="pose_mobile_view_details">Patient Name :</b> {"Aswin"}
+            <b className="pose_mobile_view_details">Patient Name :</b> {state.episodeReducer.patient_name}
           </p>
           <p style={{ paddingTop: "4px" }}>
             {" "}
             <b className="pose_mobile_view_details">Patient Code :</b>{" "}
-            {" Aswkri10210"}
+            {state.episodeReducer.patient_main_code}
           </p>
         </Col>
       </Row>
