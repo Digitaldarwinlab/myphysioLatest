@@ -29,7 +29,8 @@ const FirstAssesmentIniState ={
     Type:"First",
     // aswin 10/24/2021 stop
     Scars:"",
-
+    Arom_M:false,
+    Arom_Ai:false,
     // gaurav
     chiefCom:"",
     occupation:"",

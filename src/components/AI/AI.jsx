@@ -44,8 +44,8 @@ const labels = [
   "R Elbow Flex",
   "L Hip Fwd Flex",
   "R Hip Fwd Flex",
-  "L Knee Abd/Add",
-  "R Knee Abd/Add",
+  "L Knee Flex/Ext",
+  "R Knee Flex/Ext",
   "L Cervical Side flex",
   "R Cervical Side Flex",
   "L Lateral Side Flex",
@@ -192,6 +192,8 @@ class AI extends Component {
   }
 
   back = () => {
+    this.props.FirstAssesment("Arom_M", false);
+    this.props.FirstAssesment("Arom_Ai", true);
     const video = document.getElementById("video");
 
     const mediaStream = video.srcObject;

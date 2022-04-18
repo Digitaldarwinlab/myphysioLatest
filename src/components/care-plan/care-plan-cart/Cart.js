@@ -1,11 +1,11 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
-import React from "react";
-import { useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 import { AiOutlineMinusCircle } from "react-icons/ai";
-import { Row, Col, Button, Space ,notification} from "antd";
+import { Row, Col, Button, Space, notification } from "antd";
 
 export default function Cart({
   Exercise,
@@ -14,9 +14,12 @@ export default function Cart({
   ChangePageToAllocatePlan,
 }) {
   const history = useHistory();
-  const state = useSelector(state => state);
-
-  const AddVideoRom=()=>{
+  const state = useSelector((state) => state);
+  useEffect(() => {
+   console.log("cart check ",Excercise)
+   console.log("cart check ",items)
+  }, []);
+  const AddVideoRom = () => {
     const allExcercise = Exercise.filter((val) => {
       if (items.indexOf(val.ex_em_id) !== -1) return val;
     }).map((val) => {
@@ -37,18 +40,17 @@ export default function Cart({
       const Joints = data.map((val, key) => {
         return val.joint_name;
       });
-      const input_data={Joints,allExcercise}
-      localStorage.setItem("input_data",JSON.stringify(input_data));
-
+      const input_data = { Joints, allExcercise };
+      localStorage.setItem("input_data", JSON.stringify(input_data));
     };
     ExcerJoints();
     notification.success({
-      message: 'Please move to the video con screen and start assesment!',
-      placement: 'bottomLeft',
-      duration: 5
-  })
-  }
-  
+      message: "Please move to the video con screen and start assesment!",
+      placement: "bottomLeft",
+      duration: 5,
+    });
+  };
+
   const AddRom = () => {
     const allExcercise = Exercise.filter((val) => {
       if (items.indexOf(val.ex_em_id) !== -1) return val;
@@ -71,42 +73,42 @@ export default function Cart({
         return val.joint_name;
       });
 
-// console.log(Joints)
-//aswin 11/27/2021 start
-// console.log("Excercise are ",Exercise)
-// console.log("Excercise are ",Joints)
+      // console.log(Joints)
+      //aswin 11/27/2021 start
+      // console.log("Excercise are ",Exercise)
+      // console.log("Excercise are ",Joints)
 
-// console.log("Excercise are selected ",allExcercise)
-let exercisePrimary = []
-const newEx = await Exercise.map(async(ex)=>{
-  allExcercise.map(element=>{
-    if(ex.title===element){
-      exercisePrimary.push(ex)
-    }
-  })
-})
- console.log("sorted array " ,{
-  pathname: "/assessment/AI",
-  state: {
-    Excercise: allExcercise,
-    Joints: Joints,
-    stateName :state.carePlanRedcucer,
-    exercisePrimary : exercisePrimary
-  },
-})
+      // console.log("Excercise are selected ",allExcercise)
+      let exercisePrimary = [];
+      const newEx = await Exercise.map(async (ex) => {
+        allExcercise.map((element) => {
+          if (ex.title === element) {
+            exercisePrimary.push(ex);
+          }
+        });
+      });
+      console.log("sorted array ", {
+        pathname: "/assessment/AI",
+        state: {
+          Excercise: allExcercise,
+          Joints: Joints,
+          stateName: state.carePlanRedcucer,
+          exercisePrimary: exercisePrimary,
+        },
+      });
       history.push({
         pathname: "/assessment/AI",
         state: {
           Excercise: allExcercise,
           Joints: Joints,
-          stateName :state.carePlanRedcucer,
-          exercisePrimary : exercisePrimary
+          stateName: state.carePlanRedcucer,
+          exercisePrimary: exercisePrimary,
         },
       });
     };
     ExcerJoints();
   };
-//aswin 11/27/2021 start
+  //aswin 11/27/2021 start
   const RomAssesment = (excer) => {
     const ExcerJoints = async () => {
       const res = await fetch(
@@ -122,7 +124,7 @@ const newEx = await Exercise.map(async(ex)=>{
       );
 
       const data = await res.json();
-     // console.log(data);
+      // console.log(data);
       const Joints = data.map((val, key) => {
         return val.joint_name;
       });
@@ -132,65 +134,66 @@ const newEx = await Exercise.map(async(ex)=>{
         state: {
           Excercise: excer,
           Joints: Joints,
-          stateName : state.carePlanRedcucer
+          stateName: state.carePlanRedcucer,
         },
       });
     };
     ExcerJoints();
   };
   return (
-    <React.Fragment style={{marginBottom:'10px'}}>
+    <React.Fragment style={{ marginBottom: "10px" }}>
       {Exercise.filter((val) => {
         if (items.indexOf(val.ex_em_id) !== -1) return val;
       }).map((item, index) => {
         return (
           <div key={item.ex_em_id}>
-            <Row style={{width: "700px", marginLeft: "20px"}}>
+            <Row style={{ width: "700px", marginLeft: "20px" }}>
               <Col lg={1} className="">
                 <i className="fas fa-running iconClass3"></i>
               </Col>
-              <Col lg={6} style={{position: "relative", marginLeft: "10px"}} >{item.title}
-              
-               <AiOutlineMinusCircle
+              <Col lg={6} style={{ position: "relative", marginLeft: "10px" }}>
+                {item.title}
+
+                <AiOutlineMinusCircle
                   onClick={() => {
                     UpdateCart(item.ex_em_id);
                   }}
                   className="iconClass3"
                   style={{ marginLeft: "10px", color: "#fa5f7f" }}
                 />
-                
-                </Col>
-              
-              <Col >
-               
               </Col>
+
+              <Col></Col>
             </Row>
             <hr />
           </div>
         );
       })}
-      <div className="all-buttons" style={{display:'flex',flexDirection:'row',marginBottom:'50px'}}>
-      <Button className="ant-btn-cart me-1" onClick={AddRom}>
-        Start
-      </Button>
-      <Button
-        className="ant-btn-cart"
-        onClick={() => ChangePageToAllocatePlan()}
+      <div
+        className="all-buttons"
+        style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}
       >
-        {state.carePlanRedcucer.edit_flag?"Edit":'Allocate'} Plan
-      </Button>
-      
-      <Button className="ant-btn-cart me-1" 
-       style={{marginLeft:'8px'}}
-        onClick={AddVideoRom}>
-        Start Video Assessment
-      </Button>
+        <Button className="ant-btn-cart me-1" onClick={AddRom}>
+          Start
+        </Button>
+        <Button
+          className="ant-btn-cart"
+          onClick={() => ChangePageToAllocatePlan()}
+        >
+          {state.carePlanRedcucer.edit_flag ? "Edit" : "Allocate"} Plan
+        </Button>
+
+        <Button
+          className="ant-btn-cart me-1"
+          style={{ marginLeft: "8px" }}
+          onClick={AddVideoRom}
+        >
+          Start Video Assessment
+        </Button>
       </div>
     </React.Fragment>
   );
 }
-
-
 
 // /*eslint no-unused-vars:"off" */
 // /*eslint array-callback-return:"off" */
@@ -242,7 +245,7 @@ const newEx = await Exercise.map(async(ex)=>{
 //       duration: 5
 //   })
 //   }
-  
+
 //   const AddRom = () => {
 //     const allExcercise = Exercise.filter((val) => {
 //       if (items.indexOf(val.ex_em_id) !== -1) return val;
@@ -338,7 +341,7 @@ const newEx = await Exercise.map(async(ex)=>{
 //                 <i className="fas fa-running iconClass3"></i>
 //               </Col>
 //               <Col lg={6}>{item.title}</Col>
-             
+
 //               <Col lg={4}>
 //                 <AiOutlineMinusCircle
 //                   onClick={() => {
@@ -363,7 +366,7 @@ const newEx = await Exercise.map(async(ex)=>{
 //       >
 //         Allocate Plan
 //       </Button>
-      
+
 //       <Button className="ant-btn-cart me-1"  style={{marginLeft:'4px'}} onClick={AddVideoRom}>
 //         Start Video Assessment
 //       </Button>

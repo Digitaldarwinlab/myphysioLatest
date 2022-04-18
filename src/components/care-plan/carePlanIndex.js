@@ -289,7 +289,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         }
         {/*  aswin 10/22/2021 stop */}
         {/* aswin start 10/30/2021 start */}
-    },[reduxState.carePlanRedcucer])
+    },[reduxState.carePlanRedcucer.patient_code])
     {/* aswin start 10/30/2021 stop */}
 
     
@@ -484,7 +484,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             };
         }, [history]);
         useEffect(async() => {
-            const exercise = await GetExerciseList(dispatch, 200,1);
+            const exercise = await GetExerciseList(dispatch, 250,1);
             setFullExer(exercise.data)
         }, []);
     useEffect(async () => {

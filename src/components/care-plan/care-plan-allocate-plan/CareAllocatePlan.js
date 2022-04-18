@@ -36,7 +36,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         //{state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")}
         if(state.edit_flag){
           form.setFieldsValue({startDate:state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")})
-            form.setFieldsValue({endDate:state.editStateDate?  moment(state.editStateDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
+          form.setFieldsValue({endDate:state.editStateDate?  moment(state.editStateDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
             let timepick = document.getElementsByName("startDate")
             console.log("timepick ",timepick)
         }
@@ -83,10 +83,10 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 return val
         });
        
-        console.log(array)
+        console.log('array having items of carts',array)
         array = array.map((val) => {
-            console.log('array having items of carts',Object.values(val.angle)[0].min)
-            console.log('array having items of carts',Object.values(val.angle)[0].max)
+            // console.log('array having items of carts',Object.values(val.angle)[0].min)
+            // console.log('array having items of carts',Object.values(val.angle)[0].max)
             return {
                 ex_em_id: val.ex_em_id,
                 name: val.title ? val.title : "Exercise",
