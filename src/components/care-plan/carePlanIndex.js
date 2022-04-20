@@ -12,7 +12,7 @@ import { FaRunning} from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
-import { GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
+import { GetAllExerciseList, GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
 import { useSelector, useDispatch } from 'react-redux';
 import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
 import TopScroll from "../Scroll/TopScroll";
@@ -484,7 +484,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             };
         }, [history]);
         useEffect(async() => {
-            const exercise = await GetExerciseList(dispatch, 250,1);
+            const exercise = await GetAllExerciseList(dispatch, 250,1);
             setFullExer(exercise.data)
         }, []);
     useEffect(async () => {
@@ -534,7 +534,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
-            setLength(cartActualData.length);
+            setLength(data.length);
         }
         setCartItems(data);
         dispatch({ type: RECEIVED_DATA });
@@ -980,7 +980,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 width={"70%"}
                             >
                                 {cartItems.length === 0 && <p>No Plan is Present now...</p>}
-                                {cartItems.length !== 0 && <Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
+                                {(cartItems.length !== 0 && fullExer.length>0)&&<Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
                             </Drawer>
 
                             <Drawer

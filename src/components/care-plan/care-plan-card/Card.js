@@ -192,7 +192,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                     <Form.Item name={"min" + index} label="min" required={true}>
                                         {console.log('printing default danglse')}
-                                    {console.log(state.exercises && state.exercises[index] ? state.exercises[index]['angle'][Object.keys(state.exercises[index]['angle'])[0]]['min']: 'nulli')}
+                              
                                    
                                    
                                         <Input

@@ -282,7 +282,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange1("joint", index, e)}
         >
@@ -335,7 +334,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange2("joint", index, e)}
         >
@@ -388,7 +386,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange3("joint", index, e)}
         >

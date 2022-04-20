@@ -277,7 +277,7 @@ class PoseTestClass extends Component {
                 style={{ display: "none" }}
               ></video>
               <canvas id="output" className="output" 
-              //style={{height:'440px'}}
+              style={{height:'440px'}}
               />
               <canvas id="jcanvas" />
             </Col>

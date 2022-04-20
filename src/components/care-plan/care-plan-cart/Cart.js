@@ -16,7 +16,7 @@ export default function Cart({
   const history = useHistory();
   const state = useSelector((state) => state);
   useEffect(() => {
-   console.log("cart check ",Excercise)
+   console.log("cart check ",Exercise)
    console.log("cart check ",items)
   }, []);
   const AddVideoRom = () => {

@@ -39,6 +39,30 @@ export const GetExerciseList = async (dispatch, pageSize, current) => {
         return { data: [], total_exercise: 0 };
     }
 }
+export const GetAllExerciseList = async (dispatch, pageSize, current) => {
+    dispatch({ type: FETCH_DATA });
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const response = await fetch(process.env.REACT_APP_API + "/get-all-exercise/", {
+            method: "GET",
+            headers: headers,
+        });
+        
+        const responseData = await response.json();
+        const exerciresponseData = Decode(responseData);
+      //  console.log(exerciresponseData)
+        // console.log(exerciresponseData);
+        if (response.status === 200 || response.status === 201)
+            return exerciresponseData;
+        return { data: [], total_exercise: 0 };
+
+    } catch (err) {
+        return { data: [], total_exercise: 0 };
+    }
+}
 //@func care-plan exercise filter api
 //@param filter lists Data
 //@output filtered Data

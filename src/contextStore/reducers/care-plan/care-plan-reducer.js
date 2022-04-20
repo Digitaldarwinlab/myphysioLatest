@@ -10,7 +10,8 @@ import {
     CARE_PLAN_SUCCESS,
     CARE_PLAN_FAILURE,
     CARE_PLAN_CLEAR_STATE,
-    CARE_PLAN_ADD_TO_CART
+    CARE_PLAN_ADD_TO_CART,
+    CARE_PLAN_NEW_ROM_CHANGE
 } from './../../actions/care-plan-action';
 
 const initialState = {
@@ -43,6 +44,11 @@ const ExerciseUpdate = (list, key1, key2, value, index) => {
     newList[index][key1][key2] = value;
     return newList;
 }
+const ExerciseUpdateNew = (list, key1, key2, value, index) => {
+    let newList = [...list];
+    newList[index][key1][key2] = value;
+    return newList;
+}
 //timeSlots 
 const getTimeSlots = (list, time, index) => {
     let newList = [...list];
@@ -59,6 +65,11 @@ export const carePlanRedcucer = (state = initialState, action) => {
                 ...state,
                 [action.payload.key]: action.payload.value
             }
+        case CARE_PLAN_NEW_ROM_CHANGE:
+                return {
+                    ...state,
+                    exercises: ExerciseUpdateNew(state.exercises, "Rep", action.payload.key, action.payload.value, action.payload.index)
+                }    
         case CARE_PLAN_REP_CHANGE:
             return {
                 ...state,
