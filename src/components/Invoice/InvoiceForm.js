@@ -1,18 +1,25 @@
 import ActiveSearch from "../UtilityComponents/ActiveSearch";
 import "./InvoiceForm.css";
 import { FaRupeeSign } from "react-icons/fa";
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
-import MyPhysioLogo from '../UtilityComponents/MyPhysioLogo';
 
-const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange, handleSubmit, setPreview, pName, pEpisodeNumber, pId, cName, cAddress, cPhone, cEmail, cWebsite }) => {
+
+const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange, handleSubmit, setPreview, pName, pEpisodeNumber, pId,pCode, cName, cAddress, cPhone, cEmail, cWebsite }) => {
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
   var today = new Date();
   const inoviceRef = useRef(null);
-
+  const [print,setPrint] = useState(false)
   console.log(today.toLocaleDateString("en-US"));
 
+const handleClickPrint = () => {
+  console.log("Helloooooooooo")
+  setPrint(true);
 
+  setTimeout(() => {
+    setPrint(false)
+  }, 3000);
+}
 
   return <div className='invoice'>
 
@@ -42,7 +49,7 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
             Patient Name: {pName}
           </li>
           <li>
-            Patient Id: {pId}
+            Patient Code: {pCode}
           </li>
           <li>
             Episode Number: {pEpisodeNumber}
@@ -55,9 +62,9 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
           <li>
             Date: {today.toLocaleDateString("en-US", options)}
           </li>
-          <li>
+          {/* <li>
             Reciept No: APR22-000005
-          </li>
+          </li> */}
           <li>
             Invoice No: APR22-000008
           </li>
@@ -86,9 +93,9 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
               <td>{item.Discount}</td>
               <td>{item.Tax}</td>
               <td>{item.Amount} </td>
-              <td><button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button></td>
+              <td>{print && <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
             </tr>)}
-            <tr >
+            <tr className="hide-row">
 
               <td className="Description" style={{ width: "40%" }}> <input placeholder="Description" name='Description' type='text' onChange={handleChange} value={item.Description} /></td>
               <td className='UnitCost' > <input placeholder="Unit Cost" name='UnitCost' type="text" onChange={handleChange} value={item.UnitCost} /></td>
@@ -97,7 +104,7 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
               <td className="Tax">  <input placeholder="Tax" name='Tax' type="text" onChange={handleChange} value={item.Tax} /></td>
 
               <td style={{ width: "10%" }}></td>
-              <td>  <button className='add-button' type='submit'> + </button></td>
+              <td> {!print && <button className='add-button' type='submit'> + </button>}</td>
             </tr>
           </tbody>
         </table>
@@ -117,9 +124,10 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
       </div>
     </div>
     <center>
+      {/* <center><button className='add-button' onClick={handleClickPrint} >Print</button></center> */}
        {/* <button className='add-button' onClick={() => { setPreview(true) }}>Preview</button> */}
       <ReactToPrint
-        trigger={() => <button className='add-button' >Print</button>}
+        trigger={() => <button className='add-button' onClick={handleClickPrint} >Print</button>}
         content={() => inoviceRef.current}
       /></center>
 

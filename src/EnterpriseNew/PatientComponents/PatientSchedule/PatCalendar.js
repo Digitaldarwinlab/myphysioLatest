@@ -979,7 +979,7 @@ useEffect(() => {
         <Row justify="center">
           <div class="calenderView">
             <div class="monthName">
-              <p>This is the Line</p>
+              {/* <p>This is the Line</p> */}
               <h2>{selectedMonth} - {selectedYear}</h2>
             </div>
             <div class="pervsBTN">Prves</div>

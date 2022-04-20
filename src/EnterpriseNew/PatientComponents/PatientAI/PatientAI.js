@@ -303,7 +303,7 @@ class PatientAI extends Component {
                 
             //     state: { autorefresh: 1 }
             //   })
-          this.props.history.push('/patient/schedule');
+          this.props.history.push('/patient/enterprise/schedule');
           window.location.reload();
     }
     //Green Channel 
@@ -399,7 +399,7 @@ class PatientAI extends Component {
             ROMPanel: {
                 canvas: jcanvas,
                 width: 150,
-                height: 150,
+                height: 480,
                 radius: 70
             }
         };
@@ -599,7 +599,7 @@ class PatientAI extends Component {
        <Row>
        <Col lg={8} md={8} sm={12} xs={12}>
  <h3 className="fw-bold">
-            <BackButton /> {"Squat"}
+            <BackButton /> 
           </h3>
               </Col>
             <Col lg={8} md={8} sm={12} xs={12}>
