@@ -4,6 +4,7 @@ import InvoiceForm from "./InvoiceForm";
 import Invoicer from "./Invoicer";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
+import Success from "../UtilityComponents/SuccessHandler";
 import {getClinicDetails} from "../../API/Physio/ClinicRegister";
 import axios from "axios";
 
@@ -50,7 +51,7 @@ useEffect(() => {
  
 
   useEffect(() =>{
-    const id = JSON.parse(localStorage.getItem('userId')).clinic_id;
+    const id = JSON.parse(localStorage.getItem('user')).clinic_id;
     axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id}).then(res => setClinic(res.data[0]));
     },[])
 
@@ -141,6 +142,7 @@ useEffect(() => {
         setPreview={setPreview}
         pName={patientDetails.patient_name}
         pId={patientDetails.pp_ed_id}
+        pCode={patientDetails.patient_code}
         pEpisodeNumber = {patientDetails.episode_number}
         cName = {clinic.name}
         cAddress = {clinic.address_1+', '+clinic.address_2+', '+clinic.address_3}

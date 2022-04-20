@@ -275,7 +275,7 @@ const EnterpriseRegister = () => {
                                 className="input-field"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
+                                required={false}
                             />
                         </Col>
                         <Col md={24} lg={12} sm={24} xs={24}>
@@ -285,7 +285,7 @@ const EnterpriseRegister = () => {
                                 className="input-field"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
+                                required={false}
                             />
                         </Col>
                     </Row>
@@ -434,7 +434,7 @@ const EnterpriseRegister = () => {
                                 placeholder="Landline No."
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
+                                required={false}
                             />
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>

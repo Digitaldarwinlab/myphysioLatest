@@ -57,10 +57,17 @@
 
 .datern{
   text-align: right;  
+  margin-right: 6%;
   padding-right: 15px;
     }
 
 .datern ul{
 list-style: none;
+}
+
+@media print {
+    .datern {
+        margin-right: 11%;
+      }
 }
 

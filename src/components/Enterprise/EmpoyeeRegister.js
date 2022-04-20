@@ -298,7 +298,7 @@ const EmployeeRegister = (props) => {
             dispatch({ type: VALIDATION, payload: { error: "Middle" + validation.checkNameValidation(data.MiddleName).error } });
         } else if (validation.checkMobNoValidation(data.MobileNo).error) {
             dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
-        } else if (validation.checkMobNoValidation(data.WhatsAppNo).error) {
+        } else if (data.WhatsAppNo && validation.checkMobNoValidation(data.WhatsAppNo).error) {
             dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
         } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
             dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });

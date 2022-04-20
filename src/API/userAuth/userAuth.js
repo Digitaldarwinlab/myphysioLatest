@@ -284,3 +284,43 @@ export const admin_password_reset_ep=async(detail)=>{
     }
 
 }
+
+
+export const empsignin = async (user, dispatch) => {
+   
+    dispatch({ type: LOGIN_REQUEST });
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_login/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(user)
+        });
+        const data = await response.json();
+       
+        // const data = JSON.parse(decode(responseData));
+        if (response.status !== 200 && response.status !== 201) {
+            if (data && data.detail) {
+                return [false, "Invalid Login Credentials!"];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else {
+            AddCookies("jwt", data.jwt);
+            if (data.first_time) {
+                localStorage.setItem("userId", JSON.stringify(data.user_id));
+                return [false, "Please Change Your Password."];
+            }
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id}, data.user_id);
+            dispatch({ type: LOGIN_SUCCESS });
+            return [true];
+        }
+    } catch (err) {
+        return [false, err.message + " ,please try after some time."];
+    }
+    // dispatch({type:LOGIN_SUCCESS});
+    // AddUserInfo("12344",{role:1,email:user.email});  //(jwtToken,userInfo)
+}

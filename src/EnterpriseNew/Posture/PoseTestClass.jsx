@@ -58,7 +58,7 @@ this.setState({toggleState:index})
     } catch (err) {
       console.log(err);
     }
-    this.props.history.push("/patient/enterprise/dashboard")
+    this.props.history.push("/patient/enterprise/quiz")
   };
   setFrontAngles = (value) => {
     this.state.frontAngles = value
@@ -205,19 +205,26 @@ this.setState({toggleState:index})
 
       if (id === -1) {
         darwin.screenShot();
-       
-        const balanceAngles = darwin.showAngles();
-        console.log(balanceAngles);
-     
+
         if(this.state.toggleState === 1){
+          
           this.captureFront();
-        this.setFrontAngles(balanceAngles)
+          const balanceAngles = darwin.showAngles();
+        this.setFrontAngles(balanceAngles);
+        console.log(balanceAngles);
       }
       else {
         this.captureSide();
-       this.setSideAngles(balanceAngles)
+        const balanceAngles = darwin.showAngles();
+       this.setSideAngles(balanceAngles);
+       console.log(balanceAngles);
       }
-        console.log(balanceAngles);
+       
+        // const balanceAngles = darwin.showAngles();
+        // console.log(balanceAngles);
+     
+        
+       
       }
     })} catch(err){
       console.log(err);

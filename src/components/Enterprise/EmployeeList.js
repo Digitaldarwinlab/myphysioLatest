@@ -7,6 +7,8 @@ import { admin_password_reset_ep } from "../../API/userAuth/userAuth";
 import { useState, useEffect } from "react";
 import { forgotPassword, getUserData } from "../../API/userAuth/userAuth";
 import axios from "axios";
+import Error from '../UtilityComponents/ErrorHandler';
+import Success from "../UtilityComponents/SuccessHandler";
 import { BiEdit } from "react-icons/bi";
 import { getClinicDetails } from "../../API/Physio/ClinicRegister";
 import { MailOutlined } from '@ant-design/icons';
@@ -33,9 +35,16 @@ const EmployeeList = () => {
   const [confirm_password, setConfirmPassword] = useState("");
   const [organizations, setOrganizations] = useState([]);
   const [org, setOrg] = useState('');
-  const [error, setError] = useState("");
+  const [error1, setError1] = useState("");
   const [success, setSuccess] = useState("");
   const [form] = Form.useForm();
+  const [paginationState, setPaginationState] = useState({
+    totalPage: 0,
+    current: 1,
+    minIndex: 0,
+    maxIndex: 0,
+    pageSize: 10
+});
 
   let keyMapping = {
     "pp_em_id": "Employee Id",
@@ -93,7 +102,7 @@ const EmployeeList = () => {
         title="Set New Password"
         centered
       >
-        {error && <Error error={error} />}
+        {error1 && <Error error={error1} />}
         {success && <Success success={success} />}
         <Button size={'medium'} icon={<MailOutlined style={{ fontSize: '20px' }} />} style={{ marginBottom: '10px', marginTop: '5px', backgroundColor: buttondisable ? 'white' : 'red', borderRadius: '5px' }} disabled={buttondisable} onClick={() => Sendpasswordemail(temp_uid)}></Button>
 
@@ -144,38 +153,40 @@ const EmployeeList = () => {
     setLoading(true);
     if (new_password === "" || confirm_password === "") {
       setLoading(false);
-      setError("Please Fill all the fields.");
+      setError1("Please Fill all the fields.");
+      console.log("Eror")
       setTimeout(() => {
-        setError("");
+        setError1("");
       }, 3000);
     } else if (new_password !== confirm_password) {
       setLoading(false);
-      setError("New And Confirm Password Doesn't match.");
+      setError1("New And Confirm Password Doesn't match.");
+      console.log(error1)
       setTimeout(() => {
-        setError("");
+        setError1("");
       }, 3000);
     }
     else if (new_password.length < 8) {
       setLoading(false);
-      setError("Password Should be atleaset 8 digits long");
+      setError1("Password Should be atleaset 8 digits long");
       setTimeout(() => {
-        setError("");
+        setError1("");
       }, 3000);
     }
     else if (is_special == false) {
       setLoading(false);
-      setError("Password Should contain atleast one special character");
+      setError1("Password Should contain atleast one special character");
 
       setTimeout(() => {
-        setError("");
+        setError1("");
       }, 3000);
     }
 
     else if (new_password[0] != new_password[0].toUpperCase()) {
       setLoading(false);
-      setError("First Letter should be in uppercase")
+      setError1("First Letter should be in uppercase")
       setTimeout(() => {
-        setError("");
+        setError1("");
       }, 3000);
     }
     else {
@@ -186,7 +197,7 @@ const EmployeeList = () => {
         try {
           form.resetFields()
         }
-        catch {
+        catch(err) {
           console.log('not resetting')
         }
         setTimeout(() => {
@@ -195,10 +206,11 @@ const EmployeeList = () => {
         }, 5000)
 
       } else {
-        setError(result[1]);
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        // setError("Error");
+        // setTimeout(() => {
+        //   setError("");
+        // }, 3000);
+        console.log("err");
       }
     }
   }
@@ -212,8 +224,8 @@ const EmployeeList = () => {
 
     },
     {
-      title: "Employee Id",
-      dataIndex: "pp_em_id",
+      title: "Employee Code",
+      dataIndex: "employee_code",
       width: "20%",
 
     },
@@ -236,9 +248,10 @@ const EmployeeList = () => {
       width: "25%",
       render: (text, record) => (
         <Space size="middle">
+          {console.log(record)}
           <BsFillEyeFill onClick={() => handleView(record)} size={20} />
           <BiEdit onClick={() => handleEdit(record)} size={20} />
-          <AiFillUnlock onClick={() => showmodal(record.uid)} size={20} />
+          <AiFillUnlock onClick={() => showmodal(record.employee_code.substring(2))} size={20} />
         </Space>
       )
     }

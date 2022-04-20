@@ -387,14 +387,14 @@ import { set } from "js-cookie";
                  
                 },
                 {
-                  title: "Organization Code",
-                  dataIndex: "pp_org_id",
+                  title: "Mobile No",
+                  dataIndex: "mobile_no",
                   width: "20%",
                  
                 },
                 {
-                  title: "LandLine No",
-                  dataIndex: "Landline_no",
+                  title: "Email",
+                  dataIndex: "contact_email",
                   width: "20%",
                  
                 },
@@ -405,6 +405,7 @@ import { set } from "js-cookie";
                   width: "20%",
                   render: (text, record) => (
                     <Space size="middle">
+                        {console.log(record)}
                        <BsFillEyeFill onClick={() => handleView(record)} size={20} />
                       <BiEdit onClick={() => handleEdit(record)} size={20} />
                       {/* <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} /> */}

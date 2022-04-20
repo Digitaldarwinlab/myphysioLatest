@@ -112,6 +112,8 @@ import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js";
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
 
+import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
+
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
@@ -153,6 +155,7 @@ const App = () => {
 						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && sidebarshow
 							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content white-backgorund` : "MainConatiner"}>
 						<Switch>
+						<PublicRoute exact path="/employee" component={EmployeeLogin} />
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />

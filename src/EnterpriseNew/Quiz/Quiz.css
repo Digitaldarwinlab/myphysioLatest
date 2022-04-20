@@ -84,7 +84,7 @@
     border: 1.5px solid #4fbdba;
     color: grey;
     font-size: 1.125rem;
-    color: #4fbdba !important;
+    color: #fff !important;
     width: 38%;
     padding: 1.2% 0;
     border-radius: 18px;
@@ -97,7 +97,7 @@
   }
   
   .option:hover {
-    background-color: #2d7ecb !important;
+    background-color: #61a9ec !important;
     color: white !important;
   }
   
