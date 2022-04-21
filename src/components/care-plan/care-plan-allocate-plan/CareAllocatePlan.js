@@ -522,13 +522,13 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             {validationState.error && <Error error={validationState.error} />}
 
             {/* <Switch defaultChecked /> */}
-            {/* <Row >
+            <Row >
             <Space size={"middle"}> 
             <span>AI-Mode {"  "}</span>
             <Checkbox checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>}</Checkbox>
             </Space>
-            </Row> */}
+            </Row>
                {/* <Switch
            // uncheckedIcon={<AiOutlineClose size={20}/>}
            // checkedIcon={<FaCheck size={20}/>}

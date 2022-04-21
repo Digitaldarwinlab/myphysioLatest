@@ -484,7 +484,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             };
         }, [history]);
         useEffect(async() => {
-            const exercise = await GetAllExerciseList(dispatch, 250,1);
+            const exercise = await GetExerciseList(dispatch, 350,1);
             setFullExer(exercise.data)
         }, []);
     useEffect(async () => {

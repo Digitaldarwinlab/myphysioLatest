@@ -183,7 +183,7 @@ const handleSubmit = (data) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                {/* <Row  justify="end">
+                                <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
@@ -195,7 +195,7 @@ const handleSubmit = (data) => {
                                     {"  "}
                                     {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
                         </Col>
-                                </Row> */}
+                                </Row>
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
