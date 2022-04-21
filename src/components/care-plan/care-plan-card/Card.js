@@ -3,7 +3,7 @@ import { Card, InputNumber,Input, Form, Row, Col, Modal, Select } from 'antd';
 import { FaHeart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinusCircle, AiTwotoneSwitcher } from "react-icons/ai";
 import { useSelector } from 'react-redux';
-
+const {Option} = Select
 const { Meta } = Card;
 export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartState, actions, video, handleChange, index, data,Setselectvalue, carePlanView = false }) {
     // console.log(`${process.env.REACT_APP_EXERCISE_URL}/${image}`)
@@ -146,8 +146,19 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                             <h4 className="border">Rom</h4>
                           
                             <Form.Item name={"joint" + index} label="Joint" required={true}>
+                            <Select
+                       disabled={carePlanView}
+                        defaultValue={state.exercises.length>0?state.exercises[index]&&state.exercises[index]["Rom"]&&state.exercises[index]["Rom"]["joint"]:data.Rom.joint}
+                        style={{ width: 120 }}
+                        onChange={(e)=>console.log(e)}
+                      >
+                        {state.exercises.length>0?
+                        Object.keys(state.exercises[index].angle).map((item, index) => (
+                          <Option value={item}>{item}</Option>
+                        )): <Option value={data.Rom.joint}>{data.Rom.joint}</Option>}
+                      </Select>
                                 {/* <label for={"joint" + index}>Joint </label> */}
-                                <select style={{width:'100%'}} disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
+                                {/* <select style={{width:'100%'}} disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
                                     
                                     {
                                         state.exercises && state.exercises[index] 
@@ -186,7 +197,7 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                    </option>
                                     }
                                     
-                                </select>
+                                </select> */}
                             </Form.Item>
                             <Row gutter={[10, 10]}>
                                 <Col lg={12} md={12} sm={12} xs={12}>

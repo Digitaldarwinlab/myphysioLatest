@@ -105,7 +105,7 @@ const AllocateExerciseData = (data) => {
         count_time_slots: data.count_time_slots,
         startDate: data.startDate,
         endDate: data.endDate,
-        status_flag: data.status_flag?2:1
+        status_flag: 2
     };
 }
 //@func care-plan exercise allocation api

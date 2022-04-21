@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import Switch from "react-switch";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CarePlanCard from './../care-plan-card/Card';
 import { Row, Col, Form, InputNumber, Button, Checkbox, Space  } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
@@ -521,13 +521,15 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             {state.success && <Success success={state.success} />}
             {validationState.error && <Error error={validationState.error} />}
 
-            <Row >
             {/* <Switch defaultChecked /> */}
+            {/* <Row >
             <Space size={"middle"}> 
             <span>AI-Mode {"  "}</span>
             <Checkbox checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>}</Checkbox>
-            {/* <Switch
+            </Space>
+            </Row> */}
+               {/* <Switch
            // uncheckedIcon={<AiOutlineClose size={20}/>}
            // checkedIcon={<FaCheck size={20}/>}
              onColor="#2d7ecb" 
@@ -535,8 +537,6 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
              onChange={()=>changeToggle()} />
                {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>} */}
-            </Space>
-            </Row>
             <div style={{ minHeight: "10px" }}></div>    
             <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
