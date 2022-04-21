@@ -541,7 +541,41 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         // eslint-disable-next-line
     }, []);
 
-  
+    const updateExArr = () => {
+        let array = fullExer.filter((val) => {
+            if (cartItems.indexOf(val.ex_em_id) !== -1)
+                return val
+        });
+        array = array.map((val) => {
+            // console.log('array having items of carts',Object.values(val.angle)[0].min)
+            // console.log('array having items of carts',Object.values(val.angle)[0].max)
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
+                    max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
+                },
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        console.log(array)
+        dispatch({
+            type: CARE_PLAN_STATE_CHANGE,
+            payload: {
+                key: "exercises",
+                value: array
+            }
+        })
+    }
     //upper tab menu
     const operations = (
         <React.Fragment>
@@ -591,7 +625,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 {/* aswin start 10/30/2021 start */}
                 <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
                     await checkEpisodeId() == true && setState(!state)
-
                     }}>
                         {/* aswin start 10/30/2021 stop */}
                     <i className="fas fa-running iconClass3 running_icon"></i>
@@ -890,6 +923,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         }
         else {
             setAllocatePlan(!allocatePlan);
+            if(!reduxState.carePlanRedcucer.edit_flag){
+                updateExArr()
+            }
         }
     }
     const refreshHtml= () => {

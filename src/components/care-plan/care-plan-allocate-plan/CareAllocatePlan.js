@@ -84,34 +84,34 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         });
        
         console.log('array having items of carts',array)
-        array = array.map((val) => {
-            // console.log('array having items of carts',Object.values(val.angle)[0].min)
-            // console.log('array having items of carts',Object.values(val.angle)[0].max)
-            return {
-                ex_em_id: val.ex_em_id,
-                name: val.title ? val.title : "Exercise",
-                Rep: {
-                    set: 1,
-                    rep_count: 5,
-                    hold_time: 5
-                },
-                angle :val.angle ? val.angle : [],    
-                Rom: {
-                    joint: val.joint ? val.joint : "nose",
-                    min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
-                    max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
-                },
-                image_url: val.image_path,
-                video_url: val.video_path
-            };
-        });
-        dispatch({
-            type: CARE_PLAN_STATE_CHANGE,
-            payload: {
-                key: "exercises",
-                value: array
-            }
-        })
+        // array = array.map((val) => {
+        //     // console.log('array having items of carts',Object.values(val.angle)[0].min)
+        //     // console.log('array having items of carts',Object.values(val.angle)[0].max)
+        //     return {
+        //         ex_em_id: val.ex_em_id,
+        //         name: val.title ? val.title : "Exercise",
+        //         Rep: {
+        //             set: 1,
+        //             rep_count: 5,
+        //             hold_time: 5
+        //         },
+        //         angle :val.angle ? val.angle : [],    
+        //         Rom: {
+        //             joint: val.joint ? val.joint : "nose",
+        //             min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
+        //             max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
+        //         },
+        //         image_url: val.image_path,
+        //         video_url: val.video_path
+        //     };
+        // });
+        // dispatch({
+        //     type: CARE_PLAN_STATE_CHANGE,
+        //     payload: {
+        //         key: "exercises",
+        //         value: array
+        //     }
+        // })
         // if(!state.edit_flag){
         // dispatch({
         //     type: CARE_PLAN_STATE_CHANGE,
