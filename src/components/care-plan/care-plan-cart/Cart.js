@@ -20,7 +20,7 @@ export default function Cart({
    console.log("cart check ",items)
   }, []);
   const AddVideoRom = () => {
-    const allExcercise = Exercise.filter((val) => {
+    const allExcercise = state.carePlanRedcucer.exercises_cart.filter((val) => {
       if (items.indexOf(val.ex_em_id) !== -1) return val;
     }).map((val) => {
       return val.title;
@@ -52,10 +52,8 @@ export default function Cart({
   };
 
   const AddRom = () => {
-    const allExcercise = Exercise.filter((val) => {
-      if (items.indexOf(val.ex_em_id) !== -1) return val;
-    }).map((val) => {
-      return val.title;
+    const allExcercise = state.carePlanRedcucer.exercises_cart.map((val) => {
+      return val.name;
     });
     const ExcerJoints = async () => {
       const res = await fetch(process.env.REACT_APP_API + "/exercise-joints/", {
@@ -80,10 +78,13 @@ export default function Cart({
 
       // console.log("Excercise are selected ",allExcercise)
       let exercisePrimary = [];
-      const newEx = await Exercise.map(async (ex) => {
+      const newEx = await state.carePlanRedcucer.exercises_cart.map(async (ex) => {
         allExcercise.map((element) => {
-          if (ex.title === element) {
-            exercisePrimary.push(ex);
+          if (ex.name === element) {
+            let temp = {}
+            temp["name"] = ex.name
+            temp['joint'] = Object.keys(ex.angle)
+            exercisePrimary.push(temp);
           }
         });
       });
@@ -142,9 +143,7 @@ export default function Cart({
   };
   return (
     <React.Fragment style={{ marginBottom: "10px" }}>
-      {Exercise.filter((val) => {
-        if (items.indexOf(val.ex_em_id) !== -1) return val;
-      }).map((item, index) => {
+      {state.carePlanRedcucer.exercises_cart.map((item, index) => {
         return (
           <div key={item.ex_em_id}>
             <Row style={{ width: "700px", marginLeft: "20px" }}>
@@ -152,7 +151,7 @@ export default function Cart({
                 <i className="fas fa-running iconClass3"></i>
               </Col>
               <Col lg={6} style={{ position: "relative", marginLeft: "10px" }}>
-                {item.title}
+                {item.name}
 
                 <AiOutlineMinusCircle
                   onClick={() => {

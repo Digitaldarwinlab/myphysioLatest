@@ -102,6 +102,8 @@ const handleEdit = (data) => {
     })
     localStorage.setItem("care-plan-cart", JSON.stringify(temp));
     console.log(data)
+    let count_time_slots = data.time_slot.map(item=>item[0])
+    console.log(count_time_slots)
     //status_flag
     dispatch({
         type: CARE_PLAN_STATE_CHANGE,
@@ -143,6 +145,13 @@ const handleEdit = (data) => {
         payload: {
             key:"editCareplanCode",
             value: data.careplan_code
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "count_time_slots",
+            value: count_time_slots.length
         }
     })
     //careplan_code

@@ -108,12 +108,12 @@ export const carePlanRedcucer = (state = initialState, action) => {
         case CARE_PLAN_ROM_JOINT_CHANGE:
                 return {
                     ...state,
-                   exercises:upval(state.exercises,action.payload.index,action.payload.value)
+                    exercises_cart:upval(state.exercises_cart,action.payload.index,action.payload.value)
                 }
         case CARE_PLAN_EXERCISE_CHANGE:
                     return {
                         ...state,
-                       exercises:[...state.exercises,...action.payload.value]
+                        exercises_cart:[...state.exercises_cart,...action.payload.value]
                     }
         case CARE_PLAN_SUCCESS:
             return {

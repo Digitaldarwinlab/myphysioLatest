@@ -412,12 +412,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
            console.log('nhi hai', res);//3.09
           }
           
-          let cartActualDat = fullExer.filter((val) => {
-              return cartItems.indexOf(val.ex_em_id) !== -1;
-            });
-            let cartActualData = res.data.filter((val) => {
-                return cartItems.indexOf(val.ex_em_id) !== -1;
-            });
+        //   let cartActualDat = fullExer.filter((val) => {
+        //       return cartItems.indexOf(val.ex_em_id) !== -1;
+        //     });
+        //     let cartActualData = res.data.filter((val) => {
+        //         return cartItems.indexOf(val.ex_em_id) !== -1;
+        //     });
          console.log("page ",pageSize)
          console.log("page min index ",(page -1)* (pageSize))
          console.log("page max index ",page *(pageSize))
@@ -463,7 +463,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           console.log("page size ",newData["totalPage"])
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
-          setLength(cartActualDat.length)
+         // setLength(cartActualDat.length)
           dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -503,10 +503,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 unblock();
             };
         }, [history]);
-        useEffect(async() => {
-            const exercise = await GetExerciseList(dispatch, 350,1);
-            setFullExer(exercise.data)
-        }, []);
+        // useEffect(async() => {
+        //     const exercise = await GetExerciseList(dispatch, 350,1);
+        //     setFullExer(exercise.data)
+        // }, []);
     useEffect(async () => {
         let data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         const prevState = history.location.state;
@@ -558,7 +558,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
             setExerciseList(tempdata);
             setPagination1(newPagData)
-            setLength(cartActualData.length);
+            setLength(reduxState.carePlanRedcucer.exercises_cart.length);
         } else {
             const exercise = await GetExerciseList(dispatch, Pagination1.pageSize, Pagination1.current);
             let cartActualData = exercise.data.filter((val) => {
@@ -594,12 +594,14 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
             setExerciseList(tempdata);
             setPagination1(newPagData)
-            setLength(data.length);
+            setLength(reduxState.carePlanRedcucer.exercises_cart.length);
         }
         setCartItems(data);
         dispatch({ type: RECEIVED_DATA });
         // eslint-disable-next-line
     }, []);
+
+   
 
     const updateExArr = () => {
         let array = fullExer.filter((val) => {
@@ -679,7 +681,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         </div>
                         </IconContext.Provider>
                         }>
-                    <span className="cart-plan-item-count">{length}</span>
+                    <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                </Button></div>
             <Row className="me-4 careplan_large_view">
                 <Col className="ant-filter-hidden-icon">
@@ -699,7 +701,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         {/* aswin start 10/30/2021 stop */}
                     <i className="fas fa-running iconClass3 running_icon"></i>
                     <p style={{ fontSize: "10px" }}>Plan</p>
-                    <span className="cart-plan-item-count">{length}</span>
+                    <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                 </Col>
             </Row>
         </React.Fragment>
@@ -722,10 +724,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             // }
             
             console.log('filter full exercise ',data)
-            let cartActualData = data.data.filter((val) => {
-                return cartItems.indexOf(val.ex_em_id) !== -1;
-            })
-            console.log('filter cartActualData ',cartActualData)
+            // let cartActualData = data.data.filter((val) => {
+            //     return cartItems.indexOf(val.ex_em_id) !== -1;
+            // })
+            // console.log('filter cartActualData ',cartActualData)
             console.log('filter total exercise ',data.data.length)
             console.log('filter pageSize ',Pagination1.pageSize)
             console.log('filter totalPage ', data['total_exercise with applied filter'] / (Pagination1.pageSize))
@@ -758,16 +760,16 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             })
             setExerciseList(tempdata);
             setCheckedList(newData);
-            setLength(cartActualData.length);
+           // setLength(cartActualData.length);
         } else {
             console.log("filter inside not checked")
             const newData = { ...checkedList };
             let index = newData[type].indexOf(name);
             newData[type].splice(index, 1);
             const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
-            let cartActualData = data.data.filter((val) => {
-                return cartItems.indexOf(val.ex_em_id) !== -1;
-            })
+            // let cartActualData = data.data.filter((val) => {
+            //     return cartItems.indexOf(val.ex_em_id) !== -1;
+            // })
             const newPagData = { ...Pagination1 };
             // console.log('filter cartActualData ',cartActualData)
             // console.log('filter total exercise ',data.data.length)
@@ -806,7 +808,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         })
         setExerciseList(tempdata);
             setCheckedList(newData);
-            setLength(cartActualData.length);
+        //    setLength(cartActualData.length);
         }
         dispatch({ type: RECEIVED_DATA });
     }
@@ -887,16 +889,16 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             }
         }
         localStorage.setItem("care-plan-cart", JSON.stringify(data));
-        setCartItems(data);
+      //  setCartItems(data);
         console.log('cartttt items adding')
         console.log(data)
         console.log('exercise full ',fullExer)
-        let cartActualData = fullExer.filter((val) => {
-            return data.indexOf(val.ex_em_id) !== -1;
-        });
-        console.log('exercise full ',fullExer)
-        console.log('exercise full ',cartActualData)
-        setLength(cartActualData.length);
+        // let cartActualData = fullExer.filter((val) => {
+        //     return data.indexOf(val.ex_em_id) !== -1;
+        // });
+        // console.log('exercise full ',fullExer)
+        // console.log('exercise full ',cartActualData)
+        setLength(reduxState.carePlanRedcucer.exercises_cart.length);
     }
     //HandleSearch 
     const handleSearch = (value) => {
@@ -977,13 +979,35 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         {(!reduxState.carePlanRedcucer.isLoading) && filteredData.length === 0 && <p>No Data is Found...</p>}
                         {reduxState.carePlanRedcucer.isLoading && <div style={{ margin: "10px auto" }}>
                             <Spin tip="Loading" size="large"></Spin>
+                            {/* reduxState.carePlanRedcucer.exercises_cart */}
                         </div>}
-                        {
+                        {!reduxState.carePlanRedcucer.isLoading && ((filteredData.map((exercise, index) => {
+                          
+                    
+                          return (
+                              <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
+                                  {console.log('inside 2',reduxState.carePlanRedcucer.exercises_cart ? reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id).indexOf(exercise.ex_em_id) !== -1 : false)}
+                                  <CarePlanCard
+                                      cartState={reduxState.carePlanRedcucer.exercises_cart ? reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id).indexOf(exercise.ex_em_id) !== -1 : false}
+                                      id={exercise.ex_em_id}
+                                      Level={exercise.difficulty_level}
+                                      Name={exercise.name}
+                                      image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                      UpdateCart={UpdateCart}
+                                      actions={true}
+                                      video={exercise.video_url ? exercise.video_url : ""}
+                                  />
+                              </Col>
+                          )
+                      
+                  })))
+                  }
+                        {/* {
                             (cartItems.length !== 0) && (filteredData.map((exercise, index) => {
                                 
                                     return (
                                         <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
-                                            {console.log('inside 1')}
+                                            {console.log('inside 1',reduxState.carePlanRedcucer.exercises_cart)}
                                             <CarePlanCard
                                                 cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                                 id={exercise.ex_em_id}
@@ -1006,7 +1030,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     
                           return (
                               <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
-                                  {console.log('inside 2')}
+                                  {console.log('inside 2',reduxState.carePlanRedcucer.exercises_cart)}
                                   <CarePlanCard
                                       cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                       id={exercise.ex_em_id}
@@ -1021,7 +1045,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                           )
                       
                   })))
-                  }
+                  } */}
                     </Row>
                     <div style={{display:'none'}} className="pag_mob">
                     <div style={{minHeight:'15px'}}></div>
@@ -1067,7 +1091,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         }
         else {
             setAllocatePlan(!allocatePlan);
-            updateExArr()
+           // updateExArr()
         }
     }
     const refreshHtml= () => {
@@ -1157,8 +1181,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 style={{ top: "50px" }}
                                 width={"70%"}
                             >
-                                {cartItems.length === 0 && <p>No Plan is Present now...</p>}
-                                {(cartItems.length !== 0 && fullExer.length>0)&&<Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
+                                {reduxState.carePlanRedcucer.exercises_cart.length === 0 && <p>No Plan is Present now...</p>}
+                                {(reduxState.carePlanRedcucer.exercises_cart.length !== 0 )&&<Cart Exercise={reduxState.carePlanRedcucer.exercises_cart} items={reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id)} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
                             </Drawer>
 
                             <Drawer

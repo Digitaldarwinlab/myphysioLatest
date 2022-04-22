@@ -28,6 +28,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const [countArray, setCountArray] = useState([]);
     const state = useSelector(state => state.carePlanRedcucer);
     const validationState = useSelector(state => state.Validation);
+ //   const reduxState = useSelector(state => state);
     const dispatch = useDispatch();
     const [selectvalue,Setselectvalue]=useState([])
     const history = useHistory()
@@ -78,12 +79,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         }
 
         setCountArray(arr);
-        let array = Exercise.filter((val) => {
-            if (items.indexOf(val.ex_em_id) !== -1)
-                return val
-        });
-       
-        console.log('array having items of carts',array)
+      
         // array = array.map((val) => {
         //     // console.log('array having items of carts',Object.values(val.angle)[0].min)
         //     // console.log('array having items of carts',Object.values(val.angle)[0].max)
@@ -323,9 +319,9 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     //OnFinish 
     const onFinish = async () => {
 
-              console.log(' joints array',state.exercises)
-              for(let i=0;i<state.exercises.length;i++){
-                  if(parseInt(state.exercises[i].Rom['min'])>parseInt(state.exercises[i].Rom['max'])){
+              console.log(' joints array',state.exercises_cart)
+              for(let i=0;i<state.exercises_cart.length;i++){
+                  if(parseInt(state.exercises_cart[i].Rom['min'])>parseInt(state.exercises_cart[i].Rom['max'])){
                     dispatch({ type: VALIDATION, payload: { error: 'Min angle should not greater than Max angle' } });
                     setTimeout(() => {
                         dispatch({ type: VALIDATION, payload: { error: "" } });
@@ -334,9 +330,9 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
               }
              console.log(selectvalue)
-            console.log('selection ',state.exercises)
-            for(let i=0;i<state.exercises.length;i++){
-                if(state.exercises[i].Rep['set']==''||state.exercises[i].Rep['set']==0){
+            console.log('selection ',state.exercises_cart)
+            for(let i=0;i<state.exercises_cart.length;i++){
+                if(state.exercises_cart[i].Rep['set']==''||state.exercises_cart[i].Rep['set']==0){
                     console.log('Set count should greater than 0')
                     dispatch({ type: VALIDATION, payload: { error: 'Repetition Set should greater than 0' } });
                     setTimeout(() => {
@@ -344,7 +340,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     }, 10000);
                     return 
                 }
-                if(state.exercises[i].Rep['rep_count']<2){
+                if(state.exercises_cart[i].Rep['rep_count']<2){
                     console.log('Repetition Count should greater than 2')
                     dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 1 ' } });
                     setTimeout(() => {
@@ -564,20 +560,16 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     />
                 </Col>
                 {           
-                    Exercise.filter((val) => {
-                    
-                        if (items.indexOf(val.ex_em_id) !== -1)
-                            return val
-                    }).map((exercise, index) => {
+                    state.exercises_cart.map((exercise, index) => {
                         return (
                             <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
                                 <CarePlanCard
                                     cartState={items ? items.indexOf(exercise.ex_em_id) !== -1 : false}
                                     id={ exercise.ex_em_id}
                                     Level={exercise.difficulty_level}
-                                    Name={ exercise.title}
-                                    image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
-                                    video={exercise.video_path ? exercise.video_path : ""}
+                                    Name={ exercise.name}
+                                    image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                    video={exercise.video_url ? exercise.video_url : ""}
                                     actions={false}
                                     handleChange={handleChange}
                                     index={index}
