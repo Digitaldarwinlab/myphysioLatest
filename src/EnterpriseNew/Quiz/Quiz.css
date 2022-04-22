@@ -87,7 +87,7 @@
     color: #fff !important;
     width: 38%;
     padding: 1.2% 0;
-    border-radius: 18px;
+    border-radius: 18px !important;
     background-color: azure;
   }
   
@@ -114,7 +114,7 @@
     font-size: 1.125rem;
     width: 20%;
     padding: 1.2% 0;
-    border-radius: 20px;
+    border-radius: 20px !important;
   }
   
   .action-buttons button:hover {
@@ -122,12 +122,12 @@
   }
   
   .action-buttons .disable {
-    background-color: rgb(126, 125, 125);
+    background-color: rgb(126, 125, 125) !important;
     border: grey;
   }
   
   .action-buttons .disable:hover {
-    background-color: rgb(126, 125, 125);
+    background-color: rgb(126, 125, 125) !important;
   }
   
   
@@ -158,7 +158,7 @@
     font-size: 1.125rem;
     width: 40%;
     padding: 1.2% 0;
-    border-radius: 20px;
+    border-radius: 20px ;
   }
   
   .logout {
@@ -263,7 +263,7 @@
       font-size: 0.825rem;
       width: 25%;
       padding: 1.2% 0;
-      border-radius: 20px;
+      border-radius: 20px !important;
     }
 
     .end p{

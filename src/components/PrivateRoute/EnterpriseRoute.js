@@ -7,7 +7,7 @@ const EnterpriseeRoute = ({component: Component, ...rest}) => {
         // Otherwise, redirect the user to /signin page
         <Route {...rest} render={props => (
             isAuthenticated()?(
-                (getUserData() === "enterprise_patient" )
+                getUserData() === "enterprise_patient" || getUserData() === "employee" 
                 ?<Component {...props} />
                 :<Redirect to="/patient/enterprise/dashboard" />
                 )

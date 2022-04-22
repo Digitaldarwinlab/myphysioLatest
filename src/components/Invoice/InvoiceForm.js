@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 
 
-const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange, handleSubmit, setPreview, pName, pEpisodeNumber, pId,pCode, cName, cAddress, cPhone, cEmail, cWebsite }) => {
+const InvoiceForm = ({ list,cId, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange,handleFinalSubmit, handleSubmit, setPreview, pName, pEpisodeNumber, pId,pCode, cName, cAddress, cPhone, cEmail,showPrint, cWebsite }) => {
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
   var today = new Date();
   const inoviceRef = useRef(null);
@@ -15,7 +15,6 @@ const InvoiceForm = ({ list, handleDelete, totalAmount, totalDiscount, totalTax,
 const handleClickPrint = () => {
   console.log("Helloooooooooo")
   setPrint(true);
-
   setTimeout(() => {
     setPrint(false)
   }, 3000);
@@ -66,7 +65,7 @@ const handleClickPrint = () => {
             Reciept No: APR22-000005
           </li> */}
           <li>
-            Invoice No: APR22-000008
+            Invoice No: {cId + "-" + pCode + "-" }
           </li>
         </ul>
       </div>
@@ -124,12 +123,12 @@ const handleClickPrint = () => {
       </div>
     </div>
     <center>
-      {/* <center><button className='add-button' onClick={handleClickPrint} >Print</button></center> */}
+      <center><button className='add-button' onClick={handleFinalSubmit} >Submit</button></center>
        {/* <button className='add-button' onClick={() => { setPreview(true) }}>Preview</button> */}
-      <ReactToPrint
-        trigger={() => <button className='add-button' onClick={handleClickPrint} >Print</button>}
+     { showPrint && <ReactToPrint
+        trigger={() =><button className='add-button' onClick={handleClickPrint} >Print</button>}
         content={() => inoviceRef.current}
-      /></center>
+      />}</center>
 
   </div>
 

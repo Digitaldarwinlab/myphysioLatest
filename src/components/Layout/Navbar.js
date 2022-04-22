@@ -161,7 +161,7 @@ const Navigationbar = (props) => {
           to={
             userInfo.role === "physio" || userInfo.role === "admin"
               ? "/dashboard"
-              : userInfo.role === "enterprise_patient" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
+              : userInfo.role === "enterprise_patient" ||  userInfo.role === "employee" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
           }
           className="navbar-brand text-white text-decoration-none"
         >
@@ -191,7 +191,7 @@ const Navigationbar = (props) => {
                 </a>
               </Dropdown>
               {"  "}
-              <Link to={userInfo.role==='enterprise_patient'? "/patient/enterprise/schedule" :"/patient/schedule"}>
+              <Link to={userInfo.role==='enterprise_patient' || userInfo.role==='employee'? "/patient/enterprise/schedule" :"/patient/schedule"}>
                 <h4 className="text-white me-3 ">
                   <GoCalendar /> Schedule
                 </h4>

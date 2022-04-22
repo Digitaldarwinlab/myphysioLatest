@@ -115,3 +115,30 @@ const headers = {
 
 
 }
+
+export const GetEmployeeCarePlan = async (id, date) => {
+    //headers
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+  
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/get_emp_careplan/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ id: id, date })
+        });
+      //  console.log(response)
+        const data = await response.json();
+        console.log("get careplan ",data)
+      //  console.log(data, "Information")
+        if (response.status !== 200 && response.status !== 201) {
+            return [false, "Error " + response.status + response.statusText];
+        } else {
+            return [true, data];
+        }
+    } catch (err) {
+        return [false, "Error 403: " + err.message];
+    }
+}

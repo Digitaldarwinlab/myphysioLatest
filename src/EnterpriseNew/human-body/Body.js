@@ -10,6 +10,7 @@ import { useCallback } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../Store/auth-context";
 import { useHistory } from "react-router-dom";
+import BackButton from "../PatientComponents/shared/BackButton";
 // import { logout } from '../API/userAuth/userAuth';
 
 // let colors = ["#ff0000", "#2EDC0C", "#ff9900", "#3366ff", "#AA1D8C"];
@@ -65,7 +66,9 @@ const Body = (props) => {
     {/* <div className="logout">
         <button onClick={logoutHandler}>Logout</button>
       </div> */}
-    
+     <h3 className="fw-bold m-2">
+            <BackButton />
+        </h3>
       <div className="svg-img" style={{width:"60%", margin:"auto"}}>
         {/* <div className="colors">
           <div className="color_text">

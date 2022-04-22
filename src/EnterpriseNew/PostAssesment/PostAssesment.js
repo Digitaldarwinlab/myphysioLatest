@@ -5,6 +5,7 @@ import axios from "axios";
 import Dashboard from "../../components/Dashboard/dashboard";
 import {useSelector,useDispatch} from "react-redux";
 import {ASSESMENT_CLEARSTATE} from "../../contextStore/actions/Assesment";
+import BackButton from "../PatientComponents/shared/BackButton";
 
 const AssesmentCompletion = () => {
     const dispatch = useDispatch();
@@ -53,7 +54,10 @@ const AssesmentCompletion = () => {
     const changeHandler = (event) => {
 setNotes(event.target.value)
     }
-    return<section className="post"> <div className="postcompletion">
+    return<>
+    <h3 className="fw-bold m-2">
+              <BackButton />
+          </h3><section className="post"> <div className="postcompletion">
         <h3>Thank you. The assessment has been completed. We will provide you with the assessment details and a schedule for functional therapies shortly.
 </h3>
 
@@ -64,6 +68,7 @@ setNotes(event.target.value)
 <button className="submitt" onClick={nextClickHandler}>Go To Dashboard</button>
     </div>
     </section>
+    </>
 }
 
 export default AssesmentCompletion;
