@@ -43,35 +43,53 @@ const styles = {
   },
 };
 
-const joints = [
-  { value: 0, label: "leftShoulder" },
-  { value: 1, label: "rightShoulder" },
-  { value: 2, label: "leftElbow" },
-  { value: 3, label: "rightElbow" },
-  { value: 4, label: "leftHip" },
-  { value: 5, label: "rightHip" },
-  { value: 6, label: "leftKnee" },
-  { value: 7, label: "rightKnee" },
-  { value: 8, label: "leftNeck" },
-  { value: 9, label: "rightNeck" },
-  { value: 10, label: "leftPelvic" },
-  { value: 11, label: "rightPelvic" },
-];
+// const joints = [
+//   { value: 0, label: "leftShoulder" },
+//   { value: 1, label: "rightShoulder" },
+//   { value: 2, label: "leftElbow" },
+//   { value: 3, label: "rightElbow" },
+//   { value: 4, label: "leftHip" },
+//   { value: 5, label: "rightHip" },
+//   { value: 6, label: "leftKnee" },
+//   { value: 7, label: "rightKnee" },
+//   { value: 8, label: "leftNeck" },
+//   { value: 9, label: "rightNeck" },
+//   { value: 10, label: "leftPelvic" },
+//   { value: 11, label: "rightPelvic" },
+//   { value: 12, label: "leftWrist" },
+//   { value: 13, label: "rightWrist" },
+//   { value: 14, label: "leftAnkle" },
+//   { value: 15, label: "rightAnkle" },
+//   { value: 16, label: "leftHipAdductionAdbuction" },
+//   { value: 17, label: "rightHipAdductionAdbuction" },
+//   { value: 18, label: "cervicalForwardFlexion" },
+// ];
 
-// const joints = {
-//     leftShoulder: [0, 1],
-//     rightShoulder: [0, 1],
-//     leftElbow: [2, 3],
-//     rightElbow: [2, 3],
-//     leftHip: [4, 5],
-//     rightHip:[4,5],
-//     leftKnee:[6,7],
-//     rightKnee:[6,7],
-//     leftNeck:[8,9],
-//     rightNeck:[8,9],
-//     leftPelvic:[10,11],
-//     rightPelvic:[10,11]
-//   };
+
+const joints = {
+  leftShoulder: [0, 1],
+  rightShoulder: [0, 1],
+  leftElbow: [2, 3],
+  rightElbow: [2, 3],
+  leftHip: [4, 5],
+  rightHip: [4, 5],
+  leftKnee: [6, 7],
+  rightKnee: [6, 7],
+  leftNeck: [8, 9],
+  rightNeck: [8, 9],
+  leftPelvic: [10, 11],
+  rightPelvic: [10, 11],
+  leftWrist: [12, 13],
+  rightWrist: [12, 13],
+  leftAnkle: [14, 15],
+  rightAnkle: [14, 15],
+  leftHipAdductionAdbuction: [16, 17],
+  rightHipAdductionAdbuction: [16, 17],
+  cervicalForwardFlexion: [18, 18],
+};
+
+
+
 
 //let data = "";
 const Separator = styled.div`
@@ -327,7 +345,7 @@ class PatientAI extends Component {
 
     return (
         <Col
-         //style={{ border: "5px solid" }}
+         style={{ border: "5px solid" }}
          className="patientside_new_vid_main"
           id="myVideo"
           lg={16}
@@ -344,7 +362,7 @@ class PatientAI extends Component {
             <canvas
               id="output"
               className="output"
-             // style={{ height: "450px" }}
+              style={{ height: "450px" }}
             />
             <canvas id="jcanvas" />
         </Col>
@@ -506,110 +524,18 @@ class PatientAI extends Component {
     //Select primary angle based on joint
     //this.props.history.location.state.exercises.map()
     if (this.state.launch === "start") {
-      let temp = [];
-      console.log("selected joint :", this.state.selectedJoint);
-      console.log("joints ", this.state.selJoints);
-      this.props.history.location.state.exercises.map((ex) => {
-        joints.map((jo) => {
-          if (ex["Rom"].joint.includes(jo.label)) {
-            if (ex["Rom"].joint.includes("left")) {
-              temp.push([jo.value, jo.value + 1]);
-            } else if (ex["Rom"].joint.includes("right")) {
-              temp.push([jo.value - 1, jo.value]);
-            }
-          }
-        });
+      let temp = this.props.history.location.state.exercises.map(item =>joints[item.Rom['joint']]);
+        // joints.map((jo) => {
+        //   if (ex["Rom"].joint.includes(jo.label)) {
+        //     if (ex["Rom"].joint.includes("left")) {
+        //       temp.push([jo.value, jo.value + 1]);
+        //     } else if (ex["Rom"].joint.includes("right")) {
+        //       temp.push([jo.value - 1, jo.value]);
+        //     }
+        //   }
+        // });
         //  temp.push(joints[ex["Rom"].joint])
-      });
-      // this.props.history.location.state.exercises.map(ex=>{
-      //     temp.push(joints[ex["Rom"].joint])
-      // })
-      // for (let i = 0; i < joints.length; i++) {
-      //     let primaryAngles = []
-      //     console.log("checking ",joints[i].label)
-      //     if (this.state.selectedJoint.includes(joints[i].label)) {
-      //         console.log("joints 0 value", joints[i].value)
-      //         primaryAngles.push(joints[i].value)
-      //         primaryAngles.push((joints[i].value) + 1)
-
-      //     }
-      // else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 1 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) - 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 2 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) - 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 3 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 4 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 5 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label)) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 6 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Hip')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 7 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Hip')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 8 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Knee')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 9 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Knee')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 10 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('right') && this.state.selectedJoint.includes('Neck')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 11 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // } else if (this.state.selectedJoint.includes(joints[i].label) && this.state.selectedJoint.includes('left') && this.state.selectedJoint.includes('Neck')) {
-      //     primaryAngles.push(joints[i].value)
-      //     console.log("joints 12 value", joints[i].value)
-      //     primaryAngles.push((joints[i].value) + 1)
-      //     break;
-
-      // }
-      //  console.log('primary angles ',primaryAngles)
-      //temp.push(primaryAngles)
-      //  }
-
+     
       console.log("temp primary ", temp);
       console.log("temp selected ", this.state.selJoints);
       let exArr = [];
@@ -688,67 +614,67 @@ class PatientAI extends Component {
   // AiModelProps = this.AiModel.bind(this);
   render() {
     return (
-            this.AiModelProps()
-//       <div className="pat_main_div">
-//        <Row>
-//        <Col lg={8} md={8} sm={12} xs={12}>
-//  <h3 className="fw-bold">
-//             <BackButton /> {"Squat"}
-//           </h3>
-//               </Col>
-//             <Col lg={8} md={8} sm={12} xs={12}>
-//                 <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
-//               </Col>
-//               <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
-//                 <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
-//               </Col>
-//         </Row>
-//         <Row>
-         
-//           <Col lg={8} md={8} sm={24} xs={24}>
-//             <Row className="pat_det_div">
-//               <Col lg={24} md={24} sm={24} xs={24}>
-//                 <video
-//                   autoPlay
-//                   controls
-//                   loop
-//                   id="exercise_video"
-//                   style={{ width: "97%", height: "100%" }}
-//                   className="border"
-//                 >
-//                   <source
-//                     id="video_source"
-//                     src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-//                     type="video/mp4"
-//                   />
-//                 </video>
-//               </Col>
-//             </Row>
-//           </Col>
-//           <Modal
-//             visible={this.state.visible}
-//             footer={null}
-//             closable={false}
-//             keyboard={false}
-//           >
-//             <h3 className="fw-bold text-center">Congratulation</h3>
-//             <p className="p text-center mt-2">
-//               You have successfully completed the session.
-//             </p>
-//             {this.PainMeter()}
+      <div className="pat_main_div">
+      <Row>
+      <Col lg={8} md={8} sm={12} xs={12}>
+<h3 className="fw-bold">
+           <BackButton /> {this.state.exerciseName}
+         </h3>
+             </Col>
+           <Col lg={8} md={8} sm={12} xs={12}>
+               <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
+             </Col>
+             <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+               <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
+             </Col>
+       </Row>
+       <Row>
+           {this.AiModelProps()}
+        
+         <Col lg={8} md={8} sm={24} xs={24}>
+           <Row className="pat_det_div">
+             <Col lg={24} md={24} sm={24} xs={24}>
+               <video
+                 autoPlay
+                 controls
+                 loop
+                 id="exercise_video"
+                 style={{ width: "97%", height: "100%" }}
+                 className="border"
+               >
+                 <source
+                   id="video_source"
+                   src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+                   type="video/mp4"
+                 />
+               </video>
+             </Col>
+           </Row>
+         </Col>
+         <Modal
+           visible={this.state.visible}
+           footer={null}
+           closable={false}
+           keyboard={false}
+         >
+           <h3 className="fw-bold text-center">Congratulation</h3>
+           <p className="p text-center mt-2">
+             You have successfully completed the session.
+           </p>
+           {this.PainMeter()}
 
-//             {/* <div style={{ marginTop: 20 }}>
-//               <h4 className="fw-bold">Notes-</h4>
-//               <p className="text-justify p"></p>
-//             </div> */}
-//             <div className="text-end">
-//               <Button className="okay" onClick={this.finish}>
-//                 Okay
-//               </Button>
-//             </div>
-//           </Modal>
-//         </Row>
-//       </div>
+           {/* <div style={{ marginTop: 20 }}>
+             <h4 className="fw-bold">Notes-</h4>
+             <p className="text-justify p"></p>
+           </div> */}
+           <div className="text-end">
+             <Button className="okay" onClick={this.finish}>
+               Okay
+             </Button>
+           </div>
+         </Modal>
+       </Row>
+     </div>
     );
   }
 }

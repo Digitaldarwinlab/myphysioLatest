@@ -23,7 +23,6 @@ const labels = [
 const labelsL = [
   "L Shoulder Abd/Add",
   "L Hip Fwd Flex",
-  "L Elbow Flex",
   "L Knee Flex/Ext",
   "L Wrist",
   "L Ankle",
@@ -32,7 +31,6 @@ const labelsL = [
 const labelsR = [
   "R Shoulder Abd/Add",
   "R Hip Fwd Flex",
-  "R Elbow Flex",
   "R Knee Flex/Ext",
   "R Wrist",
   "R Ankle",
@@ -105,6 +103,20 @@ const AromWithouthAi = () => {
     );
   };
   const SaveData1 = () => {
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "Arom_M",
+        value: true,
+      },
+    });
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "Arom_Ai",
+        value: false,
+      },
+    });
     if(tableData1.length>0&&tableData1[0].joint!=="select"){
       console.log(tableData1);
       let angles = {};
@@ -270,7 +282,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange1("joint", index, e)}
         >
@@ -323,7 +334,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange2("joint", index, e)}
         >
@@ -376,7 +386,6 @@ const AromWithouthAi = () => {
       render: (text, record, index) => (
         <Select
           style={{ width: `100%`, margin: 0 }}
-          allowClear
           value={text}
           onChange={(e) => onInputChange3("joint", index, e)}
         >
@@ -438,7 +447,9 @@ const AromWithouthAi = () => {
               className="fas fa-arrow-left"
               style={{ cursor: "pointer" }}
               title="Go Back"
-              //  onClick={this.GoBack}
+              onClick={() => {
+                history.goBack();
+              }}g
               role="button"
             ></i>{" "}
             <span className="CarePlanTitle ml-1"> AROM Assesment</span>

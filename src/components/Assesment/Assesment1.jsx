@@ -711,6 +711,7 @@ const Assesment1 = ({ back, next }) => {
   useEffect(() => {
     const question = document.getElementById("question");
     const rom = document.getElementById("rom");
+    const rom_manual = document.getElementById("rom_manual");
     const posture_btn = document.getElementById("posture-btn");
 
     if (state.FirstAssesment.KOOS === "") {
@@ -732,6 +733,16 @@ const Assesment1 = ({ back, next }) => {
     // Check if AI_Data
     if (
      ( state.FirstAssesment.Anterior_AI_Data&&Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 )|| Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
+       if(state.FirstAssesment.Arom_m){
+        rom_manual.innerHTML = "AROM calculated";
+       }else{
+        rom_manual.innerHTML = "AROM";
+       }
+       if(state.FirstAssesment.Arom_Ai){
+        rom.innerHTML = "AROM calculated";
+       }else{
+        rom.innerHTML = "AROM";
+       }
       rom.innerHTML = "AROM Assesment";
       // setRomVisibility('contents')
       if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
@@ -840,7 +851,6 @@ const Assesment1 = ({ back, next }) => {
         // }))
       }
 
-      rom.innerHTML = "ROM calculated";
       rom.style.backgroundColor = "honeydew";
       rom.style.borderColor = "limegreen";
     }
@@ -1953,7 +1963,6 @@ const Assesment1 = ({ back, next }) => {
               Object.keys(state.FirstAssesment.shoulder).length > 0 && (
                 <Row gutter={[10, 10]} className="">
                   <Col lg={12} md={24} sm={24} xs={24}>
-                    {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
                     <>
                       <Descriptions.Item label="" span={3}>
                         <b>Shoulder </b>
@@ -1977,7 +1986,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2017,7 +2026,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2056,7 +2065,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2094,7 +2103,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2131,7 +2140,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2170,7 +2179,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2209,7 +2218,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2247,7 +2256,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2286,7 +2295,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2326,7 +2335,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2659,7 +2668,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check"
                 onClick={Rom}
-                id="rom"
+                id="rom_manual"
               >
                 AROM
               </Button>
@@ -2673,7 +2682,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 type="text"
                 onClick={Rom}
-                id="rom"
+                id="rom_manual"
               >
                 AROM
               </Button>

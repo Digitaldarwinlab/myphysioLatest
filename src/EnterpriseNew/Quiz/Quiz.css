@@ -18,10 +18,10 @@
     pointer-events: none;  
   }
   
-  img {
+  /* img {
     width: 90%;
   }
-  
+   */
   .question {
     width: 60%;
     padding: 0 2%;

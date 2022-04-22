@@ -839,8 +839,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -879,8 +879,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -919,8 +919,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -959,8 +959,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -999,8 +999,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -1039,8 +1039,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                               <td>
                                                 <center>
                                                   {an[1] == 1
-                                                    ? " Pass "
-                                                    : " Fail "}
+                                                    ? " Positive "
+                                                    : " Negative "}
                                                 </center>
                                               </td>
                                             </tr>
@@ -1080,8 +1080,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <td>
                                                   <center>
                                                     {an[1] == 1
-                                                      ? " Pass "
-                                                      : " Fail "}
+                                                      ? " Positive "
+                                                      : " Negative "}
                                                   </center>
                                                 </td>
                                               </tr>
@@ -1121,8 +1121,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <td>
                                                   <center>
                                                     {an[1] == 1
-                                                      ? " Pass "
-                                                      : " Fail "}
+                                                      ? " Positive "
+                                                      : " Negative "}
                                                   </center>
                                                 </td>
                                               </tr>
@@ -1162,8 +1162,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <td>
                                                   <center>
                                                     {an[1] == 1
-                                                      ? " Pass "
-                                                      : " Fail "}
+                                                      ? " Positive "
+                                                      : " Negative "}
                                                   </center>
                                                 </td>
                                               </tr>
@@ -1203,8 +1203,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <td>
                                                   <center>
                                                     {an[1] == 1
-                                                      ? " Pass "
-                                                      : " Fail "}
+                                                      ? " Positive "
+                                                      : " Negative "}
                                                   </center>
                                                 </td>
                                               </tr>

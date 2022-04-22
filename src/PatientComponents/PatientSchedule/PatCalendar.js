@@ -665,6 +665,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       : times[selectedTime];
    exercise["careplanId"] = exercise.pp_cp_id;
    console.log('final exercises are ',exercises)
+   let repArr = exercises.map(exercise=>exercise.Rep)
   //  console.log('final exercise status ',exercise_status)
   //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
@@ -674,7 +675,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         exercise:exercises[0],
         exercises,
         exNameList:exArr,
-        status_flag
+        status_flag,
+        repArr
       },
     });
   };

@@ -23,7 +23,7 @@ export default class ExerciseDetailsClass extends Component {
   async componentDidMount() {
     console.log(this.props.location.state.status_flag);
     const res = await exercise_detail(this.props.location.state.exNameList);
-    console.log("sdkjhvsdc", res);
+    console.log("exercises ", this.props.location.state.repArr);
     this.setState({ exercises: res });
   }
   
@@ -70,7 +70,8 @@ export default class ExerciseDetailsClass extends Component {
           Skip
         </button>}
         {this.state.exercises.length > 0 &&
-          this.state.exercises.map((exercise) => (
+          this.state.exercises.map((exercise,index) => (
+            <>
             <Row className="main-container p-1" id="main-container">
               <Col className="left-box m-1">
                 <div className="top-heading" id="top-heading">
@@ -95,29 +96,11 @@ export default class ExerciseDetailsClass extends Component {
                 </div>
               </Col>
               <Col className="right-box">
-                {/* <div className="today-progress" id="total-progress">
-                  <h4 className="fw-bold text-center p">
-                    Last Week's Practice Result
-                  </h4>
-                  <div className="border px-1 status-box py-1">
-                    <AchievedResult
-                      icon={<FaMedal size={25} color="black" />}
-                      score="8/10"
-                      message="Your Success"
-                    />
-                    <CircularBar
-                      precentage={(5000 / 6000) * 100}
-                      score={5000}
-                      color="#76c0b1"
-                    />
-                    <AchievedResult
-                      icon={<FaStopwatch size={25} color="black" />}
-                      score="30 min"
-                      message="Your Practice Time"
-                    />
-                  </div>
-                </div> */}
                 <div className="instructions" id="instructions">
+                  <b>
+                <p>Set : {this.props.location.state.repArr[index].set}</p>{"       "} 
+                <p>Repetition : {this.props.location.state.repArr[index].rep_count} </p>
+                </b>
                   <center>
                     <h3>
                       <b>Step By Step Instructions</b>
@@ -127,9 +110,11 @@ export default class ExerciseDetailsClass extends Component {
                     <li>{exercise.instruction1}</li>
                     <li>{exercise.instruction2}</li>
                   </ol>
+                 
                 </div>
               </Col>
             </Row>
+            </>
           ))}
       </div>
       </Profiler>

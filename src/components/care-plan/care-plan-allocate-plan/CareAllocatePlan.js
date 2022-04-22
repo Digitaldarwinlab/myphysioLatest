@@ -35,8 +35,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     useEffect(() => {
         //{state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")}
         if(state.edit_flag){
-          form.setFieldsValue({startDate:state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editEndDate, "YYYY-MM-DD")})
-            form.setFieldsValue({endDate:state.editStateDate?  moment(state.editStateDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
+          form.setFieldsValue({startDate:state.editEndDate?  moment(state.editEndDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
+          form.setFieldsValue({endDate:state.editStateDate?  moment(state.editStateDate, "YYYY-MM-DD") : moment(state.editStateDate, "YYYY-MM-DD")})
             let timepick = document.getElementsByName("startDate")
             console.log("timepick ",timepick)
         }
@@ -83,10 +83,10 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 return val
         });
        
-        console.log(array)
+        console.log('array having items of carts',array)
         array = array.map((val) => {
-            console.log('array having items of carts',Object.values(val.angle)[0].min)
-            console.log('array having items of carts',Object.values(val.angle)[0].max)
+            // console.log('array having items of carts',Object.values(val.angle)[0].min)
+            // console.log('array having items of carts',Object.values(val.angle)[0].max)
             return {
                 ex_em_id: val.ex_em_id,
                 name: val.title ? val.title : "Exercise",
@@ -105,7 +105,6 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 video_url: val.video_path
             };
         });
-
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -113,7 +112,15 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 value: array
             }
         })
-
+        // if(!state.edit_flag){
+        // dispatch({
+        //     type: CARE_PLAN_STATE_CHANGE,
+        //     payload: {
+        //         key: "exercises",
+        //         value: array
+        //     }
+        // })
+        // }
     },[])    
     const changeTimeSlots = (val) => {
         let timeSlots = [];
@@ -514,20 +521,22 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             {state.success && <Success success={state.success} />}
             {validationState.error && <Error error={validationState.error} />}
 
-            {!state.edit_flag&&<Row >
+            <Row >
             {/* <Switch defaultChecked /> */}
             <Space size={"middle"}> 
             <span>AI-Mode {"  "}</span>
-            <Switch
+            <Checkbox checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
+                <span>Inactive {"  "}</span>}</Checkbox>
+            {/* <Switch
            // uncheckedIcon={<AiOutlineClose size={20}/>}
            // checkedIcon={<FaCheck size={20}/>}
              onColor="#2d7ecb" 
              checked={state.status_flag} 
              onChange={()=>changeToggle()} />
                {state.status_flag?  <span>Active {"  "}</span>:
-                <span>Inactive {"  "}</span>}
+                <span>Inactive {"  "}</span>} */}
             </Space>
-            </Row>}
+            </Row>
             <div style={{ minHeight: "10px" }}></div>    
             <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
