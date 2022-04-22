@@ -7,6 +7,7 @@ import { admin_password_reset_ep } from "../../API/userAuth/userAuth";
 import { useState, useEffect } from "react";
 import { forgotPassword, getUserData } from "../../API/userAuth/userAuth";
 import axios from "axios";
+import { EPISODE_STATECHANGE } from './../../contextStore/actions/episode';
 import Error from '../UtilityComponents/ErrorHandler';
 import Success from "../UtilityComponents/SuccessHandler";
 import { BiEdit } from "react-icons/bi";
@@ -249,13 +250,42 @@ const EmployeeList = () => {
       render: (text, record) => (
         <Space size="middle">
           {console.log(record)}
-          <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+          <BsFillEyeFill onClick={() => handleViewDashboard(record)} size={20} />
           <BiEdit onClick={() => handleEdit(record)} size={20} />
           <AiFillUnlock onClick={() => showmodal(record.employee_code.substring(2))} size={20} />
         </Space>
       )
     }
   ];
+
+  const handleViewDashboard = (val) => {
+    console.log(val);
+    dispatch({
+        type: EPISODE_STATECHANGE, payload: {
+            key: "patient_code",
+            value: val.pp_em_id
+        }
+    })
+    dispatch({
+        type: EPISODE_STATECHANGE, payload: {
+            key: "patient_main_code",
+            value: val.employee_code
+        }
+    })
+    dispatch({
+        type: EPISODE_STATECHANGE, payload: {
+            key: "patient_name",
+            value: val.first_name + " " + val.last_name
+        }
+    })
+    dispatch({
+        type: EPISODE_STATECHANGE, payload: {
+            key: "Patient_no",
+            value: val.mobile_no
+        }
+    });
+    history.push("/enterprise/dashboard");
+}
 
 
   const onSearch = async (e) => {

@@ -113,6 +113,7 @@ import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
 
 import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
+import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -160,6 +161,7 @@ const App = () => {
 							<PublicRoute exact path="/" component={Login} />
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
+							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
 							<PrivateRoute exact path="/pateints/new" component={PatientIndex} />
 							<PrivateRoute exact path="/pateints/update" component={PatientIndex} />
 							<PrivateRoute exact path="/pateints" component={patients} />

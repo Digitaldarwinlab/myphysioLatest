@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button, Spin } from "antd";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
+import { GetEmployeeCarePlan, GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
 import moment from "moment";
 import { Row, Col } from "antd";
 import {
@@ -322,7 +322,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   };
 
   const onSelectedDay = async (val,idx) => {
- 
+ const id = JSON.parse(localStorage.getItem("userId"));
    activeArr.map((data,index) => {
      if (index===idx) {
       activeArr[index] = true;
@@ -340,7 +340,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setExercises([]);
     setTimes([]);
   
-    let result = await GetPatientCarePlan(currentEpissode, convert(val));
+    let result = await GetEmployeeCarePlan(id, convert(val));
     console.log("careplans ",result)
     setLoading(false);
     if (result[0]) {
@@ -366,6 +366,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   };
 
   const onSelectedDay1 = async (val, episodeId) => {
+    const id = JSON.parse(localStorage.getItem("userId"));
     //   console.log(val)
     console.log('before converting ',val)
     SetcustomisedDate(convert(val));
@@ -373,7 +374,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setExercises([]);
     setTimes([]);
     //    console.log('on selecting : ' + convert(val))
-    let result = await GetPatientCarePlan(episodeId, convert(val));
+    let result = await GetEmployeeCarePlan(id, convert(val));
     if(result[1].length>0){
       console.log('yes')
       setExerciseStatus(result[1][0].exercise_status)
@@ -462,41 +463,42 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //UseEffect
   //  console.log('sorted')
   // console.log(sortedVisits)
-  const setPrescription = (data) => {
+  // const setPrescription = (data) => {
    
-  }
-  useEffect(() => {
-    async function getPlan() {
-      setLoading(true);
-      const pepisode = await GetPatientCurrentEpisode();
-      //    console.log(pepisode[1])
-      if (pepisode[1].length > 0) {
-        Setcurrentepisode(pepisode[1][0].pp_ed_id);
-        //  console.log(currentEpissode)
-        dispatch({
-          type:'changeEpisodeId',
-          payload: {
-            value:pepisode[1][0].pp_ed_id
-        }
-        })
-        const data = await get_prescription(pepisode[1][0].pp_ed_id)
-        console.log("prescription ",data)
-        dispatch({
-          type:'PRESCRIPTION_CHANGE',
-          payload: {
-            value:data
-        }
-        })
-        onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
-        //  console.log('on select k neeche')
-      }
+  // }
 
-      //  console.log("on selecting0 : " + convert(new Date()))
+  // useEffect(() => {
+  //   async function getPlan() {
+  //     setLoading(true);
+  //     const pepisode = await GetPatientCurrentEpisode();
+  //     //    console.log(pepisode[1])
+  //     if (pepisode[1].length > 0) {
+  //       Setcurrentepisode(pepisode[1][0].pp_ed_id);
+  //       //  console.log(currentEpissode)
+  //       dispatch({
+  //         type:'changeEpisodeId',
+  //         payload: {
+  //           value:pepisode[1][0].pp_ed_id
+  //       }
+  //       })
+  //       const data = await get_prescription(pepisode[1][0].pp_ed_id)
+  //       console.log("prescription ",data)
+  //       dispatch({
+  //         type:'PRESCRIPTION_CHANGE',
+  //         payload: {
+  //           value:data
+  //       }
+  //       })
+  //       onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
+  //       //  console.log('on select k neeche')
+  //     }
 
-      setLoading(false);
-    }
-    getPlan();
-  }, []);
+  //     //  console.log("on selecting0 : " + convert(new Date()))
+
+  //     setLoading(false);
+  //   }
+  //   getPlan();
+  // }, []);
 
   useEffect(() => {
     async function getCalanderData() {

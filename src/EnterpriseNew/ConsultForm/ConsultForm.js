@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import Endomorph from "../../styles/Endomorph.png";
 import Ectomorph from "../../styles/Ectomorph.png";
-import Mesomorph from "../../styles/Mesomorph.png"
+import Mesomorph from "../../styles/Mesomorph.png";
+import BackButton from "../PatientComponents/shared/BackButton";
 
 // import Body from './Body';
 
@@ -105,7 +106,10 @@ const ConsultForm = () => {
     dispatch({ type: "ASSESSMENT_REMOVE_SUB_INPUT", payload: { type: "subjective" } });
   }
 
-  return <div className="consultForm" style={{ padding: "5%" }} >
+  return  <>
+  <h3 className="fw-bold m-2">
+            <BackButton />
+        </h3><div className="consultForm" style={{ padding: "5%" }} >
     <div style={{ border: "1px solid", padding: "5%" }}>
       <div className="container-fuild">
 
@@ -459,6 +463,7 @@ const ConsultForm = () => {
 
     // </div> */}
   </div>
+  </>
 }
 
 export default ConsultForm;
