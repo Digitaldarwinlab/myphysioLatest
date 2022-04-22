@@ -396,55 +396,55 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           }
           console.log('inside false'+istimeValidated)    
        if (istimeValidated) {
-        if(selectvalue.length>0)
+        // if(selectvalue.length>0)
 
-        {  
+        // {  
 
              
              
-         //  console.log(state.exercises.length + 'length haiii')
-            selectvalue.map((item,index)=>{
+        //  //  console.log(state.exercises.length + 'length haiii')
+        //     selectvalue.map((item,index)=>{
                 
-                if(item.value>1)
-                { 
-                    addjoint('joint',item.value[0],item.id)
-                }
-                else
-                {   
-                    addjoint('joint',item.value,item.id)
-                }
+        //         if(item.value>1)
+        //         { 
+        //             addjoint('joint',item.value[0],item.id)
+        //         }
+        //         else
+        //         {   
+        //             addjoint('joint',item.value,item.id)
+        //         }
              
-            })
+        //     })
 
-            var z;
-            for(z=0;z<state.exercises.length;z++)
-             {
-                if(typeof(state.exercises[z]['Rom']['joint'])==='object')
-                {
-                    addjoint('joint',state.exercises[z]['Rom']['joint'][0],z)
-                }
-             }
+        //     var z;
+        //     for(z=0;z<state.exercises.length;z++)
+        //      {
+        //         if(typeof(state.exercises[z]['Rom']['joint'])==='object')
+        //         {
+        //             addjoint('joint',state.exercises[z]['Rom']['joint'][0],z)
+        //         }
+        //      }
 
 
            
-        }
+        // }
 
-        else if(selectvalue.length==0)
-        {
-            state.exercises.map((item,index)=>{
-                //   console.log(item)
-                 //   console.log( "valueeee",item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
-                   addjoint('joint',item['Rom']['joint'][0],index)
+        // else if(selectvalue.length==0)
+        // {
+        //     state.exercises.map((item,index)=>{
+        //         //   console.log(item)
+        //          //   console.log( "valueeee",item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
+        //            addjoint('joint',item['Rom']['joint'][0],index)
    
-               }) 
+        //        }) 
 
 
              
-             //  console.log('final state isss')
-            //   console.log(state)
+        //      //  console.log('final state isss')
+        //     //   console.log(state)
            
              
-        }
+        // }
         let result
         if(state.edit_flag){
             console.log("timepick ",state)

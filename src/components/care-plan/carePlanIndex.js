@@ -14,7 +14,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
 import { GetAllExerciseList, GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
 import { useSelector, useDispatch } from 'react-redux';
-import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_EXERCISE_CHANGE, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from './care-plan-allocate-plan/CareAllocatePlan';
 import ActiveSearch from './../UtilityComponents/ActiveSearch';
@@ -412,34 +412,54 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
            console.log('nhi hai', res);//3.09
           }
           
-          setExerciseList(res.data);
           let cartActualDat = fullExer.filter((val) => {
-            return cartItems.indexOf(val.ex_em_id) !== -1;
-        });
-          let cartActualData = res.data.filter((val) => {
               return cartItems.indexOf(val.ex_em_id) !== -1;
-          });
+            });
+            let cartActualData = res.data.filter((val) => {
+                return cartItems.indexOf(val.ex_em_id) !== -1;
+            });
          console.log("page ",pageSize)
          console.log("page min index ",(page -1)* (pageSize))
          console.log("page max index ",page *(pageSize))
-          const newData = { ...Pagination1 };
-          newData["pageSize"] = pageSize;
-          newData["totalPage"] = res.total_exercise / pageSize;
-          newData["current"] = page;
-          newData["minIndex"] = (page - 1) * (pageSize);
-          newData["maxIndex"] = page * (pageSize);
-          console.log("page ",Pagination1.current)
-          console.log("page size ",Pagination1.pageSize)
-          console.log("page res ",res.total_exercise)
-          console.log("page total exercise length ",result["data"].length )
-          console.log("page total page ",res.total_exercise / pageSize)
+         const newData = { ...Pagination1 };
+         newData["pageSize"] = pageSize;
+         newData["totalPage"] = res.total_exercise / pageSize;
+         newData["current"] = page;
+         newData["minIndex"] = (page - 1) * (pageSize);
+         newData["maxIndex"] = page * (pageSize);
+        //   console.log("page ",Pagination1.current)
+        //   console.log("page size ",Pagination1.pageSize)
+        //   console.log("page res ",res.total_exercise)
+        //   console.log("page total exercise length ",result["data"].length )
+        //   console.log("page total page ",res.total_exercise / pageSize)
         //   if(Pagination1.pageSize===100){
-        //       console.log('page inside')
-        //     newData["totalPage"] = 1
-        //     // newData["current"] = 2
-        //     // newData["minIndex"] = 2
+            //       console.log('page inside')
+            //     newData["totalPage"] = 1
+            //     // newData["current"] = 2
+            //     // newData["minIndex"] = 2
         //     // newData["maxIndex"] = 2
         //   }
+        let tempdata = res.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
           console.log("page size ",newData["totalPage"])
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
@@ -505,7 +525,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             }
             setCheckedList(newData)
             const filtered = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
-            setExerciseList(filtered.data);
             console.log("full if ",filtered)
             let cartActualData = filtered.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
@@ -517,11 +536,31 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log("page Pagination1.totalPage if ", filtered.total_exercise / (Pagination1.pageSize))
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
+            let tempdata = filtered.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setPagination1(newPagData)
             setLength(cartActualData.length);
         } else {
             const exercise = await GetExerciseList(dispatch, Pagination1.pageSize, Pagination1.current);
-            setExerciseList(exercise.data);
             let cartActualData = exercise.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
@@ -533,6 +572,27 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log("page Pagination1.totalPage else ",exercise.total_exercise)
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
+            let tempdata = exercise.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setPagination1(newPagData)
             setLength(data.length);
         }
@@ -568,13 +628,23 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             };
         })
         console.log(array)
-        dispatch({
-            type: CARE_PLAN_STATE_CHANGE,
-            payload: {
-                key: "exercises",
-                value: array
-            }
-        })
+        if(reduxState.carePlanRedcucer.edit_flag){
+            dispatch({
+                type: CARE_PLAN_EXERCISE_CHANGE,
+                payload: {
+                    key: "exercises",
+                    value: array
+                }
+            })
+        }else{
+            dispatch({
+                type: CARE_PLAN_STATE_CHANGE,
+                payload: {
+                    key: "exercises",
+                    value: array
+                }
+            })
+        }
     }
     //upper tab menu
     const operations = (
@@ -650,6 +720,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             // if (!data['total_exercise with applied filter']) {
             //     data['total_exercise with applied filter'] = data.length
             // }
+            
             console.log('filter full exercise ',data)
             let cartActualData = data.data.filter((val) => {
                 return cartItems.indexOf(val.ex_em_id) !== -1;
@@ -665,7 +736,27 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             newPagData['current'] = 1
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
-            setExerciseList(data.data);
+            let tempdata = data.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setCheckedList(newData);
             setLength(cartActualData.length);
         } else {
@@ -693,7 +784,27 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
          //   newPagData["minIndex"] = 0;
           //  newPagData["maxIndex"] = (Pagination1.pageSize);
           setPagination1(newPagData)
-            setExerciseList(data.data);
+          let tempdata = data.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
             setCheckedList(newData);
             setLength(cartActualData.length);
         }
@@ -746,8 +857,20 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         console.log('exercise id is ',id)
         console.log('id Exerciselist is ',Exerciselist)
         const check = Exerciselist.filter(it=>it.ex_em_id===id)
+        let test = reduxState.carePlanRedcucer.exercises_cart.find(it=>it.ex_em_id==id)
+        if(test){
+            let  temp = reduxState.carePlanRedcucer.exercises_cart.filter(it=>it.ex_em_id!==id)
+            dispatch({
+                type: CARE_PLAN_STATE_CHANGE,
+                payload: {
+                    key: "exercises_cart",
+                    value: temp
+                }
+            })
+        }else{
+            dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check[0]})
+        }
        // setBasket([...basket,...check])
-        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check})
         console.log('basket id list ',basket)
         console.log('id with id check rsult',check)
         const isExist = basket.map(it=>it.ex_em_id===id)
@@ -783,6 +906,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         const newData = { ...checkedList };
         newData['search_query']= search_query
         const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
+        console.log('filter full exercise ',data)
         if(data.total_exercise){
             data['total_exercise with applied filter'] = data.total_exercise
         }
@@ -790,7 +914,27 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         newPagData["current"] = 1
         newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
         setPagination1(newPagData)
-        setExerciseList(data.data);
+        let tempdata = data.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -844,9 +988,9 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                                 cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                                 id={exercise.ex_em_id}
                                                 Level={exercise.difficulty_level}
-                                                Name={exercise.title}
-                                                image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
-                                                video={exercise.video_path ? exercise.video_path : ""}
+                                                Name={exercise.name}
+                                                image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                                video={exercise.video_url ? exercise.video_url : ""}
                                                 UpdateCart={UpdateCart}
                                                 actions={true}
 
@@ -867,11 +1011,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                       cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                       id={exercise.ex_em_id}
                                       Level={exercise.difficulty_level}
-                                      Name={exercise.title}
-                                      image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                      Name={exercise.name}
+                                      image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
                                       UpdateCart={UpdateCart}
                                       actions={true}
-                                      video={exercise.video_path ? exercise.video_path : ""}
+                                      video={exercise.video_url ? exercise.video_url : ""}
                                   />
                               </Col>
                           )
@@ -923,9 +1067,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         }
         else {
             setAllocatePlan(!allocatePlan);
-            if(!reduxState.carePlanRedcucer.edit_flag){
-                updateExArr()
-            }
+            updateExArr()
         }
     }
     const refreshHtml= () => {

@@ -994,12 +994,12 @@ useEffect(() => {
       </Row>  
         <Row justify="center">
         <DatePicker
-        endDate={9}
-        getSelectedDay={(e)=>{
-          onSelectedDay(convert(e))
-          console.log('datepicker ',e)
-        }}
-        labelFormat={"MMMM"}
+       getSelectedDay={(e)=>{
+        onSelectedDay(convert(e))
+        console.log('datepicker ',e)
+      }}
+       labelFormat={"MMMM"}
+       color={"#374e8c"}
      //   color={"#2d7ecb"}
      //   onClick={(e)=>console.log(e)}
       />

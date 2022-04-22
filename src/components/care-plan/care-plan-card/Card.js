@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { Card, InputNumber,Input, Form, Row, Col, Modal, Select } from 'antd';
 import { FaHeart } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinusCircle, AiTwotoneSwitcher } from "react-icons/ai";
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { CARE_PLAN_ROM_JOINT_CHANGE } from '../../../contextStore/actions/care-plan-action';
 const {Option} = Select
 const { Meta } = Card;
 export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartState, actions, video, handleChange, index, data,Setselectvalue, carePlanView = false }) {
     // console.log(`${process.env.REACT_APP_EXERCISE_URL}/${image}`)
     const [addInCart, setAddInCart] = useState(cartState);
     const state = useSelector(state => state.carePlanRedcucer);
+    const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
     console.log('careplanreducer')
     console.log("careplanreducer ",data)
@@ -19,7 +21,8 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
     }
     const RemoveFromCart = (id) => {
         UpdateCart(id);
-       // state.exercises_cart.find(ex=>ex.ex_em_id!==id)
+     let test = state.exercises_cart.filter(ex=>ex.ex_em_id!==id)
+     console.log("test value is ",test)
         setAddInCart(false)
     }
     const onOk = () => {
@@ -64,6 +67,17 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
         if(key=='min'||key=='max'){
             handleChange(key,value,id)
         }
+    }
+
+    const changeRom = (index,value) => {
+        dispatch({
+            type: CARE_PLAN_ROM_JOINT_CHANGE,
+            payload: {
+                key: "joint",
+                index:index,
+                value: value
+            }
+        }) 
     }
 
     return (
@@ -148,14 +162,14 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                             <Form.Item name={"joint" + index} label="Joint" required={true}>
                             <Select
                        disabled={carePlanView}
-                        defaultValue={state.exercises.length>0?state.exercises[index]&&state.exercises[index]["Rom"]&&state.exercises[index]["Rom"]["joint"]:data.Rom.joint}
+                        defaultValue={state.exercises.length>0?state.exercises[index]&&state.exercises[index]["Rom"]&&state.exercises[index]["Rom"]["joint"]:data?data.Rom.joint:''}
                         style={{ width: 120 }}
-                        onChange={(e)=>console.log(e)}
+                        onChange={(e)=>changeRom(index,e)}
                       >
                         {state.exercises.length>0?
                         Object.keys(state.exercises[index].angle).map((item, index) => (
                           <Option value={item}>{item}</Option>
-                        )): <Option value={data.Rom.joint}>{data.Rom.joint}</Option>}
+                        )): <Option value={data?data.Rom.joint:''}>{data?data.Rom.joint:''}</Option>}
                       </Select>
                                 {/* <label for={"joint" + index}>Joint </label> */}
                                 {/* <select style={{width:'100%'}} disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
