@@ -151,7 +151,9 @@ export const getPatientList = async () => {
         });
 
         const responseData = await response.json();
+        console.log("listing data ",responseData)
         const data = Decode(responseData)
+        console.log("listing data ",data)
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }

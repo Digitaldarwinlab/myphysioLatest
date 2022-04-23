@@ -18,6 +18,7 @@ import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
+import './CareAllocation.css'
 //import { Switch } from "react-router-dom";
 
 
@@ -519,9 +520,9 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
 
             {/* <Switch defaultChecked /> */}
             <Row >
-            <Space size={"middle"}> 
-            <span>AI-Mode {"  "}</span>
-            <Checkbox checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
+            <Space size={"large"}> 
+            <span style={{fontSize: "17px"}}>Use Camera {"  "}</span>
+            <Checkbox style={{paddingLeft:'10px'}} className="AI_selection_checkbox" checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>}</Checkbox>
             </Space>
             </Row>

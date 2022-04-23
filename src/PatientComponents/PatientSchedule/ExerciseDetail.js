@@ -116,7 +116,19 @@ export default class ExerciseDetailsClass extends Component {
             </Row>
             </>
           ))}
-      </div>
+               <Row justify="end" style={{margin:'15px'}}>
+           {this.props.location.state.status_flag&&<button 
+          style={{float:'right'}}
+          className="skip-button"
+          id="skip-button"
+          
+         // disabled={this.props.location.state.status_flag}
+          onClick={this.handleClick}
+        >
+          Submit
+        </button>}
+      </Row>
+        </div>
       </Profiler>
     );
   }

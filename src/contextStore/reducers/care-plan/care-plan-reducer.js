@@ -87,12 +87,12 @@ export const carePlanRedcucer = (state = initialState, action) => {
         case CARE_PLAN_REP_CHANGE:
             return {
                 ...state,
-                exercises: ExerciseUpdate(state.exercises, "Rep", action.payload.key, action.payload.value, action.payload.index)
+                exercises: ExerciseUpdate(state.exercises_cart, "Rep", action.payload.key, action.payload.value, action.payload.index)
             }
         case CARE_PLAN_ROM_CHANGE:
             return {
                 ...state,
-                exercises: ExerciseUpdate(state.exercises, "Rom", action.payload.key, action.payload.value, action.payload.index)
+                exercises: ExerciseUpdate(state.exercises_cart, "Rom", action.payload.key, action.payload.value, action.payload.index)
             }
         case CARE_PLAN_TIME_CHANGE:
             return {
