@@ -134,6 +134,15 @@
     margin-bottom: 5px;
   }
 
+
+  @media (max-width:500px){
+    .invoice-search {
+    
+      width: 100%;
+      
+    }
+  }
+
   @media print{
     .add-button{
     display:none;

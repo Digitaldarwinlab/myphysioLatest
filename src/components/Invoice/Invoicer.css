@@ -65,6 +65,17 @@
 list-style: none;
 }
 
+
+@media (max-width:500px){
+    .client {
+        grid-template-columns: auto;
+    }
+
+    .clinic-info {
+       text-align: center;
+      }
+}
+
 @media print {
     .datern {
         margin-right: 11%;

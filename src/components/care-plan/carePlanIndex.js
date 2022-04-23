@@ -35,6 +35,7 @@ const { Search } = Input;
 
 //Handle Active Search Bar Result for episode details 
 export const getEpisodeDetails = async (pData, dispatch) => {
+    console.log(pData);
     if (pData.length !== 0) {
 
         let episode = await getEpisode(pData.pp_patm_id);

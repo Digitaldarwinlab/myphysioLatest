@@ -92,7 +92,7 @@ const handleClickPrint = () => {
               <td>{item.Discount}</td>
               <td>{item.Tax}</td>
               <td>{item.Amount} </td>
-              <td>{print && <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
+              <td>{ <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
             </tr>)}
             <tr className="hide-row">
 
@@ -103,7 +103,7 @@ const handleClickPrint = () => {
               <td className="Tax">  <input placeholder="Tax" name='Tax' type="text" onChange={handleChange} value={item.Tax} /></td>
 
               <td style={{ width: "10%" }}></td>
-              <td> {!print && <button className='add-button' type='submit'> + </button>}</td>
+              <td> { <button className='add-button' type='submit'> + </button>}</td>
             </tr>
           </tbody>
         </table>
