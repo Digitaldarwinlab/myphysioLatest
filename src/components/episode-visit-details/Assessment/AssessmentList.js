@@ -1282,9 +1282,12 @@ const AssessmentList = ({ assesmentClick }) => {
                                         </Descriptions.Item>
                                       </Descriptions>
                                     </Col>
-                                    <h1>Degree of Deviation</h1>
                                     <Col md={24} lg={24} sm={24} xs={24}>
-                                      <Descriptions title="Anterior" bordered>
+                                    <h1>Degree of Deviation</h1>
+                                    </Col>
+                                    
+                                    <Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Anterior" bordered  column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
                                         {
                                           <Descriptions.Item label="Nasal Bridge">
                                             {Object.keys(data.posture).length >
@@ -1341,7 +1344,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         }
                                       </Descriptions>
                                     </Col>
-                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                    <Col md={24} lg={6} sm={24} xs={24}>
                                       <img
                                         src={
                                           data.posture["Posterial_view"]
@@ -1367,8 +1370,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                 )}
                                 {data.posture["lateral_view"] && (
                                   <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col md={24} lg={24} sm={24} xs={24}>
-                                      <Descriptions title="Lateral" bordered>
+                                    <Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
                                         <Descriptions.Item label="Head deviation">
                                           {Object.keys(data.posture).length >
                                             0 &&
@@ -1399,7 +1402,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         </Descriptions.Item>
                                       </Descriptions>
                                     </Col>
-                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                    <Col md={24} lg={6} sm={24} xs={24}>
                                       <img
                                         src={
                                           data.posture["lateral_view"]

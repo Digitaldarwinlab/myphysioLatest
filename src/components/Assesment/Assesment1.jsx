@@ -1809,7 +1809,7 @@ const Assesment1 = ({ back, next }) => {
               </Col>
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
-              <Col md={24} lg={24} sm={24} xs={24}>
+            <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
@@ -1833,7 +1833,7 @@ const Assesment1 = ({ back, next }) => {
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
-              <Col md={24} lg={24} sm={24} xs={24}>
+              <Col md={24} lg={6} sm={24} xs={24}>
                       <img src={state.FirstAssesment.posture["Posterial_view"].posterial_view_image}/>
               </Col>
               {state.FirstAssesment.FrontCheck.length > 0 && (
@@ -1850,7 +1850,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
-              <Col md={24} lg={24} sm={24} xs={24}>
+            <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Lateral" bordered>
                   <Descriptions.Item label="Head deviation">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
@@ -1870,7 +1870,7 @@ const Assesment1 = ({ back, next }) => {
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
-              <Col md={24} lg={24} sm={24} xs={24}>
+              <Col md={24} lg={6} sm={24} xs={24}>
                       <img src={state.FirstAssesment.posture["lateral_view"].posterial_view_image}/>
               </Col>
               {state.FirstAssesment.SideCheck.length > 0 && (

@@ -6,7 +6,7 @@ import { ImPlus } from 'react-icons/im';
 import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
 import { CarePlan, fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
-import { CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
@@ -95,11 +95,15 @@ const handleEdit = (data) => {
    // setChangeView(true);
   // setCarePlanViewState(false)
   let temp = []
+  console.log(data.exercise_details)
     data.exercise_details.map(item=>{
         temp.push(item.ex_em_id)
+        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:item})
     })
     localStorage.setItem("care-plan-cart", JSON.stringify(temp));
     console.log(data)
+    let count_time_slots = data.time_slot.map(item=>item[0])
+    console.log(count_time_slots)
     //status_flag
     dispatch({
         type: CARE_PLAN_STATE_CHANGE,
@@ -143,6 +147,13 @@ const handleEdit = (data) => {
             value: data.careplan_code
         }
     })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "count_time_slots",
+            value: count_time_slots.length
+        }
+    })
     //careplan_code
     console.log(carePlanData)
     history.push({pathname: "/care-plan",stateValues:{edit:true}})
@@ -183,7 +194,8 @@ const handleSubmit = (data) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                {/* <Row  justify="end">
+                                {console.log("careplan data ",data)}
+                                <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
@@ -195,7 +207,7 @@ const handleSubmit = (data) => {
                                     {"  "}
                                     {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
                         </Col>
-                                </Row> */}
+                                </Row>
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>

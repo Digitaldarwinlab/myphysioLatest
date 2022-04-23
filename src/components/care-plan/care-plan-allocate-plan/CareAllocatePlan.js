@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import Switch from "react-switch";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CarePlanCard from './../care-plan-card/Card';
 import { Row, Col, Form, InputNumber, Button, Checkbox, Space  } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
@@ -18,6 +18,7 @@ import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
+import './CareAllocation.css'
 //import { Switch } from "react-router-dom";
 
 
@@ -28,6 +29,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     const [countArray, setCountArray] = useState([]);
     const state = useSelector(state => state.carePlanRedcucer);
     const validationState = useSelector(state => state.Validation);
+ //   const reduxState = useSelector(state => state);
     const dispatch = useDispatch();
     const [selectvalue,Setselectvalue]=useState([])
     const history = useHistory()
@@ -78,40 +80,35 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         }
 
         setCountArray(arr);
-        let array = Exercise.filter((val) => {
-            if (items.indexOf(val.ex_em_id) !== -1)
-                return val
-        });
-       
-        console.log('array having items of carts',array)
-        array = array.map((val) => {
-            // console.log('array having items of carts',Object.values(val.angle)[0].min)
-            // console.log('array having items of carts',Object.values(val.angle)[0].max)
-            return {
-                ex_em_id: val.ex_em_id,
-                name: val.title ? val.title : "Exercise",
-                Rep: {
-                    set: 1,
-                    rep_count: 5,
-                    hold_time: 5
-                },
-                angle :val.angle ? val.angle : [],    
-                Rom: {
-                    joint: val.joint ? val.joint : "nose",
-                    min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
-                    max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
-                },
-                image_url: val.image_path,
-                video_url: val.video_path
-            };
-        });
-        dispatch({
-            type: CARE_PLAN_STATE_CHANGE,
-            payload: {
-                key: "exercises",
-                value: array
-            }
-        })
+      
+        // array = array.map((val) => {
+        //     // console.log('array having items of carts',Object.values(val.angle)[0].min)
+        //     // console.log('array having items of carts',Object.values(val.angle)[0].max)
+        //     return {
+        //         ex_em_id: val.ex_em_id,
+        //         name: val.title ? val.title : "Exercise",
+        //         Rep: {
+        //             set: 1,
+        //             rep_count: 5,
+        //             hold_time: 5
+        //         },
+        //         angle :val.angle ? val.angle : [],    
+        //         Rom: {
+        //             joint: val.joint ? val.joint : "nose",
+        //             min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
+        //             max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
+        //         },
+        //         image_url: val.image_path,
+        //         video_url: val.video_path
+        //     };
+        // });
+        // dispatch({
+        //     type: CARE_PLAN_STATE_CHANGE,
+        //     payload: {
+        //         key: "exercises",
+        //         value: array
+        //     }
+        // })
         // if(!state.edit_flag){
         // dispatch({
         //     type: CARE_PLAN_STATE_CHANGE,
@@ -323,9 +320,9 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
     //OnFinish 
     const onFinish = async () => {
 
-              console.log(' joints array',state.exercises)
-              for(let i=0;i<state.exercises.length;i++){
-                  if(parseInt(state.exercises[i].Rom['min'])>parseInt(state.exercises[i].Rom['max'])){
+              console.log(' joints array',state.exercises_cart)
+              for(let i=0;i<state.exercises_cart.length;i++){
+                  if(parseInt(state.exercises_cart[i].Rom['min'])>parseInt(state.exercises_cart[i].Rom['max'])){
                     dispatch({ type: VALIDATION, payload: { error: 'Min angle should not greater than Max angle' } });
                     setTimeout(() => {
                         dispatch({ type: VALIDATION, payload: { error: "" } });
@@ -334,9 +331,9 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                 }
               }
              console.log(selectvalue)
-            console.log('selection ',state.exercises)
-            for(let i=0;i<state.exercises.length;i++){
-                if(state.exercises[i].Rep['set']==''||state.exercises[i].Rep['set']==0){
+            console.log('selection ',state.exercises_cart)
+            for(let i=0;i<state.exercises_cart.length;i++){
+                if(state.exercises_cart[i].Rep['set']==''||state.exercises_cart[i].Rep['set']==0){
                     console.log('Set count should greater than 0')
                     dispatch({ type: VALIDATION, payload: { error: 'Repetition Set should greater than 0' } });
                     setTimeout(() => {
@@ -344,7 +341,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     }, 10000);
                     return 
                 }
-                if(state.exercises[i].Rep['rep_count']<2){
+                if(state.exercises_cart[i].Rep['rep_count']<2){
                     console.log('Repetition Count should greater than 2')
                     dispatch({ type: VALIDATION, payload: { error: 'Repetition Count should greater than 1 ' } });
                     setTimeout(() => {
@@ -396,55 +393,55 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           }
           console.log('inside false'+istimeValidated)    
        if (istimeValidated) {
-        if(selectvalue.length>0)
+        // if(selectvalue.length>0)
 
-        {  
+        // {  
 
              
              
-         //  console.log(state.exercises.length + 'length haiii')
-            selectvalue.map((item,index)=>{
+        //  //  console.log(state.exercises.length + 'length haiii')
+        //     selectvalue.map((item,index)=>{
                 
-                if(item.value>1)
-                { 
-                    addjoint('joint',item.value[0],item.id)
-                }
-                else
-                {   
-                    addjoint('joint',item.value,item.id)
-                }
+        //         if(item.value>1)
+        //         { 
+        //             addjoint('joint',item.value[0],item.id)
+        //         }
+        //         else
+        //         {   
+        //             addjoint('joint',item.value,item.id)
+        //         }
              
-            })
+        //     })
 
-            var z;
-            for(z=0;z<state.exercises.length;z++)
-             {
-                if(typeof(state.exercises[z]['Rom']['joint'])==='object')
-                {
-                    addjoint('joint',state.exercises[z]['Rom']['joint'][0],z)
-                }
-             }
+        //     var z;
+        //     for(z=0;z<state.exercises.length;z++)
+        //      {
+        //         if(typeof(state.exercises[z]['Rom']['joint'])==='object')
+        //         {
+        //             addjoint('joint',state.exercises[z]['Rom']['joint'][0],z)
+        //         }
+        //      }
 
 
            
-        }
+        // }
 
-        else if(selectvalue.length==0)
-        {
-            state.exercises.map((item,index)=>{
-                //   console.log(item)
-                 //   console.log( "valueeee",item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
-                   addjoint('joint',item['Rom']['joint'][0],index)
+        // else if(selectvalue.length==0)
+        // {
+        //     state.exercises.map((item,index)=>{
+        //         //   console.log(item)
+        //          //   console.log( "valueeee",item.name + ' : ' + JSON.stringify(item['Rom']['joint'][0]))
+        //            addjoint('joint',item['Rom']['joint'][0],index)
    
-               }) 
+        //        }) 
 
 
              
-             //  console.log('final state isss')
-            //   console.log(state)
+        //      //  console.log('final state isss')
+        //     //   console.log(state)
            
              
-        }
+        // }
         let result
         if(state.edit_flag){
             console.log("timepick ",state)
@@ -521,13 +518,15 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             {state.success && <Success success={state.success} />}
             {validationState.error && <Error error={validationState.error} />}
 
-            <Row >
             {/* <Switch defaultChecked /> */}
-            <Space size={"middle"}> 
-            <span>AI-Mode {"  "}</span>
-            <Checkbox checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
+            <Row >
+            <Space size={"large"}> 
+            <span style={{fontSize: "17px"}}>Use Camera {"  "}</span>
+            <Checkbox style={{paddingLeft:'10px'}} className="AI_selection_checkbox" checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>}</Checkbox>
-            {/* <Switch
+            </Space>
+            </Row>
+               {/* <Switch
            // uncheckedIcon={<AiOutlineClose size={20}/>}
            // checkedIcon={<FaCheck size={20}/>}
              onColor="#2d7ecb" 
@@ -535,8 +534,6 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
              onChange={()=>changeToggle()} />
                {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>} */}
-            </Space>
-            </Row>
             <div style={{ minHeight: "10px" }}></div>    
             <Row gutter={[10, 10]}>  
                 <Col lg={12} md={12} sm={12} xs={24}>
@@ -564,20 +561,16 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
                     />
                 </Col>
                 {           
-                    Exercise.filter((val) => {
-                    
-                        if (items.indexOf(val.ex_em_id) !== -1)
-                            return val
-                    }).map((exercise, index) => {
+                    state.exercises_cart.map((exercise, index) => {
                         return (
                             <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
                                 <CarePlanCard
                                     cartState={items ? items.indexOf(exercise.ex_em_id) !== -1 : false}
                                     id={ exercise.ex_em_id}
                                     Level={exercise.difficulty_level}
-                                    Name={ exercise.title}
-                                    image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
-                                    video={exercise.video_path ? exercise.video_path : ""}
+                                    Name={ exercise.name}
+                                    image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                    video={exercise.video_url ? exercise.video_url : ""}
                                     actions={false}
                                     handleChange={handleChange}
                                     index={index}

@@ -14,7 +14,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useHistory } from 'react-router-dom';
 import { GetAllExerciseList, GetExerciseList, getFiteredExercistData } from './../../API/care-plan/care-plan-api';
 import { useSelector, useDispatch } from 'react-redux';
-import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_EXERCISE_CHANGE, CARE_PLAN_STATE_CHANGE, RECEIVED_DATA } from './../../contextStore/actions/care-plan-action';
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from './care-plan-allocate-plan/CareAllocatePlan';
 import ActiveSearch from './../UtilityComponents/ActiveSearch';
@@ -413,38 +413,58 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
            console.log('nhi hai', res);//3.09
           }
           
-          setExerciseList(res.data);
-          let cartActualDat = fullExer.filter((val) => {
-            return cartItems.indexOf(val.ex_em_id) !== -1;
-        });
-          let cartActualData = res.data.filter((val) => {
-              return cartItems.indexOf(val.ex_em_id) !== -1;
-          });
+        //   let cartActualDat = fullExer.filter((val) => {
+        //       return cartItems.indexOf(val.ex_em_id) !== -1;
+        //     });
+        //     let cartActualData = res.data.filter((val) => {
+        //         return cartItems.indexOf(val.ex_em_id) !== -1;
+        //     });
          console.log("page ",pageSize)
          console.log("page min index ",(page -1)* (pageSize))
          console.log("page max index ",page *(pageSize))
-          const newData = { ...Pagination1 };
-          newData["pageSize"] = pageSize;
-          newData["totalPage"] = res.total_exercise / pageSize;
-          newData["current"] = page;
-          newData["minIndex"] = (page - 1) * (pageSize);
-          newData["maxIndex"] = page * (pageSize);
-          console.log("page ",Pagination1.current)
-          console.log("page size ",Pagination1.pageSize)
-          console.log("page res ",res.total_exercise)
-          console.log("page total exercise length ",result["data"].length )
-          console.log("page total page ",res.total_exercise / pageSize)
+         const newData = { ...Pagination1 };
+         newData["pageSize"] = pageSize;
+         newData["totalPage"] = res.total_exercise / pageSize;
+         newData["current"] = page;
+         newData["minIndex"] = (page - 1) * (pageSize);
+         newData["maxIndex"] = page * (pageSize);
+        //   console.log("page ",Pagination1.current)
+        //   console.log("page size ",Pagination1.pageSize)
+        //   console.log("page res ",res.total_exercise)
+        //   console.log("page total exercise length ",result["data"].length )
+        //   console.log("page total page ",res.total_exercise / pageSize)
         //   if(Pagination1.pageSize===100){
-        //       console.log('page inside')
-        //     newData["totalPage"] = 1
-        //     // newData["current"] = 2
-        //     // newData["minIndex"] = 2
+            //       console.log('page inside')
+            //     newData["totalPage"] = 1
+            //     // newData["current"] = 2
+            //     // newData["minIndex"] = 2
         //     // newData["maxIndex"] = 2
         //   }
+        let tempdata = res.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
           console.log("page size ",newData["totalPage"])
           setPagination1(newData);
           dispatch({ type: RECEIVED_DATA });
-          setLength(cartActualDat.length)
+         // setLength(cartActualDat.length)
           dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -484,10 +504,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 unblock();
             };
         }, [history]);
-        useEffect(async() => {
-            const exercise = await GetAllExerciseList(dispatch, 250,1);
-            setFullExer(exercise.data)
-        }, []);
+        // useEffect(async() => {
+        //     const exercise = await GetExerciseList(dispatch, 350,1);
+        //     setFullExer(exercise.data)
+        // }, []);
     useEffect(async () => {
         let data = localStorage.getItem("care-plan-cart") ? JSON.parse(localStorage.getItem("care-plan-cart")) : [];
         const prevState = history.location.state;
@@ -506,7 +526,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             }
             setCheckedList(newData)
             const filtered = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, Pagination1.current);
-            setExerciseList(filtered.data);
             console.log("full if ",filtered)
             let cartActualData = filtered.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
@@ -518,11 +537,31 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log("page Pagination1.totalPage if ", filtered.total_exercise / (Pagination1.pageSize))
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
+            let tempdata = filtered.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setPagination1(newPagData)
-            setLength(cartActualData.length);
+            setLength(reduxState.carePlanRedcucer.exercises_cart.length);
         } else {
             const exercise = await GetExerciseList(dispatch, Pagination1.pageSize, Pagination1.current);
-            setExerciseList(exercise.data);
             let cartActualData = exercise.data.filter((val) => {
                 return data.indexOf(val.ex_em_id) !== -1;
             })
@@ -534,15 +573,82 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             console.log("page Pagination1.totalPage else ",exercise.total_exercise)
             newPagData["minIndex"] = 0;
             newPagData["maxIndex"] = (Pagination1.pageSize);
+            let tempdata = exercise.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setPagination1(newPagData)
-            setLength(data.length);
+            setLength(reduxState.carePlanRedcucer.exercises_cart.length);
         }
         setCartItems(data);
         dispatch({ type: RECEIVED_DATA });
         // eslint-disable-next-line
     }, []);
 
-  
+   
+
+    const updateExArr = () => {
+        let array = fullExer.filter((val) => {
+            if (cartItems.indexOf(val.ex_em_id) !== -1)
+                return val
+        });
+        array = array.map((val) => {
+            // console.log('array having items of carts',Object.values(val.angle)[0].min)
+            // console.log('array having items of carts',Object.values(val.angle)[0].max)
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: (val.angle && Object.values(val.angle)[0].min) && Object.values(val.angle)[0].min ,
+                    max: (val.angle && Object.values(val.angle)[0].max) && Object.values(val.angle)[0].max ,
+                },
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        console.log(array)
+        if(reduxState.carePlanRedcucer.edit_flag){
+            dispatch({
+                type: CARE_PLAN_EXERCISE_CHANGE,
+                payload: {
+                    key: "exercises",
+                    value: array
+                }
+            })
+        }else{
+            dispatch({
+                type: CARE_PLAN_STATE_CHANGE,
+                payload: {
+                    key: "exercises",
+                    value: array
+                }
+            })
+        }
+    }
     //upper tab menu
     const operations = (
         <React.Fragment>
@@ -576,7 +682,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         </div>
                         </IconContext.Provider>
                         }>
-                    <span className="cart-plan-item-count">{length}</span>
+                    <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                </Button></div>
             <Row className="me-4 careplan_large_view">
                 <Col className="ant-filter-hidden-icon">
@@ -592,12 +698,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 {/* aswin start 10/30/2021 start */}
                 <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
                     await checkEpisodeId() == true && setState(!state)
-
                     }}>
                         {/* aswin start 10/30/2021 stop */}
                     <i className="fas fa-running iconClass3 running_icon"></i>
                     <p style={{ fontSize: "10px" }}>Plan</p>
-                    <span className="cart-plan-item-count">{length}</span>
+                    <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                 </Col>
             </Row>
         </React.Fragment>
@@ -618,11 +723,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             // if (!data['total_exercise with applied filter']) {
             //     data['total_exercise with applied filter'] = data.length
             // }
+            
             console.log('filter full exercise ',data)
-            let cartActualData = data.data.filter((val) => {
-                return cartItems.indexOf(val.ex_em_id) !== -1;
-            })
-            console.log('filter cartActualData ',cartActualData)
+            // let cartActualData = data.data.filter((val) => {
+            //     return cartItems.indexOf(val.ex_em_id) !== -1;
+            // })
+            // console.log('filter cartActualData ',cartActualData)
             console.log('filter total exercise ',data.data.length)
             console.log('filter pageSize ',Pagination1.pageSize)
             console.log('filter totalPage ', data['total_exercise with applied filter'] / (Pagination1.pageSize))
@@ -633,18 +739,38 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             newPagData['current'] = 1
             newPagData["maxIndex"] = (Pagination1.pageSize);
             setPagination1(newPagData)
-            setExerciseList(data.data);
+            let tempdata = data.data.map((val) => {
+                return {
+                    ex_em_id: val.ex_em_id,
+                    name: val.title ? val.title : "Exercise",
+                    Rep: {
+                        set: 1,
+                        rep_count: 5,
+                        hold_time: 5
+                    },
+                    angle :val.angle ? val.angle : [],    
+                    Rom: {
+                        joint: Object.keys(val.angle)[0],    
+                        min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                        max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                    },
+                    difficulty_level:val.difficulty_level,
+                    image_url: val.image_path,
+                    video_url: val.video_path
+                };
+            })
+            setExerciseList(tempdata);
             setCheckedList(newData);
-            setLength(cartActualData.length);
+           // setLength(cartActualData.length);
         } else {
             console.log("filter inside not checked")
             const newData = { ...checkedList };
             let index = newData[type].indexOf(name);
             newData[type].splice(index, 1);
             const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
-            let cartActualData = data.data.filter((val) => {
-                return cartItems.indexOf(val.ex_em_id) !== -1;
-            })
+            // let cartActualData = data.data.filter((val) => {
+            //     return cartItems.indexOf(val.ex_em_id) !== -1;
+            // })
             const newPagData = { ...Pagination1 };
             // console.log('filter cartActualData ',cartActualData)
             // console.log('filter total exercise ',data.data.length)
@@ -661,9 +787,29 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
          //   newPagData["minIndex"] = 0;
           //  newPagData["maxIndex"] = (Pagination1.pageSize);
           setPagination1(newPagData)
-            setExerciseList(data.data);
+          let tempdata = data.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
             setCheckedList(newData);
-            setLength(cartActualData.length);
+        //    setLength(cartActualData.length);
         }
         dispatch({ type: RECEIVED_DATA });
     }
@@ -714,8 +860,20 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         console.log('exercise id is ',id)
         console.log('id Exerciselist is ',Exerciselist)
         const check = Exerciselist.filter(it=>it.ex_em_id===id)
+        let test = reduxState.carePlanRedcucer.exercises_cart.find(it=>it.ex_em_id==id)
+        if(test){
+            let  temp = reduxState.carePlanRedcucer.exercises_cart.filter(it=>it.ex_em_id!==id)
+            dispatch({
+                type: CARE_PLAN_STATE_CHANGE,
+                payload: {
+                    key: "exercises_cart",
+                    value: temp
+                }
+            })
+        }else{
+            dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check[0]})
+        }
        // setBasket([...basket,...check])
-        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:check})
         console.log('basket id list ',basket)
         console.log('id with id check rsult',check)
         const isExist = basket.map(it=>it.ex_em_id===id)
@@ -732,16 +890,16 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             }
         }
         localStorage.setItem("care-plan-cart", JSON.stringify(data));
-        setCartItems(data);
+      //  setCartItems(data);
         console.log('cartttt items adding')
         console.log(data)
         console.log('exercise full ',fullExer)
-        let cartActualData = fullExer.filter((val) => {
-            return data.indexOf(val.ex_em_id) !== -1;
-        });
-        console.log('exercise full ',fullExer)
-        console.log('exercise full ',cartActualData)
-        setLength(cartActualData.length);
+        // let cartActualData = fullExer.filter((val) => {
+        //     return data.indexOf(val.ex_em_id) !== -1;
+        // });
+        // console.log('exercise full ',fullExer)
+        // console.log('exercise full ',cartActualData)
+        setLength(reduxState.carePlanRedcucer.exercises_cart.length);
     }
     //HandleSearch 
     const handleSearch = (value) => {
@@ -751,6 +909,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         const newData = { ...checkedList };
         newData['search_query']= search_query
         const data = await getFiteredExercistData(newData, dispatch, Pagination1.pageSize, 1);
+        console.log('filter full exercise ',data)
         if(data.total_exercise){
             data['total_exercise with applied filter'] = data.total_exercise
         }
@@ -758,7 +917,27 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         newPagData["current"] = 1
         newPagData["totalPage"] = data['total_exercise with applied filter'] / (Pagination1.pageSize);
         setPagination1(newPagData)
-        setExerciseList(data.data);
+        let tempdata = data.data.map((val) => {
+            return {
+                ex_em_id: val.ex_em_id,
+                name: val.title ? val.title : "Exercise",
+                Rep: {
+                    set: 1,
+                    rep_count: 5,
+                    hold_time: 5
+                },
+                angle :val.angle ? val.angle : [],    
+                Rom: {
+                    joint: Object.keys(val.angle)[0],    
+                    min: Object.values(val.angle)[0]?Object.values(val.angle)[0].min:" " ,
+                    max: Object.values(val.angle)[0]?Object.values(val.angle)[0].max:" " ,
+                },
+                difficulty_level:val.difficulty_level,
+                image_url: val.image_path,
+                video_url: val.video_path
+            };
+        })
+        setExerciseList(tempdata);
         dispatch({
             type: CARE_PLAN_STATE_CHANGE,
             payload: {
@@ -801,20 +980,42 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         {(!reduxState.carePlanRedcucer.isLoading) && filteredData.length === 0 && <p>No Data is Found...</p>}
                         {reduxState.carePlanRedcucer.isLoading && <div style={{ margin: "10px auto" }}>
                             <Spin tip="Loading" size="large"></Spin>
+                            {/* reduxState.carePlanRedcucer.exercises_cart */}
                         </div>}
-                        {
+                        {!reduxState.carePlanRedcucer.isLoading && ((filteredData.map((exercise, index) => {
+                          
+                    
+                          return (
+                              <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
+                                  {console.log('inside 2',reduxState.carePlanRedcucer.exercises_cart ? reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id).indexOf(exercise.ex_em_id) !== -1 : false)}
+                                  <CarePlanCard
+                                      cartState={reduxState.carePlanRedcucer.exercises_cart ? reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id).indexOf(exercise.ex_em_id) !== -1 : false}
+                                      id={exercise.ex_em_id}
+                                      Level={exercise.difficulty_level}
+                                      Name={exercise.name}
+                                      image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                      UpdateCart={UpdateCart}
+                                      actions={true}
+                                      video={exercise.video_url ? exercise.video_url : ""}
+                                  />
+                              </Col>
+                          )
+                      
+                  })))
+                  }
+                        {/* {
                             (cartItems.length !== 0) && (filteredData.map((exercise, index) => {
                                 
                                     return (
                                         <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
-                                            {console.log('inside 1')}
+                                            {console.log('inside 1',reduxState.carePlanRedcucer.exercises_cart)}
                                             <CarePlanCard
                                                 cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                                 id={exercise.ex_em_id}
                                                 Level={exercise.difficulty_level}
-                                                Name={exercise.title}
-                                                image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
-                                                video={exercise.video_path ? exercise.video_path : ""}
+                                                Name={exercise.name}
+                                                image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                                video={exercise.video_url ? exercise.video_url : ""}
                                                 UpdateCart={UpdateCart}
                                                 actions={true}
 
@@ -830,22 +1031,22 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     
                           return (
                               <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
-                                  {console.log('inside 2')}
+                                  {console.log('inside 2',reduxState.carePlanRedcucer.exercises_cart)}
                                   <CarePlanCard
                                       cartState={cartItems ? cartItems.indexOf(exercise.ex_em_id) !== -1 : false}
                                       id={exercise.ex_em_id}
                                       Level={exercise.difficulty_level}
-                                      Name={exercise.title}
-                                      image={exercise.image_path ? exercise.image_path : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
+                                      Name={exercise.name}
+                                      image={exercise.image_url ? exercise.image_url : "https://images.unsplash.com/photo-1566241134883-13eb2393a3cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3F1YXRzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"}
                                       UpdateCart={UpdateCart}
                                       actions={true}
-                                      video={exercise.video_path ? exercise.video_path : ""}
+                                      video={exercise.video_url ? exercise.video_url : ""}
                                   />
                               </Col>
                           )
                       
                   })))
-                  }
+                  } */}
                     </Row>
                     <div style={{display:'none'}} className="pag_mob">
                     <div style={{minHeight:'15px'}}></div>
@@ -891,6 +1092,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         }
         else {
             setAllocatePlan(!allocatePlan);
+           // updateExArr()
         }
     }
     const refreshHtml= () => {
@@ -980,8 +1182,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                                 style={{ top: "50px" }}
                                 width={"70%"}
                             >
-                                {cartItems.length === 0 && <p>No Plan is Present now...</p>}
-                                {(cartItems.length !== 0 && fullExer.length>0)&&<Cart Exercise={fullExer} items={cartItems} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
+                                {reduxState.carePlanRedcucer.exercises_cart.length === 0 && <p>No Plan is Present now...</p>}
+                                {(reduxState.carePlanRedcucer.exercises_cart.length !== 0 )&&<Cart Exercise={reduxState.carePlanRedcucer.exercises_cart} items={reduxState.carePlanRedcucer.exercises_cart.map(item=>item.ex_em_id)} fullExer={fullExer} UpdateCart={UpdateCart} ChangePageToAllocatePlan={ChangePageToAllocatePlan} />}
                             </Drawer>
 
                             <Drawer

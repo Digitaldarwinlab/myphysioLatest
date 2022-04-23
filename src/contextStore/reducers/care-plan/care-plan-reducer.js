@@ -11,7 +11,9 @@ import {
     CARE_PLAN_FAILURE,
     CARE_PLAN_CLEAR_STATE,
     CARE_PLAN_ADD_TO_CART,
-    CARE_PLAN_NEW_ROM_CHANGE
+    CARE_PLAN_NEW_ROM_CHANGE,
+    CARE_PLAN_ROM_JOINT_CHANGE,
+    CARE_PLAN_EXERCISE_CHANGE
 } from './../../actions/care-plan-action';
 
 const initialState = {
@@ -58,6 +60,18 @@ const getTimeSlots = (list, time, index) => {
         newList[index] = time;
     return newList;
 }
+
+const upval= (data,index,val) =>{
+    let temp = [...data]
+    let cft = {
+      joint:val,
+      min:data[index].angle[val].min,
+      max:data[index].angle[val].max
+    }
+    temp[index]['Rom'] = cft
+    return temp
+  }
+  
 export const carePlanRedcucer = (state = initialState, action) => {
     switch (action.type) {
         case CARE_PLAN_STATE_CHANGE:
@@ -73,12 +87,12 @@ export const carePlanRedcucer = (state = initialState, action) => {
         case CARE_PLAN_REP_CHANGE:
             return {
                 ...state,
-                exercises: ExerciseUpdate(state.exercises, "Rep", action.payload.key, action.payload.value, action.payload.index)
+                exercises: ExerciseUpdate(state.exercises_cart, "Rep", action.payload.key, action.payload.value, action.payload.index)
             }
         case CARE_PLAN_ROM_CHANGE:
             return {
                 ...state,
-                exercises: ExerciseUpdate(state.exercises, "Rom", action.payload.key, action.payload.value, action.payload.index)
+                exercises: ExerciseUpdate(state.exercises_cart, "Rom", action.payload.key, action.payload.value, action.payload.index)
             }
         case CARE_PLAN_TIME_CHANGE:
             return {
@@ -91,6 +105,16 @@ export const carePlanRedcucer = (state = initialState, action) => {
                 isLoading: true,
                 success: ""
             }
+        case CARE_PLAN_ROM_JOINT_CHANGE:
+                return {
+                    ...state,
+                    exercises_cart:upval(state.exercises_cart,action.payload.index,action.payload.value)
+                }
+        case CARE_PLAN_EXERCISE_CHANGE:
+                    return {
+                        ...state,
+                        exercises_cart:[...state.exercises_cart,...action.payload.value]
+                    }
         case CARE_PLAN_SUCCESS:
             return {
                 ...initialState,

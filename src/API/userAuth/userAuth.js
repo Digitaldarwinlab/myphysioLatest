@@ -64,10 +64,11 @@ export const signin = async (user, dispatch) => {
         });
         const responseData = await response.json();
         const data = Decode(responseData);
+        console.log(data)
         // const data = JSON.parse(decode(responseData));
         if (response.status !== 200 && response.status !== 201) {
-            if (data && data.detail) {
-                return [false, "Invalid Login Credentials!"];
+            if (data && data.message) {
+                return [false, data.message];
             } else {
                 return [false, "Error " + response.status + response.statusText];
             }

@@ -100,7 +100,7 @@ export const getFiteredExercistData = async (data, dispatch, pageSize, current) 
 const AllocateExerciseData = (data) => {
     return {
         pp_ed_id: data.pp_ed_id,
-        exercise_details: data.exercises,
+        exercise_details: data.exercises_cart,
         timeSlots: data.timeSlots,
         count_time_slots: data.count_time_slots,
         startDate: data.startDate,
