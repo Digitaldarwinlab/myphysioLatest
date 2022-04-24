@@ -447,6 +447,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             console.log("timepick ",state)
             result = await EditCarePlanAllocation(state, dispatch);
         }else{
+            
             result = await postCarePlanAllocation(state, dispatch);
         }
         

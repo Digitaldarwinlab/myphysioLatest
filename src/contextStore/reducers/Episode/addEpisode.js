@@ -8,6 +8,7 @@ import {
 } from "./../../actions/episode.js";
 
 const episodeInitialState = {
+    employee_code:"",
     patient_main_code:"",
     patient_code: "",
     patient_name: "",

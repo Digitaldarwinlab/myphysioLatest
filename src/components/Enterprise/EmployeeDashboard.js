@@ -8,6 +8,7 @@ import ActiveSearch from "../../components/UtilityComponents/ActiveSearch"
 import { useHistory } from 'react-router-dom';
 import Patient from '../episode-visit-details/Patient-Details/Patient-Detail';
 import { getPatientList, Patient_profile } from './../../API/PatientRegistration/Patient';
+import { EPISODE_CLEAR_STATE } from "../../contextStore/actions/episode";
 // import Assesment1 from './../Assesment/Assesment1';
 // import AssessmentList from "./Assessment/AssessmentList";
 // import Prescriptions from './Prescreptions/Prescreption';
@@ -26,6 +27,7 @@ import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import Qa from "../../EnterpriseNew/QA/Qa";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -145,6 +147,16 @@ const EmployeeDashborad = () => {
         // })
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        const unblock = () => {
+            dispatch({type:EPISODE_CLEAR_STATE})
+            console.log("Dispatching EPISODE_CLEAR_STATE");
+        };
+        return () => {
+            unblock();
+          };
+    }, [history])
     //update Patient State 
     const updatePatientState = async (val) => {
         //Updating Care Plan Episode Details
@@ -351,7 +363,7 @@ const EmployeeDashborad = () => {
                         tab={<div className="fw-bold ant-tabs-btn">Assesment</div>}
                         key="2"
                     >
-
+                        <Qa />
                        
                     </TabPane>
                     {/* <TabPane
@@ -396,6 +408,7 @@ const EmployeeDashborad = () => {
                         }
                         key="6"
                     >
+                            <Button className="btncolor me-2" onClick={() => history.push('/care-plan')}>Add</Button>
                         {/* aswin start 10/30/2021 start */}
                         {/* <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} /> */}
                         {/* aswin start 10/30/2021 stop */}

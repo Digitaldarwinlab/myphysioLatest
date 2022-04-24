@@ -35,6 +35,7 @@ const { Search } = Input;
 
 //Handle Active Search Bar Result for episode details 
 export const getEpisodeDetails = async (pData, dispatch) => {
+    console.log(pData);
     if (pData.length !== 0) {
 
         let episode = await getEpisode(pData.pp_patm_id);
@@ -233,6 +234,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         }
                     })   
                     //aswin 11/1/2021 stop
+                   
                     dispatch({
                         type: CARE_PLAN_STATE_CHANGE,
                         payload: {
@@ -601,7 +603,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         // eslint-disable-next-line
     }, []);
 
-   
+console.log(reduxState.episodeReducer);   
 
     const updateExArr = () => {
         let array = fullExer.filter((val) => {
@@ -695,7 +697,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     <p style={{ fontSize: "10px" }}>Wishlist</p>
                 </Col>
                 {/* aswin start 10/30/2021 start */}
-                <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
+               
+              <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
                     await checkEpisodeId() == true && setState(!state)
                     }}>
                         {/* aswin start 10/30/2021 stop */}
@@ -703,6 +706,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     <p style={{ fontSize: "10px" }}>Plan</p>
                     <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                 </Col>
+               
             </Row>
         </React.Fragment>
     )

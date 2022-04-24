@@ -369,15 +369,15 @@ const ConsultForm = () => {
             <div className="build" style={{ display: "flex" }}>
               <div>
                 <input type="radio" name="Built" value="Ectomorphic" onChange={(e) => handleChange("Built", e.target.value)}></input>
-                <label > <img src={Ectomorph} style={{ marginBottom: "12px" }} />Ectomorph</label>
+                <label > <img className="build-img one" src={Ectomorph} style={{ marginBottom: "12px" }} />Ectomorph</label>
               </div>
               <div >
                 <input type="radio" name="Built" value="Mesomorphic" onChange={(e) => handleChange("Built", e.target.value)} ></input>
-                <label ><img src={Mesomorph} />Mesomorph</label>
+                <label ><img className="build-img two" src={Mesomorph} />Mesomorph</label>
               </div>
               <div className="">
                 <input type="radio" name="Built" value="Endomorphic" onChange={(e) => handleChange("Built", e.target.value)} ></input>
-                <label  ><img src={Endomorph} /> Endomorph</label>
+                <label  ><img className="build-img three" src={Endomorph} style={{ marginBottom: "10px" }}/> Endomorph</label>
               </div>
             </div>
 

@@ -20,6 +20,7 @@ function Invoice() {
     Tax: "",
     Amount: "",
   });
+  console.log(patientDetails);
   const [preview, setPreview] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
@@ -184,8 +185,8 @@ useEffect(() => {
         setPreview={setPreview}
         pName={patientDetails.patient_name}
         pId={patientDetails.pp_ed_id}
-        pCode={patientDetails.patient_code}
-        pEpisodeNumber = {patientDetails.episode_number}
+        pCode={patientDetails.patient_main_code}
+        pEpisodeNumber = {patientDetails.pp_ed_id}
         cName = {clinic.name}
         cAddress = {clinic.address_1+', '+clinic.address_2+', '+clinic.address_3}
         cPhone = {clinic.mobile_no}

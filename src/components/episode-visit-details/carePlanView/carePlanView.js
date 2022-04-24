@@ -199,9 +199,8 @@ const handleSubmit = (data) => {
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     {/* <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
-                                        <BiEdit 
-                            
-                             />{"  "}Edit
+                                        <BiEdit />
+                             {"  "}Edit
                                        
                                     </Button> */}
                                     {"  "}
