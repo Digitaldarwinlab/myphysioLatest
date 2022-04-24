@@ -24,6 +24,7 @@
   }
   
   .invoice-table {
+    min-width: 800px;
     margin: auto;
   }
   
@@ -134,6 +135,10 @@
     margin-bottom: 5px;
   }
 
+.hiiddee {
+  display: none;
+}
+
 
   @media (max-width:500px){
     .invoice-search {
@@ -141,6 +146,23 @@
       width: 100%;
       
     }
+
+    
+  .amount-form {
+    
+     margin-left: 30% ;
+      margin-right: 7%;
+      font-weight: 100;
+      font-size:large;
+     }
+
+     .hiddee {
+       display: none;
+     }
+
+     .hiiddee{
+       display: block;
+     }
   }
 
   @media print{
@@ -156,5 +178,9 @@
 
     .amount-form {
       margin-right: 12%;
+    }
+
+    .hiiddee{
+      display: none;
     }
     }

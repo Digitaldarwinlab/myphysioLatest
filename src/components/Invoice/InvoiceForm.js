@@ -70,22 +70,22 @@ const handleClickPrint = () => {
         </ul>
       </div>
       <form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
-        <table style={{ width: "90%" }} className="invoice-table">
+        <div style={{overflowX:"auto"}}>
+        <table style={{ width: "90%" }} className="invoice-table table">
           <thead>
             <tr>
-
               <td>Description</td>
               <td>Unit Cost <FaRupeeSign /></td>
               <td>Qty</td>
               <td>Discount (%)</td>
               <td>Tax (%)</td>
               <td>Cost <FaRupeeSign /></td>
+             
             </tr>
           </thead>
           <tbody>
 
             {list.map((item, index) => <tr key={item.id}>
-
               <td>{item.Description}</td>
               <td>{item.UnitCost}  </td>
               <td>{item.Quantity}</td>
@@ -95,7 +95,7 @@ const handleClickPrint = () => {
               <td>{ <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
             </tr>)}
             <tr className="hide-row">
-
+            
               <td className="Description" style={{ width: "40%" }}> <input placeholder="Description" name='Description' type='text' onChange={handleChange} value={item.Description} /></td>
               <td className='UnitCost' > <input placeholder="Unit Cost" name='UnitCost' type="text" onChange={handleChange} value={item.UnitCost} /></td>
               <td className='Quantity'>  <input placeholder="Quantity" name='Quantity' type="text" onChange={handleChange} value={item.Quantity} /></td>
@@ -103,10 +103,12 @@ const handleClickPrint = () => {
               <td className="Tax">  <input placeholder="Tax" name='Tax' type="text" onChange={handleChange} value={item.Tax} /></td>
 
               <td style={{ width: "10%" }}></td>
-              <td> { <button className='add-button' type='submit'> + </button>}</td>
+              <td className="hiddee"> { <button className='add-button' type='submit'> + </button>}</td>
             </tr>
           </tbody>
         </table>
+        </div>
+        <center>{ <button className='add-button hiiddee' type='submit' style={{width:"10%"}}> + </button>}</center>
       </form>
       <div className='amount-form'>
         <hr />
@@ -123,7 +125,7 @@ const handleClickPrint = () => {
       </div>
     </div>
     <center>
-      <center><button className='add-button' onClick={handleFinalSubmit} >Submit</button></center>
+      <center>{!showPrint && <button className='add-button' onClick={handleFinalSubmit} >Submit</button>}</center>
        {/* <button className='add-button' onClick={() => { setPreview(true) }}>Preview</button> */}
      { showPrint && <ReactToPrint
         trigger={() =><button className='add-button' onClick={handleClickPrint} >Print</button>}

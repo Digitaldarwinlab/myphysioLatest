@@ -408,6 +408,7 @@ const EmployeeDashborad = () => {
                         }
                         key="6"
                     >
+                            <Button className="btncolor me-2" onClick={() => history.push('/care-plan')}>Add</Button>
                         {/* aswin start 10/30/2021 start */}
                         {/* <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} /> */}
                         {/* aswin start 10/30/2021 stop */}

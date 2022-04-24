@@ -19,12 +19,12 @@
 background-color:#2d7ecb;
 color:white;
 }
-.enterprises-table th:first-child, td:first-child
+/* .enterprises-table th:first-child, td:first-child
 {
 position:sticky;
 left:0px;
 
-}
+} */
 .enterprises-table td:first-child
 {
   background-color: #8bb2d7;
@@ -65,12 +65,12 @@ font-weight: 600;
   font-weight: 600;
 }
 
-.enterprises-table2 th:first-child, td:first-child
+/* .enterprises-table2 th:first-child, td:first-child
 {
 position:sticky;
 left:0px;
 
-}
+} */
 .enterprises-table2 td:first-child
 {
   /* background-color: #acaeb1; */

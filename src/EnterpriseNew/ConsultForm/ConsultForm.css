@@ -38,8 +38,16 @@
 margin:0
 }
 
-.build img {
-    /* width:20%; */
+.build-img {
+    width:80%;
+}
+
+.build-img.two {
+    width: 78%;
+    }
+
+.build-img.three {
+width: 70%;
 }
 
 @media (max-width:700px){

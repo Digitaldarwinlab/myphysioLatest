@@ -23,7 +23,6 @@
 }
 
 .clinic-details {
- 
     align-self: center;
 }
 
@@ -74,6 +73,15 @@ list-style: none;
     .clinic-info {
        text-align: center;
       }
+
+      
+.clinic-details {
+    padding-left: 15px;
+}
+
+.patient ul {
+    flex-direction: column;
+}
 }
 
 @media print {

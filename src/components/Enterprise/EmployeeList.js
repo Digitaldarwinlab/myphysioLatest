@@ -262,8 +262,8 @@ const EmployeeList = () => {
     console.log(val);
     dispatch({
         type: EPISODE_STATECHANGE, payload: {
-            key: "patient_code",
-            value: val.pp_em_id
+            key: "employee_code",
+            value: val.employee_code
         }
     })
     dispatch({

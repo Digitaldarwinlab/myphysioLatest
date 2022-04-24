@@ -39,10 +39,10 @@ const Qa = () => {
         // }).catch(err => console.log(err))
 
         let id;
-        if (userInfo.role === "employee") {
+        if (userInfo.role === "employee" || userInfo.role === "enterprise_patient") {
             id = JSON.parse(localStorage.getItem("userId"));
         } else {
-            id = state.patient_code;
+            id = state.employee_code;
         }
 
         setLoading(true);
@@ -60,7 +60,7 @@ const Qa = () => {
             });
         }).catch(err => {
             setLoading(false);
-            log(err)
+            console.log(err)
         });
     }, []);
 
