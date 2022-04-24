@@ -114,6 +114,7 @@ import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
 
 import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
 import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
+import ExerDetail from "./PatientComponents/PatientSchedule/ExerDetail.jsx";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -228,6 +229,7 @@ const App = () => {
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
 							<PatientRoute exact path="/patient/exercises/brief" forceRefresh={true} component={ExerciseDetail} />
+							<PatientRoute exact path="/patient/exercises/manual" forceRefresh={true} component={ExerDetail} />
 							<PatientRoute exact path='/patient/progress' component={PatientProgress} />
 							<PatientRoute exact path='/patient/update' component={PatientIndex} />
 							<PatientRoute exact path='/patient/Temp' component={Tempdashboard} />

@@ -669,16 +669,29 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //  console.log('final exercise status ',exercise_status)
   //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
-    history.push({
-      pathname: "/patient/exercises/brief",
-      state: {
-        exercise:exercises[0],
-        exercises,
-        exNameList:exArr,
-        status_flag,
-        repArr
-      },
-    });
+    if(!status_flag){
+      history.push({
+        pathname: "/patient/exercises/brief",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }else{
+      history.push({
+        pathname: "/patient/exercises/manual",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }
   };
 
   const checkStatuc=(ex)=>{

@@ -1155,7 +1155,43 @@ class AI extends Component {
                         </Radio.Group>
                         <br />
                         <br />
-                        <div>
+                        {this.state.latSide=="left"&& <div>
+                            <Checkbox.Group
+                              onChange={this.angles}
+                            defaultValue={() =>
+                                this.ifCheck(leftJoints)
+                              }
+                            >
+                              <Row>
+                                {leftJoints.map((item) => (
+                                  <Col span={12}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                          {this.state.latSide=="right"&& <div>
+                            <Checkbox.Group
+                              onChange={this.angles}
+                            defaultValue={() =>
+                                this.ifCheck(rightJoints)
+                              }
+                            >
+                              <Row>
+                                {rightJoints.map((item) => (
+                                  <Col span={12}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                        {/* <div>
                           <Checkbox.Group
                             onChange={this.angles}
                             value={() =>
@@ -1172,7 +1208,7 @@ class AI extends Component {
                               ))}
                             </Row>
                           </Checkbox.Group>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </>

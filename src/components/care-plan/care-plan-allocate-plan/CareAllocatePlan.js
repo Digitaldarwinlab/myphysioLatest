@@ -521,8 +521,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
             {/* <Switch defaultChecked /> */}
             <Row >
             <Space size={"large"}> 
-            <span style={{fontSize: "17px"}}>Use Camera {"  "}</span>
-            <Checkbox style={{paddingLeft:'10px'}} className="AI_selection_checkbox" checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
+            <span style={{fontSize: "17px"}}>Use Camera {" : "}</span>
+            <Checkbox style={{paddingLeft:'5px'}} className="AI_selection_checkbox" checked={state.status_flag} onChange={()=>changeToggle()}> {state.status_flag?  <span>Active {"  "}</span>:
                 <span>Inactive {"  "}</span>}</Checkbox>
             </Space>
             </Row>
