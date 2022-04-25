@@ -129,7 +129,7 @@ const allNewJoints = {
   "R Hip Fwd Flex": "rightHip",
   "L Knee Flex/Ext": "leftKnee",
   "R Knee Flex/Ext": "rightKnee",
-  "L Cervical Side flex": "leftNeck",
+  "L Cervical Side Flex": "leftNeck",
   "R Cervical Side Flex": "rightNeck",
   "L Lateral Side Flex": "leftPelvic",
   "R Lateral Side Flex": "rightPelvic",
@@ -137,8 +137,8 @@ const allNewJoints = {
   "R Wrist": "rightWrist",
   "L Ankle": "leftAnkle",
   "R Ankle": "rightAnkle",
-  "L Hip Abd/Add": "leftHipAdductionAdbuction",
-  "R Hip Abd/Add": "rightHipAdductionAdbuction",
+  "L Hip Abd/Add": "leftHipAdductionAbduction",
+  "R Hip Abd/Add": "rightHipAdductionAbduction",
   "Cervical Fwd Flex": "cervicalForwardFlexion",
 };
 const text = `
@@ -174,12 +174,34 @@ const dataSource3 = [
 ];
 
 const AromWithouthAi = () => {
-  const [tableData1, setTableData1] = useState(dataSource1);
-  const [tableData2, setTableData2] = useState(dataSource2);
-  const [tableData3, setTableData3] = useState(dataSource3);
+  const [tableData1, setTableData1] = useState([
+    {
+      id: Math.floor(Math.random() * 1000),
+      joint: "select",
+      min: 0,
+      max: 0,
+    },
+  ]);
+  const [tableData2, setTableData2] = useState([
+    {
+      id: Math.floor(Math.random() * 1000),
+      joint: "select",
+      min: 0,
+      max: 0,
+    },
+  ]);
+  const [tableData3, setTableData3] = useState([
+    {
+      id: Math.floor(Math.random() * 1000),
+      joint: "select",
+      min: 0,
+      max: 0,
+    },
+  ]);
   const [checkState1 ,setCheckState1] = useState(true)
   const [checkState2 ,setCheckState2] = useState(true)
   const [checkState3 ,setCheckState3] = useState(true)
+  const [visible ,setVisible] = useState(false)
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const history = useHistory();
@@ -245,6 +267,7 @@ const AromWithouthAi = () => {
       console.log(tableData1);
       let angles = {};
     tableData1.map((item) => {
+      if(item.joint!=="select"){
        if(item.min>item.max){
       //   console.log("checkstate ",item.min>item.max," check")
       //   //checkState
@@ -264,6 +287,7 @@ const AromWithouthAi = () => {
        }
       let val = { min: item.min, max: item.max };
       angles[allNewJoints[item.joint]] = val;
+      }
     });
       // if(checkState){
       //   setCheckState(false)
@@ -289,6 +313,7 @@ const AromWithouthAi = () => {
       console.log(tableData2);
       let angles = {};
       tableData2.map((item) => {
+        if(item.joint!=="select"){
          if(item.min>item.max){
         //   dispatch({ type: STATECHANGE, payload: { key: 'checkState',value:true } });
         //   setCheckState(true)
@@ -304,6 +329,7 @@ const AromWithouthAi = () => {
          }
         let val = { min: item.min, max: item.max };
         angles[allNewJoints[item.joint]] = val;
+        }
       });
       // if(checkState){
       //   setCheckState(false)
@@ -328,6 +354,7 @@ const AromWithouthAi = () => {
       console.log(tableData3);
       let angles = {};
     tableData3.map((item) => {
+      if(item.joint!=="select"){
        if(item.min>item.max){
       //   console.log("checkstate ",item.min>item.max," check")
       //   dispatch({ type: STATECHANGE, payload: { key: 'checkState',value:true } });
@@ -344,6 +371,7 @@ const AromWithouthAi = () => {
        }
       let val = { min: item.min, max: item.max };
       angles[allNewJoints[item.joint]] = val;
+      }
     });
     // if(checkState){
     //   setCheckState(false)
@@ -376,6 +404,7 @@ const AromWithouthAi = () => {
   };
   useEffect(() => {
     // Set totals on initial render
+    setVisible(true)
     const newData = [...tableData1];
     for (let index = 0; index < tableData1.length; index++) {
       setTotal(newData, index);
@@ -513,11 +542,11 @@ const AromWithouthAi = () => {
     }
     if(key=='max'){
       if(e<record.min){
-        dispatch({ type: VALIDATION, payload: { error: 'Min value should not greater than Max value' } });
         setCheckState3(false)
+        dispatch({ type: VALIDATION, payload: { error: 'Min value should not greater than Max value' } });
       }else{
-        dispatch({ type: VALIDATION, payload: { error: '' } });
         setCheckState3(true)
+        dispatch({ type: VALIDATION, payload: { error: '' } });
       }
     }
    // dispatch({ type: STATECHANGE, payload: { key: 'checkState',value:false } });
@@ -551,7 +580,7 @@ const AromWithouthAi = () => {
           ref1 = ref;
         }}
           style={{ width: `100%`, margin: 0 }}
-          value={text}
+          //value={text}
           onChange={(e) =>{
             onInputChange1("joint", index, e)
             console.log(record)
@@ -575,7 +604,7 @@ const AromWithouthAi = () => {
         id={record.id+record.joint+record.min+record.max+"min"}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
           //  style={{ width: 120 }}
-          value={text}
+       //   value={text}
           onChange={(e) => onInputChange1("min", index, Number(e),record)}
         />
       ),
@@ -587,7 +616,7 @@ const AromWithouthAi = () => {
         <InputNumber
         id={record.id}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
-          value={text}
+        //  value={text}
           // style={{ width: 120 }}
           onChange={(e) => onInputChange1("max", index, Number(e),record)}
         />
@@ -616,7 +645,7 @@ const AromWithouthAi = () => {
           ref2 = ref;
         }}
           style={{ width: `100%`, margin: 0 }}
-          value={text}
+         // value={text}
           onChange={(e) => {
             onInputChange2("joint", index, e)
             console.log(record)
@@ -639,7 +668,7 @@ const AromWithouthAi = () => {
         id={record.id+record.joint+record.min+record.max+"min"}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
           //  style={{ width: 120 }}
-          value={text}
+         // value={text}
           onChange={(e) => onInputChange2("min", index, Number(e),record)}
         />
       ),
@@ -651,7 +680,7 @@ const AromWithouthAi = () => {
         <InputNumber
         id={record.id}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
-          value={text}
+        //  value={text}
           // style={{ width: 120 }}
           onChange={(e) => onInputChange2("max", index, Number(e),record)}
         />
@@ -680,7 +709,7 @@ const AromWithouthAi = () => {
           ref3 = ref;
         }}
           style={{ width: `100%`, margin: 0 }}
-          value={text}
+        //  value={text}
           onChange={(e) => {
             onInputChange3("joint", index, e)
             console.log(record)
@@ -703,7 +732,7 @@ const AromWithouthAi = () => {
         id={record.id+record.joint+record.min+record.max+"min"}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
           //  style={{ width: 120 }}
-          value={text}
+        //  value={text}
           onChange={(e) => onInputChange3("min", index, Number(e),record)}
         />
       ),
@@ -715,7 +744,7 @@ const AromWithouthAi = () => {
         <InputNumber
         id={record.id}
         min={MinMax[record.joint].min} max={MinMax[record.joint].max}
-          value={text}
+       //   value={text}
           // style={{ width: 120 }}
           onChange={(e) => onInputChange3("max", index, Number(e),record)}
         />
@@ -735,7 +764,7 @@ const AromWithouthAi = () => {
   ];
   return (
     <div className="px-2 py-2">
-      <Form onFinish={SaveData1}  form={form}>
+      {visible&&<Form onFinish={SaveData1}  form={form}>
       <Row>
         <Col
           md={24}
@@ -829,7 +858,7 @@ const AromWithouthAi = () => {
           Save
         </Button>
       </div>
-      </Form>
+      </Form>}
     </div>
   );
 };

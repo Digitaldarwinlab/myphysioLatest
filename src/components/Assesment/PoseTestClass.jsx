@@ -172,8 +172,8 @@ class PoseTestClass extends Component {
     // video.width = width;
     const options = {
       video,
-      videoWidth: width,
-      videoHeight: height,
+      videoWidth: 640,
+      videoHeight: 480,
       canvas,
       //  supervised: false,
       //showAngles: false,

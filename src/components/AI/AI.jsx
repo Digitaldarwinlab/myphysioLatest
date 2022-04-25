@@ -717,8 +717,8 @@ class AI extends Component {
     //  video.height = height;
     const options = {
       video,
-      videoWidth: width,
-      videoHeight: height,
+      videoWidth: 640,
+      videoHeight: 480,
       canvas,
       supervised: true,
       showAngles: true,
@@ -965,6 +965,7 @@ class AI extends Component {
                   Screenshots
                 </Button>,
                 <Button
+                disabled={this.state.SWITCH}
                   className="mx-2"
                   style={{ border: "none" }}
                   icon={<CaretLeftFilled />}

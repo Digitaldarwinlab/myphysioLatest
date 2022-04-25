@@ -737,7 +737,7 @@ const Assesment1 = ({ back, next }) => {
       Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
       Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
     ) {
-      if (state.FirstAssesment.Arom_m) {
+      if (state.FirstAssesment.Arom_M) {
         rom_manual.innerHTML = "AROM calculated";
       } else {
         rom_manual.innerHTML = "AROM";
@@ -745,9 +745,9 @@ const Assesment1 = ({ back, next }) => {
       if (state.FirstAssesment.Arom_Ai) {
         rom.innerHTML = "AROM calculated";
       } else {
-        rom.innerHTML = "AROM";
+        rom.innerHTML = "AROM (using AI)";
       }
-      rom.innerHTML = "AROM Assesment";
+     // rom.innerHTML = "AROM Assesment";
       // setRomVisibility('contents')
       if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
         let data = state.FirstAssesment.Anterior_AI_Data;

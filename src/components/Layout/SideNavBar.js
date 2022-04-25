@@ -350,7 +350,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
             {(userInfo.role === "admin") &&  clinicItems()}
-            {(userInfo.role === "admin") &&  EnterpriseItems()}
+            {/* {(userInfo.role === "admin") &&  EnterpriseItems()} */}
             {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
             {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}

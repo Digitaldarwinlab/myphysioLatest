@@ -345,7 +345,7 @@ class PatientAI extends Component {
 
     return (
         <Col
-         style={{ border: "5px solid" }}
+        // style={{ border: "5px solid" }}
          className="patientside_new_vid_main"
           id="myVideo"
           lg={16}
@@ -500,8 +500,8 @@ class PatientAI extends Component {
    // canvas.width = width
     const options = {
       video,
-      videoWidth: width,
-      videoHeight: height,
+      videoWidth: 640,
+      videoHeight: 480,
       canvas,
       supervised: false,
       showAngles: false,

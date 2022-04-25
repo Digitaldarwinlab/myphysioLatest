@@ -32,7 +32,7 @@ export const tableLabels = {
   leftElbow: "L Elbow Flex",
   rightElbow: "R Elbow Flex",
   leftHipAdductionAbduction: "L Hip Fwd Flex",
-  rightHiAdductionAbduction: "R Hip Fwd Flex",
+  rightHipAdductionAbduction: "R Hip Fwd Flex",
   leftKnee: "L Knee Flex/Ext",
   rightKnee: "R Knee Flex/Ext",
   leftNeck: "L Cervical Side flex",
