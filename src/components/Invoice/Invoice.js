@@ -47,8 +47,8 @@ useEffect(() => {
         tTax = tTax + tax;
       }
 
-      setTotalDiscount(Math.round(tDiscount));
-      setTotalTax(Math.round(tTax));
+      setTotalDiscount(+(tDiscount).toFixed(2));
+      setTotalTax(+(tTax).toFixed(2));
 },[list])
  
 
@@ -83,7 +83,7 @@ useEffect(() => {
     let Discount = +discount;
     let Tax = + tax;
 
-    return Math.round(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100)
+    return +(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100).toFixed(2)
     // return Cost * Quantity;
   };
 

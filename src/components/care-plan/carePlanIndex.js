@@ -1123,8 +1123,10 @@ console.log(reduxState.episodeReducer);
                     }}
                     role="button"></i>
                 {" "}<span  className="CarePlanTitle ml-1"> Care Plan </span>
+                <span style={{float:'right'}}  className="CarePlanTitle ml-1"> Care Plan </span>
 
             </h3>
+
             {reduxState.Validation.episode_check==='failed'&&<Error error={reduxState.Validation.msg} />}
 
             <div className="CarePlan">

@@ -6,6 +6,7 @@ import { GoCalendar } from "react-icons/go";
 import ReactDOM from "react-dom";
 import { IoMdVideocam ,IoMdPerson } from "react-icons/io";
 import { FaCalendarPlus, FaPills, FaMicroscope } from "react-icons/fa";
+import { FaFileInvoiceDollar} from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiOutlineLogout, AiFillMedicineBox ,AiTwotoneSetting } from "react-icons/ai";
@@ -225,6 +226,16 @@ const SideDrawer = ({ visState, setVisState }) => {
             ))}
           </SubMenu>
           </SubMenu>
+          <Menu.Item
+              icon={<FaFileInvoiceDollar className="iconClass2" />}
+              onClick={() => {
+                history.push("/invoice");
+                setVisState(false);
+              }}
+              key="1101"
+            >
+             Invoice
+            </Menu.Item>
           <Menu.Item
               icon={<AiOutlineLogout className="iconClass2" />}
               onClick={() => {

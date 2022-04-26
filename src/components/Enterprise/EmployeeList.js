@@ -263,7 +263,7 @@ const EmployeeList = () => {
     dispatch({
         type: EPISODE_STATECHANGE, payload: {
             key: "employee_code",
-            value: val.employee_code
+            value: val.pp_em_id
         }
     })
     dispatch({

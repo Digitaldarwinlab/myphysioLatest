@@ -71,14 +71,14 @@ const handleClickPrint = () => {
       </div>
       <form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
         <div style={{overflowX:"auto"}}>
-        <table style={{ width: "90%" }} className="invoice-table table">
+        <table style={{ width: "90%" }} className="invoice-table ">
           <thead>
             <tr>
-              <td>Description</td>
-              <td>Unit Cost <FaRupeeSign /></td>
+              <td className="Description">Description</td>
+              <td className="unit-cost">Unit Cost <FaRupeeSign /></td>
               <td>Qty</td>
               <td>Discount (%)</td>
-              <td>Tax (%)</td>
+              <td >Tax (%)</td>
               <td>Cost <FaRupeeSign /></td>
              
             </tr>
@@ -91,13 +91,13 @@ const handleClickPrint = () => {
               <td>{item.Quantity}</td>
               <td>{item.Discount}</td>
               <td>{item.Tax}</td>
-              <td>{item.Amount} </td>
+              <td>{item.Amount.toFixed(2)} </td>
               <td>{ <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
             </tr>)}
             <tr className="hide-row">
             
-              <td className="Description" style={{ width: "40%" }}> <input placeholder="Description" name='Description' type='text' onChange={handleChange} value={item.Description} /></td>
-              <td className='UnitCost' > <input placeholder="Unit Cost" name='UnitCost' type="text" onChange={handleChange} value={item.UnitCost} /></td>
+              <td className="Description" style={{ width: "40% !important" }}> <input placeholder="Description" name='Description' type='text' onChange={handleChange} value={item.Description} /></td>
+              <td className="unit-cost" > <input placeholder="Unit Cost" name='UnitCost' type="text" onChange={handleChange} value={item.UnitCost} /></td>
               <td className='Quantity'>  <input placeholder="Quantity" name='Quantity' type="text" onChange={handleChange} value={item.Quantity} /></td>
               <td className="Discount"> <input placeholder="Discount" name='Discount' type="text" onChange={handleChange} value={item.Discount} /></td>
               <td className="Tax">  <input placeholder="Tax" name='Tax' type="text" onChange={handleChange} value={item.Tax} /></td>
@@ -113,9 +113,9 @@ const handleClickPrint = () => {
       <div className='amount-form'>
         <hr />
         <ul>
-        <li><b>Total Cost :</b><FaRupeeSign /><b> {totalAmount + totalDiscount - totalTax} </b></li>
-        <li><b>Total Discount :</b><FaRupeeSign /><b>{totalDiscount} </b></li>
-        <li><b>Total Tax </b><FaRupeeSign /><b> {totalTax} </b></li>
+        <li><b>Total Cost :</b><FaRupeeSign /><b> {(totalAmount + totalDiscount - totalTax).toFixed(2)} </b></li>
+        <li><b>Total Discount :</b><FaRupeeSign /><b>{totalDiscount.toFixed(2)} </b></li>
+        <li><b>Total Tax </b><FaRupeeSign /><b> {totalTax.toFixed(2)} </b></li>
         </ul>
         <hr />
        
