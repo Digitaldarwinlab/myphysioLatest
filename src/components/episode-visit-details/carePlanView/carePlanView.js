@@ -10,7 +10,7 @@ import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } f
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
-
+import moment from "moment";
 const CarePlanView = (props) => {
     const [carePlanData, setCarePlanData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -30,17 +30,17 @@ const CarePlanView = (props) => {
     useEffect(() => {
         async function getAllCarePlanData() {
             setLoading(true);
-            const data = await fetchCarePlan(props.eid);
+           // const data = await fetchCarePlan(props.eid);
             const resdata = await CarePlan(props.eid)
             setLoading(false);
             
-            console.log('data is coming',resdata)
-            console.log("data is coming ",data)
+            console.log('data is coming res',resdata)
+            // console.log("data is coming ",data)
 
-            setCarePlanData(data);
+            setCarePlanData(resdata);
             setPaginationState({
                 ...paginationState,
-                totalPage: data.length / paginationState.pageSize,
+                totalPage: resdata.length / paginationState.pageSize,
                 minIndex: 0,
                 maxIndex: paginationState.pageSize
             });
@@ -61,20 +61,20 @@ const CarePlanView = (props) => {
     }
 
     //fetchData
-    const fetchData = async () => {
-        setLoading(true);
-        const data = await fetchCarePlan(props.eid);
-        setLoading(false);
-        setCarePlanData(data);
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     const data = await fetchCarePlan(props.eid);
+    //     setLoading(false);
+    //     setCarePlanData(data);
 
 
-        setPaginationState({
-            ...paginationState,
-            totalPage: data.length / paginationState.pageSize,
-            minIndex: 0,
-            maxIndex: paginationState.pageSize
-        });
-    }
+    //     setPaginationState({
+    //         ...paginationState,
+    //         totalPage: data.length / paginationState.pageSize,
+    //         minIndex: 0,
+    //         maxIndex: paginationState.pageSize
+    //     });
+    // }
     //change View
   
     const handleChange = (key, value, id = 0) => {
@@ -195,18 +195,18 @@ const handleSubmit = (data) => {
                         && (
                             <div key={index} className="px-1 py-1">
                                 {console.log("careplan data ",data)}
-                                <Row  justify="end">
+                               {moment(data.end_date)>=new Date().setHours(0,0,0,0)&& <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
-                                    {/* <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
+                                    <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
                                         <BiEdit />
                              {"  "}Edit
                                        
-                                    </Button> */}
+                                    </Button>
                                     {"  "}
-                                    {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
+                                    {/* {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>} */}
                         </Col>
-                                </Row>
+                                </Row>}
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>

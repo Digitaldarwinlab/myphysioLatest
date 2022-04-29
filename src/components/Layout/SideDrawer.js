@@ -6,7 +6,6 @@ import { GoCalendar } from "react-icons/go";
 import ReactDOM from "react-dom";
 import { IoMdVideocam ,IoMdPerson } from "react-icons/io";
 import { FaCalendarPlus, FaPills, FaMicroscope } from "react-icons/fa";
-import { FaFileInvoiceDollar} from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiOutlineLogout, AiFillMedicineBox ,AiTwotoneSetting } from "react-icons/ai";
@@ -50,6 +49,16 @@ const SideDrawer = ({ visState, setVisState }) => {
     setVisState(false);
   };
 
+  const handleCameraClick = (id,label) => {
+    console.log("Label",label)
+    let flag = 0;
+    if(label.toLowerCase().includes("back")){
+      flag = 1;
+    }
+    console.log(flag);
+    darwin.cameraIdFunc(id,flag)
+  }
+  
   return (
     <>
       {/* <Button type="primary" onClick={showDrawer}>
@@ -220,22 +229,12 @@ const SideDrawer = ({ visState, setVisState }) => {
           <SubMenu key="sub8" icon={<SettingOutlined className="iconClass2" />} title="Settings" >
           <SubMenu key="sub9" icon={<IoMdVideocam className="iconClass2" />} title="camera">
             {devices.map((item, index) => (
-              <Menu.Item onClick={() => darwin.cameraIdFunc(item.deviceId)}>
+              <Menu.Item onClick={() => handleCameraClick(item.deviceId,item.label)}>
                 {item.label}
               </Menu.Item>
             ))}
           </SubMenu>
           </SubMenu>
-          <Menu.Item
-              icon={<FaFileInvoiceDollar className="iconClass2" />}
-              onClick={() => {
-                history.push("/invoice");
-                setVisState(false);
-              }}
-              key="1101"
-            >
-             Invoice
-            </Menu.Item>
           <Menu.Item
               icon={<AiOutlineLogout className="iconClass2" />}
               onClick={() => {

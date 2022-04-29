@@ -18,7 +18,7 @@ export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
                         label="Start Date"
                         name="Start Data"
                         required={true}
-                        defaultValue={data.end_date?  moment(data.end_date, "YYYY-MM-DD") : moment(data.start_date, "YYYY-MM-DD")}
+                        defaultValue={data.start_date?  moment(data.start_date, "YYYY-MM-DD") : moment(data.start_date, "YYYY-MM-DD")}
                         disabledDate={true}
                         disabled={true}
                     />
@@ -28,7 +28,7 @@ export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
                         label="End Date"
                         name="End Data"
                         required={true}
-                        defaultValue={moment(data.start_date, "YYYY-MM-DD")}
+                        defaultValue={moment(data.end_date, "YYYY-MM-DD")}
                         disabledDate={true}
                         disabled={true}
                     />
