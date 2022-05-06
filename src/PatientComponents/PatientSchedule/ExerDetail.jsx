@@ -1,4 +1,15 @@
-import { Col, Row, Descriptions, Space, Checkbox, Divider, Slider, Modal, Button ,Tooltip  } from "antd";
+import {
+  Col,
+  Row,
+  Descriptions,
+  Space,
+  Checkbox,
+  Divider,
+  Slider,
+  Modal,
+  Button,
+  Tooltip,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
@@ -9,7 +20,12 @@ import "./ExerciseDetail.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { PATIENT_STATECHANGE } from "../../contextStore/actions/ParientAction";
-import { submitManuelAi, updatePainMeter } from "../../PatientAPI/PatientShedule";
+import ReactPlayer from "react-player";
+import {
+  submitManuelAi,
+  updatePainMeter,
+  update_careplan,
+} from "../../PatientAPI/PatientShedule";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 
 const ExerDetail = () => {
@@ -26,7 +42,10 @@ const ExerDetail = () => {
     1: <i class="far fa-smile" style={{ fontSize: 25, color: "lime" }}></i>,
     2: <MehOutlined style={{ fontSize: 25, color: "limegreen" }} />,
     3: (
-      <i class="far fa-frown" style={{ fontSize: 25, color: "lightsalmon" }}></i>
+      <i
+        class="far fa-frown"
+        style={{ fontSize: 25, color: "lightsalmon" }}
+      ></i>
     ),
     4: <FrownOutlined style={{ fontSize: 25, color: "orange" }} />,
     5: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>,
@@ -50,31 +69,66 @@ const ExerDetail = () => {
   useEffect(async () => {
     console.log(location.state.status_flag);
     const res = await exercise_detail(location.state.exNameList);
-    //  console.log("exercises ", this.props.location.state.repArr);
-    setExercises(res);
+    console.log("exercises ", location.state.exercises);
+    let yt_temp = [];
+    location.state.exercises.map((ex) => {
+      if (ex.name == "YouTube") {
+        let a = {
+          title: ex.name,
+          video_path: ex.youtube_link,
+        };
+        yt_temp.push(a);
+      }
+    });
+    console.log("exercises ", res);
+    console.log("exercises ", yt_temp);
+    setExercises([...res, ...yt_temp]);
   }, []);
 
- const finish = async (id) => {
-   let temp = []
-  comp.map(item=>{
-    temp.push(location.state.exercises[item].name)
-  })
-   console.log(location.state.exercises[0].ChoosenTime)
-   console.log(location.state.exercises[0].pp_cp_id)
-   console.log(pain)
-   console.log(temp)
-   console.log({
-     id:location.state.exercises[0].pp_cp_id,
-     time_slot:location.state.exercises[0].ChoosenTime,
-     exercise:temp
-   })
-    await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
-    await updatePainMeter(
-      location.state.exercises[0].pp_cp_id,
-      pain
-    );
- window.location.href = "/patient/schedule"
- //window.location.reload();
+  const finish = async () => {
+    let tempId = [];
+    comp.map((item) => {
+      tempId.push(location.state.exercises[item].ex_em_id);
+    });
+    let tempName = [];
+    comp.map((item) => {
+      tempName.push(location.state.exercises[item].name);
+    });
+    // console.log(location.state.exercises);
+    // console.log(location.state.exercises[0].ChoosenTime);
+    // console.log(location.state.exercises[0].pp_cp_id);
+    // console.log(pain);
+    // console.log(temp);
+    // console.log({
+    //   id: location.state.exercises[0].pp_cp_id,
+    //   time_slot: location.state.exercises[0].ChoosenTime,
+    //   exercise: temp,
+    // });
+    let ChoosenTime = location.state.exercises[0].ChoosenTime;
+    const date = new Date();
+    let pp_cp_id = location.state.exercises[0].pp_cp_id;
+    // let data = {
+    //   id: pp_cp_id,
+    //   is_ai: 0,
+    //   date: date.toISOString().split("T")[0],
+    //   exerciseId: tempId[0],
+    //   pain: pain,
+    //   output_json: {},
+    // };
+    let ch = {};
+    tempName.map((item) => {
+      ch[item] = {};
+    });
+    // data.output_json[ChoosenTime] = ch;
+    // console.log(data);
+    let res = await update_careplan(ch, [tempId[0]], 2, ChoosenTime, pp_cp_id);
+    // temp.map( async (id) => {
+    //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
+    // });
+    // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
+    await updatePainMeter(location.state.exercises[0].pp_cp_id, pain);
+    window.location.href = "/patient/schedule";
+    //window.location.reload();
   };
 
   const upDel = (index) => {
@@ -94,7 +148,7 @@ const ExerDetail = () => {
       },
     });
   };
-
+console.log("final ",exercises)
   return (
     <div className="exercise-detail" id="exercise-detail">
       <h3 className="fw-bold mt-2 ms-2">
@@ -120,37 +174,49 @@ const ExerDetail = () => {
                   )}
                 </div>
                 <div className="video">
-                  <video controls autoPlay loop id="video1" width="100%">
-                    <source
-                      src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`}
-                      type="video/mp4"
+                  {exercise.title == "YouTube" ? (
+                    <ReactPlayer
+                      playing={true}
+                      loop={true}
+                      controls={true}
+                      className="react-player"
+                      url={exercise.video_path}
+                      width="100%"
+                    //  height="auto"
                     />
-                  </video>
+                  ) : (
+                    <video controls autoPlay loop id="video1" width="100%">
+                      <source
+                        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`}
+                        type="video/mp4"
+                      />
+                    </video>
+                  )}
                 </div>
               </Col>
               <Col className="right-box">
                 <div className="instructions" id="instructions">
                   {location.state.status_flag && (
                     <Row justify="end">
-                       <Tooltip title="Mark after completion of each exercise">
-                      <Space size={"large"}>
-                        <span style={{ fontSize: "17px" }}>
-                          Completed {" : "}
-                        </span>
-                        <Checkbox
-                          style={{ paddingLeft: "5px" }}
-                          className="AI_selection_checkbox"
-                          // checked={state.status_flag}
-                          onChange={() => upDel(index)}
-                        >
-                          {" "}
-                          {/* {state.status_flag ? (
+                      <Tooltip title="Mark after completion of each exercise">
+                        <Space size={"large"}>
+                          <span style={{ fontSize: "17px" }}>
+                            Completed {" : "}
+                          </span>
+                          <Checkbox
+                            style={{ paddingLeft: "5px" }}
+                            className="AI_selection_checkbox"
+                            // checked={state.status_flag}
+                            onChange={() => upDel(index)}
+                          >
+                            {" "}
+                            {/* {state.status_flag ? (
                               <span>Active {"  "}</span>
                             ) : (
                               <span>Inactive {"  "}</span>
                             )} */}
-                        </Checkbox>
-                      </Space>
+                          </Checkbox>
+                        </Space>
                       </Tooltip>
                     </Row>
                   )}

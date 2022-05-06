@@ -24,6 +24,7 @@
     "jspdf": "^2.4.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.5.2",
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
@@ -31,6 +32,7 @@
     "react-horizontal-strip-datepicker": "^3.0.2",
     "react-icons": "^4.2.0",
     "react-moment": "^1.1.1",
+    "react-player": "^2.10.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -85,5 +87,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1651068581144
+  "buildDate": 1651848956553
 }

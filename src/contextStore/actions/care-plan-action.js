@@ -14,4 +14,6 @@ export const CARE_PLAN_ADD_TO_CART = "carePlanAddToCart";
 export const CARE_PLAN_ADD_TO_CART_TEMPLATE = "carePlanAddToCartTemplate";
 export const CARE_PLAN_REMOVE_FROM_CART = "carePlanRemoveFromCart";
 export const CARE_PLAN_ROM_JOINT_CHANGE = "carePlanRomJointChange";
+export const CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE = "carePlanRomJointYoutubeChange";
+export const CARE_PLAN_LINK_YOUTUBE_CHANGE = "carePlanLinkYoutubeChange";
 export const CARE_PLAN_EXERCISE_CHANGE = "carePlanExerciseChange";

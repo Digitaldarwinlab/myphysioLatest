@@ -101,15 +101,16 @@ const handleEdit = (data) => {
         dispatch({type:CARE_PLAN_ADD_TO_CART,payload:item})
     })
     localStorage.setItem("care-plan-cart", JSON.stringify(temp));
-    console.log(data)
+    console.log("care-plan-cart ",data)
     let count_time_slots = data.time_slot.map(item=>item[0])
     console.log(count_time_slots)
     //status_flag
+    //timeSlots
     dispatch({
         type: CARE_PLAN_STATE_CHANGE,
         payload: {
             key:"status_flag",
-            value: data.status_flag
+            value: data.status_flag==2?true:false
         }
     })
     dispatch({
@@ -154,6 +155,20 @@ const handleEdit = (data) => {
             value: count_time_slots.length
         }
     })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "timeSlots",
+            value: count_time_slots
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "time_slot_edit",
+            value: 1
+        }
+    })
     //careplan_code
     console.log(carePlanData)
     history.push({pathname: "/care-plan",stateValues:{edit:true}})
@@ -195,7 +210,7 @@ const handleSubmit = (data) => {
                         && (
                             <div key={index} className="px-1 py-1">
                                 {console.log("careplan data ",data)}
-                               {moment(data.end_date)>=new Date().setHours(0,0,0,0)&& <Row  justify="end">
+                               {(moment(data.end_date)>=new Date().setHours(0,0,0,0) && moment(data.start_date)>=new Date().setHours(0,0,0,0))&& <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         

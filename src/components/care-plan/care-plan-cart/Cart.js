@@ -1,11 +1,16 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
-import { AiOutlineMinusCircle } from "react-icons/ai";
+import {
+  AiOutlineMinusCircle,
+  AiFillCaretDown,
+  AiFillCaretUp,
+} from "react-icons/ai";
 import { Row, Col, Button, Space, notification } from "antd";
+import { CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
 
 export default function Cart({
   Exercise,
@@ -15,16 +20,19 @@ export default function Cart({
 }) {
   const history = useHistory();
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   useEffect(() => {
-   console.log("cart check ",Exercise)
-   console.log("cart check ",items)
+    console.log("cart check ", Exercise);
+    console.log("cart check ", items);
   }, []);
   const AddVideoRom = () => {
-    const allExcercise = state.carePlanRedcucer.exercises_cart.filter((val) => {
-      if (items.indexOf(val.ex_em_id) !== -1) return val;
-    }).map((val) => {
-      return val.title;
-    });
+    const allExcercise = state.carePlanRedcucer.exercises_cart
+      .filter((val) => {
+        if (items.indexOf(val.ex_em_id) !== -1) return val;
+      })
+      .map((val) => {
+        return val.title;
+      });
     const ExcerJoints = async () => {
       const res = await fetch(process.env.REACT_APP_API + "/exercise-joints/", {
         method: "POST",
@@ -78,16 +86,18 @@ export default function Cart({
 
       // console.log("Excercise are selected ",allExcercise)
       let exercisePrimary = [];
-      const newEx = await state.carePlanRedcucer.exercises_cart.map(async (ex) => {
-        allExcercise.map((element) => {
-          if (ex.name === element) {
-            let temp = {}
-            temp["name"] = ex.name
-            temp['joint'] = Object.keys(ex.angle)
-            exercisePrimary.push(temp);
-          }
-        });
-      });
+      const newEx = await state.carePlanRedcucer.exercises_cart.map(
+        async (ex) => {
+          allExcercise.map((element) => {
+            if (ex.name === element) {
+              let temp = {};
+              temp["name"] = ex.name;
+              temp["joint"] = Object.keys(ex.angle);
+              exercisePrimary.push(temp);
+            }
+          });
+        }
+      );
       console.log("sorted array ", {
         pathname: "/assessment/AI",
         state: {
@@ -141,55 +151,141 @@ export default function Cart({
     };
     ExcerJoints();
   };
+  const RemoveYouTube = (idx) => {
+    let len = state.carePlanRedcucer.exercises_cart.filter(
+      (item, index) => index !== idx
+    );
+    console.log(len);
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "exercises_cart",
+        value: len,
+      },
+    });
+  };
+  const handleDragEnd = (e) => {
+    if (!e.destination) return;
+    let tempData = Array.from(state.carePlanRedcucer.exercises_cart);
+    let [source_data] = tempData.splice(e.source.index, 1);
+    tempData.splice(e.destination.index, 0, source_data);
+    console.log(tempData);
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "exercises_cart",
+        value: tempData,
+      },
+    });
+  };
+
   return (
     <React.Fragment style={{ marginBottom: "10px" }}>
-      {state.carePlanRedcucer.exercises_cart.map((item, index) => {
-        return (
-          <div key={item.ex_em_id}>
-            <Row style={{ width: "700px", marginLeft: "20px" }}>
-              <Col lg={1} className="">
-                <i className="fas fa-running iconClass3"></i>
-              </Col>
-              <Col lg={6} style={{ position: "relative", marginLeft: "10px" }}>
-                {item.name}
-
-                <AiOutlineMinusCircle
-                  onClick={() => {
-                    UpdateCart(item.ex_em_id);
-                  }}
-                  className="iconClass3"
-                  style={{ marginLeft: "10px", color: "#fa5f7f" }}
-                />
-              </Col>
-
-              <Col></Col>
-            </Row>
-            <hr />
-          </div>
-        );
-      })}
-      <div
-        className="all-buttons"
-        style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}
-      >
-        <Button className="ant-btn-cart me-1" onClick={AddRom}>
-          Start
-        </Button>
-        <Button
-          className="ant-btn-cart"
-          onClick={() => ChangePageToAllocatePlan()}
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable-1">
+          {(provider) => (
+            <div
+              style={{ margin: "20px" }}
+              gutter={[20, 20]}
+              ref={provider.innerRef}
+              {...provider.droppableProps}
+            >
+              {state.carePlanRedcucer.exercises_cart.map((item, index) => {
+                return (
+                  <Draggable
+                    key={item.id + item.name}
+                    draggableId={item.id + item.name}
+                    index={index}
+                  >
+                    {(provider) => (
+                      <div
+                        style={{
+                          border: "1px solid #e6e6e6",
+                          background: "#ebf6ff",
+                          margin: "5px",
+                        }}
+                        {...provider.dragHandleProps}
+                        {...provider.draggableProps}
+                        ref={provider.innerRef}
+                      >
+                        <div key={item.ex_em_id}>
+                          <Row style={{ width: "700px", marginLeft: "20px" }}>
+                            <Col className="">
+                              <i className="fas fa-running iconClass3"></i>
+                            </Col>
+                            <Col
+                              lg={6}
+                              style={{
+                                position: "relative",
+                                marginLeft: "10px",
+                              }}
+                            >
+                              {item.name}
+                              {item.name == "YouTube" ? (
+                                <AiOutlineMinusCircle
+                                  onClick={() => {
+                                    RemoveYouTube(index);
+                                  }}
+                                  className="iconClass3"
+                                  style={{
+                                    marginLeft: "10px",
+                                    color: "#fa5f7f",
+                                  }}
+                                />
+                              ) : (
+                                <AiOutlineMinusCircle
+                                  onClick={() => {
+                                    UpdateCart(item.ex_em_id);
+                                  }}
+                                  className="iconClass3"
+                                  style={{
+                                    marginLeft: "10px",
+                                    color: "#fa5f7f",
+                                  }}
+                                />
+                              )}
+                            </Col>
+                          </Row>
+                          <hr />
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provider.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {state.carePlanRedcucer.exercises_cart.length > 0 && (
+        <div
+          className="all-buttons"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: "50px",
+          }}
         >
-          {state.carePlanRedcucer.edit_flag ? "Edit" : "Allocate"} Plan
-        </Button>
+          <Button className="ant-btn-cart me-1" onClick={AddRom}>
+            Start
+          </Button>
+          <Button
+            className="ant-btn-cart"
+            onClick={() => ChangePageToAllocatePlan()}
+          >
+            {state.carePlanRedcucer.edit_flag ? "Edit" : "Allocate"} Plan
+          </Button>
 
-        <Button
-          className="ant-btn-cart me-1"
-          style={{ marginLeft: "8px" }}
-          onClick={AddVideoRom}
-        >
-          Start Video Assessment
-        </Button>
-      </div>
+          <Button
+            className="ant-btn-cart me-1"
+            style={{ marginLeft: "8px" }}
+            onClick={AddVideoRom}
+          >
+            Start Video Assessment
+          </Button>
+        </div>
+      )}
     </React.Fragment>
   );
 }

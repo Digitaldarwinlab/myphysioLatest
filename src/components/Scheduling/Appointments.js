@@ -324,7 +324,8 @@ const Appointments = () => {
                                 }
                             }
                         }
-                    }, {
+                    },
+                     {
                         label: {
                             text: "Visit Type"
                         },
@@ -338,7 +339,8 @@ const Appointments = () => {
                                 // console.log(args.value);
                             }
                         }
-                    }, {
+                    },
+                     {
                         label: {
                             text: "Status"
                         },
@@ -428,6 +430,7 @@ const Appointments = () => {
                             editorOptions: {
                                
                                 onValueChanged: function (args) {
+                                    console.log("args value ",args)
                                     form.itemOption("recurrenceGroup", "visible", args.value);
                                     form.updateData("patient", patientName)
                                     form.updateData("episode", episodeName)

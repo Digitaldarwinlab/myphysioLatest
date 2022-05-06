@@ -76,8 +76,8 @@ const allNewJoints = [
   { value: 13, label: "rightWrist" },
   { value: 14, label: "leftAnkle" },
   { value: 15, label: "rightAnkle" },
-  { value: 16, label: "leftHipAdductionAdbuction" },
-  { value: 17, label: "rightHipAdductionAdbuction" },
+  { value: 16, label: "leftHipAdductionAbduction" },
+  { value: 17, label: "rightHipAdductionAbduction" },
   { value: 18, label: "cervicalForwardFlexion" },
 ];
 const joints = [
@@ -89,8 +89,8 @@ const joints = [
   { value: 9, label: "rightNeck" },
   { value: 10, label: "leftPelvic" },
   { value: 11, label: "rightPelvic" },
-  { value: 16, label: "leftHipAdductionAdbuction" },
-  { value: 17, label: "rightHipAdductionAdbuction" },
+  { value: 16, label: "leftHipAdductionAbduction" },
+  { value: 17, label: "rightHipAdductionAbduction" },
 ];
 const leftJoints = [
   { value: 0, label: "leftShoulder" },

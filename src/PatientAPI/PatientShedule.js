@@ -81,6 +81,7 @@ export const submitManuelAi = async (id, time, exercises) => {
 export const update_careplan = async (
   object,
   exercise,
+  is_ai,
   pain,
   exerciseTime,
   careplanId
@@ -101,6 +102,7 @@ export const update_careplan = async (
 
   const json_data = {
     id: careplanId,
+    is_ai:is_ai,
     date: date.toISOString().split("T")[0],
     exerciseId: exercise[0],
     pain: pain,

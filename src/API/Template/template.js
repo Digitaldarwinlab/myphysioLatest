@@ -1,3 +1,4 @@
+import { CARE_PLAN_SUCCESS } from "../../contextStore/actions/care-plan-action";
 import { Decode, Encode } from "../../Encode/hashing";
 import { getUserData } from "../userAuth/userAuth";
 
@@ -6,11 +7,11 @@ const AllocateExerciseData = (data) => {
     name: data.template_name,
     exercise_details: data.exercises_cart,
     global_temp: getUserData() == "admin" ? 1 : 0,
-    clinic_id: getUserData() == "admin"?9999:localStorage.getItem('clinic_id'),
+    clinic_id: getUserData() == "admin"?9999:JSON.parse(localStorage.getItem('user')).clinic_id?JSON.parse(localStorage.getItem('user')).clinic_id:'',
   };
 };
 
-export const AddTemplates = async (data, dispatch, careplan_code) => {
+export const AddTemplates = async (data, dispatch) => {
   let newData = AllocateExerciseData(data);
   try {
     const headers = {
@@ -26,12 +27,43 @@ export const AddTemplates = async (data, dispatch, careplan_code) => {
 
     const responseData = await response.json();
     const result = Decode(responseData);
+    dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'updated',value:"Templated Added Successfully"} });
     console.log(result);
   } catch (err) {
     console.log(err);
     // return [false, "Error 501: Internal Server Error"];
   }
 };
+
+export const getSearchTemplates = async (value, dispatch, pageSize, current) => {
+ // dispatch({ type: FILTER_DATA });
+ let temp = {}
+ temp['query'] = value
+ 
+  const headers = {
+      Accept: 'application/json',
+      "Content-type": "application/json",
+
+  }
+  const encodedData = Encode(temp);
+  try {
+      const response = await fetch(process.env.REACT_APP_API + "/search_temp/", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(encodedData)
+      });
+      // if (response.status !== 200 && response.status !== 201) {
+      //     // console.log(response.statusText)
+      //     return { data: [], total_exercise: 0 };
+      // }
+      const responseData = await response.json();
+      const filteredData = Decode(responseData);
+      return filteredData;
+  } catch (err) {
+      // console.log(err);
+      return [];
+  }
+}
 
 export const getTemplates =async () =>{
   const headers = {

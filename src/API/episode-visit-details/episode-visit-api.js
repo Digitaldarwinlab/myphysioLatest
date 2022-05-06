@@ -122,7 +122,7 @@ const newFilterCarePlanData = (data) => {
     keyObj[item.careplan_code] = item;
   });
 
-  console.log(Object.values(keyObj));
+  console.log("data is coming ", Object.values(keyObj));
   return Object.values(keyObj)
 };
 export const CarePlan = async (eid) => {
@@ -143,7 +143,7 @@ export const CarePlan = async (eid) => {
     const responseData = await response.json();
     const data = Decode(responseData);
     // console.log(data);
-    console.log("data is coming ", data);
+    console.log(data);
 
     if (response.status !== 200 && response.status !== 201) {
       throw new Error("Error: " + response.status + response.statusText);

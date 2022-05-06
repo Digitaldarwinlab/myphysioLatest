@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import { RiLayout6Fill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
 import {
@@ -13,6 +13,8 @@ import {
   Button,
   Badge,
   Card,
+  Space,
+  Tooltip,
 } from "antd";
 import CarePlanCard from "./care-plan-card/Card";
 import Filter from "./care-plan-Filters/Filter";
@@ -20,9 +22,9 @@ import "antd/dist/antd.css";
 import { GrClose } from "react-icons/gr";
 import EpisodeDetail from "./../patientEpisode/Prescription/EpisodeDetail";
 import Cart from "./care-plan-cart/Cart";
-import { FaRunning } from "react-icons/fa";
+import { FaRunning ,FaYoutube ,FaPlus} from "react-icons/fa";
 import { IconContext } from "react-icons";
-import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { AiOutlineMenuUnfold ,AiOutlinePlus} from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import {
   GetAllExerciseList,
@@ -52,6 +54,7 @@ import "./Careplan.css";
 import { useLocation } from "react-router-dom";
 import GlobalTemplate from "../Templates/GlobalTemplate";
 import LocalTemplate from "../Templates/LocalTemplate";
+import { getSearchTemplates } from "../../API/Template/template";
 {
   /*  aswin 10/22/2021 stop */
 }
@@ -211,6 +214,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const reduxState = useSelector((state) => state);
   const [firstTotalEx, setFirstTotalEx] = useState([]);
   const locatoin = useLocation();
+  const scrlRef = useRef(null)
   console.log("careplanStarted", reduxState.carePlanRedcucer);
 
   useEffect(() => {
@@ -500,10 +504,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         name: val.title ? val.title : "Exercise",
         Rep: {
           set: 1,
-          rep_count: 5,
+          rep_count: 10,
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
+        minAmp:val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min: Object.values(val.angle)[0]
@@ -612,10 +617,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           name: val.title ? val.title : "Exercise",
           Rep: {
             set: 1,
-            rep_count: 5,
+            rep_count: 10,
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
+          minAmp:val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -656,10 +662,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           name: val.title ? val.title : "Exercise",
           Rep: {
             set: 1,
-            rep_count: 5,
+            rep_count: 10,
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
+          minAmp:val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -697,10 +704,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         name: val.title ? val.title : "Exercise",
         Rep: {
           set: 1,
-          rep_count: 5,
+          rep_count: 10,
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
+        minAmp:val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min:
@@ -805,7 +813,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         <Col
           className="text-center cart-plan col_careplan2"
           onClick={async () => {
-            (await checkEpisodeId()) == true && setState(!state);
+            // (await checkEpisodeId()) == true && setState(!state);
+            setState(!state)
           }}
         >
           {/* aswin start 10/30/2021 stop */}
@@ -865,10 +874,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           name: val.title ? val.title : "Exercise",
           Rep: {
             set: 1,
-            rep_count: 5,
+            rep_count: 10,
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
+          minAmp:val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -935,10 +945,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           name: val.title ? val.title : "Exercise",
           Rep: {
             set: 1,
-            rep_count: 5,
+            rep_count: 10,
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
+          minAmp:val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -1099,10 +1110,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         name: val.title ? val.title : "Exercise",
         Rep: {
           set: 1,
-          rep_count: 5,
+          rep_count: 10,
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
+        minAmp:val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min: Object.values(val.angle)[0]
@@ -1126,6 +1138,16 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       },
     });
   };
+  const searchTemplates = async (value) => {
+    let res = await getSearchTemplates(value)
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "template_arr",
+          value: res,
+        },
+      });
+  }
   //Exercise Tab
   const ExerciseTab = () => {
     const filteredData = Exerciselist.filter((val) => {
@@ -1295,24 +1317,31 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const handleActiveSearchResult = async (pData) => {
     await getEpisodeDetails(pData, dispatch);
   };
-  const tempExtra = () => (
-    <Search
-      allowClear
-      placeholder="search exercise..."
-      className="input-field w-100 my-3"
-      onChange={(e) => {
-        searchExercise(e.target.value);
-        setCheckedList({
-          ...checkedList,
-          search_query: e.target.value,
-        });
-        console.log("search ", e.target.value);
-      }}
-      onSearch={(e) => console.log("search ", e.target.value)}
-    />
-  );
+  const AddYouTube = () => {
+      let obj = {
+        "id":Math.floor(Math.random() * 100) + 1000,
+        "ex_em_id": 262,
+        "name": "YouTube",
+        "Rep": {
+            "set": 1,
+            "rep_count": 10,
+            "hold_time": 10
+        },
+        "minAmp": 20,
+        "Rom": {
+            "joint": "",
+            "min": 0,
+            "max": 100
+        },
+        "youtube_link":'',
+        "difficulty_level": "Medium",
+        "image_url": "",
+        "video_url": ""
+      }
+      dispatch({ type: CARE_PLAN_ADD_TO_CART, payload: obj });
+  }
   return (
-    <React.Fragment>
+    <React.Fragment ref={scrlRef}>
       {searchBar && <div style={{ minHeight: "20px" }}></div>}
       <h3 className="fw-bold">
         <i
@@ -1406,14 +1435,10 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         allowClear
                         placeholder="search templates..."
                         className="input-field w-100 my-3"
-                        // onChange={(e) => {
-                        //   searchExercise(e.target.value);
-                        //   setCheckedList({
-                        //     ...checkedList,
-                        //     search_query: e.target.value,
-                        //   });
-                        //   console.log("search ", e.target.value);
-                        // }}
+                        onChange={(e) => {
+                            searchTemplates(e.target.value);
+                          console.log("search ", e.target.value);
+                        }}
                         onSearch={(e) => console.log("search ", e.target.value)}
                       />
                     </Col>
@@ -1424,7 +1449,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
               </Tabs>
               <Drawer
                 className="careplan_drawer"
-                title="Plan"
+                title={<Row> <Space size='middle'> Plan  <Tooltip title="Add YouTube Video"><Button onClick={AddYouTube}><Space size="small"><FaPlus /> YouTube</Space></Button></Tooltip></Space></Row>}
                 closeIcon={<GrClose />}
                 placement="right"
                 closable={true}
@@ -1436,10 +1461,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 style={{ top: "50px" }}
                 width={"70%"}
               >
-                {reduxState.carePlanRedcucer.exercises_cart.length === 0 && (
-                  <p>No Plan is Present now...</p>
-                )}
-                {reduxState.carePlanRedcucer.exercises_cart.length !== 0 && (
+                {/* {reduxState.carePlanRedcucer.exercises_cart.length !== 0 && (
                   <Cart
                     Exercise={reduxState.carePlanRedcucer.exercises_cart}
                     items={reduxState.carePlanRedcucer.exercises_cart.map(
@@ -1449,7 +1471,16 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     UpdateCart={UpdateCart}
                     ChangePageToAllocatePlan={ChangePageToAllocatePlan}
                   />
-                )}
+                )} */}
+                 <Cart
+                    Exercise={reduxState.carePlanRedcucer.exercises_cart}
+                    items={reduxState.carePlanRedcucer.exercises_cart.map(
+                      (item) => item.ex_em_id
+                    )}
+                    fullExer={fullExer}
+                    UpdateCart={UpdateCart}
+                    ChangePageToAllocatePlan={ChangePageToAllocatePlan}
+                  />
               </Drawer>
 
               <Drawer
@@ -1487,6 +1518,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           </Row>
         ) : (
           <CareAllocatePlan
+            scrlRef={scrlRef}
             handleChangeView={handleChangeView}
             Exercise={fullExer}
             items={cartItems}

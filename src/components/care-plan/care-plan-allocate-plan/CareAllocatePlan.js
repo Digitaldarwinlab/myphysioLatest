@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import Switch from "react-switch";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import CarePlanCard from "./../care-plan-card/Card";
 import {
   Row,
@@ -13,6 +13,7 @@ import {
   Space,
   Input,
   Radio,
+  notification,
 } from "antd";
 import FormDate from "./../../UI/antInputs/FormDate";
 import { useSelector, useDispatch } from "react-redux";
@@ -40,7 +41,7 @@ import "./CareAllocation.css";
 import { AddTemplates } from "../../../API/Template/template";
 //import { Switch } from "react-router-dom";
 
-const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
+const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView }) => {
   const [startDate, setStartDate] = useState("");
   const [aiState, setAIState] = useState(false);
   const [endDate, setEndDate] = useState("");
@@ -50,6 +51,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
   //   const reduxState = useSelector(state => state);
   const dispatch = useDispatch();
   const [selectvalue, Setselectvalue] = useState([]);
+  //const scrlRef = useRef(null);
   const history = useHistory();
   const [form] = useForm();
   useEffect(() => {
@@ -65,17 +67,41 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           ? moment(state.editEndDate, "YYYY-MM-DD")
           : moment(state.editEndDate, "YYYY-MM-DD"),
       });
+      dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "startDate",
+          value: state.editStateDate,
+        },
+      });
+      dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "endDate",
+          value: state.editEndDate,
+        },
+      });
       let timepick = document.getElementsByName("startDate");
       console.log("timepick ", timepick);
     }
 
     let timeSlots = changeTimeSlots(state.count_time_slots);
-
+    if (state.time_slot_edit == 1) {
+    console.log("not replicate")
+    }else{
+      dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "timeSlots",
+          value: timeSlots,
+        },
+      });
+    }
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
       payload: {
-        key: "timeSlots",
-        value: timeSlots,
+        key: "time_slot_edit",
+        value: 0,
       },
     });
     let arr = [];
@@ -334,11 +360,29 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
   };
 
   //OnFinish
-  const allocateplan = () => {
-    return {};
+  const warn = (msg) => {
+    notification.warn({
+      //   placement: 'bottomLeft',
+         top: 50,
+         message: msg,
+         duration: 2,
+         // description:
+         //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+       });
   };
   const onFinish = async () => {
     if (state.template_flag) {
+      if (state.template_name.length == 0) {
+        // dispatch({
+        //   type: VALIDATION,
+        //   payload: { error: },
+        // });
+       warn("Template name is required" )
+        // setTimeout(() => {
+        //   dispatch({ type: VALIDATION, payload: { error: "" } });
+        // }, 3000);
+        return 
+      }
       let arr = [
         {
           name: state.template_name,
@@ -352,6 +396,52 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           value: arr,
         },
       });
+    }
+    let checkLink = false;
+    state.exercises_cart.map((item) => {
+      if (item.name == "YouTube") {
+        if (item.youtube_link.length == 0) {
+          checkLink = true;
+        }
+      }
+    });
+    if (checkLink) {
+      warn("Youtube video link is required")
+      // dispatch({
+      //   type: VALIDATION,
+      //   payload: { error: },
+      // });
+      // window.scrollTo({
+      //   top: 0,
+      //   behavior: "smooth",
+      // });
+      // setTimeout(() => {
+      //   dispatch({ type: VALIDATION, payload: { error: "" } });
+      // }, 3000);
+      return 
+    }
+    let checkJoint = false;
+    state.exercises_cart.map((item) => {
+      if (item.name == "YouTube") {
+        if (item.Rom.joint.length == 0) {
+          checkJoint = true;
+        }
+      }
+    });
+    if (checkJoint) {
+      warn("Joint for youtube video is required")
+      // dispatch({
+      //   type: VALIDATION,
+      //   payload: { error: "" },
+      // });
+      // window.scrollTo({
+      //   top: 0,
+      //   behavior: "smooth",
+      // });
+      // setTimeout(() => {
+      //   dispatch({ type: VALIDATION, payload: { error: "" } });
+      // }, 3000);
+      return 
     }
     console.log(" joints array", state.exercises_cart);
     for (let i = 0; i < state.exercises_cart.length; i++) {
@@ -408,7 +498,7 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
           payload: { error: "Start Date should be previous than end Date" },
         });
         window.scrollTo({
-          top: 0,
+          top: scrlRef.current.getBoundingClientRect().y,
           behavior: "smooth",
         });
         setTimeout(() => {
@@ -487,8 +577,8 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
         result = await EditCarePlanAllocation(state, dispatch);
       } else {
         result = await postCarePlanAllocation(state, dispatch);
-        if(state.template_flag){
-          await AddTemplates(state)
+        if (state.template_flag) {
+          await AddTemplates(state, dispatch);
         }
       }
 
@@ -565,40 +655,57 @@ const CareAllocatePlan = ({ Exercise, items, searchBar, handleChangeView }) => {
       onFinish={onFinish}
       className="px-1 py-1"
     >
+      <div ref={scrlRef}></div>
       {state.isLoading && <Loading />}
       {state.success && <Success success={state.success} />}
+      {state.updated && <Success success={state.updated} />}
       {validationState.error && <Error error={validationState.error} />}
 
       {/* <Switch defaultChecked /> */}
       <Row>
-        <Col md={12} lg={12} sm={24} xs={24}>
+        <Col className="Use_of_camera" md={12} lg={12} sm={24} xs={24}>
           <Space size={"large"}>
-            <span style={{ fontSize: "17px" }}>Use Camera {" : "}</span>
+            <b>
+              {" "}
+              <span style={{ fontSize: "17px" }}>Use Camera {" : "}</span>{" "}
+            </b>
             <Checkbox
               style={{ paddingLeft: "5px" }}
               className="AI_selection_checkbox"
               checked={state.status_flag}
               onChange={() => changeToggle()}
             >
-              {" "}
+              <b>status - </b>
               {state.status_flag ? (
-                <span>Active {"  "}</span>
+                <b>
+                  <span style={{ color: "#28a745" }}>Active {"  "}</span>
+                </b>
               ) : (
-                <span>Inactive {"  "}</span>
+                <b>
+                  <span style={{ color: "#ff1919" }}>Inactive {"  "}</span>
+                </b>
               )}
             </Checkbox>
           </Space>
         </Col>
-       {!state.edit_flag && <Col md={12} lg={12} sm={24} xs={24}>
-          <Space size={"large"}>
-            <span>Save to Templates{" : "}</span>
-            <Checkbox
-              style={{ paddingLeft: "5px" }}
-              checked={state.template_flag}
-              onChange={() => AddTemplate()}
-            ></Checkbox>
-          </Space>
-        </Col>}
+        {!state.edit_flag && (
+          <Col className="Use_of_camera" md={12} lg={12} sm={24} xs={24}>
+            <Space size={"large"}>
+              <b>
+                {" "}
+                <span style={{ fontSize: "17px" }}>
+                  Save to Templates{" : "}
+                </span>{" "}
+              </b>
+              <Checkbox
+                className="AI_selection_checkbox"
+                style={{ paddingLeft: "5px" }}
+                checked={state.template_flag}
+                onChange={() => AddTemplate()}
+              ></Checkbox>
+            </Space>
+          </Col>
+        )}
       </Row>
       <Row>
         <Col md={12} lg={12} sm={24} xs={24}></Col>

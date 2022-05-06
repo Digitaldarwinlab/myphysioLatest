@@ -17,6 +17,8 @@ import './patNew.css'
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
+import yt from '../../assets/YouTube.PNG'
+import ReactPlayer from "react-player";
 //TimeColors
 const activeArr = [
   true,false,false,false,false,
@@ -662,6 +664,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     const mapExer=(time)=>{
       exercises.map(ex=>{
         ex['ChoosenTime'] = time
+        if(ex.name=="YouTube"){
+          ex.video_url = ex.youtube_link
+        }
       })
     }
     if(combine){
@@ -729,17 +734,22 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Exercise Card
   const ExerciseCard = (exercise) => {
-    console.log(exercise)
+    console.log("card showing ",exercise)
     return (
       <Card
       cover={
-        <img
-        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
-        alt={`image_${exercise.ex_em_id}`}
-        width={120}
-        height={120}
-       // style={{ borderRadius: 60 }}
-      />
+        exercise.name=="YouTube"?<ReactPlayer
+        controls={true}
+        className="react-player"
+        url={exercise.youtube_link}
+        width="100%"
+      height={120}
+      />:<img
+      src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
+      alt={`image_${exercise.ex_em_id}`}
+      width="100%"
+      height={120}
+    />
     }
       >
        <Meta

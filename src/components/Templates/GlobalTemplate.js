@@ -29,7 +29,7 @@ const GlobalTemplate = () => {
   const [tempEx, setTempEx] = useState([]);
   const [loadArr, setLoadArr] = useState([]);
   const [tempName, setTempName] = useState("");
-  const [data, setData] = useState(temp);
+  const [data, setData] = useState([]);
   const reduxState = useSelector((state) => state.carePlanRedcucer);
   function LoadAll() {
     confirm({
@@ -62,13 +62,20 @@ const GlobalTemplate = () => {
       existCheck.map((item) => {
         temp = temp + item + ",";
       });
+
+      let last = loadArr.filter(item=>{
+        if(existCheck.indexOf(item.name)==-1){
+          console.log(item)
+          return item
+        }
+      })
       confirm({
         title: "Load exercises",
         icon: <ExclamationCircleOutlined />,
         content: `${temp} already exist in cart and will not be duplicated.`,
         onOk() {
           console.log("OK");
-          loadSelected();
+          loadSelected([...reduxState.exercises_cart,...last]);
         },
         onCancel() {
           console.log("Cancel");
@@ -82,7 +89,7 @@ const GlobalTemplate = () => {
         content: "selected exercises will be loaded to cart",
         onOk() {
           console.log("OK");
-          loadSelected();
+          loadSelected([...reduxState.exercises_cart,...loadArr]);
         },
         onCancel() {
           console.log("Cancel");
@@ -95,17 +102,34 @@ const GlobalTemplate = () => {
   useEffect(async () => {
     const res = await getTemplates();
     console.log("templates ", res);
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "template_arr",
+        value: res,
+      },
+    });
+    //setData(res)
   }, []);
 
   const dispatch = useDispatch();
   console.log(loadArr);
-  const loadSelected = () => {
+  const loadSelected = (arr=[]) => {
     //  if (window.confirm("exercises will be loaded to cart")) {
+      console.log(arr)
+    
+      // if(arr.length>0){
+      //   let temp = reduxState.exercises_cart.filter(item=>item.name)
+
+      //   console.log(temp)
+      // }else{
+      //   console.log(loadArr)
+      // }
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
       payload: {
         key: "exercises_cart",
-        value: loadArr,
+        value: arr,
       },
     });
     //  }
@@ -194,7 +218,10 @@ const GlobalTemplate = () => {
                         // hoverable
                         title={
                           <Row justify="space-between">
-                            {ex.name}
+                            <Col span={20}>
+                           
+                            </Col>
+                            <Col span={4}>
                             <Checkbox
                               checked={
                                 loadArr
@@ -205,9 +232,11 @@ const GlobalTemplate = () => {
                               }
                               onClick={() => UpdateEx(ex)}
                             />
+                            </Col>
                           </Row>
                         }
                         cover={
+
                           <img
                             alt="example"
                             className="px-2 py-3 w-100"
@@ -216,7 +245,11 @@ const GlobalTemplate = () => {
                           />
                         }
                       >
+                        {console.log("temp array ",ex)}
                         <Row>
+                          <Col span={24}>
+                          <Card.Meta title={<p>{ex.name}</p>}/>
+                          </Col>
                           <Col span={12}>
                             <b>Sets : {ex["Rep"].set} </b>{" "}
                           </Col>
@@ -241,24 +274,24 @@ const GlobalTemplate = () => {
                 <Row justify="end">EXERCISES</Row>
               </Row>
             }
-            dataSource={data}
+            dataSource={reduxState.template_arr}
             renderItem={(item) => (
               <List.Item
                 onClick={() => {
                   setTempEx(item.exercise_details);
-                  setTempName(item.name);
+                  setTempName(item.template_name);
                 }}
-                key={item.name}
+                key={item.template_name}
               >
                 <List.Item.Meta
                   avatar={
                     <span className="template_badge">
                       <center>
-                        <b>{item.global_temp == 1 ? "G" : "L"}</b>
+                        <b>{item.global_temp ? "G" : "L"}</b>
                       </center>
                     </span>
                   }
-                  title={<Link>{item.name}</Link>}
+                  title={<Link>{item.template_name}</Link>}
                   // description={item.email}
                 />
                 <span className="template_badge">
