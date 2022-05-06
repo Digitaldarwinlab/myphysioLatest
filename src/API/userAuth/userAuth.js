@@ -64,10 +64,11 @@ export const signin = async (user, dispatch) => {
         });
         const responseData = await response.json();
         const data = Decode(responseData);
+        console.log(data)
         // const data = JSON.parse(decode(responseData));
         if (response.status !== 200 && response.status !== 201) {
-            if (data && data.detail) {
-                return [false, "Invalid Login Credentials!"];
+            if (data && data.message) {
+                return [false, data.message];
             } else {
                 return [false, "Error " + response.status + response.statusText];
             }
@@ -240,4 +241,87 @@ const AddCookies = (key, value) => {
 //Remove Cookies 
 const RemoveCookie = (key) => {
     Cookies.remove(key);
+}
+
+
+export const admin_password_reset_ep=async(detail)=>{
+    // console.log(detail)
+    const newdata={
+        id:detail.userid,
+        uid:detail.temp_uid,
+        new_password:detail.new_password
+    }
+    // console.log(newdata)
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(newdata)
+        });
+        
+        const data = await response.json();
+       
+        // console.log(data)
+        if (response.status !== 200 && response.status !== 201) {
+            
+            if (data && data.detail) {
+                
+                return [false, "Error " + response.status + response.statusText];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else if (data && data.message) {
+            // console.log('true returning')
+            return [true];
+        }
+        return [false, "Error " + response.status + response.statusText];
+    } catch (err) {
+        return [false, err.message];
+    }
+
+}
+
+
+export const empsignin = async (user, dispatch) => {
+   
+    dispatch({ type: LOGIN_REQUEST });
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_login/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(user)
+        });
+        const data = await response.json();
+       
+        // const data = JSON.parse(decode(responseData));
+        if (response.status !== 200 && response.status !== 201) {
+            if (data && data.detail) {
+                return [false, "Invalid Login Credentials!"];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else {
+            AddCookies("jwt", data.jwt);
+            if (data.first_time) {
+                localStorage.setItem("userId", JSON.stringify(data.user_id));
+                return [false, "Please Change Your Password."];
+            }
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id}, data.user_id);
+            dispatch({ type: LOGIN_SUCCESS });
+            return [true];
+        }
+    } catch (err) {
+        return [false, err.message + " ,please try after some time."];
+    }
+    // dispatch({type:LOGIN_SUCCESS});
+    // AddUserInfo("12344",{role:1,email:user.email});  //(jwtToken,userInfo)
 }

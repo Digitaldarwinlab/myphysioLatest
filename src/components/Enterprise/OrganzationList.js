@@ -4,10 +4,11 @@
         import { useEffect, useState } from "react";
         import {Form, Button, Radio } from 'antd';
         import {Typography, Row, Col, Spin, Input, Modal, Pagination, Table ,Space} from "antd";
-        import { searchPhysio, UpdatePhysioState } from "../../API/Physio/PhysioRegister";
+        // import { searchPhysio, UpdatePhysioState } from "../../API/Physio/PhysioRegister";
         import { NavLink } from 'react-router-dom'
         import { BsFillEyeFill } from "react-icons/bs";
         import { useDispatch } from 'react-redux';
+        import { BiEdit } from "react-icons/bi";
         import { useHistory } from 'react-router-dom';
         import { forgotPassword, getUserData } from "../../API/userAuth/userAuth";
         import { admin_password_reset } from "../../API/userAuth/userAuth";
@@ -15,17 +16,16 @@
         import Success from "../UtilityComponents/SuccessHandler";
         import Error from "../UtilityComponents/ErrorHandler";
         import Loading from "../UtilityComponents/Loading";
-        import {AiFillUnlock} from 'react-icons/ai'
-        import {MdEmail} from 'react-icons/md'
         import {MailOutlined } from '@ant-design/icons'
-        import {FaUserNurse} from 'react-icons/fa'
-        import {BsSearch} from 'react-icons/bs'
+        import { searchOrganizations } from "../../API/Enterprise/Enterprise";
         import '../../styles/Layout/Heading.css';
         import {getClinicDetails} from "../../API/Physio/ClinicRegister";
         import axios from "axios";
+        import { CLINIC_STATE_CHANGE } from "../../contextStore/actions/ClinicRegister";
+import { set } from "js-cookie";
         //let keyMapping
          let keyMapping = {
-            pp_org_id:"Organizatio Code",
+            pp_org_id:"Organization Code",
             org_name:"Organization Name",
             org_short_name:"Organization Short Name",
             contact_email:"Email",
@@ -44,16 +44,15 @@
             linkedin: "Linkedin",
            
            
-            last_update_date:"Last Update Date",
-            last_update_by:"Last Update by",
+            // last_update_date:"Last Update Date",
+            // last_update_by:"Last Update by",
             
         };
-        const { Search } = Input;
+        // const { Search } = Input;
         const PhysioList = () => {
             const { Title } = Typography;
             const [new_password, setNewPassword] = useState("");
             const [confirm_password, setConfirmPassword] = useState("");
-            const [currentphysio,Setcurrentphysio]=useState([])
             const [organization, setOrganization] = useState([]);
             const [loading, setLoading] = useState(false);
             const [visible, setVisible] = useState(false);
@@ -66,6 +65,7 @@
             const [error, setError] = useState("");
             const [temp_uid,Settemp_uid]=useState(null)
             const [form]=Form.useForm()
+            const [search, SetSearch] = useState('');
             const [paginationState, setPaginationState] = useState({
                 totalPage: 0,
                 current: 1,
@@ -103,11 +103,21 @@
             },[visible])
           
             //Search Result
-            const onSearch = async (e) => {
+            const onSearch =  async (e) => {
                 let val=e.target.value
-                setLoading(true);
-                const searchedData = await searchPhysio(val);
-                setPhysios(searchedData);
+             setLoading(true);
+                const searchedData = await searchOrganizations(val);
+              if(searchedData.message){
+                   setOrganization([]);
+                setLoading(false);
+                setPaginationState({
+                    ...paginationState,
+                    totalPage: 0 / paginationState.pageSize,
+                    minIndex: 0,
+                    maxIndex: paginationState.pageSize,
+                })
+              } else {
+                setOrganization(searchedData);
                 setLoading(false);
                 setPaginationState({
                     ...paginationState,
@@ -115,6 +125,8 @@
                     minIndex: 0,
                     maxIndex: paginationState.pageSize,
                 })
+              }
+                
             }
             //View
             const handleView = (val) => {
@@ -122,7 +134,7 @@
                 let keys = Object.keys(val);
                 let index = 0;
                 keys.forEach(key => {
-                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+                    if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id","last_update_date","last_update_by"].includes(key))) {
                         if (key === "start_date") {
                             tempData.push({
                                 key: index,
@@ -309,9 +321,23 @@
             </Modal>
                 )
             }
-            const handleEdit = (val) => {
-                UpdatePhysioState(val, dispatch);
-                history.push("/physio/update");
+            const handleEdit = (record) => {
+                console.log(record);
+                if (Object.keys(record).length > 0) {
+                    Object.keys(record).map((data) => {
+                      if (record[data] !== null) {
+                          console.log(data," ", record[data])
+                          dispatch({
+                            type: CLINIC_STATE_CHANGE,
+                            payload: {
+                              key: data,
+                              value: record[data],
+                            },
+                          });
+                      }
+                    });
+                  }
+                history.push("/enterprise/organization/update");
             }
             //PhysioInfo
             const ShowOrganizationInfo = () => {
@@ -332,6 +358,8 @@
                     </Modal>
                 )
             }
+
+            
         
         
             //Page change
@@ -346,7 +374,7 @@
                 })
             }
             let locale = {
-                emptyText: 'No Physio Found',
+                emptyText: 'No Organization Found',
               };
             // 
            // let columns = ["Physio Code", "Given Name", "Mobile No", "Actions"]
@@ -359,14 +387,14 @@
                  
                 },
                 {
-                  title: "Organization Code",
-                  dataIndex: "pp_org_id",
+                  title: "Mobile No",
+                  dataIndex: "mobile_no",
                   width: "20%",
                  
                 },
                 {
-                  title: "LandLine No",
-                  dataIndex: "Landline_no",
+                  title: "Email",
+                  dataIndex: "contact_email",
                   width: "20%",
                  
                 },
@@ -377,9 +405,10 @@
                   width: "20%",
                   render: (text, record) => (
                     <Space size="middle">
+                        {console.log(record)}
                        <BsFillEyeFill onClick={() => handleView(record)} size={20} />
-                      {/* <BiEdit onClick={() => handleEdit(record)} size={20} />
-                      <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} /> */}
+                      <BiEdit onClick={() => handleEdit(record)} size={20} />
+                      {/* <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} /> */}
                     </Space>
                   )
                 }
@@ -399,15 +428,15 @@
                     <div style={{ minHeight: "20px" }}></div>
                      <Row justify="space-between">
                      <Col md={12} sm={12} xs={12}>
-                {/* <input
+                <input
                              //   className="p-2 input-field my-3"
                             
-                                placeholder="Search Physio.."
+                                placeholder="Search Organization.."
                                 onChange={onSearch}
                             
                                 loading={loading}
                                 style={{width:'100%'}}
-                            />  */}
+                            /> 
                             </Col>
                           
                            {getUserData()==="admin"&& <Row justify="end">

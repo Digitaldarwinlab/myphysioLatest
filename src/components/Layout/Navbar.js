@@ -11,7 +11,7 @@ import { Dropdown, Menu, Row, Col ,Space } from "antd";
 import MyPhysioLogo from "./../UtilityComponents/MyPhysioLogo";
 import { GoCalendar } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaWindowClose } from "react-icons/fa";
+import { FaWindowClose } from "react-icons/fa"; 
 import { IoMdVideocam } from "react-icons/io";
 import SideDrawer from "./SideDrawer";
 import { FaLanguage} from "react-icons/fa";
@@ -39,6 +39,16 @@ const Navigationbar = (props) => {
 
     fetch();
   }, [handleDevices]);
+
+  const handleCameraClick = (id,label) => {
+    console.log("Label",label)
+    let flag = 0;
+    if(label.toLowerCase().includes("back")){
+      flag = 1;
+    }
+    console.log(flag);
+    darwin.cameraIdFunc(id,flag)
+  }
 
   const LogoutMenu = () => {
     return (
@@ -124,7 +134,7 @@ const Navigationbar = (props) => {
           </a>
         </Dropdown> */}
 
-        {userInfo.role == "admin" || userInfo.role == "physio" ||userInfo.role == "HeadPhysio"? (
+        {userInfo.role == "admin" || userInfo.role == "physio" ? (
           <Menu
             className={`d-md-inline  hamburgerMenu ham_one `}
             id="hamburgerMenu"
@@ -161,7 +171,7 @@ const Navigationbar = (props) => {
           to={
             userInfo.role === "physio" || userInfo.role === "admin"
               ? "/dashboard"
-              : "/patient/dashboard"
+              : userInfo.role === "enterprise_patient" ||  userInfo.role === "employee" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
           }
           className="navbar-brand text-white text-decoration-none"
         >
@@ -191,7 +201,7 @@ const Navigationbar = (props) => {
                 </a>
               </Dropdown>
               {"  "}
-              <Link to="/patient/schedule">
+              <Link to={userInfo.role==='enterprise_patient' || userInfo.role==='employee'? "/patient/enterprise/schedule" :"/patient/schedule"}>
                 <h4 className="text-white me-3 ">
                   <GoCalendar /> Schedule
                 </h4>
@@ -210,7 +220,7 @@ const Navigationbar = (props) => {
                   <SubMenu key="sub2" title="  Camera" icon={<IoMdVideocam />}>
                     {devices.map((item) => (
                       <Menu.Item
-                        onClick={() => darwin.cameraIdFunc(item.deviceId)}
+                        onClick={() => handleCameraClick(item.deviceId,item.label)}
                         key="7"
                       >
                         {item.label}

@@ -29,7 +29,9 @@ const FirstAssesmentIniState ={
     Type:"First",
     // aswin 10/24/2021 stop
     Scars:"",
-
+    Arom_M:false,
+    Arom_Ai:false,
+    checkState:false,
     // gaurav
     chiefCom:"",
     occupation:"",
@@ -65,6 +67,7 @@ const FirstAssesmentIniState ={
     pain1:true,
     special:true,
     pose:true,
+    romAssAi:true,
     romAss:true,
     Swelling:"no pain",
     pain_scars:"",

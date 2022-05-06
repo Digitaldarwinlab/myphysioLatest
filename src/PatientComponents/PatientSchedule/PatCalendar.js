@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
 import moment from "moment";
-import { Row, Col } from "antd";
+import { Row, Col ,Card} from "antd";
 import {
   GetPatientCurrentEpisode,
   GetCalanderDataApi,
@@ -52,7 +52,7 @@ const btnStyle = {
   borderRadius: "10px",
   fontSize: "1rem",
 };
-
+const { Meta } = Card;
 const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const history = useHistory();
@@ -74,6 +74,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [choosencareplan, Setchoosencareplan] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toDateString().slice(4,7));
   const [selectedYear, setSelectedYear] = useState(new Date().toDateString().slice(-4))
+  const [status_flag, setStatusFlag] = useState(false);
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
   );
@@ -189,7 +190,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
-     
+    setStatusFlag(data[0].status_flag==2?false:true)
     setCombine(true)
     let commonTime = {};
     let checkTimeToMapExercise = {};
@@ -294,6 +295,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
+    console.log("careplan ",data)
+    setStatusFlag(data[0].status_flag==2?false:true)
     setUpdate(true)
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
@@ -544,6 +547,35 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     }
   };
 
+  const dayShort = (d) => {
+    switch (d) {
+      case 0:
+        return "Jan";
+      case 1:
+        return "Feb";
+      case 2:
+        return "Mar";
+      case 3:
+        return "Apr";
+      case 4:
+        return "May";
+      case 5:
+        return "Jun";
+      case 6:
+        return "Jul";
+      case 7:
+        return "Aug";
+      case 8:
+        return "Sept";
+      case 9:
+        return "Oct";
+      case 10:
+        return "Nov";
+      case 11:
+        return "Dec";
+    }
+  };
+  
   //console.log(selectedDate ? new Date(selectedDate).toISOString().substring(0, 10) : new Date().toISOString().substring(0, 10) +'Selecteeddd dayyy')
   //  console.log(currentEpissode)
   // console.log('exercises')
@@ -662,17 +694,33 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       : times[selectedTime];
    exercise["careplanId"] = exercise.pp_cp_id;
    console.log('final exercises are ',exercises)
+   let repArr = exercises.map(exercise=>exercise.Rep)
   //  console.log('final exercise status ',exercise_status)
   //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
-    history.push({
-      pathname: "/patient/exercises/brief",
-      state: {
-        exercise:exercises[0],
-        exercises,
-        exNameList:exArr
-      },
-    });
+    if(!status_flag){
+      history.push({
+        pathname: "/patient/exercises/brief",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }else{
+      history.push({
+        pathname: "/patient/exercises/manual",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }
   };
 
   const checkStatuc=(ex)=>{
@@ -681,37 +729,36 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Exercise Card
   const ExerciseCard = (exercise) => {
+    console.log(exercise)
     return (
-      <div className="main-exercise-card" id="main-exercise-card">
+      <Card
+      cover={
         <img
-          src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
-          alt={`image_${exercise.ex_em_id}`}
-          width={120}
-          height={120}
-          style={{ borderRadius: 60 }}
-        />
-        <div className="ms-0 main-exercise-card" id="main-exercise-card">
-          <h4 className="fw-bol">{exercise.name ? exercise.name : ""}</h4>
-          {/* <Button
-            style={{
-              ...btnStyle,
-              ...{
-                cursor:
-                  customisedDate !== convert(new Date())
-                    ? "not-allowed"
-                    : "pointer",
-                backgroundColor:
-                  customisedDate !== convert(new Date()) ? "gray" : "#00022e",
-              },
-            }}
-            disabled={customisedDate !== convert(new Date()) ? true : false}
-           // disabled={}
-            onClick={() => handleClick(exercise)}
-          >
-            Start Now
-          </Button> */}
-        </div>
-      </div>
+        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
+        alt={`image_${exercise.ex_em_id}`}
+        width={120}
+        height={120}
+       // style={{ borderRadius: 60 }}
+      />
+    }
+      >
+       <Meta
+           description={<p style={{ color: "#000000" }}>{exercise.name ? exercise.name : ""}</p>}
+         //  description={exercise.name ? exercise.name : ""}
+       />
+      </Card>
+      // <div className="main-exercise-card" id="main-exercise-card">
+        // <img
+        //   src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
+        //   alt={`image_${exercise.ex_em_id}`}
+        //   width={120}
+        //   height={120}
+        //   style={{ borderRadius: 60 }}
+        // />
+      //   <div className="ms-0 main-exercise-card" id="main-exercise-card">
+      //     <h4 className="fw-bol">{exercise.name ? exercise.name : ""}</h4>
+      //   </div>
+      // </div>
     );
   };
   const CalStrip = (data) => {
@@ -987,16 +1034,20 @@ useEffect(() => {
         <h2 style={{position:'absolute',margin:'-10px'}}>{selectedMonth} - {selectedYear}</h2>
       </Row>  
         <Row justify="center">
+         <Col md={16} lg={16} sm={24} xs={24}>
         <DatePicker
-        endDate={9}
-        getSelectedDay={(e)=>{
-          onSelectedDay(convert(e))
-          console.log('datepicker ',e)
-        }}
-        labelFormat={"MMMM"}
+       getSelectedDay={(e)=>{
+        onSelectedDay(convert(e))
+        console.log('datepicker ',dayShort(e.getMonth()))
+        setSelectedMonth(dayShort(e.getMonth()))
+        setSelectedYear(e.getFullYear())
+      }}
+       labelFormat={"MMMM"}
+       color={"#374e8c"}
      //   color={"#2d7ecb"}
      //   onClick={(e)=>console.log(e)}
       />
+        </Col>
           {/* <div class="calenderView">
             <div class="monthName">
               <h2>{selectedMonth} - {selectedYear}</h2>

@@ -221,7 +221,7 @@ const Episodes = ({ handleClick2 }) => {
                     </Row>
                 </Col>
                 <Col span={24}>
-                    {loading && <div className="text-center"><Spin tip="Fething Episodes" size="large"></Spin></div>}
+                    {loading && <div className="text-center"><Spin tip="Fetching Episodes" size="large"></Spin></div>}
                     {episodeData.length === 0 && !loading && <p className="fw-bold">No Episodes are Added..</p>}
                     {episodeData.length !== 0 && !loading && episodeData.map((episode, index) => {
                         return (

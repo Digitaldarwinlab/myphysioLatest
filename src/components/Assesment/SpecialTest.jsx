@@ -213,8 +213,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                   <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp1.map((item, index) => (
                   <tr>
@@ -241,8 +241,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                 <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp2.map((item, index) => (
                   <tr>
@@ -269,8 +269,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                 <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp3.map((item, index) => (
                   <tr>
@@ -297,8 +297,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                 <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp4.map((item, index) => (
                   <tr>
@@ -325,8 +325,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                 <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp5.map((item, index) => (
                   <tr>
@@ -353,8 +353,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                  <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp6.map((item, index) => (
                   <tr>
@@ -381,8 +381,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                  <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp7.map((item, index) => (
                   <tr>
@@ -409,8 +409,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                  <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp8.map((item, index) => (
                   <tr>
@@ -437,8 +437,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                  <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {drp9.map((item, index) => (
                   <tr>
@@ -465,8 +465,8 @@ const SpecialTest = ({ setActive, back, next }) => {
               <table style={{ width: "100%" }}>
                 <tr>
                 <th>Test</th>
-                  <th>Pass</th>
-                  <th>Fail</th>
+                  <th>Positive</th>
+                  <th>Negative</th>
                 </tr>
                 {Others.map((item, index) => (
                   <tr>

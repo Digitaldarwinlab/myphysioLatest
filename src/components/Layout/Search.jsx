@@ -208,33 +208,33 @@ const SearchPatient = () => {
     }
 
     //View 
-    const handleView = (val) => {
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_code",
-                value: val.pp_patm_id
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_main_code",
-                value: val.patient_code
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_name",
-                value: val.first_name + " " + val.last_name
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "Patient_no",
-                value: val.mobile_no
-            }
-        });
-        history.push("/episode");
-    }
+        const handleView = (val) => {
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_code",
+                    value: val.pp_patm_id
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_main_code",
+                    value: val.patient_code
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_name",
+                    value: val.first_name + " " + val.last_name
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "Patient_no",
+                    value: val.mobile_no
+                }
+            });
+            history.push("/episode");
+        }
     //Edit 
     const handleEdit = (val) => {
         console.log(val)

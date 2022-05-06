@@ -26,6 +26,7 @@ import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import Invoice from "./Invoice/Invoice";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -119,6 +120,7 @@ const EpisodeVisitDetails = () => {
     });
     const userInfo = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
+        localStorage.setItem("care-plan-cart", JSON.stringify([]));
         async function getPatients() {
             let data = await getPatientList();
             if (state.patient_code) {
@@ -173,6 +175,7 @@ const EpisodeVisitDetails = () => {
         });
     }
     useEffect( async () => {
+        localStorage.setItem('care-plan-cart', JSON.stringify([]))
         let state = { ...history.location.state };
         // console.log("history loaction ",state)
         if(history.location.state){
@@ -372,6 +375,49 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
+                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
+                        }
+                        key="6"
+                    >
+                        {/* aswin start 10/30/2021 start */}
+                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
+                        {/* aswin start 10/30/2021 stop */}
+                    </TabPane>
+                    {/* <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn">Invoice</div>
+                        }
+                        key="9"
+                    >
+                     <Invoice />
+                    </TabPane> */}
+                    <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn" >Dashboard</div>
+                        }
+                        key="8"
+                    >
+                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                        {process.env.NODE_ENV=="development"?  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
+                            >
+                        </iframe>:  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}}`}
+                            >
+                        </iframe>}
+                    </TabPane>
+                    <TabPane
+                        tab={
                             <div className="fw-bold ant-tabs-btn">Prescription</div>
                         }
                         key="5"
@@ -382,72 +428,11 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
-                        }
-                        key="6"
-                    >
-                        {/* aswin start 10/30/2021 start */}
-                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
-                        {/* aswin start 10/30/2021 stop */}
-                    </TabPane>
-                    <TabPane
-                        tab={
                             <div className="fw-bold ant-tabs-btn">Notes</div>
                         }
                         key="7"
                     >
                         <Notes eid={carePlanState.pp_ed_id} />
-                    </TabPane>
-                    <TabPane
-                        tab={
-                            <div className="fw-bold ant-tabs-btn">Exercise Detail</div>
-                        }
-                        key="8"
-                    >
-                    {/* <iframe 
-                      //  style="OVERFLOW: hidden" 
-                       // height="1500" 
-                       // style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" 
-                        marginheight="0" 
-                        src="http://3.83.136.152:8089/superset/dashboard/5/?native_filters=%28%29" 
-                        frameborder="0"
-                        width="990" 
-                        marginwidth="0" 
-                        scrolling="no"
-                    >
-                        // http://13.127.176.250:8089/r/2
-                        </iframe> */}
-                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
-                        {process.env.NODE_ENV=="development"?  <iframe
-                            width='100%'
-                            height={screen.height}
-                            className="iframeDashboard"
-                            frameBorder="0"
-                            id="physioDashboard"
-                            //physio_id=${localStorage.getItem('userId')}&
-                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
-                            src={`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>:  <iframe
-                            width='100%'
-                            height={screen.height}
-                            className="iframeDashboard"
-                            frameBorder="0"
-                            id="physioDashboard"
-                            //physio_id=${localStorage.getItem('userId')}&
-                            //http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=1&patient_id=57
-                            src={`http://13.127.176.250:8089/superset/dashboard/2/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>}
-                         {/* <iframe
-                         width={100}
-                         className="iframeDashboard"
-                          height={100}
-                        frameBorder="0"
-                         src="http://13.127.176.250:8089/superset/dashboard/1/?native_filters=%28%29?standalone=true"
-                         >
-                         </iframe> */}
-                        {/* <Tempdashboard viewstate={viewState}  /> */}
                     </TabPane>
                 </Tabs>
             </div>

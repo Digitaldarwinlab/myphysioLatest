@@ -1,0 +1,121 @@
+{
+    "TrapsA": [
+        "neck",
+        "rightShoulder"
+    ],
+    "TrapsB": [
+        "neck",
+        "leftShoulder"
+    ],
+    "BacktrapsA": [
+        "neck",
+        "leftShoulder"
+    ],
+    "BacktrapsB": [
+        "neck",
+        "leftShoulder"
+    ],
+    "ShoulderA": [
+        "neck",
+        "rightShoulder"
+    ],
+    "ShoulderB": [
+        "neck",
+        "leftShoulder"
+    ],
+    "BackshouldersA": [
+        "neck",
+        "rightShoulder"
+    ],
+    "BackshouldersB": [
+        "neck",
+        "leftShoulder"
+    ],
+    "BicepsA": [
+        "rightShoulder",
+        "rightElbow"
+    ],
+    "BicepsB": [
+        "leftShoulder",
+        "leftElbow"
+    ],
+    "ForearmsA": [
+        "rightElbow",
+        "rightWrist"
+    ],
+    "ForearmsB": [
+        "leftElbow",
+        "leftWrist"
+    ],
+    "BackforearmsA": [
+        "rightElbow",
+        "rightWrist"
+    ],
+    "BackforearmsB": [
+        "leftElbow",
+        "leftWrist"
+    ],
+    "Abdominals": [
+        "Lower Back"
+    ],
+    "QuadsA": [
+        "rightKnee",
+        "rightHip"
+    ],
+    "QuadsB": [
+        "leftKnee",
+        "leftHip"
+    ],
+    "CalvesA": [
+        "rightKnee",
+        "rightAnkle"
+    ],
+    "CalvesB": [
+        "leftKnee",
+        "leftAnkle"
+    ],
+    "BackcalvesA": [
+        "rightKnee",
+        "rightAnkle"
+    ],
+    "BackcalvesB": [
+        "leftKnee",
+        "leftAnkle"
+    ],
+    "TricepsA": [
+        "rightShoulder",
+        "rightElbow"
+    ],
+    "TricepsB": [
+        "leftShoulder",
+        "leftElbow"
+    ],
+    "LatsA": [
+        "righthoulder",
+        "Lumber"
+    ],
+    "LatsB": [
+        "leftShoulder",
+        "Lumber"
+    ],
+    "LowerBack": [
+        "Lumber"
+    ],
+    "Glutes": [
+        "Hip",
+        "Lumber"
+    ],
+    "HamstringsA": [
+        "rightKnee",
+        "rightHip"
+    ],
+    "HamstringsB": [
+        "leftKnee",
+        "leftHip"
+    ],
+    "Pecs": [
+        "neck",
+        "leftShoulder",
+        "rightShoulder"
+    ]
+}
