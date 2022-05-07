@@ -4,7 +4,7 @@ import Loading from '../UtilityComponents/Loading';
 import FormPassword from '../UI/antInputs/FormPassword';
 import { NavLink } from 'react-router-dom';
 import { admin_password_reset_ep } from "../../API/userAuth/userAuth";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { forgotPassword, getUserData } from "../../API/userAuth/userAuth";
 import axios from "axios";
 import { EPISODE_STATECHANGE } from './../../contextStore/actions/episode';
@@ -23,6 +23,7 @@ import "./EmployeeList.css";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
+  const orgState = useSelector(state => state.organizationReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useSelector(state => state.basicDetailsInitialState);
@@ -36,6 +37,7 @@ const EmployeeList = () => {
   const [confirm_password, setConfirmPassword] = useState("");
   const [organizations, setOrganizations] = useState([]);
   const [org, setOrg] = useState('');
+  const [employee, setEmployee] = useState('');
   const [error1, setError1] = useState("");
   const [success, setSuccess] = useState("");
   const [form] = Form.useForm();
@@ -45,7 +47,7 @@ const EmployeeList = () => {
     minIndex: 0,
     maxIndex: 0,
     pageSize: 10
-});
+  });
 
   let keyMapping = {
     "pp_em_id": "Employee Id",
@@ -66,7 +68,7 @@ const EmployeeList = () => {
     "whatsapp_no": "Whatsapp No",
     "landline": "Landline No",
     "email": "Email",
-    "employee_code":"Employee Code",
+    "employee_code": "Employee Code",
     "facebook": "FAcebook",
     "linkedlin": "LinkedIn",
     "emergence_contact": "Emergency Contact No",
@@ -195,10 +197,11 @@ const EmployeeList = () => {
       setLoading(false);
       if (result && result[0]) {
         setSuccess("Password Changed Successfully Done.");
+        setTimeout(() => Setpasswordmodal(false), 1000);
         try {
           form.resetFields()
         }
-        catch(err) {
+        catch (err) {
           console.log('not resetting')
         }
         setTimeout(() => {
@@ -261,40 +264,53 @@ const EmployeeList = () => {
   const handleViewDashboard = (val) => {
     console.log(val);
     dispatch({
-        type: EPISODE_STATECHANGE, payload: {
-            key: "employee_code",
-            value: val.employee_code
-        }
+      type: EPISODE_STATECHANGE, payload: {
+        key: "employee_code",
+        value: val.pp_em_id
+      }
     })
     dispatch({
-        type: EPISODE_STATECHANGE, payload: {
-            key: "patient_main_code",
-            value: val.employee_code
-        }
+      type: EPISODE_STATECHANGE, payload: {
+        key: "patient_main_code",
+        value: val.employee_code
+      }
     })
     dispatch({
-        type: EPISODE_STATECHANGE, payload: {
-            key: "patient_name",
-            value: val.first_name + " " + val.last_name
-        }
+      type: EPISODE_STATECHANGE, payload: {
+        key: "patient_name",
+        value: val.first_name + " " + val.last_name
+      }
     })
     dispatch({
-        type: EPISODE_STATECHANGE, payload: {
-            key: "Patient_no",
-            value: val.mobile_no
-        }
+      type: EPISODE_STATECHANGE, payload: {
+        key: "Patient_no",
+        value: val.mobile_no
+      }
     });
     history.push("/enterprise/dashboard");
-}
+  }
 
+  const onSearchEmployee = (e) => {
+    const searchEmployee = e.target.value
+    setEmployee(searchEmployee.toLowerCase());
+    // const newEmployees = employees.filter(emp => emp.first_name.includes(searchEmployee));
+    // setEmployees(newEmployees);
+
+    // setPaginationState({
+    //   ...paginationState,
+    //   totalPage: newEmployees.length / paginationState.pageSize,
+    //   minIndex: 0,
+    //   maxIndex: paginationState.pageSize,
+    // })
+  }
 
   const onSearch = async (e) => {
     let val = e.target.value;
     setOrg(val);
-    if(val.length == 0){
+    if (val.length == 0) {
       setOrganizations([]);
       return;
-     
+
     }
     setLoading(true);
     const searchedData = await searchOrganizations(val);
@@ -334,11 +350,12 @@ const EmployeeList = () => {
 
   // }, []);
 
-  const getEmployees = (id) => {
+  const getEmployees = useCallback((org) => {
+    dispatch({ type: "ADD ORGANIZATION", org: org });
     setOrg('');
     setOrganizations([]);
     setLoading(true);
-    axios.post(process.env.REACT_APP_API + "/empolyee_list/", { id: id }).then(res => {
+    axios.post(process.env.REACT_APP_API + "/empolyee_list/", { id: org.pp_org_id }).then(res => {
       setLoading(false);
       const data = res.data;
       setEmployees(res.data);
@@ -349,7 +366,12 @@ const EmployeeList = () => {
         maxIndex: paginationState.pageSize,
       })
     }).catch(err => console.log(err));
-  }
+  }, [])
+
+
+  useEffect(() => {
+    getEmployees(orgState.org);
+  }, [getEmployees])
 
   const ShowEmployeeInfo = () => {
     return (
@@ -375,7 +397,7 @@ const EmployeeList = () => {
     let keys = Object.keys(val);
     let index = 0;
     keys.forEach(key => {
-      if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id", "pp_pm","last_update_date","last_update_by"].includes(key))) {
+      if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id", "pp_pm", "last_update_date", "last_update_by"].includes(key))) {
         if (key === "start_date") {
           tempData.push({
             key: index,
@@ -409,12 +431,20 @@ const EmployeeList = () => {
     <div style={{ minHeight: "20px" }}></div>
     <Row justify='space-between'>
       <Col style={{ fontSize: "25px" }} span={16}>
-        <i className="fas fa-user-md" /> <b> Employee List</b>
+        <i className="fas fa-arrow-left"
+          style={{ cursor: "pointer", marginRight: "10px" }}
+          title="Go Back"
+          onClick={() => {
+
+            history.goBack()
+          }}
+          role="button"></i>  <i className="fas fa-user-md" /> <b> Employee List</b>
       </Col>
 
 
     </Row>
     <div style={{ minHeight: "20px" }}></div>
+    {orgState && <h4>Organization Name: <b>{orgState.org.org_name}</b></h4>}
     <Row justify="space-between">
       <Col md={12} sm={12} xs={12}>
         <input
@@ -427,15 +457,26 @@ const EmployeeList = () => {
           style={{ width: '100%' }}
         />
         <ul className="orgg-listing">
-         { organizations.map(org => <li key={org.pp_org_id} onClick={()=>getEmployees(org.pp_org_id)}>{org.org_name}</li>)}
+          {organizations.map(org => <li key={org.pp_org_id} onClick={() => getEmployees(org)}>{org.org_name}</li>)}
         </ul>
       </Col>
+      <Col md={8} sm={12} xs={12}>
+        <input
+          //   className="p-2 input-field my-3"
 
+          placeholder="Search Employee"
+          onChange={onSearchEmployee}
+          value={employee}
+          loading={loading}
+          style={{ width: '100%' }}
+        />
+
+      </Col>
       {getUserData() === "admin" && <Row justify="end">
 
         <Col md={24} sm={24} xs={24}>
 
-          <NavLink to="/employee-register">
+          <NavLink to="/enterprise/employee-register">
             <i className="fas fa-user-md" /> New Employee
           </NavLink>
         </Col>
@@ -445,7 +486,7 @@ const EmployeeList = () => {
     <div style={{ minHeight: "20px" }}></div>
     <Row>
       <Col md={24} sm={24} xs={24}>
-        <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={employees} />
+        <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8 }} bordered columns={columns} dataSource={employees.filter(emp => emp.first_name.toLowerCase().includes(employee))} />
       </Col>
     </Row>
     {ShowEmployeeInfo()}

@@ -275,7 +275,7 @@ class PatientAI extends Component {
             <>
                 <span id="reps"></span>
                 <span id="sets"></span>
-                <video id="video" style={{ position: 'absolute', top: '0px' }} playsinline className="patientAiModel">
+                <video id="video" style={{ position: 'absolute', top: '0',right:'0' }} playsinline className="patientAiModel">
                 </video>
                 <div style={{ position: "relative" }}>
                     <canvas id="output" />

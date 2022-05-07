@@ -1744,3 +1744,28 @@ td:first-child
   color:white ;
   font-size: 20px;
 }
+
+.ggrid-row {
+  display: contents;
+}
+
+.assesmentPrint {
+  display: none;
+}
+
+
+@media print {
+  .divvv {
+    height: 100%;
+  }
+
+  .assesmentPrint {
+    display: contents;
+  }
+ 
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+

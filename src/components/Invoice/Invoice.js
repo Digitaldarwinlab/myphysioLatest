@@ -26,6 +26,7 @@ function Invoice() {
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [totalTax,setTotalTax] = useState(0);
   const [clinic, setClinic] = useState({});
+  const [invoiceNo, setInvoiceNo] = useState(0);
 
 useEffect(() => {
 
@@ -47,14 +48,17 @@ useEffect(() => {
         tTax = tTax + tax;
       }
 
-      setTotalDiscount(Math.round(tDiscount));
-      setTotalTax(Math.round(tTax));
+      setTotalDiscount(+(tDiscount).toFixed(2));
+      setTotalTax(+(tTax).toFixed(2));
 },[list])
  
 
   useEffect(() =>{
     const id = JSON.parse(localStorage.getItem('user')).clinic_id;
     axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id ? id : 1}).then(res => setClinic(res.data[0]));
+
+    axios.post(process.env.REACT_APP_API + "/get_invoice_no/",{}).then(res => setInvoiceNo(res.data.message));
+
     },[])
 
   const handleChange = (e) => {
@@ -83,7 +87,7 @@ useEffect(() => {
     let Discount = +discount;
     let Tax = + tax;
 
-    return Math.round(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100)
+    return +(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100).toFixed(2)
     // return Cost * Quantity;
   };
 
@@ -196,6 +200,7 @@ useEffect(() => {
         showPrint = {showPrint}
         totalDiscount = {totalDiscount}
         totalTax = {totalTax}
+        invoiceNo={invoiceNo}
       />}
     </div>
   );

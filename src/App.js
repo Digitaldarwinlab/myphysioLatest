@@ -90,7 +90,7 @@ import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 import PoseTest from "./components/Assesment/PoseTest.jsx";
 import Invoice from "./components/Invoice/Invoice"
 import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
-import EnterprisePatient from "./PatientEnterprice/EnterprisePatient.jsx";
+import EnterprisePatient from "./EnterpriseNew/PatientEnterprice/EnterprisePatient.jsx";
 import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
 import EnterprisePatient2 from "./PatientEnterprice/EnterprisePatient2.jsx";
 import EnterprisePatient3 from "./PatientEnterprice/EnterprisePatient3.jsx";
@@ -111,7 +111,7 @@ import EmployeeList from "./components/Enterprise/EmployeeList.js";
 import ViewClinic from "./components/Physio/ClinicRegister/ViewClinic.js"; 
 import ClinicList from "./components/Physio/ClinicRegister/ClinicList.js";
 import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
-
+import Appointment from "./components/NewSchedule/Appointment.js";
 import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
 import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
 
@@ -175,6 +175,7 @@ const App = () => {
 							<PrivateRoute exact path="/invoice" component={Invoice} />
 							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
 							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
+							<PrivateRoute exact path="/appointments/new1" component={() => <Appointment />} />
 							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
 							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
 							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />

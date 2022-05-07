@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Spin, Pagination, Row, Col, Button } from "antd";
 import Careplan from "../../care-plan/carePlanIndex";
 import CarePlanCardView from './carePlanCardView';
 import { ImPlus } from 'react-icons/im';
 import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
-import { CarePlan, fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
+import { CarePlan, fetchCarePlan, fetchCarePlanEmp } from "../../../API/episode-visit-details/episode-visit-api";
 import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import {useSelector} from "react-redux";
+import html2pdf from "html2pdf.js"
+import ReactToPrint from "react-to-print";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
 
 const CarePlanView = (props) => {
     const [carePlanData, setCarePlanData] = useState([]);
+    const [print,setPrint] = useState(false);
     const [loading, setLoading] = useState(false);
     const [ChangeView, setChangeView] = useState(false);
-    const [carePlanViewState ,setCarePlanViewState] = useState(true)
+    const [carePlanViewState ,setCarePlanViewState] = useState(true);
+    const carePlanCardViewRef = useRef(null);
     const dispatch = useDispatch();
     const history = useHistory();
     const [paginationState, setPaginationState] = React.useState({
@@ -25,17 +30,27 @@ const CarePlanView = (props) => {
         maxIndex: 0,
         pageSize: 1
     });
+    const episodeState = useSelector(state => state.episodeReducer)
 
     //Take All CarePlan
     useEffect(() => {
         async function getAllCarePlanData() {
             setLoading(true);
-            const data = await fetchCarePlan(props.eid);
-            const resdata = await CarePlan(props.eid)
+            let data;
+            if(episodeState.employee_code){
+                 data = await fetchCarePlanEmp(props.eid);
+                data = data.reverse();
+            } else {
+                 data = await fetchCarePlan(props.eid);
+                const resdata = await CarePlan(props.eid);
+                 console.log('data is coming',resdata)
+            }
+            console.log("data is coming ",data)
+           
+           
             setLoading(false);
             
-            console.log('data is coming',resdata)
-            console.log("data is coming ",data)
+           
 
             setCarePlanData(data);
             setPaginationState({
@@ -89,6 +104,11 @@ const CarePlanView = (props) => {
             })
         }
     }
+
+const generatePdf = () => {
+    const element = document.getElementById("printingCarePlan");
+    html2pdf(element);
+}
 
 const handleEdit = (data) => {
 
@@ -170,9 +190,14 @@ const handleSubmit = (data) => {
         setChangeView(false);
         fetchData();
     }
+
+    const handlePrint = () => {
+        console.log("Printing care plan")
+        setPrint(true);
+    }
     if (!ChangeView) {
         return (
-            <div className="px-2 py-2">
+            <div className="px-2 py-2" ref={carePlanCardViewRef} id="printingCarePlan">
                 <Col span={24}>
                     <Row>
                         <Col lg={18} md={18} sm={18} xs={24}>
@@ -180,7 +205,7 @@ const handleSubmit = (data) => {
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
                             {/* aswin 11/1/2021 start */}
-                            {!ChangeView && <Button className="button1" id="bnid" style={{color:"white"}} onClick={async() => await props.carePlanClick()===true && setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
+                            {!ChangeView  && !episodeState.employee_code && <Button className="button1" id="bnid" style={{color:"white"}} onClick={async() => await props.carePlanClick()===true && setChangeView(true)}><ImPlus className="me-2" /> {"  "}Add</Button>}
                             {/* aswin 11/1/2021 stop */}
                             {ChangeView && <Button className="btncolor2" onClick={() => setChangeView(false)}>Cancel</Button>}
                         </Col>
@@ -207,7 +232,7 @@ const handleSubmit = (data) => {
                                     {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
                         </Col>
                                 </Row>
-                                <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
+                                <CarePlanCardView handleChange={handleChange} print={print} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>
                                     {!carePlanViewState&&<Button onClick={() => handleSubmit(data)} className="button1" style={{color:"white"}}>Submit</Button>}
@@ -236,6 +261,13 @@ const handleSubmit = (data) => {
                     />
                     <div style={{minHeight:'15px'}}></div>
                 </div>
+                <center>
+      {/* <ReactToPrint 
+        trigger={() =><button className='add-button' >Print</button>}
+        content={() => carePlanCardViewRef.current}
+      />
+      <button onClick={generatePdf}>Download Pdf</button> */}
+      </center>
                 {/* </>} */}
             </div>
         )
@@ -248,7 +280,7 @@ const handleSubmit = (data) => {
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
                             {/* aswin 11/1/2021 start */}
-                            {!ChangeView && <Button className="btncolor me-2" onClick={async() => await props.carePlanClick()===true && setChangeView(true)}>Add</Button>}
+                            {!ChangeView && !episodeState.employee_code && <Button className="btncolor me-2" onClick={async() => await props.carePlanClick()===true && setChangeView(true)}>Add</Button>}
                             {/* aswin 11/1/2021 stop */}
                             {ChangeView && <Button className="btncolor2" onClick={() => {
                                 setChangeView(false)
@@ -258,6 +290,7 @@ const handleSubmit = (data) => {
                     </Row>
                 </Col>
                 <Careplan searchBar={props.searchBar} handleChangeView={handleViewChange} />
+               
             </>
         )
     }

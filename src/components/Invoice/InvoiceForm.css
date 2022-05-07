@@ -111,8 +111,13 @@
 
   
   .invoice-table td {
-    width: auto;
+    width: auto ;
   }
+
+  .invoice-table .Description {
+    width: 40% !important;
+  }
+
 
 
   .amount-form {
@@ -139,6 +144,20 @@
   display: none;
 }
 
+@media only screen and (max-width: 650px) {
+  
+  .invoice-table td {
+    width: auto !important;
+  }
+
+  .invoice-table .Description {
+    width: 40% !important;
+  }
+
+}
+
+
+
 
   @media (max-width:500px){
     .invoice-search {
@@ -147,10 +166,12 @@
       
     }
 
+   
+
     
   .amount-form {
     
-     margin-left: 30% ;
+     margin-left: 20% ;
       margin-right: 7%;
       font-weight: 100;
       font-size:large;
@@ -174,13 +195,34 @@
       display: none;
     }
 
+    .invoice-table {
+    border: 1px solid black;
+      
+    }
+
+    .invoice-table td {
+      border: 1px solid black ;
+      padding-left: 10px;
+    }
    
 
     .amount-form {
-      margin-right: 12%;
+      margin-right: 9%;
     }
+
+      .hiddee {
+        display: none;
+      }
+
+      .hiddeee{
+        display: none;
+      }
 
     .hiiddee{
       display: none;
     }
+
+    .hhhrrr {
+      border-top: 1px solid rgba(0, 0, 0, 0.5)
     }
+  }

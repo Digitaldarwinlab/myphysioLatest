@@ -137,3 +137,31 @@ export const CarePlan = async (eid) => {
 export const fetchHistory = () => {
     // console.log("Fetched History");
 }
+
+export const fetchCarePlanEmp = async (eid) => {
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        // const encodedData = Encode();
+        const response = await fetch(process.env.REACT_APP_API + "/get_emp_all_careplan/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ id: eid })
+        });
+        const data = await response.json();
+           console.log("data is coming ",data);
+        // const data = Decode(responseData);
+        // console.log(data);
+      
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error("Error: " + response.status + response.statusText);
+        }
+        return filterCarePlanData(data);
+        // return data;
+    } catch (err) {
+        // console.log(err, "Error in Fetching Patient Care Plan");
+        return [];
+    }
+}

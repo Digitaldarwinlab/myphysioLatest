@@ -25,7 +25,10 @@ import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 {/*  aswin 10/22/2021 start */}
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import Error from "../UtilityComponents/ErrorHandler";
+import axios from "axios";
+import { searchOrganizations } from "../../API/Enterprise/Enterprise";
 import './Careplan.css'
+import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 {/*  aswin 10/22/2021 stop */}
 
@@ -310,6 +313,13 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         type:'',
         name:''
     })
+
+    const orgState = useSelector(state => state.organizationReducer)
+    const [org,setOrg] = useState('');
+    const [employee,setEmployee]=  useState('');
+  const [employees, setEmployees] = useState([]);
+  const [showEmployees,setShowEmployees] = useState([]);
+     const [organizations, setOrganizations] = useState([]);
     // aswin 11/19/2021 start 
     const checkEpisodeId = async () => {
         if(reduxState.carePlanRedcucer.patient_code){
@@ -697,8 +707,15 @@ console.log(reduxState.episodeReducer);
                     <p style={{ fontSize: "10px" }}>Wishlist</p>
                 </Col>
                 {/* aswin start 10/30/2021 start */}
-               
-              <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
+               {
+                   reduxState.episodeReducer.employee_code ?   <Col className="text-center cart-plan col_careplan2" onClick={() => setState(!state)
+                    }>
+                        {/* aswin start 10/30/2021 stop */}
+                    <i className="fas fa-running iconClass3 running_icon"></i>
+                    <p style={{ fontSize: "10px" }}>Plan</p>
+                    <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
+                </Col> : 
+                 <Col className="text-center cart-plan col_careplan2" onClick={async() => { 
                     await checkEpisodeId() == true && setState(!state)
                     }}>
                         {/* aswin start 10/30/2021 stop */}
@@ -706,6 +723,8 @@ console.log(reduxState.episodeReducer);
                     <p style={{ fontSize: "10px" }}>Plan</p>
                     <span className="cart-plan-item-count">{reduxState.carePlanRedcucer.exercises_cart.length}</span>
                 </Col>
+               }
+             
                
             </Row>
         </React.Fragment>
@@ -822,7 +841,7 @@ console.log(reduxState.episodeReducer);
         return (
             <Row style={{ minHeight: "150px" }} className="m-1 px-1 py-1">
                 {/*  aswin 10/22/2021 start */}
-                <Col span={24} className="text-center">Episode ({reduxState.carePlanRedcucer.patient_name})</Col>
+                <Col span={24} className="text-center">Episode ({reduxState.episodeReducer.patient_name})</Col>
                 <Col span={24} className="text-center mt-2">
                   
                 </Col>
@@ -845,11 +864,22 @@ console.log(reduxState.episodeReducer);
                         }} /> */}
                         <>  
                         {/* aswin start 10/30/2021 start */}
+                        {reduxState.episodeReducer.employee_code ? <>
+                <p><strong> Employee Name : </strong>{reduxState.episodeReducer.patient_name}</p>
+                <p><strong> Employee Code : </strong>{reduxState.episodeReducer.patient_main_code}</p>
+           
+            <p> <strong>Start Date : </strong> {(new Date()).toLocaleDateString('en-US')}</p>
+          
+            </>:
+            <>
                 <p><strong> Patient Name : </strong>{reduxState.carePlanRedcucer.patient_name}</p>
                 <p><strong> Patient Code : </strong>{reduxState.carePlanRedcucer.patient_main_code}</p>
             <p><strong> Episode No:  </strong>{reduxState.carePlanRedcucer.episode_number }</p>
             <p> <strong>Start Date : </strong> {reduxState.carePlanRedcucer.episode_start_date&&reduxState.carePlanRedcucer.episode_start_date||reduxState.carePlanRedcucer.startDate}</p>
             <p> <strong>Episode Type:  </strong>{reduxState.carePlanRedcucer.complaint}</p>
+            </>
+            
+            }
             {/* aswin start 10/30/2021 start */}
         </>
         {/*  aswin 10/22/2021 stop */}
@@ -1086,22 +1116,111 @@ console.log(reduxState.episodeReducer);
     window.addEventListener('scroll', toggleVisible);
     //Change Page to Allocate Plan 
     const ChangePageToAllocatePlan = () => {
-        if (!reduxState.carePlanRedcucer.patient_name) {
-            setState(false);
-            alert("Please Select a Patient.")
-        } else if (!reduxState.carePlanRedcucer.pp_ed_id) {
-            setState(false);
-            alert("Selected Patient doesn't have any active episode.")
-        }
-        else {
+        if(reduxState.episodeReducer.employee_code){
             setAllocatePlan(!allocatePlan);
-           // updateExArr()
+        } else {
+            if (!reduxState.carePlanRedcucer.patient_name) {
+                setState(false);
+                alert("Please Select a Patient.")
+            } else if (!reduxState.carePlanRedcucer.pp_ed_id) {
+                setState(false);
+                alert("Selected Patient doesn't have any active episode.")
+            }
+            else {
+                setAllocatePlan(!allocatePlan);
+               // updateExArr()
+            }
         }
+       
     }
     const refreshHtml= () => {
 
 
     }
+
+    const handleViewDashboard = (val) => {
+
+        console.log(val);
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "employee_code",
+                value: val.pp_em_id
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "patient_main_code",
+                value: val.employee_code
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "patient_name",
+                value: val.first_name + " " + val.last_name
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "Patient_no",
+                value: val.mobile_no
+            }
+        });
+      
+        setEmployee('');
+        setShowEmployees([]);
+    }
+
+    const onSearch = async (e) => {
+        let val = e.target.value;
+        setOrg(val);
+        if(val.length == 0){
+          setOrganizations([]);
+          return;
+         
+        }
+      
+        const searchedData = await searchOrganizations(val);
+        if (searchedData.message) {
+         
+          setOrganizations([]);
+    
+        } else {
+           
+          setOrganizations(searchedData);
+         
+    
+        }
+      }
+
+        const onSearchEmployee = async (e) => {
+        let val = e.target.value;
+        setEmployee(val);
+        if(val.length == 0){
+        setShowEmployees([]);
+          return;
+         
+        }
+      
+        setShowEmployees(employees.filter(emp =>  emp.first_name.toLowerCase().includes(val) || emp.last_name.toLowerCase().includes(val)))
+      }
+
+    const getEmployees = useCallback((org) => {
+      
+        dispatch({type:"ADD ORGANIZATION",org:org});
+        setOrg('');
+        setOrganizations([]);
+      
+        axios.post(process.env.REACT_APP_API + "/empolyee_list/", { id: org.pp_org_id ? org.pp_org_id : 500 }).then(res => {
+         
+          const data = res.data;
+          setEmployees(data);
+          console.log("data",data);
+console.log(reduxState.episodeReducer.employee_code);
+       
+         
+        }).catch(err => console.log(err));
+        
+      },[reduxState.episodeReducer.employee_code])
     //handleActiveSearch 
     const handleActiveSearchResult = async (pData) => {
         await getEpisodeDetails(pData, dispatch)
@@ -1129,7 +1248,36 @@ console.log(reduxState.episodeReducer);
 
             <div className="CarePlan">
             {(!allocatePlan && searchBar) && (
-                <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}
+                reduxState.episodeReducer.employee_code ? <Row>
+                <Col lg={6} md={10} sm={10} xs={24} style={{paddingRight:"20px"}}>
+                        {/* <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} /> */}
+                        <input
+          placeholder="Search Organization"
+          onChange={onSearch}
+          value={org}
+     
+          style={{ width: '100%' }}
+        />
+        <ul className="orgg-listing">
+         { organizations.map(org => <li key={org.pp_org_id} onClick={()=>{ getEmployees(org)}}>{org.org_name}</li>)}
+        </ul>
+               
+                    </Col>
+                    <Col lg={6} md={10} sm={10} xs={24}>
+                        {/* <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} /> */}
+                        <input
+          placeholder="Search Employee"
+          onChange={onSearchEmployee}
+          value={employee}
+     
+          style={{ width: '100%' }}
+        />
+        <ul className="orgg-listing">
+         { showEmployees.map(emp => <li key={emp.pp_em_id} onClick={()=> handleViewDashboard(emp)}>{emp.first_name + " "+ emp.last_name}</li>)}
+        </ul>
+                        {}
+                    </Col></Row>
+               : <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}
             {
                 !allocatePlan ? (
                     <Row className="mt-4 border">

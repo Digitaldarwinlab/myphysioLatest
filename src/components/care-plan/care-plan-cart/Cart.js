@@ -172,9 +172,9 @@ export default function Cart({
         className="all-buttons"
         style={{ display: "flex", flexDirection: "row", marginBottom: "50px" }}
       >
-        <Button className="ant-btn-cart me-1" onClick={AddRom}>
+      {state.episodeReducer.employee_code ?<></>:  <Button className="ant-btn-cart me-1" onClick={AddRom}>
           Start
-        </Button>
+        </Button>}
         <Button
           className="ant-btn-cart"
           onClick={() => ChangePageToAllocatePlan()}
@@ -182,13 +182,13 @@ export default function Cart({
           {state.carePlanRedcucer.edit_flag ? "Edit" : "Allocate"} Plan
         </Button>
 
-        <Button
+       {state.episodeReducer.employee_code ?<></>:  <Button
           className="ant-btn-cart me-1"
           style={{ marginLeft: "8px" }}
           onClick={AddVideoRom}
         >
           Start Video Assessment
-        </Button>
+        </Button>}
       </div>
     </React.Fragment>
   );

@@ -420,6 +420,14 @@ import { set } from "js-cookie";
                      <div style={{ minHeight: "20px" }}></div>
                     <Row justify='space-between'>          
                <Col  style={{fontSize:"25px"}} span={16}>
+               <i className="fas fa-arrow-left"
+                    style={{ cursor: "pointer",marginRight:"10px" }}
+                    title="Go Back"
+                    onClick={() => {
+                      
+                            history.goBack()     
+                    }}
+                    role="button"></i>
                <i className="fas fa-user-md" /> <b>  Organization List</b>
                             </Col>
             

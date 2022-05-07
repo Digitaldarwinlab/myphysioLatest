@@ -405,7 +405,7 @@ export const UpdateStateEmp = (state, val, dispatch) => {
     type: STATECHANGE,
     payload: {
         key: "Organization",
-        value: val.Organization ? val.Organization : ""
+        value: val.pp_org ? val.pp_org : ""
     }
 })
 }

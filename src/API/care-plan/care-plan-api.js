@@ -143,9 +143,21 @@ export const postCarePlanAllocation = async (data, dispatch) => {
     }
 }
 
-export const postCarePlanAllocationEmployee = async (data, dispatch) => {
+const AllocateExerciseDataEmployee = (data,id) => {
+    return {
+        employee_id: id,
+        exercise_details: data.exercises_cart,
+        timeSlots: data.timeSlots,
+        count_time_slots: data.count_time_slots,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        status_flag: data.status_flag?2:1
+    };
+}
+
+export const postCarePlanAllocationEmployee = async (data, dispatch,id) => {
     dispatch({ type: CARE_PLAN_POST_DATA });
-    let newData = AllocateExerciseData(data);
+    let newData = AllocateExerciseDataEmployee(data,id);
     try {
         const headers = {
             Accept: 'application/json',

@@ -287,7 +287,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     console.log('times ',data)
     let tempStatus = []
     data.map(d=>{
-      tempStatus.push(d.exercise_status)
+      tempStatus.push(d.time_slot)
     })
     checkExerciseStatus1(times[0],tempStatus)
     setExerciseStatus1(tempStatus)

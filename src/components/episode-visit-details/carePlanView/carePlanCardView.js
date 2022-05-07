@@ -4,10 +4,13 @@ import { Row, Col, Checkbox } from 'antd';
 import FormDate from './../../UI/antInputs/FormDate';
 import moment from "moment";
 import TimePickerComp from './../../care-plan/care-plan-allocate-plan/TimePickerComp';
+import html2pdf from "html2pdf.js"
+import {useSelector} from "react-redux";
 
-export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
+export default function CarePlanCardView({ data ,carePlanView ,handleChange, print}) {
     console.log('data in dashboard')
-    console.log("data in dashboard ",data)
+    console.log("data in dashboard ",data);
+    const state = useSelector(state => state.episodeReducer)
     return (
         <>
             <Row gutter={[10, 10]}>
@@ -18,7 +21,7 @@ export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
                         label="Start Date"
                         name="Start Data"
                         required={true}
-                        defaultValue={data.end_date?  moment(data.end_date, "YYYY-MM-DD") : moment(data.start_date, "YYYY-MM-DD")}
+                        defaultValue={data.end_date? state.employee_code ? moment(data.start_date, "YYYY-MM-DD"): moment(data.end_date, "YYYY-MM-DD") : moment(data.start_date, "YYYY-MM-DD")}
                         disabledDate={true}
                         disabled={true}
                     />
@@ -28,15 +31,15 @@ export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
                         label="End Date"
                         name="End Data"
                         required={true}
-                        defaultValue={moment(data.start_date, "YYYY-MM-DD")}
+                        defaultValue={state.employee_code? moment(data.end_date, "YYYY-MM-DD"): moment(data.start_date, "YYYY-MM-DD")}
                         disabledDate={true}
                         disabled={true}
                     />
                 </Col>
-                {
+                <div className='ggrid-row' >{
                     data.exercise_details.map((exercise, index) => {
                         return (
-                            <Col key={index} md={12} lg={8} sm={12} xs={24}>
+                            <Col key={index} md={12} lg={8} sm={12} xs={print ? 12 : 24} >
                                 <CarePlanCard
                                     cartState={false}
                                     id={exercise.ex_em_id}
@@ -54,13 +57,13 @@ export default function CarePlanCardView({ data ,carePlanView ,handleChange}) {
                             </Col>
                         )
                     })
-                }
+              }  </div>
             </Row>
             <Row gutter={[10, 10]}>
                 {
                     data.time_slot && data.time_slot.length !== 0 && (
                         data.time_slot.map((val, index) => {
-                            return <TimePickerComp time={val[0]} showWatch={false}  key={index} index={index} />
+                            return state.employee_code ? <TimePickerComp time={val} showWatch={false}  key={index} index={index} /> : <TimePickerComp time={val[0]} showWatch={false}  key={index} index={index} />
                         })
                     )
                 }

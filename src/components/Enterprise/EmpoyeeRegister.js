@@ -61,12 +61,37 @@ const EmployeeRegister = (props) => {
     const [cityList, setCityList] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [NewAge, setNewAge] = useState("");
+    const [clearState, setClearState] = useState(false);
     const [organization,setOrganization] = useState([]);
     const [tableData, setTableData] = useState([]);
     const history = useHistory();
     const [form] = Form.useForm();
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const unblock = history.block((location, action) => {
+            if(state.BasicDetails.MiddleName!=='' || state.BasicDetails.FirstName!=='' || state.BasicDetails.LastName!=='' || state.BasicDetails.DOB!=='' || state.BasicDetails.Age!=='' || state.BasicDetails.Gender!=='' || state.BasicDetails.bloodType!=='' || state.BasicDetails.MobileNo!=='' || state.BasicDetails.LandlineNo!=='' || state.BasicDetails.WhatsAppNo!=='' )
+            {   console.log(state.BasicDetails)
+                if (window.confirm("You will lost your Form Data. Do You really want it?")) {
+                    dispatch({ type: BASIC_CLEARSTATE });
+                    setClearState(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else
+            {
+                console.log('no alert')
+            }
+            
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history,state])
 
 
     useEffect(() => {
@@ -123,7 +148,7 @@ const EmployeeRegister = (props) => {
                 }
             })
         }
-    }, [props.clearState]);
+    }, [clearState]);
 
 
     const handleChange = (key, value, id = 0) => {
@@ -359,7 +384,14 @@ const EmployeeRegister = (props) => {
             <Row>
 
                 <Col lg={20} md={20} sm={24} xs={24}>
-                    <h3 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role == 'patient' ? 'Update Profile' : 'Employeee'}</b></h3>
+                    <h3 className="page-heading" id="page-heading" > <i className="fas fa-arrow-left"
+                    style={{ cursor: "pointer",marginRight:"10px" }}
+                    title="Go Back"
+                    onClick={() => {
+                      
+                            history.goBack()     
+                    }}
+                    role="button"></i><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role == 'patient' ? 'Update Profile' : 'Employeee'}</b></h3>
                 </Col>
                 <Col lg={4} md={4} sm={24} xs={24} className="text-right" justify="right">
                     {
@@ -412,8 +444,9 @@ const EmployeeRegister = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.FirstName}
+                                disabled={state.BasicDetails.pp_em_id ? true :false}
                             />
-
+                            
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{ fontSize: '15px', fontWeight: '600' }}>{'Middle Name'}</span>}
@@ -437,6 +470,7 @@ const EmployeeRegister = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.LastName}
+                                disabled={state.BasicDetails.pp_em_id ? true :false}
                             />
                         </Col>
                     </Row>

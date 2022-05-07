@@ -82,11 +82,12 @@ list-style: none;
 .patient ul {
     flex-direction: column;
 }
+
 }
 
 @media print {
     .datern {
-        margin-right: 11%;
+        margin-right: 7.5%;
       }
 }
 
