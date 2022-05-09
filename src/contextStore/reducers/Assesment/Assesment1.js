@@ -31,6 +31,7 @@ const FirstAssesmentIniState ={
     Scars:"",
     Arom_M:false,
     Arom_Ai:false,
+    checkState:false,
     // gaurav
     chiefCom:"",
     occupation:"",

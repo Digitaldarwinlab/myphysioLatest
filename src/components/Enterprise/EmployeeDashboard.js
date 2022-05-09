@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Row, Col, Tabs, notification, message, Button, Alert } from 'antd';
+import { ImPlus } from 'react-icons/im';
 // import Episodes from './episodes/Episodes';
 // import Visits from './visits/visit';
 import { useSelector, useDispatch } from "react-redux";
@@ -19,6 +20,7 @@ import axios from "axios";
 // import Careplan from './../care-plan/carePlanIndex';
 // import Notes from './Notes.js';
 import CarePlanView from '../episode-visit-details/carePlanView/carePlanView';
+import CarePlanViewEnterprise from "../episode-visit-details/carePlanViewEnterprise/carePlanView"
 import '../../styles/Layout/Heading.css'
 // import Tempdashboard from "./PatientGraph/Tempdashboard";
 // import Exercise from './ExerciseDetail/Exercise'
@@ -558,8 +560,8 @@ console.log(state.employee_code);
                         }
                         key="6"
                     >
-                            <Button className="btncolor me-2" onClick={() => history.push('/care-plan')}>Add</Button>
-                            <CarePlanView carePlanClick={carePlanClick} eid={state.employee_code} searchBar={false} />
+                            <Button className="btncolor me-2" onClick={() => history.push('/enterprise/care-plan')}><ImPlus className="me-2" /> {"  "}Add</Button>
+                            <CarePlanViewEnterprise carePlanClick={carePlanClick} eid={state.employee_code} searchBar={false} />
                         {/* aswin start 10/30/2021 start */}
                         {/* <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} /> */}
                         {/* aswin start 10/30/2021 stop */}

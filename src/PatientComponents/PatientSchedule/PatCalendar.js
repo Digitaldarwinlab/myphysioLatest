@@ -547,6 +547,35 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     }
   };
 
+  const dayShort = (d) => {
+    switch (d) {
+      case 0:
+        return "Jan";
+      case 1:
+        return "Feb";
+      case 2:
+        return "Mar";
+      case 3:
+        return "Apr";
+      case 4:
+        return "May";
+      case 5:
+        return "Jun";
+      case 6:
+        return "Jul";
+      case 7:
+        return "Aug";
+      case 8:
+        return "Sept";
+      case 9:
+        return "Oct";
+      case 10:
+        return "Nov";
+      case 11:
+        return "Dec";
+    }
+  };
+  
   //console.log(selectedDate ? new Date(selectedDate).toISOString().substring(0, 10) : new Date().toISOString().substring(0, 10) +'Selecteeddd dayyy')
   //  console.log(currentEpissode)
   // console.log('exercises')
@@ -669,16 +698,29 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //  console.log('final exercise status ',exercise_status)
   //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
-    history.push({
-      pathname: "/patient/exercises/brief",
-      state: {
-        exercise:exercises[0],
-        exercises,
-        exNameList:exArr,
-        status_flag,
-        repArr
-      },
-    });
+    if(!status_flag){
+      history.push({
+        pathname: "/patient/exercises/brief",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }else{
+      history.push({
+        pathname: "/patient/exercises/manual",
+        state: {
+          exercise:exercises[0],
+          exercises,
+          exNameList:exArr,
+          status_flag,
+          repArr
+        },
+      });
+    }
   };
 
   const checkStatuc=(ex)=>{
@@ -996,7 +1038,9 @@ useEffect(() => {
         <DatePicker
        getSelectedDay={(e)=>{
         onSelectedDay(convert(e))
-        console.log('datepicker ',e)
+        console.log('datepicker ',dayShort(e.getMonth()))
+        setSelectedMonth(dayShort(e.getMonth()))
+        setSelectedYear(e.getFullYear())
       }}
        labelFormat={"MMMM"}
        color={"#374e8c"}

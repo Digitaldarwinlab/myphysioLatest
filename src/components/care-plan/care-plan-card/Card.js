@@ -106,8 +106,9 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                 ] : [
                     <>
                         <div className="border m-1">
+                        <Row>
                             <h4 className="border">Repitition</h4>
-                            
+                        </Row>    
                             <Row gutter={[10, 10]}>
                                 <Col lg={12} md={12} sm={12} xs={12}>
                                     <Form.Item name={"set" + index} label="Set" required={true}>
@@ -142,9 +143,9 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                         //value={state.exercises_cart[index].Rep.hold_time}
                                         disabled={carePlanView}
                                         value={(data && data.Rep) ? data.Rep.hold_time :
-                                            (state.exercises_cart.length > 0 && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 5}
+                                            (state.exercises_cart.length > 0 && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 10}
                                         defaultValue={(data && data.Rep) ? data.Rep.hold_time :
-                                            (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 5}
+                                            (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 10}
                                        >
                                            <Select.Option value={5}>5</Select.Option>
                                            <Select.Option value={10}>10</Select.Option>
@@ -155,101 +156,60 @@ export default function CarePlanCard({ id, Level, Name, image, UpdateCart, cartS
                                 </Row> */}
                         </div>
                     </>,
-                    <>
-                        <div className="border m-1">
-                            <h4 className="border">Rom</h4>
+                    // <>
+                    //     <div className="border m-1">
+                    //         <h4 className="border">Rom</h4>
                           
-                            <Form.Item name={"joint" + index} label="Joint" required={true}>
-                            <Select
-                       disabled={carePlanView}
-                        defaultValue={state.exercises_cart.length>0?state.exercises_cart[index]&&state.exercises_cart[index]["Rom"]&&state.exercises_cart[index]["Rom"]["joint"]:data?data.Rom.joint:''}
-                        style={{ width: 120 }}
-                        onChange={(e)=>changeRom(index,e)}
-                      //  onChange={(e)=>console.log(index,e)}
-                      >
-                        {state.exercises_cart.length>0?
-                        Object.keys(state.exercises_cart[index].angle).map((item, index) => (
-                          <Option value={item}>{item}</Option>
-                        )): <Option value={data?data.Rom.joint:''}>{data?data.Rom.joint:''}</Option>}
-                      </Select>
-                                {/* <label for={"joint" + index}>Joint </label> */}
-                                {/* <select style={{width:'100%'}} disabled={carePlanView} id={"joint" + index} onChange={(e) => handleChange("joint", e.target.value, index)}>
-                                    
-                                    {
-                                        state.exercises_cart && state.exercises_cart[index] 
-                                        ?
-                                       typeof( state.exercises_cart[index]['Rom']['joint'])=='object'
-                                       ?
-                                       
-                                       state.exercises_cart[index]['Rom']['joint'].map((item,index)=>{
-
-                                        return(
-                                            <option
-
-                                            value={item}
-
-                                            >
-                                            {item}
-
-                                        </option>
-                                        )
-                                       })
-                                       :
-                                       <option
-                                       value={state.exercises_cart[index]['Rom']['joint']}>
-                                       {state.exercises_cart[index]['Rom']['joint']}
-                                   </option>
-                                       :
-                                       data && data['Rom'] ?
-                                       <option
-                                       value={data['Rom']['joint']}>
-                                       {data['Rom']['joint']   }                             
-                                   </option>
-                                   :
-                                   <option
-                                       value='no Joint given'>
-                                       {'no Joint given'}                             
-                                   </option>
-                                    }
-                                    
-                                </select> */}
-                            </Form.Item>
-                            <Row gutter={[10, 10]}>
-                                <Col lg={12} md={12} sm={12} xs={12}>
-                                    <Form.Item name={"min" + index} label="min" required={true}>
-                                        {console.log('printing default danglse')}
+                    //         <Form.Item name={"joint" + index} label="Joint" required={true}>
+                    //         <Select
+                    //    disabled={carePlanView}
+                    //     defaultValue={state.exercises_cart.length>0?state.exercises_cart[index]&&state.exercises_cart[index]["Rom"]&&state.exercises_cart[index]["Rom"]["joint"]:data?data.Rom.joint:''}
+                    //     style={{ width: 120 }}
+                    //     onChange={(e)=>changeRom(index,e)}
+                    //   >
+                    //     {state.exercises_cart.length>0?
+                    //     Object.keys(state.exercises_cart[index].angle).map((item, index) => (
+                    //       <Option value={item}>{item}</Option>
+                    //     )): <Option value={data?data.Rom.joint:''}>{data?data.Rom.joint:''}</Option>}
+                    //   </Select>
+                    //         </Form.Item>
+                    //         <Row gutter={[10, 10]}>
+                    //             <Col lg={12} md={12} sm={12} xs={12}>
+                    //                 <Form.Item name={"min" + index} label="min" required={true}>
+                    //                     {console.log('printing default danglse')}
                               
                                    
                                    
-                                        <Input
-                                            disabled={carePlanView}
-                                            onChange={(e) => handleChange1("min", e.target.value, index)}
-                                            min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 1}
-                                            max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : 10}
-                                            value={(data && data.Rom) ? data.Rom.min :
-                                                (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 6}
-                                            defaultValue={(data && data.Rom) ? data.Rom.min :
-                                                (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']:8}
-                                            className="w-75 m-1" />
-                                    </Form.Item>
-                                </Col>
-                                <Col lg={12} md={12} sm={12} xs={12}>
-                                <Form.Item name={"max" + index} label="max" required={true}>
-                                        {console.log("Hello")}
-                                        <Input
-                                            disabled={carePlanView}
-                                            onChange={(e) => handleChange1("max", e.target.value, index)}
-                                            value={(data && data.Rom) ? data.Rom.max :
-                                                (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :  80}
-                                            min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 90}
-                                            max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 360}
-                                            defaultValue={(data && data.Rom) ? data.Rom.max :
-                                                (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :80} className="w-75 m-1" />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </div>
-                    </>]}
+                    //                     <Input
+                    //                         disabled={carePlanView}
+                    //                         onChange={(e) => handleChange1("min", e.target.value, index)}
+                    //                         min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 1}
+                    //                         max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : 10}
+                    //                         value={(data && data.Rom) ? data.Rom.min :
+                    //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 6}
+                    //                         defaultValue={(data && data.Rom) ? data.Rom.min :
+                    //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']:8}
+                    //                         className="w-75 m-1" />
+                    //                 </Form.Item>
+                    //             </Col>
+                    //             <Col lg={12} md={12} sm={12} xs={12}>
+                    //             <Form.Item name={"max" + index} label="max" required={true}>
+                    //                     {console.log("Hello")}
+                    //                     <Input
+                    //                         disabled={carePlanView}
+                    //                         onChange={(e) => handleChange1("max", e.target.value, index)}
+                    //                         value={(data && data.Rom) ? data.Rom.max :
+                    //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :  80}
+                    //                         min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 90}
+                    //                         max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 360}
+                    //                         defaultValue={(data && data.Rom) ? data.Rom.max :
+                    //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :80} className="w-75 m-1" />
+                    //                 </Form.Item>
+                    //             </Col>
+                    //         </Row>
+                    //     </div>
+                    // </>
+                    ]}
             >
                 <Meta
                     title={<p style={{ color: "#fa5f7f" }}>{Level}</p>}

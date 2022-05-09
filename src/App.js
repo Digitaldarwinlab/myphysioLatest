@@ -62,6 +62,7 @@ import EpisodeVisitDetails from './components/episode-visit-details';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import PublicRoute from './components/PrivateRoute/PublicRoute';
 import Careplan from './components/care-plan/carePlanIndex';
+import CareplanEnterprise from './components/care-plan-enterprise/carePlanIndex'
 import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
 import Loading from "./components/UtilityComponents/Loading.js";
 import "./styles/App.css";
@@ -114,6 +115,7 @@ import AromWithouthAi from "./components/Assesment/Arom-withouth-ai.js";
 import Appointment from "./components/NewSchedule/Appointment.js";
 import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
 import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
+import ExerDetail from "./PatientComponents/PatientSchedule/ExerDetail.jsx";
 
 const App = () => {
 	const path = window.location.pathname;
@@ -205,7 +207,7 @@ const App = () => {
 							<PrivateRoute exact path="/setting" component={EpisodeVisitDetails} />
 
 							<PrivateRoute exact path="/care-plan" component={Careplan} />
-
+							<PrivateRoute exact path="/enterprise/care-plan" component={CareplanEnterprise} />
 							<PrivateRoute exact path="/patient/consent-form" component={PatientConsuntForm} />
 							<Route exact path="/logout" component={Logout} />
 							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
@@ -229,6 +231,7 @@ const App = () => {
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
 							<PatientRoute exact path="/patient/exercises/brief" forceRefresh={true} component={ExerciseDetail} />
+							<PatientRoute exact path="/patient/exercises/manual" forceRefresh={true} component={ExerDetail} />
 							<PatientRoute exact path='/patient/progress' component={PatientProgress} />
 							<PatientRoute exact path='/patient/update' component={PatientIndex} />
 							<PatientRoute exact path='/patient/Temp' component={Tempdashboard} />

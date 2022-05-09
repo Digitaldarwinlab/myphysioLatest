@@ -1,0 +1,13 @@
+var a = "11/24/2014 3:10 PM";
+var b = "11/23/2014 7:45 AM";
+
+var aDate = new Date(a).getTime();
+var bDate = new Date(b).getTime();
+
+if(aDate < bDate){
+    console.log('a happened before b');
+}else if (aDate > bDate){
+    console.log('a happend after b');
+}else{
+    console.log('a and b happened at the same time')
+}

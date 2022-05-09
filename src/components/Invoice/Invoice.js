@@ -4,8 +4,6 @@ import InvoiceForm from "./InvoiceForm";
 import Invoicer from "./Invoicer";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import Success from "../UtilityComponents/SuccessHandler";
-import {getClinicDetails} from "../../API/Physio/ClinicRegister";
 import axios from "axios";
 
 function Invoice() {
