@@ -22,6 +22,7 @@ import {
   CARE_PLAN_REP_CHANGE,
   CARE_PLAN_STATE_CHANGE,
   CARE_PLAN_TIME_CHANGE,
+  CARE_PLAN_SUCCESS,
 } from "../../../contextStore/actions/care-plan-action";
 import {
   EditCarePlanAllocation,
@@ -362,10 +363,10 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
   //OnFinish
   const warn = (msg) => {
     notification.warn({
-      //   placement: 'bottomLeft',
+         placement: 'bottomLeft',
          top: 50,
          message: msg,
-         duration: 2,
+         duration: 3,
          // description:
          //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
        });
@@ -576,9 +577,22 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
         console.log("timepick ", state);
         result = await EditCarePlanAllocation(state, dispatch);
       } else {
-        result = await postCarePlanAllocation(state, dispatch);
         if (state.template_flag) {
-          await AddTemplates(state, dispatch);
+          const res = await AddTemplates(state, dispatch);
+          if(res.status_code&&res.status_code==100){
+            console.log("template response ",res)
+            warn(res.message)
+            //dispatch({ type: VALIDATION, payload: { error: res.message } });
+            return
+          }else if(res.status_code&&res.status_code==200){
+            result = await postCarePlanAllocation(state, dispatch);
+            dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'updated',value:"Care Plan and Template Added Successfully"} });
+            setTimeout(() => {
+             console.log("wait 1 second")
+            }, 1000);  
+          }
+        }else{
+          result = await postCarePlanAllocation(state, dispatch);
         }
       }
 

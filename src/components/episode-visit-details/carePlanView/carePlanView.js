@@ -211,7 +211,7 @@ const handleSubmit = (data) => {
                             <div key={index} className="px-1 py-1">
                                 {console.log("careplan data ",data)}
                                {(moment(data.end_date)>=new Date().setHours(0,0,0,0) && moment(data.start_date)>=new Date().setHours(0,0,0,0))&& <Row  justify="end">
-                                <Col lg={24} md={24} sm={24} xs={24}>
+                                {/* <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
                                         <BiEdit />
@@ -219,8 +219,8 @@ const handleSubmit = (data) => {
                                        
                                     </Button>
                                     {"  "}
+                        </Col> */}
                                     {/* {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>} */}
-                        </Col>
                                 </Row>}
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">

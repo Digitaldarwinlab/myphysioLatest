@@ -21,6 +21,7 @@ import {
 
 const initialState = {
   time_slot_edit:0,
+  romJoints:{},
   pp_ed_id: "",
   patient_name: "",
   episode_start_date: "",
@@ -81,13 +82,18 @@ const upval = (data, index, val) => {
   return temp;
 };
 
-const upval1 = (data, index, val) => {
+const upval1 = (data, joints,index, val) => {
   let temp = [...data];
   let cft = {
     joint:val,
     min:0,
     max:0
   }
+  Object.keys(joints).map(item=>{
+    if(joints[item].joint==val){
+      cft = {joint:val,min:joints[item].min,max:joints[item].max}
+    }
+  })
   temp[index]["Rom"] = cft;
   return temp;
 };
@@ -167,6 +173,7 @@ export const carePlanRedcucer = (state = initialState, action) => {
         ...state,
         exercises_cart: upval1(
           state.exercises_cart,
+          state.romJoints,
           action.payload.index,
           action.payload.value
         ),

@@ -27,10 +27,11 @@ export const AddTemplates = async (data, dispatch) => {
 
     const responseData = await response.json();
     const result = Decode(responseData);
-    dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'updated',value:"Templated Added Successfully"} });
     console.log(result);
+    return result
   } catch (err) {
     console.log(err);
+    return {}
     // return [false, "Error 501: Internal Server Error"];
   }
 };

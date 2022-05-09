@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RiLayout6Fill } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
 import {
@@ -22,14 +22,15 @@ import "antd/dist/antd.css";
 import { GrClose } from "react-icons/gr";
 import EpisodeDetail from "./../patientEpisode/Prescription/EpisodeDetail";
 import Cart from "./care-plan-cart/Cart";
-import { FaRunning ,FaYoutube ,FaPlus} from "react-icons/fa";
+import { FaRunning, FaYoutube, FaPlus } from "react-icons/fa";
 import { IconContext } from "react-icons";
-import { AiOutlineMenuUnfold ,AiOutlinePlus} from "react-icons/ai";
+import { AiOutlineMenuUnfold, AiOutlinePlus } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import {
   GetAllExerciseList,
   GetExerciseList,
   getFiteredExercistData,
+  GetJoint,
 } from "./../../API/care-plan/care-plan-api";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -214,7 +215,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const reduxState = useSelector((state) => state);
   const [firstTotalEx, setFirstTotalEx] = useState([]);
   const locatoin = useLocation();
-  const scrlRef = useRef(null)
+  const scrlRef = useRef(null);
   console.log("careplanStarted", reduxState.carePlanRedcucer);
 
   useEffect(() => {
@@ -508,7 +509,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
-        minAmp:val.minAmp,
+        minAmp: val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min: Object.values(val.angle)[0]
@@ -621,7 +622,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
-          minAmp:val.minAmp,
+          minAmp: val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -666,7 +667,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
-          minAmp:val.minAmp,
+          minAmp: val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -708,7 +709,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
-        minAmp:val.minAmp,
+        minAmp: val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min:
@@ -813,8 +814,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         <Col
           className="text-center cart-plan col_careplan2"
           onClick={async () => {
-            // (await checkEpisodeId()) == true && setState(!state);
-            setState(!state)
+            (await checkEpisodeId()) == true && setState(!state);
+            //   setState(!state)
           }}
         >
           {/* aswin start 10/30/2021 stop */}
@@ -878,7 +879,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
-          minAmp:val.minAmp,
+          minAmp: val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -949,7 +950,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             hold_time: 10,
           },
           angle: val.angle ? val.angle : [],
-          minAmp:val.minAmp,
+          minAmp: val.minAmp,
           Rom: {
             joint: Object.keys(val.angle)[0],
             min: Object.values(val.angle)[0]
@@ -1114,7 +1115,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
           hold_time: 10,
         },
         angle: val.angle ? val.angle : [],
-        minAmp:val.minAmp,
+        minAmp: val.minAmp,
         Rom: {
           joint: Object.keys(val.angle)[0],
           min: Object.values(val.angle)[0]
@@ -1139,15 +1140,15 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     });
   };
   const searchTemplates = async (value) => {
-    let res = await getSearchTemplates(value)
+    let res = await getSearchTemplates(value);
     dispatch({
-        type: CARE_PLAN_STATE_CHANGE,
-        payload: {
-          key: "template_arr",
-          value: res,
-        },
-      });
-  }
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "template_arr",
+        value: res,
+      },
+    });
+  };
   //Exercise Tab
   const ExerciseTab = () => {
     const filteredData = Exerciselist.filter((val) => {
@@ -1318,28 +1319,28 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     await getEpisodeDetails(pData, dispatch);
   };
   const AddYouTube = () => {
-      let obj = {
-        "id":Math.floor(Math.random() * 100) + 1000,
-        "ex_em_id": 262,
-        "name": "YouTube",
-        "Rep": {
-            "set": 1,
-            "rep_count": 10,
-            "hold_time": 10
-        },
-        "minAmp": 20,
-        "Rom": {
-            "joint": "",
-            "min": 0,
-            "max": 100
-        },
-        "youtube_link":'',
-        "difficulty_level": "Medium",
-        "image_url": "",
-        "video_url": ""
-      }
-      dispatch({ type: CARE_PLAN_ADD_TO_CART, payload: obj });
-  }
+    let obj = {
+      id: Math.floor(Math.random() * 100) + 1000,
+      ex_em_id: 262,
+      name: "YouTube",
+      Rep: {
+        set: 1,
+        rep_count: 10,
+        hold_time: 10,
+      },
+      minAmp: 20,
+      Rom: {
+        joint: "",
+        min: 0,
+        max: 100,
+      },
+      youtube_link: "",
+      difficulty_level: "Medium",
+      image_url: "",
+      video_url: "",
+    };
+    dispatch({ type: CARE_PLAN_ADD_TO_CART, payload: obj });
+  };
   return (
     <React.Fragment ref={scrlRef}>
       {searchBar && <div style={{ minHeight: "20px" }}></div>}
@@ -1436,20 +1437,35 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                         placeholder="search templates..."
                         className="input-field w-100 my-3"
                         onChange={(e) => {
-                            searchTemplates(e.target.value);
+                          searchTemplates(e.target.value);
                           console.log("search ", e.target.value);
                         }}
                         onSearch={(e) => console.log("search ", e.target.value)}
                       />
                     </Col>
                   </Row>
-                  <hr/>
-                     <GlobalTemplate />
-                </TabPane> 
+                  <hr />
+                  <GlobalTemplate />
+                </TabPane>
               </Tabs>
               <Drawer
                 className="careplan_drawer"
-                title={<Row> <Space size='middle'> Plan  <Tooltip title="Add YouTube Video"><Button onClick={AddYouTube}><Space size="small"><FaPlus /> YouTube</Space></Button></Tooltip></Space></Row>}
+                title={
+                  <Row>
+                    {" "}
+                    <Space size="middle">
+                      {" "}
+                      Plan{" "}
+                      <Tooltip title="Add YouTube Video">
+                        <Button onClick={AddYouTube}>
+                          <Space size="small">
+                            <FaPlus /> YouTube
+                          </Space>
+                        </Button>
+                      </Tooltip>
+                    </Space>
+                  </Row>
+                }
                 closeIcon={<GrClose />}
                 placement="right"
                 closable={true}
@@ -1472,15 +1488,15 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                     ChangePageToAllocatePlan={ChangePageToAllocatePlan}
                   />
                 )} */}
-                 <Cart
-                    Exercise={reduxState.carePlanRedcucer.exercises_cart}
-                    items={reduxState.carePlanRedcucer.exercises_cart.map(
-                      (item) => item.ex_em_id
-                    )}
-                    fullExer={fullExer}
-                    UpdateCart={UpdateCart}
-                    ChangePageToAllocatePlan={ChangePageToAllocatePlan}
-                  />
+                <Cart
+                  Exercise={reduxState.carePlanRedcucer.exercises_cart}
+                  items={reduxState.carePlanRedcucer.exercises_cart.map(
+                    (item) => item.ex_em_id
+                  )}
+                  fullExer={fullExer}
+                  UpdateCart={UpdateCart}
+                  ChangePageToAllocatePlan={ChangePageToAllocatePlan}
+                />
               </Drawer>
 
               <Drawer

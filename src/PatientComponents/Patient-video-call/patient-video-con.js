@@ -45,14 +45,12 @@ const PatientVideoCallIndex = (props) => {
 
   const joinChannel = async() => {
     let streamCanvas = document.getElementById("scanvas");
-    var agoraAppId = "616487fe8ede4785aa8f7e322efdbe7d"
+    var agoraAppId = "f31ea0f88fcf4974a349448e69d35c1d"
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
     // const data = await res.json();
     // var token = data.rtcToken
-    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
-    const data = await res.json();
-    var token = data.rtcToken
+    var token = "006f31ea0f88fcf4974a349448e69d35c1dIAAaMqon2/UELAV1QJTZPlrYWQHoJ3IeKUgq6Vg5/KGF4JIyJe6379yDEACUGqIFTpHaYQEAAQDeTdlh"
     setModalvisible(false)
     ClientAndJoinChannel(
       agoraAppId,
@@ -195,7 +193,7 @@ const PatientVideoCallIndex = (props) => {
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
-      <canvas style={{width: "70vw",height:'440px',  position: "absolute", transform:"scaleX(-1)"}} id="scanvas"></canvas>
+      <canvas hidden id="scanvas"></canvas>
       {/* <canvas ref={canvasRef} width="1310" height="550"></canvas> */}
     </React.Fragment>
   )

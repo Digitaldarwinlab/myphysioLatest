@@ -32,12 +32,10 @@ const joints = {
   Elbow: "leftElbow",
   Hip: "leftHip",
   Knee: "leftKnee",
-  Neck: "leftNeck",
+  Cervical: "leftNeck",
   Pelvic: "leftPelvic",
   Wrist: "leftWrist",
   Ankle: "leftAnkle",
-  "Hip Abd/Add": "leftHipAdductionAbduction",
-  "Cervical Fwd Flex": "cervicalForwardFlexion",
 };
 export default function CarePlanCard({
   id,
@@ -347,8 +345,8 @@ export default function CarePlanCard({
                                 });
                               }}
                             >
-                              {Object.keys(joints).map((item) => (
-                                <Option value={joints[item]}>{item}</Option>
+                              {Object.keys(state.romJoints).map((item) => (
+                                <Option value={state.romJoints[item].joint}>{item}</Option>
                               ))}
                             </Select>
                           </Form.Item>
