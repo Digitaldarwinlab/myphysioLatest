@@ -13,6 +13,9 @@ import {
 const FirstAssesmentIniState ={
     Date:"",
     AI_data:"",
+    Anterior_AI_Data:'',
+    LeftLateral_AI_Data:'',
+    RightLateral_AI_Data:'',
     AI_screenshot:"",
     Exercise_Name:"",
     episode_id:"",
@@ -26,7 +29,9 @@ const FirstAssesmentIniState ={
     Type:"First",
     // aswin 10/24/2021 stop
     Scars:"",
-
+    Arom_M:false,
+    Arom_Ai:false,
+    checkState:false,
     // gaurav
     chiefCom:"",
     occupation:"",
@@ -37,11 +42,15 @@ const FirstAssesmentIniState ={
     Others:'',
     medicCheck:false,
     othCheck:false,
+    Surgical_History_Notes_check:false,
     past_medical_history:[],
     frontChecks:{},
     sideChecks:{},
     FrontCheck:[],
     SideCheck:[],
+    Surgical_History_Notes:'',
+    Surgical_History_Notes1:[],
+    any_other_details:'',
 //     Diabetes:"false",
 //     HYN: "false",
 //     COPD: "false",
@@ -58,6 +67,7 @@ const FirstAssesmentIniState ={
     pain1:true,
     special:true,
     pose:true,
+    romAssAi:true,
     romAss:true,
     Swelling:"no pain",
     pain_scars:"",
@@ -102,11 +112,11 @@ const FirstAssesmentIniState ={
 }
 
 const handleIndexValue = (arr,value,index,ques,ans) => {
-    console.log('arr ',arr)
-    console.log('arr ',value)
-    console.log('arr ',index)
-    console.log('arr ',ques)
-    console.log('arr ',ans)
+    // console.log('arr ',arr)
+    // console.log('arr ',value)
+    // console.log('arr ',index)
+    // console.log('arr ',ques)
+    // console.log('arr ',ans)
     const newArr = {...arr};
     if(index+1>newArr.length){
         newArr.score.push(value)
@@ -127,13 +137,15 @@ const Addsubjective = (list) => {
         return [{
             id:1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }]
     } else {
         let newEntry = {
             id: list[list.length - 1].id + 1,
             occupation:'',
-            duration:''
+            duration:'',
+            Sports_type:''
         }
         let newList = [...list, newEntry];
         return newList

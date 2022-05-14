@@ -1,8 +1,11 @@
+import { PATIENT_STATECHANGE } from "../../actions/ParientAction";
+
 //Episode Id State
 const episode = {
     pp_ed_id: "",
     prescription:[],
-    current_pres:{}
+    current_pres:{},
+    comp:[]
 };
 
 function convert(str) {
@@ -23,6 +26,13 @@ const setPres =(data) =>{
 }
 export const patCurrentEpisode = (state = episode, action) => {
     switch (action.type) {
+        case PATIENT_STATECHANGE: 
+            return{ 
+                ...state, 
+                isLoading:false,
+                success:"",
+                [action.payload.key]:action.payload.value
+            }
         case "changeEpisodeId":
             return {
                 ...state,
