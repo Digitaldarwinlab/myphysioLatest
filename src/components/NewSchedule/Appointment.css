@@ -100,9 +100,9 @@
   .ant-picker-calendar-header{
     display: none !important; 
   }
-  .ant-select ,.ant-picker-calendar-year-select , .ant-select-single ,.ant-select-show-arrow{
-    display: none;
-  }
+    /* .ant-select ,.ant-picker-calendar-year-select , .ant-select-single ,.ant-select-show-arrow{
+        display: none;
+    } */
   
   div > .ant-picker-input{
     justify-content: space-between;

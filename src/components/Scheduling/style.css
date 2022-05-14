@@ -9,7 +9,7 @@
 
 .dx-scheduler-date-table-cell .dx-template-wrapper {
     position: absolute;
-    height: 100%;
+   scroll-behavior: auto;
     width: 100%;
     padding-right: 6px;
     background-color: blue;
@@ -40,7 +40,7 @@
 .info {
     width: auto;
     text-align: left;
-    height: 100%;
+    /* height: 100%; */
     font-size: 11pt;
     font-weight: normal;
     padding: 25px 20px;

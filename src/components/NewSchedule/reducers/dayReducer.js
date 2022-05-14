@@ -11,6 +11,7 @@ import {
       
       
       case DAY_DATE:
+        console.log(payload.dayData);
         return {
           ...state,
           data: payload.dayData,

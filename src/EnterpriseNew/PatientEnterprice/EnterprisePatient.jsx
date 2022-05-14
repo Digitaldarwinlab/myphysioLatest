@@ -252,7 +252,7 @@ console.log(assesment)
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
                 <Col className=" left-side border" >
-                    <h4 className="fw-bold text-center p mt-3">{user.info.first_name} {user.info.last_name}</h4>
+                    <h4 className="fw-bold text-center p mt-3">{user.info.first_name.slice(0,1).toUpperCase() + user.info.first_name.slice(1,user.info.first_name.length)} {user.info.last_name.slice(0,1).toUpperCase() + user.info.last_name.slice(1,user.info.last_name.length)}</h4>
                     <div className="px-1 py-1 user-name" style={flexStyle}>
                         <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                             src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
@@ -263,7 +263,7 @@ console.log(assesment)
                             src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                          </Col>
                         <Col md={24} lg={24} sm={24} xs={24}>
-                            <b>Organization Name :</b> {org.org_name ? org.org_name : "Physio AI"  } <br></br> <br></br>
+                            <b>Organization Name :</b> {org.org_name ? org.org_name.slice(0,1).toUpperCase() + org.org_name.slice(1,org.org_name.length) : "Physio AI"  } <br></br> <br></br>
                             <b>Contact within this organization  :</b> +91 {org.mobile_no ? org.mobile_no :"9834343535"}  <br></br> <br></br>
                             <b>Email :</b> {org.contact_email ? org.contact_email : "digitaldarwin@gmail.com"}
                         </Col>

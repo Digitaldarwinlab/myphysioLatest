@@ -15,11 +15,15 @@ import { FaWindowClose } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
 import SideDrawer from "./SideDrawer";
 import { FaLanguage} from "react-icons/fa";
+import { GetJoint } from "../../API/care-plan/care-plan-api";
+import { CARE_PLAN_STATE_CHANGE } from "../../contextStore/actions/care-plan-action";
+import { useDispatch } from "react-redux";
 const { SubMenu } = Menu;
 const Navigationbar = (props) => {
   //	console.log(props)
   const [showMenu, setShowMenu] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
+  const dispatch = useDispatch()
   const [devices, setDevices] = useState([]);
   const userInfo = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -39,7 +43,43 @@ const Navigationbar = (props) => {
 
     fetch();
   }, [handleDevices]);
-
+  useEffect(async () => {
+    const romJoint = await GetJoint();
+    let temp = romJoint.reverse();
+    let obj = {};
+    temp.filter((item) => {
+      if (
+        item.ex_jm_id !== 1 &&
+        item.ex_jm_id !== 2 &&
+        item.ex_jm_id !== 3 &&
+        item.ex_jm_id !== 4 &&
+        item.ex_jm_id !== 5
+      ) {
+        if (item.JointType == "Neck") {
+          let temp = {
+            joint: item.joint_name,
+            min: item.MinAngle,
+            max: item.MaxAngle,
+          };
+          obj["Cervical"] = temp;
+        } else {
+          let temp = {
+            joint: item.joint_name,
+            min: item.MinAngle,
+            max: item.MaxAngle,
+          };
+          obj[item.JointType] = temp;
+        }
+      }
+    });
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "romJoints",
+        value: obj,
+      },
+    });
+  }, []);
   const handleCameraClick = (id,label) => {
     console.log("Label",label)
     let flag = 0;
@@ -258,7 +298,7 @@ const Navigationbar = (props) => {
                     marginTop: "0px",
                   }}
                 />{" "}
-                Hello {userInfo.info.first_name}
+                Hello {userInfo.info.first_name.slice(0,1).toUpperCase() + userInfo.info.first_name.slice(1,userInfo.info.first_name.length).toLowerCase()}
               </a>
             </Dropdown>
           </div>

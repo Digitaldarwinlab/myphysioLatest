@@ -16,6 +16,7 @@ import {
   Checkbox,
   Space,
   Modal,
+  Tooltip,
 } from "antd";
 import { temp } from "./temp";
 import CarePlanCard from "../care-plan/care-plan-card/Card";
@@ -29,22 +30,39 @@ const GlobalTemplate = () => {
   const [tempEx, setTempEx] = useState([]);
   const [loadArr, setLoadArr] = useState([]);
   const [tempName, setTempName] = useState("");
-  const [data, setData] = useState(temp);
+  const [data, setData] = useState([]);
   const reduxState = useSelector((state) => state.carePlanRedcucer);
   function LoadAll() {
-    confirm({
-      title: "Load exercises",
-      icon: <ExclamationCircleOutlined />,
-      content: " All exercises will be loaded to cart",
-      onOk() {
-        console.log("OK");
-        loadAll();
-      },
-      onCancel() {
-        console.log("Cancel");
-      },
-      centered: true,
-    });
+    if (reduxState.exercises_cart.length > 0) {
+      confirm({
+        title: "Load exercises",
+        icon: <ExclamationCircleOutlined />,
+        content:
+          "The exercises in the cart will be replaced with the exercises from the current template. If you want to add and not replace, please use select and load.",
+        onOk() {
+          console.log("OK");
+          loadAll();
+        },
+        onCancel() {
+          console.log("Cancel");
+        },
+        centered: true,
+      });
+    } else {
+      confirm({
+        title: "Load exercises",
+        icon: <ExclamationCircleOutlined />,
+        content: "All exercises will be loaded to cart",
+        onOk() {
+          console.log("OK");
+          loadAll();
+        },
+        onCancel() {
+          console.log("Cancel");
+        },
+        centered: true,
+      });
+    }
   }
 
   function LoadSelected() {
@@ -62,27 +80,34 @@ const GlobalTemplate = () => {
       existCheck.map((item) => {
         temp = temp + item + ",";
       });
+
+      let last = loadArr.filter((item) => {
+        if (existCheck.indexOf(item.name) == -1) {
+          console.log(item);
+          return item;
+        }
+      });
       confirm({
         title: "Load exercises",
         icon: <ExclamationCircleOutlined />,
         content: `${temp} already exist in cart and will not be duplicated.`,
         onOk() {
           console.log("OK");
-          loadSelected();
+          loadSelected([...reduxState.exercises_cart, ...last]);
         },
         onCancel() {
           console.log("Cancel");
         },
         centered: true,
       });
-    }else{
+    } else {
       confirm({
         title: "Load selected exercises",
         icon: <ExclamationCircleOutlined />,
         content: "selected exercises will be loaded to cart",
         onOk() {
           console.log("OK");
-          loadSelected();
+          loadSelected([...reduxState.exercises_cart, ...loadArr]);
         },
         onCancel() {
           console.log("Cancel");
@@ -95,23 +120,52 @@ const GlobalTemplate = () => {
   useEffect(async () => {
     const res = await getTemplates();
     console.log("templates ", res);
+    let global = [];
+    let local = [];
+
+    res.map((item) => {
+      if (item.global_temp) {
+        global.push(item);
+      } else {
+        local.push(item);
+      }
+    });
+
+    let final = [...local, ...global];
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "template_arr",
+        value: final,
+      },
+    });
+    //setData(res)
   }, []);
 
   const dispatch = useDispatch();
   console.log(loadArr);
-  const loadSelected = () => {
+  const loadSelected = (arr = []) => {
     //  if (window.confirm("exercises will be loaded to cart")) {
+    console.log(arr);
+
+    // if(arr.length>0){
+    //   let temp = reduxState.exercises_cart.filter(item=>item.name)
+
+    //   console.log(temp)
+    // }else{
+    //   console.log(loadArr)
+    // }
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
       payload: {
         key: "exercises_cart",
-        value: loadArr,
+        value: arr,
       },
     });
     //  }
   };
   const loadAll = () => {
-    setLoadArr(tempEx)
+    setLoadArr(tempEx);
     // if (window.confirm("exercises will be loaded to cart")) {
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
@@ -170,9 +224,9 @@ const GlobalTemplate = () => {
                 ) : (
                   <Space size="middle">
                     <Button
-                    onClick={() => {
-                      setLoadArr(tempEx);
-                    }}
+                      onClick={() => {
+                        setLoadArr(tempEx);
+                      }}
                     >
                       Select All
                     </Button>
@@ -194,17 +248,19 @@ const GlobalTemplate = () => {
                         // hoverable
                         title={
                           <Row justify="space-between">
-                            {ex.name}
-                            <Checkbox
-                              checked={
-                                loadArr
-                                  .map((item) => item.ex_em_id)
-                                  .indexOf(ex.ex_em_id) !== -1
-                                  ? true
-                                  : false
-                              }
-                              onClick={() => UpdateEx(ex)}
-                            />
+                            <Col span={20}></Col>
+                            <Col span={4}>
+                              <Checkbox
+                                checked={
+                                  loadArr
+                                    .map((item) => item.ex_em_id)
+                                    .indexOf(ex.ex_em_id) !== -1
+                                    ? true
+                                    : false
+                                }
+                                onClick={() => UpdateEx(ex)}
+                              />
+                            </Col>
                           </Row>
                         }
                         cover={
@@ -216,7 +272,11 @@ const GlobalTemplate = () => {
                           />
                         }
                       >
+                        {console.log("temp array ", ex)}
                         <Row>
+                          <Col span={24}>
+                            <Card.Meta title={<p>{ex.name}</p>} />
+                          </Col>
                           <Col span={12}>
                             <b>Sets : {ex["Rep"].set} </b>{" "}
                           </Col>
@@ -241,24 +301,37 @@ const GlobalTemplate = () => {
                 <Row justify="end">EXERCISES</Row>
               </Row>
             }
-            dataSource={data}
+            dataSource={reduxState.template_arr}
             renderItem={(item) => (
               <List.Item
                 onClick={() => {
                   setTempEx(item.exercise_details);
-                  setTempName(item.name);
+                  setTempName(item.template_name);
                 }}
-                key={item.name}
+                key={item.template_name}
               >
                 <List.Item.Meta
                   avatar={
-                    <span className="template_badge">
-                      <center>
-                        <b>{item.global_temp == 1 ? "G" : "L"}</b>
-                      </center>
-                    </span>
+                    item.global_temp ? (
+                      <Tooltip title="Global Template">
+                        <span className="template_badge">
+                          <center>
+                            <b>G</b>
+                          </center>
+                        </span>{" "}
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Local Template">
+                        {" "}
+                        <span className="template_badge">
+                          <center>
+                            <b>L</b>
+                          </center>
+                        </span>
+                      </Tooltip>
+                    )
                   }
-                  title={<Link>{item.name}</Link>}
+                  title={<Link>{item.template_name}</Link>}
                   // description={item.email}
                 />
                 <span className="template_badge">

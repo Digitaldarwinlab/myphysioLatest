@@ -32,7 +32,6 @@ class PoseTestClass extends Component {
       frontAngles: [0, 0, 0, 0, 0],
       sideAngles: [0, 0, 0, 0],
       notes: "",
-      orientation:1
     };
   }
   GoBack = () => {
@@ -51,9 +50,6 @@ class PoseTestClass extends Component {
       console.log(err);
     }
     this.props.history.push("/assessment/1")
-  };
-  setOrientation = (value) => {
-    this.state.orientation = value
   };
   setFrontAngles = (value) => {
     this.state.frontAngles = value
@@ -298,7 +294,6 @@ class PoseTestClass extends Component {
               captureSide={this.captureSide}
               onChangeSide={this.onChangeSide}
               onChangeFront={this.onChangeFront}
-              setOrientation={this.setOrientation}
             />
           </Col>
         </Row>

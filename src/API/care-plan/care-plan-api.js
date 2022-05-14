@@ -63,6 +63,31 @@ export const GetAllExerciseList = async (dispatch, pageSize, current) => {
         return { data: [], total_exercise: 0 };
     }
 }
+///
+export const GetJoint = async (dispatch, pageSize, current) => {
+  //  dispatch({ type: FETCH_DATA });
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const response = await fetch(process.env.REACT_APP_API + "/get-joint/", {
+            method: "POST",
+            headers: headers,
+        });
+        
+        const responseData = await response.json();
+        const exerciresponseData = Decode(responseData);
+      //  console.log(exerciresponseData)
+        // console.log(exerciresponseData);
+        if (response.status === 200 || response.status === 201)
+            return exerciresponseData;
+        return [];
+
+    } catch (err) {
+        return [];
+    }
+}
 //@func care-plan exercise filter api
 //@param filter lists Data
 //@output filtered Data
@@ -131,13 +156,13 @@ export const postCarePlanAllocation = async (data, dispatch) => {
         if (response.status !== 200 && response.status !== 201)
             return [false, "Error: " + response.status + " " + response.statusText];
         if (result && result.message) {
-            dispatch({ type: CARE_PLAN_SUCCESS });
+            dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'success',value:"Care Plan Added Successfully"} });
             return [true];
         } else {
             dispatch({ type: CARE_PLAN_FAILURE });
             return [false, "Error: " + response.status + " " + response.statusText];
         }
-    } catch (err) {
+    } catch (err) { 
         dispatch({ type: CARE_PLAN_FAILURE });
         return [false, "Error 501: Internal Server Error"];
     }
@@ -174,7 +199,7 @@ export const postCarePlanAllocationEmployee = async (data, dispatch,id) => {
         if (response.status !== 200 && response.status !== 201)
             return [false, "Error: " + response.status + " " + response.statusText];
         if (result && result.message) {
-            dispatch({ type: CARE_PLAN_SUCCESS });
+            dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'success',value:"Care Plan Added Successfully"}});
             return [true];
         } else {
             dispatch({ type: CARE_PLAN_FAILURE });
@@ -190,8 +215,10 @@ export const EditCarePlanAllocation = async (data, dispatch, careplan_code) => {
     dispatch({ type: CARE_PLAN_POST_DATA });
     let newData = AllocateExerciseData(data);
     newData["careplan_code"] = data.editCareplanCode
-    newData["startDate"] = data.editEndDate
-    newData["endDate"] = data.endDate.length>0?data.endDate:data.editStateDate
+    //newData["startDate"] = data.editEndDate
+    newData["startDate"] = data.editStateDate
+    newData["endDate"] = data.endDate.length>0?data.endDate:data.editEndDate
+
     try {
         const headers = {
             Accept: 'application/json',
@@ -209,7 +236,7 @@ export const EditCarePlanAllocation = async (data, dispatch, careplan_code) => {
         if (response.status !== 200 && response.status !== 201)
             return [false, "Error: " + response.status + " " + response.statusText];
         if (result && result.message) {
-            dispatch({ type: CARE_PLAN_SUCCESS });
+            dispatch({ type: CARE_PLAN_SUCCESS , payload:{key:'success',value:"Care Plan Updated Successfully"} });
             return [true];
         } else {
             dispatch({ type: CARE_PLAN_FAILURE });

@@ -15,9 +15,13 @@ import {
   CARE_PLAN_ROM_JOINT_CHANGE,
   CARE_PLAN_EXERCISE_CHANGE,
   CARE_PLAN_ADD_TO_CART_TEMPLATE,
+  CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE,
+  CARE_PLAN_LINK_YOUTUBE_CHANGE,
 } from "./../../actions/care-plan-action";
 
 const initialState = {
+  time_slot_edit:0,
+  romJoints:{},
   pp_ed_id: "",
   patient_name: "",
   episode_start_date: "",
@@ -35,13 +39,15 @@ const initialState = {
   success: "",
   episode_number: "",
   exercises_cart: [],
-  status_flag: false,
+  status_flag: true,
   edit_flag: false,
   template_flag: false,
   template_name: "",
   template_array: [],
   template_type: 1,
   loadArr: [],
+  updated: "",
+  template_arr: [],
 };
 // const setExerise=(exe)=>{
 //     let newList = [...state.exercises_cart]
@@ -73,6 +79,28 @@ const upval = (data, index, val) => {
     max: data[index].angle[val].max,
   };
   temp[index]["Rom"] = cft;
+  return temp;
+};
+
+const upval1 = (data, joints,index, val) => {
+  let temp = [...data];
+  let cft = {
+    joint:val,
+    min:0,
+    max:0
+  }
+  Object.keys(joints).map(item=>{
+    if(joints[item].joint==val){
+      cft = {joint:val,min:joints[item].min,max:joints[item].max}
+    }
+  })
+  temp[index]["Rom"] = cft;
+  return temp;
+};
+
+const upval2 = (data, index, val) => {
+  let temp = [...data];
+  temp[index]["youtube_link"] = val;
   return temp;
 };
 
@@ -140,6 +168,26 @@ export const carePlanRedcucer = (state = initialState, action) => {
           action.payload.value
         ),
       };
+    case CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE:
+      return {
+        ...state,
+        exercises_cart: upval1(
+          state.exercises_cart,
+          state.romJoints,
+          action.payload.index,
+          action.payload.value
+        ),
+      };
+    //CARE_PLAN_LINK_YOUTUBE_CHANGE
+    case CARE_PLAN_LINK_YOUTUBE_CHANGE:
+      return {
+        ...state,
+        exercises_cart: upval2(
+          state.exercises_cart,
+          action.payload.index,
+          action.payload.value
+        ),
+      };
     case CARE_PLAN_EXERCISE_CHANGE:
       return {
         ...state,
@@ -150,7 +198,7 @@ export const carePlanRedcucer = (state = initialState, action) => {
         ...initialState,
         exercises: state.exercises,
         isLoading: false,
-        success: "Care Plan Added Successfully",
+        [action.payload.key]: action.payload.value,
       };
     case CARE_PLAN_FAILURE:
       return {

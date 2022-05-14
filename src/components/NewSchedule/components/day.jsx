@@ -8,14 +8,7 @@ import { DAY_DATE } from "../actions/types";
 export default function Day({ setIsVisible, day }) {
   const dispatch = useDispatch();
   let dayTag = useSelector((state) => state.calender.data);
-  const temp = [
-    "11:00 am",
-    "12:00 pm",
-    "01:00 pm",
-    "02:00 pm",
-    "03:00 pm",
-    "04:00 pm",
-  ];
+ 
   const time = [
     "07:00 am",
     "08:00 am",
@@ -50,8 +43,8 @@ export default function Day({ setIsVisible, day }) {
 
           {/* day row */}
           {time.map((t, i) => (
-            <div key={i}>
-              <tr className="tabel_container">
+            < >
+              <tr key={i} className="tabel_container">
                 <td
                   data-content={t[0] > 0 ? t : t.substring(1)}
                   className="tabel-head"
@@ -60,15 +53,15 @@ export default function Day({ setIsVisible, day }) {
                   id={
                     t[0] + t[1] == 12
                       ? t[0] + t[1]
-                      : t[6] + t[7] == "Pm"
+                      : t[6] + t[7] == "PM"
                       ? parseInt(t[0] + t[1]) + 12
                       : t[0] + t[1]
                   }
                   onClick={(e) => {
                     let hour = e.target.id;
-
+                    console.log(hour);
                     m.set({ h: hour, m: 0 });
-
+                    console.log(m);
                     dispatch({
                       type: DAY_DATE,
                       payload: { dayData: m },
@@ -79,16 +72,16 @@ export default function Day({ setIsVisible, day }) {
                   }}
                   className="tabel-design"
                 >
-                  {/* {m.format("HH:mm") == moment(dayTag.date).format("HH:mm") ? (
+                  {m.format("HH:mm") == moment(dayTag.date).format("HH:mm") ? (
                     <span
                     className='day_data'
                     >
-                    {console.log("checking... ",m , " ", moment(dayTag.date).format("HH:mm"))}
+                    {console.log("checking... ",m.format("HH:mm") , " ", moment(dayTag.date).format("HH:mm"))}
                       Select Schdule
                     </span>
                   ) : (
                     <span>hello</span>
-                  )} */}
+                  )}
                 </td>
               </tr>
               <tr>
@@ -117,7 +110,7 @@ export default function Day({ setIsVisible, day }) {
                   className="tabel-design"
                 ></td>
               </tr>
-            </div>
+            </>
           ))}
         </tbody>
       </table>

@@ -32,9 +32,9 @@ const handleClickPrint = () => {
         </div>
         <div className="clinic-details">
           <ul >
-            <li>Phone: {cPhone}</li>
-            <li>Website: {cWebsite}</li>
-            <li>Email: {cEmail}</li>
+         {cPhone &&   <li>Phone: {cPhone}</li>}
+          {cWebsite &&  <li>Website: {cWebsite}</li>}
+           {cEmail && <li>Email: {cEmail}</li>}
           </ul>
         </div>
         <div className="clinic-logo" ></div>
@@ -127,7 +127,7 @@ const handleClickPrint = () => {
     <center>
       <center>{!showPrint && <button className='add-button' onClick={handleFinalSubmit} >Submit</button>}</center>
        {/* <button className='add-button' onClick={() => { setPreview(true) }}>Preview</button> */}
-     { !showPrint && <ReactToPrint
+     { showPrint && <ReactToPrint
         trigger={() =><button className='add-button' onClick={handleClickPrint} >Print</button>}
         content={() => inoviceRef.current}
       />}</center>

@@ -15,6 +15,7 @@ import {
   update_careplan,
 } from "../../PatientAPI/PatientShedule";
 import "./PatientAI.css";
+import ReactPlayer from "react-player";
 //colors
 const colors = [
   "#74b551",
@@ -65,7 +66,6 @@ const styles = {
 //   { value: 18, label: "cervicalForwardFlexion" },
 // ];
 
-
 const joints = {
   leftShoulder: [0, 1],
   rightShoulder: [0, 1],
@@ -87,9 +87,6 @@ const joints = {
   rightHipAdductionAdbuction: [16, 17],
   cervicalForwardFlexion: [18, 18],
 };
-
-
-
 
 //let data = "";
 const Separator = styled.div`
@@ -179,6 +176,7 @@ class PatientAI extends Component {
     const response = await update_careplan(
       exerciseData,
       currentexercise,
+      1,
       pain,
       exerciseTime,
       careplanId
@@ -291,27 +289,6 @@ class PatientAI extends Component {
           );
           if (
             this.props.history.location.state.exercises[counterCount] &&
-            this.props.history.location.state.exercises[counterCount]
-              .video_url !== undefined
-          ) {
-            console.log(
-              "current getData exercise video url ",
-              this.props.history.location.state.exercises[counterCount]
-                .video_url
-            );
-            var video = document.getElementById("exercise_video");
-            var source = document.getElementById("video_source");
-            source.setAttribute(
-              "src",
-              `${process.env.REACT_APP_EXERCISE_URL}/${this.props.history.location.state.exercises[counterCount].video_url}`
-            );
-            video.load();
-            video.play();
-            //  this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
-            // this.setState({ video_url :this.props.history.location.state.exercises[counterCount].video_url})
-          }
-          if (
-            this.props.history.location.state.exercises[counterCount] &&
             this.props.history.location.state.exercises[counterCount].name !==
               undefined
           ) {
@@ -323,6 +300,31 @@ class PatientAI extends Component {
               exerciseName:
                 this.props.history.location.state.exercises[counterCount].name,
             });
+          }
+          if (
+            this.props.history.location.state.exercises[counterCount] &&
+            this.props.history.location.state.exercises[counterCount]
+              .video_url !== undefined
+          ) {
+            console.log(
+              "current getData exercise video url ",
+              this.props.history.location.state.exercises[counterCount]
+                .video_url
+            );
+            if(this.props.history.location.state.exercises[counterCount].name=="YouTube"){
+              this.setState({video:this.props.history.location.state.exercises[counterCount].video_url})
+            }else{
+              var video = document.getElementById("exercise_video");
+              var source = document.getElementById("video_source");
+              source.setAttribute(
+                "src",
+                `${process.env.REACT_APP_EXERCISE_URL}/${this.props.history.location.state.exercises[counterCount].video_url}`
+              );
+              video.load();
+              video.play();
+            }
+            //  this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
+            // this.setState({ video_url :this.props.history.location.state.exercises[counterCount].video_url})
           }
           // this.state.exerciseName = this.props.history.location.state.exercises[counterCount-1].name
           // this.state.video = this.props.history.location.state.exercises[counterCount-1].video_url
@@ -344,42 +346,38 @@ class PatientAI extends Component {
     }
 
     return (
-        <Col
+      <Col
         // style={{ border: "5px solid" }}
-         className="patientside_new_vid_main"
-          id="myVideo"
-          lg={16}
-          md={16}
-          sm={24}
-          xs={24}
-        >
-             <video
-              id="video"
-              className="video"
-              playsInline
-              style={{ display: "none" }}
-            ></video>
-            <canvas
-              id="output"
-              className="output"
-              style={{ height: "450px" }}
-            />
-            <canvas id="jcanvas" />
-        </Col>
-    //   <>
-    //     <span id="reps"></span>
-    //     <span id="sets"></span>
-    //     <video
-    //       id="video"
-    //       style={{ position: "absolute", top: "0px" }}
-    //       playsinline
-    //       className="patientAiModel"
-    //     ></video>
-    //     <div style={{ position: "relative" }}>
-    //       <canvas id="output" />
-    //       <canvas id="jcanvas" />
-    //     </div>
-    //   </>
+        className="patientside_new_vid_main"
+        id="myVideo"
+        lg={16}
+        md={16}
+        sm={24}
+        xs={24}
+      >
+        <video
+          id="video"
+          className="video"
+          playsInline
+          style={{ display: "none" }}
+        ></video>
+        <canvas id="output" className="output" style={{ height: "450px" }} />
+        <canvas id="jcanvas" />
+      </Col>
+      //   <>
+      //     <span id="reps"></span>
+      //     <span id="sets"></span>
+      //     <video
+      //       id="video"
+      //       style={{ position: "absolute", top: "0px" }}
+      //       playsinline
+      //       className="patientAiModel"
+      //     ></video>
+      //     <div style={{ position: "relative" }}>
+      //       <canvas id="output" />
+      //       <canvas id="jcanvas" />
+      //     </div>
+      //   </>
     );
   };
   finish = async (id) => {
@@ -496,8 +494,8 @@ class PatientAI extends Component {
     var jcanvas = document.getElementById("jcanvas");
     const myVideo = document.getElementById("myVideo");
     let { width, height } = myVideo.getBoundingClientRect();
-  //  video.width = width;
-   // canvas.width = width
+    //  video.width = width;
+    // canvas.width = width
     const options = {
       video,
       videoWidth: 640,
@@ -513,7 +511,7 @@ class PatientAI extends Component {
       },
     };
 
-       window.darwin.initializeModel(options);
+    window.darwin.initializeModel(options);
     this.setState({ starttimer: true });
     //Select primary angle based on joint
 
@@ -524,18 +522,20 @@ class PatientAI extends Component {
     //Select primary angle based on joint
     //this.props.history.location.state.exercises.map()
     if (this.state.launch === "start") {
-      let temp = this.props.history.location.state.exercises.map(item =>joints[item.Rom['joint']]);
-        // joints.map((jo) => {
-        //   if (ex["Rom"].joint.includes(jo.label)) {
-        //     if (ex["Rom"].joint.includes("left")) {
-        //       temp.push([jo.value, jo.value + 1]);
-        //     } else if (ex["Rom"].joint.includes("right")) {
-        //       temp.push([jo.value - 1, jo.value]);
-        //     }
-        //   }
-        // });
-        //  temp.push(joints[ex["Rom"].joint])
-     
+      let temp = this.props.history.location.state.exercises.map(
+        (item) => joints[item.Rom["joint"]]
+      );
+      // joints.map((jo) => {
+      //   if (ex["Rom"].joint.includes(jo.label)) {
+      //     if (ex["Rom"].joint.includes("left")) {
+      //       temp.push([jo.value, jo.value + 1]);
+      //     } else if (ex["Rom"].joint.includes("right")) {
+      //       temp.push([jo.value - 1, jo.value]);
+      //     }
+      //   }
+      // });
+      //  temp.push(joints[ex["Rom"].joint])
+
       console.log("temp primary ", temp);
       console.log("temp selected ", this.state.selJoints);
       let exArr = [];
@@ -547,7 +547,9 @@ class PatientAI extends Component {
       ) {
         let temEx = {
           name: this.props.history.location.state.exercises[i].name,
-          minAmp: 20,
+          minAmp: this.props.history.location.state.exercises[i].minAmp
+            ? this.props.history.location.state.exercises[i].minAmp
+            : 20,
           primaryAngles: temp[i],
           ROMs: [this.state.selJoints[i], this.state.selJoints[i]],
           angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -615,66 +617,83 @@ class PatientAI extends Component {
   render() {
     return (
       <div className="pat_main_div">
-      <Row>
-      <Col lg={8} md={8} sm={12} xs={12}>
-<h3 className="fw-bold">
-           <BackButton /> 
-         </h3>
-             </Col>
-           <Col lg={8} md={8} sm={12} xs={12}>
-               <p className="fw-bold p">Exercise Name:  {this.state.exerciseName}</p>
-             </Col>
-             <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
-               <p className="fw-bold p">Patient Name: {userInfo.info.first_name + " "} {userInfo.info.last_name}</p>
-             </Col>
-       </Row>
-       <Row>
-           {this.AiModelProps()}
-        
-         <Col lg={8} md={8} sm={24} xs={24}>
-           <Row className="pat_det_div">
-             <Col lg={24} md={24} sm={24} xs={24}>
-               <video
-                 autoPlay
-                 controls
-                 loop
-                 id="exercise_video"
-                 style={{ width: "97%", height: "100%" }}
-                 className="border"
-               >
-                 <source
-                   id="video_source"
-                   src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-                   type="video/mp4"
-                 />
-               </video>
-             </Col>
-           </Row>
-         </Col>
-         <Modal
-           visible={this.state.visible}
-           footer={null}
-           closable={false}
-           keyboard={false}
-         >
-           <h3 className="fw-bold text-center">Congratulation</h3>
-           <p className="p text-center mt-2">
-             You have successfully completed the session.
-           </p>
-           {this.PainMeter()}
+        <Row>
+          <Col lg={8} md={8} sm={12} xs={12}>
+            <h3 className="fw-bold">
+              <BackButton />
+            </h3>
+          </Col>
+          <Col lg={8} md={8} sm={12} xs={12}>
+            <p className="fw-bold p">
+              Exercise Name: {this.state.exerciseName}
+            </p>
+          </Col>
+          <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+            <p className="fw-bold p">
+              Patient Name: {userInfo.info.first_name + " "}{" "}
+              {userInfo.info.last_name}
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          {this.AiModelProps()}
 
-           {/* <div style={{ marginTop: 20 }}>
+          <Col lg={8} md={8} sm={24} xs={24}>
+            <Row className="pat_det_div">
+              <Col lg={24} md={24} sm={24} xs={24}>
+                {this.state.exerciseName == "YouTube" ? (
+                  <ReactPlayer
+                    playing={true}
+                    loop={true}
+                    controls={true}
+                    className="react-player"
+                    url={this.state.video}
+                    width="100%"
+                    height="auto"
+                  />
+                ) : (
+                  <video
+                    autoPlay
+                    controls
+                    loop
+                    id="exercise_video"
+                    style={{ width: "97%", height: "100%" }}
+                    className="border"
+                  >
+                    <source
+                      id="video_source"
+                      src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                )}
+              </Col>
+            </Row>
+          </Col>
+          <Modal
+            visible={this.state.visible}
+            footer={null}
+            closable={false}
+            keyboard={false}
+          >
+            <h3 className="fw-bold text-center">Congratulation</h3>
+            <p className="p text-center mt-2">
+              You have successfully completed the session.
+            </p>
+            {this.PainMeter()}
+
+            {/* <div style={{ marginTop: 20 }}>
              <h4 className="fw-bold">Notes-</h4>
              <p className="text-justify p"></p>
            </div> */}
-           <div className="text-end">
-             <Button className="okay" onClick={this.finish}>
-               Okay
-             </Button>
-           </div>
-         </Modal>
-       </Row>
-     </div>
+            <div className="text-end">
+              <Button className="okay" onClick={this.finish}>
+                Okay
+              </Button>
+            </div>
+          </Modal>
+        </Row>
+      </div>
     );
   }
 }
