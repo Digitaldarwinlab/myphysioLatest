@@ -22,11 +22,11 @@ function enableUiControls(localStream) {
     if (screenShareActive) {
       stopScreenShare();
     } else {
-      var agoraAppId = $("#form-appid").val();
+      var agoraAppId = "616487fe8ede4785aa8f7e322efdbe7d"
       var channelName = $("#form-channel").val();
       var uid = $("#form-uid").val();
       console.log("init screen share");
-      initScreenShare("f31ea0f88fcf4974a349448e69d35c1d", "testing", uid);
+      initScreenShare(agoraAppId, channelName, uid);
     }
   });
 

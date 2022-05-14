@@ -1,6 +1,8 @@
 let userVideoStream;
 let globalStream;
 
+let mainToken=''
+
 var aiModelAppear = false;
 
 // create client instances for camera (client) and screen share (screenClient)
@@ -44,6 +46,7 @@ var screenShareActive = false; // flag for screen share
 
 function ClientAndJoinChannel(agoraAppId, token, channelName, uid,Canvas) {
   // init Agora SDK
+  mainToken=token
   streamCanvas=Canvas;
   streamCanvasType=streamCanvas.getContext("2d");
   client.init(agoraAppId, function () {
@@ -239,7 +242,6 @@ async function getVideo() {
 async function streamMultiplexer() {
   userVideoStream = await getUserVideo();
   cameraElement.srcObject = userVideoStream;
-  console.log(userVideoStream);
   options = {
     video: cameraElement,
     videoWidth: 600,
@@ -247,6 +249,8 @@ async function streamMultiplexer() {
     canvas: document.getElementById("scanvas"),
     supervised: true,
     showAngles: true,
+    drawLine: false,
+
   };
   
   darwin.setExcersiseParams({
@@ -261,7 +265,7 @@ async function streamMultiplexer() {
     "totalSets": 2
 });
   darwin.initializeModel(options);
-  await darwin.launchModel();
+  darwin.launchModel();
   setTimeout(() => {
     darwin.stop();
   }, 1000); 
@@ -397,8 +401,9 @@ function initScreenShare(agoraAppId, channelName, uid) {
       $("#screen-share-btn").prop("disabled", false); // enable button
     }
   );
-  var token =
-    "006f31ea0f88fcf4974a349448e69d35c1dIABIoMFtxkwDVWki55f3W0x1MgsLyFbedV7NXhVc1d5DKwZa8+gAAAAAEACe0CRJDMsTYQEAAQALyxNh";
+  console.log(mainToken)
+  var token = mainToken;
+  console.log(token)
   screenClient.on("stream-published", function (evt) {
     console.log("Publish screen stream successfully");
     if ($("#full-screen-video").is(":empty")) {

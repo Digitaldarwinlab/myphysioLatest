@@ -49,6 +49,16 @@ const SideDrawer = ({ visState, setVisState }) => {
     setVisState(false);
   };
 
+  const handleCameraClick = (id,label) => {
+    console.log("Label",label)
+    let flag = 0;
+    if(label.toLowerCase().includes("back")){
+      flag = 1;
+    }
+    console.log(flag);
+    darwin.cameraIdFunc(id,flag)
+  }
+  
   return (
     <>
       {/* <Button type="primary" onClick={showDrawer}>
@@ -219,7 +229,7 @@ const SideDrawer = ({ visState, setVisState }) => {
           <SubMenu key="sub8" icon={<SettingOutlined className="iconClass2" />} title="Settings" >
           <SubMenu key="sub9" icon={<IoMdVideocam className="iconClass2" />} title="camera">
             {devices.map((item, index) => (
-              <Menu.Item onClick={() => darwin.cameraIdFunc(item.deviceId)}>
+              <Menu.Item onClick={() => handleCameraClick(item.deviceId,item.label)}>
                 {item.label}
               </Menu.Item>
             ))}

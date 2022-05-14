@@ -6,11 +6,11 @@ import { ImPlus } from 'react-icons/im';
 import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
 import { CarePlan, fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
-import { CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
-
+import moment from "moment";
 const CarePlanView = (props) => {
     const [carePlanData, setCarePlanData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -30,17 +30,17 @@ const CarePlanView = (props) => {
     useEffect(() => {
         async function getAllCarePlanData() {
             setLoading(true);
-            const data = await fetchCarePlan(props.eid);
+           // const data = await fetchCarePlan(props.eid);
             const resdata = await CarePlan(props.eid)
             setLoading(false);
             
-            console.log('data is coming',resdata)
-            console.log("data is coming ",data)
+            console.log('data is coming res',resdata)
+            // console.log("data is coming ",data)
 
-            setCarePlanData(data);
+            setCarePlanData(resdata);
             setPaginationState({
                 ...paginationState,
-                totalPage: data.length / paginationState.pageSize,
+                totalPage: resdata.length / paginationState.pageSize,
                 minIndex: 0,
                 maxIndex: paginationState.pageSize
             });
@@ -61,20 +61,20 @@ const CarePlanView = (props) => {
     }
 
     //fetchData
-    const fetchData = async () => {
-        setLoading(true);
-        const data = await fetchCarePlan(props.eid);
-        setLoading(false);
-        setCarePlanData(data);
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     const data = await fetchCarePlan(props.eid);
+    //     setLoading(false);
+    //     setCarePlanData(data);
 
 
-        setPaginationState({
-            ...paginationState,
-            totalPage: data.length / paginationState.pageSize,
-            minIndex: 0,
-            maxIndex: paginationState.pageSize
-        });
-    }
+    //     setPaginationState({
+    //         ...paginationState,
+    //         totalPage: data.length / paginationState.pageSize,
+    //         minIndex: 0,
+    //         maxIndex: paginationState.pageSize
+    //     });
+    // }
     //change View
   
     const handleChange = (key, value, id = 0) => {
@@ -95,11 +95,24 @@ const handleEdit = (data) => {
    // setChangeView(true);
   // setCarePlanViewState(false)
   let temp = []
+  console.log(data.exercise_details)
     data.exercise_details.map(item=>{
         temp.push(item.ex_em_id)
+        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:item})
     })
     localStorage.setItem("care-plan-cart", JSON.stringify(temp));
-    console.log(data)
+    console.log("care-plan-cart ",data)
+    let count_time_slots = data.time_slot.map(item=>item[0])
+    console.log(count_time_slots)
+    //status_flag
+    //timeSlots
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"status_flag",
+            value: data.status_flag==2?true:false
+        }
+    })
     dispatch({
         type: CARE_PLAN_STATE_CHANGE,
         payload: {
@@ -133,6 +146,27 @@ const handleEdit = (data) => {
         payload: {
             key:"editCareplanCode",
             value: data.careplan_code
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "count_time_slots",
+            value: count_time_slots.length
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "timeSlots",
+            value: count_time_slots
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "time_slot_edit",
+            value: 1
         }
     })
     //careplan_code
@@ -175,19 +209,19 @@ const handleSubmit = (data) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                <Row  justify="end">
-                                <Col lg={24} md={24} sm={24} xs={24}>
+                                {console.log("careplan data ",data)}
+                               {(moment(data.end_date)>=new Date().setHours(0,0,0,0) && moment(data.start_date)>=new Date().setHours(0,0,0,0))&& <Row  justify="end">
+                                {/* <Col lg={24} md={24} sm={24} xs={24}>
                                     <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
                                         
-                                        <BiEdit 
-                            
-                             />{"  "}Edit
+                                        <BiEdit />
+                             {"  "}Edit
                                        
                                     </Button>
                                     {"  "}
-                                    {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>}
-                        </Col>
-                                </Row>
+                        </Col> */}
+                                    {/* {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>} */}
+                                </Row>}
                                 <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
                                 {/* <Row  justify="end">
                                 <Col lg={24} md={24} sm={24} xs={24}>

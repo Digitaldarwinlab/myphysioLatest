@@ -1,4 +1,10 @@
-
+.invoice {
+  background-color: white;
+  width: 100%;
+  margin:1rem auto;
+  border-radius: 5px;
+  padding: 1%;
+}
   
   .invoice {
     background-color: white;
@@ -8,6 +14,8 @@
     padding: 1%;
   
   }
+
+
 
   .invoice-search {
     position: absolute;
@@ -22,6 +30,7 @@
   }
   
   .invoice-table {
+    min-width: 800px;
     margin: auto;
   }
   
@@ -108,22 +117,252 @@
 
   
   .invoice-table td {
-    width: auto;
+    width: auto ;
   }
+
+  .invoice-table .Description {
+    width: 40% !important;
+  }
+
 
 
   .amount-form {
  text-align: end;
-  margin-left: 70% ;
-   margin-right: 1%;
+  margin-left: 60% ;
+   margin-right: 7%;
    font-weight: 100;
    font-size:large;
   }
 
-  .amount-form p {
+  .amount-form h5 {
     margin-right: 20%;
   }
 
   .invocie-footer {
-    margin: auto;
+    margin-top: 5%;
+  }
+
+  .invoice svg {
+    margin-bottom: 5px;
+  }
+
+.hiiddee {
+  display: none;
+}
+
+@media only screen and (max-width: 650px) {
+  
+  .invoice-table td {
+    width: auto !important;
+  }
+
+  .invoice-table .Description {
+    width: 40% !important;
+  }
+
+}
+
+
+
+
+
+   
+
+    
+  .amount-form {
+    
+     margin-left: 20% ;
+      margin-right: 7%;
+      font-weight: 100;
+      font-size:large;
+     }
+
+.invoice label {
+  font-weight: 600;
+}
+
+.invoice-table {
+  min-width: 800px;
+  margin: auto;
+}
+
+.invoice-table thead {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.invoice-table td {
+  height: 2rem;
+  border: 0;
+}
+
+.input_filed_invoice {
+  width: 95%;
+  margin: 1%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  
+}
+
+.input_filed_invoice input {
+   height: 25px;
+   border: 1px solid #898989;
+   border-radius: 5px;
+}
+
+.grid_container_invoice {
+  display: grid;
+  column-gap: 2%;
+  row-gap: 5%;
+  margin-top: 2rem; 
+  grid-template-columns: auto auto auto auto ;
+}
+
+.invoice .amount {
+
+ text-align: end;
+margin-left: 70% ;
+ margin-right: 1%;
+ font-weight: 100;
+ font-size:large;
+}
+
+.amount p {
+  margin: 0;
+}
+
+.add-button {
+   padding:0.6% 2%;
+   margin: 1% 0 2%;
+   background-color: #898989;
+   border: 1px solid #898989;
+   color: white;
+  margin-left: 1rem;
+   font-size: 16px;
+   border-radius: 5px ;
+}
+
+td  .add-button {
+  padding:1% 30%;
+  margin: 1% 0 2%;
+  background-color: #898989;
+  border: 1px solid #898989;
+  color: white;
+ margin-left: 1rem;
+  font-size: 16px;
+  border-radius: 5px ;
+} 
+
+.add-button:hover {
+  border: 1px solid #898989;
+  background-color: white;
+  color: #898989;
+}
+
+
+
+
+ .invoice-table input {
+  width: 100% ;
+}
+
+
+.invoice-table td {
+  width: auto ;
+}
+
+.invoice-table .Description {
+  width: 40% !important;
+}
+
+
+
+.amount-form {
+text-align: end;
+margin-left: 60% ;
+ margin-right: 7%;
+ font-weight: 100;
+ font-size:large;
+}
+
+.amount-form h5 {
+  margin-right: 20%;
+}
+
+.invocie-footer {
+  margin-top: 5%;
+}
+
+.invoice svg {
+  margin-bottom: 5px;
+}
+
+.hiiddee {
+display: none;
+}
+
+@media only screen and (max-width: 650px) {
+
+.invoice-table td {
+  width: auto !important;
+}
+
+.invoice-table .Description {
+  width: 40% !important;
+}
+
+}
+
+
+
+
+@media (max-width:500px){
+  .invoice-search {
+  
+    width: 100%;
+    
+  }
+
+ 
+
+  
+.amount-form {
+  
+   margin-left: 20% ;
+    margin-right: 7%;
+    font-weight: 100;
+    font-size:large;
+   }
+
+    .invoice-table {
+    border: 1px solid black;
+      
+    }
+
+    .invoice-table td {
+      border: 1px solid black ;
+      padding-left: 10px;
+    }
+   
+
+    .amount-form {
+      margin-right: 9%;
+    }
+
+      .hiddee {
+        display: none;
+      }
+
+      .hiddeee{
+        display: none;
+      }
+
+    .hiiddee{
+      display: none;
+    }
+
+    .hhhrrr {
+      border-top: 1px solid rgba(0, 0, 0, 0.5)
+    }
   }

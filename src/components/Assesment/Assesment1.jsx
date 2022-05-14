@@ -167,8 +167,8 @@ const Assesment1 = ({ back, next }) => {
   const [episodedata, SetepisodeData] = useState();
   const [tableData1, setTableData1] = useState([]);
   const [tableData2, setTableData2] = useState([]);
-  const [latL ,setLatL] = useState([])
-  const [latR ,setLatR] = useState([])
+  const [latL, setLatL] = useState([]);
+  const [latR, setLatR] = useState([]);
   useEffect(async () => {
     //aswin 10/25/2021 start
     // if (props1.history.location.state) {
@@ -193,7 +193,7 @@ const Assesment1 = ({ back, next }) => {
         start_date: "no data",
       });
     }
-  }, []);
+  }, [state.episodeReducer.patient_name]);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -711,6 +711,7 @@ const Assesment1 = ({ back, next }) => {
   useEffect(() => {
     const question = document.getElementById("question");
     const rom = document.getElementById("rom");
+    const rom_manual = document.getElementById("rom_manual");
     const posture_btn = document.getElementById("posture-btn");
 
     if (state.FirstAssesment.KOOS === "") {
@@ -731,11 +732,25 @@ const Assesment1 = ({ back, next }) => {
     }
     // Check if AI_Data
     if (
-     ( state.FirstAssesment.Anterior_AI_Data&&Object.keys(state.FirstAssesment.Anterior_AI_Data).length>0 )|| Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0 || Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0 ) {
-      rom.innerHTML = "AROM Assesment";
+      (state.FirstAssesment.Anterior_AI_Data &&
+        Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) ||
+      Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
+      Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
+    ) {
+      if (state.FirstAssesment.Arom_M) {
+        rom_manual.innerHTML = "AROM calculated";
+      } else {
+        rom_manual.innerHTML = "AROM";
+      }
+      if (state.FirstAssesment.Arom_Ai) {
+        rom.innerHTML = "AROM calculated";
+      } else {
+        rom.innerHTML = "AROM (using AI)";
+      }
+     // rom.innerHTML = "AROM Assesment";
       // setRomVisibility('contents')
       if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
-        let data = state.FirstAssesment.Anterior_AI_Data
+        let data = state.FirstAssesment.Anterior_AI_Data;
         setRomVisibility("contents");
         let TEMP = {};
         TEMP["AROM"] = data[Object.keys(data)[0]];
@@ -744,7 +759,9 @@ const Assesment1 = ({ back, next }) => {
           (item, index) => {
             let t = {};
             t["key"] = index;
-            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["angles"] = tableLabels[item]
+              ? tableLabels[item]
+              : "Not Available";
             t["min"] = Math.round(
               data[Object.keys(data)[0]]["angles"][item].min
             );
@@ -773,8 +790,8 @@ const Assesment1 = ({ back, next }) => {
         //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
         // }))
       }
-      if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length>0) {
-        let data = state.FirstAssesment.LeftLateral_AI_Data
+      if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0) {
+        let data = state.FirstAssesment.LeftLateral_AI_Data;
         setRomVisibilityM("inline");
         setRomVisibilityL("inline");
         let TEMP = {};
@@ -784,7 +801,9 @@ const Assesment1 = ({ back, next }) => {
           (item, index) => {
             let t = {};
             t["key"] = index;
-            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["angles"] = tableLabels[item]
+              ? tableLabels[item]
+              : "Not Available";
             t["min"] = Math.round(
               data[Object.keys(data)[0]]["angles"][item].min
             );
@@ -794,8 +813,8 @@ const Assesment1 = ({ back, next }) => {
             return t;
           }
         );
-        setLatL(tempData)
-      //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
+        setLatL(tempData);
+        //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
         //   setAngleValuesL(preValues => ({
         //     ...preValues,
         //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
@@ -806,10 +825,10 @@ const Assesment1 = ({ back, next }) => {
         //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
         // }))
       }
-      if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length>0) {
+      if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0) {
         setRomVisibilityM("inline");
         setRomVisibilityR("inline");
-        let data = state.FirstAssesment.RightLateral_AI_Data
+        let data = state.FirstAssesment.RightLateral_AI_Data;
         let TEMP = {};
         TEMP["AROM"] = data[Object.keys(data)[0]];
         console.log(TEMP);
@@ -817,7 +836,9 @@ const Assesment1 = ({ back, next }) => {
           (item, index) => {
             let t = {};
             t["key"] = index;
-            t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+            t["angles"] = tableLabels[item]
+              ? tableLabels[item]
+              : "Not Available";
             t["min"] = Math.round(
               data[Object.keys(data)[0]]["angles"][item].min
             );
@@ -827,8 +848,8 @@ const Assesment1 = ({ back, next }) => {
             return t;
           }
         );
-        setLatR(tempData)
-       // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
+        setLatR(tempData);
+        // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
         //   setAngleValuesR(preValues => ({
         //     ...preValues,
         //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
@@ -840,7 +861,6 @@ const Assesment1 = ({ back, next }) => {
         // }))
       }
 
-      rom.innerHTML = "ROM calculated";
       rom.style.backgroundColor = "honeydew";
       rom.style.borderColor = "limegreen";
     }
@@ -1799,7 +1819,7 @@ const Assesment1 = ({ back, next }) => {
               </Col>
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
-              <Col md={24} lg={24} sm={24} xs={24}>
+              <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
@@ -1821,10 +1841,19 @@ const Assesment1 = ({ back, next }) => {
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[4]}
                   </Descriptions.Item>
+                  <Descriptions.Item label="Line of Gravity">
+                  {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Posterial_view"].Angles[5]}
+                  </Descriptions.Item>
                 </Descriptions>
               </Col>
-              <Col md={24} lg={24} sm={24} xs={24}>
-                      <img src={state.FirstAssesment.posture["Posterial_view"].posterial_view_image}/>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["Posterial_view"]
+                      .posterial_view_image
+                  }
+                />
               </Col>
               {state.FirstAssesment.FrontCheck.length > 0 && (
                 <Col md={24} lg={24} sm={24} xs={24}>
@@ -1840,7 +1869,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
-              <Col md={24} lg={24} sm={24} xs={24}>
+              <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Lateral" bordered>
                   <Descriptions.Item label="Head deviation">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
@@ -1860,8 +1889,13 @@ const Assesment1 = ({ back, next }) => {
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
-              <Col md={24} lg={24} sm={24} xs={24}>
-                      <img src={state.FirstAssesment.posture["lateral_view"].posterial_view_image}/>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["lateral_view"]
+                      .posterial_view_image
+                  }
+                />
               </Col>
               {state.FirstAssesment.SideCheck.length > 0 && (
                 <Col md={24} lg={24} sm={24} xs={24}>
@@ -1953,7 +1987,6 @@ const Assesment1 = ({ back, next }) => {
               Object.keys(state.FirstAssesment.shoulder).length > 0 && (
                 <Row gutter={[10, 10]} className="">
                   <Col lg={12} md={24} sm={24} xs={24}>
-                    {/* {data.Ankle&&<><Descriptions.Item label="Ankle"><Descriptions.Item>{data.Ankle&&data.Ankle.map(er=><>{er[0]}{" : "}{er[1]==1?" pass ":" fail "}<br/></>)}</Descriptions.Item></Descriptions.Item></>} */}
                     <>
                       <Descriptions.Item label="" span={3}>
                         <b>Shoulder </b>
@@ -1977,7 +2010,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2017,7 +2050,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2056,7 +2089,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2094,7 +2127,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2131,7 +2164,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2170,7 +2203,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2209,7 +2242,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2247,7 +2280,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2286,7 +2319,7 @@ const Assesment1 = ({ back, next }) => {
                               <td>{an[0]}</td>
                               <td>
                                 <center>
-                                  {an[1] == 1 ? " Pass " : " Fail "}
+                                  {an[1] == 1 ? " Positive " : " Negative "}
                                 </center>
                               </td>
                             </tr>
@@ -2326,7 +2359,7 @@ const Assesment1 = ({ back, next }) => {
                             <td>{an[0]}</td>
                             <td>
                               <center>
-                                {an[1] == 1 ? " Pass " : " Fail "}
+                                {an[1] == 1 ? " Positive " : " Negative "}
                               </center>
                             </td>
                           </tr>
@@ -2659,7 +2692,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check"
                 onClick={Rom}
-                id="rom"
+                id="rom_manual"
               >
                 AROM
               </Button>
@@ -2673,7 +2706,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 type="text"
                 onClick={Rom}
-                id="rom"
+                id="rom_manual"
               >
                 AROM
               </Button>

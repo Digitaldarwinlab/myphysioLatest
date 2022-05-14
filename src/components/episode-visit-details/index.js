@@ -26,6 +26,7 @@ import {STATECHANGE}  from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import Invoice from "./Invoice/Invoice";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
@@ -174,6 +175,7 @@ const EpisodeVisitDetails = () => {
         });
     }
     useEffect( async () => {
+        localStorage.setItem('care-plan-cart', JSON.stringify([]))
         let state = { ...history.location.state };
         // console.log("history loaction ",state)
         if(history.location.state){
@@ -373,6 +375,49 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
+                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
+                        }
+                        key="6"
+                    >
+                        {/* aswin start 10/30/2021 start */}
+                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
+                        {/* aswin start 10/30/2021 stop */}
+                    </TabPane>
+                    {/* <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn">Invoice</div>
+                        }
+                        key="9"
+                    >
+                     <Invoice />
+                    </TabPane> */}
+                    <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn" >Dashboard</div>
+                        }
+                        key="8"
+                    >
+                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                        {process.env.NODE_ENV=="development"?  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
+                            >
+                        </iframe>:  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}}`}
+                            >
+                        </iframe>}
+                    </TabPane>
+                    <TabPane
+                        tab={
                             <div className="fw-bold ant-tabs-btn">Prescription</div>
                         }
                         key="5"
@@ -383,53 +428,11 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
-                        }
-                        key="6"
-                    >
-                        {/* aswin start 10/30/2021 start */}
-                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
-                        {/* aswin start 10/30/2021 stop */}
-                    </TabPane>
-                    <TabPane
-                        tab={
                             <div className="fw-bold ant-tabs-btn">Notes</div>
                         }
                         key="7"
                     >
                         <Notes eid={carePlanState.pp_ed_id} />
-                    </TabPane>
-                    <TabPane
-                        tab={
-                            <div className="fw-bold ant-tabs-btn"  onClick={()=>{
-                                console.log('params ',`${`http://3.110.147.171:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)
-                                let url = `${`http://3.110.147.171:8089/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}`
-                                window.open(url,'_blank')
-                            }} >Exercise Detail</div>
-                        }
-                        key="8"
-                    >
-                         <div style={{ margin: 50 }}>
-	                        Always opens in new tab
-                        </div>
-                        {/* {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
-                        {process.env.NODE_ENV=="development"?  <iframe
-                            width='100%'
-                            height={screen.height}
-                            className="iframeDashboard"
-                            frameBorder="0"
-                            id="physioDashboard"
-                            src={`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>:  <iframe
-                            width='100%'
-                            height={screen.height}
-                            className="iframeDashboard"
-                            frameBorder="0"
-                            id="physioDashboard"
-                            src={`http://13.127.176.250:8089/superset/dashboard/2/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>} */}
                     </TabPane>
                 </Tabs>
             </div>

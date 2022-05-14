@@ -4,12 +4,12 @@ import InvoiceForm from "./InvoiceForm";
 import Invoicer from "./Invoicer";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import {getClinicDetails} from "../../API/Physio/ClinicRegister";
 import axios from "axios";
 
 function Invoice() {
   const patientDetails = useSelector(state => state.carePlanRedcucer);
   const [list, setList] = useState([]);
+  const [showPrint,setShowPrint] = useState(false);
   const [item, setItem] = useState({
     Description:"",
     UnitCost: "",
@@ -18,11 +18,13 @@ function Invoice() {
     Tax: "",
     Amount: "",
   });
+  console.log(patientDetails);
   const [preview, setPreview] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [totalTax,setTotalTax] = useState(0);
   const [clinic, setClinic] = useState({});
+  const [invoiceNo, setInvoiceNo] = useState(0);
 
 useEffect(() => {
 
@@ -30,21 +32,31 @@ useEffect(() => {
         let tTax = 0 ;
 
       for(let item in list){
-        const cost = list[item].UnitCost;
-        const discount = cost * list[item].Discount / 100;
-        const tax = cost * list[item].Tax / 100;
+        const cost = Number(list[item].UnitCost);
+        const quantity =Number( list[item].Quantity);
+        const disc = Number(list[item].Discount);
+        const taxx = Number(list[item].Tax);
+        console.log(typeof(cost))
+        console.log(typeof(quantity))
+        console.log(typeof(disc))
+        console.log(typeof(taxx))
+        const discount = cost * quantity * disc / 100;
+        const tax = ((cost * quantity - (discount)) * taxx/ 100);
         tDiscount = discount + tDiscount;
         tTax = tTax + tax;
       }
 
-      setTotalDiscount(tDiscount);
-      setTotalTax(tTax);
+      setTotalDiscount(+(tDiscount).toFixed(2));
+      setTotalTax(+(tTax).toFixed(2));
 },[list])
  
 
   useEffect(() =>{
     const id = JSON.parse(localStorage.getItem('user')).clinic_id;
-    axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id}).then(res => setClinic(res.data[0]));
+    axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id ? id : 1}).then(res => setClinic(res.data[0]));
+
+    axios.post(process.env.REACT_APP_API + "/get_invoice_no/",{}).then(res => setInvoiceNo(res.data.message));
+
     },[])
 
   const handleChange = (e) => {
@@ -67,12 +79,14 @@ useEffect(() => {
 
   console.log("clinic",clinic);
 
-  const CalculateAmount = (desc,cost, quantity) => {
+  const CalculateAmount = (desc,cost, quantity,discount,tax) => {
     let Cost = +cost;
     let Quantity = +quantity;
-    
+    let Discount = +discount;
+    let Tax = + tax;
 
-    return Cost * Quantity
+    return +(Cost * Quantity - Cost * Quantity*Discount/100 +( Cost * Quantity - Cost * Quantity*Discount/100 )*Tax / 100).toFixed(2)
+    // return Cost * Quantity;
   };
 
   const handleSubmit = (e) => {
@@ -86,10 +100,6 @@ useEffect(() => {
         item.Tax
       );
       setList(() => [...list, { ...item, id: Math.random() * 99999, Amount }]);
-
-      
-      
-
 
       setTotalAmount((prevAmount) => prevAmount + Amount);
       setItem({
@@ -105,6 +115,51 @@ useEffect(() => {
       return;
     }
   };
+
+  function todayDate() {
+    var date = new Date(),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+
+  const handleFinalSubmit = () => {
+    const invoice_line = [];
+    console.log(item);
+    for(let item in list){
+      const i = {
+        description : list[item].Description,
+        quantity : list[item].Quantity,
+        unit_cost : list[item].UnitCost,
+        discount_amount : list[item].Discount,
+        tax_amount : list[item].Tax,
+        total_line_amount:list[item].Amount
+      }
+      invoice_line.push(i);
+    }
+
+    const physio_id = JSON.parse(localStorage.getItem("userId"));
+    const clinic_id = JSON.parse(localStorage.getItem('user')).clinic_id;
+    const patient_id = patientDetails.pp_ed_id;
+    const total_amount =  totalAmount + totalDiscount - totalTax
+
+    const invoice_header = {
+      invoice_date : todayDate(),
+      physio_id,
+      clinic_id,
+      patient_id,
+      total_amount,
+      total_tax : totalTax,
+      total_discount : totalDiscount
+    }
+
+    axios.post(process.env.REACT_APP_API + "/invoice/",{invoice_header, invoice_line}).then(res => {console.log(res.data)
+    setShowPrint(true);
+    }).catch(err => console.log(err));
+
+
+
+  }
 
   const handleDelete = (id) => {
     setList((prevList) =>
@@ -128,17 +183,22 @@ useEffect(() => {
         totalAmount={totalAmount}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        handleFinalSubmit = {handleFinalSubmit}
         setPreview={setPreview}
         pName={patientDetails.patient_name}
         pId={patientDetails.pp_ed_id}
-        pEpisodeNumber = {patientDetails.episode_number}
+        pCode={patientDetails.patient_main_code}
+        pEpisodeNumber = {patientDetails.pp_ed_id}
         cName = {clinic.name}
         cAddress = {clinic.address_1+', '+clinic.address_2+', '+clinic.address_3}
         cPhone = {clinic.mobile_no}
         cWebiste={clinic.website_url}
         cEmail = {clinic.email}
+        cId={clinic.pp_cm_id}
+        showPrint = {showPrint}
         totalDiscount = {totalDiscount}
         totalTax = {totalTax}
+        invoiceNo={invoiceNo}
       />}
     </div>
   );

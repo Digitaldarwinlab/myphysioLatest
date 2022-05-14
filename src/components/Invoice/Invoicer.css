@@ -1,5 +1,3 @@
-
-
 .client {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -23,7 +21,6 @@
 }
 
 .clinic-details {
- 
     align-self: center;
 }
 
@@ -35,6 +32,7 @@
 
 .patient {
     text-align: left;
+    padding-left: 15px;
 }
 
 .patient h4 {
@@ -56,9 +54,37 @@
 
 .datern{
   text-align: right;  
+  margin-right: 6%;
+  padding-right: 15px;
     }
 
 .datern ul{
 list-style: none;
 }
 
+
+@media (max-width:500px){
+    .client {
+        grid-template-columns: auto;
+    }
+
+    .clinic-info {
+       text-align: center;
+      }
+
+      
+.clinic-details {
+    padding-left: 15px;
+}
+
+.patient ul {
+    flex-direction: column;
+}
+
+}
+
+@media print {
+    .datern {
+        margin-right: 7.5%;
+      }
+}

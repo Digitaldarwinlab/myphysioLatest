@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Profiler } from 'react';
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
+import {  BASIC_CLEARSTATE, BASIC_CLEARSTATE2,STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import validation from "./../Validation/authValidation/authValidation";
+import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
 import svg from "././../../assets/step1.png";
@@ -12,7 +13,11 @@ import FormDate from "../UI/antInputs/FormDate"
 import { Typography, Select, Row, Col, Button, Form,Modal,Table } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import moment from "moment";
-import '../../styles/Layout/Heading.css'
+import '../../styles/Layout/Heading.css';
+import {Employee_Registration} from "../../API/Enterprise/Enterprise";
+import { Employee_Update } from '../../API/Enterprise/Enterprise';
+import axios from "axios";
+import { PATIENT_REG_FAILURE } from '../../contextStore/actions/authAction';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -43,6 +48,7 @@ const MappingKey = {
     Email: "Email",
     Facebook: "Facebook",
     LinkedIn: "LinkedIn",
+    Organization:"OrganizationId",
     Allergies: "Allergies",
     MedicalHistory: "Allergies",
     FamilyHistory: "Family History",
@@ -55,12 +61,50 @@ const EmployeeRegister = (props) => {
     const [cityList, setCityList] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [NewAge, setNewAge] = useState("");
+    const [clearState, setClearState] = useState(false);
+    const [organization,setOrganization] = useState([]);
     const [tableData, setTableData] = useState([]);
-
     const history = useHistory();
     const [form] = Form.useForm();
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const unblock = history.block((location, action) => {
+            if(state.BasicDetails.MiddleName!=='' || state.BasicDetails.FirstName!=='' || state.BasicDetails.LastName!=='' || state.BasicDetails.DOB!=='' || state.BasicDetails.Age!=='' || state.BasicDetails.Gender!=='' || state.BasicDetails.bloodType!=='' || state.BasicDetails.MobileNo!=='' || state.BasicDetails.LandlineNo!=='' || state.BasicDetails.WhatsAppNo!=='' )
+            {   console.log(state.BasicDetails)
+                if (window.confirm("You will lost your Form Data. Do You really want it?")) {
+                    dispatch({ type: BASIC_CLEARSTATE });
+                    setClearState(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else
+            {
+                console.log('no alert')
+            }
+            
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history,state])
+
+
+    useEffect(() => {
+        async function getOrganization() {
+           
+           axios.get(process.env.REACT_APP_API+"/org_list/").then(res => { 
+            setOrganization(res.data);
+           }).catch(err => console.log(err));
+
+          
+        }
+        getOrganization();
+    },[])
 
     useEffect(() => {
         const data = state.BasicDetails;
@@ -73,6 +117,26 @@ const EmployeeRegister = (props) => {
         form.setFieldsValue({ MobileNo: data.MobileNo });
         form.setFieldsValue({ LandlineNo: data.LandlineNo });
         form.setFieldsValue({ WhatsAppNo: data.WhatsAppNo });
+        form.setFieldsValue({ Address: data.Address });
+        form.setFieldsValue({ pincode: data.pincode });
+        form.setFieldsValue({ City: data.City });
+        form.setFieldsValue({ State: data.State });
+        form.setFieldsValue({ Country: data.Country });
+        form.setFieldsValue({ EmergencyContact: data.EmergencyContact });
+        form.setFieldsValue({ State: data.State });
+        form.setFieldsValue({ Email: data.Email });
+        form.setFieldsValue({ Facebook: data.Facebook });
+        form.setFieldsValue({ LinkedIn: data.LinkedIn });
+        form.setFieldsValue({ Organization: data.Organization });
+        const dataState = Object.keys(StateCity);
+        setStateList(dataState);
+        if (data.State) {
+            if (StateCity[data.State]) {
+                setCityList(StateCity[data.State]);
+            } else {
+                setCityList([]);
+            }
+        }
         if (data.DOB) {
             form.setFieldsValue({ DOB: moment(data.DOB, "YYYY-MM-DD") })
             form.setFieldsValue({ Age: calculate(new Date(), new Date(moment(data.DOB, "YYYY-MM-DD"))) });
@@ -84,7 +148,7 @@ const EmployeeRegister = (props) => {
                 }
             })
         }
-    }, [props.clearState]);
+    }, [clearState]);
 
 
     const handleChange = (key, value, id = 0) => {
@@ -131,6 +195,20 @@ const EmployeeRegister = (props) => {
 
         }
 
+        dispatch({
+            type: STATECHANGE,
+            payload: {
+                key,
+                value
+            }
+        });
+        if (key === "State") {
+            if (!value)
+                setCityList([]);
+            else
+                setCityList(StateCity[value]);
+        }
+
         dispatch({ type: "NOERROR" });
     }
 
@@ -144,7 +222,7 @@ const EmployeeRegister = (props) => {
             let keys = Object.keys(state.BasicDetails);
             let index = 0;
             keys.forEach(key => {
-                if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
+                if (!(["isLoading", "success", "pp_em_id"].includes(key))) {
                     if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
                         tempData.push({
                             key: index,
@@ -212,16 +290,19 @@ const EmployeeRegister = (props) => {
                     history.push("/pateint/profile");
                 }
                 else {
-                    history.push("/pateints");
+                    
+                    history.push("/enterprise/employee-list");
                 }
 
 
             }
         } else {
             if (window.confirm("Confirm, Do You want to Reset all fieldsss?")) {
-                // dispatch({ type: CLEAR_STATE });
+                dispatch({ type: BASIC_CLEARSTATE });
+                dispatch({ type: BASIC_CLEARSTATE2 });
+                form.resetFields();
                 form.resetFields()
-                history.push("/pateints/new");
+                history.push("/enterprise/employee-register");
 
             }
         }
@@ -230,49 +311,43 @@ const EmployeeRegister = (props) => {
 
     const onFinish = () => {
         let data = state.BasicDetails;
+        
         // console.log(data)
         //  console.log(validation.checkNameValidation(data.FirstName).error+': error is')
+        
         if (validation.checkNameValidation(data.FirstName).error) {
             dispatch({ type: VALIDATION, payload: { error: "First" + validation.checkNameValidation(data.FirstName).error } });
         } else if (validation.checkNameValidation(data.LastName).error) {
             dispatch({ type: VALIDATION, payload: { error: "Last" + validation.checkNameValidation(data.LastName).error } });
         } else if (validation.checkNameValidation(data.MiddleName).error) {
             dispatch({ type: VALIDATION, payload: { error: "Middle" + validation.checkNameValidation(data.MiddleName).error } });
-        } else {
-            props.next()
-        }
-        // else if (validation.checkNameValidation(data.MiddleName).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: "middle " + validation.checkNameValidation(data.MiddleName).error } });
-        // }
-        // else if (validation.checkNameValidation(data.LastName).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.LastName).error } });
-        // } else if (validation.checkMobNoValidation(data.MobileNo).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
-        // } else if (validation.checkMobNoValidation(data.WhatsAppNo).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
-        // } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });
-        // }else {
-        //     const checkError = state.Validation.error;
-        //     if (checkError) {
-        //         let userData = localStorage.setItem('UserData', state.BasicDetails);
+        } else if (validation.checkMobNoValidation(data.MobileNo).error) {
+            dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
+        } else if (data.WhatsAppNo && validation.checkMobNoValidation(data.WhatsAppNo).error) {
+            dispatch({ type: VALIDATION, payload: { error: "Whatsapp  " + validation.checkMobNoValidation(data.WhatsAppNo).error } });
+        } else if (validation.checkLandNoValidation(data.LandlineNo).error) {
+            dispatch({ type: VALIDATION, payload: { error: "LandlineNo " + validation.checkLandNoValidation(data.LandlineNo).error } });
+        }else {
+            const checkError = state.Validation.error;
+            if (checkError) {
+                let userData = localStorage.setItem('UserData', state.BasicDetails);
 
-        //         alert("please check all the fields")
-        //     }
-        //     else {
-        //         props.next();
-        //     }
-        // }
+                alert("please check all the fields")
+            }
+           
+        }
+        showModal();
 
     };
 
     const handleOk = async () => {
         setIsModalVisible(false);
         let result;
-        if (state.BasicDetails.pp_patm_id === "") {
-            result = await Patient_Register(state.BasicDetails, dispatch);
+        if (state.BasicDetails.pp_em_id) {
+            result = await Employee_Update(state.BasicDetails, dispatch);
         } else {
-            result = await Patient_Update(state.BasicDetails, dispatch);
+           
+            result = await Employee_Registration(state.BasicDetails, dispatch);
         }
         if (result && result[0]) {
             if(JSON.parse(localStorage.getItem("user")).role=='patient')
@@ -281,9 +356,10 @@ const EmployeeRegister = (props) => {
                 }
                 else
                 {
-                    window.location.href = "/employee-list";
+                    window.location.href = "/enterpise/employee-list";
                 }
-            window.location.href = "/employee-list";
+            window.location.href = "/enterprise/employee-list";
+            console.log("Success!!!");
         } else {
             dispatch({ type: PATIENT_REG_FAILURE });
             dispatch({ type: VALIDATION, payload: { error: result[1] } });
@@ -308,7 +384,14 @@ const EmployeeRegister = (props) => {
             <Row>
 
                 <Col lg={20} md={20} sm={24} xs={24}>
-                    <h3 className="page-heading" id="page-heading" ><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role == 'patient' ? 'Update Profile' : 'Employeee'}</b></h3>
+                    <h3 className="page-heading" id="page-heading" > <i className="fas fa-arrow-left"
+                    style={{ cursor: "pointer",marginRight:"10px" }}
+                    title="Go Back"
+                    onClick={() => {
+                      
+                            history.goBack()     
+                    }}
+                    role="button"></i><i className="fas fa-user-plus" /><b>{JSON.parse(localStorage.getItem("user")).role == 'patient' ? 'Update Profile' : 'Employeee'}</b></h3>
                 </Col>
                 <Col lg={4} md={4} sm={24} xs={24} className="text-right" justify="right">
                     {
@@ -361,8 +444,9 @@ const EmployeeRegister = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.FirstName}
+                                disabled={state.BasicDetails.pp_em_id ? true :false}
                             />
-
+                            
                         </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormInput label={<span style={{ fontSize: '15px', fontWeight: '600' }}>{'Middle Name'}</span>}
@@ -386,6 +470,7 @@ const EmployeeRegister = (props) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.LastName}
+                                disabled={state.BasicDetails.pp_em_id ? true :false}
                             />
                         </Col>
                     </Row>
@@ -526,10 +611,10 @@ const EmployeeRegister = (props) => {
                                 required={true}
                                 name="Address"
                                 className="input-field w-100"
-                                value={state.BasicDetails.address}
+                                value={state.BasicDetails.Address}
                                 onChange={handleChange}
                              //   onBlur={handleBlur}
-                                defaultValue={state.BasicDetails.address}
+                                defaultValue={state.BasicDetails.Address}
                             />
                         </Col>
                     </Row>
@@ -569,7 +654,7 @@ const EmployeeRegister = (props) => {
                                 <Select
                                     showSearch
                                     optionFilterProp="children"
-                                    placeholder="plaese select state."
+                                    placeholder="please select state."
                                     value={state.BasicDetails.State}
                                     onChange={(value) => { handleChange("State", value) }}
                                     allowClear
@@ -673,6 +758,31 @@ const EmployeeRegister = (props) => {
                                 defaultValue={state.BasicDetails.EmergencyContact}
                             />
                         </Col>
+                        <Col md={24} lg={8} sm={24} xs={24}>
+                            {/* aswin start 10/30/2021 start */}
+                            <Form.Item
+                                label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Organization'}</span>}
+                                name="Orgnization"
+                               rules={[{ required: true, message: `Please Select Organization.` }]}
+                             //   className="input-field w-100"
+                            >
+                                {/* aswin start 10/30/2021 stop */}
+                                <Select
+                                    showSearch
+                                    optionFilterProp="children"
+                                    placeholder="please select Organization"
+                                    value={state.BasicDetails.Organization}
+                                    defaultValue={state.BasicDetails.Organization}
+                                    onChange={(value) => { handleChange("Organization", value) }}
+                                    allowClear
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                  {organization.map(org =>  <Select.Option key={org.pp_org_id} value={org.pp_org_id}>{ org.org_name}</Select.Option>)}
+                                </Select>
+                            </Form.Item>
+                        </Col>
                     </Row>
 
                 </div>
@@ -696,8 +806,8 @@ const EmployeeRegister = (props) => {
             <Col span={2}> <Button type="primary"  
                     // className="my-3  me-2 btncolor"  
                      htmlType="submit">Next</Button></Col> */}
-                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 btncolor"   onClick={showModal}>
-                        {state.BasicDetails.pp_patm_id ? "Update" : "Submit"}
+                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 btncolor" >
+                        {state.BasicDetails.pp_em_id ? "Update" : "Submit"}
                     </Button></Col>
                 </Row>
                 <Modal title="Confirm Details" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

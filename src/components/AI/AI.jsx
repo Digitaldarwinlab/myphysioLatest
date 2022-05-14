@@ -44,8 +44,8 @@ const labels = [
   "R Elbow Flex",
   "L Hip Fwd Flex",
   "R Hip Fwd Flex",
-  "L Knee Abd/Add",
-  "R Knee Abd/Add",
+  "L Knee Flex/Ext",
+  "R Knee Flex/Ext",
   "L Cervical Side flex",
   "R Cervical Side Flex",
   "L Lateral Side Flex",
@@ -76,8 +76,8 @@ const allNewJoints = [
   { value: 13, label: "rightWrist" },
   { value: 14, label: "leftAnkle" },
   { value: 15, label: "rightAnkle" },
-  { value: 16, label: "leftHipAdductionAdbuction" },
-  { value: 17, label: "rightHipAdductionAdbuction" },
+  { value: 16, label: "leftHipAdductionAbduction" },
+  { value: 17, label: "rightHipAdductionAbduction" },
   { value: 18, label: "cervicalForwardFlexion" },
 ];
 const joints = [
@@ -89,8 +89,8 @@ const joints = [
   { value: 9, label: "rightNeck" },
   { value: 10, label: "leftPelvic" },
   { value: 11, label: "rightPelvic" },
-  { value: 16, label: "leftHipAdductionAdbuction" },
-  { value: 17, label: "rightHipAdductionAdbuction" },
+  { value: 16, label: "leftHipAdductionAbduction" },
+  { value: 17, label: "rightHipAdductionAbduction" },
 ];
 const leftJoints = [
   { value: 0, label: "leftShoulder" },
@@ -127,10 +127,6 @@ class AI extends Component {
     console.log("preveState:" + preveState);
     console.log("preIndices:" + preIndices);
     let PreJoints = this.props.history.location.state.Joints;
-    console.log(
-      "exercises primary",
-      this.props.history.location.state.exercisePrimary
-    );
     console.log("PreJoints:" + PreJoints);
     let PreJointKeys = Object.keys(PreJoints);
     let PreJointValue = Object.values(PreJoints);
@@ -188,10 +184,11 @@ class AI extends Component {
     this.start = this.start.bind(this);
     this.capture = this.capture.bind(this);
     this.ExDef = this.ExDef.bind(this);
-    //  this.setState({primaryExercise:this.props.history.location.state.exercisePrimary})
   }
 
   back = () => {
+    this.props.FirstAssesment("Arom_M", false);
+    this.props.FirstAssesment("Arom_Ai", true);
     const video = document.getElementById("video");
 
     const mediaStream = video.srcObject;
@@ -501,7 +498,7 @@ class AI extends Component {
     console.log("exercise passed are ", this.state.primaryExercise);
     let priArr = [];
     this.state.primaryExercise.map((ex) => {
-      if (ex.exercise_shortname == e) {
+      if (ex.name == e) {
         priArr = ex.primary_angles ? ex.primary_angles : ex.joint;
       }
     });
@@ -720,8 +717,8 @@ class AI extends Component {
     //  video.height = height;
     const options = {
       video,
-      videoWidth: width,
-      videoHeight: height,
+      videoWidth: 640,
+      videoHeight: 480,
       canvas,
       supervised: true,
       showAngles: true,
@@ -741,15 +738,9 @@ class AI extends Component {
     this.start();
     console.log("exerc ", this.state.primaryExercise);
     var priArr = [];
-    //priArr = this.state.primaryExercise[0].primary_angles
     priArr = this.state.primaryExercise[0].primary_angles
       ? this.state.primaryExercise[0].primary_angles
       : this.state.primaryExercise[0].joint;
-    // this.state.primaryExercise.map(ex=>{
-    //     if(ex.exercise_shortname==e.target.value){
-    //         priArr = ex.joints
-    //     }
-    // })
     console.log("primary  ", priArr);
     console.log("angles ", priArr);
     const primaryAnglesValue = [];
@@ -862,317 +853,318 @@ class AI extends Component {
 
     return (
       <>
-        <Row
-          //align="top"
-          gutter={[16, 16]}
-          className="arom_container"
+      <Row
+        //align="top"
+        gutter={[16, 16]}
+        className="arom_container"
+      >
+        <Col
+          id="New_Ai_vid"
+          className="arom_vid"
+          md={14}
+          lg={14}
+          sm={24}
+          xs={24}
         >
-          <Col
-            id="New_Ai_vid"
-            className="arom_vid"
-            md={14}
-            lg={14}
-            sm={24}
-            xs={24}
-          >
-            <video
-              id="video"
-              //  className="video"
-              playsInline
-              style={{ display: "none" }}
-            ></video>
-            <canvas
-              id="output"
-              className="output"
-              // style={{ height: "450px" }}
-            />
-          </Col>
-          <Card
-            className="arom_button_grp2"
+          <video
+            id="video"
+            className="video"
+            playsInline
             style={{ display: "none" }}
-            actions={[
-              <Row className="arom_switch" justify="center" span={6}>
-                <Switch
-                  onChange={this.handleChange}
-                  checked={this.state.SWITCH}
-                  //  style={{ color: "red", marginTop: 5 }}
-                />{" "}
-                {this.state.SWITCH ? (
-                  <PauseCircleOutlined className="arom_play_btn" />
-                ) : (
-                  <PlayCircleOutlined className="arom_play_btn" />
-                )}
-              </Row>,
-              // <Row justify="start" span={6}>
-              //   <Button
-              //     // className="mx-2"
-              //     disabled={this.state.SWITCH}
-              //     style={{ border: "none" }}
-              //     icon={<MinusCircleOutlined />}
-              //     onClick={this.stop}
-              //   >
-              //     Stop
-              //   </Button>
-              // </Row>,
+          ></video>
+          <canvas
+            id="output"
+            className="output"
+            style={{ height: "450px" }}
+          />
+        </Col>
+        <Card
+          className="arom_button_grp2"
+          style={{ display: "none" }}
+          actions={[
+            <Row className="arom_switch" justify="center" span={6}>
+              <Switch
+                onChange={this.handleChange}
+                checked={this.state.SWITCH}
+                //  style={{ color: "red", marginTop: 5 }}
+              />{" "}
+              {this.state.SWITCH ? (
+                <PauseCircleOutlined className="arom_play_btn" />
+              ) : (
+                <PlayCircleOutlined className="arom_play_btn" />
+              )}
+            </Row>,
+            // <Row justify="start" span={6}>
+            //   <Button
+            //     // className="mx-2"
+            //     disabled={this.state.SWITCH}
+            //     style={{ border: "none" }}
+            //     icon={<MinusCircleOutlined />}
+            //     onClick={this.stop}
+            //   >
+            //     Stop
+            //   </Button>
+            // </Row>,
 
-              <Row justify="start" span={6}>
+            <Row justify="start" span={6}>
+              <Button
+                style={{ border: "none" }}
+                icon={<CameraFilled />}
+                onClick={this.capture}
+              >
+                Snap
+              </Button>
+            </Row>,
+            <Row justify="start" span={6}>
+              <Button
+                //  className="mx-2"
+                style={{ border: "none" }}
+                icon={<RollbackOutlined />}
+                onClick={this.reset}
+              >
+                Reset
+              </Button>
+            </Row>,
+          ]}
+        ></Card>
+        <Col md={10} lg={10} sm={24} xs={24}>
+          <Row className="arom_details_tab">
+            <Col span={12}>
+              Excercise : <b>Squat</b>
+            </Col>
+            <Col span={12}>
+              Patient :{" "}
+              <b>
+                {this.props.history.location.state.stateName.patient_name}
+              </b>
+            </Col>
+          </Row>
+
+          <Row className="arom_video_screen">
+            <video
+              src={
+                process.env.REACT_APP_EXERCISE_URL + "/" + this.state.videoUrl
+              }
+              controls
+              autoPlay
+              loop
+              id="videoscreen"
+              className="videoScreen"
+            />
+          </Row>
+          <Row>
+            <Card
+              style={{ marginTop: 5, borderRadius: 10, width: "100%" }}
+              actions={[
                 <Button
+                  className="mx-2 screenshot_btn"
                   style={{ border: "none" }}
                   icon={<CameraFilled />}
                   onClick={this.capture}
                 >
-                  Snap
-                </Button>
-              </Row>,
-              <Row justify="start" span={6}>
+                  Screenshots
+                </Button>,
                 <Button
-                  //  className="mx-2"
+                disabled={this.state.SWITCH}
+                  className="mx-2"
                   style={{ border: "none" }}
-                  icon={<RollbackOutlined />}
-                  onClick={this.reset}
+                  icon={<CaretLeftFilled />}
+                  onClick={this.back}
+                  // disabled={this.state.BACK}
                 >
-                  Reset
-                </Button>
-              </Row>,
-            ]}
-          ></Card>
-          <Col md={10} lg={10} sm={24} xs={24}>
-            <Row className="arom_details_tab">
-              <Col span={12}>
-                Excercise : <b>Squat</b>
-              </Col>
-              <Col span={12}>
-                Patient :{" "}
-                <b>
-                  {this.props.history.location.state.stateName.patient_name}
-                </b>
-              </Col>
-            </Row>
-
-            <Row className="arom_video_screen">
-              <video
-                src={
-                  process.env.REACT_APP_EXERCISE_URL + "/" + this.state.videoUrl
-                }
-                controls
-                autoPlay
-                loop
-                id="videoscreen"
-                className="videoScreen"
-              />
-            </Row>
-            <Row>
-              <Card
-                style={{ marginTop: 5, borderRadius: 10, width: "100%" }}
-                actions={[
-                  <Button
-                    className="mx-2 screenshot_btn"
-                    style={{ border: "none" }}
-                    icon={<CameraFilled />}
-                    onClick={this.capture}
-                  >
-                    Screenshots
-                  </Button>,
-                  <Button
-                    className="mx-2"
-                    style={{ border: "none" }}
-                    icon={<CaretLeftFilled />}
-                    onClick={this.back}
-                    disabled={this.state.SWITCH}
-                  >
-                    Backs
-                  </Button>,
-                ]}
+                  Backs
+                </Button>,
+              ]}
+            >
+              <Row
+                className="arom_button_grp"
+                gutter={[10, 10]}
+                justify="space-around"
               >
-                <Row
-                  className="arom_button_grp"
-                  gutter={[10, 10]}
-                  justify="space-around"
-                >
-                  <Row justify="center" span={8}>
-                    <Switch
-                      onChange={this.handleChange}
-                      checked={this.state.SWITCH}
-                      //  style={{ color: "red", marginTop: 5 }}
-                    />{" "}
-                    {this.state.SWITCH ? (
-                      <PauseCircleOutlined />
-                    ) : (
-                      <PlayCircleOutlined />
-                    )}
-                  </Row>
-                  {/* <Row justify="center" span={8}>
-                    <Button
-                      // className="mx-2"
-                      disabled={this.state.SWITCH}
-                      style={{ border: "none" }}
-                      icon={<MinusCircleOutlined />}
-                      onClick={this.stop}
-                    >
-                      Stop
-                    </Button>
-                  </Row> */}
-
-                  <Row justify="center" span={8}>
-                    <Button
-                      //  className="mx-2"
-                      style={{ border: "none" }}
-                      icon={<RollbackOutlined />}
-                      onClick={this.reset}
-                    >
-                      Reset
-                    </Button>
-                  </Row>
+                <Row justify="center" span={8}>
+                  <Switch
+                    onChange={this.handleChange}
+                    checked={this.state.SWITCH}
+                    //  style={{ color: "red", marginTop: 5 }}
+                  />{" "}
+                  {this.state.SWITCH ? (
+                    <PauseCircleOutlined />
+                  ) : (
+                    <PlayCircleOutlined />
+                  )}
                 </Row>
-                <Row
-                  className="arom_containerrr"
-                  style={{ marginTop: "5px" }}
-                  gutter={[10, 10]}
-                  justify="start"
-                >
-                  <select
-                    className="w-50 mx-2 my-3"
-                    style={{ marginTop: 5 }}
-                    name="ex"
-                    id="ex"
-                    defaultValue={this.state.selectedExercise}
-                    onChange={(e) => this.ExChanges(e.target.value)}
+                {/* <Row justify="center" span={8}>
+                  <Button
+                    // className="mx-2"
+                    disabled={this.state.SWITCH}
+                    style={{ border: "none" }}
+                    icon={<MinusCircleOutlined />}
+                    onClick={this.stop}
                   >
-                    {/* {this.props.history.location.state.Excercise.map(
-                        (item, index) => (
-                          <option key={item + index} value={item}>
-                            {item} 
-                          </option> 
-                        )
-                      )}*/}
-                  </select>
-                  {/* <Col style={{paddingBottom:'10px'}}>
-                    <Select
-                     className="w-50 mx-2 my-3"
-                      size={"large"}
-                      defaultValue={this.state.selectedExercise}
-                      onChange={this.ExChanges}
-                      style={{ width: 200, border: '1px solid' ,padding:'10px'}}
-                    >
-                      {this.props.history.location.state.Excercise.map(
-                        (item, index) => (
-                          <option key={item + index} value={item}>
-                            {item}
-                          </option>
-                        )
-                      )}
-                    </Select>
-                    </Col> */}
-                  <Col>
-                    <>
-                      <div className="containerrr">
-                        <div className="bloc-tabss">
-                          <span
-                            aria-disabled
-                            style={{
-                              width: "460px",
-                              padding: "0px 0 0 0",
-                              height: "35px",
-                            }}
-                            className={
-                              this.state.toggleState == 1
-                                ? "tabss active-tabss"
-                                : "tabss"
-                            }
-                            onClick={() => {
-                              //setToggleState(1);
-                              this.setState({ toggleState: 1 });
-                              this.setAngles([
-                                0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
-                              ]);
-                              this.setSelectOrientation(1);
-                              if (this.state.SWITCH) {
-                                this.handleChange();
-                              }
-                            }}
-                          >
-                            <div className="fw-bold ant-tabss-btn">
-                              Anterior
-                            </div>
-                          </span>
-                          <span
-                            style={{
-                              width: "460px",
-                              padding: "0px 0 0 0",
-                              height: "35px",
-                            }}
-                            className={
-                              this.state.toggleState == 2
-                                ? "tabss active-tabss"
-                                : "tabss"
-                            }
-                            onClick={() => {
-                              //setToggleState(2);
-                              this.setState({ toggleState: 2 });
-                              this.setAngles([0, 4, 6, 12, 14, 18]);
-                              this.setSelectOrientation(2);
-                              if (this.state.SWITCH) {
-                                this.handleChange();
-                              }
-                            }}
-                          >
-                            <div className="fw-bold ant-tabss-btn">Lateral</div>
-                          </span>
-                        </div>
+                    Stop
+                  </Button>
+                </Row> */}
 
-                        <div
+                <Row justify="center" span={8}>
+                  <Button
+                    //  className="mx-2"
+                    style={{ border: "none" }}
+                    icon={<RollbackOutlined />}
+                    onClick={this.reset}
+                  >
+                    Reset
+                  </Button>
+                </Row>
+              </Row>
+              <Row
+                className="arom_containerrr"
+                style={{ marginTop: "5px" }}
+                gutter={[10, 10]}
+                justify="start"
+              >
+                <select
+                  className="w-50 mx-2 my-3"
+                  style={{ marginTop: 5 }}
+                  name="ex"
+                  id="ex"
+                  defaultValue={this.state.selectedExercise}
+                  onChange={(e) => this.ExChanges(e.target.value)}
+                >
+                  {/* {this.props.history.location.state.Excercise.map(
+                      (item, index) => (
+                        <option key={item + index} value={item}>
+                          {item} 
+                        </option> 
+                      )
+                    )}*/}
+                </select>
+                {/* <Col style={{paddingBottom:'10px'}}>
+                  <Select
+                   className="w-50 mx-2 my-3"
+                    size={"large"}
+                    defaultValue={this.state.selectedExercise}
+                    onChange={this.ExChanges}
+                    style={{ width: 200, border: '1px solid' ,padding:'10px'}}
+                  >
+                    {this.props.history.location.state.Excercise.map(
+                      (item, index) => (
+                        <option key={item + index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </Select>
+                  </Col> */}
+                <Col>
+                  <>
+                    <div className="containerrr">
+                      <div className="bloc-tabss">
+                        <span
+                          aria-disabled
+                          style={{
+                            width: "460px",
+                            padding: "0px 0 0 0",
+                            height: "35px",
+                          }}
                           className={
                             this.state.toggleState == 1
-                              ? "contentt  active-contentt"
-                              : "contentt"
+                              ? "tabss active-tabss"
+                              : "tabss"
                           }
+                          onClick={() => {
+                            //setToggleState(1);
+                            this.setState({ toggleState: 1 });
+                            this.setAngles([
+                              0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+                            ]);
+                            this.setSelectOrientation(1);
+                            if (this.state.SWITCH) {
+                              this.handleChange();
+                            }
+                          }}
                         >
-                          {/* <Radio checked value={"front"}>
-            front
-          </Radio> */}
-                          <br />
-                          <div>
-                            <Checkbox.Group
-                              onChange={this.angles}
-                              defaultValue={() => this.ifCheck(joints)}
-                            >
-                              <Row>
-                                {joints.map((item) => (
-                                  <Col span={12}>
-                                    <Checkbox value={item.value}>
-                                      {labels[item.value]}
-                                    </Checkbox>
-                                  </Col>
-                                ))}
-                              </Row>
-                            </Checkbox.Group>
+                          <div className="fw-bold ant-tabss-btn">
+                            Anterior
                           </div>
-                        </div>
-                        <div
+                        </span>
+                        <span
+                          style={{
+                            width: "460px",
+                            padding: "0px 0 0 0",
+                            height: "35px",
+                          }}
                           className={
                             this.state.toggleState == 2
-                              ? "contentt  active-contentt"
-                              : "contentt"
+                              ? "tabss active-tabss"
+                              : "tabss"
                           }
+                          onClick={() => {
+                            //setToggleState(2);
+                            this.setState({ toggleState: 2 });
+                            this.setAngles([0, 4, 6, 12, 14, 18]);
+                            this.setSelectOrientation(2);
+                            if (this.state.SWITCH) {
+                              this.handleChange();
+                            }
+                          }}
                         >
-                          <Radio.Group
-                            defaultValue={"left"}
-                            onChange={(e) => this.changeSide(e.target.value)}
+                          <div className="fw-bold ant-tabss-btn">Lateral</div>
+                        </span>
+                      </div>
+
+                      <div
+                        className={
+                          this.state.toggleState == 1
+                            ? "contentt  active-contentt"
+                            : "contentt"
+                        }
+                      >
+                        {/* <Radio checked value={"front"}>
+          front
+        </Radio> */}
+                        <br />
+                        <div>
+                          <Checkbox.Group
+                            onChange={this.angles}
+                            defaultValue={() => this.ifCheck(joints)}
                           >
-                            <Radio value={"left"}>left</Radio>
-                            <Radio value={"right"}>right</Radio>
-                          </Radio.Group>
-                          <br />
-                          <br />
-                          {/* <div>
+                            <Row>
+                              {joints.map((item) => (
+                                <Col span={12}>
+                                  <Checkbox value={item.value}>
+                                    {labels[item.value]}
+                                  </Checkbox>
+                                </Col>
+                              ))}
+                            </Row>
+                          </Checkbox.Group>
+                        </div>
+                      </div>
+                      <div
+                        className={
+                          this.state.toggleState == 2
+                            ? "contentt  active-contentt"
+                            : "contentt"
+                        }
+                      >
+                        <Radio.Group
+                          defaultValue={"left"}
+                          onChange={(e) => this.changeSide(e.target.value)}
+                        >
+                          <Radio value={"left"}>left</Radio>
+                          <Radio value={"right"}>right</Radio>
+                        </Radio.Group>
+                        <br />
+                        <br />
+                        {this.state.latSide=="left"&& <div>
                             <Checkbox.Group
                               onChange={this.angles}
-                              value={() =>
-                                this.ifCheck(this.state.lateralJoints)
+                            defaultValue={() =>
+                                this.ifCheck(leftJoints)
                               }
                             >
                               <Row>
-                                {this.state.lateralJoints.map((item) => (
+                                {leftJoints.map((item) => (
                                   <Col span={12}>
                                     <Checkbox value={item.value}>
                                       {labels[item.value]}
@@ -1181,53 +1173,53 @@ class AI extends Component {
                                 ))}
                               </Row>
                             </Checkbox.Group>
-                          </div> */}
-                          {this.state.latSide == "left" && (
-                            <div>
-                              <Checkbox.Group
-                                onChange={this.angles}
-                                defaultValue={() => this.ifCheck(leftJoints)}
-                              >
-                                <Row>
-                                  {leftJoints.map((item) => (
-                                    <Col span={12}>
-                                      <Checkbox value={item.value}>
-                                        {labels[item.value]}
-                                      </Checkbox>
-                                    </Col>
-                                  ))}
-                                </Row>
-                              </Checkbox.Group>
-                            </div>
-                          )}
-                          {this.state.latSide == "right" && (
-                            <div>
-                              <Checkbox.Group
-                                onChange={this.angles}
-                                defaultValue={() => this.ifCheck(rightJoints)}
-                              >
-                                <Row>
-                                  {rightJoints.map((item) => (
-                                    <Col span={12}>
-                                      <Checkbox value={item.value}>
-                                        {labels[item.value]}
-                                      </Checkbox>
-                                    </Col>
-                                  ))}
-                                </Row>
-                              </Checkbox.Group>
-                            </div>
-                          )}
-                        </div>
+                          </div>}
+                          {this.state.latSide=="right"&& <div>
+                            <Checkbox.Group
+                              onChange={this.angles}
+                            defaultValue={() =>
+                                this.ifCheck(rightJoints)
+                              }
+                            >
+                              <Row>
+                                {rightJoints.map((item) => (
+                                  <Col span={12}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                        {/* <div>
+                          <Checkbox.Group
+                            onChange={this.angles}
+                            value={() =>
+                              this.ifCheck(this.state.lateralJoints)
+                            }
+                          >
+                            <Row>
+                              {this.state.lateralJoints.map((item) => (
+                                <Col span={12}>
+                                  <Checkbox value={item.value}>
+                                    {labels[item.value]}
+                                  </Checkbox>
+                                </Col>
+                              ))}
+                            </Row>
+                          </Checkbox.Group>
+                        </div> */}
                       </div>
-                    </>
-                  </Col>
-                </Row>
-              </Card>
-            </Row>
-          </Col>
-        </Row>
-      </>
+                    </div>
+                  </>
+                </Col>
+              </Row>
+            </Card>
+          </Row>
+        </Col>
+      </Row>
+    </>
     );
   }
 }

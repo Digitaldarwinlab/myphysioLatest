@@ -9,7 +9,12 @@ import { FirstAssesment } from "./Assesment/Assesment1"
 import { carePlanRedcucer } from './care-plan/care-plan-reducer';
 import { patCurrentEpisode } from './PatientSchedule/PateintSchedule';
 import jointReducer from "./joint-reducer.js";
-import questionAnswerReducer from "./question-reducer"
+import questionAnswerReducer from "./question-reducer";
+import organizationReducer from "./organization-reducer";
+import calender from "./newVisit/calender";
+import month from "./newVisit/month";
+import weekReducer from './newVisit/weekReducer'
+import dayReducer from "./newVisit/dayReducer";
 
 export const rootReducer = combineReducers({
     signupReducer: signupReducer,
@@ -26,6 +31,11 @@ export const rootReducer = combineReducers({
     carePlanRedcucer: carePlanRedcucer,
     patCurrentEpisode: patCurrentEpisode,
     jointReducer:jointReducer,
-    questionAnswerReducer
+    questionAnswerReducer,
+    organizationReducer,
+    calender,
+    month,
+    weekReducer,
+    dayReducer
 });
 
