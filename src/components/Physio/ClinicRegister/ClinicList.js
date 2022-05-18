@@ -107,9 +107,14 @@ const ClinicList = () => {
     let val = e.target.value;
     setLoading(true);
     const data = await searchClinic(val);
-    let rev = data.reverse();
+    if(Array.isArray(data)){
+      let rev = data.reverse();
     setLoading(false);
-    setClinics(rev);
+     setClinics(rev);
+    }else{
+      setLoading(false);
+     setClinics([]);
+    }
   };
   const ShowPhysioInfo = () => {
     return (
