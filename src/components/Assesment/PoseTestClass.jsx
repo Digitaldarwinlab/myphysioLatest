@@ -32,6 +32,7 @@ class PoseTestClass extends Component {
       frontAngles: [0, 0, 0, 0, 0],
       sideAngles: [0, 0, 0, 0],
       notes: "",
+      orientation:1
     };
   }
   GoBack = () => {
@@ -50,6 +51,9 @@ class PoseTestClass extends Component {
       console.log(err);
     }
     this.props.history.push("/assessment/1")
+  };
+  setOrientation = (value) => {
+    this.state.orientation = value
   };
   setFrontAngles = (value) => {
     this.state.frontAngles = value
@@ -276,9 +280,7 @@ class PoseTestClass extends Component {
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" 
-              style={{height:'440px'}}
-              />
+              <canvas id="output" className="output" style={{height:'440px'}}/>
               <canvas id="jcanvas" />
             </Col>
           </Col>
@@ -294,6 +296,7 @@ class PoseTestClass extends Component {
               captureSide={this.captureSide}
               onChangeSide={this.onChangeSide}
               onChangeFront={this.onChangeFront}
+              setOrientation={this.setOrientation}
             />
           </Col>
         </Row>
