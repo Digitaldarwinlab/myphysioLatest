@@ -262,7 +262,7 @@ const onChangeSide = (value) =>{
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
     // console.log(process.env.REACT_APP_EXERCISE_URL)
-    const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channelName}/subscriber/uid/${uid}`);
+    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
     const data = await res.json();
     var token = data.rtcToken
     console.log(token)

@@ -50,7 +50,7 @@ const PatientVideoCallIndex = (props) => {
     var uid = parseInt($("#form-uid").val());
     // const data = await res.json();
     // var token = data.rtcToken
-    const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channelName}/subscriber/uid/${uid}`);
+    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
     const data = await res.json();
     var token = data.rtcToken
     setModalvisible(false)
