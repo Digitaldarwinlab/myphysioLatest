@@ -76,7 +76,7 @@ const ConsultForm = () => {
         }
       });
       setFiles([...files, value])
-    } else if (key === 'occupation' || key === 'duration') {
+    } else if (key === 'occupation' || key === 'duration' ||   key === "Sports_type") {
       dispatch({
         type: ASSESSMENT_SUBJECTIVE,
         payload: {
@@ -172,16 +172,17 @@ const ConsultForm = () => {
                             onChange={(e) => {
                               handleChange(
                                 "Sports_type",
-                                e.target.value.length > 1
-                                  ? e.target.value[0].toUpperCase() +
-                                  e.target.value.slice(
-                                    1,
-                                    e.target.value.length
-                                  )
-                                  : e.target.value.length === 1
-                                    ? e.target.value.toUpperCase()
-                                    : "",
-                                index
+                                e.target.value,
+                                // e.target.value.length > 1
+                                //   ? e.target.value[0].toUpperCase() +
+                                //   e.target.value.slice(
+                                //     1,
+                                //     e.target.value.length
+                                //   )
+                                //   : e.target.value.length === 1
+                                //     ? e.target.value.toUpperCase()
+                                //     : "",
+                           index
                               );
                             }}
                             value={

@@ -5,7 +5,8 @@ import { GoCalendar } from "react-icons/go";
 import { ImPlus } from "react-icons/im";
 import { useHistory } from "react-router-dom";
 import { Row, Col } from 'antd';
-import Scheduler from 'devextreme-react/scheduler';
+// import Scheduler from 'devextreme-react/scheduler';
+import { Scheduler } from "devextreme-react";
 import Autocomplete from "devextreme/ui/autocomplete";
 import notify from 'devextreme/ui/notify';
 // import { getData,addData,UpdateData } from './../UtilityComponents/dummyData/calendarData.js';
@@ -167,7 +168,7 @@ const Appointments = () => {
 
         let form = data.form;
         console.log(history.location)
-        data.popup.option("height", "100%");  
+        // data.popup.option("height", "100%");  
         data.popup.option("width", "auto");  
        
         data.popup.option("overflow", "hidden");  
@@ -324,8 +325,7 @@ const Appointments = () => {
                                 }
                             }
                         }
-                    },
-                     {
+                    }, {
                         label: {
                             text: "Visit Type"
                         },
@@ -339,8 +339,7 @@ const Appointments = () => {
                                 // console.log(args.value);
                             }
                         }
-                    },
-                     {
+                    }, {
                         label: {
                             text: "Status"
                         },
@@ -430,7 +429,6 @@ const Appointments = () => {
                             editorOptions: {
                                
                                 onValueChanged: function (args) {
-                                    console.log("args value ",args)
                                     form.itemOption("recurrenceGroup", "visible", args.value);
                                     form.updateData("patient", patientName)
                                     form.updateData("episode", episodeName)
@@ -587,8 +585,7 @@ const Appointments = () => {
                         timeZone="Asia/Kolkata"
                         dataSource={data}
                         defaultCurrentView="day"
-                        height={'100%'}
-                        width={'100%'}
+                       
                         views={views}
                         startDayHour={7}
                         endDayHour={24}
@@ -604,6 +601,7 @@ const Appointments = () => {
                         useDropDownViewSwitcher={visible}
                         onContentReady={onContentReady}
                         min={currentDate}
+                        crossScrollingEnabled={true}
                     >
                     </Scheduler>
                 )}

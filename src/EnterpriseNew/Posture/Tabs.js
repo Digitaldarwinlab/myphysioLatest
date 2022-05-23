@@ -17,14 +17,18 @@ function Tabs({
   onChangeFront,
   onChangeSide,
 toggleState,
-toggleTab
+toggleTab,
+checked1,
+checked2,
+setChecked1,
+setChecked2
 }) {
   // const [toggleState, setToggleState] = useState(1);
   //   const [url1, setUrl1] = useState(bodyImage);
   //   const [url2, setUrl2] = useState(side_img);
   const [anterior, setAnterior] = useState();
-  const [checked1, setChecked1] = useState(false);
-  const [checked2, setChecked2] = useState(false);
+  // const [checked1, setChecked1] = useState(false);
+  // const [checked2, setChecked2] = useState(false);
 
   // const toggleTab = (index) => {
   //   setToggleState(index);
@@ -180,7 +184,7 @@ toggleTab
                       checked={checked1}
                       onChange={() => {
                         if (!checked1) {
-                          console.log('forward')
+                          console.log('forward',checked1)
                           darwin.restart()
                           darwin.selectOrientation(1);
                         } else {
@@ -213,7 +217,7 @@ toggleTab
                       />
                     </th> */}
                   <th>
-                    <Button
+                    {/* <Button
                       disabled={!checked1}
                       onClick={async () => {
                         darwin.screenShot();
@@ -236,7 +240,7 @@ toggleTab
                       icon={<CameraFilled />}
                     >
                       Snapshot
-                    </Button>
+                    </Button> */}
                   </th>
                 </tr>
               </table>
@@ -391,7 +395,7 @@ toggleTab
                       />
                     </th> */}
                   <th>
-                    <Button
+                    {/* <Button
                       disabled={!checked2}
                       onClick={async () => {
                         darwin.screenShot();
@@ -407,7 +411,7 @@ toggleTab
                       icon={<CameraFilled />}
                     >
                       Snapshot
-                    </Button>
+                    </Button> */}
                   </th>
                 </tr>
               </table>

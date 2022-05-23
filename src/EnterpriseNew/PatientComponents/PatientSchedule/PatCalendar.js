@@ -489,7 +489,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //           value:data
   //       }
   //       })
-  //       onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
+  //       
   //       //  console.log('on select k neeche')
   //     }
 
@@ -499,6 +499,11 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //   }
   //   getPlan();
   // }, []);
+
+  useEffect(() => {
+    const userInfoId = JSON.parse(localStorage.getItem("userId"))
+    onSelectedDay1(new Date(),userInfoId);
+  },[])
 
   useEffect(() => {
     async function getCalanderData() {

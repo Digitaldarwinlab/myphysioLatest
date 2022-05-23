@@ -40,7 +40,7 @@ const Login = (props)=>{
                 <MyPhysioLogo page='login' />
                 {/* <ClearCacheComponent /> */}
                 <h1>Welcome Back!</h1>
-                {/* <div className="employey"> <Link to="/employee">Employee Login</Link></div> */}
+                <div className="employey"> <Link to="/employee">Employee Login</Link></div>
                 <ForgotPassword />
                
                 <AuthForm isSignin={true} />

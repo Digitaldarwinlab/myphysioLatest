@@ -63,7 +63,7 @@
   
   .question p {
     font-size: 1.25rem !important;
-    color: #30777c;
+    color: #2d7ecb;
     padding: 0.5%;
   }
   
@@ -81,18 +81,17 @@
   
   .option {
     margin: 1% 0;
-    border: 1.5px solid #4fbdba;
-    color: grey;
+    border: 1.5px solid #2d7ecb !important;
     font-size: 1.125rem;
-    color: #fff !important;
+    color: #2d7ecb !important;
     width: 38%;
     padding: 1.2% 0;
     border-radius: 18px !important;
-    background-color: azure;
+    background-color: white !important;
   }
   
   .option.active {
-    background-color: #4fbdba;
+    background-color: #2d7ecb !important;
     color: white !important;
   }
   

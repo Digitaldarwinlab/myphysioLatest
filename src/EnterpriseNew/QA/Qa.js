@@ -25,7 +25,7 @@ const Qa = () => {
         maxIndex: 1,
         pageSize: 6
     });
-    const userInfo = localStorage.getItem("user")
+    const userInfo = JSON.parse(localStorage.getItem("user"))
 
     useEffect(() => {
         //    axios.post('https://myphysio.digitaldarwin.in/api/view_answer/',{"pp_eep_id": id}).then(res => {const data = res.data[res.data.length-1];
@@ -37,7 +37,7 @@ const Qa = () => {
         // formattedData = formattedData.filter(data => typeof(data)!== "number");
         // setQuiz(formattedData);
         // }).catch(err => console.log(err))
-
+        console.log(userInfo.role);
         let id;
         if (userInfo.role === "employee" || userInfo.role === "enterprise_patient") {
             id = JSON.parse(localStorage.getItem("userId"));
@@ -62,7 +62,7 @@ const Qa = () => {
             setLoading(false);
             console.log(err)
         });
-    }, []);
+    }, [state.employee_code]);
 
     const PaginationChange = (page, pageSize = paginationState.pageSize) => {
         setPaginationState({
@@ -78,7 +78,7 @@ const Qa = () => {
     // data.length !== 0 && console.log(data.data.assesment);
 
     return <>
-        {userInfo.role === "employee" && <h3 className="fw-bold m-2">
+        {userInfo.role === "employee" || userInfo.role === "enterprise_patient" && <h3 className="fw-bold m-2">
             <BackButton />
         </h3>}
         <div className="previous-quiz">
@@ -86,7 +86,7 @@ const Qa = () => {
             <h2 className="head"><b>Previous Assesment</b></h2>
 
             {data.length !== 0 ? data.map((data, index) => index >= paginationState.minIndex &&
-                index < paginationState.maxIndex && <>
+                index < paginationState.maxIndex && <div key={index}>
 
                     <div className="boxx">
                         <h4><b>Your Assesment Score in {data.score * 10}</b></h4>
@@ -104,8 +104,8 @@ const Qa = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.data.assesment.subjective.map(occ => <tr><td>{occ.occupation}</td>
-                                        <td>{occ.duration}</td><td>{data.data.assesment.sports_type}</td></tr>)}
+                                    {data.data.assesment.subjective.map((occ,index) => <tr key={index}><td>{occ.occupation}</td>
+                                        <td>{occ.duration}</td><td>{occ.Sports_type}</td></tr>)}
                                 </tbody>
                             </table>
                             {data.length !== 0 && <ul className="grid-col">
@@ -188,7 +188,7 @@ const Qa = () => {
                         total={paginationState.total}
                         onChange={PaginationChange}
                         style={{ marginBottom: "10px" }}
-                    /></>) : <center>{loading ? "Loading..." : "No Data Found!"}</center>}
+                    /></div>) : <center>{loading ? "Loading..." : "No Data Found!"}</center>}
 
         </div>
     </>

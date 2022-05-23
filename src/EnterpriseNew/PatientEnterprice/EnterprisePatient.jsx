@@ -9,11 +9,12 @@ import BottomCard from '../PatientComponents/shared/BottomCard';
 import PreviousWeekAchievements from '../PatientComponents/PatientSchedule/PreviousWeekAchievement';
 import { GetPatientCurrentEpisode, getPatientProgress } from '../PatientAPI/PatientDashboardApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { keyMapping } from '../components/Physio/PhysioList/PhysioList';
-import { getAssesment } from "../API/Assesment/getAssesment";
-import { fetchCarePlan } from "../API/episode-visit-details/episode-visit-api";
-import { fetchVisits } from "../API/episode-visit-details/episode-visit-api";
-import { get_prescription } from "../API/Prescription/PresriptionApi";
+import { keyMapping } from '../../components/Physio/PhysioList/PhysioList';
+import { getAssesment } from "../../API/Assesment/getAssesment";
+import { fetchCarePlan } from "../../API/episode-visit-details/episode-visit-api";
+import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
+import { get_prescription } from "../../API/Prescription/PresriptionApi";
+import axios from "axios";
 import Line from '../PatientComponents/Charts/ChartComponents/line';
 import Pie from "../PatientComponents/Charts/ChartComponents/pie";
 import Bar from "../PatientComponents/Charts/ChartComponents/bar";
@@ -24,6 +25,7 @@ import line_data1 from '../PatientComponents/Charts/ChartData/data_line';
 import bar_data from '../PatientComponents/Charts/ChartData/data_bar';
 import stream_data from '../PatientComponents/Charts/ChartData/data_stream.json';
 import "./enterprises.css";
+import {    ASSESMENT_CLEARSTATE  } from "../../contextStore/actions/Assesment";
 
 
 import  '../PatientComponents/Dashboard.css'
@@ -52,7 +54,7 @@ var filteredData
 let about = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam."
 const EnterprisePatient = () => {
     const userId = JSON.parse(localStorage.getItem("userId"));
-
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const history = useHistory();
     const [visible, setVisible] = React.useState(false);
@@ -63,9 +65,20 @@ const EnterprisePatient = () => {
 
     
 const assesment = useSelector(state => state.FirstAssesmentReducer);
+const [org,setOrg] = useState([]);
+
 
 console.log(assesment)
     //UseEffect
+    useEffect(() => {
+        axios.post(process.env.REACT_APP_API+"/get_org_detail/",{id:userId}).then(res =>  {
+            dispatch({type:ASSESMENT_CLEARSTATE});
+            dispatch({ type: "CLEAR" });
+            dispatch({type:'JOINT_CLEARSTATE'});
+            setOrg(res.data)
+        }).catch(err => alert(err));
+    },[])
+
     useEffect( async () => {
         const progres = await getPatientProgress();
         console.log("progress is ",progres)
@@ -135,21 +148,8 @@ console.log(assesment)
         }
         getPatientEpisode();
 
-        const currentPatientAssesment=await getAssesment(userId)
-        console.log(currentPatientAssesment)
-        let result = await GetPatientCurrentEpisode();
-        console.log(result)
-        if(result[1][0])
-        {
-            const patientPrescription=await get_prescription(result[1][0].pp_ed_id)
-            console.log(patientPrescription)
-            const careplan=await fetchCarePlan(result[1][0].pp_ed_id)
-           
-           console.log('careplan')
-            console.log(careplan)
-             
-        }
-        
+       
+       
 
 
         const patientVisits=await fetchVisits(userId)
@@ -252,7 +252,7 @@ console.log(assesment)
             {episode.length !== 0 && DoctorDetails()}
             <Row className="main-container">
                 <Col className=" left-side border" >
-                    <h4 className="fw-bold text-center p mt-3">Mr. Sahil Sharma</h4>
+                    <h4 className="fw-bold text-center p mt-3">{user.info.first_name.slice(0,1).toUpperCase() + user.info.first_name.slice(1,user.info.first_name.length)} {user.info.last_name.slice(0,1).toUpperCase() + user.info.last_name.slice(1,user.info.last_name.length)}</h4>
                     <div className="px-1 py-1 user-name" style={flexStyle}>
                         <img title="Click to see Doctor Details" onClick={() => setVisible(true)}
                             src="https://i1.wp.com/ssac.gmu.edu/wp-content/uploads/2015/09/39.jpg?ssl=1" alt="profile"  className="border doctor-image-1" style={{ cursor: "pointer" }} />
@@ -263,12 +263,13 @@ console.log(assesment)
                             src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80" alt="logo"  className="doctor-image-1" style={{ cursor: "pointer" }} />
                          </Col>
                         <Col md={24} lg={24} sm={24} xs={24}>
-                            <b>Organization Name :</b> Physio AI <br></br> <br></br>
-                            <b>Contact within this organization  :</b> +91 9834343535
+                            <b>Organization Name :</b> {org.org_name ? org.org_name.slice(0,1).toUpperCase() + org.org_name.slice(1,org.org_name.length) : "Physio AI"  } <br></br> <br></br>
+                            <b>Contact within this organization  :</b> +91 {org.mobile_no ? org.mobile_no :"9834343535"}  <br></br> <br></br>
+                            <b>Email :</b> {org.contact_email ? org.contact_email : "digitaldarwin@gmail.com"}
                         </Col>
                     </Row>
-                    <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
-                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4>
+                    {/* <VideoScreen className="video-play" video="http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" height={true} />
+                    <h4 className="fw-bold text-left p mt-3 mb-3"> Information Video </h4> */}
                    
                 </Col>
                 <Col className="px-4 right-side">
@@ -279,7 +280,6 @@ console.log(assesment)
                             <h4 className="fw-bold text-center p mt-3">Last Week's Practice Result</h4>
                             <div className="px-1 py-1" style={flexStyle}>
                             <PreviousWeekAchievements data={AchievcemntsData} />
-                              
                                 {/* <AchievedResult
 
                                     icon={<FaMedal size={25} color="black" />}
@@ -290,7 +290,6 @@ console.log(assesment)
                                     score="30 min" message="Your Practice Time" /> */}
                             </div>
                         </Col>
-                       
             
                         {/* <Col className="treating-doctor card" >
                             <h4 className="fw-bold text-center p">Treating Doctor</h4>
@@ -301,8 +300,7 @@ console.log(assesment)
                             </h6>}
                         </Col> */}
                     </Row>
-                   
-                    {/* <Row className="mt-2 right-middle card" >
+                    <Row className="mt-2 right-middle card" >
                         <Col>
                             <h4 className="fw-bold">Notes</h4>
                             {episode.length !== 0 && (<p className="p text-justify">
@@ -315,7 +313,7 @@ console.log(assesment)
                                 {episode[0].episode_number}
                             </p>}
                         </Col>
-                    </Row> */}
+                    </Row>
                     <BottomCard
                         therapy="Shoulder Therapy" about={about} progress={70} />
                         <Row className="px-3 py-3" style={{margin:"0 auto"}} >
@@ -371,7 +369,6 @@ console.log(assesment)
                         </Col>
                         </Row> */}
                 </Col>
-             
             </Row>
 
            
@@ -417,7 +414,13 @@ console.log(assesment)
                     <StreamLine data={stream_data}/>
                 </div>        
             </div> */}
-           
+            {/* <Row className="px-3 py-3" style={{float:'right'}}>
+                <Col className="text-center">
+                    <Button type="primary" size="large" onClick={() => {
+                        history.push('/patient/enterprise/muscle-selection');
+                    }}>Next</Button>
+                </Col>
+            </Row> */}
         </>
     )
 }

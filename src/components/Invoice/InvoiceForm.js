@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 
 
-const InvoiceForm = ({ list,cId, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange,handleFinalSubmit, handleSubmit, setPreview, pName, pEpisodeNumber, pId,pCode, cName, cAddress, cPhone, cEmail,showPrint, cWebsite }) => {
+const InvoiceForm = ({ list,cId, handleDelete, totalAmount, totalDiscount, totalTax, item, handleChange,handleFinalSubmit, handleSubmit, setPreview, pName, pEpisodeNumber, pId,pCode, cName, cAddress, cPhone, cEmail,showPrint, cWebsite,invoiceNo }) => {
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
   var today = new Date();
   const inoviceRef = useRef(null);
@@ -32,9 +32,9 @@ const handleClickPrint = () => {
         </div>
         <div className="clinic-details">
           <ul >
-            <li>Phone: {cPhone}</li>
-            <li>Website: {cWebsite}</li>
-            <li>Email: {cEmail}</li>
+         {cPhone &&   <li>Phone: {cPhone}</li>}
+          {cWebsite &&  <li>Website: {cWebsite}</li>}
+           {cEmail && <li>Email: {cEmail}</li>}
           </ul>
         </div>
         <div className="clinic-logo" ></div>
@@ -65,7 +65,7 @@ const handleClickPrint = () => {
             Reciept No: APR22-000005
           </li> */}
           <li>
-            Invoice No: {cId + "-" + pCode + "-" }
+            Invoice No: {cId + "/" + pCode + "/" + invoiceNo }
           </li>
         </ul>
       </div>
@@ -92,7 +92,7 @@ const handleClickPrint = () => {
               <td>{item.Discount}</td>
               <td>{item.Tax}</td>
               <td>{item.Amount.toFixed(2)} </td>
-              <td>{ <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
+              <td className="hiddee">{ <button className='add-button' onClick={() => { handleDelete(item.id) }}> - </button>}</td>
             </tr>)}
             <tr className="hide-row">
             
@@ -111,13 +111,13 @@ const handleClickPrint = () => {
         <center>{ <button className='add-button hiiddee' type='submit' style={{width:"10%"}}> + </button>}</center>
       </form>
       <div className='amount-form'>
-        <hr />
+       <b><hr className="hhhrrr" /></b> 
         <ul>
         <li><b>Total Cost :</b><FaRupeeSign /><b> {(totalAmount + totalDiscount - totalTax).toFixed(2)} </b></li>
         <li><b>Total Discount :</b><FaRupeeSign /><b>{totalDiscount.toFixed(2)} </b></li>
-        <li><b>Total Tax </b><FaRupeeSign /><b> {totalTax.toFixed(2)} </b></li>
+        <li><b>Total Tax :</b><FaRupeeSign /><b> {totalTax.toFixed(2)} </b></li>
         </ul>
-        <hr />
+        <hr  className="hhhrrr" />
        
         <h4>Grand Total :<FaRupeeSign /> {totalAmount} </h4>
       </div>

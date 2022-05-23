@@ -298,7 +298,7 @@ const Navigationbar = (props) => {
                     marginTop: "0px",
                   }}
                 />{" "}
-                Hello {userInfo.info.first_name}
+                Hello {userInfo.info.first_name.slice(0,1).toUpperCase() + userInfo.info.first_name.slice(1,userInfo.info.first_name.length).toLowerCase()}
               </a>
             </Dropdown>
           </div>

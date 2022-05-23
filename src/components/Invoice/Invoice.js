@@ -4,8 +4,6 @@ import InvoiceForm from "./InvoiceForm";
 import Invoicer from "./Invoicer";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import Success from "../UtilityComponents/SuccessHandler";
-import {getClinicDetails} from "../../API/Physio/ClinicRegister";
 import axios from "axios";
 
 function Invoice() {
@@ -26,6 +24,7 @@ function Invoice() {
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [totalTax,setTotalTax] = useState(0);
   const [clinic, setClinic] = useState({});
+  const [invoiceNo, setInvoiceNo] = useState(0);
 
 useEffect(() => {
 
@@ -55,6 +54,9 @@ useEffect(() => {
   useEffect(() =>{
     const id = JSON.parse(localStorage.getItem('user')).clinic_id;
     axios.post(process.env.REACT_APP_API + "/get-clinic-physio/",{id:id ? id : 1}).then(res => setClinic(res.data[0]));
+
+    axios.post(process.env.REACT_APP_API + "/get_invoice_no/",{}).then(res => setInvoiceNo(res.data.message));
+
     },[])
 
   const handleChange = (e) => {
@@ -196,6 +198,7 @@ useEffect(() => {
         showPrint = {showPrint}
         totalDiscount = {totalDiscount}
         totalTax = {totalTax}
+        invoiceNo={invoiceNo}
       />}
     </div>
   );

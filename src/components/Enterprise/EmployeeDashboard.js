@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Row, Col, Tabs, notification, message, Button, Alert } from 'antd';
+import { ImPlus } from 'react-icons/im';
 // import Episodes from './episodes/Episodes';
 // import Visits from './visits/visit';
 import { useSelector, useDispatch } from "react-redux";
@@ -9,13 +10,17 @@ import { useHistory } from 'react-router-dom';
 import Patient from '../episode-visit-details/Patient-Details/Patient-Detail';
 import { getPatientList, Patient_profile } from './../../API/PatientRegistration/Patient';
 import { EPISODE_CLEAR_STATE } from "../../contextStore/actions/episode";
+import { searchOrganizations } from "../../API/Enterprise/Enterprise";
+import { useCallback } from "react";
+import axios from "axios";
 // import Assesment1 from './../Assesment/Assesment1';
 // import AssessmentList from "./Assessment/AssessmentList";
 // import Prescriptions from './Prescreptions/Prescreption';
 // import { getEpisodeDetails } from "./../care-plan/carePlanIndex";
 // import Careplan from './../care-plan/carePlanIndex';
 // import Notes from './Notes.js';
-// import CarePlanView from './carePlanView/carePlanView';
+import CarePlanView from '../episode-visit-details/carePlanView/carePlanView';
+import CarePlanViewEnterprise from "../episode-visit-details/carePlanViewEnterprise/carePlanView"
 import '../../styles/Layout/Heading.css'
 // import Tempdashboard from "./PatientGraph/Tempdashboard";
 // import Exercise from './ExerciseDetail/Exercise'
@@ -86,7 +91,13 @@ const EmployeeDashborad = () => {
         }
     }
     //aswin 10/30/2021 start
+    const [org,setOrg] = useState('');
+    const [employee,setEmployee]=  useState('');
+  const [employees, setEmployees] = useState([]);
+  const [showEmployees,setShowEmployees] = useState([]);
+     const [organizations, setOrganizations] = useState([]);
     const state = useSelector(state => state.episodeReducer);
+    const orgState = useSelector(state => state.organizationReducer);
     console.log(state);
     const carePlanState = useSelector(state => state.carePlanRedcucer)
     //  console.log(state)
@@ -120,9 +131,36 @@ const EmployeeDashborad = () => {
         MedicalHistory: "",
         FamilyHistory: ""
     });
-    const userInfo = JSON.parse(localStorage.getItem("user"))
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+
+    const getEmployees = useCallback((org) => {
+      
+        dispatch({type:"ADD ORGANIZATION",org:org});
+        setOrg('');
+        setOrganizations([]);
+      
+        axios.post(process.env.REACT_APP_API + "/empolyee_list/", { id: org.pp_org_id ? org.pp_org_id : 500 }).then(res => {
+         
+          const data = res.data;
+          setEmployees(data);
+console.log(state.employee_code);
+          if (state.employee_code && orgState.org.pp_org_id === org.pp_org_id) {
+            let filtered = data.filter((val) => {
+                return val.pp_em_id === state.employee_code
+            });
+            console.log(filtered[0]);
+            updatePatientState(filtered[0]);
+            setChange(!change);
+            // setPatId(state.patient_code);
+        }
+         
+        }).catch(err => console.log(err));
+        
+      },[state.employee_code])
+
     useEffect(() => {
         localStorage.setItem("care-plan-cart", JSON.stringify([]));
+       
         async function getPatients() {
             let data = await getPatientList();
             if (state.patient_code) {
@@ -136,6 +174,7 @@ const EmployeeDashborad = () => {
             }
         }
         getPatients();
+        getEmployees(orgState.org);
         // ['quest','pain1','special','pose','romAss'].map(key=>{
         //     dispatch({
         //         type: STATECHANGE,
@@ -146,7 +185,7 @@ const EmployeeDashborad = () => {
         //       });
         // })
         // eslint-disable-next-line
-    }, []);
+    }, [getEmployees]);
 
     useEffect(() => {
         const unblock = () => {
@@ -293,6 +332,38 @@ const EmployeeDashborad = () => {
         }
         return false;
     }
+
+    const handleViewDashboard = (val) => {
+
+        console.log(val);
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "employee_code",
+                value: val.pp_em_id
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "patient_main_code",
+                value: val.employee_code
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "patient_name",
+                value: val.first_name + " " + val.last_name
+            }
+        })
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "Patient_no",
+                value: val.mobile_no
+            }
+        });
+      
+        setEmployee('');
+        setShowEmployees([]);
+    }
     // aswin 11/1/2021 start
     //Header 
     const Header = () => {
@@ -300,7 +371,7 @@ const EmployeeDashborad = () => {
             <React.Fragment>
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
-                    <Col lg={18} md={14} sm={14} xs={24}>
+                    <Col lg={4} md={14} sm={14} xs={24}>
                         <h3 className="fw-bold page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                                 onClick={() => { history.push('/enterprise/employee-list') }}
@@ -309,8 +380,37 @@ const EmployeeDashborad = () => {
                              <b className="fw-bold"> Employee</b>
                         </h3>
                     </Col>
+                    <Col lg={8} md={14} sm={14} xs={24}>
+                    {orgState && <h4>Organization Name: <b>{orgState.org.org_name}</b></h4>}
+                    </Col>
+                   
+                    <Col lg={6} md={10} sm={10} xs={24} style={{paddingRight:"20px"}}>
+                        {/* <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} /> */}
+                        <input
+          placeholder="Search Organization"
+          onChange={onSearch}
+          value={org}
+     
+          style={{ width: '100%' }}
+        />
+        <ul className="orgg-listing">
+         { organizations.map(org => <li key={org.pp_org_id} onClick={()=>{  dispatch({type:"EPISODE_FULL_CLEAR_STATE"});getEmployees(org)}}>{org.org_name}</li>)}
+        </ul>
+               
+                    </Col>
                     <Col lg={6} md={10} sm={10} xs={24}>
                         {/* <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} /> */}
+                        <input
+          placeholder="Search Employee"
+          onChange={onSearchEmployee}
+          value={employee}
+     
+          style={{ width: '100%' }}
+        />
+        <ul className="orgg-listing">
+         { showEmployees.map(emp => <li key={emp.pp_em_id} onClick={()=> handleViewDashboard(emp)}>{emp.first_name + " "+ emp.last_name}</li>)}
+        </ul>
+                        {}
                     </Col>
                 </Row>
             </React.Fragment>
@@ -341,6 +441,58 @@ const EmployeeDashborad = () => {
                 </Col>}
             </Row>
         )
+    }
+
+    const onSearch = async (e) => {
+        let val = e.target.value;
+        setOrg(val);
+        if(val.length == 0){
+          setOrganizations([]);
+          return;
+         
+        }
+      
+        const searchedData = await searchOrganizations(val);
+        if (searchedData.message) {
+         
+          setOrganizations([]);
+    
+        } else {
+           
+          setOrganizations(searchedData);
+         
+    
+        }
+      }
+
+        const onSearchEmployee = async (e) => {
+        let val = e.target.value;
+        setEmployee(val);
+        if(val.length == 0){
+        setShowEmployees([]);
+          return;
+         
+        }
+      
+        setShowEmployees(employees.filter(emp =>  emp.first_name.toLowerCase().includes(val) || emp.last_name.toLowerCase().includes(val)))
+      }
+    const searchComponent = () => {
+        return <Row>
+            <Col md={12} sm={12} xs={12} >
+        <input
+          //   className="p-2 input-field my-3"
+       
+          placeholder="Search Organization"
+          onChange={onSearch}
+          value={org}
+     
+          style={{ width: '90%' ,marginRight:"10px"}}
+        />
+        <ul className="orgg-listing">
+         { organizations.map(org => <li key={org.pp_org_id} onClick={()=>{getEmployees(org)}}>{org.org_name}</li>)}
+        </ul>
+      </Col>
+        </Row>
     }
 
     const resizeIframe = () => {
@@ -408,7 +560,8 @@ const EmployeeDashborad = () => {
                         }
                         key="6"
                     >
-                            <Button className="btncolor me-2" onClick={() => history.push('/care-plan')}>Add</Button>
+                            <Button className="btncolor me-2" onClick={() => history.push('/enterprise/care-plan')}><ImPlus className="me-2" /> {"  "}Add</Button>
+                            <CarePlanViewEnterprise carePlanClick={carePlanClick} eid={state.employee_code} searchBar={false} />
                         {/* aswin start 10/30/2021 start */}
                         {/* <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} /> */}
                         {/* aswin start 10/30/2021 stop */}

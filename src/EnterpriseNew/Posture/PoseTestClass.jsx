@@ -37,6 +37,8 @@ class PoseTestClass extends Component {
       sideAngles: [0, 0, 0, 0],
       notes: "",
       toggleState:1,
+      checked1:false,
+      checked2:false,
     };
   }
  toggle =(index) => {
@@ -66,6 +68,15 @@ this.setState({toggleState:index})
   setSideAngles = (value) => {
     this.state.sideAngles = value
   };
+
+  setChecked1 = (value) => {
+    this.setState({checked1 : value})
+  }
+
+  setChecked2 = (value) => {
+    this.setState({checked2  : value});
+  }
+
   captureFront = async () => {
     window.scrollTo(0, 0);
     const out = document.getElementById("scr_out1");
@@ -209,12 +220,14 @@ this.setState({toggleState:index})
         if(this.state.toggleState === 1){
           
           this.captureFront();
+          this.setChecked1(false);
           const balanceAngles = darwin.showAngles();
         this.setFrontAngles(balanceAngles);
         console.log(balanceAngles);
       }
       else {
         this.captureSide();
+        this.setChecked2(false);
         const balanceAngles = darwin.showAngles();
        this.setSideAngles(balanceAngles);
        console.log(balanceAngles);
@@ -343,6 +356,10 @@ AiModelProps = this.AiModel.bind(this);
               onChangeFront={this.onChangeFront}
               toggleState={this.state.toggleState}
               toggleTab = {this.toggle}
+              checked1 = {this.state.checked1}
+              checked2 = {this.state.checked2}
+              setChecked1 = {this.setChecked1}
+              setChecked2 = {this.setChecked2}
             />
           </Col>
         </Row>
