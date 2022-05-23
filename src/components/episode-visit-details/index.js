@@ -412,7 +412,7 @@ const EpisodeVisitDetails = () => {
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
-                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}}`}
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
                             >
                         </iframe>}
                     </TabPane>

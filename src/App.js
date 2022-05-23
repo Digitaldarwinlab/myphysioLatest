@@ -68,7 +68,7 @@ import "./styles/App.css";
 import "./styles/Layout/Navbar.css";
 import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
 import AI from "./components/AI/AI.jsx";
-import VideoCallIndex from './components/video-call-screens/dex';
+import VideoCallIndex from './components/video-call-screens/video-call-index';
 import PatientVideoCallIndex from "./PatientComponents/Patient-video-call/patient-video-con.js";
 import Logout from "./components/userAuth/Logout.js";
 import PatientRoute from './components/PrivateRoute/PatientRoute';
