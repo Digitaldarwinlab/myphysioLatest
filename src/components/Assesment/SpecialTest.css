@@ -1,5 +1,5 @@
 @media only screen and (max-width: 650px) {
-    .special_test_new  table, th, td {
+    .special_test_new  table, th {
         width:70% !important;
     }
 

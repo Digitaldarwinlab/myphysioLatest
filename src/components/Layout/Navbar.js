@@ -34,6 +34,7 @@ const Navigationbar = (props) => {
       setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
     [setDevices]
   );
+
   useEffect(() => {
     const fetch = async () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
@@ -81,7 +82,7 @@ const Navigationbar = (props) => {
     });
   }, []);
   const handleCameraClick = (id,label) => {
-    console.log("Label",label)
+    // console.log("Label",label)
     let flag = 0;
     if(label.toLowerCase().includes("back")){
       flag = 1;

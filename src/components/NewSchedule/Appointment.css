@@ -22,6 +22,11 @@
     margin-top: 10px;
     
   } */
+  .input-field.patient_Name {
+    width: 60% !important;
+     font-weight: 600;
+  }
+
   .repeatFun{
     margin-top: 15px;
   }
@@ -186,21 +191,20 @@
     background-color: #e3e4e45b;
   }
   .tabel_container{
-    display: flex;
     align-items: center;
     
     justify-content: space-between;
   }
   .tabel-head{
-  margin: 10px;
+    
     position: relative;
-    width: 5vw;
+    top:20px;
   }
   .tabel-head::before{
     position: absolute;
   
     content:attr(data-content);
-    top: -40px;
+    top: -10px;
   left: 0px;
   
   }
@@ -233,7 +237,7 @@
   }
   
   .tabel_head{
-    width: 20vw;
+    width: 30vw;
     padding: 25px 0px;
       position: relative;
      
@@ -241,7 +245,7 @@
     .tabel_head::before{
       position: absolute;
       content:attr(data-content);
-      top: -12px;
+      top: -25px;
     left: 0px;
     
     }
@@ -261,7 +265,7 @@
     background-color: #d3d3d350;
   }
   .time_subhead{
-    width: 20vw;
+    width: 60px;
     padding: 15px 0px;
    color: green;
    visibility: hidden;
@@ -285,12 +289,34 @@
   }
   
   .month_data{
-    position: absolute;
-    bottom:0px;
-    left:0px;
-    padding: 5px ;
-   width: 100%;
+   padding: 0;
+   width: 30%;
     background-color: rgb(4, 107, 192);
     color:rgb(255, 255, 255);
   }
+
+
+  @media (max-width:450px){
+    .month_data{
+     width: 100% !important;
+     }
+
+     .input-field.patient_Name {
+      width: 135% !important;
+       font-weight: 600;
+    }
+
+    .patient_search {
+      width: 100%
+    }
+
+    .tab{
+    
+     display:  flex;
+    }
+      
+  }
+
+
+
   
