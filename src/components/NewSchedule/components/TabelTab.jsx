@@ -15,22 +15,25 @@ const { TabPane } = Tabs;
 export default function TabelTab({ setIsVisible }) {
   const [tab, setTab] = useState("1")
 //state lifting  and prop drilling
-const [day, setDay] = useState(moment())
+const [day, setDay] = useState(moment());
+const [month,setMonth] = useState(moment());
+const [week, setWeek] = useState(moment())
+
 
   // Toggle Picker
-  const operations = (tab === "1" && <DayDatePicker day={day} setDay={setDay}/>) || (tab === "2" && <WeekDatePicker />) || (tab === "3" && <MonthDatePicker />);
+  const operations = (tab === "1" && <DayDatePicker  day={day}  setDay={setDay}/>) || (tab === "2" && <WeekDatePicker week={week} setWeek={setWeek} />) || (tab === "3" && <MonthDatePicker month={month} setMonth={setMonth} />);
 
   return (
     <div className='tab'>
-      <Tabs onChange={(value) => setTab(value)} defaultActiveKey="1" type="card" tabBarExtraContent={operations} size="large">
+      <Tabs onChange={(value) => setTab(value)} defaultActiveKey="1" type="card" tabBarExtraContent={operations} size="medium">
         <TabPane tab="Day" key="1">
           <Day day={day}  setIsVisible={setIsVisible} />
         </TabPane>
         <TabPane tab="Week" key="2">
-          <Week setIsVisible={setIsVisible} />
+          <Week setIsVisible={setIsVisible} currentWeek={week}/>
         </TabPane>
         <TabPane tab="Month" key="3">
-          <Month setIsVisible={setIsVisible} />
+          <Month setIsVisible={setIsVisible} month={month} />
         </TabPane>
       </Tabs>
     </div>

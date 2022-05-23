@@ -92,7 +92,10 @@ const PatientSearch = (props) => {
                     key: "patient_name",
                     value: pdata[0].first_name + " " + pdata[0].last_name
                 }
+               
             });
+            dispatch({type:'NAME',payload:{name:pdata[0].first_name + " " + pdata[0].last_name}});
+            dispatch({type:'EPISODE_ID',payload:{episode:pdata[0].pp_ed_id}});
             dispatch({
                 type: ASSESSMENT_STATE_CHANGE,
                 payload: {
@@ -133,6 +136,7 @@ const PatientSearch = (props) => {
                     value: pdata[0].first_name + " " + pdata[0].last_name
                 }
             })
+            dispatch({type:'NAME',payload:{name:pdata[0].first_name + " " + pdata[0].last_name}});
             dispatch({
                 type: EPISODE_STATECHANGE, payload: {
                     key: "Patient_no",

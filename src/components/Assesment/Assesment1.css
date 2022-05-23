@@ -20,15 +20,12 @@
   border: 1px solid #dee2e6;
 }
 @media only screen and (max-width: 650px) {
-  .btn-new-check {
-    /* background-color: grey !important; */
-    /* width: 145px; */
-  }
+
   .ant-descriptions-bordered .ant-descriptions-item-label, .ant-descriptions-bordered .ant-descriptions-item-content {
      padding: 0; 
     border-right: 1px solid #f0f0f0;
 }
-.special_test_new1  table, th, td {
+.special_test_new1  table, th {
   width:100% !important;
 }
 

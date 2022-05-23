@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import moment from 'moment';
 import { CaretRightFilled, CaretLeftOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CHANGE_MONTH, WEEK_DAY } from '../../actions/types';
 
@@ -17,7 +17,6 @@ function range(start, end) {
 }
 
 function disabledDate(current) {
-
   return current && current < moment().endOf('day');
 }
 
@@ -61,15 +60,17 @@ moment.updateLocale('en', {
     "August", "September", "October", "November", "December"
   ]
 });
-export const WeekDatePicker = () => {
+export const WeekDatePicker = ({week,setWeek}) => {
   const dispatch = useDispatch()
-  const [week, setWeek] = useState(moment())
 
   const start_date = week.startOf('week').format("D MMM");
   const end_date = week.endOf('week').format("D MMM");
 
+console.log('Start and End', start_date,end_date)
 
-
+  useEffect(() => {
+    dispatch({type:'CALENDER_WEEK',payload:{week:week}});
+  }, [])
 
 
   const changeRight = () => {
@@ -78,7 +79,8 @@ export const WeekDatePicker = () => {
 
     let arr = []
     for (let i = 1; i <= 7; i++) {
-
+      let weekMonth = moment(week).add(i, "day").format("M")
+      console.log('weekMonth',weekMonth)
       let weekDay = moment(week).add(i, "day").format("D")
       arr.push(weekDay)
 
@@ -109,14 +111,18 @@ export const WeekDatePicker = () => {
 
   }
 
-  let date_val = start_date + " - " + end_date
+  let date_val = start_date.slice(0,2) + " - " + end_date
 
   return (
     <div className='cus-cal'>
       <span className='icon-btn' onClick={changeLeft}><CaretLeftOutlined /></span>
 
       <DatePicker disabledDate={disabledDate} value={week} format="D MMMM"
-        disabledTime={disabledDateTime} id='datePicker' picker="week" placeholder={date_val} />
+        disabledTime={disabledDateTime} id='datePicker' picker="week" placeholder={date_val} onChange={value => {
+          setWeek(value);
+          dispatch({type:'CALENDER_WEEK',payload:{week:value}});
+          console.log(value);
+        }} />
 
       <span className='icon-btn' onClick={changeRight}><CaretRightFilled /></span>
     </div>
@@ -126,10 +132,10 @@ export const WeekDatePicker = () => {
 }
 
 
-export const MonthDatePicker = () => {
+export const MonthDatePicker = ({month,setMonth}) => {
   const dispatch = useDispatch()
-  const [month, setMonth] = useState(moment())
-
+  // const [month, setMonth] =useState(moment())
+ 
 
   const changeRight = () => {
     let demo = moment(month, "DD/MM/YYYY").add(1, "month")
@@ -155,7 +161,12 @@ export const MonthDatePicker = () => {
       <span className='icon-btn' onClick={changeLeft}><CaretLeftOutlined /></span>
 
       <DatePicker disabledDate={disabledDate}
-        disabledTime={disabledDateTime} value={month} id='datePicker' onChange={(value) => { setMonth(value) }} format=" MMMM YYYY" />
+        disabledTime={disabledDateTime} value={month} id='datePicker' onChange={(value) => { setMonth(value);
+          console.log(value);
+            dispatch({
+          type: CHANGE_MONTH,
+          payload: { MonthData: value },
+        }); }} format=" MMMM YYYY" />
       <span className='icon-btn' onClick={changeRight}><CaretRightFilled /></span>
     </div>
   )

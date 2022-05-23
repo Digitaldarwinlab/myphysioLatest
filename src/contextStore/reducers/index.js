@@ -11,7 +11,7 @@ import { patCurrentEpisode } from './PatientSchedule/PateintSchedule';
 import jointReducer from "./joint-reducer.js";
 import questionAnswerReducer from "./question-reducer";
 import organizationReducer from "./organization-reducer";
-import calender from "./newVisit/calender";
+import Calender from "./newVisit/calender";
 import month from "./newVisit/month";
 import weekReducer from './newVisit/weekReducer'
 import dayReducer from "./newVisit/dayReducer";
@@ -33,7 +33,7 @@ export const rootReducer = combineReducers({
     jointReducer:jointReducer,
     questionAnswerReducer,
     organizationReducer,
-    calender,
+    Calender,
     month,
     weekReducer,
     dayReducer
