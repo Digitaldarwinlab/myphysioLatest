@@ -259,7 +259,7 @@ channel.on("MemberLeft", function (memberId) {
 
 async function joinRTMChannel(uid) {
   console.log("sdghaaaaaaaaaaaaaaaaaaaaaa");
-  const res = await fetch(`https://myphysio.digitaldarwin.in/rtm/${uid}`);
+  const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtm/${uid}`);
   const data = await res.json();
   options.token = data.rtmToken;
   console.log(options.token);

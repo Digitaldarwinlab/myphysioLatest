@@ -631,14 +631,18 @@ const assesmentChange=(e)=>{
             </div>
           </div>
           <br></br>
-          <div class="d-flex flex-row-revers mt-2 mr-5">
-          <Radio.Group
+          <div class="d-flex flex-row-reverse mt-2 mr-5">
+          {/* <Radio.Group
           options={assessmentType}
           onChange={assesmentChange}
           defaultValue='rom'
           optionType="button"
           buttonStyle="solid"
-        />
+        /> */}
+        <Radio.Group onChange={assesmentChange} defaultValue='rom'>
+          <Radio value={"rom"}>ROM Assessment</Radio>
+          <Radio value={"posture"}>Posture Test</Radio>
+        </Radio.Group>
           </div>
           <br></br>
           <div style={{display:postureVisible}}>
