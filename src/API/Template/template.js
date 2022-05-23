@@ -71,8 +71,8 @@ export const getTemplates =async () =>{
       Accept: 'application/json',
       "Content-type": "application/json"
   }
-  let body ={
-    id: getUserData() == "admin"?9999:JSON.parse(localStorage.getItem('user')).clinic_id?JSON.parse(localStorage.getItem('user')).clinic_id:'',
+  let body = {
+    id:getUserData()=="admin"?9999:JSON.parse(localStorage.getItem('user')).clinic_id
   }
   const encodedData = Encode(body);
   try{
