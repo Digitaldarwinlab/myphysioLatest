@@ -32,6 +32,7 @@ options.token = "";
 
 const clientRTM = AgoraRTM.createInstance(appID);
 
+
 async function capture(){
   window.scrollTo(0, 0)
   const canvas = await html2canvas(document.getElementById("scanvas"))
@@ -259,7 +260,9 @@ channel.on("MemberLeft", function (memberId) {
 
 async function joinRTMChannel(uid) {
   console.log("sdghaaaaaaaaaaaaaaaaaaaaaa");
-  const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtm/${uid}`);
+  const apiURL = document.querySelector('[property="Ex:url"]').content;
+  console.log(apiURL)
+  const res = await fetch(`${apiURL}/rtm/${uid}`);
   const data = await res.json();
   options.token = data.rtmToken;
   console.log(options.token);
