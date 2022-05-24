@@ -217,12 +217,12 @@ const captureFront=()=>{
   img.src = Anterior_Data.image
   out.appendChild(img);
   setFrontAngles([
-    Anterior_Data.angles[0],
-    Anterior_Data.angles[1],
-    Anterior_Data.angles[2],
-    Anterior_Data.angles[3],
-    Anterior_Data.angles[4],
-    Anterior_Data.angles[5]
+    Anterior_Data.angles[0].angle,
+    Anterior_Data.angles[1].angle,
+    Anterior_Data.angles[2].angle,
+    Anterior_Data.angles[3].angle,
+    Anterior_Data.angles[4].angle,
+    Anterior_Data.angles[5].angle
   ]);
   aiModelAppear = !aiModelAppear;
   $("#magic-btn").html("Start")
@@ -237,10 +237,10 @@ const  captureSide = () => {
   img.src = Lateral_Data.image;
   out.appendChild(img);
   setSideAngles([
-    Lateral_Data.angles[0],
-    Lateral_Data.angles[1],
-    Lateral_Data.angles[2],
-    Lateral_Data.angles[3],
+    Lateral_Data.angles[0].angle,
+    Lateral_Data.angles[1].angle,
+    Lateral_Data.angles[2].angle,
+    Lateral_Data.angles[3].angle,
   ])
   aiModelAppear = !aiModelAppear;
   $("#magic-btn").html("Start")
@@ -632,7 +632,7 @@ const assesmentChange=(e)=>{
           </div>
           <br></br>
           <div class="d-flex flex-row-reverse mt-2 mr-5">
-          {/* <Radio.Group
+            {/* <Radio.Group
           options={assessmentType}
           onChange={assesmentChange}
           defaultValue='rom'

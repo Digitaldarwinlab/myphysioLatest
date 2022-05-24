@@ -32,6 +32,7 @@ options.token = "";
 
 const clientRTM = AgoraRTM.createInstance(appID);
 
+
 async function capture(){
   window.scrollTo(0, 0)
   const canvas = await html2canvas(document.getElementById("scanvas"))
