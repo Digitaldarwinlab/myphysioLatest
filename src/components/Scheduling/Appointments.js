@@ -175,11 +175,15 @@ const Appointments = () => {
 
         data.popup.option("margin", "auto");  
         form.option("showRequiredMark", true);
-        var characters = 'abcdefghijklmnopqrstuvwxyz';
+        var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
         const user_id=localStorage.getItem("userId")
-        for(var i=0;i<4;i++){
-            if(i==3){
+        const patient_id=state.episodeReducer.patient_main_code
+        console.log(state)
+        channel+=patient_id
+        for(var i=0;i<7;i++){
+            if(i==6){
+                channel+=user_id
                 channel+="-"
                 channel+=user_id
                 channel+="-"
@@ -188,6 +192,7 @@ const Appointments = () => {
             }
             channel+=characters.charAt(Math.floor(Math.random()*characters.length))
         }
+
         let allDay = data.appointmentData.allDay ? data.appointmentData.allDay : false;
         let patientName = data.appointmentData.patient ? data.appointmentData.patient : null;
         let episodeName = data.appointmentData.episode ? data.appointmentData.episode : null;

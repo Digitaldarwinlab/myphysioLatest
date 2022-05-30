@@ -108,14 +108,14 @@ const assessmentType = [
 ];
 
 let posture={
-  posterial_view:{
-    image: "",
-    angles: "",
+  Posterial_view:{
+    posterial_view_image: "",
+    Angles: "",
     checkbox:""
   },
   lateral_view:{
-    image: "",
-    angles: "",
+    posterial_view_image: "",
+    Angles: "",
     checkbox:""
   }
 }
@@ -124,6 +124,7 @@ const VideoCallIndex = (props) => {
 
   const canvasRef = useRef(null);
   const state = useSelector(state => state);
+  const [OnAssessmentScreen, setOnAssessmentScreen] = useState(false)
   const [modalVisible, setModalvisible] = useState(false)
   const [romVisible, setRomVisible] = useState('block')
   const [postureVisible, setPostureVisible] = useState('none')
@@ -169,39 +170,44 @@ const VideoCallIndex = (props) => {
     // ctx.fill();
   }, [])
 
-  // useEffect(() => {
-  //   function checkUserData() {
-  //     var input_data=localStorage.getItem("input_data")
-  //     if(input_data!=""){
-  //     var item = JSON.parse(input_data)
-  //       if (item!="") {
-  //         Joints=item.Joints
-  //         const exerise = document.getElementById("ex")
-  //         if (item.allExcercise.length > 1) {
-  //             exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
-  //             for (var i=0;i<item.allExcercise.length;i++) {
-  //                 let lable = item.allExcercise[i]
-  //                 exerise.innerHTML += ` <option value=${lable}>${lable}</option>`
-  //             }
-  //         }
-  //         else {
-  //             let lable = item.allExcercise[0]
-  //             exerise.innerHTML += ` <option value=${lable}>${lable}</option>`
-  //             ExDef(lable);
-  //         }
-  //         ifCheck()
-  //         setVideoVisible('block')
-
-  //       }
-  //     }
-  //   }
+  useEffect(() => {
+    function checkUserData() {
+      // var input_data=localStorage.getItem("input_data")
+      var assesmentCheck=localStorage.getItem("OnAssessmentScreen")
+      console.log(assesmentCheck)
+      if(assesmentCheck!=""){
+      // var item = JSON.parse(input_data)
+        if (assesmentCheck=="true") {
+          // Joints=item.Joints
+          // const exerise = document.getElementById("ex")
+          // if (item.allExcercise.length > 1) {
+          //     exerise.innerHTML += '<option value="Please Select">Select the Excercise</option>'
+          //     for (var i=0;i<item.allExcercise.length;i++) {
+          //         let lable = item.allExcercise[i]
+          //         exerise.innerHTML += ` <option value=${lable}>${lable}</option>`
+          //     }
+          // }
+          // else {
+          //     let lable = item.allExcercise[0]
+          //     exerise.innerHTML += ` <option value=${lable}>${lable}</option>`
+          //     ExDef(lable);
+          // }
+          // ifCheck()
+          // setVideoVisible('block')
+          setOnAssessmentScreen(true)
+        }
+        else{
+          setOnAssessmentScreen(false)
+        }
+      }
+    }
   
-  //   window.addEventListener('storage', checkUserData)
+    window.addEventListener('storage', checkUserData)
   
-  //   return () => {
-  //     window.removeEventListener('storage', checkUserData)
-  //   }
-  // }, [])
+    return () => {
+      window.removeEventListener('storage', checkUserData)
+    }
+  }, [])
 
   const doubleClick = () => {
     document.documentElement.requestFullscreen().catch((e) => {
@@ -210,6 +216,7 @@ const VideoCallIndex = (props) => {
   }
 
 const captureFront=()=>{
+  if(typeof Anterior_Data !== "undefined"){
   console.log(Anterior_Data)
   setUrl1(Anterior_Data.image)
   const out = document.getElementById("scr_out1");
@@ -228,8 +235,13 @@ const captureFront=()=>{
   $("#magic-btn").html("Start")
   $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
 }
+else{
+  setTimeout(captureFront,250)
+}
+}
   
 const  captureSide = () => {
+  if(typeof Lateral_Data !== "undefined"){
   console.log(Lateral_Data)
   setUrl2(Lateral_Data.image)
   const out = document.getElementById("scr_out2");
@@ -245,6 +257,10 @@ const  captureSide = () => {
   aiModelAppear = !aiModelAppear;
   $("#magic-btn").html("Start")
   $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+}
+else{
+  setTimeout(captureSide,250)
+}
 }
 
 
@@ -281,79 +297,105 @@ const onChangeSide = (value) =>{
 const handleCancel = () => {
     window.top.close()
   };
-  const AImodel = () => {
+
+const AImodel = () => {
+  console.log(OnAssessmentScreen)
+  if(OnAssessmentScreen){
     aiModelAppear = !aiModelAppear;
     var peerID = $("#form-peerId").val();
     localStorage.setItem("aiModelAppear", JSON.stringify(aiModelAppear));
     if (aiModelAppear) {
       if(selectedAssessmentType=='rom'){
-      // try{
-      // var ex_data = JSON.parse(localStorage.getItem("input_data"))
-      let ex_data={
-        Joints:angleValues,
-        allExcercise:['EmptyExercise'],
-        exerciseURL:""
-      }
+        // try{
+        // var ex_data = JSON.parse(localStorage.getItem("input_data"))
+        let ex_data={
+          Joints:angleValues,
+          allExcercise:['AROM'],
+          exerciseURL:""
+        }
 
-      localStorage.setItem("ExerciseName",JSON.stringify(ex_data.allExcercise))
-      // ex_data.exerciseURL = exerciseURL 
-      // const PreLable = ex_data.Joints;
-      // for (let i = 0; i < joints.length; i++) {
-      //   if (PreLable.includes(joints[i].label)) {
-      //     angle.push(joints[i].value)
+        localStorage.setItem("ExerciseName",JSON.stringify(ex_data.allExcercise))
+        // ex_data.exerciseURL = exerciseURL 
+        // const PreLable = ex_data.Joints;
+        // for (let i = 0; i < joints.length; i++) {
+        //   if (PreLable.includes(joints[i].label)) {
+        //     angle.push(joints[i].value)
+        //   }
+        // }
+        // for(let i=0;i<angleValues.length;i++){
+        //   if(angle.indexOf(angleValues[i])==-1){
+        //     angle.push(angleValues[i])
+        //   }
+        // } 
+        // ex_data.Joints=angle
+        $("#magic-btn").html("Pause")
+        $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        console.log(ex_data)
+
+        var blob_ex = new Blob([JSON.stringify(ex_data)], {type: "application/json"});
+        sendFileMessage("Ex_data.json",peerID,blob_ex) //this message should go first
+        setTimeout(()=>{
+          sendMessage("start", peerID);
+        },3000)
       //   }
+      //   catch(err){
+      //     aiModelAppear=false
+      //     notification.error({
+      //       message: 'Please select the exercise before starting ROM!',
+      //       placement: 'bottomLeft',
+      //       duration: 5
+      //   })      
       // }
-      // for(let i=0;i<angleValues.length;i++){
-      //   if(angle.indexOf(angleValues[i])==-1){
-      //     angle.push(angleValues[i])
-      //   }
-      // } 
-      // ex_data.Joints=angle
-      $("#magic-btn").html("Pause")
-      $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
-      console.log(ex_data)
-
-      var blob_ex = new Blob([JSON.stringify(ex_data)], {type: "application/json"});
-      sendFileMessage("Ex_data.json",peerID,blob_ex) //this message should go first
-      setTimeout(()=>{
-        sendMessage("start", peerID);
-      },3000)
-    //   }
-    //   catch(err){
-    //     aiModelAppear=false
-    //     notification.error({
-    //       message: 'Please select the exercise before starting ROM!',
-    //       placement: 'bottomLeft',
-    //       duration: 5
-    //   })      
-    // }
-  }
-
-    else if(selectedAssessmentType=='posture'){
-      console.log(orientation)
-      $("#magic-btn").html("Pause")
-      $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
-      if(orientation==1){
-        sendMessage("startPosture1",peerID)
       }
-      else{
-        sendMessage("startPosture2",peerID)
+
+      else if(selectedAssessmentType=='posture'){
+        console.log(orientation)
+        $("#magic-btn").html("Pause")
+        $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        if(orientation==1){
+          sendMessage("startPosture1",peerID)
+        }
+        else{
+          sendMessage("startPosture2",peerID)
+        }
       }
     }
 
-    } 
     else {
-      $("#magic-btn").html("Start")
-      $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
-      sendMessage("stop",peerID);
+        $("#magic-btn").html("Start")
+        $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        if(selectedAssessmentType=='rom'){
+          if(selectedOrientation==1){
+            sendMessage("getAnterior",peerID);
+            }
+          else if(selectedOrientation==2){
+            sendMessage("getLeftLateral",peerID);
+            }
+          else if(selectedOrientation==3){
+            sendMessage("getRightLateral",peerID);
+            }
+        }
+        sendMessage("stop",peerID);
     }
+
+  }
+      
+    else{
+      // aiModelAppear=false
+      notification.error({
+              message: 'Please move to the assessment screen before starting!',
+              placement: 'bottomLeft',
+              duration: 5
+          })    
+    }
+
   }
 
   const AImodelStop=()=>{
     var peerID = $("#form-peerId").val();
     if(selectedAssessmentType=='rom'){
-    sendMessage("get",peerID);
     sendMessage("stop", peerID);
+    sendMessage("getROMData",peerID);
     $("#magic-btn").html("Start")
     $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
     aiModelAppear = !aiModelAppear;
@@ -364,11 +406,11 @@ const handleCancel = () => {
       $("#magic-btn").html("Start")
       $("#magic-btn").toggleClass('btn-dark');
       aiModelAppear = !aiModelAppear;
-      posture.posterial_view.angles=frontAngles
-      posture.posterial_view.image=url1
-      posture.posterial_view.checkbox=frontChecks
-      posture.lateral_view.angles=sideAngles
-      posture.lateral_view.image=url2
+      posture.Posterial_view.Angles=frontAngles
+      posture.Posterial_view.posterial_view_image=url1
+      posture.Posterial_view.checkbox=frontChecks
+      posture.lateral_view.Angles=sideAngles
+      posture.lateral_view.posterial_view_image=url2
       posture.lateral_view.checkbox=sideChecks
       console.log(posture)
       localStorage.setItem("Posture_Data",JSON.stringify(posture));  

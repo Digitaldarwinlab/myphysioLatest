@@ -72,9 +72,8 @@ function Tabs({
                           if(videoCon){
                             var peerID = $("#form-peerId").val();
                             await sendMessage("stopPosture1",peerID)
-                            setTimeout(() => {
-                              captureFront();
-                            }, 3000);
+                            captureFront();
+                            
                           }
                           else{
                             darwin.screenShot();
@@ -141,9 +140,7 @@ function Tabs({
                           if(videoCon){
                             var peerID = $("#form-peerId").val();
                             await sendMessage("stopPosture2",peerID)
-                            setTimeout(() => {
-                              captureSide();
-                            }, 3000);
+                            captureSide();
                           }
                           else{
                             darwin.screenShot();
@@ -324,9 +321,7 @@ function Tabs({
                           if(videoCon){
                             var peerID = $("#form-peerId").val();
                             sendMessage("stopPosture1",peerID)
-                            setTimeout(() => {
-                              captureFront();
-                            }, 3000);                            
+                            captureFront();
                           }
                           else{
                             darwin.screenShot();
@@ -484,9 +479,7 @@ function Tabs({
                           if(videoCon){
                             var peerID = $("#form-peerId").val();
                             await sendMessage("stopPosture2",peerID)
-                            setTimeout(() => {
-                              captureSide();
-                            }, 3000);
+                            captureSide();
                           }
                           else{
                             darwin.screenShot();
