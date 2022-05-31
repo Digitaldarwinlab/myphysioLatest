@@ -113,12 +113,14 @@ const Appointments = () => {
         const getVisits = async () => {
             const responseData = await GetVisit();
             const showVisits = parseVisits(responseData);
+            console.log(showVisits)
             setData(showVisits)
         }
         let role = JSON.parse(localStorage.getItem("user"))
         const getClinicVisits = async () => {
             const responseData = await GetClinicVisits(role.clinic_id);
             const showVisits = parseVisits(responseData);
+            // console.log(showVisits)
             setData(showVisits)
         }
         if(role.role=="admin"){

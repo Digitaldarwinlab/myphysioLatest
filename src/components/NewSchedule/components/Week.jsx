@@ -162,8 +162,8 @@ dispatch({type:'NAME',payload:{name:data.patient}})
 
     return (
         <>
-            <div className='container'>
-                <table>
+            <div className='container' style={{overflowX:'auto',}}>
+                <table style={{ minWidth:'1100px'}}>
                     <thead >
                         <tr >
                             <th className='week_headcol'> </th>

@@ -18,7 +18,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { ImPlus } from 'react-icons/im';
 
 
-const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
+const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const episodeState = useSelector(state => state.episodeReducer);
   console.log(episodeState);
 
@@ -90,16 +90,16 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
     if (min == 30) {
       hours = hours + 1;
       min = '00';
-    } else if(min == 15){
+    } else if (min == 15) {
       min = '45';
-    } else if(min == 45){
+    } else if (min == 45) {
       hours = hours + 1;
       min = '15'
     } else {
       min = 30;
     }
-  
-  
+
+
     if (hours.length === 1) {
       hours = '0' + hours.toString();
     }
@@ -170,7 +170,7 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
-              start_time:changeTime(reducerData.date._d.toISOString().slice(11, 19)),
+              start_time: changeTime(reducerData.date._d.toISOString().slice(11, 19)),
               duration: data.duration
             },
             location: data.location,
@@ -201,14 +201,14 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
         console.log('payloaddd', payload);
         axios.post(process.env.REACT_APP_API + "/add_visit_v2/", payload).then(res => {
           console.log(res.data);
+          setIsVisible(false);
           setSuccess("Visit Added Successfully.");
-          
-
-         setTimeout(() => {
-          history.push('/dashboard');
-         },1000)
+          setTimeout(() => {
+            // history.push('/dashboard');
+          }, 1000)
         }
-        ).catch(err =>{ console.log(err);
+        ).catch(err => {
+          console.log(err);
           setError(err);
         })
       }
@@ -243,7 +243,7 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
       occurence: reducerData.occurence || reducerData.visit_number || 1,
       created_by: reducerData.created_by,
       appointment_detail: {
-        patient: reducerData.patient ,
+        patient: reducerData.patient,
         startDate: reducerData.date._d.toISOString(),
         start_time: changeTime(reducerData.date._d.toISOString().slice(11, 19)),
         duration: reducerData.duration
@@ -257,12 +257,13 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
 
     axios.post(process.env.REACT_APP_API + "/update_visit_v1/", encodedData).then(res => {
       console.log(Decode(res.data));
-      setSuccess("Visit Updated Successfully.");
       setIsVisible(false);
+      setSuccess("Visit Updated Successfully.");
       setTimeout(() => {
-        history.push('/dashboard');
-       },1000)
-    }).catch(err => {console.log(err);
+        // history.push('/dashboard');
+      }, 1000)
+    }).catch(err => {
+      console.log(err);
       setError(err);
     })
 
@@ -287,20 +288,22 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
     // return false; 
   }
 
-  function disabledDateTime() {
-    if (new Date().getDate() == new Date(data.date).getDate()) {
-      const upperLimit = new Date().getHours();
-      return {
-        disabledHours: () => range(0, upperLimit + 1),
-        disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
-      }
-    }
-    return {
-      disabledHours: () => range(0, 7),
-      disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
-      // disabledMinutes: () => range(30, 60),
-    };
-  }
+  // sushant 31-05-22
+
+  // function disabledDateTime() {
+  //   if (new Date().getDate() == new Date(data.date).getDate()) {
+  //     const upperLimit = new Date().getHours();
+  //     return {
+  //       disabledHours: () => range(0, upperLimit + 1),
+  //       disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
+  //     }
+  //   }
+  //   return {
+  //     disabledHours: () => range(0, 7),
+  //     disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
+  //     // disabledMinutes: () => range(30, 60),
+  //   };
+  // }
 
 
   //model style
@@ -316,13 +319,13 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
   console.log(data);
 
   return (
-    <div className='modell'> 
- 
+    <div className='modell'>
+
 
       <Button type="primary" onClick={showModal}>
-        <ImPlus style={{paddingRight:'5px'}} />{'  '} New Visit
+        <ImPlus style={{ paddingRight: '5px' }} />{'  '} New Visit
       </Button>
-    
+
       <Form
         labelCol={{
           span: 8,
@@ -352,20 +355,39 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
           ]}
           style={{ top: 30, }} visible={isVisible} onOk={handleOk} bodyStyle={{ overflowY: 'auto', height: '400px', scrollbarWidth: 'auto' }}>
           <div style={divStyle}>
-            <Row><div className='patient_search'><PatientSearch /></div></Row>
+            {/* sushant 31-05-22 */}
+            {/* <Row><div className='patient_search'><PatientSearch /></div></Row> */}
             <Row className='pt' >
               <Col span={12}>
-                <label className='lab' > {episodeState.patient_code ? 'Patient' : 'Search Patient'} <span className='col'>*</span></label>
-                {( reducerData.patient) && <Input
+                <label className='lab' > Search Patient <span className='colreq'>*</span></label>
+                {/* <label className='lab' > {episodeState.patient_code ? 'Patient' : 'Search Patient'} <span className='col'>*</span></label>
+                 {( reducerData.patient) && <Input
                   value={reducerData.patient}
                   style={{ width: 195, fontWeight: '600' }}
                   className="patient_Name"
                   disabled={true}
                 />}
-                { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>}
+                { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>} */}
+                <Row><div className='patient_search' style={{ width: '83%' }}><PatientSearch value={reducerData.patient}  /></div></Row>
               </Col>
               <Col span={12}>
-                <label className='lab' >   Visit Type <span className='col'>*</span></label>
+                <label className='lab' >  Episode <span className='colreq'>*</span></label>
+                {/* <Select style={{ width: 195 }} value={reducerData.episode} onChange={value => handleChange(value, 'visitType')}>
+                  <Option value="Check-up">Check Up</Option>
+                  <Option value="Emergency">Emergency</Option>
+                  <Option value="Follow-up">Follow Up</Option>
+                  <Option value="Routine">Routine</Option>
+                  <Option value="Walk-in">Walk in</Option>
+                  <Option value="Other">Other</Option>
+                </Select> */}
+                {/* <Input placeholder="Episode" style={{ width: 195 }} value={reducerData.pp_ed_id}  disabled /> */}
+
+              </Col>
+            </Row>
+
+            <Row className='pt'>
+            <Col span={12}>
+                <label className='lab' >   Visit Type <span className='colreq'>*</span></label>
                 <Select style={{ width: 195 }} value={reducerData.visitType} onChange={value => handleChange(value, 'visitType')}>
                   <Option value="Check-up">Check Up</Option>
                   <Option value="Emergency">Emergency</Option>
@@ -376,29 +398,28 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
                 </Select>
 
               </Col>
-            </Row>
-
-            <Row className='pt'>
               <Col span={12}>
-                <label className='lab' >  From Time <span className='col'>*</span></label>
-                <Space direction="vertical" size={12}>
+                <label className='lab' >  From Time <span className='colreq'>*</span></label>
+                <Space direction="vertical" size={10}>
                   <DatePicker
-
-                    style={{ width: 195 }}
+                    style={{ width: 195  }}
                     onChange={value => {
                       handleChange(value, 'date');
                       dispatch({ type: 'VISIT_DATE', payload: { date: value } })
                     }}
                     format="MM/DD/YYYY HH:mm "
                     disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
+                    // disabledTime={disabledDateTime}
                     value={reducerData.date}
                     showTime={true}
                   />
                 </Space>
               </Col>
-              <Col span={12}>
-                <label className='lab' >   Duration <span className='col'>*</span></label>
+            </Row>
+
+            <Row className='pt'>
+            <Col span={12}>
+                <label className='lab' >   Duration <span className='colreq'>*</span></label>
 
                 <Select style={{ width: 195 }} value={reducerData.duration} onChange={value => handleChange(value, 'duration')} >
 
@@ -415,11 +436,8 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
 
 
               </Col>
-            </Row>
-
-            <Row className='pt'>
               <Col span={12}>
-                <label className='lab' >   Status <span className='col'>*</span></label>
+                <label className='lab' >   Status <span className='colreq'>*</span></label>
                 <Select style={{ width: 195 }} value={reducerData.status} onChange={value => handleChange(value, 'status')}>
                   <Option value="Pre Operation">Pre-Operation</Option>
                   <Option value="Post Operation">Post Operation</Option>
@@ -428,16 +446,23 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
                   <Option value="Wellness">Wellness</Option>
                 </Select>
               </Col>
-              <Col span={12}>
-                <label className='lab' >   Location <span className='col'>*</span></label>
+            </Row>
+
+            <Row className='pt'>
+            <Col span={12}>
+                <label className='lab' >   Location <span className='colreq'>*</span></label>
                 <Select style={{ width: 195 }} value={reducerData.location} onChange={value => handleChange(value, 'location')}>
                   <Option value="Clinic">Clinic</Option>
                   <Option value="Home">Home</Option>
                   <Option value="Video-confrence">Video Confrence</Option>
                 </Select>
               </Col>
+              {addVideo && <Col span={12} style={{ marginTop: '5px' }}>
+                <label className='lab' >  Add Video Confrences</label>
+                <Input value={reducerData.link} style={{ width: 195 }} onChange={e => handleChange(e.target.value, 'link')}
+                  placeholder='https://drive.in/..' />
+              </Col>}
             </Row>
-
             <Row className='pt'>
               <Col span={12} style={{ marginTop: '15px' }}>
                 <Switch checkedChildren="on" unCheckedChildren="off"
@@ -447,13 +472,7 @@ const Model = ({ isVisible, setIsVisible,setError,setSuccess }) => {
                     dispatch({ type: 'IS_REPEAT', payload: { isRepeat: !reducerData.isRepeat } })
                   }} />
                 <span style={{ paddingLeft: 8, }}>Repeat</span>
-
               </Col>
-              {addVideo && <Col span={12}>
-                <label className='lab' >  Add Video Confrences</label>
-                <Input value={reducerData.link} style={{ width: 195 }} onChange={e => handleChange(e.target.value, 'link')}
-                  placeholder='https://drive.in/..' />
-              </Col>}
             </Row>
 
             <br />

@@ -132,6 +132,7 @@ export const GetVisit = async () => {
         }
         const responseData = await response.json();
         const data = Decode(responseData)
+        console.log(data)
         return data;
     } catch (error) {
         // console.log(error);
