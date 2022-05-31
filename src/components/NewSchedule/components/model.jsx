@@ -132,8 +132,10 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       }
     }
     if (name == 'visitType') {
-      dispatch({ type: 'EPISODE_ID', payload: { episode: data.episode } })
       dispatch({ type: 'VISIT_TYPE', payload: { [name]: value } })
+    }
+    if (name == 'episode') {
+      dispatch({ type: 'EPISODE_ID', payload: { episode: data.episode } })
     }
     if (name == 'date') {
       dispatch({ type: 'VISIT_DATE', payload: { [name]: value } })
@@ -158,6 +160,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
     if (data) {
       if (data.patient && data.duration && data.episode && data.date && data.location) {
+        
         const userId = JSON.parse(localStorage.getItem('userId'));
         let payload
         if (show) {
@@ -212,6 +215,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
           setError(err);
         })
       }
+       
 
       dispatch({
         type: ADD_VISIT,
@@ -380,7 +384,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   <Option value="Walk-in">Walk in</Option>
                   <Option value="Other">Other</Option>
                 </Select> */}
-                {/* <Input placeholder="Episode" style={{ width: 195 }} value={reducerData.pp_ed_id}  disabled /> */}
+                <Input placeholder="Episode" style={{ width: 195 }} value={data.episode}  disabled />
 
               </Col>
             </Row>
