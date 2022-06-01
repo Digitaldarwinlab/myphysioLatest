@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+
 //moment.js
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -32,8 +33,9 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const today = new Date().getDay()
   const [addVideo, setAddVideo] = useState(false);
   const dispatch = useDispatch();
-  const [repeat, setRepeat] = useState('Weekly');
   const [activeDays, setActiveDays] = useState([days[today]]);
+  const [repeat, setRepeat] = useState('Weekly');
+  const [episode, setEpisode] = useState('');
   const [occurences, setOccurences] = useState(1);
   const [show, setShow] = useState(reducerData.isRepeat);
   const history = useHistory();
@@ -70,6 +72,10 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       // dispatch({type:'EPISODE_ID',payload:{episode:response}})
       console.log('From Visittt', response)
       setData(data => ({ ...data, patient: episodeState.patient_name, episode: response, pp_ed_id: episodeState.patient_code }))
+      setEpisode(response)
+    }
+    else{
+      setEpisode('')
     }
   }, [episodeState, dispatch])
 
@@ -119,7 +125,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   };
 
   const handleOk = () => {
-    dispatch({ type: 'CLEAR_VISIT' })
+    // dispatch({ type: 'CLEAR_VISIT' })
+    setEpisode('')
     setIsVisible(false);
   };
 
@@ -207,7 +214,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
           setIsVisible(false);
           setSuccess("Visit Added Successfully.");
           setTimeout(() => {
-            // history.push('/dashboard');
+            history.push('/dashboard');
           }, 1000)
         }
         ).catch(err => {
@@ -264,7 +271,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       setIsVisible(false);
       setSuccess("Visit Updated Successfully.");
       setTimeout(() => {
-        // history.push('/dashboard');
+        history.push('/dashboard');
       }, 1000)
     }).catch(err => {
       console.log(err);
@@ -320,15 +327,15 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   };
 
 
-  console.log(data);
+  console.log(reducerData);
 
   return (
     <div className='modell'>
 
 
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" style={{width:'60%'}} className='visitButton' onClick={showModal}>
         <ImPlus style={{ paddingRight: '5px' }} />{'  '} New Visit
-      </Button>
+      </Button> 
 
       <Form
         labelCol={{
@@ -372,7 +379,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   disabled={true}
                 />}
                 { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>} */}
-                <Row><div className='patient_search' style={{ width: '83%' }}><PatientSearch value={reducerData.patient}  /></div></Row>
+                <Row><div className='patient_search' ><PatientSearch value={reducerData.patient}  /></div></Row>
               </Col>
               <Col span={12}>
                 <label className='lab' >  Episode <span className='colreq'>*</span></label>
@@ -384,7 +391,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   <Option value="Walk-in">Walk in</Option>
                   <Option value="Other">Other</Option>
                 </Select> */}
-                <Input placeholder="Episode" style={{ width: 195 }} value={data.episode}  disabled />
+                <Input placeholder="Episode" style={{ width: 195 }} value={episode} onChange={value => handleChange(value, 'episode')}  disabled />
 
               </Col>
             </Row>
