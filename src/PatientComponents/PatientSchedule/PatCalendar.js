@@ -598,14 +598,14 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             justifyContent: "flex-start",
           }}
         >
-          <h3 className="p fw-bold">
+          <h5 className="p fw-bold">
             {selectedDate
               ? day(new Date(selectedDate).getDay())
               : day(new Date().getDay())}
-          </h3>
-          <h3 className="p fw-bold ms-2">
+          </h5>
+          <h5 className="p fw-bold ms-2">
             {selectedDate ? customisedDate : customisedDate}
-          </h3>
+          </h5>
         </div>
         <div
           className="time-slot-buttons"

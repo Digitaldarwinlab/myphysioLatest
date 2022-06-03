@@ -11,6 +11,12 @@
     height:50px;
     border-right: none;
 }
+.navbar-brand img{
+    margin-right: 0.5rem;
+    max-height: 30px;
+    border: none;
+    outline: none;
+}
 nav{
     display: flex;
     flex-direction: row;

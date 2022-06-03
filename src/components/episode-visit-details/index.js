@@ -289,7 +289,7 @@ const EpisodeVisitDetails = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col lg={18} md={14} sm={14} xs={24}>
-                        <h3 className="fw-bold page-heading">
+                        <h3 style={{fontSize:'20px'}} className="fw-bold page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                                 onClick={() => { history.push('/pateints') }}
                                 title="Go Back"
@@ -310,7 +310,7 @@ const EpisodeVisitDetails = () => {
         return (
             <Row className="pat_details_mobile" >
                 <Col lg={6} md={6} sm={4} xs={24}>
-                    <h3 className="fw-bold">Patient Details</h3>
+                    <h3 style={{fontSize:'20px'}} className="fw-bold">Patient Details</h3>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
                         <p className="fw-bold" ><strong>Patient Code : </strong> {state.patient_main_code}</p>

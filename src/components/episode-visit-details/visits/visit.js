@@ -186,6 +186,7 @@ const Visits = ({ handleClick, patId }) => {
         <Col  className="pag_large mt-2" span={24}>
           <Table
             columns={columns}
+            pagination={{position: ['none', 'bottomCenter']}}
             scroll={{x:500}}
             dataSource={visitsData}
             bordered
@@ -195,7 +196,7 @@ const Visits = ({ handleClick, patId }) => {
         </Col>
         <Col style={{display:'none'}} className="pag_mob mt-2" span={24}>
           <Table
-          pagination={{ size: "small" }}
+            pagination={{ size: "small" , position: ['none', 'bottomCenter']}}
             columns={columns}
             scroll={{x:500}}
             dataSource={visitsData}
