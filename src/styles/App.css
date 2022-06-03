@@ -11,6 +11,7 @@ body {
   padding: 0px;
   box-sizing: border-box;
   font-size: 1rem !important;
+  background-color: #fff !important;
 }
 .disable-date {
   opacity: 0.6;
@@ -344,6 +345,8 @@ body {
 }
 .padT-0 {
   padding-top: 0px;
+  background-color: #fff !important;
+  
 }
 
 /* Columns  */
@@ -1015,7 +1018,7 @@ body {
 /* Neeraj Pathania CSS */
 body {
   font-family: "Quicksand", sans-serif !important;
-  background-color: #f2f2f2 !important;
+  background-color: #fff !important;
 }
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 .authFormDiv.LoginMain {
@@ -1768,4 +1771,7 @@ td:first-child
     display: none;
   }
 }
+
+/* ----- */
+
 
