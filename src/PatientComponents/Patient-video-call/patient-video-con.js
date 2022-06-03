@@ -21,7 +21,7 @@ const PatientVideoCallIndex = (props) => {
     $("#screen-share-btn").prop("disabled", true);
     $("#exit-btn").prop("disabled", true);
     setModalvisible(true)
-    const arr=props.match.params.channel.split("-")
+    const arr=props.match.params.channel.split("_")
     channel=arr[0]
     uid=arr[2]
     pid=arr[1]

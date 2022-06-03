@@ -185,6 +185,30 @@ const encodedData = Encode({ id: id })
     }
 }
 
+//get single physio
+export const getPhysio = async (physio_id) => {
+    const headers = {
+        Accept: 'application/json',
+        "Content-type": "application/json"
+    }
+    try{
+        const response = await fetch(process.env.REACT_APP_API+"/get_single_physio/",{
+            headers:headers,
+            method:"POST",
+            body:JSON.stringify({id:physio_id})
+        });
+        const data = await response.json();
+        if(response.status === 200 || response.status === 201){
+                return data;
+        }else{
+             return [];
+        }
+    }catch(err){
+        // console.log(err,"From Get Assesment data");
+        return [];
+    }
+}
+
 //get-clinics 
 export const getClincList = async () => {
     try {
