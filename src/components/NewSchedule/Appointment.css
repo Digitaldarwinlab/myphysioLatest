@@ -347,7 +347,19 @@ div>.ant-picker-input {
 .patient_search {
   width: 83%
 }
+.weekTable{
+  min-width: 1100px;
+}
+.modalInputs{
+  width: 195px;
+}
 @media (max-width:650px) {
+  .weekTable{
+    min-width: 600px;
+  }
+  .modalInputs{
+    width: 300px;
+  }
   .ant-tabs>.ant-tabs-nav,
   .ant-tabs>div>.ant-tabs-nav {
     flex-direction: column;
@@ -373,9 +385,9 @@ div>.ant-picker-input {
     width: 135% !important;
     font-weight: 600;
   }
-
-  
-
+  .pt {
+    justify-content: center;
+  }
 
   .tab {
 

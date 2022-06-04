@@ -4,6 +4,8 @@ import App from './App';
 import {Provider} from "react-redux";
 import store from "./contextStore/store";
 import 'antd/dist/antd.css';
+import  'rsuite/dist/rsuite.min.css';
+
 
 ReactDOM.render(
   <React.StrictMode>

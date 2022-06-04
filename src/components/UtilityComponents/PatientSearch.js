@@ -157,8 +157,8 @@ const PatientSearch = (props) => {
     return (
         <div>
           
-            <input type="text"  className="px-4 py-2 input-field "
-                placeholder=" Search Patients.."
+            <input type="text" autoComplete='off'  className=" py-2 input-field modalInputs "
+                placeholder="Search Patients.."
                 onChange={e => handleChange(e.target.value)}
                 value={ props.value ? props.value : inputtextvalue}
                 id="input-search"

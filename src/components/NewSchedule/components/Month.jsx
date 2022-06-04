@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { DAY_DATE } from '../actions/types';
-import {GetClinicVisits,getEndDate} from "../../../API/Visit/visitApi"
+import { GetClinicVisits, getEndDate,GetVisit } from "../../../API/Visit/visitApi"
 import { Calendar,Badge } from 'antd';
 import moment from 'moment';
 
@@ -11,11 +11,12 @@ const dispatch = useDispatch()
 let MonthTag  = useSelector(state => state.Calender.date);
 
   const [select, setSelect] = useState(moment())
+ 
   let val = useSelector(state => state.month.data);
+
   useEffect(() => {
     setSelect(val)
-   
-  },[])
+  },[val])
 
   const onSelect = (value) => {
   
@@ -122,46 +123,67 @@ const handleVisitClick = (data) => {
   // visit_number: 2
   console.log(data);
   
-  dispatch({type:'NAME',payload:{name:data.patient}})
+  // dispatch({type:'NAME',payload:{name:data.patient}})
   
-      dispatch({type:'EPISODE_ID',payload:{episode:data.episode}})
-    dispatch({type:'VISIT_TYPE',payload:{visitType:data.complaint}})
+  //     dispatch({type:'EPISODE_ID',payload:{episode:data.episode}})
+  //   dispatch({type:'VISIT_TYPE',payload:{visitType:data.complaint}})
   
-    dispatch({type:'VISIT_ID',payload:{id:data.id}})
+  //   dispatch({type:'VISIT_ID',payload:{id:data.id}})
   
-    dispatch({type:'VISIT_DATE',payload:{date:moment(new Date(data.startDate))}})
+  //   dispatch({type:'VISIT_DATE',payload:{date:moment(new Date(data.startDate))}})
   
   
-    dispatch({type:'DURATION',payload:{duration:data.duration}})
+  //   dispatch({type:'DURATION',payload:{duration:data.duration}})
   
-    dispatch({type:'VISIT_STATUS',payload:{status:data.status}})
+  //   dispatch({type:'VISIT_STATUS',payload:{status:data.status}})
   
-    dispatch({type:'LOCATION',payload:{location:data.location}})
+  //   dispatch({type:'LOCATION',payload:{location:data.location}})
   
-    dispatch({type:'NOTES',payload:{notes:data.notes}})
+  //   dispatch({type:'NOTES',payload:{notes:data.notes}})
   
-    dispatch({type:'VISIT_NUMBER',payload:{visit_number:data.visit_number}})
+  //   dispatch({type:'VISIT_NUMBER',payload:{visit_number:data.visit_number}})
   
-    dispatch({type:'OCCURENCE',payload:{occurence:data.occurence}})
+  //   dispatch({type:'OCCURENCE',payload:{occurence:data.occurence}})
   
-    dispatch({type:'IS_REPEAT',payload:{isRepeat:data.isRepeat}})
+  //   dispatch({type:'IS_REPEAT',payload:{isRepeat:data.isRepeat}})
   
-    dispatch({type:'CREATED_BY', payload:{created_by:data.created_by}})
+    // dispatch({type:'CREATED_BY', payload:{created_by:data.created_by}})
   
       }
 
-    useEffect(() => {
-     
+      useEffect(() => {
+        const getVisits = async () => {
+          const responseData = await GetVisit();
+          const showVisits = parseVisits(responseData);
+          console.log(showVisits)
+          setData(showVisits)
+        }
         let role = JSON.parse(localStorage.getItem("user"))
         const getClinicVisits = async () => {
-            const responseData = await GetClinicVisits(role.clinic_id);
-            const showVisits = parseVisits(responseData);
-            setData(showVisits)
+          const responseData = await GetClinicVisits(role.clinic_id);
+          const showVisits = parseVisits(responseData);
+          // console.log(showVisits)
+          setData(showVisits)
         }
-
-        getClinicVisits(role)
-
-    }, [])
+        if (role.role == "admin") {
+          console.log("role is ", role.role)
+          getVisits();
+        } else {
+          console.log("role is ", role.role)
+          getClinicVisits()
+        }
+        // let role = JSON.parse(localStorage.getItem("user"))
+        // // console.log(role)
+        // const getClinicVisits = async () => {
+        //   console.log(role)
+        //     const responseData = await GetClinicVisits(role.clinic_id);
+        //     const showVisits = parseVisits(responseData);
+        //     setData(showVisits)
+        // }
+    
+        // getClinicVisits(role)
+    
+      }, [])
 
     function onPanelChange(value, mode) {
       console.log(value.format('YYYY-MM-DD'), mode);
@@ -208,6 +230,7 @@ const handleVisitClick = (data) => {
   function dateCellRender(value) {
     // console.log(value);
     const listData = getListData(value);
+    console.log(listData)
     return (
       <ul style={{padding:0,overflow:'hidden'}}>
         {<li style={{textAlign:'center'}}><button className='month_data'>{listData.length}</button></li>}
@@ -221,7 +244,7 @@ const handleVisitClick = (data) => {
       </ul>
     );
   }
-
+  console.log(select)
   return (
     <>
       <Calendar onSelect={onSelect} value={select}  dateCellRender={dateCellRender} onPanelChange={onPanelChange} />

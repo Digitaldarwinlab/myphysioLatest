@@ -136,7 +136,7 @@
     margin: auto;
   }
 
-  .end p{
+  .end > p{
     font-size: 3.5rem !important;
     
   }
@@ -148,7 +148,7 @@
     margin: auto;
   }
   
-  .end button{
+  .end > button{
     margin-left: 120px;
     background-color: #2d7ecb;
     color: white;
@@ -194,7 +194,7 @@
     
     }
   
-    .end button {
+    .end > button {
       margin-left: 150px;
     }
   

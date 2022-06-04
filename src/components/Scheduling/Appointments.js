@@ -469,6 +469,7 @@ const Appointments = () => {
     //method for adding visit
     const onAppointmentAdded = async (e) => {
         //   console.log('add app')
+        console.log(e.appointmentData)
         setLoading(true);
         if (e.appointmentData.location !== 'Video Conference') {
             e.appointmentData.video_link = ''
