@@ -107,12 +107,12 @@ const ExerciseDetailsClass = () => {
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">
                   <div className="top-heading" id="top-heading">
-                    <h2 className="heading" id="heading">
+                    <h2 style={{fontSize:'28px'}} className="heading" id="heading">
                       <b>{exercise.title}</b>
                     </h2>
 
                     {index == 0 && (
-                      <h3 className="subtext" id="subtext">
+                      <h3 style={{fontSize:'20px'}} className="subtext" id="subtext">
                         <b style={{ color: "teal" }}>
                           {" "}
                           Find the Fun in Exercise and Track your
@@ -150,29 +150,29 @@ const ExerciseDetailsClass = () => {
                       column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
                     >
                       <Descriptions.Item label={<h5>Sets</h5>}>
-                        <h5>{location.state.repArr[index].set}</h5>
+                        {/* <h5>{location.state.repArr[index].set}</h5> */}
                       </Descriptions.Item>
                       <Descriptions.Item label={<h5>Reps</h5>}>
-                        <h5>{location.state.repArr[index].rep_count}</h5>
+                        {/* <h5>{location.state.repArr[index].rep_count}</h5> */}
                       </Descriptions.Item>
                     </Descriptions>
                     <p></p>
                     <Descriptions
                       column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                      title={<h3>Step By Step Instructions</h3>}
+                      title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
                     >
                       <Descriptions.Item label="1">
-                        <h5>{exercise.instruction1}</h5>
+                        <h5 style={{fontSize:'16px'}}>{exercise.instruction1}</h5>
                       </Descriptions.Item>
                       <Descriptions.Item label="2">
-                        <h5>{exercise.instruction2}</h5>
+                        <h5 style={{fontSize:'16px'}}>{exercise.instruction2}</h5>
                       </Descriptions.Item>
                     </Descriptions>
                   </div>
                 </Col>
                 <Divider />
               </Row>
-            ) 
+            
             {/* : (
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">

@@ -19,6 +19,7 @@
     "devextreme-react": "^21.1.4",
     "env-cmd": "^10.1.0",
     "html2canvas": "^1.4.1",
+    "html2pdf": "^0.0.11",
     "html2pdf.js": "^0.9.0",
     "isomorphic-fetch": "^3.0.0",
     "js-base64": "^3.7.2",
@@ -52,11 +53,11 @@
   "scripts": {
     "start": "react-scripts  start &&  del build/static/js/*.map",
     "start:testing": "env-cmd -f .env.testing react-scripts --max_old_space_size=4096 start",
-    "start:development": "env-cmd -f .env.development react-scripts --max_old_space_size=4096 start",
+    "start:development": "env-cmd -f .env.development react-scripts --max_old_space_size=8192 start",
     "start:production": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 start",
     "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build",
     "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build",
-    "build:development": "node ./update-build.js && env-cmd -f .env.development react-scripts --max_old_space_size=4096 build",
+    "build:development": "node ./update-build.js && env-cmd -f .env.development react-scripts --max_old_space_size=8192 build",
     "build:production": "node ./update-build.js && env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -90,5 +91,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1654021638461
+  "buildDate": 1654261786012
 }

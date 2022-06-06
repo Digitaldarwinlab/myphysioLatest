@@ -71,10 +71,15 @@ export const getTemplates =async () =>{
       Accept: 'application/json',
       "Content-type": "application/json"
   }
+  let body = {
+    id:getUserData()=="admin"?9999:JSON.parse(localStorage.getItem('user')).clinic_id
+  }
+  const encodedData = Encode(body);
   try{
       const response = await fetch(process.env.REACT_APP_API+"/get_exercise_temp/",{
           headers:headers,
           method:"POST",
+          body: JSON.stringify(encodedData)
       });
       const data = await response.json();
       const resdata = Decode(data)

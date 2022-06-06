@@ -16,6 +16,7 @@ import {
   Radio,
   Tabs,
   Badge,
+  Switch
 } from "antd";
 import {
   ASSESMENT_CLEARSTATE,
@@ -708,6 +709,42 @@ const Assesment1 = ({ back, next }) => {
   //   max: angleValuesR.rightAnkle.max
   // },
   // ]
+
+  //To detect change in localStorage
+  useEffect(() => {
+    function checkDataReceived() {
+      var romData=localStorage.getItem("AI_Data")
+      var postureData=localStorage.getItem("Posture_Data")
+      if(romData!="" && romData!=null ){
+        var romdatajson=JSON.parse(romData)
+        console.log(romdatajson.Anterior)
+        if(romdatajson.Anterior!=undefined){
+        state.FirstAssesment.Anterior_AI_Data=romdatajson.Anterior
+        }
+        if(romdatajson.leftLateral!=undefined){
+        state.FirstAssesment.LeftLateral_AI_Data=romdatajson.leftLateral
+        }
+        if(romdatajson.rightLateral!=undefined){
+        state.FirstAssesment.RightLateral_AI_Data=romdatajson.rightLateral
+        }
+        localStorage.setItem("AI_Data","");
+      }
+      else if(postureData!="" && postureData!=null){
+        var posturedatajson=JSON.parse(postureData)
+        console.log(posturedatajson)
+        state.FirstAssesment.posture=posturedatajson
+        localStorage.setItem("Posture_Data","");
+      }
+      else{
+      console.log(postureData,romData)
+      }
+    }
+    window.addEventListener('storage', checkDataReceived)
+    return () => {
+      window.removeEventListener('storage', checkDataReceived)
+    }
+  }, [])
+
   useEffect(() => {
     const question = document.getElementById("question");
     const rom = document.getElementById("rom");
@@ -864,7 +901,7 @@ const Assesment1 = ({ back, next }) => {
       rom.style.backgroundColor = "honeydew";
       rom.style.borderColor = "limegreen";
     }
-  }, angleValues);
+  }, angleValues,state.FirstAssesment);
   // NOTE: Above useEffect does same thing, repeated code
   // useEffect(() => {
   //     function checkUserData() {
@@ -1115,6 +1152,17 @@ const Assesment1 = ({ back, next }) => {
     });
   }
 
+  const videoConChecked=(checked)=>{
+    localStorage.setItem("OnAssessmentScreen", checked);
+    if(checked){
+  notification.success({
+    message: "Please move to the video con screen and start assesment!",
+    placement: "bottomLeft",
+    duration: 5,
+  });
+}
+  }
+  
   const checkEpisodeId = async () => {
     if (state.episodeReducer.patient_code) {
       const res = await getEpisode(state.episodeReducer.patient_code);
@@ -1377,6 +1425,10 @@ const Assesment1 = ({ back, next }) => {
                 {/* <Option value="Consultation">Consultation</Option> */}
               </Select>
             </Form.Item>
+          </Col>
+          <Col>
+          <label class="mr-2">VideoCon </label>
+          <Switch checkedChildren="On" unCheckedChildren="Off" onChange={videoConChecked}/>
           </Col>
         </Row>
       </Form>

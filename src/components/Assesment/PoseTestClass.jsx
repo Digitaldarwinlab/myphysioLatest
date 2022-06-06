@@ -5,6 +5,7 @@ import bodyImage from "../.././assets/lateral.jpg";
 import side_img from "../.././assets/sideways-vector.jpg";
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import Tabs from "./Tabs";
+// import './PoseTestClass.css';
 let screenshot = [];
 let frontChecks = {};
 let sideChecks = {};
@@ -32,6 +33,7 @@ class PoseTestClass extends Component {
       frontAngles: [0, 0, 0, 0, 0],
       sideAngles: [0, 0, 0, 0],
       notes: "",
+      orientation:1
     };
   }
   GoBack = () => {
@@ -50,6 +52,9 @@ class PoseTestClass extends Component {
       console.log(err);
     }
     this.props.history.push("/assessment/1")
+  };
+  setOrientation = (value) => {
+    this.state.orientation = value
   };
   setFrontAngles = (value) => {
     this.state.frontAngles = value
@@ -241,7 +246,7 @@ class PoseTestClass extends Component {
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             {" "}
-            <h3 className="fw-bold">
+            <h3 className="fw-bold page-heading" id="page-heading">
               <i
                 className="fas fa-arrow-left"
                 style={{ cursor: "pointer" }}
@@ -269,16 +274,17 @@ class PoseTestClass extends Component {
         </Row>
         <Row className="pose_mobile_view_row_video_screen">
           <Col md={12} lg={12} sm={24} xs={12}>
-            <Col id="Ai_vid" className="Ad_vid">
+            <Col 
+            id="Ai_vid" className="Ad_vid" 
+            style={{border:'20px solid black'}}
+            >
               <video
                 id="video"
                 className="video"
                 playsInline
                 style={{ display: "none" }}
               ></video>
-              <canvas id="output" className="output" 
-              style={{height:'440px'}}
-              />
+              <canvas id="output" className="output" style={{height:'440px' , width:'100%'}}/>
               <canvas id="jcanvas" />
             </Col>
           </Col>
@@ -294,6 +300,7 @@ class PoseTestClass extends Component {
               captureSide={this.captureSide}
               onChangeSide={this.onChangeSide}
               onChangeFront={this.onChangeFront}
+              setOrientation={this.setOrientation}
             />
           </Col>
         </Row>

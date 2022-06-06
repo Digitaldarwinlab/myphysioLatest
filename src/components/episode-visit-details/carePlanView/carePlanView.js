@@ -232,6 +232,7 @@ const handleSubmit = (data) => {
                         ))
                 }
                 {/* {carePlanViewState&&<> */}
+                <center>
                 <div className="pag_large">
                     <Pagination
                         pageSize={paginationState.pageSize}
@@ -240,6 +241,8 @@ const handleSubmit = (data) => {
                         onChange={PaginationChange}
                     />
                 </div>
+                </center>
+                <center>
                 <div className="pag_mob" style={{display:'none'}}>
                     <div style={{minHeight:'15px'}}></div>
                     <Pagination
@@ -251,6 +254,7 @@ const handleSubmit = (data) => {
                     />
                     <div style={{minHeight:'15px'}}></div>
                 </div>
+                </center>
                 {/* </>} */}
             </div>
         )

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Spin } from 'antd';
+import { Row, Col, Button, Spin , Space } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
 import AddButton from './../AddButton';
 import Loading from './../../UtilityComponents/Loading';
@@ -245,8 +245,16 @@ const Episodes = ({ handleClick2 }) => {
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
                                     </div> */}
                                       <Row justify="center">
-                     <Col span={2}>  <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button></Col>
-                     <Col span={2}>  <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button></Col>
+                                      <Col span={8}>   
+                                      <Space size="middle">
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
+                     </Space>
+                     </Col>
+                     {/* <Col span={2}>  
+                     </Col>
+                     <Col span={2}>  
+                     </Col> */}
                 </Row>
                                 </div>
                             </div>)

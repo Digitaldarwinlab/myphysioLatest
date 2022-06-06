@@ -21,7 +21,7 @@ const PatientVideoCallIndex = (props) => {
     $("#screen-share-btn").prop("disabled", true);
     $("#exit-btn").prop("disabled", true);
     setModalvisible(true)
-    const arr=props.match.params.channel.split("-")
+    const arr=props.match.params.channel.split("_")
     channel=arr[0]
     uid=arr[2]
     pid=arr[1]
@@ -45,12 +45,14 @@ const PatientVideoCallIndex = (props) => {
 
   const joinChannel = async() => {
     let streamCanvas = document.getElementById("scanvas");
-    var agoraAppId = "f31ea0f88fcf4974a349448e69d35c1d"
+    var agoraAppId = "616487fe8ede4785aa8f7e322efdbe7d"
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
     // const data = await res.json();
     // var token = data.rtcToken
-    var token = "006f31ea0f88fcf4974a349448e69d35c1dIAAaMqon2/UELAV1QJTZPlrYWQHoJ3IeKUgq6Vg5/KGF4JIyJe6379yDEACUGqIFTpHaYQEAAQDeTdlh"
+    const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channelName}/subscriber/uid/${uid}`);
+    const data = await res.json();
+    var token = data.rtcToken
     setModalvisible(false)
     ClientAndJoinChannel(
       agoraAppId,
@@ -130,6 +132,7 @@ const PatientVideoCallIndex = (props) => {
                 <i id="user-icon" class="fas fa-user"></i>
               </div>
               <div id="local-video" style={{width: "77vw",height: "80vh",  position: "absolute", transform:"scaleX(-1)"}} class="col p-0">
+              <canvas style={{width: "70vw",height:'70vh',  position: "absolute"}} class="col p-0" id="scanvas"></canvas>
               <div id="mute-overlay">
                 <i id="mic-icon" class="fas fa-microphone-slash"></i>
               </div>
@@ -143,10 +146,9 @@ const PatientVideoCallIndex = (props) => {
             <div id="full-screen-video" style={{
               position:"absolute",
               height:"20vh",
-              width:"100%",
-              marginLeft:1170,
+              width:"20vw",
               zIndex:1}}
-            class="col-3 mr-4 p-0"></div>
+            class="d-flex flex-row-reverse offset-md-10 col-md-3 mr-4 p-0"></div>
 
           </div>
           <div id="video-block" style={{display:"none"}} > 
@@ -193,7 +195,6 @@ const PatientVideoCallIndex = (props) => {
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
-      <canvas hidden id="scanvas"></canvas>
       {/* <canvas ref={canvasRef} width="1310" height="550"></canvas> */}
     </React.Fragment>
   )

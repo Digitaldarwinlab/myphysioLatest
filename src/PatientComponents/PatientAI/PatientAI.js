@@ -361,7 +361,7 @@ class PatientAI extends Component {
           playsInline
           style={{ display: "none" }}
         ></video>
-        <canvas id="output" className="output" style={{ height: "450px" }} />
+        <canvas id="output" className="output" style={{ height: "450px" ,width:'100%' }} />
         <canvas id="jcanvas" />
       </Col>
       //   <>
@@ -618,8 +618,8 @@ class PatientAI extends Component {
     return (
       <div className="pat_main_div">
         <Row>
-          <Col lg={8} md={8} sm={12} xs={12}>
-            <h3 className="fw-bold">
+          <Col lg={8} md={8} sm={8} xs={8}>
+            <h3 style={{fontSize:'20px'}} className="fw-bold">
               <BackButton />
             </h3>
           </Col>

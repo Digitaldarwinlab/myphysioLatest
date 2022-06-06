@@ -20,6 +20,7 @@ import { Button } from 'antd';
 import Loading from './../UtilityComponents/Loading';
 import { getExercise, getPatientList } from "../../API/PatientRegistration/Patient.js";
 import { AddVisit, GetVisit, UpdateVisit, getEndDate, GetClinicVisits } from './../../API/Visit/visitApi';
+import { getPhysio } from "../../API/Physio/PhysioRegister";
 import Error from './../UtilityComponents/ErrorHandler';
 import Success from './../UtilityComponents/SuccessHandler';
 import DataCell from "./../UtilityComponents/SchedularDataRender/DataCellRender.js";
@@ -83,6 +84,8 @@ const Appointments = () => {
     const [visible, setVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
+    const [channel, setChannel] = useState("");
+    const [locationName, setLocationName] = useState("");
     const history = useHistory();
     const state = useSelector(state => state)
     const today = new Date();
@@ -159,7 +162,7 @@ const Appointments = () => {
         notify(message, 'warning', 2000);
     }
     //Schedular Form
-    var channel = ""
+    var dummy_channel=""
     const onAppointFormOpening = async (data) => {
         // 
         let startDate = data.appointmentData.startDate ? data.appointmentData.startDate : (new Date().toJSON());
@@ -177,19 +180,6 @@ const Appointments = () => {
 
         data.popup.option("margin", "auto");
         form.option("showRequiredMark", true);
-        var characters = 'abcdefghijklmnopqrstuvwxyz';
-
-        const user_id = localStorage.getItem("userId")
-        for (var i = 0; i < 4; i++) {
-            if (i == 3) {
-                channel += "-"
-                channel += user_id
-                channel += "-"
-                channel += state.episodeReducer.patient_code
-                break
-            }
-            channel += characters.charAt(Math.floor(Math.random() * characters.length))
-        }
         let allDay = data.appointmentData.allDay ? data.appointmentData.allDay : false;
         let patientName = data.appointmentData.patient ? data.appointmentData.patient : null;
         let episodeName = data.appointmentData.episode ? data.appointmentData.episode : null;
@@ -366,8 +356,40 @@ const Appointments = () => {
                         editorOptions: {
                             width: "95%",
                             items: location,
-                            onValueChanged: function (args) {
-                                // console.log(args.value);
+                            value:locationName,
+                            onValueChanged: async function (args) {
+                                if(args.value=="Video Conference"){
+                                    var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                                    const user_id=localStorage.getItem("userId")
+                                    const physioDetails = await getPhysio(user_id)
+                                    if(physioDetails!=""){
+                                        const physio_id = physioDetails[0].uid
+                                        dummy_channel+=physio_id + "-"
+                                    }
+                                    else{
+                                        dummy_channel+=user_id + "-"
+                                    }
+                                    const patient_id=state.episodeReducer.patient_main_code
+                                    dummy_channel+=patient_id + "-"
+                                    for(var i=0;i<7;i++){
+                                        if(i==6){
+                                            dummy_channel+="_"
+                                            dummy_channel+=user_id
+                                            dummy_channel+="_"
+                                            dummy_channel+=state.episodeReducer.patient_code
+                                            break
+                                        }
+                                        dummy_channel+=characters.charAt(Math.floor(Math.random()*characters.length))
+                                    }
+                                    setChannel(dummy_channel)
+                                    setLocationName(args.value)
+                                    showNewAppointment()
+                                }
+                                else{
+                                    setChannel("")
+                                    setLocationName(args.value)
+                                    showNewAppointment()
+                                }
                             }
                         }
                     },

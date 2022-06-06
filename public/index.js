@@ -5,7 +5,11 @@ let options = {
 };
 //AI Data Received
 var Ex_Data
-var AI_Data
+var AI_Data={
+  Anterior:"",
+  leftLateral:"",
+  rightLateral:""
+}
 var Anterior_Data
 var Lateral_Data
 var angles = [];
@@ -31,6 +35,7 @@ const appID = "616487fe8ede4785aa8f7e322efdbe7d";
 options.token = "";
 
 const clientRTM = AgoraRTM.createInstance(appID);
+
 
 async function capture(){
   window.scrollTo(0, 0)
@@ -178,11 +183,27 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
     $("#video-block").css("display","none")
   }
 
-  else if (message.text == "get") {
+  else if (message.text == "getAnterior") {
     var peerID = $("#form-peerId").val();
     var data=darwin.getAssesmentData();
-    console.log(data)
-    var blob = new Blob([JSON.stringify(data)], {type: "application/json"});
+    AI_Data.Anterior=data
+  }
+
+  else if (message.text == "getLeftLateral") {
+    var peerID = $("#form-peerId").val();
+    var data=darwin.getAssesmentData();
+    AI_Data.leftLateral=data
+  }
+
+  else if (message.text == "getRightLateral") {
+    var peerID = $("#form-peerId").val();
+    var data=darwin.getAssesmentData();
+    AI_Data.rightLateral=data
+  }
+
+  else if (message.text == "getROMData"){
+    var peerID = $("#form-peerId").val();
+    var blob = new Blob([JSON.stringify(AI_Data)], {type: "application/json"});
     sendFileMessage("AI_Data.json",peerID,blob)
   }
 
@@ -259,7 +280,9 @@ channel.on("MemberLeft", function (memberId) {
 
 async function joinRTMChannel(uid) {
   console.log("sdghaaaaaaaaaaaaaaaaaaaaaa");
-  const res = await fetch(`https://myphysio.digitaldarwin.in/rtm/${uid}`);
+  const apiURL = document.querySelector('[property="Ex:url"]').content;
+  console.log(apiURL)
+  const res = await fetch(`${apiURL}/rtm/${uid}`);
   const data = await res.json();
   options.token = data.rtmToken;
   console.log(options.token);
