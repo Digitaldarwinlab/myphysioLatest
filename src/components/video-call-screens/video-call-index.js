@@ -156,7 +156,7 @@ const VideoCallIndex = (props) => {
     $("#stop-btn").prop("disabled", true);
 
     setModalvisible(true)
-    const arr=props.match.params.channel.split("-")
+    const arr=props.match.params.channel.split("_")
     channel=arr[0]
     uid=arr[1]
     pid=arr[2]
@@ -396,16 +396,20 @@ const AImodel = () => {
     if(selectedAssessmentType=='rom'){
     sendMessage("stop", peerID);
     sendMessage("getROMData",peerID);
+    if(aiModelAppear){
     $("#magic-btn").html("Start")
     $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
     aiModelAppear = !aiModelAppear;
+    }
     localStorage.setItem("input_data","");
     localStorage.setItem("ExerciseName","");
     }
     else if(selectedAssessmentType=='posture'){
-      $("#magic-btn").html("Start")
-      $("#magic-btn").toggleClass('btn-dark');
-      aiModelAppear = !aiModelAppear;
+      if(aiModelAppear){
+        $("#magic-btn").html("Start")
+        $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        aiModelAppear = !aiModelAppear;
+        }
       posture.Posterial_view.Angles=frontAngles
       posture.Posterial_view.posterial_view_image=url1
       posture.Posterial_view.checkbox=frontChecks
@@ -414,7 +418,8 @@ const AImodel = () => {
       posture.lateral_view.checkbox=sideChecks
       console.log(posture)
       localStorage.setItem("Posture_Data",JSON.stringify(posture));  
-      
+      alert("Data Successfully Received!")
+
     }
 
   }
