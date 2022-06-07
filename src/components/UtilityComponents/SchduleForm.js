@@ -340,7 +340,7 @@ const SchduleForm = (props) => {
                                 <FormInput 
                                 className="input-field"
 
-
+                                title={true}
                                     label={<span style={{fontSize:'15px'}}>{'Doctor Name'}</span>}
                                     placeholder="Doctor Name"
                                     name="Ref_Dr_Name"
@@ -460,7 +460,7 @@ const SchduleForm = (props) => {
                         >
                             <Select.Option value="Pre Op">Pre Op</Select.Option>
                             <Select.Option value="Post Op">Post Op</Select.Option>
-                            <Select.Option value="Presentive">Presentive</Select.Option>
+                            <Select.Option value="Preventive">Preventive</Select.Option>
                             <Select.Option value="Non-Operative Type">Non-Operative Type</Select.Option>
                             <Select.Option value="Others">Others</Select.Option>
                         </Select>
