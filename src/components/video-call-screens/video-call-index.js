@@ -570,6 +570,10 @@ const changeSide = (value) => {
 };
 
 const assesmentChange=(e)=>{
+  if(aiModelAppear){
+    var magicbtn=document.getElementById("magic-btn")
+    magicbtn.click();
+  }
   setSelectedAssessmentType(e.target.value)
   if(e.target.value=='rom'){
     setPostureVisible("none")
