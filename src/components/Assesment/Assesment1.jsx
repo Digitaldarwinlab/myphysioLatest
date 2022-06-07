@@ -1428,7 +1428,7 @@ const Assesment1 = ({ back, next }) => {
           </Col>
           <Col>
           <label class="mr-2">VideoCon </label>
-          <Switch checkedChildren="On" unCheckedChildren="Off" onChange={videoConChecked}/>
+          <Switch checkedChildren="On" unCheckedChildren="Off" onChange={videoConChecked} defaultChecked={localStorage.getItem("OnAssessmentScreen")}/>
           </Col>
         </Row>
       </Form>

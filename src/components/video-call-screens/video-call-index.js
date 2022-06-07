@@ -135,7 +135,6 @@ const VideoCallIndex = (props) => {
   const [selectedOrientation, setSelectedOrientation] = useState(1);
   const [lateralJoints ,setLateralJoints] = useState(leftJoints)
   const [latSide ,setLatSide] = useState('left')
-  const [angles1 ,setAngles1] = useState([])
   const [SWITCH, setSWITCH] = useState(false)
   const [selectedAssessmentType,setSelectedAssessmentType]=useState("rom")
   const [url1, setUrl1] = useState(bodyImage)
@@ -394,13 +393,13 @@ const AImodel = () => {
   const AImodelStop=()=>{
     var peerID = $("#form-peerId").val();
     if(selectedAssessmentType=='rom'){
+      if(aiModelAppear){
+        var magicbtn=document.getElementById("magic-btn")
+        magicbtn.click();
+      }
     sendMessage("stop", peerID);
     sendMessage("getROMData",peerID);
-    if(aiModelAppear){
-    $("#magic-btn").html("Start")
-    $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
-    aiModelAppear = !aiModelAppear;
-    }
+    
     localStorage.setItem("input_data","");
     localStorage.setItem("ExerciseName","");
     }
@@ -427,64 +426,60 @@ const AImodel = () => {
   const Exit=()=>{
     console.log("so sad to see you leave the channel");
     leaveChannel();
-    setModalvisible(true)
+    // setModalvisible(true)
+    handleCancel();
+    localStorage.setItem("OnAssessmentScreen","false");
   }
 
-  const ExChanges = (e) => {
-    fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({ exercise: e.target.value })
+//   const ExChanges = (e) => {
+//     fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
+//         method: "POST",
+//         headers: {
+//             Accept: "application/json",
+//             "content-type": "application/json"
+//         },
+//         body: JSON.stringify({ exercise: e.target.value })
 
-    }).then(res => {
-        return res.json();
-    }).then(data => {
-        data.map((val) => {
-            setVideoURL(val.video_path)
-            setExerciseURL(val.video_path)
-        })
-    })
-}
+//     }).then(res => {
+//         return res.json();
+//     }).then(data => {
+//         data.map((val) => {
+//             setVideoURL(val.video_path)
+//             setExerciseURL(val.video_path)
+//         })
+//     })
+// }
 
-const ExDef = (name) => {
-  fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
-      method: "POST",
-      headers: {
-          Accept: "application/json",
-          "content-type": "application/json"
-      },
-      body: JSON.stringify({ exercise: name })
+// const ExDef = (name) => {
+//   fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
+//       method: "POST",
+//       headers: {
+//           Accept: "application/json",
+//           "content-type": "application/json"
+//       },
+//       body: JSON.stringify({ exercise: name })
 
-  }).then(res => {
-      return res.json();
-  }).then(data => {
-      data.map((val) => {
-        setVideoURL(val.video_path)
-        setExerciseURL(val.video_path)
-      })
-  })
-}
+//   }).then(res => {
+//       return res.json();
+//   }).then(data => {
+//       data.map((val) => {
+//         setVideoURL(val.video_path)
+//         setExerciseURL(val.video_path)
+//       })
+//   })
+// }
 
 const onChangeAngles = (checkedValues) => {
   setAngleValues(checkedValues)
 }
 
-const ifCheck = () => {
+const ifCheck = (tempJoints) => {
   var check = [];
-  for (let i = 0; i < joints.length; i++) {
-      if (Joints.includes(joints[i].label)) {
-          check.push(joints[i].value)
-      }
+  for (let i = 0; i < tempJoints.length; i++) {
+          check.push(tempJoints[i].value)
   }
   return check;
 }
-
-const setAngles = (value) => {
-  setAngles1(value)
-};
 
 const setSelectOrientation = (value) => {
   setSelectedOrientation(value)
@@ -553,16 +548,20 @@ const handleChange = async () => {
 };
 
 const changeSide = (value) => {
+  if(aiModelAppear){
+    var magicbtn=document.getElementById("magic-btn")
+    magicbtn.click();
+  }
   if (value == "left") {
     setLatSide('left')
     setLateralJoints(leftJoints)
-    setAngles([0, 4, 6, 12, 14, 18]);
+    setAngleValues([0, 4, 6, 12, 14, 18]);
     setSelectOrientation(2);
   }
   if (value == "right") {
     setLatSide('right')
     setLateralJoints(rightJoints)
-    setAngles([1, 5, 7, 13, 15, 18]);
+    setAngleValues([1, 5, 7, 13, 15, 18]);
     setSelectOrientation(3);
   }
   if (SWITCH) {
@@ -737,10 +736,14 @@ const assesmentChange=(e)=>{
                             onClick={() => {
                               //setToggleState(1);
                               setToggleState(1);
-                              setAngles([
+                              setAngleValues([
                                 0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
                               ]);
                               setSelectOrientation(1);
+                              if(aiModelAppear){
+                                var magicbtn=document.getElementById("magic-btn")
+                                magicbtn.click();
+                              }
                               if (SWITCH) {
                                 handleChange();
                               }
@@ -764,8 +767,12 @@ const assesmentChange=(e)=>{
                             onClick={() => {
                               //setToggleState(2);
                               setToggleState(2);
-                              setAngles([0, 4, 6, 12, 14, 18]);
+                              setAngleValues([0, 4, 6, 12, 14, 18]);
                               setSelectOrientation(2);
+                              if(aiModelAppear){
+                                var magicbtn=document.getElementById("magic-btn")
+                                magicbtn.click();
+                              }
                               if (SWITCH) {
                                 handleChange();
                               }
@@ -821,32 +828,12 @@ const assesmentChange=(e)=>{
                           </Radio.Group>
                           <br />
                           <br />
-                          {/* <div>
-                            <Checkbox.Group
-                              onChange={this.angles}
-                              value={() =>
-                                this.ifCheck(this.state.lateralJoints)
-                              }
-                            >
-                              <Row>
-                                {this.state.lateralJoints.map((item) => (
-                                  <Col span={12}>
-                                    <Checkbox value={item.value}>
-                                      {labels[item.value]}
-                                    </Checkbox>
-                                  </Col>
-                                ))}
-                              </Row>
-                            </Checkbox.Group>
-                          </div> */}
                          {latSide=="left"&& <div>
                             <Checkbox.Group
                                 onChange={(e) =>{
                                   onChangeAngles(e)
                                 }}                              
-                                // defaultValue={() =>
-                            //     this.ifCheck(leftJoints)
-                            //   }
+                                defaultValue={ifCheck(leftJoints)}
                             >
                               <Row>
                                 {leftJoints.map((item) => (
@@ -864,9 +851,7 @@ const assesmentChange=(e)=>{
                             onChange={(e) =>{
                               onChangeAngles(e)
                             }}  
-                            // defaultValue={() =>
-                            //     this.ifCheck(rightJoints)
-                            //   }
+                            defaultValue={ifCheck(rightJoints)}
                             >
                               <Row>
                                 {rightJoints.map((item) => (

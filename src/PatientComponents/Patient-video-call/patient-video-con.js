@@ -67,7 +67,8 @@ const PatientVideoCallIndex = (props) => {
   const Exit=()=>{
     // console.log("so sad to see you leave the channel");
     leaveChannel();
-    setModalvisible(true)
+    // setModalvisible(true)
+    handleCancel();
   }
 
   return (
