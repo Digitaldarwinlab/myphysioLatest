@@ -755,7 +755,7 @@ h3 .mw-headline{
     margin-bottom:0
 }
 p{
-    margin-bottom:15px
+    margin-bottom:15px !important;
 }
 .mw-content-ltr ul,.mw-content-ltr ol{
     margin-bottom:9px
