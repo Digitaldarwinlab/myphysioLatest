@@ -710,6 +710,86 @@ const Assesment1 = ({ back, next }) => {
   // },
   // ]
 
+const setAnteriorData=()=>{
+  let data = state.FirstAssesment.Anterior_AI_Data;
+  setRomVisibility("contents");
+  let TEMP = {};
+  TEMP["AROM"] = data[Object.keys(data)[0]];
+  console.log(TEMP);
+  let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+    (item, index) => {
+      let t = {};
+      t["key"] = index;
+      t["angles"] = tableLabels[item]
+        ? tableLabels[item]
+        : "Not Available";
+      t["min"] = Math.round(
+        data[Object.keys(data)[0]]["angles"][item].min
+      );
+      t["max"] = Math.round(
+        data[Object.keys(data)[0]]["angles"][item].max
+      );
+      return t;
+    }
+  );
+  setTableData1(tempData.slice(0, 6));
+  if (tempData.length > 6) {
+    setTableData2(tempData.slice(6, tempData.length));
+  }
+}
+
+const setLeftLateralData=()=>{
+    let data = state.FirstAssesment.LeftLateral_AI_Data;
+    setRomVisibilityM("inline");
+    setRomVisibilityL("inline");
+    let TEMP = {};
+    TEMP["AROM"] = data[Object.keys(data)[0]];
+    console.log(TEMP);
+    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+      (item, index) => {
+        let t = {};
+        t["key"] = index;
+        t["angles"] = tableLabels[item]
+          ? tableLabels[item]
+          : "Not Available";
+        t["min"] = Math.round(
+          data[Object.keys(data)[0]]["angles"][item].min
+        );
+        t["max"] = Math.round(
+          data[Object.keys(data)[0]]["angles"][item].max
+        );
+        return t;
+      }
+    );
+    setLatL(tempData);
+}
+
+const setRightLateralData=()=>{
+    setRomVisibilityM("inline");
+        setRomVisibilityR("inline");
+        let data = state.FirstAssesment.RightLateral_AI_Data;
+        let TEMP = {};
+        TEMP["AROM"] = data[Object.keys(data)[0]];
+        console.log(TEMP);
+        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+          (item, index) => {
+            let t = {};
+            t["key"] = index;
+            t["angles"] = tableLabels[item]
+              ? tableLabels[item]
+              : "Not Available";
+            t["min"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].min
+            );
+            t["max"] = Math.round(
+              data[Object.keys(data)[0]]["angles"][item].max
+            );
+            return t;
+          }
+        );
+        setLatR(tempData);
+}
+
   //To detect change in localStorage
   useEffect(() => {
     function checkDataReceived() {
@@ -720,19 +800,50 @@ const Assesment1 = ({ back, next }) => {
         console.log(romdatajson.Anterior)
         if(romdatajson.Anterior!=undefined){
         state.FirstAssesment.Anterior_AI_Data=romdatajson.Anterior
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'Anterior_AI_Data',
+        //     value:romdatajson.Anterior,
+        //   },
+        // });
+        setAnteriorData();
         }
         if(romdatajson.leftLateral!=undefined){
         state.FirstAssesment.LeftLateral_AI_Data=romdatajson.leftLateral
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'LeftLateral_AI_Data',
+        //     value:romdatajson.leftLateral,
+        //   },
+        // });
+        setLeftLateralData();
         }
         if(romdatajson.rightLateral!=undefined){
         state.FirstAssesment.RightLateral_AI_Data=romdatajson.rightLateral
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'RightLateral_AI_Data',
+        //     value:romdatajson.rightLateral,
+        //   },
+        // });
+        setRightLateralData();
         }
         localStorage.setItem("AI_Data","");
       }
       else if(postureData!="" && postureData!=null){
         var posturedatajson=JSON.parse(postureData)
         console.log(posturedatajson)
-        state.FirstAssesment.posture=posturedatajson
+        dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:'posture',
+              value:posturedatajson,
+            },
+          });
+          setPosture(true)
         localStorage.setItem("Posture_Data","");
       }
       else{
