@@ -192,7 +192,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.link,
+            video_link: data.location === 'Video-confrence' ?data.link:'',
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -212,7 +212,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.link,
+            video_link: data.location === 'Video-confrence' ?data.link:'',
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -481,7 +481,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 <Select className='modalInputs' placeholder='Location' value={reducerData.location} onChange={value => handleChange(value, 'location')}>
                   <Option value="Clinic">Clinic</Option>
                   <Option value="Home">Home</Option>
-                  <Option value="Video-confrence">Video Confrence</Option>
+                  <Option value="Video-confrence">Video Conference</Option>
                 </Select>
               </Col>
               {addVideo && <Col span={12} style={{ marginTop: '5px' }}>

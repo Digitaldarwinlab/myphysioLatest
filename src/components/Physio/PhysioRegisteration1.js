@@ -201,6 +201,7 @@ const PhysioRegisteration1 = (props) => {
                     {"First Name"}
                   </span>
                 }
+                title={true}
                 className="input-field"
                 name="first_name"
                 value={state.physioRegisterReducer.first_name}

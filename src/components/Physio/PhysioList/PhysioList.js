@@ -90,12 +90,17 @@ console.log(data);
     useEffect(() => {
         async function getPhysioData() {
             setLoading(true);
-            const data = await getPhysioList();
+            let data = await getPhysioList();
             setLoading(false);
-            setPhysios(data);
+            let dataArray=[]
+            for(const datas of data){
+                datas.full_name = `Dr. ${datas.full_name}`
+                dataArray.push(datas)
+            }
+            setPhysios(dataArray);
             setPaginationState({
                 ...paginationState,
-                totalPage: data.length / paginationState.pageSize,
+                totalPage: dataArray.length / paginationState.pageSize,
                 minIndex: 0,
                 maxIndex: paginationState.pageSize,
             })
@@ -103,7 +108,6 @@ console.log(data);
         getPhysioData();
  
     }, []);
-
     useEffect(()=>{
         // console.log(visible+' visible')
     },[visible])
@@ -113,11 +117,16 @@ console.log(data);
         let val=e.target.value
         setLoading(true);
         const searchedData = await searchPhysio(val);
-        setPhysios(searchedData);
+        let dataArray=[]
+            for(const datas of searchedData){
+                datas.full_name = `Dr. ${datas.full_name}`
+                dataArray.push(datas)
+            }
+        setPhysios(dataArray);
         setLoading(false);
         setPaginationState({
             ...paginationState,
-            totalPage: searchedData.length / paginationState.pageSize,
+            totalPage: dataArray.length / paginationState.pageSize,
             minIndex: 0,
             maxIndex: paginationState.pageSize,
         })
