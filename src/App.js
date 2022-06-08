@@ -145,6 +145,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
 // import ExerDetail from "./PatientComponents/PatientSchedule/ExerDetail.jsx";
 
+
 const App = () => {
 	const path = window.location.pathname;
 	const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);

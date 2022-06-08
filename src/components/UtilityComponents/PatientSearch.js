@@ -10,6 +10,7 @@ import {Form} from 'antd'
 import { CARE_PLAN_CLEAR_STATE } from '../../contextStore/actions/care-plan-action';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
 const PatientSearch = (props) => {
+    console.log(props.dashboard)
     const icon=<BsSearch />
     const [PatientData, setPatientData] = useState([])
 
@@ -156,10 +157,10 @@ const PatientSearch = (props) => {
     return (
         <div>
           
-            <input type="text"  className="px-4 py-2 input-field "
-                placeholder=" Search Patients.."
+            <input type="text" autoComplete='off'  className=" py-2 input-field modalInputs "
+                placeholder="Search Patients.."
                 onChange={e => handleChange(e.target.value)}
-                value={inputtextvalue}
+                value={ props.value ? props.value : inputtextvalue}
                 id="input-search"
             />
             <div className="search-result-box">

@@ -87,7 +87,7 @@ const Appointments = () => {
     const [channel, setChannel] = useState("");
     const [locationName, setLocationName] = useState("");
     const history = useHistory();
-    const state=useSelector(state=>state)
+    const state = useSelector(state => state)
     const today = new Date();
     //   const currentDate = (new Date()).toLocaleDateString();
     const currentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -116,19 +116,21 @@ const Appointments = () => {
         const getVisits = async () => {
             const responseData = await GetVisit();
             const showVisits = parseVisits(responseData);
+            console.log(showVisits)
             setData(showVisits)
         }
         let role = JSON.parse(localStorage.getItem("user"))
         const getClinicVisits = async () => {
             const responseData = await GetClinicVisits(role.clinic_id);
             const showVisits = parseVisits(responseData);
+            // console.log(showVisits)
             setData(showVisits)
         }
-        if(role.role=="admin"){
-            console.log("role is ",role.role)
+        if (role.role == "admin") {
+            console.log("role is ", role.role)
             getVisits();
-        }else{
-            console.log("role is ",role.role)
+        } else {
+            console.log("role is ", role.role)
             getClinicVisits()
         }
         if (patientData && patientData.patient) {
@@ -141,7 +143,7 @@ const Appointments = () => {
         window.addEventListener("resize", resizeWindow);
         return () => window.removeEventListener("resize", resizeWindow);
     }, []);
-    
+
     const showNewAppointment = () => {
         // setModelShow(true);
         schedular.showAppointmentPopup(schedular);
@@ -162,7 +164,7 @@ const Appointments = () => {
     //Schedular Form
     var dummy_channel=""
     const onAppointFormOpening = async (data) => {
-      // 
+        // 
         let startDate = data.appointmentData.startDate ? data.appointmentData.startDate : (new Date().toJSON());
         if (Utils.isValidDate(new Date(startDate))) {
             data.cancel = true;
@@ -172,11 +174,11 @@ const Appointments = () => {
         let form = data.form;
         console.log(history.location)
         // data.popup.option("height", "100%");  
-        data.popup.option("width", "auto");  
-       
-        data.popup.option("overflow", "hidden");  
+        data.popup.option("width", "auto");
 
-        data.popup.option("margin", "auto");  
+        data.popup.option("overflow", "hidden");
+
+        data.popup.option("margin", "auto");
         form.option("showRequiredMark", true);
         let allDay = data.appointmentData.allDay ? data.appointmentData.allDay : false;
         let patientName = data.appointmentData.patient ? data.appointmentData.patient : null;
@@ -188,7 +190,7 @@ const Appointments = () => {
             if (!episodeName)
                 episodeName = await fetchEpisodeDetail(patientName);
         }
-        form.option('padding','10px')
+        form.option('padding', '10px')
         form.option('items', [
             {
                 colCountByScreen: { lg: 2, md: 2, sm: 2, xs: 1 },
@@ -199,7 +201,7 @@ const Appointments = () => {
                         label: {
                             text: "Select Patient"
                         },
-                       // colSpan: 2,
+                        // colSpan: 2,
                         name: "patient",
                         dataField: "patient",
                         isRequired: true,
@@ -215,7 +217,7 @@ const Appointments = () => {
                                 return `${itemData}`;
                             },
                             // aswin 11/13/2021 start
-                            onItemClick: async function(e){
+                            onItemClick: async function (e) {
                                 console.log(e.itemData)
                                 let value = await fetchEpisodeDetail(e.itemData);
                                 episodeName = value;
@@ -228,7 +230,7 @@ const Appointments = () => {
                         label: {
                             text: "Episode"
                         },
-                     //   colSpan: 2,
+                        //   colSpan: 2,
                         name: "episode",
                         dataField: "episode",
                         isRequired: true,
@@ -255,8 +257,8 @@ const Appointments = () => {
                         editorType: "dxDateBox",
                         isRequired: true,
                         editorOptions: {
-                             width: "95%",
-                            height:'80%',
+                            width: "95%",
+                            height: '80%',
                             type: "datetime",
                             value: startDate,
                             min: new Date(),
@@ -323,7 +325,7 @@ const Appointments = () => {
                         dataField: "complaint",
                         isRequired: true,
                         editorOptions: {
-                             width: "95%",
+                            width: "95%",
                             items: complaint,
                             onValueChanged: function (args) {
                                 // console.log(args.value);
@@ -417,7 +419,7 @@ const Appointments = () => {
                         dataField: "notes",
                         editorOptions: {
                             width: "98%",
-                            height:'45px',
+                            height: '45px',
                             onValueChanged: function (args) {
                                 // console.log(args.value);
                             }
@@ -425,7 +427,7 @@ const Appointments = () => {
                     }, {
                         colCountByScreen: { lg: 3, xs: 3 },
                         itemType: "group",
-                        visible:true,
+                        visible: true,
                         items: [{
                             cssClass: "dx-appointment-form-switch",
                             colSpan: 2,
@@ -449,7 +451,7 @@ const Appointments = () => {
                             editorType: "dxSwitch",
                             label: { text: "Repeat", location: "right" },
                             editorOptions: {
-                               
+
                                 onValueChanged: function (args) {
                                     form.itemOption("recurrenceGroup", "visible", args.value);
                                     form.updateData("patient", patientName)
@@ -472,7 +474,7 @@ const Appointments = () => {
                     editorType: "dxRecurrenceEditor",
                     editorOptions: {
                         width: "98%",
-                        
+
                         onValueChanged: function (args) {
                         }
                     }
@@ -486,63 +488,64 @@ const Appointments = () => {
         else
             data.popup.option("toolbarItems[0].options.text", "Submit");
     }
-     //method for adding visit
+    //method for adding visit
     const onAppointmentAdded = async (e) => {
-    //   console.log('add app')
+        //   console.log('add app')
+        console.log(e.appointmentData)
         setLoading(true);
-        if(e.appointmentData.location!=='Video Conference'){
-            e.appointmentData.video_link=''
+        if (e.appointmentData.location !== 'Video Conference') {
+            e.appointmentData.video_link = ''
         }
         const result = await AddVisit(e.appointmentData);
         setLoading(false);
         if (result && result[0]) {
             setSuccess("Visit Added Successfully.");
             history.push({
-                pathname:'/dashboard',
-                state:{
-                    id:state.episodeReducer.patient_code,
-                   // prevPath:'/visit'
+                pathname: '/dashboard',
+                state: {
+                    id: state.episodeReducer.patient_code,
+                    // prevPath:'/visit'
                 }
-               })
-           // window.location.reload();
+            })
+            // window.location.reload();
         } else {
-           
+
             setError(result[1]);
         }
-        
+
     }
-     //method for updating visit
-     const onAppointmentUpdated = async (e) => {
+    //method for updating visit
+    const onAppointmentUpdated = async (e) => {
         // console.log('update app')
-       //  console.log(e)
-       setLoading(true);
-       console.log("update appointment data ",e.appointmentData)
-       if(e.appointmentData.location==='Video Conference'){
-        e.appointmentData.video_link = channel
-    }
-       console.log("update channel" ,channel)
-       if(e.appointmentData.id){
-         const result = await UpdateVisit(e.appointmentData);
-         setLoading(false);
-         if (result && result[0]) {
-             setSuccess("Visit Updated Successfully.");
-               history.push({
-                 pathname:'/dashboard',
-                 state:{
-                     id:state.episodeReducer.patient_code,
-                 //    prevPath:'/visit'
-                 }
+        //  console.log(e)
+        setLoading(true);
+        console.log("update appointment data ", e.appointmentData)
+        if (e.appointmentData.location === 'Video Conference') {
+            e.appointmentData.video_link = channel
+        }
+        console.log("update channel", channel)
+        if (e.appointmentData.id) {
+            const result = await UpdateVisit(e.appointmentData);
+            setLoading(false);
+            if (result && result[0]) {
+                setSuccess("Visit Updated Successfully.");
+                history.push({
+                    pathname: '/dashboard',
+                    state: {
+                        id: state.episodeReducer.patient_code,
+                        //    prevPath:'/visit'
+                    }
                 })
-           //  window.location.reload();
-         } else {
-           
-             setError(result[1]);
-         }
-       }else{
-           onAppointmentAdded(e)
-       }
-         // e.component.getDataSource().reload();
-     }
+                //  window.location.reload();
+            } else {
+
+                setError(result[1]);
+            }
+        } else {
+            onAppointmentAdded(e)
+        }
+        // e.component.getDataSource().reload();
+    }
 
     const onContentReady = (e) => {
         setSchedular(e.component);
@@ -557,7 +560,7 @@ const Appointments = () => {
         return (<DateCell itemData={itemData} />)
     }
     //
-    return ( 
+    return (
         <>
             {/* <div style={{ background: '#fff', marginTop: '15px' }}>
                 <div style={{ minHeight: "20px" }}></div>
@@ -580,20 +583,20 @@ const Appointments = () => {
                     </Col>
                 </Row>
             </div> */}
-              <div style={{ minHeight: "20px" }}></div>
-            <Row justify="space-between" gutter={[0,10]}>
-                <Col span={16} style={{fontSize:"25px"}}>
-                   <BackButton/> <GoCalendar style={{position:"relative",bottom:'3px'}} />{" "}<b>Visits</b>
+            <div style={{ minHeight: "20px" }}></div>
+            <Row justify="space-between" gutter={[0, 10]}>
+                <Col span={16} style={{ fontSize: "25px" }}>
+                    <BackButton /> <GoCalendar style={{ position: "relative", bottom: '3px' }} />{" "}<b>Visits</b>
                 </Col>
                 <Row justify="end" >
-                <Col span={24}>
-                <Button
+                    <Col span={24}>
+                        <Button
                             //className="border text-white"
-                            style={{width:'100%'}}
+                            style={{ width: '100%' }}
                             onClick={showNewAppointment}>
-                            <ImPlus style={{marginRight:'5px',position:'relative',bottom:'2px'}} />New Visit
+                            <ImPlus style={{ marginRight: '5px', position: 'relative', bottom: '2px' }} />New Visit
                         </Button>
-                </Col>
+                    </Col>
                 </Row>
             </Row>
             <div style={{ minHeight: "20px" }}></div>
@@ -607,7 +610,7 @@ const Appointments = () => {
                         timeZone="Asia/Kolkata"
                         dataSource={data}
                         defaultCurrentView="day"
-                       
+
                         views={views}
                         startDayHour={7}
                         endDayHour={24}

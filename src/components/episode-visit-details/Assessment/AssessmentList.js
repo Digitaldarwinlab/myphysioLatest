@@ -1380,7 +1380,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
+                                      {data.posture&&data.posture.Posterial_view.checkBox&&data.posture[
                                           "Posterial_view"
                                         ].checkBox.map((ob) => (
                                           <>
@@ -1438,7 +1438,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
+                                      {data.posture.lateral_view.checkBox&&data.posture[
                                           "lateral_view"
                                         ].checkBox.map((ob) => (
                                           <>
@@ -2457,7 +2457,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
+                                      {data.posture.Posterial_view.checkBox&&data.posture[
                                           "Posterial_view"
                                         ].checkBox.map((ob) => (
                                           <>
@@ -2515,7 +2515,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
+                                      {data.posture.lateral_view.checkBox&&data.posture[
                                           "lateral_view"
                                         ].checkBox.map((ob) => (
                                           <>
