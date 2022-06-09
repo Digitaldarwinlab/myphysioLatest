@@ -320,7 +320,6 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        console.log("WWWW", week);
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
