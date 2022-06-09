@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch } from 'react-redux';
 import { Row, Col, Button, Modal,notification,Radio,Checkbox } from 'antd';
 import "../../styles/Layout/VideoCon.css"
 import bodyImage from "../.././assets/lateral.jpg"
 import side_img from '../.././assets/sideways-vector.jpg'
 import Tabs from "../Assesment/Tabs";
 import { check } from "prettier";
-
+import {STATECHANGE} from '../../contextStore/actions/Assesment'
 var aiModelAppear = false;
 var channel=""
 var uid=""
@@ -107,6 +107,25 @@ const assessmentType = [
   { label: 'Posture Test', value: 'posture' },
 ];
 
+let side = [
+  "Flexed Knee",
+  "Hyper Extended Knee",
+  "Excessive Anterior Pelvic",
+  "Forward Head",
+  "Lordosis",
+  "Kyphosis",
+];
+
+let frontChecks = {};
+let sideChecks = {};
+
+let front = [
+  "Genu Valgum",
+  "Genu Varum",
+  "Squinting / cross eyed patella",
+  "Grosshoppers eyed platella",
+];
+
 let posture={
   Posterial_view:{
     posterial_view_image: "",
@@ -141,9 +160,9 @@ const VideoCallIndex = (props) => {
   const [url2, setUrl2] = useState(side_img)
   const [frontAngles, setFrontAngles] = useState([0,0,0,0,0])
   const [sideAngles, setSideAngles] = useState([0, 0, 0, 0]);
-  const [frontChecks, setFrontChecks] = useState();
-  const [sideChecks, setSideChecks] = useState();
-
+  // const [frontChecks, setFrontChecks] = useState({});
+  // const [sideChecks, setSideChecks] = useState({});
+  const dispatch = useDispatch()
   const [orientation, setOrientation] = useState(1);
 
   useEffect(() => {
@@ -263,13 +282,68 @@ else{
 }
 
 
-const onChangeFront = (value) =>{
-  setFrontChecks(value)
-}
+// const onChangeFront = (value) =>{
+//   setFrontChecks(value)
+// }
 
-const onChangeSide = (value) =>{
-  setSideChecks(value)
-}
+const onChangeFront = (value) => {
+  console.log("front ", value);
+  dispatch({
+    type: STATECHANGE,
+    payload: {
+      key:'FrontCheck',
+      value:value,
+    },
+  });
+  //this.props.FirstAssesment("FrontCheck", value);
+  front.map((a) => {
+    if (value.includes(a)) {
+      frontChecks[a] = 1;
+    } else {
+      frontChecks[a] = 0;
+    }
+  });
+  //this.props.FirstAssesment("frontChecks", frontChecks);
+  dispatch({
+    type: STATECHANGE,
+    payload: {
+      key:'frontChecks',
+      value:frontChecks,
+    },
+  });
+};
+
+// const onChangeSide = (value) =>{
+//   setSideChecks(value)
+// }
+
+const onChangeSide = (value) => {
+  console.log("side ", value);
+//  this.props.FirstAssesment("SideCheck", value);
+dispatch({
+  type: STATECHANGE,
+  payload: {
+    key:'SideCheck',
+    value:value,
+  },
+});
+  side.map((a) => {
+    if (value.includes(a)) {
+      sideChecks[a] = 1;
+    } else {
+      sideChecks[a] = 0;
+    }
+  });
+  //this.props.FirstAssesment("sideChecks", sideChecks);
+  dispatch({
+    type: STATECHANGE,
+    payload: {
+      key:'sideChecks',
+      value:sideChecks,
+    },
+  });
+};
+
 
   const joinChannel = async() => {
     let streamCanvas = document.getElementById("scanvas");
@@ -277,6 +351,7 @@ const onChangeSide = (value) =>{
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
     // console.log(process.env.REACT_APP_EXERCISE_URL)
+  //  const res = await fetch(`localhost:3000/rtc/${channelName}/subscriber/uid/${uid}`);
     const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channelName}/subscriber/uid/${uid}`);
     const data = await res.json();
     var token = data.rtcToken
@@ -411,10 +486,10 @@ const AImodel = () => {
         }
       posture.Posterial_view.Angles=frontAngles
       posture.Posterial_view.posterial_view_image=url1
-      posture.Posterial_view.checkbox=frontChecks
+      posture.Posterial_view.checkbox=state.FirstAssesment.frontChecks
       posture.lateral_view.Angles=sideAngles
       posture.lateral_view.posterial_view_image=url2
-      posture.lateral_view.checkbox=sideChecks
+      posture.lateral_view.checkbox=state.FirstAssesment.sideChecks
       console.log(posture)
       localStorage.setItem("Posture_Data",JSON.stringify(posture));  
       alert("Data Successfully Received!")
