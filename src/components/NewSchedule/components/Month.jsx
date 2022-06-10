@@ -226,7 +226,7 @@ export default function Month({ setIsVisible, month,setMonth}) {
     return listData || [];
   }
   function disabledDate(current) {
-    return current && current < moment().endOf('day');
+    return current < moment().endOf('day');
   }
   function dateCellRender(value) {
     // console.log(value);
