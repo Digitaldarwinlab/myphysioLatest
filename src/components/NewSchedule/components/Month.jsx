@@ -234,7 +234,7 @@ export default function Month({ setIsVisible, month,setMonth}) {
     console.log(listData)
     return (
       <ul style={{ padding: 0, overflow: 'hidden' }}>
-        {<li style={{ textAlign: 'center' }}><button style={{ backgroundColor: 'transparent', border: 'none', color: 'black', fontWeight: '600' }} className='month_data'>{listData.length === 0 ? '' : listData.length}</button></li>}
+        {<li style={{ textAlign: 'center' }}><span style={{ backgroundColor: 'transparent', border: 'none', color: 'black', fontWeight: '600' }} className='month_data'>{listData.length === 0 ? '' : listData.length}</span></li>}
         {/* { listData.map(item => (
           <li key={ Math.random()}  style={{marginBottom:'5px'}}>
              <button key={item.id} className='month_data' onClick={() => {handleVisitClick(item)}}>

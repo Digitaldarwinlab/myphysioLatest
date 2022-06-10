@@ -71,7 +71,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       let channel = ''
       const user_id = localStorage.getItem("userId")
       const response = await getExercise(parseInt(episodeState.patient_code));
-      setEpisode(response)
+      // setEpisode(response)
       var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
       const physioDetails = await getPhysio(user_id)
       if (physioDetails != "") {
@@ -93,7 +93,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         }
         channel += characters.charAt(Math.floor(Math.random() * characters.length))
       }
-      // dispatch({type:'EPISODE_ID',payload:{episode:response}})
+      
       console.log('From Visittt', response)
       setData(data => ({ ...data, patient: episodeState.patient_name, episode: response, pp_ed_id: episodeState.patient_code, link: channel }))
 
@@ -160,16 +160,18 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
     dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
     dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
+    setEpisode('')
     setIsVisible(true);
   };
 
   const handleOk = () => {
-    // dispatch({ type: 'CLEAR_VISIT' })
-    setEpisode('')
+    dispatch({ type: 'EPISODE_ID', payload: { episode: '' } })
+    console.log(data)
     setIsVisible(false);
   };
 
   const handleChange = (value, name) => {
+    dispatch({type:'EPISODE_ID',payload:{episode:data.episode}})
     if (name === 'location') {
       if (value === 'Video-confrence') {
         setAddVideo(true);
@@ -179,9 +181,6 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     }
     if (name == 'visitType') {
       dispatch({ type: 'VISIT_TYPE', payload: { [name]: value } })
-    }
-    if (name == 'episode') {
-      dispatch({ type: 'EPISODE_ID', payload: { episode: data.episode } })
     }
     if (name == 'date') {
       dispatch({ type: 'VISIT_DATE', payload: { [name]: value } })
@@ -198,7 +197,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     if (name == 'notes') {
       dispatch({ type: 'NOTES', payload: { [name]: value } })
     }
-
+    
     setData(data => ({ ...data, [name]: value }))
   }
 
@@ -341,20 +340,24 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
   // sushant 31-05-22
 
-  // function disabledDateTime() {
-  //   if (new Date().getDate() == new Date(data.date).getDate()) {
-  //     const upperLimit = new Date().getHours();
-  //     return {
-  //       disabledHours: () => range(0, upperLimit + 1),
-  //       disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
-  //     }
-  //   }
-  //   return {
-  //     disabledHours: () => range(0, 7),
-  //     disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
-  //     // disabledMinutes: () => range(30, 60),
-  //   };
-  // }
+  function disabledDateTime(current) {
+    console.log(JSON.stringify(moment(data.date, "DD/MM/YYYY")._d).slice(0,15)=== JSON.stringify(moment(current, "DD/MM/YYYY")._d).slice(0,15) )
+
+    if (JSON.stringify(moment(data.date, "DD/MM/YYYY")._d).slice(0,15)=== JSON.stringify(moment(current, "DD/MM/YYYY")._d).slice(0,15)) {
+      const upperLimit = new Date().getHours();
+      return {
+        disabledHours: () => range(0, upperLimit + 1),
+        // disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
+      }
+    }
+    else{
+      return {
+        disabledHours: () => range(0, 7),
+        // disabledMinutes: () => [...range(1,15), ...range(16,30),...range(31,45),...range(46,60)],
+        // disabledMinutes: () => range(30, 60),
+      };
+    }
+  }
 
 
   //model style
@@ -404,8 +407,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
               Cancel
             </Button>,
           ]}
-          style={{ top: 30, }} visible={isVisible} onOk={handleOk} bodyStyle={{ overflowY: 'auto', height: '400px', scrollbarWidth: 'auto' }}>
-          <div style={divStyle}>
+           style={{ top: 30 }} visible={isVisible} onOk={handleOk} bodyStyle={{ overflowY: 'auto', height: '400px', scrollbarWidth: '100' }}>
+          <div style={divStyle} >
             {/* sushant 31-05-22 */}
             {/* <Row><div className='patient_search'><PatientSearch /></div></Row> */}
             <Row className='pt' >
@@ -422,23 +425,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 <Row><div className='patient_search' ><PatientSearch value={reducerData.patient} /></div></Row>
               </Col>
               <Col span={12}>
-                <label className='lab' >  Episode <span className='colreq'>*</span></label>
-                {/* <Select style={{ width: 195 }} value={reducerData.episode} onChange={value => handleChange(value, 'visitType')}>
-                  <Option value="Check-up">Check Up</Option>
-                  <Option value="Emergency">Emergency</Option>
-                  <Option value="Follow-up">Follow Up</Option>
-                  <Option value="Routine">Routine</Option>
-                  <Option value="Walk-in">Walk in</Option>
-                  <Option value="Other">Other</Option>
-                </Select> */}
-                <Input placeholder="Episode" className='modalInputs' value={episode} onChange={value => handleChange(value, 'episode')} disabled />
-
-              </Col>
-            </Row>
-
-            <Row className='pt'>
-              <Col span={12}>
-                <label className='lab' >   Visit Type <span className='colreq'>*</span></label>
+               
+              <label className='lab' >   Visit Type <span className='colreq'>*</span></label>
                 <Select className='modalInputs' placeholder="Visit Type" value={reducerData.visitType} onChange={value => handleChange(value, 'visitType')}>
                   <Option value="Check-up">Check Up</Option>
                   <Option value="Emergency">Emergency</Option>
@@ -447,6 +435,14 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   <Option value="Walk-in">Walk in</Option>
                   <Option value="Other">Other</Option>
                 </Select>
+              </Col>
+            </Row>
+
+            <Row className='pt'>
+              <Col span={12}>
+              <label className='lab' >  Episode <span className='colreq'>*</span></label>
+                <Input placeholder="Episode" className='modalInputs' value={reducerData.pp_ed_id}   disabled />
+                
 
               </Col>
               <Col span={12}>
@@ -460,7 +456,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                     }}
                     format="MM/DD/YYYY HH:mm "
                     disabledDate={disabledDate}
-                    // disabledTime={disabledDateTime}
+                    disabledTime={disabledDateTime}
                     value={reducerData.date}
                     showTime={true}
                   />
