@@ -377,6 +377,8 @@ const AImodel = () => {
   if(OnAssessmentScreen){
     aiModelAppear = !aiModelAppear;
     var peerID = $("#form-peerId").val();
+    console.log("perr id is ",peerID)
+    $('#video'+peerID).css({'object-fit':'inherit'})
     localStorage.setItem("aiModelAppear", JSON.stringify(aiModelAppear));
     if (aiModelAppear) {
       if(selectedAssessmentType=='rom'){
