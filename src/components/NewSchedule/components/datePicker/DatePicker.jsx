@@ -40,8 +40,9 @@ export const DayDatePicker = ({ day, setDay }) => {
   const changeLeft = () => {
 
     let demo = moment(day, "DD/MM/YYYY").subtract(1, "day").format('DD-MM-YY')
+    if(moment(day, "DD/MM/YYYY") > moment().endOf('day')){
     setDay(moment(demo, "DD/MM/YYYY"));
-
+    }
   }
   return (
     <div className='cus-cal'>
