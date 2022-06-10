@@ -91,10 +91,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-<<<<<<< HEAD
-  "buildDate": 1654784669196
-}
-=======
   "buildDate": 1654758066361
 }
->>>>>>> f5140ff13da452e8eee02d2dc69f2f31558dfbfc
