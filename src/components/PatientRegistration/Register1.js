@@ -294,6 +294,9 @@ const Register1 = (props) => {
                     {"First Name"}
                   </span>
                 }
+                patientTitle={true}
+                titleName='Title'
+                titleValue={state.BasicDetails.Title}
                 name="FirstName"
                 className="input-field w-100 text-capitalize"
                 //  value={state.BasicDetails.FirstName}

@@ -77,12 +77,12 @@ export default function Week({ setIsVisible, currentWeek }) {
       if (!visits[i].appointment_detail.duration) {
         newData["endDate"] = new Date(
           new Date(visits[i].appointment_detail.startDate).getTime() +
-          15 * 60 * 1000
+            15 * 60 * 1000
         );
       } else {
         newData["endDate"] = new Date(
           new Date(visits[i].appointment_detail.startDate).getTime() +
-          getEndDate(visits[i].appointment_detail.duration)
+            getEndDate(visits[i].appointment_detail.duration)
         );
       }
       let starting = new Date(
@@ -200,6 +200,33 @@ export default function Week({ setIsVisible, currentWeek }) {
 
     dispatch({ type: "CREATED_BY", payload: { created_by: data.created_by } });
   };
+  const removeVisitClick = () => {
+    dispatch({ type: "NAME", payload: { name: "" } });
+
+    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
+
+    dispatch({ type: "VISIT_ID", payload: { id: "" } });
+
+    dispatch({ type: "DURATION", payload: { duration: "" } });
+
+    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
+
+    dispatch({ type: "LOCATION", payload: { location: "" } });
+
+    dispatch({ type: "NOTES", payload: { notes: "" } });
+
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: "" },
+    });
+
+    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
+
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
+
+    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
+  };
 
   console.log("Weekly", data);
 
@@ -244,25 +271,44 @@ export default function Week({ setIsVisible, currentWeek }) {
                     <td
                       key={i}
                       onClick={() => {
+                        data.forEach((d) => {
+                          console.log(d);
+                          if (
+                            !(
+                              new Date(d.startDate).getDate() === +Arr[i] &&
+                              new Date(d.startDate).getMonth() ===
+                                currentWeek.toDate().getMonth() &&
+                              tConvert(d.startTime)[8] === time[6] &&
+                              tConvert(d.startTime).includes(
+                                time.slice(0, 3)
+                              ) &&
+                              d.startTime.slice(3, 5) < 15
+                            )
+                          ) {
+                            removeVisitClick();
+                          } else {
+                            handleVisitClick(d);
+                          }
+                        });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
                             "From P",
                             Arr[i] +
-                            newDate.slice(7, 17) +
-                            (+time.slice(0, 2) + 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(7, 17) +
+                              (+time.slice(0, 2) + 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) + 6) +
-                                ":30:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) + 6) +
+                                  ":30:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -270,19 +316,19 @@ export default function Week({ setIsVisible, currentWeek }) {
                           console.log(
                             "From A",
                             newDate.slice(7, 17) +
-                            (+time.slice(0, 2) - 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) - 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) - 6) +
-                                ":30:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) - 6) +
+                                  ":30:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -297,7 +343,7 @@ export default function Week({ setIsVisible, currentWeek }) {
                           (d) =>
                             new Date(d.startDate).getDate() === +Arr[i] &&
                             new Date(d.startDate).getMonth() ===
-                            currentWeek.toDate().getMonth() &&
+                              currentWeek.toDate().getMonth() &&
                             tConvert(d.startTime)[8] === time[6] &&
                             tConvert(d.startTime).includes(time.slice(0, 3)) &&
                             d.startTime.slice(3, 5) < 15
@@ -305,7 +351,8 @@ export default function Week({ setIsVisible, currentWeek }) {
                         .map((d, i) => (
                           <button
                             key={d.id}
-                          // onClick={() => handleVisitClick(d)}
+                            style={{display:'block',margin:'auto'}}
+                            onClick={() => handleVisitClick(d)}
                           >
                             {d.patient || "Is Present"}
                           </button>
@@ -320,24 +367,44 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
+                        data.forEach((d) => {
+                          console.log(d);
+                          if (
+                            !(
+                              new Date(d.startDate).getDate() === +Arr[i] &&
+                              new Date(d.startDate).getMonth() ===
+                                currentWeek.toDate().getMonth() &&
+                              tConvert(d.startTime)[8] === time[6] &&
+                              tConvert(d.startTime).includes(
+                                time.slice(0, 3)
+                              ) &&
+                              d.startTime.slice(3, 5) >= 15 &&
+                              d.startTime.slice(3, 5) < 30
+                            )
+                          ) {
+                            removeVisitClick();
+                          } else {
+                            handleVisitClick(d);
+                          }
+                        });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
                             "From P",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) + 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) + 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) + 6) +
-                                ":45:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) + 6) +
+                                  ":45:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -345,19 +412,19 @@ export default function Week({ setIsVisible, currentWeek }) {
                           console.log(
                             "From A",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) - 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) - 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) - 6) +
-                                ":45:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) - 6) +
+                                  ":45:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -371,7 +438,7 @@ export default function Week({ setIsVisible, currentWeek }) {
                           (d) =>
                             new Date(d.startDate).getDate() === +Arr[i] &&
                             new Date(d.startDate).getMonth() ===
-                            currentWeek.toDate().getMonth() &&
+                              currentWeek.toDate().getMonth() &&
                             tConvert(d.startTime)[8] === time[6] &&
                             tConvert(d.startTime).includes(time.slice(0, 3)) &&
                             d.startTime.slice(3, 5) >= 15 &&
@@ -380,9 +447,10 @@ export default function Week({ setIsVisible, currentWeek }) {
                         .map((d, i) => (
                           <button
                             key={d.id}
-                          // onClick={() => {
-                          //   handleVisitClick(d);
-                          // }}
+                            style={{display:'block',margin:'auto'}}
+                            onClick={() => {
+                              handleVisitClick(d);
+                            }}
                           >
                             {d.patient || "Is Present"}{" "}
                           </button>
@@ -397,26 +465,45 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        console.log("WWWW", week);
+                        data.forEach((d) => {
+                          console.log(d);
+                          if (
+                            !(
+                              new Date(d.startDate).getDate() === +Arr[i] &&
+                              new Date(d.startDate).getMonth() ===
+                                currentWeek.toDate().getMonth() &&
+                              tConvert(d.startTime)[8] === time[6] &&
+                              tConvert(d.startTime).includes(
+                                time.slice(0, 3)
+                              ) &&
+                              d.startTime.slice(3, 5) >= 30 &&
+                              d.startTime.slice(3, 5) < 45
+                            )
+                          ) {
+                            removeVisitClick();
+                          } else {
+                            handleVisitClick(d);
+                          }
+                        });
 
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
                             "From P",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) + 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) + 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) + 7) +
-                                ":00:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) + 7) +
+                                  ":00:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -424,19 +511,19 @@ export default function Week({ setIsVisible, currentWeek }) {
                           console.log(
                             "From A",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) - 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) - 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) - 5) +
-                                ":00:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) - 5) +
+                                  ":00:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -450,7 +537,7 @@ export default function Week({ setIsVisible, currentWeek }) {
                           (d) =>
                             new Date(d.startDate).getDate() === +Arr[i] &&
                             new Date(d.startDate).getMonth() ===
-                            currentWeek.toDate().getMonth() &&
+                              currentWeek.toDate().getMonth() &&
                             tConvert(d.startTime)[8] === time[6] &&
                             tConvert(d.startTime).includes(time.slice(0, 3)) &&
                             d.startTime.slice(3, 5) >= 30 &&
@@ -459,9 +546,10 @@ export default function Week({ setIsVisible, currentWeek }) {
                         .map((d, i) => (
                           <button
                             key={d.id}
-                          // onClick={() => {
-                          //   handleVisitClick(d);
-                          // }}
+                            style={{display:'block',margin:'auto'}}
+                            onClick={() => {
+                              handleVisitClick(d);
+                            }}
                           >
                             {d.patient || "Is Present"}{" "}
                           </button>
@@ -476,25 +564,44 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        console.log("WWWW", week);
+                        data.forEach((d) => {
+                          console.log(d);
+                          if (
+                            !(
+                              new Date(d.startDate).getDate() === +Arr[i] &&
+                              new Date(d.startDate).getMonth() ===
+                                currentWeek.toDate().getMonth() &&
+                              tConvert(d.startTime)[8] === time[6] &&
+                              tConvert(d.startTime).includes(
+                                time.slice(0, 3)
+                              ) &&
+                              d.startTime.slice(3, 5) >= 45 &&
+                              d.startTime.slice(3, 5) < 60
+                            )
+                          ) {
+                            removeVisitClick();
+                          } else {
+                            handleVisitClick(d);
+                          }
+                        });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
                             "From P",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) + 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) + 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) + 7) +
-                                ":15:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) + 7) +
+                                  ":15:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -502,19 +609,19 @@ export default function Week({ setIsVisible, currentWeek }) {
                           console.log(
                             "From A",
                             newDate.slice(0, 17) +
-                            (+time.slice(0, 2) - 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              (+time.slice(0, 2) - 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           );
                           dispatch({
                             type: "VISIT_DATE",
                             payload: {
                               date: moment(
                                 +Arr[i] +
-                                newDate.slice(7, 17) +
-                                (+time.slice(0, 2) - 5) +
-                                ":15:00" +
-                                newDate.slice(25, 29)
+                                  newDate.slice(7, 17) +
+                                  (+time.slice(0, 2) - 5) +
+                                  ":15:00" +
+                                  newDate.slice(25, 29)
                               ),
                             },
                           });
@@ -528,7 +635,7 @@ export default function Week({ setIsVisible, currentWeek }) {
                           (d) =>
                             new Date(d.startDate).getDate() === +Arr[i] &&
                             new Date(d.startDate).getMonth() ===
-                            currentWeek.toDate().getMonth() &&
+                              currentWeek.toDate().getMonth() &&
                             tConvert(d.startTime)[8] === time[6] &&
                             tConvert(d.startTime).includes(time.slice(0, 3)) &&
                             d.startTime.slice(3, 5) >= 45 &&
@@ -537,9 +644,10 @@ export default function Week({ setIsVisible, currentWeek }) {
                         .map((d, i) => (
                           <button
                             key={d.id}
-                          // onClick={() => {
-                          //   handleVisitClick(d);
-                          // }}
+                            style={{display:'block',margin:'auto'}}
+                            onClick={() => {
+                              handleVisitClick(d);
+                            }}
                           >
                             {d.patient || "Is Present"}{" "}
                           </button>
