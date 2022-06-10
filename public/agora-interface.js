@@ -256,7 +256,11 @@ async function streamMultiplexer() {
     drawLine: false,
 
   };
-  
+  var uid = $("#form-uid").val();
+  //console.log("stream is ",uid)
+  console.log("stream is ",localStreams.camera.id)
+  // $("#full-screen-video"+" "+'#video'+localStreams.camera.id).css({'object-fit':'inherit'})
+   $('#video'+localStreams.camera.id).css({'object-fit':'inherit'})
   darwin.setExcersiseParams({
     "name": "Squat",
     "primaryKeypoint": 0,
@@ -340,7 +344,7 @@ function createCameraStream(uid) {
     });    
     enableUiControls(localStream); // move after testing
     localStreams.camera.stream = localStream; // keep track of the camera stream for later
-
+    console.log('new code ',localStream)
     // for custom video
     // aiModelAppear ? "" : streamMultiplexer();
   }, function (err) {

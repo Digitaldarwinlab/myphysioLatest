@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactToPrint from "react-to-print";
 import {jsPDF} from "jspdf";
 import html2canvas from "html2canvas";
-import html2pdf from "html2pdf.js"
+// import html2pdf from "html2pdf.js"
 import {
   Button,
   Row,
@@ -426,7 +426,7 @@ const AssessmentList = ({ assesmentClick }) => {
   //  pdf.html(input, { html2canvas: { scale: 0.57 } }).then(() => {
   //    pdf.save("test.pdf");
   //  });
-  html2pdf(input);
+ // html2pdf(input);
   setTimeout(() => setShowAssesment(false),1000)
  
   }
