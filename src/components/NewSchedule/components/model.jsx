@@ -6,6 +6,7 @@ import 'moment/locale/zh-cn';
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_VISIT } from '../actions/types';
+import { getPhysio } from "../../../API/Physio/PhysioRegister";
 //import ant design
 import { Modal, Button, Row, Col, Form, Input, Select, Switch, InputNumber, Radio } from 'antd';
 import 'antd/dist/antd.css';
@@ -68,26 +69,36 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   useEffect(async () => {
     if (episodeState.patient_code) {
       let channel = ''
-      // dispatch({type:'NAME',payload:{name:episodeState.patient_name}});
-      var characters = 'abcdefghijklmnopqrstuvwxyz';
       const user_id = localStorage.getItem("userId")
-      for (var i = 0; i < 4; i++) {
-          if (i == 3) {
-              channel += "-"
-              channel += user_id
-              channel += "-"
-              channel += episodeState.patient_code
-              break
-          }
-          channel += characters.charAt(Math.floor(Math.random() * characters.length))
-      }
       const response = await getExercise(parseInt(episodeState.patient_code));
+      setEpisode(response)
+      var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      const physioDetails = await getPhysio(user_id)
+      if (physioDetails != "") {
+        const physio_id = physioDetails[0].uid
+        channel += physio_id + "-"
+      }
+      else {
+        channel += user_id + "-"
+      }
+      const patient_id = episodeState.patient_main_code
+      channel += patient_id + "-"
+      for (var i = 0; i < 7; i++) {
+        if (i == 6) {
+          channel += "_"
+          channel += user_id
+          channel += "_"
+          channel += episodeState.patient_code
+          break
+        }
+        channel += characters.charAt(Math.floor(Math.random() * characters.length))
+      }
       // dispatch({type:'EPISODE_ID',payload:{episode:response}})
       console.log('From Visittt', response)
-      setData(data => ({ ...data, patient: episodeState.patient_name, episode: response, pp_ed_id: episodeState.patient_code , link: channel}))
-      setEpisode(response)
+      setData(data => ({ ...data, patient: episodeState.patient_name, episode: response, pp_ed_id: episodeState.patient_code, link: channel }))
+
     }
-    else{
+    else {
       setEpisode('')
     }
   }, [episodeState, dispatch])
@@ -134,8 +145,21 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const { Option } = Select;
 
   const showModal = () => {
-
-        
+    dispatch({ type: "NAME", payload: { name: "" } });
+    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
+    dispatch({ type: "VISIT_ID", payload: { id: "" } });
+    dispatch({ type: "DURATION", payload: { duration: "" } });
+    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
+    dispatch({ type: "LOCATION", payload: { location: "" } });
+    dispatch({ type: "NOTES", payload: { notes: "" } });
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: "" },
+    });
+    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
+    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
     setIsVisible(true);
   };
 
@@ -174,7 +198,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     if (name == 'notes') {
       dispatch({ type: 'NOTES', payload: { [name]: value } })
     }
-    
+
     setData(data => ({ ...data, [name]: value }))
   }
 
@@ -183,7 +207,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
     if (data) {
       if (data.patient && data.duration && data.episode && data.date && data.location) {
-        
+
         const userId = JSON.parse(localStorage.getItem('userId'));
         let payload
         if (show) {
@@ -192,7 +216,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.location === 'Video-confrence' ?data.link:'',
+            video_link: data.location === 'Video-confrence' ? data.link : '',
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -212,7 +236,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.location === 'Video-confrence' ?data.link:'',
+            video_link: data.location === 'Video-confrence' ? data.link : '',
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -238,7 +262,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
           setError(err);
         })
       }
-       
+
 
       dispatch({
         type: ADD_VISIT,
@@ -349,9 +373,9 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     <div className='modell'>
 
 
-      <Button type="primary" style={{width:'100%',height:'20%',marginLeft:'50px'}} className='visitButton' onClick={showModal}>
+      <Button type="primary" style={{ width: '100%', height: '20%', marginLeft: '50px' }} className='visitButton' onClick={showModal}>
         <ImPlus style={{ paddingRight: '5px' }} />{'  '} New Visit
-      </Button> 
+      </Button>
 
       <Form
         labelCol={{
@@ -395,7 +419,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   disabled={true}
                 />}
                 { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>} */}
-                <Row><div className='patient_search' ><PatientSearch value={reducerData.patient}  /></div></Row>
+                <Row><div className='patient_search' ><PatientSearch value={reducerData.patient} /></div></Row>
               </Col>
               <Col span={12}>
                 <label className='lab' >  Episode <span className='colreq'>*</span></label>
@@ -407,15 +431,15 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   <Option value="Walk-in">Walk in</Option>
                   <Option value="Other">Other</Option>
                 </Select> */}
-                <Input placeholder="Episode" className='modalInputs'  value={episode} onChange={value => handleChange(value, 'episode')}  disabled />
+                <Input placeholder="Episode" className='modalInputs' value={episode} onChange={value => handleChange(value, 'episode')} disabled />
 
               </Col>
             </Row>
 
             <Row className='pt'>
-            <Col span={12}>
+              <Col span={12}>
                 <label className='lab' >   Visit Type <span className='colreq'>*</span></label>
-                <Select  className='modalInputs' placeholder="Visit Type" value={reducerData.visitType} onChange={value => handleChange(value, 'visitType')}>
+                <Select className='modalInputs' placeholder="Visit Type" value={reducerData.visitType} onChange={value => handleChange(value, 'visitType')}>
                   <Option value="Check-up">Check Up</Option>
                   <Option value="Emergency">Emergency</Option>
                   <Option value="Follow-up">Follow Up</Option>
@@ -445,7 +469,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             </Row>
 
             <Row className='pt'>
-            <Col span={12}>
+              <Col span={12}>
                 <label className='lab' >   Duration <span className='colreq'>*</span></label>
 
                 <Select className='modalInputs' placeholder='Duration' value={reducerData.duration} onChange={value => handleChange(value, 'duration')} >
@@ -476,7 +500,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             </Row>
 
             <Row className='pt'>
-            <Col span={12}>
+              <Col span={12}>
                 <label className='lab' >   Location <span className='colreq'>*</span></label>
                 <Select className='modalInputs' placeholder='Location' value={reducerData.location} onChange={value => handleChange(value, 'location')}>
                   <Option value="Clinic">Clinic</Option>
@@ -487,7 +511,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
               {addVideo && <Col span={12} style={{ marginTop: '5px' }}>
                 <label className='lab' >  Add Video Confrences</label>
                 <Input value={data.link} placeholder='https://drive.in/..' className='modalInputs' onChange={e => handleChange(e.target.value, 'link')}
-                   />
+                />
               </Col>}
             </Row>
             <Row className='pt'>
@@ -518,7 +542,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             {/* repeat  */}
             {(reducerData.isRepeat) && <Row>
 
-              <p> Recurrence Rule</p>
+              <p > Recurrence Rule</p>
               <Col span={24}>
                 {/* Repeat */}
 
@@ -526,13 +550,13 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 {repeat === "Weekly" && (<div className='repeatFun'>
 
 
-                  <p>Repeat On</p>
+                  <p style={{fontWeight:'700'}}>Repeat On</p>
                   <div style={{ marginBottom: '80px' }}>
                     {days.map((day, index) => <SelectDay day={day} key={index} activeDays={reducerData.days || []} setActiveDays={setActiveDays} />)}
                   </div>
 
 
-                  <label>Visits Occurence</label>
+                  <label style={{fontWeight:'700'}}>Visits Occurence</label>
                   <br></br>
                   <InputNumber value={reducerData.occurence || reducerData.visit_number} min={1} max={31} onChange={(value) => {
                     setOccurences(value);

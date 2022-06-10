@@ -11,6 +11,7 @@ export const Patient_Register = async (user, dispatch) => {
     dispatch({ type: PATIENT_REG_REQUEST });
     let patientDetails = {};
     patientDetails["first_name"] = user.FirstName;
+    patientDetails["title"] = user.Title;
     patientDetails["last_name"] = user.LastName;
     patientDetails["middle_name"] = user.MiddleName;
     patientDetails["mobile_no"] = user.MobileNo;

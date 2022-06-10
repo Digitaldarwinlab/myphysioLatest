@@ -2,11 +2,7 @@ import moment from "moment";
 import "moment/locale/zh-cn";
 import { useEffect, useState } from "react";
 
-import {
-  GetClinicVisits,
-  getEndDate,
-  GetVisit,
-} from "../../../API/Visit/visitApi";
+import { GetClinicVisits, getEndDate } from "../../../API/Visit/visitApi";
 import { useDispatch, useSelector } from "react-redux";
 
 import { DAY_DATE } from "../actions/types";
@@ -95,12 +91,12 @@ export default function Day({ setIsVisible, day }) {
       if (!visits[i].appointment_detail.duration) {
         newData["endDate"] = new Date(
           new Date(visits[i].appointment_detail.startDate).getTime() +
-          15 * 60 * 1000
+            15 * 60 * 1000
         );
       } else {
         newData["endDate"] = new Date(
           new Date(visits[i].appointment_detail.startDate).getTime() +
-          getEndDate(visits[i].appointment_detail.duration)
+            getEndDate(visits[i].appointment_detail.duration)
         );
       }
       let starting = new Date(
@@ -150,69 +146,75 @@ export default function Day({ setIsVisible, day }) {
     // visit_number: 2
     console.log(data);
 
-    // dispatch({ type: "NAME", payload: { name: data.patient } });
+    dispatch({ type: "NAME", payload: { name: data.patient } });
 
-    // dispatch({ type: "EPISODE_ID", payload: { episode: data.episode } });
-    // dispatch({ type: "VISIT_TYPE", payload: { visitType: data.complaint } });
+    dispatch({ type: "EPISODE_ID", payload: { episode: data.episode } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: data.complaint } });
 
-    // dispatch({ type: "VISIT_ID", payload: { id: data.id } });
+    dispatch({ type: "VISIT_ID", payload: { id: data.id } });
 
-    // dispatch({
-    //   type: "VISIT_DATE",
-    //   payload: { date: moment(new Date(data.startDate)) },
-    // });
+    dispatch({
+      type: "VISIT_DATE",
+      payload: { date: moment(new Date(data.startDate)) },
+    });
 
-    // dispatch({ type: "DURATION", payload: { duration: data.duration } });
+    dispatch({ type: "DURATION", payload: { duration: data.duration } });
 
-    // dispatch({ type: "VISIT_STATUS", payload: { status: data.status } });
+    dispatch({ type: "VISIT_STATUS", payload: { status: data.status } });
 
-    // dispatch({ type: "LOCATION", payload: { location: data.location } });
+    dispatch({ type: "LOCATION", payload: { location: data.location } });
 
-    // dispatch({ type: "NOTES", payload: { notes: data.notes } });
+    dispatch({ type: "NOTES", payload: { notes: data.notes } });
 
-    // dispatch({
-    //   type: "VISIT_NUMBER",
-    //   payload: { visit_number: data.visit_number },
-    // });
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: data.visit_number },
+    });
 
-    // dispatch({ type: "OCCURENCE", payload: { occurence: data.occurence } });
+    dispatch({ type: "OCCURENCE", payload: { occurence: data.occurence } });
 
-    // dispatch({ type: "IS_REPEAT", payload: { isRepeat: data.isRepeat } });
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: data.isRepeat } });
 
-    // dispatch({ type: "CREATED_BY", payload: { created_by: data.created_by } });
+    dispatch({ type: "CREATED_BY", payload: { created_by: data.created_by } });
+  };
+
+  const removeVisitClick = () => {
+    dispatch({ type: "NAME", payload: { name: "" } });
+
+    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
+
+    dispatch({ type: "VISIT_ID", payload: { id: "" } });
+
+    dispatch({ type: "DURATION", payload: { duration: "" } });
+
+    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
+
+    dispatch({ type: "LOCATION", payload: { location: "" } });
+
+    dispatch({ type: "NOTES", payload: { notes: "" } });
+
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: "" },
+    });
+
+    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
+
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
+
+    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
   };
 
   useEffect(() => {
-    const getVisits = async () => {
-      const responseData = await GetVisit();
-      const showVisits = parseVisits(responseData);
-      console.log(showVisits);
-      setData(showVisits);
-    };
     let role = JSON.parse(localStorage.getItem("user"));
     const getClinicVisits = async () => {
       const responseData = await GetClinicVisits(role.clinic_id);
       const showVisits = parseVisits(responseData);
-      // console.log(showVisits)
       setData(showVisits);
     };
-    if (role.role == "admin") {
-      console.log("role is ", role.role);
-      getVisits();
-    } else {
-      console.log("role is ", role.role);
-      getClinicVisits();
-    }
-    // let role = JSON.parse(localStorage.getItem("user"))
-    // // console.log(role)
-    // const getClinicVisits = async () => {
-    //   console.log(role)
-    //     const responseData = await GetClinicVisits(role.clinic_id);
-    //     const showVisits = parseVisits(responseData);
-    //     setData(showVisits)
-    // }
 
-    // getClinicVisits(role)
+    getClinicVisits(role);
   }, []);
 
   let m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -251,10 +253,8 @@ export default function Day({ setIsVisible, day }) {
           </tr>
 
           {/* day row */}
-          {time.map((t, i) => 
-          (
+          {time.map((t, i) => (
             <>
-              {/* 15min block */}
               <tr key={i} className="tabel_container">
                 <td
                   data-content={t[0] > 0 ? t : t.substring(1)}
@@ -265,10 +265,26 @@ export default function Day({ setIsVisible, day }) {
                     t[0] + t[1] == 12
                       ? t[0] + t[1]
                       : t[6] + t[7] == "PM"
-                        ? parseInt(t[0] + t[1]) + 12
-                        : t[0] + t[1]
+                      ? parseInt(t[0] + t[1]) + 12
+                      : t[0] + t[1]
                   }
                   onClick={(e) => {
+                      data.forEach((d) => {
+                        console.log(d)
+                        if (
+                          !(
+                            new Date(d.startDate).getDate() === todayDate &&
+                            tConvert(d.startTime)[8] === t[6] &&
+                            tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                            d.startTime.slice(3, 5) < 15
+                          )
+                        ) {
+                          removeVisitClick();
+                        }
+                        else{
+                          handleVisitClick(d)
+                        }
+                      });
                     let hour = e.target.id;
                     console.log(hour);
                     m.set({ h: hour, m: 0 });
@@ -282,20 +298,20 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From P",
                         todayDate +
-                        newDate.slice(0, 17) +
-                        (+t.slice(0, 2) + 7) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          newDate.slice(0, 17) +
+                          (+t.slice(0, 2) + 7) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(7, 17) +
-                            (+t.slice(0, 2) + 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(7, 17) +
+                              (+t.slice(0, 2) + 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -303,27 +319,25 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From A",
                         todayDate +
-                        newDate.slice(7, 17) +
-                        (+t.slice(0, 2) - 5) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          newDate.slice(7, 17) +
+                          (+t.slice(0, 2) - 5) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(7, 17) +
-                            (+t.slice(0, 2) - 6) +
-                            ":30:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(7, 17) +
+                              (+t.slice(0, 2) - 6) +
+                              ":30:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
                     }
 
-                    // console.log(new Date().toUTCString().slice(0,17))
-                    // console.log(new Date().toUTCString().slice(25,29))
                     console.log(m.format("HH:mm"));
                     console.log(moment(dayTag.date).format("HH:mm"));
                     console.log(t);
@@ -340,7 +354,7 @@ export default function Day({ setIsVisible, day }) {
                         d.startTime.slice(3, 5) < 15
                     )
                     .map((d, i) => (
-                      <button >
+                      <button onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
@@ -363,7 +377,6 @@ export default function Day({ setIsVisible, day }) {
                   )} */}
                 </td>
               </tr>
-              {/* 30min block */}
               <tr>
                 <td className="col"></td>
                 <td
@@ -371,10 +384,27 @@ export default function Day({ setIsVisible, day }) {
                     t[0] + t[1] == 12
                       ? t[0] + t[1]
                       : t[6] + t[7] == "Pm"
-                        ? parseInt(t[0] + t[1]) + 12
-                        : t[0] + t[1]
+                      ? parseInt(t[0] + t[1]) + 12
+                      : t[0] + t[1]
                   }
                   onClick={(e) => {
+                    data.forEach((d) => {
+                      console.log(d)
+                      if (
+                        !(
+                          new Date(d.startDate).getDate() === todayDate &&
+                        tConvert(d.startTime)[8] === t[6] &&
+                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                        d.startTime.slice(3, 5) >= 15 &&
+                        d.startTime.slice(3, 5) < 30
+                        )
+                      ) {
+                        removeVisitClick();
+                      }
+                      else{
+                        handleVisitClick(d)
+                      }
+                    });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -389,19 +419,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From P",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) + 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) + 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) + 6) +
-                            ":45:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) + 6) +
+                              ":45:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -409,19 +439,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From A",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) - 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) - 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) - 6) +
-                            ":45:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) - 6) +
+                              ":45:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -435,20 +465,19 @@ export default function Day({ setIsVisible, day }) {
                   {data
                     .filter(
                       (d) =>
-                      new Date(d.startDate).getDate() === todayDate &&
-                      tConvert(d.startTime)[8] === t[6] &&
-                      tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                        new Date(d.startDate).getDate() === todayDate &&
+                        tConvert(d.startTime)[8] === t[6] &&
+                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
                         d.startTime.slice(3, 5) >= 15 &&
                         d.startTime.slice(3, 5) < 30
                     )
                     .map((d, i) => (
-                      <button key={d.id} >
+                      <button key={d.id} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
                 </td>
               </tr>
-              {/* 45min block  */}
               <tr>
                 <td className="col"></td>
                 <td
@@ -456,10 +485,27 @@ export default function Day({ setIsVisible, day }) {
                     t[0] + t[1] == 12
                       ? t[0] + t[1]
                       : t[6] + t[7] == "Pm"
-                        ? parseInt(t[0] + t[1]) + 12
-                        : t[0] + t[1]
+                      ? parseInt(t[0] + t[1]) + 12
+                      : t[0] + t[1]
                   }
                   onClick={(e) => {
+                    data.forEach((d) => {
+                      console.log(d)
+                      if (
+                        !(
+                          new Date(d.startDate).getDate() === todayDate &&
+                          tConvert(d.startTime)[8] === t[6] &&
+                          tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                          d.startTime.slice(3, 5) >= 30 &&
+                          d.startTime.slice(3, 5) < 45
+                        )
+                      ) {
+                        removeVisitClick();
+                      }
+                      else{
+                        handleVisitClick(d)
+                      }
+                    });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -474,19 +520,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From P",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) + 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) + 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) + 7) +
-                            ":00:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) + 7) +
+                              ":00:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -494,19 +540,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From A",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) - 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) - 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) - 5) +
-                            ":00:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) - 5) +
+                              ":00:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -520,22 +566,19 @@ export default function Day({ setIsVisible, day }) {
                   {data
                     .filter(
                       (d) =>
-                      new Date(d.startDate).getDate() === todayDate &&
-                      tConvert(d.startTime)[8] === t[6] &&
-                      tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                        new Date(d.startDate).getDate() === todayDate &&
+                        tConvert(d.startTime)[8] === t[6] &&
+                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
                         d.startTime.slice(3, 5) >= 30 &&
                         d.startTime.slice(3, 5) < 45
                     )
-                    .map((d, i) => {
-                      console.log(d)(
-                        <button key={d.id} >
-                          {d.patient}
-                        </button>
-                      )
-                    })}
+                    .map((d, i) => (
+                      <button key={d.id} onClick={() => handleVisitClick(d)}>
+                        {d.patient}
+                      </button>
+                    ))}
                 </td>
               </tr>
-              {/* 60min block  */}
               <tr>
                 <td className="col"></td>
                 <td
@@ -543,10 +586,27 @@ export default function Day({ setIsVisible, day }) {
                     t[0] + t[1] == 12
                       ? t[0] + t[1]
                       : t[6] + t[7] == "Pm"
-                        ? parseInt(t[0] + t[1]) + 12
-                        : t[0] + t[1]
+                      ? parseInt(t[0] + t[1]) + 12
+                      : t[0] + t[1]
                   }
                   onClick={(e) => {
+                    data.forEach((d) => {
+                      console.log(d)
+                      if (
+                        !(
+                          new Date(d.startDate).getDate() === todayDate &&
+                        tConvert(d.startTime)[8] === t[6] &&
+                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                        d.startTime.slice(3, 5) >= 45 &&
+                        d.startTime.slice(3, 5) < 60
+                        )
+                      ) {
+                        removeVisitClick();
+                      }
+                      else{
+                        handleVisitClick(d)
+                      }
+                    });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -561,19 +621,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From P",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) + 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) + 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) + 7) +
-                            ":15:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) + 7) +
+                              ":15:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -581,19 +641,19 @@ export default function Day({ setIsVisible, day }) {
                       console.log(
                         "From A",
                         newDate.slice(0, 17) +
-                        (+t.slice(0, 2) - 6) +
-                        ":30:00" +
-                        newDate.slice(25, 29)
+                          (+t.slice(0, 2) - 6) +
+                          ":30:00" +
+                          newDate.slice(25, 29)
                       );
                       dispatch({
                         type: "VISIT_DATE",
                         payload: {
                           date: moment(
                             todayDate +
-                            newDate.slice(4, 17) +
-                            (+t.slice(0, 2) - 5) +
-                            ":15:00" +
-                            newDate.slice(25, 29)
+                              newDate.slice(4, 17) +
+                              (+t.slice(0, 2) - 5) +
+                              ":15:00" +
+                              newDate.slice(25, 29)
                           ),
                         },
                       });
@@ -607,22 +667,21 @@ export default function Day({ setIsVisible, day }) {
                   {data
                     .filter(
                       (d) =>
-                      new Date(d.startDate).getDate() === todayDate &&
-                      tConvert(d.startTime)[8] === t[6] &&
-                      tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                        new Date(d.startDate).getDate() === todayDate &&
+                        tConvert(d.startTime)[8] === t[6] &&
+                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
                         d.startTime.slice(3, 5) >= 45 &&
                         d.startTime.slice(3, 5) < 60
                     )
                     .map((d, i) => (
-                      <button key={d.id} >
+                      <button key={d.id} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
                 </td>
               </tr>
             </>
-          )
-          )}
+          ))}
         </tbody>
       </table>
     </>
