@@ -129,7 +129,7 @@ export const WeekDatePicker = ({ week, setWeek }) => {
         }} />  */}
         
 
-        <DateRangePicker oneTap showOneCalendar style={{border:'none'}} value={weekValue}  hoverRange="week" ranges={[]} onChange={value => {
+        <DateRangePicker  oneTap showOneCalendar style={{border:'none'}} value={weekValue}  hoverRange="week" ranges={[]} onChange={value => {
           setweekValue(value)
           setWeek(moment(value[1], "DD/MM/YYYY"));
           dispatch({ type: 'CALENDER_WEEK', payload: { week: moment(value[1], "DD/MM/YYYY") } });

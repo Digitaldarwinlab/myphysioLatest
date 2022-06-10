@@ -145,8 +145,21 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const { Option } = Select;
 
   const showModal = () => {
-
-
+    dispatch({ type: "NAME", payload: { name: "" } });
+    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
+    dispatch({ type: "VISIT_ID", payload: { id: "" } });
+    dispatch({ type: "DURATION", payload: { duration: "" } });
+    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
+    dispatch({ type: "LOCATION", payload: { location: "" } });
+    dispatch({ type: "NOTES", payload: { notes: "" } });
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: "" },
+    });
+    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
+    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
     setIsVisible(true);
   };
 
@@ -529,7 +542,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             {/* repeat  */}
             {(reducerData.isRepeat) && <Row>
 
-              <p> Recurrence Rule</p>
+              <p > Recurrence Rule</p>
               <Col span={24}>
                 {/* Repeat */}
 
@@ -537,13 +550,13 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 {repeat === "Weekly" && (<div className='repeatFun'>
 
 
-                  <p>Repeat On</p>
+                  <p style={{fontWeight:'700'}}>Repeat On</p>
                   <div style={{ marginBottom: '80px' }}>
                     {days.map((day, index) => <SelectDay day={day} key={index} activeDays={reducerData.days || []} setActiveDays={setActiveDays} />)}
                   </div>
 
 
-                  <label>Visits Occurence</label>
+                  <label style={{fontWeight:'700'}}>Visits Occurence</label>
                   <br></br>
                   <InputNumber value={reducerData.occurence || reducerData.visit_number} min={1} max={31} onChange={(value) => {
                     setOccurences(value);

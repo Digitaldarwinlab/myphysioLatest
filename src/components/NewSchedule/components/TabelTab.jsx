@@ -33,7 +33,7 @@ const [week, setWeek] = useState(moment())
           <Week setIsVisible={setIsVisible} currentWeek={week}/>
         </TabPane>
         <TabPane tab="Month" key="3">
-          <Month setIsVisible={setIsVisible} month={month} />
+          <Month setIsVisible={setIsVisible} month={month} setMonth={setMonth} />
         </TabPane>
       </Tabs>
     </div>
