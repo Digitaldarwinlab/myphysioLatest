@@ -67,6 +67,9 @@ client.on('stream-added', function (evt) {
   var stream = evt.stream;
   var streamId = String(stream.getId());
   console.log("new stream added: " + streamId);
+  var peerID = $("#form-peerId").val();
+  console.log('stream is ',peerId)
+  $(`video`+peerId).css({'object-fit':' '})
   // Check if the stream is local
   if (streamId != localStreams.screen.id) {
     console.log('subscribe to remote stream:' + streamId);
@@ -241,6 +244,7 @@ async function getVideo() {
 
 async function streamMultiplexer() {
   userVideoStream = await getUserVideo();
+  $('#video'+localStreams.camera.id).css({'object-fit':'none'})
   cameraElement.srcObject = userVideoStream;
   options = {
     video: cameraElement,
@@ -458,6 +462,7 @@ function addRemoteStreamMiniView(remoteStream){
       $('<div/>', {'id': 'agora_remote_' + streamId, 'class': 'remote-video'})
     )
   );
+  
   remoteStream.play('agora_remote_' + streamId); 
 
   var containerId = '#' + streamId + '_container';
