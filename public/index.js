@@ -207,6 +207,19 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
     sendFileMessage("AI_Data.json",peerID,blob)
   }
 
+  else if(message.fileName === 'ChangedAngle.json'){
+    const blob = await clientRTM.downloadMedia(message.mediaId)
+    const reader = new FileReader();
+    reader.addEventListener('loadend', (e) => {
+      var checkedValues = JSON.parse(e.srcElement.result)
+      console.log(checkedValues)
+      darwin.setExcersiseParams({
+        angles: checkedValues,
+      });
+     });
+      reader.readAsText(blob)
+  }
+
   else if(message.fileName === 'Anterior.json'){
     const blob = await clientRTM.downloadMedia(message.mediaId)
     const reader = new FileReader();

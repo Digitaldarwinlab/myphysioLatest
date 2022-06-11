@@ -547,7 +547,10 @@ const AImodel = () => {
 // }
 
 const onChangeAngles = (checkedValues) => {
+  var peerID = $("#form-peerId").val();
   setAngleValues(checkedValues)
+  var blob_ex = new Blob([JSON.stringify(checkedValues)], {type: "application/json"});
+  sendFileMessage("ChangedAngle.json",peerID,blob_ex) //this message should go first
 }
 
 const ifCheck = (tempJoints) => {
