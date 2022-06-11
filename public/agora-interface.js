@@ -67,9 +67,6 @@ client.on('stream-added', function (evt) {
   var stream = evt.stream;
   var streamId = String(stream.getId());
   console.log("new stream added: " + streamId);
-  var peerID = $("#form-peerId").val();
-  console.log('stream is ',peerId)
-  $(`video`+peerId).css({'object-fit':' '})
   // Check if the stream is local
   if (streamId != localStreams.screen.id) {
     console.log('subscribe to remote stream:' + streamId);
@@ -244,7 +241,6 @@ async function getVideo() {
 
 async function streamMultiplexer() {
   userVideoStream = await getUserVideo();
-  $('#video'+localStreams.camera.id).css({'object-fit':'none'})
   cameraElement.srcObject = userVideoStream;
   options = {
     video: cameraElement,
@@ -443,8 +439,6 @@ function stopScreenShare() {
     console.log("screen client leaves channel");
     $("#screen-share-btn").prop("disabled",false); // enable button
     screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
-    var uid = parseInt($("#form-uid").val());
-    createCameraStream(uid)
     // localStreams.screen.stream.close(); // close the screen client stream
     // localStreams.screen.id = ""; // reset the screen id
     // localStreams.screen.stream = {}; // reset the stream obj
@@ -468,7 +462,6 @@ function addRemoteStreamMiniView(remoteStream){
       $('<div/>', {'id': 'agora_remote_' + streamId, 'class': 'remote-video'})
     )
   );
-  
   remoteStream.play('agora_remote_' + streamId); 
 
   var containerId = '#' + streamId + '_container';

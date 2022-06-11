@@ -930,7 +930,7 @@ class AI extends Component {
         <Col md={10} lg={10} sm={24} xs={24}>
           <Row className="arom_details_tab">
             <Col span={12}>
-              Excercise : <b>Squat</b>
+              Excercise : <b>{this.state.selectedExercise}</b>
             </Col>
             <Col span={12}>
               Patient :{" "}
