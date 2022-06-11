@@ -429,21 +429,19 @@ function initScreenShare(agoraAppId, channelName, uid) {
 }
 
 function stopScreenShare() {
-  // localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
-  // localStreams.screen.stream.stop(); // stop playing the local stream
-  // localStreams.camera.stream.enableVideo(); // enable the camera feed
-  // localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
+  localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
+  localStreams.screen.stream.stop(); // stop playing the local stream
+  localStreams.camera.stream.enableVideo(); // enable the camera feed
+  localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
   $("#video-btn").prop("disabled",false);
   screenClient.leave(function() {
     screenShareActive = false; 
     console.log("screen client leaves channel");
     $("#screen-share-btn").prop("disabled",false); // enable button
     screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
-    var uid = parseInt($("#form-uid").val());
-    createCameraStream(uid)
-    // localStreams.screen.stream.close(); // close the screen client stream
-    // localStreams.screen.id = ""; // reset the screen id
-    // localStreams.screen.stream = {}; // reset the stream obj
+    localStreams.screen.stream.close(); // close the screen client stream
+    localStreams.screen.id = ""; // reset the screen id
+    localStreams.screen.stream = {}; // reset the stream obj
   }, function(err) {
     console.log("client leave failed ", err); //error handling
   }); 
