@@ -27,6 +27,7 @@ function enableUiControls(localStream) {
       var uid = $("#form-uid").val();
       console.log("init screen share");
       initScreenShare(agoraAppId, channelName, uid);
+      $('#remote-streams').css({'display':'none'})
     }
   });
 
