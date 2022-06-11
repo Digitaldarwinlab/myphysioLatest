@@ -422,3 +422,9 @@ div>.ant-picker-input {
   margin-left: 5px;
   margin-top: 3px;
 }
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
