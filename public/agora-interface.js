@@ -24,8 +24,8 @@ const userCameraHeight = 500;
 const userCameraWidth = 600;
 
 // video profile settings
-var cameraVideoProfile = '480p_4'; // 640 × 480 @ 30fps  & 750kbs
-var screenVideoProfile = '480p_2'; // 640 × 480 @ 30fps
+var cameraVideoProfile = '480p_9'; // 848 × 480 @ 30fps  & 930kbs
+var screenVideoProfile = '480p_9'; // 848 × 480 @ 30fps  & 930kbs
 
 // stream references (keep track of active streams) 
 var remoteStreams = {}; // remote streams obj struct [id : stream] 
