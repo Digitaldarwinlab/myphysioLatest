@@ -5,6 +5,8 @@ let mainToken=''
 
 var aiModelAppear = false;
 
+var toggleStreamID = ''
+
 // create client instances for camera (client) and screen share (screenClient)
 var client = AgoraRTC.createClient({mode: 'rtc', codec: 'vp8'}); 
 var screenClient;
@@ -419,6 +421,7 @@ function initScreenShare(agoraAppId, channelName, uid) {
       client.setRemoteVideoStreamType(remoteStreams[mainStreamId], 1); // subscribe to the low stream
       addRemoteStreamMiniView(remoteStreams[mainStreamId]); // send the main video stream to a container
     }
+    toggleStreamID = mainStreamId
     mainStreamId = localStreams.screen.id;
     localStreams.screen.stream.play("full-screen-video");
   });
@@ -429,19 +432,20 @@ function initScreenShare(agoraAppId, channelName, uid) {
 }
 
 function stopScreenShare() {
-  localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
-  localStreams.screen.stream.stop(); // stop playing the local stream
-  localStreams.camera.stream.enableVideo(); // enable the camera feed
-  localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
+  // localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
+  // localStreams.screen.stream.stop(); // stop playing the local stream
+  // localStreams.camera.stream.enableVideo(); // enable the camera feed
+  // localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
   $("#video-btn").prop("disabled",false);
   screenClient.leave(function() {
     screenShareActive = false; 
     console.log("screen client leaves channel");
     $("#screen-share-btn").prop("disabled",false); // enable button
-    screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
-    localStreams.screen.stream.close(); // close the screen client stream
-    localStreams.screen.id = ""; // reset the screen id
-    localStreams.screen.stream = {}; // reset the stream obj
+   // $('#full-screen-video').append($('#player_'+toggleStreamID))
+   // screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
+    // localStreams.screen.stream.close(); // close the screen client stream
+    // localStreams.screen.id = ""; // reset the screen id
+    // localStreams.screen.stream = {}; // reset the stream obj
   }, function(err) {
     console.log("client leave failed ", err); //error handling
   }); 
