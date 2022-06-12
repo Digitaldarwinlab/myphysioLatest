@@ -15,7 +15,7 @@ export default function Week({ setIsVisible, currentWeek }) {
   const dispatch = useDispatch();
   const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const Time = [
-    "07:00 AM",
+    "All Days 07:00 AM",
     "08:00 AM",
     "09:00 AM",
     "10:00 AM",
@@ -245,11 +245,11 @@ export default function Week({ setIsVisible, currentWeek }) {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {/* <tr>
               <td className="all_day" style={{ position: "relative" }}>
                 All Days
               </td>
-              {weeks.map((week, i) => (
+              {/* {weeks.map((week, i) => (
                 <td
                   key={i}
                   onClick={() => {
@@ -259,7 +259,7 @@ export default function Week({ setIsVisible, currentWeek }) {
                   id={week}
                 ></td>
               ))}
-            </tr>
+            </tr> */}
 
             {Time.map((time, i) => (
               <React.Fragment key={i}>
