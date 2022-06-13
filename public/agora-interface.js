@@ -85,12 +85,14 @@ client.on('stream-subscribed', function (evt) {
   remoteStreams[remoteId] = remoteStream;
   console.log("Subscribe remote stream successfully: " + remoteId);
   if( $('#full-screen-video').is(':empty') ) { 
+    console.log("Subscribe remote stream successfully if : " + remoteId);
     mainStreamId = remoteId;
     remoteStream.play('full-screen-video');
     $('#main-stats-btn').show();
     $('#main-stream-stats-btn').show();
   } else if (remoteId == 49024) {
     // move the current main stream to miniview
+    console.log("Subscribe remote stream successfully elseif : " + remoteId);
     remoteStreams[mainStreamId].stop(); // stop the main video stream playback
     client.setRemoteVideoStreamType(remoteStreams[mainStreamId], 1); // subscribe to the low stream
     addRemoteStreamMiniView(remoteStreams[mainStreamId]); // send the main video stream to a container
@@ -98,8 +100,20 @@ client.on('stream-subscribed', function (evt) {
     mainStreamId = remoteId;
     remoteStream.play("full-screen-video");
   } else {
+    console.log("Subscribe remote stream successfully else : " + remoteId);
     client.setRemoteVideoStreamType(remoteStream, 1); // subscribe to the low stream
     addRemoteStreamMiniView(remoteStream);
+    var uid = parseInt($("#form-uid").val());
+    try{
+      let element = document.getElementById('video'+uid);
+      let {width ,height,left,top} = element.getBoundingClientRect()
+    console.log("Subscribe remote stream successfully else : "+ width ," ",height);
+    $('#player_'+remoteId).css({'position':'unset','background-color':''})
+    $('#video'+remoteId).css({'width':`${width}px`,'height':`${height}px`,'position':'absolute','object-fit':'inherit','margin-top':`-5.3333px`,'margin-left':`${15}px`})
+    console.log("Subscribe remote stream successfully else : " + remoteStream.getId());
+    }catch(err){
+      console.log("Subscribe remote stream successfully else err : " + err);
+    }
   }
 });
 
@@ -412,15 +426,21 @@ function initScreenShare(agoraAppId, channelName, uid) {
   console.log(token)
   screenClient.on("stream-published", function (evt) {
     console.log("Publish screen stream successfully");
+    console.log("Publish screen stream successfully if");
     if ($("#full-screen-video").is(":empty")) {
+      console.log("Publish screen stream successfully if");
       $("#main-stats-btn").show();
       $("#main-stream-stats-btn").show();
     } else {
       // move the current main stream to miniview
+      console.log("Publish screen stream successfully else",remoteStreams[mainStreamId]);
+      console.log("Publish screen stream successfully else",remoteStreams);
+      console.log("Publish screen stream successfully else",mainStreamId);
       remoteStreams[mainStreamId].stop(); // stop the main video stream playback
       client.setRemoteVideoStreamType(remoteStreams[mainStreamId], 1); // subscribe to the low stream
       addRemoteStreamMiniView(remoteStreams[mainStreamId]); // send the main video stream to a container
     }
+    console.log("Publish screen stream successfully out");
     toggleStreamID = mainStreamId
     mainStreamId = localStreams.screen.id;
     localStreams.screen.stream.play("full-screen-video");
@@ -432,20 +452,21 @@ function initScreenShare(agoraAppId, channelName, uid) {
 }
 
 function stopScreenShare() {
-  // localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
-  // localStreams.screen.stream.stop(); // stop playing the local stream
-  // localStreams.camera.stream.enableVideo(); // enable the camera feed
-  // localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
+  localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
+  localStreams.screen.stream.stop(); // stop playing the local stream
+  localStreams.camera.stream.enableVideo(); // enable the camera feed
+  localStreams.camera.stream.play('local-video'); // play the camera within the full-screen-video div
   $("#video-btn").prop("disabled",false);
   screenClient.leave(function() {
     screenShareActive = false; 
     console.log("screen client leaves channel");
     $("#screen-share-btn").prop("disabled",false); // enable button
+    $('#full-screen-video').empty()
     $('#full-screen-video').append($('#player_'+toggleStreamID))
-   // screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
-    // localStreams.screen.stream.close(); // close the screen client stream
-    // localStreams.screen.id = ""; // reset the screen id
-    // localStreams.screen.stream = {}; // reset the stream obj
+   screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
+    localStreams.screen.stream.close(); // close the screen client stream
+    localStreams.screen.id = ""; // reset the screen id
+    localStreams.screen.stream = {}; // reset the stream obj
   }, function(err) {
     console.log("client leave failed ", err); //error handling
   }); 
