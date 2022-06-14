@@ -982,6 +982,7 @@ const assesmentChange=(e)=>{
           class="form-control"
           defaultValue={uid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">UID</label>
 
@@ -991,6 +992,7 @@ const assesmentChange=(e)=>{
           class="form-control"
           defaultValue={pid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
