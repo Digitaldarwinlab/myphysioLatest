@@ -273,6 +273,8 @@ async function streamMultiplexer() {
   console.log("stream is ",localStreams.camera.id)
   // $("#full-screen-video"+" "+'#video'+localStreams.camera.id).css({'object-fit':'inherit'})
    $('#video'+localStreams.camera.id).css({'object-fit':'inherit'})
+   console.log("stream is ",mainStreamId)
+   
   darwin.setExcersiseParams({
     "name": "Squat",
     "primaryKeypoint": 0,
@@ -488,7 +490,8 @@ function addRemoteStreamMiniView(remoteStream){
     )
   );
   remoteStream.play('agora_remote_' + streamId); 
-
+  console.log("screen client leaves channel ",mainStreamId);
+  $('#video'+mainStreamId).css({'height':'50%'})
   var containerId = '#' + streamId + '_container';
   $(containerId).dblclick(function() {
     // play selected container as full screen - swap out current full screen stream

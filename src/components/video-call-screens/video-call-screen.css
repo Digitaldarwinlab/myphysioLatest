@@ -1,0 +1,30 @@
+@media only screen and (max-width: 767px) {
+    .video_call_arom_mobile_view{
+        padding-bottom: 60px;
+    }
+    .ant-col{
+        margin: 0 !important;
+        padding:0 ;
+        border: 2px solid white;
+      }
+      .rom_posture_btn{
+        padding-top: 275px;
+        justify-content: center;
+      }
+      .tabss{
+          background-color: white;
+      }
+      .pose_large_view{
+          display: block !important;
+          padding-bottom: 20px;
+      }
+      .pose_mobile_view{
+        display: none !important;
+      }
+      .video_con_bttn{
+        width: 35px;
+      }
+      .video_conf_text{
+          color: white;
+      }
+}
