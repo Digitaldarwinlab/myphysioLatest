@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { Row, Col, Button, Modal } from 'antd';
 import "../../styles/Layout/VideoCon.css"
-
+import Draggable from 'react-draggable';
 
 var channel=""
 var uid=""
@@ -13,7 +13,7 @@ const PatientVideoCallIndex = (props) => {
   const state = useSelector(state => state);
   const [modalVisible, setModalvisible] = useState(false)
   const [videoUrl,setVideoURL]=useState("")
-
+  const nodeRef = useRef(null)
 
   useEffect(() => {
     $("#mic-btn").prop("disabled", true);
@@ -140,18 +140,21 @@ const PatientVideoCallIndex = (props) => {
               </div>
               </div>
             </div>
-          <div id="lower-video-bar" class="row mb-1">
+          <div id="lower-video-bar" style={{position:'absolute'}} class="row mb-1">
             <div id="remote-streams-container" class="container col-9 ml-1">
               <div id="remote-streams" class="row">
               </div>
             </div>
-            <div id="full-screen-video" style={{
+            <Draggable ref={nodeRef} scale={2}>
+            <div  ref={nodeRef} id="full-screen-video" style={{
               position:"absolute",
-              height:"20vh",
-              width:"20vw",
+              height:"150px",
+              width:'150',
+              maxWidth:"150px",
               zIndex:1}}
             class="d-flex flex-row-reverse offset-md-10 col-md-3 mr-4 p-0"></div>
 
+          </Draggable>
           </div>
           <div id="video-block" style={{display:"none"}} > 
           <div class="d-flex flex-row-reverse mt-4">

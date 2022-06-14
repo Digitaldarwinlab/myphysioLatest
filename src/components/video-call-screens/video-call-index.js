@@ -7,6 +7,7 @@ import side_img from '../.././assets/sideways-vector.jpg'
 import Tabs from "../Assesment/Tabs";
 import { check } from "prettier";
 import {STATECHANGE} from '../../contextStore/actions/Assesment'
+import './video-call-screen.css'
 var aiModelAppear = false;
 var channel=""
 var uid=""
@@ -404,7 +405,7 @@ const AImodel = () => {
         //   }
         // } 
         // ex_data.Joints=angle
-        $("#magic-btn").html("Pause")
+      //  $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         console.log(ex_data)
 
@@ -438,7 +439,7 @@ const AImodel = () => {
     }
 
     else {
-        $("#magic-btn").html("Start")
+      //  $("#magic-btn").html("Start")
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         if(selectedAssessmentType=='rom'){
           if(selectedOrientation==1){
@@ -482,7 +483,7 @@ const AImodel = () => {
     }
     else if(selectedAssessmentType=='posture'){
       if(aiModelAppear){
-        $("#magic-btn").html("Start")
+        $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         aiModelAppear = !aiModelAppear;
         }
@@ -687,7 +688,7 @@ const assesmentChange=(e)=>{
               <button
                 id="mic-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
                 <i id="mic-icon" class="fas fa-microphone"></i>
               </button>
@@ -696,7 +697,7 @@ const assesmentChange=(e)=>{
               <button
                 id="video-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
                 <i id="video-icon" class="fas fa-video"></i>
               </button>
@@ -706,7 +707,7 @@ const assesmentChange=(e)=>{
             <button 
             type="button" 
             id="screen-share-btn" 
-            class="btn btn-block btn-dark btn-lg"
+            class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
             </button>
@@ -715,7 +716,7 @@ const assesmentChange=(e)=>{
               <button
                 id="exit-btn"
                 type="button"
-                class="btn btn-block btn-red btn-lg"
+                class="btn video_con_bttn btn-block btn-red btn-lg"
                 onClick={Exit}
               >
                 <i id="exit-icon" class="fas fa-phone-slash"></i>
@@ -725,10 +726,10 @@ const assesmentChange=(e)=>{
               <button
                 id="magic-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
                 onClick={AImodel}
               >
-                Start
+                <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
               </button>
               {/* <input type="text" id="peer-message" class="form-control" /> */}
             </div>
@@ -736,10 +737,10 @@ const assesmentChange=(e)=>{
               <button
                 id="stop-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
                 onClick={AImodelStop}
               >
-                Stop
+               <i class="fa fa-stop" aria-hidden="true"></i>
               </button>
               {/* <input type="text" id="peer-message" class="form-control" /> */}
             </div>
@@ -761,7 +762,7 @@ const assesmentChange=(e)=>{
             </div>
           </div>
           <br></br>
-          <div class="d-flex flex-row-reverse mt-2 mr-5">
+          <div className="rom_posture_btn d-flex flex-row-reverse mt-2">
             {/* <Radio.Group
           options={assessmentType}
           onChange={assesmentChange}
@@ -770,8 +771,8 @@ const assesmentChange=(e)=>{
           buttonStyle="solid"
         /> */}
         <Radio.Group onChange={assesmentChange} defaultValue='rom'>
-          <Radio value={"rom"}>ROM Assessment</Radio>
-          <Radio value={"posture"}>Posture Test</Radio>
+          <Radio className="video_conf_text" value={"rom"}>AROM</Radio>
+          <Radio className="video_conf_text" value={"posture"}>Posture</Radio>
         </Radio.Group>
           </div>
           <br></br>
@@ -783,7 +784,7 @@ const assesmentChange=(e)=>{
            captureSide={captureSide} onChangeSide={onChangeSide} onChangeFront={onChangeFront}/>
           </div>
           </div>
-          <div style={{display:romVisible}} > 
+          <div className="video_call_arom_mobile_view" style={{display:romVisible}} > 
           {/* <div class="d-flex flex-row-reverse mt-4">
           <video src={`${process.env.REACT_APP_EXERCISE_URL}/${videoUrl}`} autoPlay controls loop className="videoScreenCon" />
           </div> */}
