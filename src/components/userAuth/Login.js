@@ -31,8 +31,6 @@ const Login = (props) => {
     } else {
       console.log("getUserMedia not supported");
     }
-    
-
   }, []);
   return (
     <>
