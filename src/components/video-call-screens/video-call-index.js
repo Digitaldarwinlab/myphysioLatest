@@ -770,7 +770,7 @@ const assesmentChange=(e)=>{
           buttonStyle="solid"
         /> */}
         <Radio.Group onChange={assesmentChange} defaultValue='rom'>
-          <Radio value={"rom"}>ROM Assessment</Radio>
+          <Radio value={"rom"}>AROM Assessment</Radio>
           <Radio value={"posture"}>Posture Test</Radio>
         </Radio.Group>
           </div>
@@ -981,6 +981,7 @@ const assesmentChange=(e)=>{
           class="form-control"
           defaultValue={uid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">UID</label>
 
@@ -990,6 +991,7 @@ const assesmentChange=(e)=>{
           class="form-control"
           defaultValue={pid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
