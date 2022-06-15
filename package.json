@@ -57,8 +57,6 @@
     "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build",
     "build:development": "node ./update-build.js &&  env-cmd -f .env.development react-scripts --max_old_space_size=8192 build  && gzipper compress --verbose ./build",
     "build:production": "node ./update-build.js && env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
-    "postbuild": "gzip build/static/js/*.js && gzip build/static/css/*.css",
-    "postbuild:development": "gzip build/static/js/*.js && gzip build/static/css/*.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -92,5 +90,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1655280863581
+  "buildDate": 1655284722290
 }
