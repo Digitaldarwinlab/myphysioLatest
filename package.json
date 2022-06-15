@@ -53,9 +53,9 @@
     "start:testing": "env-cmd -f .env.testing react-scripts --max_old_space_size=4096 start",
     "start:development": "env-cmd -f .env.development react-scripts --max_old_space_size=8192 start",
     "start:production": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 start",
-    "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build  && gzipper compress --verbose ./build",
-    "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build",
-    "build:development": "node ./update-build.js &&  env-cmd -f .env.development react-scripts --max_old_space_size=8192 build  && gzipper compress --verbose ./build",
+    "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build  && gzipper compress --verbose ./build && react-compress",
+    "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build ",
+    "build:development": "node ./update-build.js &&  env-cmd -f .env.development react-scripts --max_old_space_size=8192 build  && gzipper compress --verbose ./build && react-compress",
     "build:production": "node ./update-build.js && env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -90,5 +90,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1655284722290
+  "buildDate": 1655287951737
 }
