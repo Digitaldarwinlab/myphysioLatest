@@ -18,6 +18,7 @@
     "devextreme": "^21.1.4",
     "devextreme-react": "^21.1.4",
     "env-cmd": "^10.1.0",
+    "gzipper": "^7.1.0",
     "html2pdf.js": "^0.10.1",
     "isomorphic-fetch": "^3.0.0",
     "js-base64": "^3.7.2",
@@ -52,9 +53,9 @@
     "start:testing": "env-cmd -f .env.testing react-scripts --max_old_space_size=4096 start",
     "start:development": "env-cmd -f .env.development react-scripts --max_old_space_size=8192 start",
     "start:production": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 start",
-    "build": "node ./update-build.js && react-compress && react-scripts --max_old_space_size=4096 build",
+    "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build  && gzipper compress --verbose ./build",
     "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build",
-    "build:development": "node ./update-build.js && react-compress &&  env-cmd -f .env.development react-scripts --max_old_space_size=8192 build",
+    "build:development": "node ./update-build.js &&  env-cmd -f .env.development react-scripts --max_old_space_size=8192 build  && gzipper compress --verbose ./build",
     "build:production": "node ./update-build.js && env-cmd -f .env.production react-scripts --max_old_space_size=4096 build",
     "postbuild": "gzip build/static/js/*.js && gzip build/static/css/*.css",
     "postbuild:development": "gzip build/static/js/*.js && gzip build/static/css/*.css",
@@ -89,8 +90,7 @@
     "eslint-config-react": "^1.1.7",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2",
-    "react-compress": "^2.5.4"
+    "prettier": "^2.3.2"
   },
-  "buildDate": 1654758066361
+  "buildDate": 1655280863581
 }
