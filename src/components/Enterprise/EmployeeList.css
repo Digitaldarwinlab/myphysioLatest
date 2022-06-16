@@ -1,0 +1,8 @@
+.orgg-listing li{
+    padding:1% 2%;
+}
+
+.orgg-listing li:hover{
+    background-color: #2d7ecb;
+    color:white;
+}

@@ -1,0 +1,10 @@
+.main-container{
+    width:100%;
+    background-color: blue;
+    padding :5px 5px 5px 5px;
+}
+
+.rest{
+    width:100%;
+    background-color: brown;
+}

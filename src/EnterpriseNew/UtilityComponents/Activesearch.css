@@ -1,0 +1,31 @@
+.search-result-box{
+    background-color: transparent;
+    max-height: 150px;
+    margin-top: 10px;
+    z-index: 2000000;
+    border-radius: 10px;
+    overflow-y: scroll;
+background-color: #fff;
+}
+
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  
