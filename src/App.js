@@ -1,4 +1,4 @@
-import React, { useState, lazy,Suspense } from "react";
+import React, { useState, lazy,Suspense,useEffect } from "react";
  import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Login from "./components/userAuth/Login.js";
 // import Signup from "./components/userAuth/Signup.js";
@@ -158,6 +158,17 @@ const App = () => {
 	function SideNavbarCollpased(params) {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
+	useEffect(() => {
+		if(isAuthenticated()){
+			let a = ["https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","AgoraRTCSDK-3.6.10.js","agora-rtm-sdk-1.4.4.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
+			a.map((i)=>{
+				var script = document.createElement("script");
+				script.setAttribute('src',i)
+				script.setAttribute('crossorigin',true)
+				document.body.appendChild(script)
+			})
+		}
+    }, []);
 
 // 	if (process.env.REACT_APP_STAGE === 'PROD')
 //   console.log = function no_console() {};
