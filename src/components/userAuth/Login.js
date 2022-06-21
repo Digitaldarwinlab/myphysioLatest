@@ -37,7 +37,7 @@ const Login = (props) => {
     <>
       <Row className="cont-fluid">
         <Col xs={24} sm={24} md={12} lg={12} xl={14}>
-          <LazyLoadImage  src={loginImage} alt="login" className="vectorImage" />
+          <LazyLoadImage width={1000} height={1000} src={loginImage} alt="login" className="vectorImage" />
         </Col>
         <Col
           xs={20}
