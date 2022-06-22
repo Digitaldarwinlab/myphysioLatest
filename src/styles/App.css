@@ -1151,7 +1151,7 @@ button.ant-modal-close .ant-modal-close-x {
   margin-top: 4px;
 }
 button.ant-btn {
-  border-radius: 0px !important;
+  /* border-radius: 0px !important; */
   min-width: 60px;
   
   text-align: center !important;

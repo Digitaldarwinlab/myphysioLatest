@@ -1,12 +1,24 @@
+.control_buttons{
+    border-radius: 50% !important;
+}
+
+.remote_stream_screen_mobile{
+    display: none !important;
+  }
+  .remote_stream_screen_large{
+      display: block !important;
+}
+
+@media only screen and (min-width: 1200px) {
+  #full-screen-video{
+    width: 780px !important;
+  }
+}
+
 @media only screen and (max-width: 767px) {
     .video_call_arom_mobile_view{
         padding-bottom: 60px;
     }
-    .ant-col{
-        margin: 0 !important;
-        padding:0 ;
-        border: 2px solid white;
-      }
       .rom_posture_btn{
         padding-top: 275px;
         justify-content: center;
@@ -27,4 +39,26 @@
       .video_conf_text{
           color: white;
       }
+      .video_con_bttn{
+        width: 40px;
+      }
+      /* .sticky_button_grp{
+        position: fixed;
+        bottom: 0;
+      } */
+      .remote_stream_screen_mobile{
+        display: block !important;
+      }
+      .remote_stream_screen_large{
+          display: none !important;
+    }
+    .rom_posture_btn_grp{
+        position: absolute;
+    }
+    .arom_class{
+        margin-top: 350px;
+    }
+    .posture_class{
+        margin-top: 870px;
+    }
 }

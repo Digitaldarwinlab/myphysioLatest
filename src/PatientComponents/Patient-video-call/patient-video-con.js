@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Button, Modal, Space } from 'antd';
 import "../../styles/Layout/VideoCon.css"
 import Draggable from 'react-draggable';
-
+import './patient-video-call.css'
 var channel=""
 var uid=""
 var pid=""
@@ -75,59 +75,75 @@ const PatientVideoCallIndex = (props) => {
   return (
 
     <React.Fragment>
-
-      {/* <Row gutter={[20,20]}>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <MyPhysioLogo text="text-white" />
-                    </Col>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <p className="p text-white fw-bold">| pqt-qxy-rty |</p>
-                    </Col>
-                </Row> */}
-      <div class="container-fluid p-0">
-        <div id="main-container">
-          <div id="buttons-container" class="row fixed-bottom justify-content-center mt-3 mb-1">
-            <div class="col-md-2 text-center">
-              {/* <Button id="mic-btn" className="btn-dark">
-                <i id="mic-icon" class="fas fa-microphone"></i>
-              </Button> */}
+       <Row gutter={[16,16]} style={{margin:'20px' , marginTop:'20px', marginBottom:'20px'}}>
+       <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+       <Row gutter={[16,16]} style={{justifyContent:'center'}}>
+       <Col style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
+       <div id="local-stream-container" >
+              <div id="no-local-video" class="col text-center">
+                <i id="user-icon" class="fas fa-user"></i>
+              </div>
+              <div id="local-video" style={{width: "100%",height: "370px",  position: "absolute", transform:"scaleX(-1)"}} class="col p-0">
+              <canvas style={{width: "100%",height:'100%',  position: "absolute"}} class="col p-0" id="scanvas"></canvas>
+              <div id="mute-overlay">
+                <i id="mic-icon" class="fas fa-microphone-slash"></i>
+              </div>
+              <div id="remote-streams" class="row"></div>
+              </div>
+            </div>
+        </Col>
+        <Col className="sticky_button_grp fixed-bottom" span={24} style={{justifyContent:'center',display:'flex' }}>
+        <Space size="small">
               <button
                 id="mic-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
-                <i id="mic-icon" class="fas fa-microphone"></i>
+                <i id="v_mic-icon" class="fas fa-microphone"></i>
               </button>
-            </div>
-            <div class="col-md-2 text-center">
               <button
                 id="video-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
                 <i id="video-icon" class="fas fa-video"></i>
               </button>
-            </div>
-            <div id="screen-share-btn-container" class="col-md-2 text-center">
-            <button 
+              <button 
             type="button" 
             id="screen-share-btn" 
-            class="btn btn-block btn-dark btn-lg"
+            class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
             </button>
-            </div>
-            <div class="col-md-2 text-center">
-              <button
+            <button
                 id="exit-btn"
                 type="button"
-                class="btn btn-block btn-red btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
                 onClick={Exit}
               >
                 <i id="exit-icon" class="fas fa-phone-slash"></i>
               </button>
-            </div>
-          </div>
+          </Space>
+        </Col>
+       </Row>
+       </Col>
+       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+       <Row>
+       <Draggable ref={nodeRef} scale={2}> 
+       <Col style={{width:'640px',height:'150px'}} span={24}>
+       <div  ref={nodeRef} id="full-screen-video" style={{
+              position:"absolute",
+              height:"100%",
+              width:'100%',
+              zIndex:1}}
+            ></div>
+      </Col>
+              </Draggable> 
+        </Row>
+       </Col>
+      </Row>
+      {/* <div class="container-fluid p-0">
+         
           <div id="local-stream-container" class="col-10 mt-3 ml-1">
               
               <div id="no-local-video" class="col text-center">
@@ -140,12 +156,14 @@ const PatientVideoCallIndex = (props) => {
               </div>
               </div>
             </div>
-          <div id="lower-video-bar" style={{position:'absolute'}} class="row mb-1">
+          <div id="lower-video-bar" 
+          //style={{position:'absolute'}}
+          class="row mb-1">
             <div id="remote-streams-container" class="container col-9 ml-1">
               <div id="remote-streams" class="row">
               </div>
             </div>
-            <Draggable ref={nodeRef} scale={2}>
+            {/* <Draggable ref={nodeRef} scale={2}> 
             <div  ref={nodeRef} id="full-screen-video" style={{
               position:"absolute",
               height:"150px",
@@ -154,16 +172,11 @@ const PatientVideoCallIndex = (props) => {
               zIndex:1}}
             class="d-flex flex-row-reverse offset-md-10 col-md-3 mr-4 p-0"></div>
 
-          </Draggable>
-          </div>
-          <div id="video-block" style={{display:"none"}} > 
-          <div class="d-flex flex-row-reverse mt-4">
-          <video id="video-screen" src={`${process.env.REACT_APP_EXERCISE_URL}/`+videoUrl} autoPlay controls loop className="videoScreenCon" />
-          </div>
+           </Draggable> 
           </div>
 
-        </div>
-      </div>
+       
+      </div> */}
       <Modal
       onCancel={handleCancel}
         visible={modalVisible}
