@@ -692,16 +692,16 @@ class AI extends Component {
 
   componentWillUnmount() {
     const video = document.getElementById("video");
-
     const mediaStream = video.srcObject;
     try {
       const tracks = mediaStream.getTracks();
       tracks[0].stop();
       tracks.forEach((track) => track.stop());
-
+      
       console.log("camera releasing....");
       console.log(tracks);
     } catch (err) {
+      console.log(mediaStream)
       console.log("camera not releasing....");
       console.log(err);
     }
@@ -734,6 +734,7 @@ class AI extends Component {
     //     showAngles: true,
     // };
     this.innerHTML2();
+    console.log(options)
     window.darwin.initializeModel(options);
     this.start();
     console.log("exerc ", this.state.primaryExercise);

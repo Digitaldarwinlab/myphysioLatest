@@ -7,7 +7,7 @@ import {
     CARE_PLAN_POST_DATA,
     FETCH_DATA,
     FILTER_DATA
-} from './../../contextStore/actions/care-plan-action';
+} from '../../contextStore/actions/care-plan-action';
 //@func care-plan exercise data 
 //@output List of Exercise Data
 export const GetExerciseList = async (dispatch, pageSize, current) => {

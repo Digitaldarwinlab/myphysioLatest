@@ -20,7 +20,7 @@ import CarePlanCard from "./care-plan-card/Card";
 import Filter from "./care-plan-Filters/Filter";
 import "antd/dist/antd.css";
 import { GrClose } from "react-icons/gr";
-import EpisodeDetail from "./../patientEpisode/Prescription/EpisodeDetail";
+import EpisodeDetail from "../patientEpisode/Prescription/EpisodeDetail";
 import Cart from "./care-plan-cart/Cart";
 import { FaRunning, FaYoutube, FaPlus } from "react-icons/fa";
 import { IconContext } from "react-icons";
@@ -31,19 +31,19 @@ import {
   GetExerciseList,
   getFiteredExercistData,
   GetJoint,
-} from "./../../API/care-plan/care-plan-api";
+} from "../../API/care-plan/care-plan-api";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CARE_PLAN_ADD_TO_CART,
   CARE_PLAN_EXERCISE_CHANGE,
   CARE_PLAN_STATE_CHANGE,
   RECEIVED_DATA,
-} from "./../../contextStore/actions/care-plan-action";
+} from "../../contextStore/actions/care-plan-action";
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from "./care-plan-allocate-plan/CareAllocatePlan";
-import ActiveSearch from "./../UtilityComponents/ActiveSearch";
+import ActiveSearch from "../UtilityComponents/ActiveSearch";
 import { getEpisode } from "../../API/Episode/EpisodeApi";
-import { CARE_PLAN_CLEAR_STATE } from "./../../contextStore/actions/care-plan-action";
+import { CARE_PLAN_CLEAR_STATE } from "../../contextStore/actions/care-plan-action";
 import { Patient_profile } from "../../API/PatientRegistration/Patient";
 import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 {

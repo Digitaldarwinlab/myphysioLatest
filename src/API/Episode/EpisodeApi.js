@@ -7,7 +7,7 @@ import {
     EPISODE_BOOK_SUCCESS,
     ASSESSMENT_REQUEST,
     ASSESSMENT_SUCCESS,
-} from "./../../contextStore/actions/episode";
+} from "../../contextStore/actions/episode";
 //@Add Episode 
 //@param Episode details
 //@return- Message.

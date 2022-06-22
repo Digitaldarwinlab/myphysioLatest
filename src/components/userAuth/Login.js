@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AuthForm from "./Form";
 import loginImage from "./../../assets/loginImage.JPG";
 import MyPhysioLogo from "./../UtilityComponents/MyPhysioLogo";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "../../styles/userAuth/userAuth.css";
 import { Row, Col } from "antd";
 import ForgotPassword from "./ForgotPassword";
@@ -36,7 +37,7 @@ const Login = (props) => {
     <>
       <Row className="cont-fluid">
         <Col xs={24} sm={24} md={12} lg={12} xl={14}>
-          <img src={loginImage} alt="login" className="vectorImage" />
+          <LazyLoadImage width={1000} height={1000} src={loginImage} alt="login" className="vectorImage" />
         </Col>
         <Col
           xs={20}
