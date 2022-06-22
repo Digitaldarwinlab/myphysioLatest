@@ -4,7 +4,7 @@ import {
     PATIENT_UPD_SUCCESS
 } from "../../contextStore/actions/authAction";
 import fetch from "isomorphic-fetch";
-import { STATECHANGE } from './../../contextStore/actions/authAction';
+import { STATECHANGE } from '../../contextStore/actions/authAction';
 import { Decode, Encode } from "../../Encode/hashing";
 
 export const Patient_Register = async (user, dispatch) => {

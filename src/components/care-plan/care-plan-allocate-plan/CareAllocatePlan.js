@@ -2,7 +2,7 @@
 /*eslint array-callback-return:"off" */
 import Switch from "react-switch";
 import React, { useState, useEffect ,useRef } from "react";
-import CarePlanCard from "./../care-plan-card/Card";
+import CarePlanCard from "../care-plan-card/Card";
 import {
   Row,
   Col,
@@ -15,7 +15,7 @@ import {
   Radio,
   notification,
 } from "antd";
-import FormDate from "./../../UI/antInputs/FormDate";
+import FormDate from "../../UI/antInputs/FormDate";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CARE_PLAN_ROM_CHANGE,
@@ -27,13 +27,13 @@ import {
 import {
   EditCarePlanAllocation,
   postCarePlanAllocation,
-} from "./../../../API/care-plan/care-plan-api";
+} from "../../../API/care-plan/care-plan-api";
 import { FaCheck } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import TimePickerComp from "./TimePickerComp";
-import Loading from "./../../UtilityComponents/Loading";
-import Success from "./../../UtilityComponents/SuccessHandler";
-import Error from "./../../UtilityComponents/ErrorHandler";
+import Loading from "../../UtilityComponents/Loading";
+import Success from "../../UtilityComponents/SuccessHandler";
+import Error from "../../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../../contextStore/actions/authAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useForm } from "antd/lib/form/Form";

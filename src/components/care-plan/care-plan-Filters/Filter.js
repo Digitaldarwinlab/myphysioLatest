@@ -2,7 +2,7 @@ import React from 'react'
 import { Collapse, Checkbox } from "antd";
 import { 
     Levels,Joints,Muscles,Movement
-} from './../../UtilityComponents/dummyData/care-plan-dummy-data/FiltersData';
+} from '../../UtilityComponents/dummyData/care-plan-dummy-data/FiltersData';
 const { Panel } = Collapse;
 
 export default function Filter({filterExercise,checkedList ,setFilterData}){

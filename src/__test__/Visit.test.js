@@ -1,7 +1,7 @@
 import { shallow,mount} from 'enzyme';
-import Validation from './../components/Validation/index';
-import FormInput from './../components/UI/antInputs/FormInput';
-import SchduleForm from './../components/UtilityComponents/SchduleForm';
+import Validation from '../components/Validation/index';
+import FormInput from '../components/UI/antInputs/FormInput';
+import SchduleForm from '../components/UtilityComponents/SchduleForm';
 
 const state = {
     start_date:"",
