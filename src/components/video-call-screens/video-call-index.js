@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useSelector ,useDispatch } from 'react-redux';
-import { Row, Col, Button, Modal,notification,Radio,Checkbox } from 'antd';
+import { Row, Col, Button, Modal,notification,Radio,Checkbox, Space, Tooltip } from 'antd';
 import "../../styles/Layout/VideoCon.css"
 import bodyImage from "../.././assets/lateral.jpg"
+import 'antd/dist/antd.css'
 import side_img from '../.././assets/sideways-vector.jpg'
 import Tabs from "../Assesment/Tabs";
 import { check } from "prettier";
 import {STATECHANGE} from '../../contextStore/actions/Assesment'
 import './video-call-screen.css'
+import {BsFillMicFill} from 'react-icons/bs'
 var aiModelAppear = false;
 var channel=""
 var uid=""
@@ -149,6 +151,7 @@ const VideoCallIndex = (props) => {
   const [romVisible, setRomVisible] = useState('block')
   const [postureVisible, setPostureVisible] = useState('none')
   const [videoUrl,setVideoURL]=useState("")
+  const [Mt,setMt]=useState(true)
   const [angleValues,setAngleValues]=useState([0, 1, 2, 3, 8, 9, 10, 11, 16, 17])
   const [exerciseURL,setExerciseURL]=useState("")
   const [toggleState, setToggleState] = useState(1);
@@ -659,8 +662,10 @@ const assesmentChange=(e)=>{
   if(e.target.value=='rom'){
     setPostureVisible("none")
     setRomVisible("block")
+    setMt(true)
   }
   else{
+    setMt(false)
     setRomVisible('none')
     setPostureVisible('block')
   }
@@ -669,22 +674,11 @@ const assesmentChange=(e)=>{
   return (
 
     <React.Fragment>
+      {/* <div class="container-fluid p-0">
+        <div id="main-container"> */}
 
-      {/* <Row gutter={[20,20]}>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <MyPhysioLogo text="text-white" />
-                    </Col>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <p className="p text-white fw-bold">| pqt-qxy-rty |</p>
-                    </Col>
-                </Row> */}
-      <div class="container-fluid p-0">
-        <div id="main-container">
-          <div id="buttons-container" class="row fixed-bottom justify-content-center mt-3 mb-1">
+          {/* <div id="buttons-container" class="row fixed-bottom justify-content-center mt-3 mb-1">
             <div class="col-md-2 text-center">
-              {/* <Button id="mic-btn" className="btn-dark">
-                <i id="mic-icon" class="fas fa-microphone"></i>
-              </Button> */}
               <button
                 id="mic-btn"
                 type="button"
@@ -731,7 +725,6 @@ const assesmentChange=(e)=>{
               >
                 <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
               </button>
-              {/* <input type="text" id="peer-message" class="form-control" /> */}
             </div>
             <div class="col-md-2 text-center">
               <button
@@ -742,10 +735,258 @@ const assesmentChange=(e)=>{
               >
                <i class="fa fa-stop" aria-hidden="true"></i>
               </button>
-              {/* <input type="text" id="peer-message" class="form-control" /> */}
             </div>
+          </div> */}
+          <Row gutter={[16,16]} style={{margin:'20px' , marginTop:'20px', marginBottom:'20px'}}>
+            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+              <Row gutter={[16,16]} style={{justifyContent:'center'}}>
+                <Col id="full-screen-video" style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
+                
+                </Col>
+                <Col className="sticky_button_grp fixed-bottom" span={24} style={{justifyContent:'center',display:'flex' }}>
+                  <Space size="small">
+                    
+                    <button
+                id="mic-btn"
+                type="button"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
+              >
+                <i id="v_mic-icon" class="fas fa-microphone"></i>
+              </button>
+                   
+                    
+                    <button
+                id="video-btn"
+                type="button"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
+              >
+                <i id="video-icon" class="fas fa-video"></i>
+              </button>
+                   
+                    
+                    <button 
+            type="button" 
+            id="screen-share-btn" 
+            class="btn video_con_bttn btn-block btn-dark btn-lg"
+            >
+              <i id="screen-share-icon" class="fas fa-desktop"></i>
+            </button>
+                   
+                    
+                    <button
+                id="exit-btn"
+                type="button"
+                class="btn video_con_bttn btn-block btn-red btn-lg"
+                onClick={Exit}
+              >
+                <i id="exit-icon" class="fas fa-phone-slash"></i>
+              </button>
+                   
+                    
+                    <button
+                id="magic-btn"
+                type="button"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
+                onClick={AImodel}
+              >
+                <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
+              </button>
+                   
+                    
+                    <button
+                id="stop-btn"
+                type="button"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
+                onClick={AImodelStop}
+              >
+               <i class="fa fa-stop" aria-hidden="true"></i>
+              </button>
+                   
+                  </Space>
+                </Col>
+              </Row>
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <Row>
+                <Col className={Mt?'arom_class':'posture_class'} style={{width:'640px',height:'150px',marginTop:Mt}} span={24}>
+                <div id="remote-streams" >
+              </div>
+                <div id="local-video" class="col p-0"></div>
+                </Col>
+                <Col className="rom_posture_btn_grp" span={24}>
+                <Radio.Group style={{margin:'10px'}} onChange={assesmentChange} defaultValue='rom'>
+          <Radio 
+         // className="video_conf_text" 
+          value={"rom"}>AROM</Radio>
+          <Radio 
+          //className="video_conf_text" 
+          value={"posture"}>Posture</Radio>
+        </Radio.Group>
+        <div style={{display:postureVisible}}>
+          <Tabs url1={url1} url2={url2} videoCon={true} setOrientation={setOrientation}
+           frontAngles={frontAngles} sideAngles={sideAngles} setFrontAngles={setFrontAngles} 
+           setSideAngles={setSideAngles} captureFront={captureFront}
+           captureSide={captureSide} onChangeSide={onChangeSide} onChangeFront={onChangeFront}/>
           </div>
-          <div id="full-screen-video" class="col-9 mt-3 ml-1"></div>
+          <Col className="video_call_arom_mobile_view" style={{display:romVisible}}>
+                    <>
+                      <div className="containerrr">
+                        <div className="bloc-tabss">
+                          <span
+                            aria-disabled
+                            style={{
+                              width: "460px",
+                              padding: "0px 0 0 0",
+                              height: "35px",
+                            }}
+                            className={
+                              toggleState == 1
+                                ? "tabss active-tabss"
+                                : "tabss"
+                            }
+                            onClick={() => {
+                              //setToggleState(1);
+                              setToggleState(1);
+                              setAngleValues([
+                                0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+                              ]);
+                              setSelectOrientation(1);
+                              if(aiModelAppear){
+                                var magicbtn=document.getElementById("magic-btn")
+                                magicbtn.click();
+                              }
+                              if (SWITCH) {
+                                handleChange();
+                              }
+                            }}
+                          >
+                            <div className="fw-bold ant-tabss-btn">
+                              Anterior
+                            </div>
+                          </span>
+                          <span
+                            style={{
+                              width: "460px",
+                              padding: "0px 0 0 0",
+                              height: "35px",
+                            }}
+                            className={
+                              toggleState == 2
+                                ? "tabss active-tabss"
+                                : "tabss"
+                            }
+                            onClick={() => {
+                              //setToggleState(2);
+                              setToggleState(2);
+                              setAngleValues([0, 4, 6, 12, 14, 18]);
+                              setSelectOrientation(2);
+                              if(aiModelAppear){
+                                var magicbtn=document.getElementById("magic-btn")
+                                magicbtn.click();
+                              }
+                              if (SWITCH) {
+                                handleChange();
+                              }
+                            }}
+                          >
+                            <div className="fw-bold ant-tabss-btn">Lateral</div>
+                          </span>
+                        </div>
+
+                        <div
+                          className={
+                            toggleState == 1
+                              ? "contentt  active-contentt"
+                              : "contentt"
+                          }
+                        >
+                          <br />
+                          <div>
+                            <Checkbox.Group
+                                onChange={(e) =>{
+                                  onChangeAngles(e)
+                                }}                              
+                                defaultValue={angleValues}
+                            >
+                              <Row>
+                                {joints.map((item) => (
+                                  <Col span={10}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>
+                        </div>
+                        <div
+                          className={
+                            toggleState == 2
+                              ? "contentt  active-contentt"
+                              : "contentt"
+                          }
+                        >
+                          <Radio.Group
+                            defaultValue={"left"}
+                            onChange={(e) => changeSide(e.target.value)}
+                          >
+                            <Radio value={"left"}>left</Radio>
+                            <Radio value={"right"}>right</Radio>
+                          </Radio.Group>
+                          <br />
+                          <br />
+                         {latSide=="left"&& <div>
+                            <Checkbox.Group
+                                onChange={(e) =>{
+                                  onChangeAngles(e)
+                                }}                              
+                                defaultValue={ifCheck(leftJoints)}
+                            >
+                              <Row>
+                                {leftJoints.map((item) => (
+                                  <Col span={10}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                          {latSide=="right"&& <div>
+                            <Checkbox.Group
+                            onChange={(e) =>{
+                              onChangeAngles(e)
+                            }}  
+                            defaultValue={ifCheck(rightJoints)}
+                            >
+                              <Row>
+                                {rightJoints.map((item) => (
+                                  <Col span={10}>
+                                    <Checkbox value={item.value}>
+                                      {labels[item.value]}
+                                    </Checkbox>
+                                  </Col>
+                                ))}
+                              </Row>
+                            </Checkbox.Group>
+                          </div>}
+                        </div>
+                      </div>
+                    </>
+                  </Col>
+                </Col>
+              </Row>
+            </Col>
+            {/* <Col className="remote_stream_screen_mobile" style={{border:'5px solid' ,width:'640px',height:'150px'}} span={24}>
+                <div id="remote-streams" >
+              </div>
+                <div id="local-video" class="col p-0"></div>
+                </Col> */}
+          </Row>
+          {/* <div id="full-screen-video" class="col-9 mt-3 ml-1"></div>
+
           <div id="lower-video-bar" class="row mb-1">
             <div id="remote-streams-container" class="container col-9 ml-1">
               <div id="remote-streams" class="row">
@@ -760,16 +1001,9 @@ const assesmentChange=(e)=>{
               </div>
               <div id="local-video" class="col p-0"></div>
             </div>
-          </div>
-          <br></br>
+          </div> */}
+          {/* <br></br>
           <div className="rom_posture_btn d-flex flex-row-reverse mt-2">
-            {/* <Radio.Group
-          options={assessmentType}
-          onChange={assesmentChange}
-          defaultValue='rom'
-          optionType="button"
-          buttonStyle="solid"
-        /> */}
         <Radio.Group onChange={assesmentChange} defaultValue='rom'>
           <Radio className="video_conf_text" value={"rom"}>AROM</Radio>
           <Radio className="video_conf_text" value={"posture"}>Posture</Radio>
@@ -785,23 +1019,7 @@ const assesmentChange=(e)=>{
           </div>
           </div>
           <div className="video_call_arom_mobile_view" style={{display:romVisible}} > 
-          {/* <div class="d-flex flex-row-reverse mt-4">
-          <video src={`${process.env.REACT_APP_EXERCISE_URL}/${videoUrl}`} autoPlay controls loop className="videoScreenCon" />
-          </div> */}
-          {/* <div class="d-flex flex-row-reverse mt-2 mr-3">
-          <select name="ex" id="ex" onChange={ExChanges}>
-              </select>
-          </div> */}
           <div class="d-flex flex-row-reverse col-md-3 offset-md-9 mt-2">
-              {/* <Checkbox.Group defaultValue={ifCheck} onChange={angles}>
-                  <Row>
-                    {joints.map(item => (
-                      <Col offset={20}>
-                          <Checkbox value={item.value}>{item.label}</Checkbox>
-                      </Col>))}
-                    </Row>
-              </Checkbox.Group>
-          </div> */}
           <Col>
                     <>
                       <div className="containerrr">
@@ -874,9 +1092,6 @@ const assesmentChange=(e)=>{
                               : "contentt"
                           }
                         >
-                          {/* <Radio checked value={"front"}>
-            front
-          </Radio> */}
                           <br />
                           <div>
                             <Checkbox.Group
@@ -954,9 +1169,10 @@ const assesmentChange=(e)=>{
                     </>
                   </Col>
                   </div>
-          </div>
-        </div>
-      </div>
+          </div> */}
+        {/* </div>
+      </div> */}
+
       <Modal
         onCancel={handleCancel}
         visible={modalVisible}
@@ -997,7 +1213,6 @@ const assesmentChange=(e)=>{
         <label for="form-uid">Peer ID</label>
       </Modal>
       <canvas hidden id="scanvas" style={{height:'440px'}}></canvas>
-      {/* <canvas ref={canvasRef} width="1310" height="550"></canvas> */}
     </React.Fragment>
   )
 }

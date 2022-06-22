@@ -1,0 +1,11 @@
+@media only screen and (max-width: 767px) {
+      .video_con_bttn{
+        width: 35px;
+      }
+      .video_conf_text{
+          color: white;
+      }
+      .video_con_bttn{
+        width: 40px;
+      }
+}
