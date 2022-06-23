@@ -1172,7 +1172,7 @@ const assesmentChange=(e)=>{
           </div> */}
         {/* </div>
       </div> */}
-
+ <canvas hidden id="scanvas" style={{height:'440px'}}></canvas>
       <Modal
         onCancel={handleCancel}
         visible={modalVisible}
@@ -1212,7 +1212,7 @@ const assesmentChange=(e)=>{
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
-      <canvas hidden id="scanvas" style={{height:'440px'}}></canvas>
+     
     </React.Fragment>
   )
 }
