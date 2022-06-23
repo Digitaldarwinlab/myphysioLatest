@@ -92,7 +92,7 @@ const PatientVideoCallIndex = (props) => {
               </div>
             </div>
         </Col>
-        <Col className="sticky_button_grp fixed-bottom" span={24} style={{justifyContent:'center',display:'flex' }}>
+        <Col className="sticky_button_grp " span={24} style={{justifyContent:'center',display:'flex' }}>
         <Space size="small">
               <button
                 id="mic-btn"
