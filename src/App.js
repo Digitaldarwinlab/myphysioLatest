@@ -215,9 +215,10 @@ const App = () => {
 							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 							<PrivateRoute exact path="/invoice" component={Invoice} />
-							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
-							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
-							<PrivateRoute exact path="/appointments/new1" component={() => <Appointment />} />
+							{/* <PrivateRoute exact path="/appointments" component={() => <Appointments />} /> */}
+							<PrivateRoute exact path="/appointments" component={() => <Appointment />} />
+							<PrivateRoute exact path="/appointments/new1" component={() => <Appointments />} />
+							<PrivateRoute exact path="/appointments/new" component={() => <Appointment />} />
 							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
 							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
 							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />

@@ -19,7 +19,7 @@ import {
   Switch,
   InputNumber,
   Radio,
-  Alert
+  Alert,
 } from "antd";
 import "antd/dist/antd.css";
 import { DatePicker, Space } from "antd";
@@ -51,7 +51,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const today = new Date().getDay();
   const [addVideo, setAddVideo] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState("");
   const dispatch = useDispatch();
   const [activeDays, setActiveDays] = useState([days[today]]);
   const [repeat, setRepeat] = useState("Weekly");
@@ -182,8 +182,41 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
     setEpisode("");
     setIsVisible(true);
   };
+  const removeVisitClick = () => {
+    dispatch({ type: "NAME", payload: { name: "" } });
+
+    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
+    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
+
+    dispatch({ type: "VISIT_ID", payload: { id: "" } });
+
+    dispatch({ type: "DURATION", payload: { duration: "" } });
+
+    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
+
+    dispatch({ type: "LOCATION", payload: { location: "" } });
+
+    dispatch({ type: "NOTES", payload: { notes: "" } });
+
+    // dispatch({
+    //   type: "VISIT_DATE",
+    //   payload: { date: reducerData.date},
+    // });
+
+    dispatch({
+      type: "VISIT_NUMBER",
+      payload: { visit_number: "" },
+    });
+
+    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
+
+    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
+
+    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
+  };
 
   const handleOk = () => {
+    removeVisitClick() 
     dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
     console.log(data);
     setIsVisible(false);
@@ -232,8 +265,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         data.location &&
         activeDays.length > 0
       ) {
-        setAlert(false)
-        setAlertMessage('')
+        setAlert(false);
+        setAlertMessage("");
         const userId = JSON.parse(localStorage.getItem("userId"));
         let payload;
         if (show) {
@@ -246,9 +279,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
-              start_time: changeTime(
-                reducerData.date._d.toISOString().slice(11, 19)
-              ),
+              start_time: reducerData.date._d.toISOString().slice(11, 19),
               duration: data.duration,
             },
             location: data.location,
@@ -258,6 +289,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             occurence: occurences,
             created_by: userId,
           };
+          console.log(reducerData.date._d.toISOString().slice(11, 19));
         } else {
           payload = {
             pp_ed_id: data.episode,
@@ -268,15 +300,14 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
-              start_time: changeTime(
-                reducerData.date._d.toISOString().slice(11, 19)
-              ),
+              start_time: reducerData.date._d.toISOString().slice(11, 19),
               duration: data.duration,
             },
             location: data.location,
             isRepeat: 0,
             created_by: userId,
           };
+          console.log(reducerData.date._d.toISOString().slice(11, 19));
         }
         console.log("payloaddd", payload);
         axios
@@ -293,18 +324,19 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
             console.log(err);
             setError(err);
           });
-      }
-      else{
-        setAlert(true)
+      } else {
+        setAlert(true);
         if (
-          !(data.patient &&
-          data.duration &&
-          data.episode &&
-          data.date &&
-          data.location &&
-          activeDays.length > 0)
-        ){
-          setAlertMessage('Please fill all the mandatory fields')
+          !(
+            data.patient &&
+            data.duration &&
+            data.episode &&
+            data.date &&
+            data.location &&
+            activeDays.length > 0
+          )
+        ) {
+          setAlertMessage("Please fill all the mandatory fields");
         }
       }
 
@@ -335,7 +367,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       appointment_detail: {
         patient: reducerData.patient,
         startDate: reducerData.date._d.toISOString(),
-        start_time: changeTime(reducerData.date._d.toISOString().slice(11, 19)),
+        start_time: reducerData.date._d.toISOString().slice(11, 19),
         duration: reducerData.duration,
       },
       pp_vd_id: reducerData.id,
@@ -404,7 +436,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       };
     }
   }
-
+  
   //model style
   const divStyle = {
     //  overflowY: 'scroll',
@@ -441,6 +473,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         autoComplete="off"
       >
         <Modal
+        afterClose={removeVisitClick}
           footer={[
             <>
               {!reducerData.id && (
@@ -478,7 +511,13 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
           <div style={divStyle}>
             {/* sushant 31-05-22 */}
             {/* <Row><div className='patient_search'><PatientSearch /></div></Row> */}
-            {alert && <Alert message={alertMessage ? alertMessage : 'Error occurred!'} type="error" showIcon />}
+            {alert && (
+              <Alert
+                message={alertMessage ? alertMessage : "Error occurred!"}
+                type="error"
+                showIcon
+              />
+            )}
             <Row className="pt">
               <Col span={12}>
                 <label className="lab">
@@ -542,6 +581,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                   <DatePicker
                     className="modalInputs"
                     onChange={(value) => {
+                      console.log(value);
                       handleChange(value, "date");
                       dispatch({
                         type: "VISIT_DATE",
@@ -670,7 +710,9 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
                   {repeat === "Weekly" && (
                     <div className="repeatFun">
-                      <p style={{ fontWeight: "700" }}>Repeat On <span className="colreq">*</span></p>
+                      <p style={{ fontWeight: "700" }}>
+                        Repeat On <span className="colreq">*</span>
+                      </p>
                       <div style={{ marginBottom: "80px" }}>
                         {days.map((day, index) => (
                           <SelectDay

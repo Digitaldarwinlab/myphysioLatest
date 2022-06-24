@@ -271,25 +271,25 @@ export default function Week({ setIsVisible, currentWeek }) {
                     <td
                       key={i}
                       onClick={() => {
-                        data.forEach((d) => {
-                          console.log(d);
-                          if (
-                            !(
-                              new Date(d.startDate).getDate() === +Arr[i] &&
-                              new Date(d.startDate).getMonth() ===
-                                currentWeek.toDate().getMonth() &&
-                              tConvert(d.startTime)[8] === time[6] &&
-                              tConvert(d.startTime).includes(
-                                time.slice(0, 3)
-                              ) &&
-                              d.startTime.slice(3, 5) < 15
-                            )
-                          ) {
-                            removeVisitClick();
-                          } else {
-                            handleVisitClick(d);
-                          }
-                        });
+                        // data.forEach((d) => {
+                        //   console.log(d);
+                        //   if (
+                        //     !(
+                        //       new Date(d.startDate).getDate() === +Arr[i] &&
+                        //       new Date(d.startDate).getMonth() ===
+                        //         currentWeek.toDate().getMonth() &&
+                        //       tConvert(d.startTime)[8] === time[6] &&
+                        //       tConvert(d.startTime).includes(
+                        //         time.slice(0, 3)
+                        //       ) &&
+                        //       d.startTime.slice(3, 5) < 15
+                        //     )
+                        //   ) {
+                        //     removeVisitClick();
+                        //   } else {
+                        //     handleVisitClick(d);
+                        //   }
+                        // });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
@@ -367,26 +367,26 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        data.forEach((d) => {
-                          console.log(d);
-                          if (
-                            !(
-                              new Date(d.startDate).getDate() === +Arr[i] &&
-                              new Date(d.startDate).getMonth() ===
-                                currentWeek.toDate().getMonth() &&
-                              tConvert(d.startTime)[8] === time[6] &&
-                              tConvert(d.startTime).includes(
-                                time.slice(0, 3)
-                              ) &&
-                              d.startTime.slice(3, 5) >= 15 &&
-                              d.startTime.slice(3, 5) < 30
-                            )
-                          ) {
-                            removeVisitClick();
-                          } else {
-                            handleVisitClick(d);
-                          }
-                        });
+                        // data.forEach((d) => {
+                        //   console.log(d);
+                        //   if (
+                        //     !(
+                        //       new Date(d.startDate).getDate() === +Arr[i] &&
+                        //       new Date(d.startDate).getMonth() ===
+                        //         currentWeek.toDate().getMonth() &&
+                        //       tConvert(d.startTime)[8] === time[6] &&
+                        //       tConvert(d.startTime).includes(
+                        //         time.slice(0, 3)
+                        //       ) &&
+                        //       d.startTime.slice(3, 5) >= 15 &&
+                        //       d.startTime.slice(3, 5) < 30
+                        //     )
+                        //   ) {
+                        //     removeVisitClick();
+                        //   } else {
+                        //     handleVisitClick(d);
+                        //   }
+                        // });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
@@ -465,26 +465,26 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        data.forEach((d) => {
-                          console.log(d);
-                          if (
-                            !(
-                              new Date(d.startDate).getDate() === +Arr[i] &&
-                              new Date(d.startDate).getMonth() ===
-                                currentWeek.toDate().getMonth() &&
-                              tConvert(d.startTime)[8] === time[6] &&
-                              tConvert(d.startTime).includes(
-                                time.slice(0, 3)
-                              ) &&
-                              d.startTime.slice(3, 5) >= 30 &&
-                              d.startTime.slice(3, 5) < 45
-                            )
-                          ) {
-                            removeVisitClick();
-                          } else {
-                            handleVisitClick(d);
-                          }
-                        });
+                        // data.forEach((d) => {
+                        //   console.log(d);
+                        //   if (
+                        //     !(
+                        //       new Date(d.startDate).getDate() === +Arr[i] &&
+                        //       new Date(d.startDate).getMonth() ===
+                        //         currentWeek.toDate().getMonth() &&
+                        //       tConvert(d.startTime)[8] === time[6] &&
+                        //       tConvert(d.startTime).includes(
+                        //         time.slice(0, 3)
+                        //       ) &&
+                        //       d.startTime.slice(3, 5) >= 30 &&
+                        //       d.startTime.slice(3, 5) < 45
+                        //     )
+                        //   ) {
+                        //     removeVisitClick();
+                        //   } else {
+                        //     handleVisitClick(d);
+                        //   }
+                        // });
 
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
@@ -564,26 +564,26 @@ export default function Week({ setIsVisible, currentWeek }) {
                       key={i}
                       id={time}
                       onClick={() => {
-                        data.forEach((d) => {
-                          console.log(d);
-                          if (
-                            !(
-                              new Date(d.startDate).getDate() === +Arr[i] &&
-                              new Date(d.startDate).getMonth() ===
-                                currentWeek.toDate().getMonth() &&
-                              tConvert(d.startTime)[8] === time[6] &&
-                              tConvert(d.startTime).includes(
-                                time.slice(0, 3)
-                              ) &&
-                              d.startTime.slice(3, 5) >= 45 &&
-                              d.startTime.slice(3, 5) < 60
-                            )
-                          ) {
-                            removeVisitClick();
-                          } else {
-                            handleVisitClick(d);
-                          }
-                        });
+                        // data.forEach((d) => {
+                        //   console.log(d);
+                        //   if (
+                        //     !(
+                        //       new Date(d.startDate).getDate() === +Arr[i] &&
+                        //       new Date(d.startDate).getMonth() ===
+                        //         currentWeek.toDate().getMonth() &&
+                        //       tConvert(d.startTime)[8] === time[6] &&
+                        //       tConvert(d.startTime).includes(
+                        //         time.slice(0, 3)
+                        //       ) &&
+                        //       d.startTime.slice(3, 5) >= 45 &&
+                        //       d.startTime.slice(3, 5) < 60
+                        //     )
+                        //   ) {
+                        //     removeVisitClick();
+                        //   } else {
+                        //     handleVisitClick(d);
+                        //   }
+                        // });
                         const newDate = currentWeek.toDate().toUTCString();
                         if (time[6] === "P" && time.slice(0, 2) !== "12") {
                           console.log(
