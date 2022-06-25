@@ -178,33 +178,7 @@ export default function Day({ setIsVisible, day }) {
     dispatch({ type: "CREATED_BY", payload: { created_by: data.created_by } });
   };
 
-  const removeVisitClick = () => {
-    dispatch({ type: "NAME", payload: { name: "" } });
-
-    dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
-    dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
-
-    dispatch({ type: "VISIT_ID", payload: { id: "" } });
-
-    dispatch({ type: "DURATION", payload: { duration: "" } });
-
-    dispatch({ type: "VISIT_STATUS", payload: { status: "" } });
-
-    dispatch({ type: "LOCATION", payload: { location: "" } });
-
-    dispatch({ type: "NOTES", payload: { notes: "" } });
-
-    dispatch({
-      type: "VISIT_NUMBER",
-      payload: { visit_number: "" },
-    });
-
-    dispatch({ type: "OCCURENCE", payload: { occurence: "" } });
-
-    dispatch({ type: "IS_REPEAT", payload: { isRepeat: "" } });
-
-    dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
-  };
+  
 
   useEffect(() => {
     let role = JSON.parse(localStorage.getItem("user"));
@@ -269,22 +243,6 @@ export default function Day({ setIsVisible, day }) {
                       : t[0] + t[1]
                   }
                   onClick={(e) => {
-                      data.forEach((d) => {
-                        console.log(d)
-                        if (
-                          !(
-                            new Date(d.startDate).getDate() === todayDate &&
-                            tConvert(d.startTime)[8] === t[6] &&
-                            tConvert(d.startTime).includes(t.slice(0, 3)) &&
-                            d.startTime.slice(3, 5) < 15
-                          )
-                        ) {
-                          removeVisitClick();
-                        }
-                        else{
-                          handleVisitClick(d)
-                        }
-                      });
                     let hour = e.target.id;
                     console.log(hour);
                     m.set({ h: hour, m: 0 });
@@ -388,23 +346,23 @@ export default function Day({ setIsVisible, day }) {
                       : t[0] + t[1]
                   }
                   onClick={(e) => {
-                    data.forEach((d) => {
-                      console.log(d)
-                      if (
-                        !(
-                          new Date(d.startDate).getDate() === todayDate &&
-                        tConvert(d.startTime)[8] === t[6] &&
-                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
-                        d.startTime.slice(3, 5) >= 15 &&
-                        d.startTime.slice(3, 5) < 30
-                        )
-                      ) {
-                        removeVisitClick();
-                      }
-                      else{
-                        handleVisitClick(d)
-                      }
-                    });
+                    // data.forEach((d) => {
+                    //   console.log(d)
+                    //   if (
+                    //     !(
+                    //       new Date(d.startDate).getDate() === todayDate &&
+                    //     tConvert(d.startTime)[8] === t[6] &&
+                    //     tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                    //     d.startTime.slice(3, 5) >= 15 &&
+                    //     d.startTime.slice(3, 5) < 30
+                    //     )
+                    //   ) {
+                    //     removeVisitClick();
+                    //   }
+                    //   else{
+                    //     handleVisitClick(d)
+                    //   }
+                    // });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -489,23 +447,23 @@ export default function Day({ setIsVisible, day }) {
                       : t[0] + t[1]
                   }
                   onClick={(e) => {
-                    data.forEach((d) => {
-                      console.log(d)
-                      if (
-                        !(
-                          new Date(d.startDate).getDate() === todayDate &&
-                          tConvert(d.startTime)[8] === t[6] &&
-                          tConvert(d.startTime).includes(t.slice(0, 3)) &&
-                          d.startTime.slice(3, 5) >= 30 &&
-                          d.startTime.slice(3, 5) < 45
-                        )
-                      ) {
-                        removeVisitClick();
-                      }
-                      else{
-                        handleVisitClick(d)
-                      }
-                    });
+                    // data.forEach((d) => {
+                    //   console.log(d)
+                    //   if (
+                    //     !(
+                    //       new Date(d.startDate).getDate() === todayDate &&
+                    //       tConvert(d.startTime)[8] === t[6] &&
+                    //       tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                    //       d.startTime.slice(3, 5) >= 30 &&
+                    //       d.startTime.slice(3, 5) < 45
+                    //     )
+                    //   ) {
+                    //     removeVisitClick();
+                    //   }
+                    //   else{
+                    //     handleVisitClick(d)
+                    //   }
+                    // });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
@@ -590,23 +548,23 @@ export default function Day({ setIsVisible, day }) {
                       : t[0] + t[1]
                   }
                   onClick={(e) => {
-                    data.forEach((d) => {
-                      console.log(d)
-                      if (
-                        !(
-                          new Date(d.startDate).getDate() === todayDate &&
-                        tConvert(d.startTime)[8] === t[6] &&
-                        tConvert(d.startTime).includes(t.slice(0, 3)) &&
-                        d.startTime.slice(3, 5) >= 45 &&
-                        d.startTime.slice(3, 5) < 60
-                        )
-                      ) {
-                        removeVisitClick();
-                      }
-                      else{
-                        handleVisitClick(d)
-                      }
-                    });
+                    // data.forEach((d) => {
+                    //   console.log(d)
+                    //   if (
+                    //     !(
+                    //       new Date(d.startDate).getDate() === todayDate &&
+                    //     tConvert(d.startTime)[8] === t[6] &&
+                    //     tConvert(d.startTime).includes(t.slice(0, 3)) &&
+                    //     d.startTime.slice(3, 5) >= 45 &&
+                    //     d.startTime.slice(3, 5) < 60
+                    //     )
+                    //   ) {
+                    //     removeVisitClick();
+                    //   }
+                    //   else{
+                    //     handleVisitClick(d)
+                    //   }
+                    // });
                     let hour = e.target.id;
                     // console.log(hour);
                     var m = moment(day, "ddd MMM D YYYY HH:mm a");
