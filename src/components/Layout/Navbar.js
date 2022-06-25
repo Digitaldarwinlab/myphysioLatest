@@ -175,7 +175,7 @@ const Navigationbar = (props) => {
           </a>
         </Dropdown> */}
 
-        {userInfo.role == "admin" || userInfo.role == "physio" || userInfo.role === "HeadPhysio" ? (
+        {userInfo.role === "admin" || userInfo.role === "physio" || userInfo.role === "HeadPhysio" || userInfo.role === "patient" ? (
           <Menu
             className={`d-md-inline  hamburgerMenu ham_one `}
             id="hamburgerMenu"
