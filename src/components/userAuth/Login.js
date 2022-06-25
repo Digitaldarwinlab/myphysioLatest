@@ -22,8 +22,12 @@ const Login = (props) => {
           video: true,
           // { width: 1280, height: 720 }
         },
-        function (stream) {
-          console.log(stream);
+        function (mediaStream) {
+          console.log(mediaStream);
+          console.log(mediaStream);
+          const tracks = mediaStream.getTracks();
+          tracks[0].stop();
+          tracks.forEach((track) => track.stop());
         },
         function (err) {
           console.log("The following error occurred: " + err.name);
