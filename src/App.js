@@ -1,4 +1,4 @@
-import React, { useState, lazy,Suspense } from "react";
+import React, { useState, lazy,Suspense,useEffect } from "react";
  import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Login from "./components/userAuth/Login.js";
 // import Signup from "./components/userAuth/Signup.js";
@@ -158,6 +158,17 @@ const App = () => {
 	function SideNavbarCollpased(params) {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
+	useEffect(() => {
+		if(isAuthenticated()){
+			let a = [process.env.REACT_APP_MAIN_JS_URL,"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","AgoraRTCSDK-3.6.10.js","agora-rtm-sdk-1.4.4.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
+			a.map((i)=>{
+				var script = document.createElement("script");
+				script.setAttribute('src',i)
+				script.setAttribute('crossorigin',true)
+				document.body.appendChild(script)
+			})
+		}
+    }, []);
 
 // 	if (process.env.REACT_APP_STAGE === 'PROD')
 //   console.log = function no_console() {};
@@ -204,9 +215,10 @@ const App = () => {
 							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
 							<PrivateRoute exact path="/physio/list" component={PhysioList} />
 							<PrivateRoute exact path="/invoice" component={Invoice} />
-							<PrivateRoute exact path="/appointments" component={() => <Appointments />} />
-							<PrivateRoute exact path="/appointments/new" component={() => <Appointments />} />
-							<PrivateRoute exact path="/appointments/new1" component={() => <Appointment />} />
+							{/* <PrivateRoute exact path="/appointments" component={() => <Appointments />} /> */}
+							<PrivateRoute exact path="/appointments" component={() => <Appointment />} />
+							<PrivateRoute exact path="/appointments/new1" component={() => <Appointments />} />
+							<PrivateRoute exact path="/appointments/new" component={() => <Appointment />} />
 							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
 							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
 							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />

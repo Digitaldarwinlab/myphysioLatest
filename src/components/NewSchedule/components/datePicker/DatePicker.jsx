@@ -40,8 +40,9 @@ export const DayDatePicker = ({ day, setDay }) => {
   const changeLeft = () => {
 
     let demo = moment(day, "DD/MM/YYYY").subtract(1, "day").format('DD-MM-YY')
+    if(moment(day, "DD/MM/YYYY") > moment().endOf('day')){
     setDay(moment(demo, "DD/MM/YYYY"));
-
+    }
   }
   return (
     <div className='cus-cal'>
@@ -64,6 +65,7 @@ moment.updateLocale('en', {
 });
 export const WeekDatePicker = ({ week, setWeek }) => {
   const dispatch = useDispatch()
+  const {beforeToday} = DateRangePicker;
   const start_date = week.startOf('week').format("DD/MM/YYYY");
   const end_date = week.endOf('week').format("DD/MM/YYYY");
   const [weekValue, setweekValue] = useState([moment(start_date, "DD/MM/YYYY")._d , moment(end_date, "DD/MM/YYYY")._d])
@@ -96,22 +98,23 @@ export const WeekDatePicker = ({ week, setWeek }) => {
   const changeLeft = () => {
 
     let demo = moment(week, "DD/MM/YYYY").subtract(1, "week").format('DD-MM-YY')
-
-    let arr = []
-    for (let i = 0; i <= 6; i++) {
-
-      let weekDay = moment(week, "DD/MM/YYYY").subtract(1, "week").startOf('week').add(i, "day").format("D")
-      arr.push(weekDay)
-
+    if(moment(week, "DD/MM/YYYY") > moment().endOf('week')){
+      let arr = []
+      for (let i = 0; i <= 6; i++) {
+  
+        let weekDay = moment(week, "DD/MM/YYYY").subtract(1, "week").startOf('week').add(i, "day").format("D")
+        arr.push(weekDay)
+  
+      }
+      dispatch({
+        type: WEEK_DAY,
+        payload: { WeekData: arr },
+      });
+      setWeek(moment(demo, "DD/MM/YYYY"));
+      const start_date = moment(demo, "DD/MM/YYYY").startOf('week').format("DD/MM/YYYY");
+      const end_date = moment(demo, "DD/MM/YYYY").endOf('week').format("DD/MM/YYYY");
+      setweekValue([moment(start_date, "DD/MM/YYYY")._d , moment(end_date, "DD/MM/YYYY")._d])
     }
-    dispatch({
-      type: WEEK_DAY,
-      payload: { WeekData: arr },
-    });
-    setWeek(moment(demo, "DD/MM/YYYY"));
-    const start_date = moment(demo, "DD/MM/YYYY").startOf('week').format("DD/MM/YYYY");
-    const end_date = moment(demo, "DD/MM/YYYY").endOf('week').format("DD/MM/YYYY");
-    setweekValue([moment(start_date, "DD/MM/YYYY")._d , moment(end_date, "DD/MM/YYYY")._d])
   }
 
   
@@ -129,7 +132,7 @@ export const WeekDatePicker = ({ week, setWeek }) => {
         }} />  */}
         
 
-        <DateRangePicker oneTap showOneCalendar style={{border:'none'}} value={weekValue}  hoverRange="week" ranges={[]} onChange={value => {
+        <DateRangePicker disabledDate={beforeToday()}  oneTap showOneCalendar style={{border:'none'}} value={weekValue}  hoverRange="week" ranges={[]} onChange={value => {
           setweekValue(value)
           setWeek(moment(value[1], "DD/MM/YYYY"));
           dispatch({ type: 'CALENDER_WEEK', payload: { week: moment(value[1], "DD/MM/YYYY") } });
@@ -145,6 +148,7 @@ export const WeekDatePicker = ({ week, setWeek }) => {
 
 export const MonthDatePicker = ({ month, setMonth }) => {
   const dispatch = useDispatch()
+  
   // const [month, setMonth] =useState(moment())
 
 

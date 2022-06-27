@@ -3,6 +3,7 @@ import AuthForm from './Form';
 import loginImage from "../assets/loginImage.JPG";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../Styles/userAuth/userAuth.css"; 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Row,Col} from 'antd';
 import ForgotPassword from './ForgotPassword';
 import packageJson from "../../package.json";
@@ -34,7 +35,7 @@ const Login = (props)=>{
         <>
         <Row className="cont-fluid">
             <Col xs={24} sm={24} md={12} lg={12} xl={14} className={'vectImg'}>
-                <img src={loginImage} alt="login" className="vectorImage"/>
+                <LazyLoadImage src={loginImage}  alt="login" className="vectorImage"/>
             </Col>
             <Col xs={20} sm={24} md={12} lg={12} xl={10} className="authFormDiv LoginMain">
                 <MyPhysioLogo page='login' />

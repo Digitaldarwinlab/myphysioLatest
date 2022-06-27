@@ -692,16 +692,16 @@ class AI extends Component {
 
   componentWillUnmount() {
     const video = document.getElementById("video");
-
     const mediaStream = video.srcObject;
     try {
       const tracks = mediaStream.getTracks();
       tracks[0].stop();
       tracks.forEach((track) => track.stop());
-
+      
       console.log("camera releasing....");
       console.log(tracks);
     } catch (err) {
+      console.log(mediaStream)
       console.log("camera not releasing....");
       console.log(err);
     }
@@ -734,6 +734,7 @@ class AI extends Component {
     //     showAngles: true,
     // };
     this.innerHTML2();
+    console.log(options)
     window.darwin.initializeModel(options);
     this.start();
     console.log("exerc ", this.state.primaryExercise);
@@ -930,7 +931,7 @@ class AI extends Component {
         <Col md={10} lg={10} sm={24} xs={24}>
           <Row className="arom_details_tab">
             <Col span={12}>
-              Excercise : <b>Squat</b>
+              Excercise : <b>{this.state.selectedExercise}</b>
             </Col>
             <Col span={12}>
               Patient :{" "}

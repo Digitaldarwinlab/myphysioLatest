@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import "../../styles/Layout/ActiveSearch.css"
 import { getPatientList } from '../../API/PatientRegistration/Patient';
 import { ASSESSMENT_STATE_CHANGE, EPISODE_STATECHANGE } from "../../contextStore/actions/episode.js"
-import { getEpisodeDetails } from './../care-plan/carePlanIndex';
+import { getEpisodeDetails } from '../care-plan/carePlanIndex';
 import {BsSearch} from 'react-icons/bs'
 import './Activesearch.css'
 import {Form} from 'antd' 

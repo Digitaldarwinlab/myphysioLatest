@@ -34,6 +34,7 @@ const loginInitialState = {
 
 const basicDetailsInitialState = {
     MiddleName: "",
+    Title:"",
     FirstName: "",
     LastName: "",
     MobileNo: "",

@@ -104,7 +104,7 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        {userInfo.role !== "admin" && userInfo.role !== "physio" && (
+        {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio"  && (
           <Menu.Item key="2" style={{ borderTop: "0px solid black" }}>
             <Link
               to="/patient/profile"
@@ -125,7 +125,7 @@ const Navigationbar = (props) => {
   const [visState, setVisState] = useState(false);
   return (
     <>
-      <nav className="navbar navbar-expand-lg sticky-top navigationBar">
+      <nav className="navbar navbar-expand-lg sticky-top navigationBar" >
         <Dropdown
           overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
           className="navbar-toggler"
@@ -175,12 +175,13 @@ const Navigationbar = (props) => {
           </a>
         </Dropdown> */}
 
-        {userInfo.role == "admin" || userInfo.role == "physio" ? (
+        {userInfo.role === "admin" || userInfo.role === "physio" || userInfo.role === "HeadPhysio" || userInfo.role === "patient" ? (
           <Menu
             className={`d-md-inline  hamburgerMenu ham_one `}
             id="hamburgerMenu"
           >
             {/* aswin 10/27/2021 start */}
+            {userInfo.role !== "patient"&& 
             <Menu.Item
               key="1"
               className="ant-menu-item-selected"
@@ -204,13 +205,14 @@ const Navigationbar = (props) => {
                 />
               )}
             </Menu.Item>
+              }
           </Menu>
         ) : null}
 
         <Link
-          style={{ position: "relative", top: "0px" }}
+          
           to={
-            userInfo.role === "physio" || userInfo.role === "admin"
+            userInfo.role === "physio" || userInfo.role === "admin" || userInfo.role === "HeadPhysio"
               ? "/dashboard"
               : userInfo.role === "enterprise_patient" ||  userInfo.role === "employee" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
           }

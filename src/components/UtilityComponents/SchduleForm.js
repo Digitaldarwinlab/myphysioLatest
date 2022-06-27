@@ -3,10 +3,10 @@
 import { Form, Select, Button, Row, Col, Collapse,Typography,Modal,Upload} from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import FormDate from './../UI/antInputs/FormDate';
+import FormDate from '../UI/antInputs/FormDate';
 import { InboxOutlined } from '@ant-design/icons';
-import FormInput from './../UI/antInputs/FormInput';
-import FormTextArea from './../UI/antInputs/FormTextArea';
+import FormInput from '../UI/antInputs/FormInput';
+import FormTextArea from '../UI/antInputs/FormTextArea';
 import Loading from './Loading';
 import Success from './SuccessHandler';
 import ActiveSearch from './ActiveSearch';

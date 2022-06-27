@@ -25,6 +25,7 @@ const MappingKey = {
     bloodType: "Blood Type",
     DOB: "DOB",
     Age: "Age",
+    Title:"Title",
     Gender: "Gender",
     LandlineNo: "Landline No",
     Address: "Address",
@@ -260,11 +261,13 @@ const Register3 = (props) => {
      }
      else {
          let tempData = [];
+         console.log(state.BasicDetails)
          let keys = Object.keys(state.BasicDetails);
          let index = 0;
          keys.forEach(key => {
              if (!(["isLoading", "success", "pp_patm_id" ,"is_enterprise"].includes(key))) {
                  if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
+                     console.log(MappingKey[key]);
                      tempData.push({
                          key: index,
                          Field: MappingKey[key],
@@ -274,6 +277,7 @@ const Register3 = (props) => {
                  }
              }
          });
+         console.log(tempData)
          setTableData(tempData);
          setIsModalVisible(true);
      }
@@ -283,6 +287,7 @@ const Register3 = (props) => {
  const handleOk = async () => {
      setIsModalVisible(false);
      let result;
+     console.log(state.BasicDetails)
      if (state.BasicDetails.pp_patm_id === "") {
          result = await Patient_Register(state.BasicDetails, dispatch);
      } else {

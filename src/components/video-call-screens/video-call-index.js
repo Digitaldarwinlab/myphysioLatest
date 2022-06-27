@@ -744,7 +744,7 @@ const assesmentChange=(e)=>{
                 <Col id="full-screen-video" style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
                 
                 </Col>
-                <Col className="sticky_button_grp fixed-bottom" span={24} style={{justifyContent:'center',display:'flex' }}>
+                <Col className="sticky_button_grp " span={24} style={{justifyContent:'center',display:'flex' }}>
                   <Space size="small">
                     
                     <button

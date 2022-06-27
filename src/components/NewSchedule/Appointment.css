@@ -395,3 +395,36 @@ div>.ant-picker-input {
   }
 
 }
+
+
+.lab{
+  font-weight: 700;
+}
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-body th, .ant-picker-calendar-full .ant-picker-panel .ant-picker-body td {
+  padding: 0;
+  text-align: center;
+}
+
+.rs-picker-date .rs-picker-toggle.rs-btn .rs-picker-toggle-clean, .rs-picker-daterange .rs-picker-toggle.rs-btn .rs-picker-toggle-clean {
+  right: 30px;
+  display: none;
+}
+.rs-picker-date.rs-picker-cleanable.rs-picker-has-value .rs-picker-toggle, .rs-picker-daterange.rs-picker-cleanable.rs-picker-has-value .rs-picker-toggle {
+  padding-right: 52px;
+  border: none;
+}
+.rs-picker-date .rs-picker-toggle.rs-btn .rs-picker-toggle-caret, .rs-picker-daterange .rs-picker-toggle.rs-btn .rs-picker-toggle-caret {
+  right: 20px;
+  top: 10px;
+}
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+  color: black;
+  margin-left: 5px;
+  margin-top: 3px;
+}
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}

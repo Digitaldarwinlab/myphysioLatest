@@ -1,7 +1,7 @@
 .navigationMenu{
     position: absolute;
     bottom: 10px;
-    right:30px;
+    right:40px;
 }
 .navbar-toggler-main{
     display: none;
@@ -10,6 +10,10 @@
     background-color:white;
     height:50px;
     border-right: none;
+}
+.navbar-brand{
+    position: absolute;
+    left: 50px;
 }
 .navbar-brand img{
     margin-right: 0.5rem;
@@ -24,6 +28,7 @@ nav{
 }
 .navigationBar{
     background-color:#013053;
+    /* height: 50px; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -74,7 +79,12 @@ nav{
 	.ham_one{
 		 display: none !important ;
 	}
+    .navbar-brand{
+        position: relative;
+    left: 5px;
+    }
 }
+
 
 @media only screen and (min-width:992px){
     .dropDownMenu{
