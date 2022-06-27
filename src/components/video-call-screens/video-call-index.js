@@ -254,8 +254,8 @@ const captureFront=()=>{
     Anterior_Data.angles[5].angle
   ]);
   aiModelAppear = !aiModelAppear;
-  $("#magic-btn").html("Start")
-  $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+ // $("#magic-btn").html("Start")
+  $("#magic-btn").toggleClass('btn-red').toggleClass('btn-dark')
 }
 else{
   setTimeout(captureFront,250)
@@ -277,8 +277,8 @@ const  captureSide = () => {
     Lateral_Data.angles[3].angle,
   ])
   aiModelAppear = !aiModelAppear;
-  $("#magic-btn").html("Start")
-  $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+   // $("#magic-btn").html("Start")
+   $("#magic-btn").toggleClass('btn-red').toggleClass('btn-dark')
 }
 else{
   setTimeout(captureSide,250)
@@ -430,8 +430,8 @@ const AImodel = () => {
 
       else if(selectedAssessmentType=='posture'){
         console.log(orientation)
-        $("#magic-btn").html("Pause")
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        //$("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         if(orientation==1){
           sendMessage("startPosture1",peerID)
         }
@@ -809,8 +809,17 @@ const assesmentChange=(e)=>{
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Row>
                 <Col className={Mt?'arom_class':'posture_class'} style={{width:'640px',height:'150px',marginTop:Mt}} span={24}>
-                <div id="remote-streams" >
-              </div>
+                  <div id="remote-streams-container">
+                  <div id="remote-streams"></div>
+                  </div>
+                  <div id="local-stream-container">
+                    <div id="mute-overlay">
+                        <i id="mic-icon" className="fas fa-microphone-slash"></i>
+                    </div>
+                    <div id="no-local-video">
+                        <i id="user-icon" className="fas fa-user"></i>
+                    </div>
+                  </div>
                 <div id="local-video" class="col p-0"></div>
                 </Col>
                 <Col className="rom_posture_btn_grp" span={24}>
