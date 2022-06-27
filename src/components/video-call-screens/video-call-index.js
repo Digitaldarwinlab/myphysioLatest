@@ -382,7 +382,6 @@ const AImodel = () => {
     aiModelAppear = !aiModelAppear;
     var peerID = $("#form-peerId").val();
     console.log("perr id is ",peerID)
-    $('#video'+peerID).css({'object-fit':'inherit'})
     localStorage.setItem("aiModelAppear", JSON.stringify(aiModelAppear));
     if (aiModelAppear) {
       if(selectedAssessmentType=='rom'){
@@ -408,7 +407,7 @@ const AImodel = () => {
         //   }
         // } 
         // ex_data.Joints=angle
-      //  $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
+        $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         console.log(ex_data)
 
@@ -431,6 +430,7 @@ const AImodel = () => {
       else if(selectedAssessmentType=='posture'){
         console.log(orientation)
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
         //$("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
         if(orientation==1){
           sendMessage("startPosture1",peerID)
@@ -444,6 +444,7 @@ const AImodel = () => {
     else {
       //  $("#magic-btn").html("Start")
         $("#magic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+        $("#magic-icon").toggleClass('fa-play').toggleClass('fa-pause');
         if(selectedAssessmentType=='rom'){
           if(selectedOrientation==1){
             sendMessage("getAnterior",peerID);
