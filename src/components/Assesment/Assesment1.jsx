@@ -209,6 +209,7 @@ const Assesment1 = ({ back, next }) => {
         location.pathname != "/assessment/AROM" &&
         state.FirstAssesment.episode_id != ""
       ) {
+        console.log('not cleared')
         //aswin 11/11/2021 start
         if (sessionStorage.getItem("submit")) {
           sessionStorage.removeItem("submit");
@@ -219,6 +220,7 @@ const Assesment1 = ({ back, next }) => {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           dispatch({ type: "JOINT_CLEARSTATE" });
           console.log("Assesment data cleared");
+          localStorage.setItem("OnAssessmentScreen",false)
           return true;
         } else {
           console.log("not cleared");
@@ -242,7 +244,13 @@ const Assesment1 = ({ back, next }) => {
       unblock();
     };
   }, [history, state.FirstAssesment.episode_id]);
-
+  const OnAssesmentPage = () => {
+    notification.error({
+      message: 'Please switch off video conf button to move to other pages',
+      placement: 'bottomLeft',
+      duration: 2
+  })  
+  }
   const setJoints = useCallback(
     (joints) => {
       console.log(joints);
@@ -1539,7 +1547,7 @@ const setRightLateralData=()=>{
           </Col>
           <Col>
           <label class="mr-2">VideoCon </label>
-          <Switch checkedChildren="On" unCheckedChildren="Off" onChange={videoConChecked} defaultChecked={localStorage.getItem("OnAssessmentScreen")}/>
+          <Switch checkedChildren="On" unCheckedChildren="Off" value={localStorage.getItem("OnAssessmentScreen")=="true"?true:false} onChange={videoConChecked} defaultChecked={localStorage.getItem("OnAssessmentScreen")=="true"?true:false}/>
           </Col>
         </Row>
       </Form>
@@ -2677,7 +2685,15 @@ const setRightLateralData=()=>{
                     ? "grey"
                     : "#2d7ecb",
                 }}
-                onClick={Questions}
+                onClick={()=>{
+                  console.log("OnAssessmentScreen ",localStorage.getItem('OnAssessmentScreen'))
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    Questions()
+                  }
+                }}
                 id="question"
               ></Button>
             ) : (
@@ -2689,7 +2705,15 @@ const setRightLateralData=()=>{
                     ? "grey"
                     : "#2d7ecb",
                 }}
-                onClick={Questions}
+                onClick={()=>{
+                  console.log("OnAssessmentScreen ",localStorage.getItem('OnAssessmentScreen'))
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    Questions()
+                  }
+                }}
                 id="question"
               ></Button>
             )}
@@ -2710,7 +2734,13 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={goPain}
+                onClick={()=>{
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    OnAssesmentPage()
+                  }else{
+                    goPain()
+                  }
+                }}
               >
                 Pain Assessment
               </Button>
@@ -2723,7 +2753,13 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={goPain}
+                onClick={()=>{
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    OnAssesmentPage()
+                  }else{
+                    goPain()
+                  }
+                }}
               >
                 Pain Assessment
               </Button>
@@ -2745,7 +2781,14 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.special}
-                onClick={() => history.push("/assesment/SpecialTest")}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    history.push("/assesment/SpecialTest")
+                  }
+                }}
               >
                 Special Test
               </Button>
@@ -2758,7 +2801,14 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.special}
-                onClick={() => history.push("/assesment/SpecialTest")}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    history.push("/assesment/SpecialTest")
+                  }
+                }}
               >
                 Special Test
               </Button>
@@ -2781,7 +2831,14 @@ const setRightLateralData=()=>{
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
-                onClick={() => history.push("/assesment/PoseTest")}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    history.push("/assesment/PoseTest")
+                  }
+                }}
               >
                 Posture Test
               </Button>
@@ -2795,7 +2852,14 @@ const setRightLateralData=()=>{
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
-                onClick={() => history.push("/assesment/PoseTest")}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    history.push("/assesment/PoseTest")
+                  }
+                }}
               >
                 Posture Test
               </Button>
@@ -2817,7 +2881,14 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 className="btn-new-check"
-                onClick={RomAI}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    RomAI()
+                  }
+                }}
                 id="rom"
               >
                 AROM (using AI)
@@ -2831,7 +2902,14 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
-                onClick={RomAI}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    RomAI()
+                  }
+                }}
                 id="rom"
               >
                 AROM (using AI)
@@ -2854,7 +2932,14 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check"
-                onClick={Rom}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    Rom()
+                  }
+                }}
                 id="rom_manual"
               >
                 AROM
@@ -2868,7 +2953,14 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.romAss}
                 type="text"
-                onClick={Rom}
+                onClick={() => {
+                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
+                    console.log("OnAssessmentScreen inside")
+                    OnAssesmentPage()
+                  }else{
+                    Rom()
+                  }
+                }}
                 id="rom_manual"
               >
                 AROM
