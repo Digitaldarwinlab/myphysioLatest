@@ -18,6 +18,7 @@ function enableUiControls(localStream) {
 
   $("#screen-share-btn").click(function () {
     toggleScreenShareBtn(); // set screen share button icon
+    
     $("#screen-share-btn").prop("disabled", true); // disable the button on click
     if (screenShareActive) {
       stopScreenShare();

@@ -121,6 +121,7 @@ client.on('stream-subscribed', function (evt) {
 });
 
 // remove the remote-container when a user leaves the channel
+
 client.on("peer-leave", function(evt) {
   var streamId = evt.stream.getId(); // the the stream id
   console.log('checid ',streamId)
