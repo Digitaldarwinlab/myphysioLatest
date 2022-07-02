@@ -566,7 +566,7 @@ class AI extends Component {
         angles: this.state.angles,
       });
       darwin.selectOrientation(this.state.selectedOrientation);
-      this.timer();
+    //  this.timer();
     } else {
       console.log("else")
       //    clearInterval(this.interval)
