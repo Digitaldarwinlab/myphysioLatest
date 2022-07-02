@@ -235,6 +235,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       dispatch({ type: "VISIT_TYPE", payload: { [name]: value } });
     }
     if (name == "date") {
+      console.log(value)
       dispatch({ type: "VISIT_DATE", payload: { [name]: value } });
     }
     if (name == "duration") {
