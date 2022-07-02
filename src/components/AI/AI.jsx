@@ -558,6 +558,7 @@ class AI extends Component {
   };
 
   handleChange = async () => {
+    console.log("handle change")
     this.setState({ start_stop: !this.state.start_stop });
     if (!this.state.start_stop) {
       window.darwin.restart();
@@ -565,8 +566,9 @@ class AI extends Component {
         angles: this.state.angles,
       });
       darwin.selectOrientation(this.state.selectedOrientation);
-      this.timer();
+    //  this.timer();
     } else {
+      console.log("else")
       //    clearInterval(this.interval)
 
       clearInterval(this.interval);
@@ -578,20 +580,6 @@ class AI extends Component {
           let TEMP = {};
           TEMP["AROM"] = data[Object.keys(data)[0]];
           console.log(TEMP);
-          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          //   (item, index) => {
-          //     let t = {};
-          //     t["key"] = index;
-          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-          //     t["min"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].min
-          //     );
-          //     t["max"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].max
-          //     );
-          //     return t;
-          //   }
-          // );
           this.props.FirstAssesment("Anterior_AI_Data", TEMP);
 
           notification.success({
@@ -606,20 +594,6 @@ class AI extends Component {
           let TEMP = {};
           TEMP["AROM"] = data[Object.keys(data)[0]];
           console.log(TEMP);
-          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          //   (item, index) => {
-          //     let t = {};
-          //     t["key"] = index;
-          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-          //     t["min"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].min
-          //     );
-          //     t["max"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].max
-          //     );
-          //     return t;
-          //   }
-          // );
           this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
           notification.success({
             message: "Angles have been calculated",
@@ -633,20 +607,6 @@ class AI extends Component {
           let TEMP = {};
           TEMP["AROM"] = data[Object.keys(data)[0]];
           console.log(TEMP);
-          // let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          //   (item, index) => {
-          //     let t = {};
-          //     t["key"] = index;
-          //     t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-          //     t["min"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].min
-          //     );
-          //     t["max"] = Math.round(
-          //       data[Object.keys(data)[0]]["angles"][item].max
-          //     );
-          //     return t;
-          //   }
-          // );
           this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
           notification.success({
             message: "Angles have been calculated",
@@ -658,13 +618,8 @@ class AI extends Component {
       console.log(this.state.data);
       this.array = JSON.stringify(this.state.data);
       console.log("hashedd");
-      this.hashed = Buffer.from(this.array).toString("base64");
-      console.log(this.hashed);
-      // console.log('unhashed')
-      //  console.log(atob(this.array))
-      //  const response=  await add_angles(this.hashed)
-      //  console.log(response)
-
+      // this.hashed = Buffer.from(this.array).toString("base64");
+      // console.log(this.hashed);
       window.darwin.stop();
     }
     this.setState({ SWITCH: !this.state.SWITCH });

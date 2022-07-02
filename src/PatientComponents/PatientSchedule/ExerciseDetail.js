@@ -150,10 +150,10 @@ const ExerciseDetailsClass = () => {
                       column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
                     >
                       <Descriptions.Item label={<h5>Sets</h5>}>
-                        {/* <h5>{location.state.repArr[index].set}</h5> */}
+                        <h5>{location.state.repArr[index].set}</h5>
                       </Descriptions.Item>
                       <Descriptions.Item label={<h5>Reps</h5>}>
-                        {/* <h5>{location.state.repArr[index].rep_count}</h5> */}
+                        <h5>{location.state.repArr[index].rep_count}</h5>
                       </Descriptions.Item>
                     </Descriptions>
                     <p></p>

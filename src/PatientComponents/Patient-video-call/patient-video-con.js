@@ -78,7 +78,7 @@ const PatientVideoCallIndex = (props) => {
        <Row gutter={[16,16]} style={{margin:'20px' , marginTop:'20px', marginBottom:'20px'}}>
        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
        <Row gutter={[16,16]} style={{justifyContent:'center'}}>
-       <Col style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
+       <Col className="local_video_small" style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
        <div id="local-stream-container" >
               <div id="no-local-video" class="col text-center">
                 <i id="user-icon" class="fas fa-user"></i>

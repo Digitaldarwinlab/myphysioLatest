@@ -17,6 +17,7 @@ var exercise = "";
 var exerciseURL=""
 let screenshot = [];
 
+
 let Posterial_view={
   image:"",
   angles:"",

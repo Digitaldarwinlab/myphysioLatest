@@ -1,4 +1,4 @@
-.DatePicker_dateDayItem__S-dh2 {
+.DatePicker_dateDayItem__98QwP {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,7 +12,7 @@
     color: black;
     /* border: 2px solid !important; */
   }
-  .DatePicker_dayLabel__q588b {
+  .DatePicker_dayLabel__ZiHbJ {
     color: rgb(0, 0, 0) !important;
   }
   .DatePicker_dateLabel__1KR_z {
@@ -29,18 +29,18 @@
     /* border: 2px solid rgb(0, 0, 0) !impo; */
   
 
-  .DatePicker_container__hZ5x5{
+  .DatePicker_container__qRflF{
       justify-content: center !important;
   }
-  .DatePicker_button__IVEiE{
+  .DatePicker_button__dr3Ag{
       border-radius: 10px !important;
       width: 45px !important;
       margin-right: 5px !important;
   }
-  .DatePicker_monthYearLabel__lbEyy{
+  .DatePicker_monthYearLabel__1qIwG{
 		visibility:hidden;
 }
-.DatePicker_buttonWrapper__H04sp{
+.DatePicker_buttonWrapper__HU52d{
     margin-left: 5px !important;
     background-color: #fff !important;
     
