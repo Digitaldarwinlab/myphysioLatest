@@ -16,7 +16,7 @@ import {
   Radio,
   Tabs,
   Badge,
-  Switch
+  Switch,
 } from "antd";
 import {
   ASSESMENT_CLEARSTATE,
@@ -209,7 +209,7 @@ const Assesment1 = ({ back, next }) => {
         location.pathname != "/assessment/AROM" &&
         state.FirstAssesment.episode_id != ""
       ) {
-        console.log('not cleared')
+        console.log("not cleared");
         //aswin 11/11/2021 start
         if (sessionStorage.getItem("submit")) {
           sessionStorage.removeItem("submit");
@@ -220,7 +220,7 @@ const Assesment1 = ({ back, next }) => {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           dispatch({ type: "JOINT_CLEARSTATE" });
           console.log("Assesment data cleared");
-          localStorage.setItem("OnAssessmentScreen",false)
+          localStorage.setItem("OnAssessmentScreen", false);
           return true;
         } else {
           console.log("not cleared");
@@ -246,11 +246,11 @@ const Assesment1 = ({ back, next }) => {
   }, [history, state.FirstAssesment.episode_id]);
   const OnAssesmentPage = () => {
     notification.error({
-      message: 'Please switch off video conf button to move to other pages',
-      placement: 'bottomLeft',
-      duration: 2
-  })  
-  }
+      message: "Please switch off video conf button to move to other pages",
+      placement: "bottomLeft",
+      duration: 2,
+    });
+  };
   const setJoints = useCallback(
     (joints) => {
       console.log(joints);
@@ -718,35 +718,29 @@ const Assesment1 = ({ back, next }) => {
   // },
   // ]
 
-const setAnteriorData=()=>{
-  let data = state.FirstAssesment.Anterior_AI_Data;
-  setRomVisibility("contents");
-  let TEMP = {};
-  TEMP["AROM"] = data[Object.keys(data)[0]];
-  console.log(TEMP);
-  let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-    (item, index) => {
-      let t = {};
-      t["key"] = index;
-      t["angles"] = tableLabels[item]
-        ? tableLabels[item]
-        : "Not Available";
-      t["min"] = Math.round(
-        data[Object.keys(data)[0]]["angles"][item].min
-      );
-      t["max"] = Math.round(
-        data[Object.keys(data)[0]]["angles"][item].max
-      );
-      return t;
+  const setAnteriorData = () => {
+    let data = state.FirstAssesment.Anterior_AI_Data;
+    setRomVisibility("contents");
+    let TEMP = {};
+    TEMP["AROM"] = data[Object.keys(data)[0]];
+    console.log(TEMP);
+    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+      (item, index) => {
+        let t = {};
+        t["key"] = index;
+        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+        return t;
+      }
+    );
+    setTableData1(tempData.slice(0, 6));
+    if (tempData.length > 6) {
+      setTableData2(tempData.slice(6, tempData.length));
     }
-  );
-  setTableData1(tempData.slice(0, 6));
-  if (tempData.length > 6) {
-    setTableData2(tempData.slice(6, tempData.length));
-  }
-}
+  };
 
-const setLeftLateralData=()=>{
+  const setLeftLateralData = () => {
     let data = state.FirstAssesment.LeftLateral_AI_Data;
     setRomVisibilityM("inline");
     setRomVisibilityL("inline");
@@ -757,270 +751,274 @@ const setLeftLateralData=()=>{
       (item, index) => {
         let t = {};
         t["key"] = index;
-        t["angles"] = tableLabels[item]
-          ? tableLabels[item]
-          : "Not Available";
-        t["min"] = Math.round(
-          data[Object.keys(data)[0]]["angles"][item].min
-        );
-        t["max"] = Math.round(
-          data[Object.keys(data)[0]]["angles"][item].max
-        );
+        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
         return t;
       }
     );
     setLatL(tempData);
-}
+  };
 
-const setRightLateralData=()=>{
+  const setRightLateralData = () => {
     setRomVisibilityM("inline");
-        setRomVisibilityR("inline");
-        let data = state.FirstAssesment.RightLateral_AI_Data;
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatR(tempData);
-}
+    setRomVisibilityR("inline");
+    let data = state.FirstAssesment.RightLateral_AI_Data;
+    let TEMP = {};
+    TEMP["AROM"] = data[Object.keys(data)[0]];
+    console.log(TEMP);
+    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+      (item, index) => {
+        let t = {};
+        t["key"] = index;
+        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+        return t;
+      }
+    );
+    setLatR(tempData);
+  };
 
   //To detect change in localStorage
   useEffect(() => {
     function checkDataReceived() {
-      var romData=localStorage.getItem("AI_Data")
-      var postureData=localStorage.getItem("Posture_Data")
-      if(romData!="" && romData!=null ){
-        var romdatajson=JSON.parse(romData)
-        console.log(romdatajson.Anterior)
-        if(romdatajson.Anterior!=undefined){
-        state.FirstAssesment.Anterior_AI_Data=romdatajson.Anterior
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'Anterior_AI_Data',
-        //     value:romdatajson.Anterior,
-        //   },
-        // });
-        setAnteriorData();
+      var romData = localStorage.getItem("AI_Data");
+      var postureData = localStorage.getItem("Posture_Data");
+      if (romData != "" && romData != null) {
+        var romdatajson = JSON.parse(romData);
+        console.log(romdatajson.Anterior);
+        if (romdatajson.Anterior != undefined) {
+          state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
+          // dispatch({
+          //   type: STATECHANGE,
+          //   payload: {
+          //     key:'Anterior_AI_Data',
+          //     value:romdatajson.Anterior,
+          //   },
+          // });
+          setAnteriorData();
         }
-        if(romdatajson.leftLateral!=undefined){
-        state.FirstAssesment.LeftLateral_AI_Data=romdatajson.leftLateral
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'LeftLateral_AI_Data',
-        //     value:romdatajson.leftLateral,
-        //   },
-        // });
-        setLeftLateralData();
+        if (romdatajson.leftLateral != undefined) {
+          state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
+          // dispatch({
+          //   type: STATECHANGE,
+          //   payload: {
+          //     key:'LeftLateral_AI_Data',
+          //     value:romdatajson.leftLateral,
+          //   },
+          // });
+          setLeftLateralData();
         }
-        if(romdatajson.rightLateral!=undefined){
-        state.FirstAssesment.RightLateral_AI_Data=romdatajson.rightLateral
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'RightLateral_AI_Data',
-        //     value:romdatajson.rightLateral,
-        //   },
-        // });
-        setRightLateralData();
+        if (romdatajson.rightLateral != undefined) {
+          state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
+          // dispatch({
+          //   type: STATECHANGE,
+          //   payload: {
+          //     key:'RightLateral_AI_Data',
+          //     value:romdatajson.rightLateral,
+          //   },
+          // });
+          setRightLateralData();
         }
-        localStorage.setItem("AI_Data","");
-      }
-      else if(postureData!="" && postureData!=null){
-        var posturedatajson=JSON.parse(postureData)
-        console.log(posturedatajson)
+        localStorage.setItem("AI_Data", "");
+      } else if (postureData != "" && postureData != null) {
+        var posturedatajson = JSON.parse(postureData);
+        console.log(posturedatajson);
         dispatch({
-            type: STATECHANGE,
-            payload: {
-              key:'posture',
-              value:posturedatajson,
-            },
-          });
-          setPosture(true)
-        localStorage.setItem("Posture_Data","");
-      }
-      else{
-      console.log(postureData,romData)
+          type: STATECHANGE,
+          payload: {
+            key: "posture",
+            value: posturedatajson,
+          },
+        });
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key: "FrontCheck",
+            value: JSON.parse(localStorage.getItem("FrontCheck")),
+          },
+        });
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key: "SideCheck",
+            value: JSON.parse(localStorage.getItem("SideCheck")),
+          },
+        });
+        setPosture(true);
+        localStorage.setItem("Posture_Data", "");
+      } else {
+        console.log(postureData, romData);
       }
     }
-    window.addEventListener('storage', checkDataReceived)
+    window.addEventListener("storage", checkDataReceived);
     return () => {
-      window.removeEventListener('storage', checkDataReceived)
-    }
-  }, [])
+      window.removeEventListener("storage", checkDataReceived);
+    };
+  }, []);
+  window.addEventListener('load',()=>localStorage.setItem("OnAssessmentScreen",false))
+  useEffect(
+    () => {
+      const question = document.getElementById("question");
+      const rom = document.getElementById("rom");
+      const rom_manual = document.getElementById("rom_manual");
+      const posture_btn = document.getElementById("posture-btn");
 
-  useEffect(() => {
-    const question = document.getElementById("question");
-    const rom = document.getElementById("rom");
-    const rom_manual = document.getElementById("rom_manual");
-    const posture_btn = document.getElementById("posture-btn");
-
-    if (state.FirstAssesment.KOOS === "") {
-      question.innerHTML = "Scales & Index";
-      //  question.innerHTML = " "
-      setQuestionVisibility("none");
-    } else {
-      question.innerHTML = "Scales & Index";
-      // question.innerHTML = " "
-      question.style.backgroundColor = "honeydew";
-      question.style.borderColor = "limegreen";
-      setQuestionVisibility("inline");
-    }
-    // setQuestionVisibility('none')
-    if (Object.keys(state.FirstAssesment.posture).length > 0) {
-      posture_btn.innerHTML = "Posture Done";
-      setPosture(true);
-    }
-    // Check if AI_Data
-    if (
-      (state.FirstAssesment.Anterior_AI_Data &&
-        Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) ||
-      Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
-      Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
-    ) {
-      if (state.FirstAssesment.Arom_M) {
-        rom_manual.innerHTML = "AROM calculated";
+      if (state.FirstAssesment.KOOS === "") {
+        question.innerHTML = "Scales & Index";
+        //  question.innerHTML = " "
+        setQuestionVisibility("none");
       } else {
-        rom_manual.innerHTML = "AROM";
+        question.innerHTML = "Scales & Index";
+        // question.innerHTML = " "
+        question.style.backgroundColor = "honeydew";
+        question.style.borderColor = "limegreen";
+        setQuestionVisibility("inline");
       }
-      if (state.FirstAssesment.Arom_Ai) {
-        rom.innerHTML = "AROM calculated";
-      } else {
-        rom.innerHTML = "AROM (using AI)";
+      // setQuestionVisibility('none')
+      if (Object.keys(state.FirstAssesment.posture).length > 0) {
+        posture_btn.innerHTML = "Posture Done";
+        setPosture(true);
       }
-     // rom.innerHTML = "AROM Assesment";
-      // setRomVisibility('contents')
-      if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
-        let data = state.FirstAssesment.Anterior_AI_Data;
-        setRomVisibility("contents");
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
+      // Check if AI_Data
+      if (
+        (state.FirstAssesment.Anterior_AI_Data &&
+          Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) ||
+        Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
+        Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
+      ) {
+        if (state.FirstAssesment.Arom_M) {
+          rom_manual.innerHTML = "AROM calculated";
+        } else {
+          rom_manual.innerHTML = "AROM";
+        }
+        if (state.FirstAssesment.Arom_Ai) {
+          rom.innerHTML = "AROM calculated";
+        } else {
+          rom.innerHTML = "AROM (using AI)";
+        }
+        // rom.innerHTML = "AROM Assesment";
+        // setRomVisibility('contents')
+        if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
+          let data = state.FirstAssesment.Anterior_AI_Data;
+          setRomVisibility("contents");
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabels[item]
+                ? tableLabels[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setTableData1(tempData.slice(0, 6));
+          if (tempData.length > 6) {
+            setTableData2(tempData.slice(6, tempData.length));
           }
-        );
-        setTableData1(tempData.slice(0, 6));
-        if (tempData.length > 6) {
-          setTableData2(tempData.slice(6, tempData.length));
+
+          //   setAngleValues(preValues => ({
+          //     ...preValues,
+          //     ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
+          //     ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
+          //     ['leftElbow']: Anterior_AI_Data["leftElbow"],
+          //     ['rightElbow']: Anterior_AI_Data["rightElbow"],
+          //     ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
+          //     ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
+          //     ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
+          //     ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
+          //     ['leftNeck']: Anterior_AI_Data["leftNeck"],
+          //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
+          // }))
+        }
+        if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0) {
+          let data = state.FirstAssesment.LeftLateral_AI_Data;
+          setRomVisibilityM("inline");
+          setRomVisibilityL("inline");
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabels[item]
+                ? tableLabels[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setLatL(tempData);
+          //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
+          //   setAngleValuesL(preValues => ({
+          //     ...preValues,
+          //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
+          //     ['leftHip']: LeftLateral_AI_Data["leftHip"],
+          //     ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
+          //     ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
+          //     ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
+          //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
+          // }))
+        }
+        if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0) {
+          setRomVisibilityM("inline");
+          setRomVisibilityR("inline");
+          let data = state.FirstAssesment.RightLateral_AI_Data;
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabels[item]
+                ? tableLabels[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setLatR(tempData);
+          // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
+          //   setAngleValuesR(preValues => ({
+          //     ...preValues,
+          //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
+          //     ['rightHip']: RightLateral_AI_Data["rightHip"],
+          //     ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
+          //     ['rightKnee']: RightLateral_AI_Data["rightKnee"],
+          //     ['rightWrist']: RightLateral_AI_Data["rightWrist"],
+          //     ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
+          // }))
         }
 
-        //   setAngleValues(preValues => ({
-        //     ...preValues,
-        //     ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
-        //     ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
-        //     ['leftElbow']: Anterior_AI_Data["leftElbow"],
-        //     ['rightElbow']: Anterior_AI_Data["rightElbow"],
-        //     ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
-        //     ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
-        //     ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
-        //     ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
-        //     ['leftNeck']: Anterior_AI_Data["leftNeck"],
-        //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
-        // }))
+        rom.style.backgroundColor = "honeydew";
+        rom.style.borderColor = "limegreen";
       }
-      if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0) {
-        let data = state.FirstAssesment.LeftLateral_AI_Data;
-        setRomVisibilityM("inline");
-        setRomVisibilityL("inline");
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatL(tempData);
-        //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
-        //   setAngleValuesL(preValues => ({
-        //     ...preValues,
-        //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
-        //     ['leftHip']: LeftLateral_AI_Data["leftHip"],
-        //     ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
-        //     ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
-        //     ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
-        //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
-        // }))
-      }
-      if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0) {
-        setRomVisibilityM("inline");
-        setRomVisibilityR("inline");
-        let data = state.FirstAssesment.RightLateral_AI_Data;
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatR(tempData);
-        // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
-        //   setAngleValuesR(preValues => ({
-        //     ...preValues,
-        //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
-        //     ['rightHip']: RightLateral_AI_Data["rightHip"],
-        //     ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
-        //     ['rightKnee']: RightLateral_AI_Data["rightKnee"],
-        //     ['rightWrist']: RightLateral_AI_Data["rightWrist"],
-        //     ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
-        // }))
-      }
-
-      rom.style.backgroundColor = "honeydew";
-      rom.style.borderColor = "limegreen";
-    }
-  }, angleValues,state.FirstAssesment);
+    },
+    angleValues,
+    state.FirstAssesment
+  );
   // NOTE: Above useEffect does same thing, repeated code
   // useEffect(() => {
   //     function checkUserData() {
@@ -1271,17 +1269,17 @@ const setRightLateralData=()=>{
     });
   }
 
-  const videoConChecked=(checked)=>{
+  const videoConChecked = (checked) => {
     localStorage.setItem("OnAssessmentScreen", checked);
-    if(checked){
-  notification.success({
-    message: "Please move to the video con screen and start assesment!",
-    placement: "bottomLeft",
-    duration: 5,
-  });
-}
-  }
-  
+    if (checked) {
+      notification.success({
+        message: "Please move to the video con screen and start assesment!",
+        placement: "bottomLeft",
+        duration: 5,
+      });
+    }
+  };
+
   const checkEpisodeId = async () => {
     if (state.episodeReducer.patient_code) {
       const res = await getEpisode(state.episodeReducer.patient_code);
@@ -1546,8 +1544,17 @@ const setRightLateralData=()=>{
             </Form.Item>
           </Col>
           <Col>
-          <label class="mr-2">VideoCon </label>
-          <Switch checkedChildren="On" unCheckedChildren="Off" value={localStorage.getItem("OnAssessmentScreen")=="true"?true:false} onChange={videoConChecked} defaultChecked={localStorage.getItem("OnAssessmentScreen")=="true"?true:false}/>
+            <label class="mr-2">VideoCon </label>
+            <Switch
+              checkedChildren="On"
+              unCheckedChildren="Off"
+              value={
+                localStorage.getItem("OnAssessmentScreen") == "true"
+                  ? true
+                  : false
+              }
+              onChange={videoConChecked}
+            />
           </Col>
         </Row>
       </Form>
@@ -2013,7 +2020,7 @@ const setRightLateralData=()=>{
                       state.FirstAssesment.posture["Posterial_view"].Angles[4]}
                   </Descriptions.Item>
                   <Descriptions.Item label="Line of Gravity">
-                  {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[5]}
                   </Descriptions.Item>
                 </Descriptions>
@@ -2685,13 +2692,16 @@ const setRightLateralData=()=>{
                     ? "grey"
                     : "#2d7ecb",
                 }}
-                onClick={()=>{
-                  console.log("OnAssessmentScreen ",localStorage.getItem('OnAssessmentScreen'))
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    Questions()
+                onClick={() => {
+                  console.log(
+                    "OnAssessmentScreen ",
+                    localStorage.getItem("OnAssessmentScreen")
+                  );
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    Questions();
                   }
                 }}
                 id="question"
@@ -2705,13 +2715,16 @@ const setRightLateralData=()=>{
                     ? "grey"
                     : "#2d7ecb",
                 }}
-                onClick={()=>{
-                  console.log("OnAssessmentScreen ",localStorage.getItem('OnAssessmentScreen'))
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    Questions()
+                onClick={() => {
+                  console.log(
+                    "OnAssessmentScreen ",
+                    localStorage.getItem("OnAssessmentScreen")
+                  );
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    Questions();
                   }
                 }}
                 id="question"
@@ -2734,11 +2747,11 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={()=>{
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    OnAssesmentPage()
-                  }else{
-                    goPain()
+                onClick={() => {
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    OnAssesmentPage();
+                  } else {
+                    goPain();
                   }
                 }}
               >
@@ -2753,11 +2766,11 @@ const setRightLateralData=()=>{
                     : "#2d7ecb",
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={()=>{
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    OnAssesmentPage()
-                  }else{
-                    goPain()
+                onClick={() => {
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    OnAssesmentPage();
+                  } else {
+                    goPain();
                   }
                 }}
               >
@@ -2782,11 +2795,11 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    history.push("/assesment/SpecialTest")
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    history.push("/assesment/SpecialTest");
                   }
                 }}
               >
@@ -2802,11 +2815,11 @@ const setRightLateralData=()=>{
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    history.push("/assesment/SpecialTest")
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    history.push("/assesment/SpecialTest");
                   }
                 }}
               >
@@ -2832,11 +2845,11 @@ const setRightLateralData=()=>{
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    history.push("/assesment/PoseTest")
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    history.push("/assesment/PoseTest");
                   }
                 }}
               >
@@ -2853,11 +2866,11 @@ const setRightLateralData=()=>{
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    history.push("/assesment/PoseTest")
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    history.push("/assesment/PoseTest");
                   }
                 }}
               >
@@ -2882,11 +2895,11 @@ const setRightLateralData=()=>{
                 disabled={state.FirstAssesment.romAssAi}
                 className="btn-new-check"
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    RomAI()
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    RomAI();
                   }
                 }}
                 id="rom"
@@ -2903,11 +2916,11 @@ const setRightLateralData=()=>{
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    RomAI()
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    RomAI();
                   }
                 }}
                 id="rom"
@@ -2933,11 +2946,11 @@ const setRightLateralData=()=>{
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check"
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    Rom()
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    Rom();
                   }
                 }}
                 id="rom_manual"
@@ -2954,11 +2967,11 @@ const setRightLateralData=()=>{
                 disabled={state.FirstAssesment.romAss}
                 type="text"
                 onClick={() => {
-                  if(localStorage.getItem('OnAssessmentScreen')=='true'){
-                    console.log("OnAssessmentScreen inside")
-                    OnAssesmentPage()
-                  }else{
-                    Rom()
+                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                    console.log("OnAssessmentScreen inside");
+                    OnAssesmentPage();
+                  } else {
+                    Rom();
                   }
                 }}
                 id="rom_manual"

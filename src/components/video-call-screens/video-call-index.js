@@ -255,6 +255,7 @@ const captureFront=()=>{
   ]);
   aiModelAppear = !aiModelAppear;
  // $("#magic-btn").html("Start")
+  $("#magic-icon").toggleClass('fa-pause').toggleClass('fa-play')
   $("#magic-btn").toggleClass('btn-red').toggleClass('btn-dark')
 }
 else{
@@ -278,6 +279,7 @@ const  captureSide = () => {
   ])
   aiModelAppear = !aiModelAppear;
    // $("#magic-btn").html("Start")
+   $("#magic-icon").toggleClass('fa-pause').toggleClass('fa-play')
    $("#magic-btn").toggleClass('btn-red').toggleClass('btn-dark')
 }
 else{
@@ -300,6 +302,7 @@ const onChangeFront = (value) => {
     },
   });
   //this.props.FirstAssesment("FrontCheck", value);
+  localStorage.setItem("FrontCheck",value);
   front.map((a) => {
     if (value.includes(a)) {
       frontChecks[a] = 1;
@@ -331,6 +334,7 @@ dispatch({
     value:value,
   },
 });
+localStorage.setItem("SideCheck",value);
   side.map((a) => {
     if (value.includes(a)) {
       sideChecks[a] = 1;
