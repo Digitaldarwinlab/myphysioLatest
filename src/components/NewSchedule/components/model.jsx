@@ -198,10 +198,10 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
     dispatch({ type: "NOTES", payload: { notes: "" } });
 
-    // dispatch({
-    //   type: "VISIT_DATE",
-    //   payload: { date: reducerData.date},
-    // });
+    dispatch({
+      type: "VISIT_DATE",
+      payload: { date: reducerData.date},
+    });
 
     dispatch({
       type: "VISIT_NUMBER",
@@ -269,6 +269,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         setAlert(false);
         setAlertMessage("");
         const userId = JSON.parse(localStorage.getItem("userId"));
+        console.log(reducerData.date._d.toISOString().slice(11, 19))
         let payload;
         if (show) {
           payload = {
