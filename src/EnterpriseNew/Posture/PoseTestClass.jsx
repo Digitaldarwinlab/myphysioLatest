@@ -1,8 +1,8 @@
 import { Button, Col, Input, Row, Space } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import bodyImage from ".././assets/lateral.jpg";
-import side_img from ".././assets/sideways-vector.jpg";
+import bodyImage from "../../assets/lateral.webp";
+import side_img from "../../assets/sideways-vector.webp";
 import { STATECHANGE } from "../Store/actions/Assesment";
 import Tabs from "./Tabs";
 import html2canvas from "html2canvas";

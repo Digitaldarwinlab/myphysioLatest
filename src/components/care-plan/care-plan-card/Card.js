@@ -23,7 +23,7 @@ import {
   CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE,
   CARE_PLAN_STATE_CHANGE,
 } from "../../../contextStore/actions/care-plan-action";
-import yt from "../../../assets/YouTube.PNG";
+import yt from "../../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
 const { Option } = Select;
 const { Meta } = Card;

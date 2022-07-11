@@ -6,7 +6,7 @@ import validation from "./../Validation/authValidation/authValidation";
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
-import svg from "././../../assets/step1.png";
+import svg from "././../../assets/step1.webp";
 import "../../styles/Layout/Episode.css";
 import FormInput from '../UI/antInputs/FormInput';
 import FormDate from "../UI/antInputs/FormDate"

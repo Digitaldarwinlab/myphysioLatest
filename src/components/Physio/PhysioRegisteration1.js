@@ -4,7 +4,7 @@ import { PHYSIO_STATE_CHANGE } from "./../../contextStore/actions/physioRegActio
 import { VALIDATION } from "../../contextStore/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import Error from "./../UtilityComponents/ErrorHandler.js";
-import svg from "./../../assets/step1.png";
+import svg from "./../../assets/step1.webp";
 import { Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import StepBar from "./../UtilityComponents/StepBar";

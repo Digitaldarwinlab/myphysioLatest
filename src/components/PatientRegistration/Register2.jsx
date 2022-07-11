@@ -5,7 +5,7 @@ import { BASIC_CLEARSTATE, BASIC_CLEARSTATE2, STATECHANGE, VALIDATION } from "..
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
-import svg from "././../../assets/step2.png";
+import svg from "././../../assets/step2.webp";
 import { Typography, Select, Row, Col, Button, Form, Space } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormInput from '../UI/antInputs/FormInput';

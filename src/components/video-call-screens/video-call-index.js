@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { useSelector ,useDispatch } from 'react-redux';
 import { Row, Col, Button, Modal,notification,Radio,Checkbox } from 'antd';
 import "../../styles/Layout/VideoCon.css"
-import bodyImage from "../.././assets/lateral.jpg"
-import side_img from '../.././assets/sideways-vector.jpg'
+import bodyImage from "../.././assets/lateral.webp"
+import side_img from '../.././assets/sideways-vector.webp'
 import Tabs from "../Assesment/Tabs";
 import { check } from "prettier";
 import {STATECHANGE} from '../../contextStore/actions/Assesment'
