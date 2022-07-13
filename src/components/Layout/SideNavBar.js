@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Menu } from 'antd';
-import { FaColumns } from "react-icons/fa";
+import { FaColumns ,FaUserMd  } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { RiArrowLeftSLine, RiArrowRightSLine, RiFileTextFill } from "react-icons/ri";
 import {GiHamburgerMenu} from 'react-icons/gi'
@@ -10,6 +10,7 @@ import { FaCalendarPlus, FaPills, FaMicroscope } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiFillCamera, AiFillMedicineBox } from "react-icons/ai";
+import { FaFileInvoiceDollar} from "react-icons/fa";
 
 const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getCurrentPath }) => {
     const [pateintItemActive, setPatientItemActive] = useState(pathName.includes("pateints"));
@@ -19,6 +20,8 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const [assessmentItemActive, setAssessmentItemActive] = useState(pathName.includes("assessment"));
     const [notesItemActive, setNotesItemActive] = useState(pathName.includes("notes"));
     const [physioItemActive, setPhysioItemActive] = useState(pathName.includes("physio"));
+    const [EnterpriseItemActive, setEnterpriseItemActive] = useState(pathName.includes("enterprise"));
+    const [clinicItemActive, setClinicItemActive] = useState(pathName.includes("clinic"));
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" }
     const handleClick = listItem => {
         if (listItem === "patients") {
@@ -48,6 +51,10 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
             setPhysioItemActive(!physioItemActive);
             getCurrentPath("physio");
         }
+        else if (listItem === "clinic") {
+            setClinicItemActive(!clinicItemActive);
+            getCurrentPath("clinic");
+        }
     }
 
     // Patients 
@@ -68,7 +75,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     >Dashboard
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="link3"
+               <Menu.Item key="link3"
                     icon={<HiUserAdd size={22} style={{position:'relative',top:"1px"}} className="iconClass1" />}
                     className="text-decoration-none"
                 >
@@ -95,22 +102,39 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 onClick={() => handleClick("physio")}
                 icon={<i className="fas fa-user-md iconClass1"></i>}
                 title="Physio">
-                <Menu.Item key="link37"
+               { userInfo.role == "admin"&& <Menu.Item key="link37"
                     icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
                     className="text-decoration-none"
                 >
                     <Link to="/physio/register"
                         style={{ color: "black" }}
                     >Physio Register</Link>
-                </Menu.Item>
-                <Menu.Item key="link4"
+                </Menu.Item>}
+                {/* { userInfo.role == "admin" && <Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic-list"
+                        style={{ color: "black" }}
+                    >Clinic View</Link>
+                </Menu.Item>}
+               { userInfo.role == "admin" && <Menu.Item key="link4"
                     icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
                     className="text-decoration-none"
                 >
                     <Link to="/physio/clinic/register"
                         style={{ color: "black" }}
                     >Clinic Register</Link>
-                </Menu.Item>
+                </Menu.Item>} */}
+              
+                {userInfo.role == "HeadPhysio"&&<Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic/view"
+                        style={{ color: "black" }}
+                    >View Clinic</Link>
+                </Menu.Item>}
                 <Menu.Item key="link56"
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
@@ -118,6 +142,80 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     <Link to="/physio/list"
                         style={{ color: "black" }}
                     >Physio List</Link>
+                </Menu.Item>
+            </Menu.SubMenu>
+        )
+    }
+
+    const clinicItems = () => {
+        return (
+            <Menu.SubMenu key="link46"
+                className={pathName.includes("clinic") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("clinic")}
+                icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />} 
+                title="  Clinics">
+                       { userInfo.role == "admin" && <Menu.Item key="link4986"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic/register"
+                        style={{ color: "black" }}
+                    >Clinic Register</Link>
+                </Menu.Item>}
+                { userInfo.role == "admin" && <Menu.Item key="link451"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/clinic-list"
+                        style={{ color: "black" }}
+                    >Clinic List</Link>
+                </Menu.Item>}
+            </Menu.SubMenu>
+        )
+    }   
+    
+    
+    const EnterpriseItems = () => {
+        return (
+            <Menu.SubMenu key="link506"
+                className={pathName.includes("enterprise") ? "active text-decoration-none" : "text-decoration-none"}
+                onClick={() => handleClick("enterprise")}
+                icon={<i className="fas fa-user-md iconClass1"></i>}
+                title="Enterprise">
+                     { userInfo.role == "admin" && <Menu.Item key="link4"
+                    icon={<i className="fas fa-clinic-medical" size={18} style={{position:'relative',top:"1px",fontSize:'18px'}} />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/organization-register"
+                        style={{ color: "black" }}
+                    >Organization Register</Link>
+                </Menu.Item>}
+
+               { userInfo.role == "admin"&& <Menu.Item key="link37"
+                    icon={<i className="fas fa-user-md" style={{position:'relative',top:"1px",fontSize:'18px'}}/>}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/employee-register"
+                        style={{ color: "black" }}
+                    >Employee Register</Link>
+                </Menu.Item>}
+
+                
+                <Menu.Item key="link65"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/organization-list"
+                        style={{ color: "black" }}
+                    >Organization List</Link>
+                </Menu.Item>
+                <Menu.Item key="link66"
+                    icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/enterprise/employee-list"
+                        style={{ color: "black" }}
+                    >Employee List</Link>
                 </Menu.Item>
             </Menu.SubMenu>
         )
@@ -197,7 +295,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                 >
                     <Link to="/assessment/1"
                         style={{ color: "black" }}
-                    >Add Assesment1</Link>
+                    >Add Assesment</Link>
                 </Menu.Item>
                 
             </Menu.SubMenu>
@@ -224,6 +322,22 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
 
         )
     }
+
+    const Invoice = () => {
+        
+        return (
+           
+                <Menu.Item key="link12" title="Invoice"
+                    icon={<FaFileInvoiceDollar className="iconClass1" />}
+                    className="text-decoration-none"
+                >
+                    <Link to="/invoice"
+                        style={{ color: "black" }}
+                    >Invoice</Link>
+                </Menu.Item>
+           
+        )
+    }
         /*
             <Menu.Item key="1" style={{backgroundColor:'transparent',color:'black'}} onClick={() => { SideNavbarCollpased() }}>
                 {isSideNavbarCollpased
@@ -235,14 +349,16 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     return (
         <Menu className={`d-md-block bg-light sidebar`}
             style={{height: "92vh", fontSize: "1.08rem", overflow: "auto" }} mode="inline">
-            
-            {userInfo.role === "admin" && physioItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && pateintItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && episodeItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && schedulingItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && carePlanItem()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && assessmentItems()}
-            {(userInfo.role === "physio" || userInfo.role === "admin") && notesItems()}
+            {(userInfo.role === "admin") &&  clinicItems()}
+            {(userInfo.role === "admin") &&  EnterpriseItems()}
+            {(userInfo.role === "admin" || userInfo.role == "HeadPhysio") &&  physioItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && pateintItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && episodeItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && schedulingItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && assessmentItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && notesItems()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && carePlanItem()}
+            {(userInfo.role === "physio" || userInfo.role === "admin"|| userInfo.role == "HeadPhysio") && Invoice()}
         </Menu>
     )
 }

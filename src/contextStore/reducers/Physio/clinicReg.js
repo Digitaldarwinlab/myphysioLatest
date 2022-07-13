@@ -2,7 +2,8 @@ import {
     CLINIC_STATE_CHANGE,
     CLINIC_REGISTER_REQUEST,
     CLINIC_REGISTER_SUCCESS,
-    CLINIC_CLEAR_STATE
+    CLINIC_CLEAR_STATE,
+    CLINIC_REGISTER_FAILED
 } from './../../actions/ClinicRegister';
 
 const clinicInitialState = {
@@ -21,7 +22,8 @@ const clinicInitialState = {
     email:"",
     website_url:"",
     isLoading:false,
-    success:""
+    success:"",
+    clinics:[]
 }
 export const clinicReg = (state = clinicInitialState,action)=>{
     switch (action.type) {
@@ -42,12 +44,35 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...state,
                 isLoading:false,
-                success:"Clinic Registered SuccessFully."
+                success:"Registered SuccessFully."
             }
+            case "CLINIC_REGISTER_FAILURE":
+            return {
+                ...state,
+                isLoading:false,
+                success:"Registration Failed."
+            }
+            case "UPDATE_ORGANIZATION_FAILURE":
+                return {
+                    ...state,
+                    isLoading:false,
+                    success:"Failed to Update."
+                }
+                case "UPDATE_ORGANIZATION_SUCCESS":
+                    return {
+                        ...state,
+                        isLoading:false,
+                        success:"Updated Successfully."
+                    }
         case CLINIC_CLEAR_STATE:
             return {
                 ...clinicInitialState
             }
+        case CLINIC_REGISTER_FAILED:
+            return {
+                    ...state,
+                    isLoading:false,
+                }    
         default:
             return {
                 ...state

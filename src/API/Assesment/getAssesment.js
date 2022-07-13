@@ -5,7 +5,7 @@ export const getAssesment =async (patient_id) =>{
         "Content-type": "application/json"
     }
     try{
-        const response = await fetch(process.env.REACT_APP_API+"/get_patient_assessment/",{
+        const response = await fetch(process.env.REACT_APP_API+"/get_patient_assessment_v1/",{
             headers:headers,
             method:"POST",
             body:JSON.stringify({id:patient_id})
@@ -17,7 +17,7 @@ export const getAssesment =async (patient_id) =>{
              return [];
         }
     }catch(err){
-        console.log(err,"From Get Assesment data");
+        // console.log(err,"From Get Assesment data");
         return [];
     }
 }

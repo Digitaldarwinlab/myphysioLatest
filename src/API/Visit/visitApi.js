@@ -1,24 +1,25 @@
 import { RRule } from "rrule";
 import fetch from "isomorphic-fetch";
+import { Decode, Encode } from "../../Encode/hashing";
 
 
 //Recurrence Rule Logic 
 const GenerateRecurrenceEvents = (recrule, date) => {
-    console.log(date);
+    // console.log(date);
     date = JSON.stringify(date);
-    console.log(date);
+    // console.log(date);
     let dateVal = date.split(".");
-    console.log(dateVal);
+    // console.log(dateVal);
     date = dateVal[0];
-    console.log(date);
+    // console.log(date);
     for (let i = 0; i < 3; i++) {
         date = date.replace(":", "");
         date = date.replace("-", "");
     }
-    console.log(date);
+    // console.log(date);
     date = date.substring(1);
-    console.log(date);
-    console.log(recrule);
+    // console.log(date);
+    // console.log(recrule);
 
     //  byhour: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     const rule = new RRule.fromString(
@@ -30,8 +31,8 @@ if (recrule.includes("HOURLY")) {
 const rrule = RRule.fromString(originalString)
     const backToString = new RRule({ ...rrule.options }).toString()
 
-    console.log(backToString);
-    console.log(rule);
+    // console.log(backToString);
+    // console.log(rule);
     return rule;
 };
 
@@ -76,13 +77,13 @@ const seperateVisitData = (data, update = false) => {
             }
             return newData;
         } else {
-            console.log("new Date(data.startDate) :"+new Date(data.startDate));
+            // console.log("new Date(data.startDate) :"+new Date(data.startDate));
             const generatedData = GenerateRecurrenceEvents(data.recurrenceRule, new Date(data.startDate));
             let newData = [];
-            console.log(generatedData.length);
+            // console.log(generatedData.length);
             for (let i = 0; i < generatedData.length; i++) {
-                console.log("start time->"+new Date(generatedData[i]).toLocaleTimeString());
-                console.log("end time->"+new Date(new Date(generatedData[i]).getTime() + getEndDate(data.duration)).toLocaleTimeString());
+                // console.log("start time->"+new Date(generatedData[i]).toLocaleTimeString());
+                // console.log("end time->"+new Date(new Date(generatedData[i]).getTime() + getEndDate(data.duration)).toLocaleTimeString());
                 let newVisitData = {
                     pp_ed_id: data.episode,
                     visit_number: 2,
@@ -108,30 +109,33 @@ const seperateVisitData = (data, update = false) => {
             return newData;
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 }
 //get Visit
 export const GetVisit = async () => {
+    
     try {
         const headers = {
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"));
-
-        const response = await fetch(process.env.REACT_APP_API + "/get_visit_physio/", {
+        const encodedData = Encode({ id: id })
+        const response = await fetch(process.env.REACT_APP_API + "/get_visit_physio_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(encodedData)
         });
         if (response.status !== 200 && response.status !== 201) {
             throw new Error(response.statusText);
         }
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
+        console.log(data)
         return data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return [];
     }
 }
@@ -139,8 +143,8 @@ export const GetVisit = async () => {
 //@param Visit details
 //@return Message.
 export const AddVisit = async (details) => {
-    console.log('Add   :')
-   console.log(details)
+    // console.log('Add   :')
+   // console.log(details)
 
  // aswin 10/16/2021 //
  sessionStorage.removeItem('newDate')
@@ -150,28 +154,40 @@ export const AddVisit = async (details) => {
 
   
     var allVisitData = seperateVisitData(details);
+    console.log("allVisitData ",allVisitData)
+    allVisitData.map(item=>{
+        if(item.appointment_detail.allDay==true){
+            item.appointment_detail.allDay = 1
+        }else if(item.appointment_detail.allDay==false){
+            item.appointment_detail.allDay = 0
+        }
+    })
    // console.log(allVisitData)
    if(details.location!=='Video Conference')
     {  
 
             
-            allVisitData[0].video_link='' 
-            console.log(allVisitData)
+            if(allVisitData[0].video_link ){
+                allVisitData[0].video_link='' 
+            }
+            // console.log(allVisitData)
     }
     try {
         const headers = {
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
-        const response = await fetch(process.env.REACT_APP_API + "/add_visit/", {
+        const encodedData = Encode(allVisitData)
+        const response = await fetch(process.env.REACT_APP_API + "/add_visit_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(allVisitData)
+            body: JSON.stringify(encodedData)
         });
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error " + response.status + ": " + response.statusText];
         }
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data.message) {
             return [true];
         } else {
@@ -185,15 +201,36 @@ export const AddVisit = async (details) => {
 //@param Visit details
 //@return Message.
 export const UpdateVisit = async (details) => {
-   //console.log(details)
-   console.log('update')
+   //// console.log(details)
+   // console.log('update ',details)
    
-   if(details)
-   {    alert('update')
-       return false
-   }
+//    if(details)
+//    {    alert('update')
+//        return false
+//    }
     const allVisitData = seperateVisitData(details, true);
-    console.log(allVisitData[0])
+    if(details.location!=='Video Conference')
+    {  
+
+            
+            if(allVisitData[0].video_link ){
+                allVisitData[0].video_link='' 
+            }
+            // console.log("update 1 ",allVisitData)
+    }
+    allVisitData.map(item=>{
+        if(item.appointment_detail.allDay==true){
+            item.appointment_detail.allDay = 1
+        }else if(item.appointment_detail.allDay==false){
+            item.appointment_detail.allDay = 0
+        }
+    })
+    if(details.location==='Video Conferance'){
+        if(allVisitData[0].video_link ){
+           // console.log('update inside video link')
+        }
+    }
+    // console.log("update ",allVisitData[0])
     try {
         const headers = {
             "Accept": 'application/json',
@@ -205,7 +242,7 @@ export const UpdateVisit = async (details) => {
             body: JSON.stringify(allVisitData[0])
         });
         if (response.status !== 200 && response.status !== 201) {
-            console.log(response)
+            // console.log(response)
             return [false, "Error " + response.status + ": " + response.statusText];
         }
         const data = await response.json();
@@ -222,8 +259,8 @@ export const UpdateVisit = async (details) => {
 export   const delete_visit= async (id)=>{
 
 
-    console.log('idd ion api')
-    console.log(id)
+    // console.log('idd ion api')
+    // console.log(id)
     
       try {
           const headers = {
@@ -236,7 +273,7 @@ export   const delete_visit= async (id)=>{
               body: JSON.stringify({id:id})
           });
           if (response.status !== 200 && response.status !== 201) {
-              console.log(response)
+              // console.log(response)
               return [false, "Error " + response.status + ": " + response.statusText];
           }
           const data = await response.json();
@@ -250,3 +287,26 @@ export   const delete_visit= async (id)=>{
       }
   
   }
+
+  export const GetClinicVisits = async (id) => {
+    try {
+        const headers = {
+            "Accept": 'application/json',
+            "Content-type": "application/json"
+        }
+
+        const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({ id: id })
+        });
+        if (response.status !== 200 && response.status !== 201) {
+            throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}

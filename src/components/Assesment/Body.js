@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom"
 import "../../styles/Layout/Body.css"
 import { AssesmentAPI } from '../../API/Assesment/assementApi';
 import { getEpisode } from '../../API/Episode/EpisodeApi';
-import { RECEIVED_DATA ,ASSESMENT_CLEARSTATE,STATECHANGE} from '../../contextStore/actions/Assesment';
+import { RECEIVED_DATA, ASSESMENT_CLEARSTATE, STATECHANGE } from '../../contextStore/actions/Assesment';
 import { useDispatch, useSelector } from "react-redux";
 import JointData from "../UtilityComponents/dummyData/MuscleMap.json";
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 // aswin 10/24/2021 start
-import { Switch, Button, Row, Col, notification, Descriptions,Rate, Slider,Form,Table,Modal,Space, message} from "antd";
+import { Switch, Button, Row, Col, notification, Descriptions, Rate, Slider, Form, Table, Modal, Space, message, Tabs } from "antd";
 // aswin 10/24/2021 stop
 import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
 import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
@@ -91,23 +91,23 @@ const marks1 = {
     1: <MehOutlined style={{ fontSize: 25, color: 'limegreen' }} />,
     2: <FrownOutlined style={{ fontSize: 25, color: 'orange' }} />,
     3: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
-  };
+};
 
-  const marks = {
+const marks = {
     0: <i class="far fa-smile" style={{ fontSize: 25 }}></i>,
     2: <i class="far fa-smile" style={{ fontSize: 25, color: 'lime' }}></i>,
     4: <i class="far fa-meh" style={{ fontSize: 25, color: 'limegreen' }}></i>,
     6: <i class="far fa-frown" style={{ fontSize: 25, color: 'lightsalmon' }}></i>,
     8: <i class="far fa-frown" style={{ fontSize: 25, color: 'orange' }}></i>,
     10: <i class="far fa-tired" style={{ fontSize: 25, color: "red" }}></i>
-  };
+};
 
-  const desc = ['no pain', 'mild', 'moderate', 'severe'];
+const desc = ['no pain', 'mild', 'moderate', 'severe'];
 
 
 
-const Body = () => {
-    const [errorshow,SeterrorShow]=useState(false)
+const Body = ({back ,next}) => {
+    const [errorshow, SeterrorShow] = useState(false)
     const history = useHistory();
     const [form] = Form.useForm();
     const [MuscleJoint, setMuscleJoint] = useState({});
@@ -131,30 +131,29 @@ const Body = () => {
         RightHip: '',
         LeftKnee: '',
         RightKnee: '',
-
-        NeckLeft: '',
-        NeckRight: '',
-        PelvicLeft: '',
-        PelvicRight: '',
+        LeftNeck: '',
+        RightNeck: '',
+        LeftPelvic: '',
+        RightPelvic: '',
     })
 
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         form.resetFields()
-        
-      },[history])
-        const state 
+
+    }, [history])
+    const state
         = useSelector(state => state);
-        const assesmentstate=useSelector(state=>state.FirstAssesment)
-    
-        useEffect(()=>{
-    
-        },[assesmentstate])
+    const assesmentstate = useSelector(state => state.FirstAssesment)
+
+    // useEffect(()=>{
+
+    // },[assesmentstate])
     const dispatch = useDispatch();
 
     const formatter = (value) => {
         return `${desc[value]}`
-      }
+    }
 
     const columns = [
         {
@@ -204,16 +203,15 @@ const Body = () => {
         {
             key: '5',
             angles: 'Neck Left',
-            min: angleValues.NeckLeft.min,
-            max: angleValues.NeckLeft.max
-       
+            min: angleValues.LeftNeck.min,
+            max: angleValues.LeftNeck.max
         },
         {
             key: '6',
             angles: 'Neck Right',
-            min: angleValues.NeckRight.min,
-            max: angleValues.NeckRight.max
-        },
+            min: angleValues.RightNeck.min,
+            max: angleValues.RightNeck.max
+        }
 
     ]
 
@@ -223,65 +221,67 @@ const Body = () => {
             angles: 'Left Hip',
             min: angleValues.LeftHip.min,
             max: angleValues.LeftHip.max
-        },
-        {
+        }, {
             key: '8',
             angles: 'Right Hip',
             min: angleValues.RightHip.min,
             max: angleValues.RightHip.max
-        },
-        {
+        }, {
             key: '9',
             angles: 'Left Knee',
             min: angleValues.LeftKnee.min,
             max: angleValues.LeftKnee.max
-        },
-        {
+        }, {
             key: '10',
             angles: 'Right Knee',
             min: angleValues.RightKnee.min,
             max: angleValues.RightKnee.max
-        },
-
-        {
+        }, {
             key: '11',
             angles: 'Pelvic Left',
-            min: angleValues.PelvicLeft.min,
-            max: angleValues.PelvicLeft.max
-        },
-        {
+            min: angleValues.LeftPelvic.min,
+            max: angleValues.LeftPelvic.max
+        }, {
             key: '12',
             angles: 'Pelvic Right',
-            min: angleValues.PelvicRight.min,
-            max: angleValues.PelvicRight.max
-        },
+            min: angleValues.RightPelvic.min,
+            max: angleValues.RightPelvic.max
+        }
     ]
 
     useEffect(() => {
         const question = document.getElementById("question")
         const rom = document.getElementById("rom")
-    
-        
+
+
         if (state.FirstAssesment.KOOS === "") {
             question.innerHTML = "Add Questionnaire"
+         //  question.innerHTML = " "
             setQuestionVisibility('none')
 
         }
         else {
-            question.innerHTML = "Questionnaire filled"
+          question.innerHTML = "Questionnaire filled"
+          // question.innerHTML = " "
             question.style.backgroundColor = "honeydew"
             question.style.borderColor = "limegreen"
             setQuestionVisibility('block')
 
         }
-
+        setQuestionVisibility('none')
+        // Check if AI_Data
         if (state.FirstAssesment.AI_data === "") {
             rom.innerHTML = "Add ROM Assesment"
             setRomVisibility('none')
         }
         else {
-            const exercise=state.FirstAssesment.Exercise_Name
+            const exercise = state.FirstAssesment.Exercise_Name
+            //instead of fetching from store
+            //fetch from loalstorage directly
             const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            //const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            zz("Ai data in body.js from localstorage: ", AI_Data)
+            // const AI_Data = state.FirstAssesment.AI_data[exercise].angles
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
@@ -296,24 +296,28 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
-                
-                ['NeckLeft']: AI_Data["Neck Left"],
-                ['NeckRight']: AI_Data["Neck Right"],
-                ['PelvicLeft']: AI_Data["Pelvic Left"],
-                ['PelvicRight']: AI_Data["Pelvic Right"],
+                ['LeftNeck']: AI_Data["Neck Left"],
+                ['RightNeck']: AI_Data["Neck Right"],
+                ['LeftPelvic']: AI_Data["Pelvic Left"],
+                ['RightPelvic']: AI_Data["Pelvic Right"]
             }))
         }
     }, angleValues)
-
+    // NOTE: Above useEffect does same thing, repeated code 
     useEffect(() => {
         function checkUserData() {
-          var AI = JSON.parse(localStorage.getItem("AI_Data"))
-          var data = JSON.parse(localStorage.getItem("ExerciseName"))
-        //  console.log(AI,data)
-          state.FirstAssesment.Exercise_Name=data
-            state.FirstAssesment.AI_data=AI
-            const exercise=state.FirstAssesment.Exercise_Name
-            const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+            var AI = JSON.parse(localStorage.getItem("AI_Data"))
+            var data = JSON.parse(localStorage.getItem("ExerciseName"))
+            //  console.log(AI,data)
+            state.FirstAssesment.Exercise_Name = data
+            state.FirstAssesment.AI_data = AI
+            const exercise = state.FirstAssesment.Exercise_Name
+           const AI_Data = state.FirstAssesment.AI_data[exercise].angles
+
+           // const AI_Data = JSON.parse(localStorage.getItem("AI_Data")).Squat.angles
+            
+            console.log("Ai data in body.js from localstorage: ", AI_Data)
+
             rom.innerHTML = "ROM Assement calculated"
             rom.style.backgroundColor = "honeydew"
             rom.style.borderColor = "limegreen"
@@ -328,44 +332,45 @@ const Body = () => {
                 ['RightHip']: AI_Data["Right Hip"],
                 ['LeftKnee']: AI_Data["Left Knee"],
                 ['RightKnee']: AI_Data["Right Knee"],
-
-                ['NeckLeft']: AI_Data["Neck Left"],
-                ['NeckRight']: AI_Data["Neck Right"],
-                ['PelvicLeft']: AI_Data["Pelvic Left"],
-                ['PelvicRight']: AI_Data["Pelvic Right"],
-
+                ['LeftNeck']: AI_Data["Neck Left"],
+                ['RightNeck']: AI_Data["Neck Right"],
+                ['LeftPelvic']: AI_Data["Pelvic Left"],
+                ['RightPelvic']: AI_Data["Pelvic Right"]
             }))
 
         }
-      
+
         window.addEventListener('storage', checkUserData)
-      
+
         return () => {
-          window.removeEventListener('storage', checkUserData)
+            window.removeEventListener('storage', checkUserData)
         }
-      }, [])
+    }, [])
 
     const handleChange = () => {
         setMaleFemale(!MaleFemale);
     }
 
     const handleChange1 = (key, value, id = 0) => {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value
-          }
-        });
-        dispatch({ type: "NOERROR" });
-      }
+        return new Promise((resolve,reject)=>{
+            dispatch({
+                type: STATECHANGE,
+                payload: {
+                    key,
+                    value
+                }
+            });
+            dispatch({ type: "NOERROR" });
+            resolve()
+        })
+    }
 
 
     const handleClick = (e, id) => {
 
-        console.log(e,' : ',id)
+        console.log(e, ' : ', id)
         const index = BodyParts.indexOf(e);
-    //    console.log(BodyParts)
+        //    console.log(BodyParts)
         var ele = document.getElementById(id);
 
         if (index === -1) {
@@ -414,12 +419,11 @@ const Body = () => {
 
     const Rom = () => {
 
-        if(Object.keys(MuscleJoint).length=='')
-        {
+        if (Object.keys(MuscleJoint).length == '') {
             warningJoint()
             return false
         }
-
+        console.log("values ", MuscleJoint)
         history.push({
             pathname: "/care-plan", state: {
                 Joints: Object.keys(MuscleJoint),
@@ -466,9 +470,9 @@ const Body = () => {
                 const MappedJoint = JointData[i];
                 for (let j = 0; j < MappedJoint.length; j++) {
                     if (MappedJoint[j] in dummyData) {
-                        
+
                         dummyData[MappedJoint[j]] -= 1;
-                      
+
                         if (dummyData[MappedJoint[j]] === 0) {
                             delete dummyData[MappedJoint[j]];
                         }
@@ -486,93 +490,93 @@ const Body = () => {
         }
     }
 
-     function warning() {
+    function warning() {
         Modal.warning({
-          title: 'This is a warning message',
-          content: 'Fields missing: All Mandatory fields should be filled in',
+            title: 'This is a warning message',
+            content: 'Fields missing: All Mandatory fields should be filled in',
         });
-      }
-      function warningJoint() {
+    }
+    function warningJoint() {
         Modal.warning({
-          title: 'This is a warning message',
-          content: 'Please Select a joint',
+            title: 'This is a warning message',
+            content: 'Please Select a joint',
         });
-      }
-      function warningPatientSelect() {
+    }
+    function warningPatientSelect() {
         Modal.warning({
-          title: 'This is a warning message',
-          content: 'Please Select a Patient',
+            title: 'This is a warning message',
+            content: 'Please Select a Patient',
         });
-      }
-    
+    }
+
     // useEffect(()=>{
     //    // console.log(state.carePlanRedcucer.pp_ed_id)
     //  //   console.log('errorshow in useEffect')
     // //    console.log(errorshow)
     // },[])
 
-   // aswin 10/30/2021 start 
-   const checkEpisodeId = async () => {
-    if(state.episodeReducer.patient_code){
-        const res = await getEpisode(state.episodeReducer.patient_code)
-        if(res.length>0){
-            if(res[0].end_date.length===0){
-                return 'true';
-            }
-            notification.warning({
-                message: "Patient don't have an open episode",
-                placement: 'topRight',
-                duration: 10,
-                key:1,
-                style: {
-                    marginTop: '10vh',
-                  },
-                btn:<Button size="small" onClick={() => {
-                    history.push('/add-episode') 
-                    notification.close(1)
-                  }}>
-                  Add-episode
-                </Button>,
-            })
-            return false;
-        }else{
-            notification.warning({
-                message: "Patient don't have an open episode",
-                placement: 'topRight',
-                duration: 10,
-                key:1,
-                style: {
-                    marginTop: '10vh',
-                  },
-                btn:<Button size="small" onClick={() => {
-                    history.push('/add-episode') 
-                    notification.close(1)
-                  }}>
-                  Add-episode
-                </Button>,
-            })
-        }
-       // message.error("Patient don't have an open episode");
-      //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
-    }else{
-        notification.warning({
-            message: "Please select a patient",
-            placement: 'bottomLeft',
-            duration: 5,
-            style:'margin-top:20px'
-        });
-        return false;
-    }
-}
-
-
-// aswin 10/30/2021 stop
-    const Finalsubmit =async ()=>{
-        // aswin 10/24/2021 start
-      //  let val=checkEpisodeId();
-      //  if(state.episodeReducer.patient_code){
+    // aswin 10/30/2021 start 
+    const checkEpisodeId = async () => {
+        if (state.episodeReducer.patient_code) {
             const res = await getEpisode(state.episodeReducer.patient_code)
-          
+            if (res.length > 0) {
+                if (res[0].end_date.length === 0) {
+                    return 'true';
+                }
+                notification.warning({
+                    message: "Patient don't have an open episode",
+                    placement: 'topRight',
+                    duration: 10,
+                    key: 1,
+                    style: {
+                        marginTop: '10vh',
+                    },
+                    btn: <Button size="small" onClick={() => {
+                        history.push('/add-episode')
+                        notification.close(1)
+                    }}>
+                        Add-episode
+                    </Button>,
+                })
+                return false;
+            } else {
+                notification.warning({
+                    message: "Patient don't have an open episode",
+                    placement: 'topRight',
+                    duration: 10,
+                    key: 1,
+                    style: {
+                        marginTop: '10vh',
+                    },
+                    btn: <Button size="small" onClick={() => {
+                        history.push('/add-episode')
+                        notification.close(1)
+                    }}>
+                        Add-episode
+                    </Button>,
+                })
+            }
+            // message.error("Patient don't have an open episode");
+            //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+        } else {
+            notification.warning({
+                message: "Please select a patient",
+                placement: 'bottomLeft',
+                duration: 5,
+                style: 'margin-top:20px'
+            });
+            return false;
+        }
+    }
+
+
+    // aswin 10/30/2021 stop
+    const Finalsubmit = async () => {
+        // aswin 10/24/2021 start
+        //  let val=checkEpisodeId();
+        //  if(state.episodeReducer.patient_code){
+        const res = await getEpisode(state.episodeReducer.patient_code)
+
         // alert(JSON.stringify(state.episodeReducer))
         // console.log(JSON.stringify(state.episodeReducer))
         // if(state.carePlanRedcucer.pp_ed_id===""){
@@ -584,154 +588,165 @@ const Body = () => {
         // }
         // aswin 10/24/2021 stop
         // aswin 11/13/2021 start
-        if(res.length>0 && res[0].end_date.length===0){
-      if(window.confirm('Assessment data will be submitted')){
-        const data = await AssesmentAPI(state.FirstAssesment, dispatch)
-        dispatch({ type: RECEIVED_DATA })
-        if (data === true) {
-            sessionStorage.setItem('submit',true)
-            setTimeout(() => {
-                dispatch({ type: ASSESMENT_CLEARSTATE });
-            }, 1000);
+        if (res.length > 0 && res[0].end_date.length === 0) {
+            if (window.confirm('Assessment data will be submitted')) {
+                const data = await AssesmentAPI(state.FirstAssesment, dispatch)
+                dispatch({ type: RECEIVED_DATA })
+                if (data === true) {
+                    sessionStorage.setItem('submit', true)
+                    setTimeout(() => {
+                        dispatch({ type: ASSESMENT_CLEARSTATE });
+                    }, 1000);
 
-            notification.success({
-                message: 'Assessment successfully submitted!',
-                placement: 'bottomLeft',
-                duration: 2
-            });
+                    notification.success({
+                        message: 'Assessment successfully submitted!',
+                        placement: 'bottomLeft',
+                        duration: 2
+                    });
 
-            history.push('/dashboard')
-        }
-            
-        
-        else {
-            notification.error({
-                message: 'Form was not submitted',
-                placement: 'bottomLeft',
-                duration: 2
-            });
-        }
-      }
-      // aswin 11/13/2021 stop
-    }else{
+                    history.push('/dashboard')
+                }
+
+
+                else {
+                    notification.error({
+                        message: 'Form was not submitted',
+                        placement: 'bottomLeft',
+                        duration: 2
+                    });
+                }
+            }
+            // aswin 11/13/2021 stop
+        } else {
             return notification.warning({
                 message: "Patient don't have an open episode1",
                 placement: 'bottomRight',
                 duration: 2
             });
-    }
+        }
     }
     const Submit = async () => {
-            
-        if(assesmentstate.Type=='')
-        {//   console.log('Type  in if checking')
-            console.log(assesmentstate.Type)
-           // alert('Please Select a Type')
-           warning()
-          //  SeterrorShow('Please Select a type')
-           // console.log(errorshow)
-            return false
-        }
-        else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
-        {
-            warning()
-            return false
-        }
+        let div = document.getElementById("malefigures");
+        let can =  await html2canvas(div)
+        let url = can.toDataURL()
+        handleChange1('body_image',url).then(()=>{
+            Finalsubmit()
+        })
+    //    .then(function (canvas) {
+    //     url = canvas.toDataURL()
+    //     console.log("url is ",url)
+    //     handleChange1('body_image',url)
+    //     })
+       // console.log("url is ",url)
+        //     if(assesmentstate.Type=='')
+        //     {//   console.log('Type  in if checking')
+        //         console.log(assesmentstate.Type)
+        //        // alert('Please Select a Type')
+        //        warning()
+        //       //  SeterrorShow('Please Select a type')
+        //        // console.log(errorshow)
+        //         return false
+        //     }
+        //     // else if(assesmentstate.Date.dateString=='' || assesmentstate.Date=='')
+        //     // {
+        //     //     warning()
+        //     //     return false
+        //     // }
 
-        else{
-            
-           if(assesmentstate.Type=='Periodic')
-           {
-               if(assesmentstate.Numbness=='')
-               {
-                warning()
-                   return false
-               }
+        //     else{
 
-               else if( assesmentstate.Swelling=='')
-               {
-                warning()
-                   return false
-               }
+        //        if(assesmentstate.Type=='Periodic')
+        //        {
+        //            if(assesmentstate.Numbness=='')
+        //            {
+        //             warning()
+        //                return false
+        //            }
 
-               else if(assesmentstate.PainMeter=='')
-               {
-                warning()
-                   return false
-               }
-           }
+        //            else if( assesmentstate.Swelling=='')
+        //            {
+        //             warning()
+        //                return false
+        //            }
 
-           else if(assesmentstate.Type=='First')
-           {
-               if(assesmentstate.Scar==''){
-                warning()
-                   return false
-               }
-               else if(assesmentstate.RecentHistory==''){
-                warning()
-               return false
-               }
-              else if(assesmentstate.Trauma==''){
-                warning()
-               return false
-           }
-           else if(assesmentstate.test==''){
-            warning()
-            return false
-        }
-      else  if(assesmentstate.Numbness=='')
-        {
-            warning()
-            return false
-        }
+        //            else if(assesmentstate.PainMeter==='')
+        //            {
+        //             warning()
+        //                return false
+        //            }
+        //        }
 
-        else if( assesmentstate.Swelling=='')
-        {
-            warning()
-            return false
-        }
+        //        else if(assesmentstate.Type=='First')
+        //        {
+        //            if(assesmentstate.Scar==''){
+        //             warning()
+        //                return false
+        //            }
+        //            else if(assesmentstate.RecentHistory==''){
+        //             warning()
+        //            return false
+        //            }
+        //           else if(assesmentstate.Trauma==''){
+        //             warning()
+        //            return false
+        //        }
+        //        else if(assesmentstate.test==''){
+        //         warning()
+        //         return false
+        //     }
+        //   else  if(assesmentstate.Numbness=='')
+        //     {
+        //         warning()
+        //         return false
+        //     }
 
-        else if(assesmentstate.PainMeter=='')
-        {
-            warning()
-            return false
-        }
-           }
-           else if(assesmentstate.Type=='Consultation')
-           {
-              if(assesmentstate.Numbness=='')
-            {
-                warning()
-                return false
-            }
+        //     else if( assesmentstate.Swelling=='')
+        //     {
+        //         warning()
+        //         return false
+        //     }
 
-            else if( assesmentstate.Swelling=='')
-            {
-                warning()
-                return false
-            }
+        //     else if(assesmentstate.PainMeter==='')
+        //     {
+        //         warning()
+        //         return false
+        //     }
+        //        }
+        //        else if(assesmentstate.Type=='Consultation')
+        //        {
+        //           if(assesmentstate.Numbness=='')
+        //         {
+        //             warning()
+        //             return false
+        //         }
 
-            else if(assesmentstate.PainMeter=='')
-            {
-                warning()
-                return false
-            }
-           }
-           
-           
-        }
-         
+        //         else if( assesmentstate.Swelling=='')
+        //         {
+        //             warning()
+        //             return false
+        //         }
 
-           if(state.episodeReducer.patient_name=='')
-           {
-            warningPatientSelect()
-            return false
-           }
+        //         else if(assesmentstate.PainMeter==='')
+        //         {
+        //             warning()
+        //             return false
+        //         }
+        //        }
 
-        Finalsubmit()
-   
-    
-}
+
+        //     }
+
+
+        //        if(state.episodeReducer.patient_name=='')
+        //        {
+        //         warningPatientSelect()
+        //         return false
+        //        }
+
+      //  Finalsubmit()
+
+
+    }
 
 
     // const newArray = Muscle.map((val)=>{
@@ -743,66 +758,50 @@ const Body = () => {
     // setFemaleBody(Body);
 
     return (
-        <>
+        <div className="border mb-3 mt-0" style={{ background: '#fff', padding: '20px' }}>
 
-            <h3 className="border p-1 m-2">Areas</h3>
-            <Row gutter={[10, 10]} className="px-0 py-2">
-            <Form  form={form}>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain" >
-              <Form.Item label="Swelling" name="Swelling" rules={[{ required: true, message: `Please Select` }]} >
-                <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
-                  onChange={(value) => handleChange1("Swelling", desc[value])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Swelling)}
-                  style={{ width: 200 }}
-                />
-                {/* <Rate character={({ index }) => customIcons[index + 1]}
-                  className=" input-field"
-                  tooltips={desc}
-                  onChange={(value) => handleChange("Swelling", desc[value - 1])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Swelling) + 1}
-                /> */}
-              </Form.Item>
-            </Col>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
-              {/* <FormInput label="Numbness"
-                    name="Numbness"
-                    value={state.FirstAssesment.Numbness}
-                    onChange={handleChange} required={true}/> */}
-              <Form.Item label="Numbness" name="Numbness" rules={[{ required: true, message: `Please Select` }]} >
-                <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
-                  onChange={(value) => handleChange1("Numbness", desc[value])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Numbness)}
-                  style={{ width: 200 }}
-                />
-                {/* <Rate character={({ index }) => customIcons[index + 1]}
-                  className=" input-field"
-                  tooltips={desc}
-                  onChange={(value) => handleChange("Numbness", desc[value - 1])}
-                  defaultValue={desc.indexOf(state.FirstAssesment.Numbness) + 1}
-                /> */}
-              </Form.Item>
-            </Col>
-            <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
-              <Form.Item label="Pain Level" name="PainMeter" rules={[{ required: true, message: `Please Select` }]} >
-                {/* <Select placeholder="Select Type"
-                  className=" input-field"
-                  onChange={(value) => handleChange("PainMeter", value)}
-                  value={state.FirstAssesment.PainMeter}
-                  defaultValue={state.FirstAssesment.PainMeter}>
-                  <Option value="mild">mild</Option>
-                  <Option value="moderate">moderate</Option>
-                  <Option value="severe">severe</Option>
-                </Select> */}
-                <Slider marks={marks} min={0} max={10} step={2}
-                  onChange={(value) => handleChange1("PainMeter", value)}
-                  defaultValue={state.FirstAssesment.PainMeter}
-                  style={{ width: 200 }}
-                />
-              </Form.Item>
-            </Col>
-            </Form>
-          </Row>
+           
            {/*
+            {/* <h3 className="border p-1 m-2 fw-bold"> Areas </h3>
+            <Row gutter={[10, 10]} className="px-0 py-2">
+                <Form form={form}>
+                    <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain" >
+                        <Form.Item label="Swelling" name="Swelling" rules={[{ required: true, message: `Please Select` }]} >
+                            <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
+                                onChange={(value) => handleChange1("Swelling", desc[value])}
+                                defaultValue={desc.indexOf(state.FirstAssesment.Swelling)}
+                                value={desc.indexOf(state.FirstAssesment.Swelling)}
+                                style={{ width: 200 }}
+                            />
+
+                        </Form.Item>
+                    </Col>
+                    <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
+
+                        <Form.Item label="Numbness" name="Numbness" rules={[{ required: true, message: `Please Select` }]} >
+                            <Slider marks={marks1} min={0} max={3} step={1} tipFormatter={formatter}
+                                onChange={(value) => handleChange1("Numbness", desc[value])}
+                                defaultValue={desc.indexOf(state.FirstAssesment.Numbness)}
+                                value={state.FirstAssesment.Numbness}
+                                style={{ width: 200 }}
+                            />
+
+                        </Form.Item>
+                    </Col>
+                    <Col md={12} lg={8} sm={24} xs={24} className="mt-2 AreasMain">
+                        <Form.Item label="Pain Level" name="PainMeter" rules={[{ required: true, message: `Please Select` }]} >
+
+                            <Slider marks={marks} min={0} max={10} step={2}
+                                onChange={(value) => handleChange1("PainMeter", value)}
+                                defaultValue={state.FirstAssesment.PainMeter}
+                                value={state.FirstAssesment.PainMeter}
+                                style={{ width: 200 }}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Form>
+            </Row> */}
+            {/*
             <div >
                 <Switch onChange={handleChange} />
             </div>
@@ -881,7 +880,7 @@ const Body = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}>
                         <p>Joint Selected</p>
 
                         {
@@ -894,11 +893,10 @@ const Body = () => {
 
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
 
             </> : <>
-                <p>Male</p>
                 <Button className="" onClick={() => { onClick("FullBody") }}>Full Body</Button>
                 <Row>
                     <Col md={16} lg={16} sm={24} xs={24}>
@@ -971,7 +969,7 @@ const Body = () => {
                         </div>
                     </Col>
 
-                    <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
+                    {/* <Col className="mt-5" md={8} lg={8} sm={24} xs={24}><p>Joint Selected </p>
                         {
                             BodyParts.map((val, id) => {
                                 return (
@@ -981,7 +979,7 @@ const Body = () => {
                         }
                         {JSON.stringify(MuscleJoint)}
 
-                    </Col>
+                    </Col> */}
                 </Row>
             </>
 
@@ -1005,6 +1003,29 @@ const Body = () => {
                     </Col>
                 </Row>
             </div>
+            {state.FirstAssesment.pain_state && <div className=" border mb-3 mt-3">
+                <Row gutter={[10, 10]} className="px-4 py-2">
+                    <Col md={24} lg={24} sm={24} xs={24}>
+                        <Descriptions title="Pain Assessment" bordered>
+                            <Descriptions.Item label="Nature Of Pain">{state.FirstAssesment.nature_of_pain_here}</Descriptions.Item>
+                            <Descriptions.Item label="Swelling">{state.FirstAssesment.pain_swelling}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Aggravating">{state.FirstAssesment.pain_aggravating_here.map(d => d + ",")}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Relieving">{state.FirstAssesment.pain_relieving_here.map(d => d + ",")}</Descriptions.Item>
+                            <Descriptions.Item label="Pain Scale">{state.FirstAssesment.pain_scale}</Descriptions.Item>
+                            <Descriptions.Item label="Scars">{state.FirstAssesment.pain_scars}</Descriptions.Item>
+                        </Descriptions>
+                    </Col>
+                </Row>
+                <Row gutter={[10, 10]} className="px-4 py-2">
+                    <Col md={24} lg={24} sm={24} xs={24}>
+                        <Descriptions title="Sensory Inputs" bordered>
+                            <Descriptions.Item label="Superficial">{state.FirstAssesment.superficial}</Descriptions.Item>
+                            <Descriptions.Item label="Deep">{state.FirstAssesment.deep}</Descriptions.Item>
+                            <Descriptions.Item label="cortial">{state.FirstAssesment.cortial}</Descriptions.Item>
+                        </Descriptions>
+                    </Col>
+                </Row>
+            </div>}
             <div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
                 <Row className="border">
                     <Col md={24} lg={24} sm={24} xs={24}>
@@ -1020,13 +1041,33 @@ const Body = () => {
                     </Col>
                 </Row>
             </div>
-            <div className="text-center mb-3">
+           {/* { Object.key(state.FirstAssesment.Posture).length>0&&<div style={{ display: RomVisibility }} className=" border mb-3 mt-3">
+            <Card
+                    style={{ marginTop: 5, borderRadius: 10 }}
+                  > 
+                  
+                 {/* {checkF? <div id='scr_out1'>
+                  </div> : */}
+                    {/* <img id="scr_out1" src={url1} alt="" /> <br/>
+                    {'Ear : '}{frontAngles[0]&&frontAngles[0].toFixed(2)} {' '}
+                    {"Shoulder : "}{frontAngles[1]&&frontAngles[1].toFixed(2)} {' '}<br/>
+                    {'Hip : '}{frontAngles[2]&&frontAngles[2].toFixed(2)}{' '}
+                    {'Knee : '}{frontAngles[3]&&frontAngles[3].toFixed(2)}{' '}<br/>
+                    {'Above Pelvic : '}{frontAngles[4]&&frontAngles[4].toFixed(2)}{' '}
+                  </Card>
+                  </div>} */}
+            {/* <div className="text-center mb-3">
                 <Button onClick={Questions} id="question"></Button>
-                <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom"></Button>
-                <Button className="ms-3" onClick={Submit}>Submit</Button>
-            </div>
+                <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</button>
+                <button class="ant-btn ms-3" onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
+                <button class="ant-btn ms-3" onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button> */}
+                {/* <Button className="ms-3" onClick={()=>back('1')}>back</Button> */}
+                {/* <Button htmlType="submit" className="ms-3" onClick={Rom} id="rom">Add Rom Assessment</Button>
+                <Button className="ms-3" onClick={Submit}>save</Button> */}
+                {/* <Button className="ms-3" onClick={()=>next('2')}>next</Button> */}
+            {/* </div> */}
 
-        </>
+        </div>
     )
 }
 

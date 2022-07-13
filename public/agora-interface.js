@@ -1,7 +1,11 @@
 let userVideoStream;
 let globalStream;
 
+let mainToken=''
+
 var aiModelAppear = false;
+
+var toggleStreamID = ''
 
 // create client instances for camera (client) and screen share (screenClient)
 var client = AgoraRTC.createClient({mode: 'rtc', codec: 'vp8'}); 
@@ -20,8 +24,8 @@ const userCameraHeight = 500;
 const userCameraWidth = 600;
 
 // video profile settings
-var cameraVideoProfile = '480p_4'; // 640 × 480 @ 30fps  & 750kbs
-var screenVideoProfile = '480p_2'; // 640 × 480 @ 30fps
+var cameraVideoProfile = '240p_4'; // 424 × 240 @ 15fps  & 220kbs
+var screenVideoProfile = '240p_4'; // 424 × 240 @ 15fps  & 220kbs
 
 // stream references (keep track of active streams) 
 var remoteStreams = {}; // remote streams obj struct [id : stream] 
@@ -44,6 +48,8 @@ var screenShareActive = false; // flag for screen share
 
 function ClientAndJoinChannel(agoraAppId, token, channelName, uid,Canvas) {
   // init Agora SDK
+  console.log("AgoraRTC client initialized ",Canvas);
+  mainToken=token
   streamCanvas=Canvas;
   streamCanvasType=streamCanvas.getContext("2d");
   client.init(agoraAppId, function () {
@@ -80,12 +86,14 @@ client.on('stream-subscribed', function (evt) {
   remoteStreams[remoteId] = remoteStream;
   console.log("Subscribe remote stream successfully: " + remoteId);
   if( $('#full-screen-video').is(':empty') ) { 
+    console.log("Subscribe remote stream successfully if : " + remoteId);
     mainStreamId = remoteId;
     remoteStream.play('full-screen-video');
     $('#main-stats-btn').show();
     $('#main-stream-stats-btn').show();
   } else if (remoteId == 49024) {
     // move the current main stream to miniview
+    console.log("Subscribe remote stream successfully elseif : " + remoteId);
     remoteStreams[mainStreamId].stop(); // stop the main video stream playback
     client.setRemoteVideoStreamType(remoteStreams[mainStreamId], 1); // subscribe to the low stream
     addRemoteStreamMiniView(remoteStreams[mainStreamId]); // send the main video stream to a container
@@ -93,14 +101,30 @@ client.on('stream-subscribed', function (evt) {
     mainStreamId = remoteId;
     remoteStream.play("full-screen-video");
   } else {
+    console.log("Subscribe remote stream successfully else : " + remoteId);
     client.setRemoteVideoStreamType(remoteStream, 1); // subscribe to the low stream
+    // if(screenShareActive) {
+    // }
     addRemoteStreamMiniView(remoteStream);
+    var uid = parseInt($("#form-uid").val());
+    try{
+      let element = document.getElementById('video'+uid);
+      let {width ,height,left,top} = element.getBoundingClientRect()
+    console.log("Subscribe remote stream successfully else : "+ width ," ",screenShareActive);
+    $('#player_'+remoteId).css({'position':'unset','background-color':''})
+    $('#video'+remoteId).css({'width':`${width}px`,'height':`${height}px`,'position':'absolute','object-fit':'inherit',"transform": 'rotateY(180deg)'})
+    console.log("Subscribe remote stream successfully else : " + remoteStream.getId());
+    }catch(err){
+      console.log("Subscribe remote stream successfully else err : " + err);
+    }
   }
 });
 
 // remove the remote-container when a user leaves the channel
+
 client.on("peer-leave", function(evt) {
   var streamId = evt.stream.getId(); // the the stream id
+  console.log('checid ',streamId)
   if(remoteStreams[streamId] != undefined) {
     remoteStreams[streamId].stop(); // stop playing the feed
     delete remoteStreams[streamId]; // remove stream from list
@@ -160,8 +184,68 @@ function joinChannel(channelName, uid, token) {
   );
 }
 
+// const getAllVideoInputs = async () => {
+//   try{
+//     const devices = await navigator.mediaDevices.enumerateDevices()
+//     // Device options will store info about all video devices detected
+//     const deviceOptions = []
+//     devices.forEach( ({ kind, deviceId, label }) => {
+//       if( kind === "videoinput" ){
+//         const newDevice = {
+//           deviceId,
+//           label
+//         }
+//         deviceOptions.push(newDevice)
+//       }
+//     })
+    
+//     return deviceOptions
+//   }catch( err ) {
+//     console.log("Video devices detection error : ", err)
+//     return []
+//   }
+  
+// }
+
+// // NOTE : Probably here get all media of user
+
 // Helper functions to initialize user web streams
 function getUserVideo() {
+
+
+  // deviceOptions will store all detected video inputs and store there deviceID and label 
+  // const allVideoDevices = await getAllVideoInputs()
+  //now need to figure out which one is external camera
+  //then call the getUserMedia for that device and return
+  
+  // const videoOption = {
+  //   frameRate : { ideal : cameraFR }
+  // }
+  
+  //Test code assuming 2nd device is the external  
+  // if( allVideoDevices.length > 1 ) {
+  //   //can give user options to choose device by setting this object in redux store
+  //   // and accordingly when user selects a device, we update the selected deivce in the reux store
+  //   //UI updates accordingly, and here also we get info about from where videostream is to be taken
+
+  //   //time being taking the 2nd device to be external camera
+  //   const [ , externalCamera ] = allVideoDevices
+    
+  //   videoOption.deviceId = externalCamera.deviceId
+  // }
+  // else {
+  //   const [ inbuiltCamera ] = allVideoDevices
+  //   videoOption.deviceId = inbuiltCamera.deviceId
+  // }
+
+  // const cameraMediaOptions = {
+  //   audio : false,
+  //   video : videoOption
+  // }
+  //Test code, need to debug intermediate values so not using currently 
+
+  // return navigator.mediaDevices.getUserMedia(cameraMediaOptions)
+
   return navigator.mediaDevices.getUserMedia({
     video: true,
     audio: false,
@@ -177,9 +261,9 @@ async function getVideo() {
 }
 
 async function streamMultiplexer() {
+  console.log("getUserMedia successfully " )
   userVideoStream = await getUserVideo();
   cameraElement.srcObject = userVideoStream;
-  console.log(userVideoStream);
   options = {
     video: cameraElement,
     videoWidth: 600,
@@ -187,8 +271,17 @@ async function streamMultiplexer() {
     canvas: document.getElementById("scanvas"),
     supervised: true,
     showAngles: true,
+    drawLine: false,
+
   };
-  
+  console.log("getUserMedia successfully " )
+  var uid = $("#form-uid").val();
+  //console.log("stream is ",uid)
+  console.log("stream is ",localStreams.camera.id)
+  // $("#full-screen-video"+" "+'#video'+localStreams.camera.id).css({'object-fit':'inherit'})
+   $('#video'+localStreams.camera.id).css({'object-fit':'inherit'})
+   console.log("stream is ",mainStreamId)
+   
   darwin.setExcersiseParams({
     "name": "Squat",
     "primaryKeypoint": 0,
@@ -201,7 +294,7 @@ async function streamMultiplexer() {
     "totalSets": 2
 });
   darwin.initializeModel(options);
-  await darwin.launchModel();
+  darwin.launchModel();
   setTimeout(() => {
     darwin.stop();
   }, 1000); 
@@ -214,6 +307,7 @@ async function streamMultiplexer() {
   // streamCanvas.width = 600;
 
   // Get video stream from canvas
+  console.log("getUserMedia successfully " ,streamCanvas)
   mergedStream = streamCanvas.captureStream(60);
 
   tracks = mergedStream.getVideoTracks();
@@ -233,13 +327,19 @@ function customcreateCameraStream(uid) {
   localStream.setVideoProfile(cameraVideoProfile);
   localStream.init(
     function () {
-      console.log("getUserMedia successfully");
-      localStream.play("local-video");
+      console.log("getUserMedia successfully ",localStream);
+      localStream.play("local-video"); // play the given stream within the local-video div
+      // try{
+      // }catch(err){
+      //   console.log("getUserMedia successfully " ,err)
+      // }
       client.publish(localStream, function (err) {
         console.log("[ERROR] : publish local stream error: " + err);
       });
+      console.log("getUserMedia successfully ",uid);
       console.log(localStream);
       enableUiControls(localStream, aiModelAppear);
+      console.log("getUserMedia successfully ",screenClient);
       localStreams.camera.stream = localStream;
       // for custom video
       streamMultiplexer();
@@ -272,7 +372,7 @@ function createCameraStream(uid) {
     });    
     enableUiControls(localStream); // move after testing
     localStreams.camera.stream = localStream; // keep track of the camera stream for later
-
+    console.log('new code ',localStream)
     // for custom video
     // aiModelAppear ? "" : streamMultiplexer();
   }, function (err) {
@@ -337,19 +437,27 @@ function initScreenShare(agoraAppId, channelName, uid) {
       $("#screen-share-btn").prop("disabled", false); // enable button
     }
   );
-  var token =
-    "006f31ea0f88fcf4974a349448e69d35c1dIABIoMFtxkwDVWki55f3W0x1MgsLyFbedV7NXhVc1d5DKwZa8+gAAAAAEACe0CRJDMsTYQEAAQALyxNh";
+  console.log(mainToken)
+  var token = mainToken;
+  console.log(token)
   screenClient.on("stream-published", function (evt) {
     console.log("Publish screen stream successfully");
+    console.log("Publish screen stream successfully if");
     if ($("#full-screen-video").is(":empty")) {
+      console.log("Publish screen stream successfully if");
       $("#main-stats-btn").show();
       $("#main-stream-stats-btn").show();
     } else {
       // move the current main stream to miniview
+      console.log("Publish screen stream successfully else",remoteStreams[mainStreamId]);
+      console.log("Publish screen stream successfully else",remoteStreams);
+      console.log("Publish screen stream successfully else",mainStreamId);
       remoteStreams[mainStreamId].stop(); // stop the main video stream playback
       client.setRemoteVideoStreamType(remoteStreams[mainStreamId], 1); // subscribe to the low stream
       addRemoteStreamMiniView(remoteStreams[mainStreamId]); // send the main video stream to a container
     }
+    console.log("Publish screen stream successfully out");
+    toggleStreamID = mainStreamId
     mainStreamId = localStreams.screen.id;
     localStreams.screen.stream.play("full-screen-video");
   });
@@ -360,6 +468,7 @@ function initScreenShare(agoraAppId, channelName, uid) {
 }
 
 function stopScreenShare() {
+  console.log("stopping!!!!")
   localStreams.screen.stream.disableVideo(); // disable the local video stream (will send a mute signal)
   localStreams.screen.stream.stop(); // stop playing the local stream
   localStreams.camera.stream.enableVideo(); // enable the camera feed
@@ -367,9 +476,11 @@ function stopScreenShare() {
   $("#video-btn").prop("disabled",false);
   screenClient.leave(function() {
     screenShareActive = false; 
-    console.log("screen client leaves channel");
+    console.log("screen client leaves channel ",toggleStreamID);
     $("#screen-share-btn").prop("disabled",false); // enable button
-    screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
+    $('#full-screen-video').empty()
+    $('#full-screen-video').append($('#player_'+toggleStreamID))
+ //  screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
     localStreams.screen.stream.close(); // close the screen client stream
     localStreams.screen.id = ""; // reset the screen id
     localStreams.screen.stream = {}; // reset the stream obj
@@ -394,7 +505,8 @@ function addRemoteStreamMiniView(remoteStream){
     )
   );
   remoteStream.play('agora_remote_' + streamId); 
-
+  console.log("screen client leaves channel ",mainStreamId);
+  
   var containerId = '#' + streamId + '_container';
   $(containerId).dblclick(function() {
     // play selected container as full screen - swap out current full screen stream

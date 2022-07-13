@@ -27,10 +27,10 @@ const checkNullValidation = (value) => {
 const checkAddrValidation = (value) => {
     var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]+/;
     let error = {};
-    if(format.test(value))
-    {
-        error["error"] = "Address should not containe Special Characters."
-    }
+    // if(format.test(value))
+    // {
+    //     error["error"] = "Address should not containe Special Characters."
+    // }
     if (!value || (value.length < 4)) {
         error["error"] = "Address should contain atleast 4 characters."
     }
@@ -38,7 +38,7 @@ const checkAddrValidation = (value) => {
 }
 
 const checkNameValidation = (value) => {
-    const validName = new RegExp('^[a-zA-Z0-9_.]{2,20}$');
+    const validName = new RegExp('^[a-zA-Z0-9_]{2,20}$');
     let error = {};
 
     if(value)
@@ -50,26 +50,26 @@ const checkNameValidation = (value) => {
     console.log('matching name',value)
     var matches = /^[A-Za-z]+$/;
     
-    console.log('matchesss' + matches)
+    // console.log('matchesss' + matches)
   
    
 
-    if(matches.test(value)==false)
-    {
-        error["error"] = "Name Should contain Only Upper and Lower Case Alphabets"
-    }
-    else
-    {
-        error['error']=''
-    }
+    // if(matches.test(value)==false)
+    // {
+    //     error["error"] = "Name Should contain Only Upper and Lower Case Alphabets"
+    // }
+    // else
+    // {
+    //     error['error']=''
+    // }
 
 
-    if (value && value.length > 20) {
-        error["error"] = "Name must contain less than 20 characters."
-    }
-    else if (!value || value.length < 4)
-        error["error"] = "Name must contain atleast 4 characters.";
-    else if (!validName.test(value)) {
+    // if (value && value.length > 20) {
+    //     error["error"] = "Name must contain less than 20 characters."
+    // }
+    // else if (!value || value.length < 4)
+    //     error["error"] = "Name must contain atleast 4 characters.";
+     if (!validName.test(value)) {
         error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
     }
 } 
@@ -115,11 +115,24 @@ const checkMobNoValidation = (value) => {
         error["error"] = "number must start with 5/6/7/8/9."
     }
     else if (!validNumber.test(value) || value.length > 10) {
-        error["error"] = "number should be of 10 digit."
+        error["error"] = "number should be of 10 digit and not contain special characters."
     }
     
     
 
+    return error;
+}
+const checkLandNoValidation = (value) => {
+    const exp = new RegExp('^[0-9]*$');
+    // const check = new RegExp(/^\d{10}$/);
+    // const validName = new RegExp('[0-9]/gm');
+    let error = {};
+    if(value.length>0){
+        if(!exp.test(value)){
+            error["error"] = "only accepts numbers"
+        }
+        return error;
+    }
     return error;
 }
 
@@ -178,6 +191,7 @@ const Validation = {
     checkNullValidation,
     checkPincodeValidation,
     checkDateValidation,
-    checkRoleValidation
+    checkRoleValidation,
+    checkLandNoValidation
 }
 export default Validation;

@@ -1,0 +1,40 @@
+/* :global(.ant-btn-primary) {
+  background-color: var(--secondary-color);
+  &:hover {
+    background-color: var(--secondary-hover-color) !important;
+    border-color: var(--secondary-hover-color) !important;
+  }
+} */
+/* .ant-btn.testclass:hover{
+    text-decoration: none;
+    background: #2d7ecb !important;
+    color: #fff !important;
+} */
+.btn-new-check:hover {
+  background: grey !important;
+}
+.btn-new-check {
+  background-color: grey !important;
+}
+.assessment_main_new .border1{
+  border: 1px solid #dee2e6;
+}
+@media only screen and (max-width: 650px) {
+
+  .ant-descriptions-bordered .ant-descriptions-item-label, .ant-descriptions-bordered .ant-descriptions-item-content {
+     padding: 0; 
+    border-right: 1px solid #f0f0f0;
+}
+.special_test_new1  table  {
+  width:100% !important;
+}
+
+}
+
+@media only screen and (min-device-width: 650px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .ant-descriptions-bordered .ant-descriptions-item-label, .ant-descriptions-bordered .ant-descriptions-item-content {
+    padding: 10px 0px ;
+   border-right: 1px solid #f0f0f0;
+}
+}
+

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ActiveSearch from "../../components/UtilityComponents/ActiveSearch"
 import { useHistory } from 'react-router-dom';
 import Patient from './Patient-Details/Patient-Detail';
-import { getPatientList } from './../../API/PatientRegistration/Patient';
+import { getPatientList, Patient_profile } from './../../API/PatientRegistration/Patient';
 import Assesment1 from './../Assesment/Assesment1';
 import AssessmentList from "./Assessment/AssessmentList";
 import Prescriptions from './Prescreptions/Prescreption';
@@ -22,16 +22,29 @@ import Exercise from './ExerciseDetail/Exercise'
 import { getEpisode } from "../../API/Episode/EpisodeApi";
 import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
+import {STATECHANGE}  from '../../contextStore/actions/Assesment'
+import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import Invoice from "./Invoice/Invoice";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp='asas'
 
 const EpisodeVisitDetails = () => {
+    const episodeRef = useRef(null);
     const episodeDetail=useSelector(state=>state)
     const history = useHistory();
     const checkEpisodeId = async () => {
         if(episodeDetail.episodeReducer.patient_code){
             const res = await getEpisode(episodeDetail.episodeReducer.patient_code)
+            if(res.length===0){
+                dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an episode" });
+                setTimeout(() => {
+                    dispatch({type:"NOERROR"})
+                }, 10000);
+                return false;
+            }
             if(res[0].end_date.length===0){
                 return true;
             }
@@ -50,17 +63,24 @@ const EpisodeVisitDetails = () => {
             //       Add-episode
             //     </Button>,
             // })
-            dispatch({ type: "EPISODE_CHECK", payload: { error: "patient don't have open an episode" } });
+            dispatch({ type: "EPISODE_CHECK", payload: "patient don't have open an episode"  });
+            setTimeout(() => {
+                dispatch({type:"NOERROR"})
+            }, 10000);
             return false;
            // message.error("Patient don't have an open episode");
           //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
         }else{
-            notification.warning({
-                message: "Please select a patient",
-                placement: 'bottomLeft',
-                duration: 5,
-                style:'margin-top:20px'
-            });
+            // notification.warning({
+            //     message: "Please select a patient",
+            //     placement: 'bottomLeft',
+            //     duration: 5,
+            //     style:'margin-top:20px'
+            // });
+            dispatch({ type: "EPISODE_CHECK", payload: "Please select a patient"  });
+            setTimeout(() => {
+                dispatch({type:"NOERROR"})
+            }, 3000);
             return false;
         }
     }
@@ -98,8 +118,9 @@ const EpisodeVisitDetails = () => {
         MedicalHistory: "",
         FamilyHistory: ""
     });
-
-    React.useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("user"))
+    useEffect(() => {
+        localStorage.setItem("care-plan-cart", JSON.stringify([]));
         async function getPatients() {
             let data = await getPatientList();
             if (state.patient_code) {
@@ -112,6 +133,15 @@ const EpisodeVisitDetails = () => {
             }
         }
         getPatients();
+        // ['quest','pain1','special','pose','romAss'].map(key=>{
+        //     dispatch({
+        //         type: STATECHANGE,
+        //         payload: {
+        //           key,
+        //           value:true
+        //         }
+        //       });
+        // })
         // eslint-disable-next-line
     }, []);
     //update Patient State 
@@ -144,6 +174,50 @@ const EpisodeVisitDetails = () => {
             FamilyHistory: val.patient_Family_History
         });
     }
+    useEffect( async () => {
+        localStorage.setItem('care-plan-cart', JSON.stringify([]))
+        let state = { ...history.location.state };
+        // console.log("history loaction ",state)
+        if(history.location.state){
+            if(history.location.state.prevPath==='/visit')
+            if(!isNaN(history.location.state.id)){
+                const res = await Patient_profile(parseInt(history.location.state.id))
+                // console.log("working ",res)
+                updatePatientState(res)
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_main_code',
+                        value: res.patient_code
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_name',
+                        value: res.first_name+" "+res.last_name
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'Patient_no',
+                        value: res.mobile_no
+                    }
+                })
+                dispatch({
+                    type: EPISODE_STATECHANGE,
+                    payload: {
+                        key: 'patient_code',
+                        value: res.pp_patm_id
+                    }
+                })
+                history.replace({ ...history.location, state:{} })
+               // window.history.location.state = {}
+            }
+        }
+  
+      }, []);
     const episodeClick = () => {
         
         history.push({
@@ -171,6 +245,11 @@ const EpisodeVisitDetails = () => {
             })
         }
     }
+
+    
+  const handlePrint = useReactToPrint({
+    content: () => episodeRef.current,
+  });
 
     const assesmentClick = async () => {
         const res = await checkEpisodeId()
@@ -210,13 +289,13 @@ const EpisodeVisitDetails = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col lg={18} md={14} sm={14} xs={24}>
-                        <h1 className="page-heading">
+                        <h3 style={{fontSize:'20px'}} className="fw-bold page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
-                                onClick={() => { history.goBack() }}
+                                onClick={() => { history.push('/pateints') }}
                                 title="Go Back"
                                 role="button"></i>
-                             <b> Patient</b>
-                        </h1>
+                             <b className="fw-bold"> Patient</b>
+                        </h3>
                     </Col>
                     <Col lg={6} md={10} sm={10} xs={24}>
                         <ActiveSearch carePlan={false} updatePatientState={updatePatientState} prescreption={false} />
@@ -229,33 +308,33 @@ const EpisodeVisitDetails = () => {
     //Patient Detail
     const PatientDetails = () => {
         return (
-            <Row gutter={[10, 10]}>
+            <Row className="pat_details_mobile" >
                 <Col lg={6} md={6} sm={4} xs={24}>
-                    <h3 className="fw-bold">Patient Details</h3>
+                    <h3 style={{fontSize:'20px'}} className="fw-bold">Patient Details</h3>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
+                        <p className="fw-bold" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
+                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                     
-                    </div>
+                    </div> */}
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24}>
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p"> <strong>Patient Name :</strong> {state.patient_name}</p>
+                        <p className="fw-bold"> <strong>Patient Name :</strong> {state.patient_name}</p>
+                    {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                        
-                    </div>
+                    </div> */}
                 </Col>
-                <Col lg={6} md={6} sm={12} xs={24}>
-                    <div className="border rounded px-1 py-2 text-center" style={{maxHeight:'45px'}}>
-                        <p className="fw-bold p"><strong> Contact Number : </strong> {state.Patient_no} </p>
-                        
-                    </div>
-                </Col>
+               {userInfo.role!='physio'&&<Col lg={6} md={6} sm={12} xs={24}>
+                        <p className="fw-bold"><strong> Contact Number : </strong> {state.Patient_no} </p>
+                </Col>}
             </Row>
         )
     }
 
-
+    const resizeIframe = () => {
+        const frame = document.getElementById('physioDashboard')
+        frame.style.height = frame.contentWindow.document.documentElement.scrollHeight + 'px';
+    }
     //Tabs 
     const DetailTabs = () => {
         return (
@@ -296,6 +375,49 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
+                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
+                        }
+                        key="6"
+                    >
+                        {/* aswin start 10/30/2021 start */}
+                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
+                        {/* aswin start 10/30/2021 stop */}
+                    </TabPane>
+                    {/* <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn">Invoice</div>
+                        }
+                        key="9"
+                    >
+                     <Invoice />
+                    </TabPane> */}
+                    <TabPane
+                        tab={
+                            <div className="fw-bold ant-tabs-btn" >Dashboard</div>
+                        }
+                        key="8"
+                    >
+                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                        {process.env.NODE_ENV=="development"?  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
+                            >
+                        </iframe>:  <iframe
+                            width='100%'
+                            height={screen.height}
+                            className="iframeDashboard"
+                            frameBorder="0"
+                            id="physioDashboard"
+                            src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
+                            >
+                        </iframe>}
+                    </TabPane>
+                    <TabPane
+                        tab={
                             <div className="fw-bold ant-tabs-btn">Prescription</div>
                         }
                         key="5"
@@ -306,29 +428,11 @@ const EpisodeVisitDetails = () => {
                     </TabPane>
                     <TabPane
                         tab={
-                            <div className="fw-bold ant-tabs-btn">Care Plan</div>
-                        }
-                        key="6"
-                    >
-                        {/* aswin start 10/30/2021 start */}
-                        <CarePlanView carePlanClick={carePlanClick} eid={carePlanState.pp_ed_id} searchBar={false} />
-                        {/* aswin start 10/30/2021 stop */}
-                    </TabPane>
-                    <TabPane
-                        tab={
                             <div className="fw-bold ant-tabs-btn">Notes</div>
                         }
                         key="7"
                     >
                         <Notes eid={carePlanState.pp_ed_id} />
-                    </TabPane>
-                    <TabPane
-                        tab={
-                            <div className="fw-bold ant-tabs-btn">Exerside Detail</div>
-                        }
-                        key="8"
-                    >
-                        <Tempdashboard viewstate={viewState}  />
                     </TabPane>
                 </Tabs>
             </div>
@@ -336,17 +440,18 @@ const EpisodeVisitDetails = () => {
     }
 
     return (
-        <div className="ms-2 me-2" style={{maxWidth:'100%',msOverflowX:'hidden'}}>
+        <div className="" style={{maxWidth:'100%',msOverflowX:'hidden'}} ref={episodeRef}>
             {Header()}
             <div className="rest">
                 {/* aswin 11/15/2021 start */}
-                {episodeDetail.Validation.episode_check==='failed'&&<Error error={"Patient Don't have an open episode"} />}
+                {episodeDetail.Validation.episode_check==='failed'&&<Error error={episodeDetail.Validation.msg} />}
                 {/* aswin 11/15/2021 start */}
-            <div style={{ minHeight: "20px" }}></div>
+            {/* <div style={{ minHeight: "20px" }}></div> */}
             {PatientDetails()}
             <div style={{ minHeight: "20px" }}></div>
             {DetailTabs()}
             </div>
+           
         </div>
     )
 }

@@ -11,7 +11,7 @@ const Success = (props) => {
   return (
     <>
       {visible && props.success ? (
-        <Alert style={{fontSize:'28px'}} message={props.success} type="success" closable afterClose={handleClose} />
+        <Alert style={{fontSize:'28px',margin:'auto'}} message={props.success} type="success" closable afterClose={handleClose} />
       ) : null}
     </>
   );

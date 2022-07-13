@@ -28,7 +28,7 @@ const labsAndMedicState = {
         {
             id: 1,
             medication: "",
-            no_of_medication:0,
+            no_of_medications:1,
             instructions: "",
             medic_notes: "",
         }
@@ -50,7 +50,7 @@ const AddMedication = (list) => {
         return [{
             id: 1,
             medication: "",
-            no_of_medication:0,
+            no_of_medications:1,
             instructions: "",
             medic_notes: "",
         }]
@@ -58,7 +58,7 @@ const AddMedication = (list) => {
         let newEntry = {
             id: list[list.length - 1].id + 1,
             medication: "",
-            no_of_medication:0,
+            no_of_medications:1,
             instructions: "",
             medic_notes: ""
         }
@@ -188,7 +188,7 @@ export const labsAndMedicRedu = (state = labsAndMedicState, action) => {
                     {
                         id: 1,
                         medication: "",
-                        no_of_medication:0,
+                        no_of_medications:1,
                         instructions: "",
                         medic_notes: "",
                     }
@@ -226,7 +226,7 @@ export const labsAndMedicRedu = (state = labsAndMedicState, action) => {
                     {
                         id: 1,
                         medication: "",
-                        no_of_medication:0,
+                        no_of_medications:1,
                         instructions: "",
                         medic_notes: "",
                     }

@@ -7,6 +7,6 @@ import {
 //@return- Message.
 export const bookAppointment = (details,dispatch) =>{
     dispatch({type:APPOINTMENT_BOOK_REQUEST});
-    console.log(details,dispatch);
+    // console.log(details,dispatch);
     dispatch({type:APPOINTMENT_BOOK_SUCCESS});
 }

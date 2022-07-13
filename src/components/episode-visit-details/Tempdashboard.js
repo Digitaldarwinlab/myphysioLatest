@@ -52,11 +52,11 @@ const Tempdashboard=({viewstate})=>{
  
         useEffect( async()=>{
             const data=await get_progress(state.patient_code)
-            console.log('data  progress')
-            console.log(data)
+            // console.log('data  progress')
+            // console.log(data)
             SetfinalData(data)
-            console.log('episode aaingg')
-            console.log(state)
+            // console.log('episode aaingg')
+            // console.log(state)
             Setsetcompletionratedata(data.data_vertical_bar2)
             //alert(state.patient_code)
             Setminmaxgraphdata2(data.data_vertical_bar)
@@ -336,7 +336,7 @@ const Tempdashboard=({viewstate})=>{
       })
 
     const filteredPeople = temparray.filter((item) => item.Joints!== undefined);
-      console.log('filtered')
+      // console.log('filtered')
    // console.log(filteredPeople)
     Setminmaxgraphdata2(filteredPeople)
     }
@@ -405,7 +405,7 @@ const Tempdashboard=({viewstate})=>{
                 <div className="switch-box">
             View Type: <Switch checkedChildren="Raw Data" unCheckedChildren="Graph" onChange={()=>Setgraphview(!graphview)} className="switch-data" id="switch-data"  />
             </div>
-              <center>  <h1> <strong>{'Assesment  Analysis '}</strong></h1></center>
+              <center>  <h3> <strong>{'Assesment  Analysis '}</strong></h3></center>
               <div className="border detail-assesment">
                         <p id="henry"> Diagnose Disease : Liver Infection</p>
                         

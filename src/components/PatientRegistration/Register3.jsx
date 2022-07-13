@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
-import { STATECHANGE, VALIDATION, BASIC_CLEARSTATE, PATIENT_REG_FAILURE } from "../../contextStore/actions/authAction";
+import { STATECHANGE, VALIDATION, BASIC_CLEARSTATE3, PATIENT_REG_FAILURE } from "../../contextStore/actions/authAction";
 import { Patient_Register, Patient_Update } from "../../API/PatientRegistration/Patient"
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import svg from "././../../assets/step3.png";
 import StepBar from './../UtilityComponents/StepBar';
-import { Typography, Modal, Row, Col, Table, Button, Form } from 'antd';
+import { Typography, Modal, Row, Col, Table, Button, Form, Space } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';
 import FormInput from '../UI/antInputs/FormInput';
 import Loading from './../UtilityComponents/Loading';
@@ -25,6 +25,7 @@ const MappingKey = {
     bloodType: "Blood Type",
     DOB: "DOB",
     Age: "Age",
+    Title:"Title",
     Gender: "Gender",
     LandlineNo: "Landline No",
     Address: "Address",
@@ -260,11 +261,13 @@ const Register3 = (props) => {
      }
      else {
          let tempData = [];
+         console.log(state.BasicDetails)
          let keys = Object.keys(state.BasicDetails);
          let index = 0;
          keys.forEach(key => {
-             if (!(["isLoading", "success", "pp_patm_id"].includes(key))) {
+             if (!(["isLoading", "success", "pp_patm_id" ,"is_enterprise"].includes(key))) {
                  if (state.BasicDetails[key] !== null && state.BasicDetails[key] !== "NULL" && state.BasicDetails[key] !== "null" && (state.BasicDetails[key] !== "")) {
+                     console.log(MappingKey[key]);
                      tempData.push({
                          key: index,
                          Field: MappingKey[key],
@@ -274,6 +277,7 @@ const Register3 = (props) => {
                  }
              }
          });
+         console.log(tempData)
          setTableData(tempData);
          setIsModalVisible(true);
      }
@@ -283,6 +287,7 @@ const Register3 = (props) => {
  const handleOk = async () => {
      setIsModalVisible(false);
      let result;
+     console.log(state.BasicDetails)
      if (state.BasicDetails.pp_patm_id === "") {
          result = await Patient_Register(state.BasicDetails, dispatch);
      } else {
@@ -363,20 +368,12 @@ const Register3 = (props) => {
              }
          }
      } else {
-         if (window.confirm("Confirm, Do You want to Reset all ?")) {
-            // dispatch({type: BASIC_CLEARSTATE,})
-            if(JSON.parse(localStorage.getItem("user")).role=='patient')
-            {
-                history.push('patient/profile')
-            }
-            else
-            {
-                history.push("/dashboard");
-            }
-         }
+        if (window.confirm("Confirm, Do You want to Reset all fields?")) {
+            dispatch({ type: BASIC_CLEARSTATE3 });
+            form.resetFields()
      }
+  }
  }
-
  return (
      <>     <div style={{ minHeight: "20px" }}></div>
          {state.BasicDetails.isLoading && <Loading />}
@@ -396,10 +393,10 @@ const Register3 = (props) => {
                             <FormInput label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Allergies'}</span>}
                                 name="Allergies"
                                 className="input-field w-100"
-                                required="true"
+                                required={false}
                                 value={state.BasicDetails.Allergies}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              //  onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.Allergies}
                             />
                         </Col>
@@ -410,8 +407,8 @@ const Register3 = (props) => {
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Medical History'}</span>}
                                 name="MedicalHistory"
                                 className="input-field w-100"
-                                required="true"
-                                onBlur={handleBlur}
+                                required={false}
+                             //   onBlur={handleBlur}
                                 value={state.BasicDetails.MedicalHistory}
                                 onChange={handleChange}
                                 defaultValue={state.BasicDetails.MedicalHistory}
@@ -423,17 +420,17 @@ const Register3 = (props) => {
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Family History'}</span>}
                                 name="FamilyHistory"
-                                required="true"
+                                required={false}
                                 className="input-field w-100"
                                 value={state.BasicDetails.FamilyHistory}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                             //   onBlur={handleBlur}
                                 defaultValue={state.BasicDetails.FamilyHistory}
                             />
                         </Col>
                     </Row>
                 </div>
-                <div className="m-3 text-end">
+                {/* <div className="m-3 text-end">
                     <Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button>
                     <Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
                         {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
@@ -451,7 +448,28 @@ const Register3 = (props) => {
                         />
                     </Modal>
                     
-                </div>
+                </div> */}
+                  <Row justify="center">
+                  <Space size={"middle"}> 
+                     <Col span={2}><Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button></Col>
+                     <Col span={2}><Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
+                        {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
+                    </Button></Col>
+                     <Col span={2}><Button htmlType="submit" className="me-3 my-3 btncolor"   onClick={showModal}>
+                        {state.BasicDetails.pp_patm_id ? "Update" : "Submit"}
+                    </Button></Col>
+                    </Space>
+                    <Modal title="Confirm Details" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                        <Table
+                            pagination={false}
+                            scroll={{ y: 400 }}
+                            showHeader={false}
+                            columns={[{ title: "Field", dataIndex: "Field", render: (text) => <p className="fw-bold">{text}</p> },
+                            { title: "Value", dataIndex: "Value" }]} dataSource={tableData}
+                        />
+                    </Modal>
+                </Row>
+
             </Form>
         </>
     )

@@ -24,6 +24,7 @@ const registerInitialState = {
     email: "",
     facebook: "",
     linkedin: "",
+    expertise_1_temp:'',
     regd_no_1: "",
     regd_no_2: "",
     degree: "",
@@ -37,7 +38,10 @@ const registerInitialState = {
     isLoading: false,
     success: "",
     gender: "",
-    id: ""
+    id: "",
+    role:'',
+    type:'',
+    isHeadPhysio:false
 }
 
 export const physioRegisterReducer = (state = registerInitialState, action) => {

@@ -4,6 +4,7 @@ import { FaCalendarPlus, FaColumns, FaPills, FaMicroscope } from "react-icons/fa
 import { GrGroup } from "react-icons/gr";
 import { AiFillCalendar, AiFillCamera, AiTwotoneSetting } from "react-icons/ai";
 import { RiFileTextFill } from "react-icons/ri";
+import { IoMdVideocam } from "react-icons/io";
 
 export const Items = [
     {
@@ -117,6 +118,105 @@ export const Items = [
         Icon: <AiTwotoneSetting className="iconClass2" />,
         path: "/setting",
         name: "Settings",
+        options:[{
+            Icon:<IoMdVideocam className="iconClass2"/>,
+            name:"Camera",
+        }],
+        isDivider: false,
+        role: "physio"
+    },
+    {
+        isHidden: true,
+        currentPath: "",
+        Icon: <AiTwotoneSetting className="iconClass2" />,
+        path: "/logout",
+        name: "LogOut",
+        isDivider: false,
+        role: "physio"
+    }
+];
+
+export const PhysioItems = [
+    {
+        isHidden: true,
+        currentPath: "dashboard",
+        Icon: <FaColumns className="iconClass1" />,
+        path: "/dashboard",
+        name: "Dashboard",
+        isDivider: false,
+        role: "physio"
+    },
+    {
+        isHidden: false,
+        currentPath: "pateints",
+        Icon: <HiUserAdd className="iconClass1" />,
+        path: "/pateints/new",
+        name: "New Patient",
+        isDivider: false,
+        role: "physio"
+    },
+    {
+        isHidden: true,
+        currentPath: "pateints",
+        Icon: <GrGroup className="iconClass1" />,
+        path: "/pateints",
+        name: "Patients List",
+        isDivider: true,
+        role: "physio"
+    },
+    {
+        isHidden: false,
+        currentPath: "visit",
+        Icon: <FaCalendarPlus className="iconClass2" />,
+        path: "/appointments/new",
+        name: "Add Visit",
+        isDivider: false,
+        role: "physio"
+    },
+    {
+        isHidden: false,
+        currentPath: "episode",
+        Icon: <ImPlus className="iconClass2" />,
+        path: "/add-episode",
+        name: "Request Episode",
+        role: "physio"
+    },
+    {
+        isHidden: false,
+        currentPath: "care",
+        Icon: <ImPlus className="iconClass2" />,
+        path: "/care-plan",
+        name: "Care Plan",
+        role: "physio"
+    },
+    {
+        isHidden: true,
+        currentPath: "assessment",
+        Icon: <AiFillCamera className="iconClass2" />,
+        path: "/assessment/1",
+        name: "Assessments",
+        isDivider: true,
+        role: "physio"
+    },
+    {
+        isHidden: false,
+        currentPath: "notes",
+        Icon: <ImPlus className="iconClass2" />,
+        path: "/notes",
+        name: "Add Notes",
+        isDivider: false,
+        role: "physio"
+    },
+    {
+        isHidden: true,
+        currentPath: "",
+        Icon: <AiTwotoneSetting className="iconClass2" />,
+        path: "/setting",
+        name: "Settings",
+        options:[{
+            Icon:<IoMdVideocam className="iconClass2"/>,
+            name:"Camera",
+        }],
         isDivider: false,
         role: "physio"
     },

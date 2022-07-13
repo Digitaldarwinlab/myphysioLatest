@@ -11,12 +11,20 @@ body {
   padding: 0px;
   box-sizing: border-box;
   font-size: 1rem !important;
+  background-color: #fff !important;
 }
 .disable-date {
   opacity: 0.6;
   pointer-events: none !important;
 }
-
+@media only screen and (max-width: 650px){
+.pag_mob {
+    display: contents !important;
+}
+.pag_large{
+  display: none !important ;
+}
+}
 .SchForm {
   background-color: #273647 !important;
   color: white !important;
@@ -110,7 +118,7 @@ body {
 }
 .card-container > .ant-tabs-card .ant-tabs-tab-active,
 [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-tab-active {
-  background: #76c0b1 !important;
+  background: #2d7ecb !important;
   border: 1px solid gray;
 }
 .ant-tabs-card .ant-tabs-btn {
@@ -337,6 +345,8 @@ body {
 }
 .padT-0 {
   padding-top: 0px;
+  background-color: #fff !important;
+  
 }
 
 /* Columns  */
@@ -604,9 +614,10 @@ body {
   height: 40px;
   min-height: 40px;
   border: 0px !important;
+  width: 100%;
 }
 .btncolor {
-  background-color: #1bbc9b !important ;
+  background-color: #2d7ecb !important ;
   color: white !important;
   border: none !important;
   cursor: pointer !important;
@@ -1007,11 +1018,11 @@ body {
 /* Neeraj Pathania CSS */
 body {
   font-family: "Quicksand", sans-serif !important;
-  background-color: #f2f2f2 !important;
+  background-color: #fff !important;
 }
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 .authFormDiv.LoginMain {
-  background-color: #1bbc9b;
+  background-color: #2d7ecb;
   min-height: 100vh;
   padding-bottom: 30px;
 }
@@ -1035,7 +1046,7 @@ button.userAuthbtn {
   color: #fff;
 }
 nav.navbar.navigationBar {
-  background: #1bbc9b;
+  background: #2d7ecb;
   margin: 0px !important;
   padding: 0px !important;
 }
@@ -1069,15 +1080,15 @@ nav.navbar.navigationBar {
 button.skip-button,
 button,
 button.ant-btn.SchForm {
-  background: #1bbc9b !important;
+  background: #2d7ecb !important;
   border: 0px !important;
   border-radius: 0px !important;
   height: 40px;
 }
-button.skip-button:hover,
+/* button.skip-button:hover,
 button:hover {
   background: rgba(27, 188, 156, 0.596) !important;
-}
+} */
 video.border {
   width: 100% !important;
   height: auto !important;
@@ -1096,17 +1107,17 @@ h4.AchievementWeek {
 }
 .AchievementList svg {
   margin-top: 3px;
-  fill: #1bbc9b;
+  fill: #2d7ecb;
   margin-right: 5px;
 }
 .right-side {
   padding-right: 7px !important;
 }
 i.fas.fa-arrow-left {
-  color: #1bbc9b;
+  color: #2d7ecb;
 }
 span.DatePicker_monthYearLabel__2OjxR {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
   width: 100%;
 }
 ol {
@@ -1140,8 +1151,9 @@ button.ant-modal-close .ant-modal-close-x {
   margin-top: 4px;
 }
 button.ant-btn {
-  border-radius: 0px !important;
-  min-width: 80px;
+  /* border-radius: 0px !important; */
+  min-width: 60px;
+  
   text-align: center !important;
 }
 .ant-picker {
@@ -1319,16 +1331,16 @@ i.fas.fa-user-plus {
 .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
 .ant-menu-submenu-active,
 .ant-menu-submenu-title:hover {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
 }
 .ant-menu-submenu-expand-icon,
 .ant-menu-submenu-arrow,
 .ant-menu-item-selected {
-  color: #1bbc9b !important;
+  color: #2d7ecb !important;
 }
 .sideNavbar.position-fixed .ant-menu-submenu-title:hover {
   color: #fff !important;
-  background-color: #1bbc9b !important;
+  background-color: #2d7ecb !important;
 }
 .sideNavbar.position-fixed .ant-menu-submenu-title * {
   color: #000;
@@ -1524,6 +1536,7 @@ i.fas.fa-user-plus {
 @media only screen and (max-width: 500px) {
   .time-slot-buttons {
     display: block !important;
+    justify-content: space-between !important;
   }
   div#exercise-card button.ant-btn.time-button {
     max-width: 31% !important;
@@ -1571,7 +1584,7 @@ button {
 .ant-btn:focus,
 .ant-btn:active {
   text-decoration: none;
-  background: #1bbc9b !important;
+  background: #2d7ecb  !important;
   color: #fff !important;
 }
 .main-content {
@@ -1655,3 +1668,110 @@ div#right-box .detail-row b {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #ebf2f9 !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  margin-top: 0px !important;
+   margin-bottom: 0px !important;
+}
+.input-file{
+  background-color: #ffffff !important;
+  margin-top: 5px;
+}
+.form-check-inline input{
+  margin-right: 5px;
+}
+
+
+/* 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 2000px;
+  height: auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  font-size: 12px;
+  padding: 8px;
+  font-weight: normal;
+}
+th
+{
+background-color:#2d7ecb;
+color:white;
+}
+th:first-child, td:first-child
+{
+position:sticky;
+left:0px;
+
+}
+td:first-child
+{
+  background-color: #8bb2d7;
+  font-size: 16px;
+  text-align: left;
+  padding-left: 30px;
+  font-weight: 600;
+}
+
+.table-nav {
+  background-color: #8bb2d7; 
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.table-nav li {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 6px;
+  color: #000;
+  border-right: 1px solid #000;
+}
+.table-nav li:last-child {
+  border-right: 0px solid #000;
+}
+.checkbox-rs input{
+  margin: 10px 20px;
+} */
+
+.employey a{
+  color:white ;
+  font-size: 20px;
+}
+
+.ggrid-row {
+  display: contents;
+}
+
+.assesmentPrint {
+  display: none;
+}
+
+
+@media print {
+  .divvv {
+    height: 100%;
+  }
+
+  .assesmentPrint {
+    display: contents;
+  }
+ 
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ----- */
+
+

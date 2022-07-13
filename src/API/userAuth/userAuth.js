@@ -6,6 +6,7 @@ import {
 } from "../../contextStore/actions/authAction.js";
 import fetch from "isomorphic-fetch";
 import Cookies from 'js-cookie';
+import { Encode,Decode } from "../../Encode/hashing.js";
 //@signup 
 //@param user Info
 //@return- signup success Message.
@@ -49,21 +50,25 @@ export const signup = async (user, dispatch) => {
 //@return- Authentication token
 // async () => async 
 export const signin = async (user, dispatch) => {
+    const encodedData = Encode(user);
     dispatch({ type: LOGIN_REQUEST });
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/login/", {
+        const response = await fetch(process.env.REACT_APP_API + "/login_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(user)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
+        console.log(data)
+        // const data = JSON.parse(decode(responseData));
         if (response.status !== 200 && response.status !== 201) {
-            if (data && data.detail) {
-                return [false, "Invalid Login Credentials!"];
+            if (data && data.message) {
+                return [false, data.message];
             } else {
                 return [false, "Error " + response.status + response.statusText];
             }
@@ -73,7 +78,7 @@ export const signin = async (user, dispatch) => {
                 localStorage.setItem("userId", JSON.stringify(data.user_id));
                 return [false, "Please Change Your Password."];
             }
-            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info }, data.user_id);
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id}, data.user_id);
             dispatch({ type: LOGIN_SUCCESS });
             return [true];
         }
@@ -90,15 +95,17 @@ export const forgotPassword = async (user) => {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
-    console.log(user)
+    // console.log(user)
+    const encodedData = Encode({ uid: user });
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ uid: user })
+            body: JSON.stringify(encodedData)
         });
 
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (response.status !== 200 && response.status !== 201) {
             if (data && data.detail) {
                 return [false, "Email Doesn't Exist."];
@@ -117,20 +124,21 @@ export const forgotPassword = async (user) => {
 }
 // Reset Password Confirm
 export const postNewPassword = async (user) => {
-   // console.log(user)
+   // // console.log(user)
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(user);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset_confirm/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_confirm_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(user)
+            body: JSON.stringify(encodedData)
         });
         
-        const data = await response.json();
-        
+        const responseData = await response.json();
+        const data = Decode(responseData);
         
         if (response.status !== 200 && response.status !== 201) {
             if (data && data.detail) {
@@ -148,26 +156,28 @@ export const postNewPassword = async (user) => {
 }
 
 export const admin_password_reset=async(detail)=>{
-    console.log(detail)
+    // console.log(detail)
     const newdata={
         id:detail.userid,
         uid:detail.temp_uid,
         new_password:detail.new_password
     }
-    console.log(newdata)
+    // console.log(newdata)
     const headers = {
         "Accept": 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(newdata);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/password_reset_by_admin/", {
+        const response = await fetch(process.env.REACT_APP_API + "/password_reset_by_admin_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(newdata)
+            body: JSON.stringify(encodedData)
         });
         
-        const data = await response.json();
-        console.log(data)
+        const responseData = await response.json();
+        const data = Decode(responseData);
+        // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             
             if (data && data.detail) {
@@ -177,7 +187,7 @@ export const admin_password_reset=async(detail)=>{
                 return [false, "Error " + response.status + response.statusText];
             }
         } else if (data && data.message) {
-            console.log('true returning')
+            // console.log('true returning')
             return [true];
         }
         return [false, "Error " + response.status + response.statusText];
@@ -195,12 +205,12 @@ export const logout = async () => {
         })
         return [true];
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 }
 //@param user,token
 //Add User Data into localstorage after login.
-const AddUserInfo = (token, user, user_id) => {
+const AddUserInfo = (token, user, user_id, clinic_id) => {
     localStorage.setItem("jwt", JSON.stringify(token))
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("userId", JSON.stringify(user_id));
@@ -211,7 +221,7 @@ export const getUserData = () => {
         let data = JSON.parse(localStorage.getItem("user"));
         return data.role;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return "";
     }
 }
@@ -231,4 +241,87 @@ const AddCookies = (key, value) => {
 //Remove Cookies 
 const RemoveCookie = (key) => {
     Cookies.remove(key);
+}
+
+
+export const admin_password_reset_ep=async(detail)=>{
+    // console.log(detail)
+    const newdata={
+        id:detail.userid,
+        uid:detail.temp_uid,
+        new_password:detail.new_password
+    }
+    // console.log(newdata)
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(newdata)
+        });
+        
+        const data = await response.json();
+       
+        // console.log(data)
+        if (response.status !== 200 && response.status !== 201) {
+            
+            if (data && data.detail) {
+                
+                return [false, "Error " + response.status + response.statusText];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else if (data && data.message) {
+            // console.log('true returning')
+            return [true];
+        }
+        return [false, "Error " + response.status + response.statusText];
+    } catch (err) {
+        return [false, err.message];
+    }
+
+}
+
+
+export const empsignin = async (user, dispatch) => {
+   
+    dispatch({ type: LOGIN_REQUEST });
+    const headers = {
+        "Accept": 'application/json',
+        "Content-type": "application/json"
+    }
+    try {
+        const response = await fetch(process.env.REACT_APP_API + "/emp_login/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(user)
+        });
+        const data = await response.json();
+       
+        // const data = JSON.parse(decode(responseData));
+        if (response.status !== 200 && response.status !== 201) {
+            if (data && data.detail) {
+                return [false, "Invalid Login Credentials!"];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else {
+            AddCookies("jwt", data.jwt);
+            if (data.first_time) {
+                localStorage.setItem("userId", JSON.stringify(data.user_id));
+                return [false, "Please Change Your Password."];
+            }
+            AddUserInfo(data.jwt, { role: data.role, info: data.basic_info , clinic_id: data.clinic_id}, data.user_id);
+            dispatch({ type: LOGIN_SUCCESS });
+            return [true];
+        }
+    } catch (err) {
+        return [false, err.message + " ,please try after some time."];
+    }
+    // dispatch({type:LOGIN_SUCCESS});
+    // AddUserInfo("12344",{role:1,email:user.email});  //(jwtToken,userInfo)
 }

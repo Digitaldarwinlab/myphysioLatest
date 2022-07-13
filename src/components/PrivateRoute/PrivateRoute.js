@@ -9,9 +9,9 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         // Otherwise, redirect the user to /signin page
         <Route {...rest} render={props => (
             isAuthenticated()?(
-                (getUserData() === "admin" || getUserData() === "physio")
+                (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio" )
                 ?<Component {...props} />
-                :<Redirect to="/patient/dashboard" />
+                :getUserData()==='enterprise_patient' || getUserData()==='employee'?<Redirect to="/patient/enterprise/dashboard" />:<Redirect to="/patient/schedule" />
                 )
             : <Redirect to="/" />
         )} />

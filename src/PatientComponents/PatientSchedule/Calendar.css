@@ -52,6 +52,7 @@
   padding-top: 5px;
   text-align: left;
   padding-left: 10px;
+  font-size: 14px;
 }
 
 .visit-card-1 {
@@ -78,7 +79,7 @@
 
   
   ul.daysName li p {  
-    font-size: 9px !important;
+    font-size: 12px !important;
   }
 
 .content {
@@ -96,14 +97,14 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .video-conference-detail {
   text-align: left;
-  margin-top: 10px;
+  margin-top: 0px;
   border-radius: 10px;
-  height: 80px;
+  height: 50px;
   padding: 10px 10px 10px 10px;
   width: 100%;
   background-color: white;
@@ -116,7 +117,7 @@
   width: 100%;
   text-align: left;
   background-color: white;
-  height: 60px;
+  height: 45px;
   margin-top: 5px;
 }
 .main-card {
@@ -156,12 +157,17 @@
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
 }
-
+.status-button-yes{
+  background-color: #6c757d !important;
+}
+.status-button-no{
+  background-color: #0875f1 !important;
+}
 .time-slot-buttons {
   text-align: center;
 }
 .calenderView {
-  float: left;
+  float:left;
   display: inline-block;
   width: 100%;
 }
@@ -171,18 +177,18 @@
   width: 5%;
 }
 ul.daysName {
-  padding: 0;
+  /* padding: 0; */
   margin: 0;
   display: inline-block;
   float: left;
-  width: 55%;
+  width: 56%;
 }
 ul.daysName li {
   display: inline-block;
   float: left;
-  width: 5.25%;
-  background: #d2d2d2;
-  margin: 0px 0.5%;
+  width:50px;
+  background: #8b939b;
+  margin: 0px 1%;
   padding: 0px;
   color: #fff;
   cursor: pointer;
@@ -241,18 +247,19 @@ ul.daysName li p {
 }
 .pervsBTN,
 .nextBTN {
-  background: #1bbc9b;
+  background: #2d7ecb;
   color: #fff;
   padding: 6px;
   border-radius: 30px;
-  margin-top: 0px;
+  margin-top: 8px;
+  cursor: pointer;
 }
 .pervsBTN {
   margin-left: 18%;
   margin-right: 1%;
 }
 .nextBTN {
-  margin-left: 1%;
+  margin-left: 3%;
 }
 div#exercise-card2 h4 {
     white-space: nowrap;
@@ -274,3 +281,10 @@ ul.daysName {
   width: 96% !important;
   margin-left: 2% !important;
 } */
+
+.ant-btn > span {
+  font-size: 12px;
+}
+.dx-theme-generic-typography h3 {
+  font-size: 20px;
+}

@@ -3,15 +3,21 @@ import { Spin, Pagination, Row, Col, Button } from "antd";
 import Careplan from "../../care-plan/carePlanIndex";
 import CarePlanCardView from './carePlanCardView';
 import { ImPlus } from 'react-icons/im';
+import { BiEdit } from "react-icons/bi";
 import '../../../styles/Layout/Episode.css';
-import { fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
+import { CarePlan, fetchCarePlan } from "../../../API/episode-visit-details/episode-visit-api";
+import { CARE_PLAN_ADD_TO_CART, CARE_PLAN_REP_CHANGE, CARE_PLAN_STATE_CHANGE } from "../../../contextStore/actions/care-plan-action";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 // import cPData from "./../../UtilityComponents/dummyData/care-plan-dummy-data/ViewDummyData.json";
-
+import moment from "moment";
 const CarePlanView = (props) => {
     const [carePlanData, setCarePlanData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [ChangeView, setChangeView] = useState(false);
-
+    const [carePlanViewState ,setCarePlanViewState] = useState(true)
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [paginationState, setPaginationState] = React.useState({
         totalPage: 0,
         current: 1,
@@ -24,16 +30,17 @@ const CarePlanView = (props) => {
     useEffect(() => {
         async function getAllCarePlanData() {
             setLoading(true);
-            const data = await fetchCarePlan(props.eid);
+           // const data = await fetchCarePlan(props.eid);
+            const resdata = await CarePlan(props.eid)
             setLoading(false);
             
-            console.log('data is coming')
-            console.log(data)
+            console.log('data is coming res',resdata)
+            // console.log("data is coming ",data)
 
-            setCarePlanData(data);
+            setCarePlanData(resdata);
             setPaginationState({
                 ...paginationState,
-                totalPage: data.length / paginationState.pageSize,
+                totalPage: resdata.length / paginationState.pageSize,
                 minIndex: 0,
                 maxIndex: paginationState.pageSize
             });
@@ -54,23 +61,126 @@ const CarePlanView = (props) => {
     }
 
     //fetchData
-    const fetchData = async () => {
-        setLoading(true);
-        const data = await fetchCarePlan(props.eid);
-        setLoading(false);
-        setCarePlanData(data);
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     const data = await fetchCarePlan(props.eid);
+    //     setLoading(false);
+    //     setCarePlanData(data);
 
 
-        setPaginationState({
-            ...paginationState,
-            totalPage: data.length / paginationState.pageSize,
-            minIndex: 0,
-            maxIndex: paginationState.pageSize
-        });
-    }
+    //     setPaginationState({
+    //         ...paginationState,
+    //         totalPage: data.length / paginationState.pageSize,
+    //         minIndex: 0,
+    //         maxIndex: paginationState.pageSize
+    //     });
+    // }
     //change View
+  
+    const handleChange = (key, value, id = 0) => {
+        if (key === "set" || key === "rep_count"||key==="hold_time") {
+            dispatch({
+                type: CARE_PLAN_REP_CHANGE,
+                payload: {
+                    key,
+                    value,
+                    index: id
+                }
+            })
+        }
+    }
 
+const handleEdit = (data) => {
 
+   // setChangeView(true);
+  // setCarePlanViewState(false)
+  let temp = []
+  console.log(data.exercise_details)
+    data.exercise_details.map(item=>{
+        temp.push(item.ex_em_id)
+        dispatch({type:CARE_PLAN_ADD_TO_CART,payload:item})
+    })
+    localStorage.setItem("care-plan-cart", JSON.stringify(temp));
+    console.log("care-plan-cart ",data)
+    let count_time_slots = data.time_slot.map(item=>item[0])
+    console.log(count_time_slots)
+    //status_flag
+    //timeSlots
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"status_flag",
+            value: data.status_flag==2?true:false
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"exercises",
+            value: data.exercise_details
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"edit_flag",
+            value: true
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editStateDate",
+            value: data.start_date
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editEndDate",
+            value: data.end_date
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key:"editCareplanCode",
+            value: data.careplan_code
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "count_time_slots",
+            value: count_time_slots.length
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "timeSlots",
+            value: count_time_slots
+        }
+    })
+    dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+            key: "time_slot_edit",
+            value: 1
+        }
+    })
+    //careplan_code
+    console.log(carePlanData)
+    history.push({pathname: "/care-plan",stateValues:{edit:true}})
+
+}
+const handleCancel = () => {
+	setCarePlanViewState(true)
+}
+const handleSubmit = (data) => {
+	setCarePlanViewState(true)
+    console.log(data)
+}
     const handleViewChange = () => {
         setChangeView(false);
         fetchData();
@@ -99,12 +209,31 @@ const CarePlanView = (props) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (
                             <div key={index} className="px-1 py-1">
-                                
-                                <CarePlanCardView data={data} />
+                                {console.log("careplan data ",data)}
+                               {(moment(data.end_date)>=new Date().setHours(0,0,0,0) && moment(data.start_date)>=new Date().setHours(0,0,0,0))&& <Row  justify="end">
+                                {/* <Col lg={24} md={24} sm={24} xs={24}>
+                                    <Button onClick={() => handleEdit(data)} className="button1" style={{color:"white"}}>
+                                        
+                                        <BiEdit />
+                             {"  "}Edit
+                                       
+                                    </Button>
+                                    {"  "}
+                        </Col> */}
+                                    {/* {!carePlanViewState&&<Button onClick={() => handleCancel()} className="button1" style={{color:"white"}}>Cancel</Button>} */}
+                                </Row>}
+                                <CarePlanCardView handleChange={handleChange} carePlanView={carePlanViewState} data={data} />
+                                {/* <Row  justify="end">
+                                <Col lg={24} md={24} sm={24} xs={24}>
+                                    {!carePlanViewState&&<Button onClick={() => handleSubmit(data)} className="button1" style={{color:"white"}}>Submit</Button>}
+                        </Col>
+                                </Row> */}
                             </div>
                         ))
                 }
-                <div>
+                {/* {carePlanViewState&&<> */}
+                <center>
+                <div className="pag_large">
                     <Pagination
                         pageSize={paginationState.pageSize}
                         current={paginationState.current}
@@ -112,6 +241,21 @@ const CarePlanView = (props) => {
                         onChange={PaginationChange}
                     />
                 </div>
+                </center>
+                <center>
+                <div className="pag_mob" style={{display:'none'}}>
+                    <div style={{minHeight:'15px'}}></div>
+                    <Pagination
+                        size={'small'}
+                        pageSize={paginationState.pageSize}
+                        current={paginationState.current}
+                        total={carePlanData.length}
+                        onChange={PaginationChange}
+                    />
+                    <div style={{minHeight:'15px'}}></div>
+                </div>
+                </center>
+                {/* </>} */}
             </div>
         )
     } else {

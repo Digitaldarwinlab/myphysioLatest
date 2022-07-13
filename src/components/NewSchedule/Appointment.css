@@ -1,0 +1,430 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  } */
+/* @import "antd/dist/antd.css"; */
+
+.colreq {
+  color: rgb(226, 43, 43);
+  font-size: 18px;
+}
+
+
+
+.div {
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* .lab{
+    font-weight: 500;
+    padding: 30px 0px;
+    margin-top: 10px;
+    
+  } */
+.input-field.patient_Name {
+  width: 60% !important;
+  font-weight: 600;
+}
+
+.repeatFun {
+  margin-top: 15px;
+}
+
+.ant-radio-button-wrapper:last-child {
+  display: none !important;
+}
+
+.ant-picker-calendar-date-content {
+  height: 40px !important;
+}
+
+.ant-modal-close {
+  display: none;
+}
+
+.pt {
+  padding-top: 20px;
+}
+
+.ant-radio-button-wrapper:first-child {
+  display: none;
+}
+
+.ant-picker-header-super-next-btn {
+  display: none;
+}
+
+.ant-picker-header-super-prev-btn {
+  display: none;
+}
+
+.anticon .anticon-calendar {
+  display: none !important;
+}
+
+.ant-picker-clear {
+  display: none !important;
+}
+
+.ant-picker-suffix {
+  display: none;
+}
+
+span .icon-btn {
+  cursor: pointer;
+
+  font-size: large;
+
+
+}
+
+.anticon-caret-right {
+  border: 1px solid rgba(0, 0, 0, 0.185);
+  padding: 12px;
+}
+
+.anticon-caret-left {
+  border: 1px solid rgba(0, 0, 0, 0.185);
+  padding: 12px;
+}
+
+.cus-cal {
+  display: flex;
+  margin-right: 20px;
+}
+
+.inp {
+  position: relative;
+
+}
+
+.date {
+  position: absolute;
+
+  top: 0px;
+  left: 35px;
+  z-index: 1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ant-picker-input {
+  justify-content: space-between;
+  padding: 5px 5px 5px 35px;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+
+}
+
+.ant-picker-calendar-header {
+  display: none !important;
+}
+
+/* .ant-select ,.ant-picker-calendar-year-select , .ant-select-single ,.ant-select-show-arrow{
+        display: none;
+    } */
+
+div>.ant-picker-input {
+  justify-content: space-between;
+  padding: 5px 5px 5px 10px;
+  margin: 0;
+
+  cursor: pointer;
+
+}
+
+.ant-picker-input input {
+  font-weight: 600;
+  font-size: 18px;
+
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px
+}
+
+.end {
+  display: flex;
+  /* justify-content: end; */
+  align-items: center;
+  margin-right: 30px;
+}
+
+
+.tab {
+
+  padding: 15px;
+  margin: 0px 10px;
+}
+
+.tabel-design {
+  width: 90vw;
+  padding: 25px 20px;
+  border-top: 1px solid rgba(128, 128, 128, 0.486);
+  position: relative;
+  cursor: pointer;
+
+}
+
+
+.tabel-design:hover {
+  background-color: #e3e4e45b;
+}
+
+.col {
+  margin: 10px;
+  position: relative;
+  width: 6.5vw;
+  cursor: pointer;
+}
+
+/* .col:hover{
+    background-color: #e3e4e45b;
+  } */
+
+.allDay {
+  padding: 0px 10px 30px 10px;
+  /*  border-bottom: 1px solid #80808085; */
+  font-weight: 600;
+  cursor: pointer;
+
+}
+
+
+.alldayHead {
+  padding-bottom: 10px;
+  padding-right: 15px;
+
+}
+
+.gap {
+
+  width: 90vw;
+
+}
+
+.allDay:hover {
+  background-color: #e3e4e45b;
+}
+
+.tabel_container {
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.tabel-head {
+
+  position: relative;
+  top: 20px;
+}
+
+.tabel-head::before {
+  position: absolute;
+
+  content: attr(data-content);
+  top: -10px;
+  left: 0px;
+
+}
+
+/* day tab */
+
+.day_data {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding: 5px;
+  width: 20vw;
+  background-color: rgb(4, 107, 192);
+  color: rgb(255, 255, 255);
+}
+
+
+
+/*week*/
+
+.week_head {
+  text-align: center;
+  width: 80vw;
+  padding: 10px 0px;
+  border: 1px solid #80808085;
+}
+
+.week_headcol {
+  width: 10vw;
+  padding-bottom: 20px;
+
+}
+
+.tabel_head {
+  width: 30vw;
+  padding: 25px 0px;
+  position: relative;
+
+}
+
+.tabel_head::before {
+  position: absolute;
+  content: attr(data-content);
+  top: -25px;
+  left: 0px;
+
+}
+
+.container {
+  margin: 10px;
+
+}
+
+.week_boder {
+  border: 1px solid #80808050;
+}
+
+.week_line {
+  border: 1px solid #80808050;
+  cursor: pointer;
+  padding: 15px 0px;
+}
+
+.week_line:hover {
+  background-color: #d3d3d350;
+}
+
+.time_subhead {
+  width: 60px;
+  padding: 15px 0px;
+  color: green;
+  visibility: hidden;
+  position: relative;
+}
+
+.all-border {
+  border: 1px solid #80808050;
+  padding: 5px 0px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.all-border:hover {
+  background-color: #d3d3d350;
+}
+
+.all_day {
+  font-weight: 600;
+  padding-bottom: 15px;
+
+  padding-top: 10px;
+  border-right: 1px solid #80808050;
+  cursor: pointer;
+}
+
+.month_data {
+  padding: 0;
+  width: 30%;
+  background-color: rgb(4, 107, 192);
+  color: rgb(255, 255, 255);
+}
+
+#datePicker{
+  text-align: center;
+}
+.ant-picker-input input {
+  font-weight: 200;
+  font-size: 16px;
+}
+.ant-picker{
+  border: none;
+}
+.patient_search {
+  width: 83%
+}
+.weekTable{
+  min-width: 1100px;
+}
+.modalInputs{
+  width: 195px;
+}
+@media (max-width:650px) {
+  .weekTable{
+    min-width: 600px;
+  }
+  .modalInputs{
+    width: 300px;
+  }
+  .ant-tabs>.ant-tabs-nav,
+  .ant-tabs>div>.ant-tabs-nav {
+    flex-direction: column;
+  }
+  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap {
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.ant-tabs-extra-content {
+  margin-left: 30px;
+}
+.patient_search {
+  width: 100%
+}
+}
+
+@media (max-width:450px) {
+  .month_data {
+    width: 100% !important;
+  }
+
+  .input-field.patient_Name {
+    width: 135% !important;
+    font-weight: 600;
+  }
+  .pt {
+    justify-content: center;
+  }
+
+  .tab {
+
+    display: flex;
+  }
+
+}
+
+
+.lab{
+  font-weight: 700;
+}
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-body th, .ant-picker-calendar-full .ant-picker-panel .ant-picker-body td {
+  padding: 0;
+  text-align: center;
+}
+
+.rs-picker-date .rs-picker-toggle.rs-btn .rs-picker-toggle-clean, .rs-picker-daterange .rs-picker-toggle.rs-btn .rs-picker-toggle-clean {
+  right: 30px;
+  display: none;
+}
+.rs-picker-date.rs-picker-cleanable.rs-picker-has-value .rs-picker-toggle, .rs-picker-daterange.rs-picker-cleanable.rs-picker-has-value .rs-picker-toggle {
+  padding-right: 52px;
+  border: none;
+}
+.rs-picker-date .rs-picker-toggle.rs-btn .rs-picker-toggle-caret, .rs-picker-daterange .rs-picker-toggle.rs-btn .rs-picker-toggle-caret {
+  right: 20px;
+  top: 10px;
+}
+.rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+  color: black;
+  margin-left: 5px;
+  margin-top: 3px;
+}
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}

@@ -5,17 +5,52 @@ let options = {
 };
 //AI Data Received
 var Ex_Data
-var AI_Data
+var AI_Data={
+  Anterior:"",
+  leftLateral:"",
+  rightLateral:""
+}
+var Anterior_Data
+var Lateral_Data
 var angles = [];
 var exercise = "";
 var exerciseURL=""
+let screenshot = [];
+
+
+let Posterial_view={
+  image:"",
+  angles:"",
+}
+
+let Lateral_View={
+  image:"",
+  angles:"",
+}
+
+
 
 // Your app ID
-const appID = "f31ea0f88fcf4974a349448e69d35c1d";
+const appID = "616487fe8ede4785aa8f7e322efdbe7d";
 // Your token
 options.token = "";
 
 const clientRTM = AgoraRTM.createInstance(appID);
+
+
+async function capture(){
+  window.scrollTo(0, 0)
+  const canvas = await html2canvas(document.getElementById("scanvas"))
+  screenshot.push(canvas.toDataURL("image/jpeg", 0.9))
+  var extra_canvas = document.createElement("canvas");
+  extra_canvas.setAttribute('width', 180);
+  extra_canvas.setAttribute('height', 180);
+  var ctx = extra_canvas.getContext('2d');
+  ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
+  var dataURL = extra_canvas.toDataURL();
+  console.log(screenshot)
+  return(dataURL)
+}
 
 clientRTM.on("MessageFromPeer", async function (message, peerId) {
   console.log("Message from: " + peerId + " Message: " + message);
@@ -54,9 +89,21 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
       toggleVisibility("#no-local-video", true); // show the user icon when video is disabled
     }
   } else if (message.text == "start") {
+    options = {
+      video: cameraElement,
+      videoWidth: 600,
+      videoHeight: 500,
+      canvas: document.getElementById("scanvas"),
+      supervised: true,
+      showAngles: true,
+      drawLine: false,
+    };
+    darwin.initializeModel(options);
     darwin.setExcersiseParams({
+      // "name": exercise,
       "name": exercise,
       "primaryKeypoint": 0,
+      // "angles": angles,
       "angles": angles,
       "minAmp": 30,
       "dir": 1,
@@ -66,26 +113,130 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
       "totalSets": 2
   });
     darwin.restart();
-    $("#video-screen").attr("src",'https://myphysio.digitaldarwin.in/'+exerciseURL)
-    $("#video-block").css("display","block")
+    // $("#video-screen").attr(`src",${process.env.REACT_APP_API}/+exerciseURL`)
+    // $("#video-block").css("display","block")
+  }
+
+  else if (message.text == "startPosture1") {
+    options = {
+      video: cameraElement,
+      videoWidth: 600,
+      videoHeight: 500,
+      canvas: document.getElementById("scanvas"),
+      supervised: true,
+      showAngles: true,
+      drawLine: true,
+    };
+    darwin.initializeModel(options);
+    darwin.restart()
+    darwin.selectOrientation(1);
+  }
+
+  else if (message.text == "startPosture2") {
+    options = {
+      video: cameraElement,
+      videoWidth: 600,
+      videoHeight: 500,
+      canvas: document.getElementById("scanvas"),
+      supervised: true,
+      showAngles: true,
+      drawLine: true,
+    };
+    darwin.initializeModel(options);
+    darwin.restart()
+    darwin.selectOrientation(2);
+  }
+
+  else if (message.text == "stopPosture1") {
+    var peerID = $("#form-peerId").val();
+    darwin.screenShot();
+    const imgPosture=await capture()
+    Posterial_view.image=imgPosture
+    var anglesPosture = await darwin.showAngles()
+    Posterial_view.angles=anglesPosture
+    darwin.stop()
+    console.log(Posterial_view)
+    var blob = new Blob([JSON.stringify(Posterial_view)], {type: "application/json"});
+    sendFileMessage("Anterior.json",peerID,blob)
+  }
+
+  else if (message.text == "stopPosture2") {
+    var peerID = $("#form-peerId").val();
+    darwin.screenShot();
+    const imgPosture=await capture()
+    Lateral_View.image=imgPosture
+    var anglesPosture = await darwin.showAngles()
+    Lateral_View.angles=anglesPosture
+    darwin.stop()
+    console.log(Lateral_View)
+    var blob = new Blob([JSON.stringify(Lateral_View)], {type: "application/json"});
+    sendFileMessage("Lateral.json",peerID,blob)
   }
   
   else if (message.text == "stop") {
     darwin.stop();
     $("#video-block").css("display","none")
   }
+  
   else if (message.text == "reset") {
     darwin.stop();
     darwin.resetData();
     $("#video-block").css("display","none")
   }
 
-  else if (message.text == "get") {
+  else if (message.text == "getAnterior") {
     var peerID = $("#form-peerId").val();
     var data=darwin.getAssesmentData();
-    console.log(data)
-    var blob = new Blob([JSON.stringify(data)], {type: "application/json"});
+    AI_Data.Anterior=data
+  }
+
+  else if (message.text == "getLeftLateral") {
+    var peerID = $("#form-peerId").val();
+    var data=darwin.getAssesmentData();
+    AI_Data.leftLateral=data
+  }
+
+  else if (message.text == "getRightLateral") {
+    var peerID = $("#form-peerId").val();
+    var data=darwin.getAssesmentData();
+    AI_Data.rightLateral=data
+  }
+
+  else if (message.text == "getROMData"){
+    var peerID = $("#form-peerId").val();
+    var blob = new Blob([JSON.stringify(AI_Data)], {type: "application/json"});
     sendFileMessage("AI_Data.json",peerID,blob)
+  }
+
+  else if(message.fileName === 'ChangedAngle.json'){
+    const blob = await clientRTM.downloadMedia(message.mediaId)
+    const reader = new FileReader();
+    reader.addEventListener('loadend', (e) => {
+      var checkedValues = JSON.parse(e.srcElement.result)
+      console.log(checkedValues)
+      darwin.setExcersiseParams({
+        angles: checkedValues,
+      });
+     });
+      reader.readAsText(blob)
+  }
+
+  else if(message.fileName === 'Anterior.json'){
+    const blob = await clientRTM.downloadMedia(message.mediaId)
+    const reader = new FileReader();
+    reader.addEventListener('loadend', (e) => {
+      Anterior_Data = JSON.parse(e.srcElement.result)
+     });
+      reader.readAsText(blob)
+  }
+
+  else if(message.fileName === 'Lateral.json'){
+    const blob = await clientRTM.downloadMedia(message.mediaId)
+    const reader = new FileReader();
+    reader.addEventListener('loadend', (e) => {
+      Lateral_Data = JSON.parse(e.srcElement.result)
+     });
+      reader.readAsText(blob)
   }
 
   else if (message.fileName === 'AI_Data.json') {
@@ -93,10 +244,12 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
       AI_Data = JSON.parse(e.srcElement.result)
+      console.log("Ai data from patient:",AI_Data)
+      console.log("Stringified patient data:", JSON.stringify(AI_Data))
       if(AI_Data!=""){
-      console.log(AI_Data)   
-      localStorage.setItem("AI_Data",JSON.stringify(AI_Data));  
-      alert("Data Successfully Received!")
+        console.log("AI data from patient side to physio:" , {AI_Data})   
+        localStorage.setItem("AI_Data",JSON.stringify(AI_Data));  
+        alert("Data Successfully Received!")
       }
       else{
       alert("Data Not Received")
@@ -106,15 +259,15 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
   }
 
   else if (message.fileName === 'Ex_data.json') {
-    const blob_ex = await clientRTM.downloadMedia(message.mediaId)
+    const blob = await clientRTM.downloadMedia(message.mediaId)
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
       Ex_Data = JSON.parse(e.srcElement.result)
       exercise=Ex_Data.allExcercise
       exerciseURL=Ex_Data.exerciseURL
-      angles=Ex_Data.Joints.sort()
+      angles=Ex_Data.Joints
      });
-      reader.readAsText(blob_ex)
+      reader.readAsText(blob)
   }
 
 });
@@ -141,7 +294,9 @@ channel.on("MemberLeft", function (memberId) {
 
 async function joinRTMChannel(uid) {
   console.log("sdghaaaaaaaaaaaaaaaaaaaaaa");
-  const res = await fetch(`https://myphysio.digitaldarwin.in/rtm/${uid}`);
+  const apiURL = document.querySelector('[property="Ex:url"]').content;
+  console.log(apiURL)
+  const res = await fetch(`${apiURL}/rtm/${uid}`);
   const data = await res.json();
   options.token = data.rtmToken;
   console.log(options.token);

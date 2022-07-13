@@ -3,18 +3,19 @@
 import { Form, Select, Button, Row, Col, Collapse,Typography,Modal,Upload} from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import FormDate from './../UI/antInputs/FormDate';
+import FormDate from '../UI/antInputs/FormDate';
 import { InboxOutlined } from '@ant-design/icons';
-import FormInput from './../UI/antInputs/FormInput';
-import FormTextArea from './../UI/antInputs/FormTextArea';
+import FormInput from '../UI/antInputs/FormInput';
+import FormTextArea from '../UI/antInputs/FormTextArea';
 import Loading from './Loading';
 import Success from './SuccessHandler';
 import ActiveSearch from './ActiveSearch';
+import { IoDocument } from 'react-icons/io5'
 import "../../styles/Layout/Episode.css"
 import moment from "moment"
 import Error from './ErrorHandler';
 import { useHistory } from 'react-router-dom';
-import {EPISODE_CLEAR_STATE} from '../../contextStore/actions/episode'
+import {EPISODE_CLEAR_STATE, EPISODE_STATECHANGE} from '../../contextStore/actions/episode'
 import '../../styles/Layout/Heading.css'
 const btnStyle = {
     backgroundColor: "#273647",
@@ -25,11 +26,11 @@ const btnStyle = {
 }
 
 const font = {
-    fontSize: "17px"
+    fontSize: "16px"
 }
 
 const SchduleForm = (props) => {
-  console.log(props)
+  console.log("special form ",props)
     const { Dragger } = Upload;
     const state = useSelector(state => state.episodeReducer)
     const [visibility, setVisibility] = useState("none");
@@ -43,6 +44,7 @@ const SchduleForm = (props) => {
     const [issubmit,Setissubmit]=useState(false)
     const [isclosuredisabled,Setisclosurediabled]=useState(false)
     const [starteDate,SetstartDate]=useState()
+    const [endClosure , setEndClosure] = useState(false)
     useEffect(() => {
         const data = state;
 
@@ -54,6 +56,7 @@ const SchduleForm = (props) => {
          {/* aswin 10/17/2021 start */}
          form.setFieldsValue({ file: data.files });
          {/* aswin 10/17/2021 stop */}
+
         form.setFieldsValue({ Patient_History: data.Patient_History });
         form.setFieldsValue({ start_date: data.start_date ? moment(data.start_date, "YYYY-MM-DD") : props.startDateState });
         console.log(data)
@@ -185,7 +188,7 @@ const SchduleForm = (props) => {
       
 
       const Cancel = () => {
-       
+        setEndClosure(true)
             if (window.confirm(" All your Data will be lost?")) {
                // dispatch({ type: CLEAR_STATE });
                    form.resetFields()
@@ -217,7 +220,9 @@ const SchduleForm = (props) => {
             unblock();
         };
     }, [history,state])
-
+    useEffect(() => {
+    
+    }, []);
     const { Panel } = Collapse;
     const {Title}=Typography
 
@@ -226,23 +231,82 @@ const SchduleForm = (props) => {
    
    
        }
+    const [previewVisible ,setPreviewVisible] = useState(false)
+    const [previewImage ,setPreviewImage] = useState(false)
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+    const handlePreview = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      setPreviewVisible(true)
+      setPreviewImage(file.url || file.preview)
+    }
+
+    const reOpen = () => {
+      if (window.confirm("Check the fields and click on conform Reopen")) {
+      Setupdating1()
+      dispatch({
+       type: EPISODE_STATECHANGE,
+       payload: {
+           key: 'end_date',
+           value: ''
+       }
+   })
+   dispatch({
+     type: EPISODE_STATECHANGE,
+     payload: {
+         key: 'Closure_Notes',
+         value: '',
+     }
+ })
+  document.getElementsByClassName('updateBtn').innerHTML = 'Conform Reopen'
+     Setisclosurediabled(true)
+     setEndClosure(true)
+    // setColsure(false)
+}
+    }
+
     return (
         <>
+        {/* <div style={{ background: '#fff' }}>
            <div style={{ minHeight: "20px" }}></div>
-        <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
-            <Col >
-            <h1 className="page-heading" id="page-heading"><strong> Add Episode</strong></h1>
-            </Col>
-            <Col span={8} style={{position:'relative',bottom:'20px'}}>
-            <ActiveSearch  />
-            {props.state.isLoading && <Loading />}
-            </Col>
-        </Row>
+          <Row style={{margin:'auto 10px 10px 10px'}} justify="space-between">
+              <Col >
+              <h3 className="page-heading" id="page-heading"> <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i><strong> Add Episode </strong></h3>
+              </Col>
+              <Col span={8} style={{position:'relative',bottom:'0px', right:'0'}}>
+              <ActiveSearch  />
+              {props.state.isLoading && <Loading />}
+              </Col>
+          </Row>
+        </div> */}
+        <div style={{ minHeight: "20px" }}></div>
+          <Row gutter={[10,10]}>
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <h3 className="page-heading" id="page-heading"> <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
+            onClick={() => { history.goBack() }}
+            title="Go Back"
+            role="button"></i><strong> Add Episode </strong></h3>
+          </Col>
         
-
+          <Col md={12} lg={12} sm={24} xs={24}>
+          <ActiveSearch  />
+              {props.state.isLoading && <Loading />}
+          </Col>
+          </Row>
             
-            <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" form={form} name="control-hooks">
-               
+            <Form className="p-2" onFinish={props.state.episode_id ? props.onSubmit : props.handleSubmit} autoComplete="off" layout="vertical" name="control-hooks">
+            
                { props.validationState.error && <Error error={props.validationState.error} />}
                {props.state.success && <Success success={props.state.success} />}
                 <Modal title="Message" visible={props.isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -252,23 +316,23 @@ const SchduleForm = (props) => {
                     {props.state.success && <Success success={props.state} />}
 
                 </div>
-      </Modal>
-                <Row className="border ps-2 pe-2 pt-2 mb-2">
-                    <Col span={8}>
-                        <p className="fw-bold p" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
+              </Modal>
+                <Row justify="space-between">
+                <Col md={8} lg={8} sm={24} xs={24}>
+                        <p className="fw-600 p f-15" style={font}><b>Patient Code: </b> {state.patient_main_code} </p>
                     </Col>
-                    <Col span={8}>
-                        <p className="fw-bold p" style={font}>
+                    <Col md={8} lg={8} sm={24} xs={24}>
+                        <p className="fw-600 p f-15" style={font}>
                         <b>Patient Name: </b>{state.patient_name}
                         </p>
                     </Col>
-                    <Col span={8}> 
-                    <p className="fw-bold p" style={font}>
+                    <Col md={8} lg={8} sm={24} xs={24}>
+                    <p className="fw-600 p f-15" style={font}>
                     <b>Contact No: </b>{state.Patient_no}
                     </p>
                     </Col>
                 </Row>
-                <Collapse style={{fontSize:'18px',fontWeight:'bold'}} defaultActiveKey={['1']} >
+                <Collapse style={{fontSize:'16px'}} defaultActiveKey={['1']} >
 
                     <Panel header="Referring Docter Details" key="1" className="bold">
                         <Row gutter={[10, 10]}>
@@ -276,74 +340,95 @@ const SchduleForm = (props) => {
                                 <FormInput 
                                 className="input-field"
 
-
-                                    label={<span style={{fontSize:'16px',fontWeight:'semibold'}}>{'Doctor Name'}</span>}
+                                title={true}
+                                    label={<span style={{fontSize:'15px'}}>{'Doctor Name'}</span>}
                                     placeholder="Doctor Name"
                                     name="Ref_Dr_Name"
                                     onBlur={props.handleBlur}
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                                     value={props.state.Ref_Dr_Name}
                                     onChange={props.handleChange}
-                                    required={Colsure}
+                                  //  required={Colsure}
                                     
                                 />
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                                 <FormInput size="large"
                                  className="input-field"
-                                    label={<span style={{fontSize:'16px',fontWeight:'semibold'}}>{'Doctor ID'}</span>}
+                                    label={<span style={{fontSize:'15px'}}>{'Doctor ID'}</span>}
                                     placeholder="Doctor ID"
                                     name="Ref_Dr_ID"
                                     disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                                     value={props.state.Ref_Dr_ID}
                                     onChange={props.handleChange}
-                                    required={Colsure}
+                                  //  required={Colsure}
 
                                 />
                             </Col>
                         </Row>
                     </Panel>
                 </Collapse>
-                <Collapse style={{fontSize:'18px',fontWeight:'bold'}} defaultActiveKey={['1']}>
+                
+                <Collapse style={{fontSize:'16px'}} defaultActiveKey={['1']}>
                 <Panel header="Other Details" key="1" className="bold">
-                <Row>
+                <Row gutter={[10, 10]}>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <FormDate
+                      {!endClosure?<FormDate
                          className="input-field"
                             value={props.startDateState ? props.startDateState : state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
-                            label= {<span style={{fontSize:'16px',fontWeight:'semibold'}} >{'Start Date'}</span>}
+                            label= {<span style={{fontSize:'15px',fontWeight:'semibold'}} >{'Start Date'}</span>}
                             disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
+                            defaultValue={state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
+                            placeholder="Start Date"
+                            name="start_date"
+                            required={Colsure}
+                            onChange={props.handleChange}
+                        />:
+                        <FormDate
+                            className="input-field"
+                            value={props.startDateState ? props.startDateState : state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
+                            label= {<span style={{fontSize:'15px',fontWeight:'semibold'}} >{'Start Date'}</span>}
+                            disabled={true}
                             defaultValue={state.start_date && moment(state.start_date, 'YYYY-MM-DD')}
                             placeholder="Start Date"
                             name="start_date"
                             required={!Colsure}
                             onChange={props.handleChange}
-                        />
+                        />}
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <FormDate
+                       {!endClosure?<FormDate
                         disabledDate={['true',starteDate]}
                          className="input-field"
                             value={props.endDateState ? props.endDateState : state.end_date && moment(state.end_date, 'YYYY-MM-DD')}
                             required={!Colsure}
-                            label={<span style={{fontSize:'16px',fontWeight:'semibold'}}>{'End Date'}</span>}
+                            label={<span style={{fontSize:'15px'}}>{'End Date'}</span>}
                             placeholder="End Date"
                             defaultValue={state.end_date && moment(state.end_date, 'YYYY-MM-DD')}
                             name="end_date"
                             onChange={props.handleChange}
                             disabled={Colsure}
-                        />
+                        />: <FormDate
+                            className="input-field"
+                            required={!Colsure}
+                            label={<span style={{fontSize:'15px'}}>{'End Date'}</span>}
+                            placeholder="End Date"
+                            name="enddate"
+                            disabled={true}
+                            onChange={props.handleChange}
+                        />}
                     </Col>
                 </Row>
                 </Panel>
                 </Collapse>
-                <Row >
-                <Col className="mt-3 mr_15" span={12} >
-                    <Form.Item label={<span  style={{fontSize:'16px',fontWeight:'bold'}}>{props.episode ? "Episode Type"  : "Visit Type" }</span> }
+
+                <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                    <Col md={12} lg={12} sm={24} xs={24}>
+                    <Form.Item label={<span  style={{fontSize:'15px'}}>{props.episode ? "Episode Type"  : "Visit Type" }</span> }
                         name={props.episode ? "complaint" : "type"}
                         rules={[{ required: Colsure, message: `Please Select a ${props.episode ? "Primary Complaint" : "Type"}` }]}>
                         <Select
-                         className="input-field"
+                         className="input-field w-100"
                             name={props.episode ? "complaint" : "type"}
                             placeholder="Type"
                             value={props.episode ? props.state.complaint : props.state.type}
@@ -359,14 +444,13 @@ const SchduleForm = (props) => {
                             <Select.Option value="Walk In">Walk In</Select.Option>
                         </Select>
                     </Form.Item>
-                </Col>
-
-                <Col className="mt-3" span={12}>
-                    <Form.Item label={<span style={{fontSize:'16px',fontWeight:'bold'}}>{'Operative Types'}</span>}
+                    </Col>
+                    <Col md={12} lg={12} sm={24} xs={24}>
+                    <Form.Item label={<span style={{fontSize:'15px'}}>{'Rehab Type'}</span>}
                         name="Operative_Types"
-                        rules={[{ required: Colsure, message: `Please Select Operative Types` }]}>
+                        rules={[{ required: Colsure, message: `Please Select Rehab Type` }]}>
                         <Select
-                         className="input-field"
+                     //    className="input-field"
                             name="Operative_Types"
                             placeholder="Operative Types"
                             value={props.state.Operative_Types}
@@ -376,17 +460,18 @@ const SchduleForm = (props) => {
                         >
                             <Select.Option value="Pre Op">Pre Op</Select.Option>
                             <Select.Option value="Post Op">Post Op</Select.Option>
-                            <Select.Option value="Presentive">Presentive</Select.Option>
+                            <Select.Option value="Preventive">Preventive</Select.Option>
+                            <Select.Option value="Non-Operative Type">Non-Operative Type</Select.Option>
+                            <Select.Option value="Others">Others</Select.Option>
                         </Select>
                     </Form.Item>
-                </Col>
-
+                    </Col>
                 </Row>
-                
-                <Row justify="space-between">
-                <Col className="mt-3 mr_15" span={12}>
-                    <FormTextArea label={<span style={{fontSize:'16px',fontWeight:'bold'}}>{'Patient History'}</span>}
-                        required={Colsure}
+
+                <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                    <Col md={24} lg={12} sm={24} xs={24}>
+                    <FormTextArea label={<span style={{fontSize:'15px'}}>{'Patient History'}</span>}
+                        //required={Colsure}
                         value={props.state.Patient_History}
                         className="input-field"
                         name="Patient_History"
@@ -394,9 +479,9 @@ const SchduleForm = (props) => {
                         placeholder="History"
                         disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
                     />
-                </Col>
-                <Col className="mt-3" span={12}>
-                    <FormTextArea label={<span style={{fontSize:'16px',fontWeight:'bold'}}> {'Closure Notes'}</span>}
+                    </Col>
+                    <Col md={24} lg={12} sm={24} xs={24}>
+                    <FormTextArea label={<span style={{fontSize:'15px'}}> {'Closure Notes'}</span>}
                         value={props.state.Patient_History}
                         name="Closure_Notes"
                         onChange={props.handleChange}
@@ -405,8 +490,9 @@ const SchduleForm = (props) => {
                         disabled={Colsure}
                         required={!Colsure}
                     />
-                </Col>
+                  </Col>
                 </Row>
+
                 <Col span={24}>
 
                 {/* <Dragger className="my-3 w-100" {...props} id="myPdf"
@@ -426,10 +512,20 @@ const SchduleForm = (props) => {
 
 
       {/* aswin 10/17/2021 start */}
+      {props.opacity1=='0'&& props.isupdating && <React.Fragment>
+      <span style={{fontSize:'16px',fontWeight:'bold'}}> {' Files '}(Tap to view)</span> <br/>
+        {state.files !== undefined && state.files.map(fil=>(
+    <React.Fragment style={{paddingTop:'10px'}} >
+  <a href={fil} target="_blank"  ><span  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',marginBottom:'5px'}}>{fil.slice(48)}</span>
+  </a> <br/>
+    </React.Fragment>
+
+             ))}
+        </React.Fragment>}
       {props.opacity1=='0'&& !props.isupdating || !Colsure ?
               <React.Fragment>
               <br/>
-             <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/>
+             <span style={{fontSize:'16px',fontWeight:'bold'}}> {' Files '}(Tap to view)</span> <br/>
              
               {/* {state.file.length>0&&state.file.map(fil=>(
                 <React.Fragment>
@@ -437,27 +533,31 @@ const SchduleForm = (props) => {
                 </a> <br/>
                   </React.Fragment> */}
 
-{state.file !== undefined ? state.file.map(fil=>(
-  <React.Fragment>
-  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
-  </a> <br/>
+{state.files !== undefined ? state.files.map(fil=>(
+  <React.Fragment style={{paddingTop:'10px'}} >
+    {/* <a href={fil} style={{paddingRight:'5px'}}>  <img src={fil} alt="Paris" style={{width:'150px'}} /> </a> */}
+  <a href={fil}  target="_blank" ><span  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',marginBottom:'5px'}}>{fil.slice(48)}</span>
+  </a>
+<br/>
     </React.Fragment>
-//)) : "no files"}
+
              )): "no files"}
              
               </React.Fragment>
               : 
+              <React.Fragment>
               <Dragger {...props} id="myPdf"
+              disabled={props.opacity1=='0' ? props.isupdating ? false : true : false  || !Colsure}
               listType="picture-card"
               accept="application/pdf,image/*,application/msword"
               multiple="true"
               customRequest={dummyRequest}
               // aswin 10/16/2021 start //
-              
+              onPreview={handlePreview}
               onChange={ async (e)=>{
                let files=[]
-               await  e.fileList.map(data=>files.push(data.originFileObj))
-               console.log(files)
+               await  e.fileList.forEach((data)=>{files.push(data.originFileObj)})
+             //  console.log("episode files ",files)
                props.handleChange('file',files)
               }}
              
@@ -467,30 +567,125 @@ const SchduleForm = (props) => {
               </p>
               <p className="ant-upload-text">Click or drag file to this area to upload</p>
             </Dragger> 
+            <Modal  
+             footer={[
+                <Button key="back" onClick={()=>setPreviewVisible(false)}>
+                  Done
+                </Button>
+             ]}
+                    closable={false}
+                    keyboard={false} centered width={1000} visible={previewVisible} onOk={()=>setPreviewVisible(false)}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+          {/* {state.file!==undefined&&state.file.map((fil)=>{<React.Fragment>
+  <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
+  </a> <br/>
+    </React.Fragment>})} */}
+            </React.Fragment>
               }
               {/* aswin 10/17/2021 start */}
                 </Col>
                 
 
-                <Form.Item className="text-end
+
+                {/* <Row gutter={[20,20]} style={{marginBottom:'15px'}}>
+                  <Col md={24} lg={12} sm={24} xs={24}> */}
+                    {/* <Dragger className="my-3 w-100" {...props} id="myPdf"
+                    listType="picture-card"
+                    accept="application/pdf,image/*,application/msword"
+                    multiple="true"
+                    customRequest={dummyRequest}
+                    onBlur={(value) => { props.handleChange("file", value.target.files) }} disabled={!Colsure} 
+                    onChange={(val) => { handleChange("TraumaFile", val.fileList); handleUploadTrauma(event) }}
+                    >
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    </Dragger>
+                    */}
+
+
+                    {/* aswin 10/17/2021 start */}
+                    {/* {props.opacity1=='0'&& !props.isupdating || !Colsure ?
+                    <React.Fragment>
+                    <br/>
+                    <span style={{fontSize:'16px',fontWeight:'bold'}}>{' Files '}</span> <br/> */}
+
+                    {/* {state.file.length>0&&state.file.map(fil=>(
+                    <React.Fragment>
+                    <a href={fil} target="_blank"><Button  className="me-2" style={{borderRadius:'10px',backgroundColor:'#f8f9fa',}}>{fil.slice(48)}</Button>
+                    </a> <br/>
+                      </React.Fragment> */}
+
+                    {/* {state.file !== undefined ? state.file.map(fil=>(
+                    <React.Fragment>
+                    <a href={fil}  target="_blank"><Button  className="me-2" style={{borderRadius:'10px', backgroundColor:'#f8f9fa'}}>{fil.slice(48)}</Button>
+                    </a> <br/>
+                    </React.Fragment>
+                    )): "no files"}
+
+                    </React.Fragment>
+                    : null */}
+                     {/* <Dragger {...props} id="myPdf" */}
+                    {/* // listType="picture-card"
+                    // accept="application/pdf,image/*,application/msword"
+                    // multiple="true"
+                    // customRequest={dummyRequest}
+                    // // aswin 10/16/2021 start //
+
+                    // onChange={ async (e)=>{
+                    // let files=[]
+                    // await  e.fileList.map(data=>files.push(data.originFileObj))
+                    // console.log(files)
+                    // props.handleChange('file',files)
+                    // }}
+
+                    // >
+                    // <p className="ant-upload-drag-icon">
+                    // <InboxOutlined />
+                    // </p>
+                    // <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                    // </Dragger>  */}
+                    
+                    {/* aswin 10/17/2021 start */}
+                    {/* </Col>
+                    <Col md={24} lg={12} sm={24} xs={24}>
+                      
+                  </Col>
+                </Row> */}
                 
                 
-                ">
-                  {/* Dipsikha start 23/10 */}
-                <Button  className="button1" id="bnid" style={{color:"white", marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button>
-                { console.log('opacity' + props.opacity1)}
+                
+                <Row className="text-center" justify="center" style={{marginBottom:'15px'}}>
+                <Button  className="button1" id="bnid" style={{color:"white",backgroundColor:'#2d7ecb'}} onClick={Cancel} ><b>Cancel</b></Button> 
                    {
-                     props.opacity1=='1' ?  <Button htmlType="submit" style={{ color: "white"} } className="button1" id="bnid" ><b>Submit</b></Button> : null
+                     props.opacity1=='1' &&  <Button htmlType="submit" style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } className="button1" id="bnid" ><b>Submit</b></Button> 
                      
                    } 
                    {
-                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> : <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color:"white" }}><b>Closure</b></Button> : null 
+                     props.opacity1=='0' ?  isclosuredisabled ? isclosuredisabled && props.isupdating ? null : <Button style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} } onClick={props.onSubmit} className="updateBtn" >Update</Button> : state.end_date.length>0?
+                     <Button  onClick={reOpen} className="button1" disabled={isclosuredisabled} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} }><b>Re-open</b></Button>:
+                     <Button onClick={closer} className="button1" disabled={isclosuredisabled} style={{ color: "white",marginLeft:"5px" ,backgroundColor:'#2d7ecb'} }><b>Closure</b></Button> : null 
                    }
                   
-                    {  props.opacity1=='0'  ? props.isupdating===true ?  <Button htmlType="submit" onSubmit={props.onSubmit} className="SchForm" >Update</Button> :<button htmlType="button" className="button1" id="bnid" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></button>  : null}
+                    {  props.opacity1=='0'  ? props.isupdating===true ? !endClosure?<Button className="updateBtn" style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={props.onSubmit} >Update</Button> : 
+                    <Button onClick={props.onSubmit} className="button1"  style={{ color:"white",marginLeft:"5px" }}><b>Conform Re-open</b></Button>:
+                    <Button className="button1"  style={{color:"white", marginLeft:"5px",justifyContent:'space-between'}} onClick={Setupdating1}><b>Edit</b></Button>  : null}
                    
-                </Form.Item>
+                </Row>
+                {/* <Row justify="center">
+                     <Col span={2}> <Button  className="button1" id="bnid" style={{color:"white",backgroundColor:'#2d7ecb', marginRight:"5px"}} onClick={Cancel} ><b>Cancel</b></Button> </Col>
+                     <Col span={2}>  <Button  
+                     //className="me-2  " 
+                     style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}  onClick={handleReset}>Reset</Button></Col>
+                     <Col span={2}> <Button type="primary"  
+                     //className="me-2 btncolor " 
+                     style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+                     htmlType="submit">Next</Button></Col>
+                </Row> */}
             </Form>
+           
         </>
     )
 }

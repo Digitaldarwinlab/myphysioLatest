@@ -40,7 +40,7 @@ const Exercise=()=>{
       
     
     const [exercise,Setexercise]=useState([Data.KPIs.Data])
-    console.log(exercise)
+    // console.log(exercise)
     const dates=exercise.map(user=>{
         return Object.keys(user)
 

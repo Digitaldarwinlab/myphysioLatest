@@ -11,7 +11,9 @@ import {
     PATIENT_REG_SUCCESS,
     PATIENT_REG_FAILURE,
     PATIENT_UPD_SUCCESS,
-    VALIDATION
+    VALIDATION,
+    BASIC_CLEARSTATE2,
+    BASIC_CLEARSTATE3
 } from "./../../actions/authAction";
 
 const signupInitialState = {
@@ -32,6 +34,7 @@ const loginInitialState = {
 
 const basicDetailsInitialState = {
     MiddleName: "",
+    Title:"",
     FirstName: "",
     LastName: "",
     MobileNo: "",
@@ -55,7 +58,9 @@ const basicDetailsInitialState = {
     FamilyHistory: "",
     isLoading: false,
     success: "",
-    pp_patm_id: ""
+    pp_patm_id: "",
+    pp_em_id:"",
+    is_enterprise:false,
 }
 
 const validationState = {
@@ -165,7 +170,26 @@ export const BasicDetails = (state = basicDetailsInitialState, action) => {
             return {
                 ...basicDetailsInitialState
             }
-
+        case BASIC_CLEARSTATE2:
+            return {
+                ...state,
+                Address: "",
+                pincode: "",
+                City: "",
+                State: "",
+                Country: "",
+                EmergencyContact: "",
+                Email: "",
+                Facebook: "",
+                LinkedIn: "",
+            }
+        case BASIC_CLEARSTATE3:
+            return {
+                ...state,
+                Allergies: "",
+                MedicalHistory: "",
+                FamilyHistory: "",
+            }    
         default:
             return state;
     }
@@ -183,7 +207,8 @@ export const Validation = (state = validationState, action) => {
         case "EPISODE_CHECK":
             return{
                 ...state,
-                episode_check:"failed"
+                episode_check:"failed",
+                msg:action.payload
             }    
         case "NOERROR":
             return {

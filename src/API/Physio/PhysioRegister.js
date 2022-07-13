@@ -1,11 +1,21 @@
 import { PHYSIO_REGISTER_REQUEST, PHYSIO_REGISTER_SUCCESS, PHYSIO_STATE_CHANGE, PHYSIO_UPDATE_SUCCESS } from "./../../contextStore/actions/physioRegAction";
 import fetch from "isomorphic-fetch";
+import {Encode, Decode} from "../../Encode/hashing"
+import { expertise } from "../../components/Physio/PhysioConstants";
 //@Register Physio 
 //@param Physio details
 //@return- Message.
 export const physioRegister = async (details, dispatch) => {
     const { email } = details;
     const tempData = { ...details };
+    if(tempData['isHeadPhysio']==true){
+        tempData['isHeadPhysio'] = 1
+    }else{
+        tempData['isHeadPhysio'] = 0
+    }
+    if(tempData['expertise_1'] == "Others"){
+        tempData['expertise_1'] = tempData["expertise_1_temp"]
+    }
     delete tempData["email"];
     delete tempData["isLoading"];
     delete tempData["success"];
@@ -34,14 +44,16 @@ export const physioRegister = async (details, dispatch) => {
     }
 
     dispatch({ type: PHYSIO_REGISTER_REQUEST });
+    const encodedData = Encode(physioData);
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/register_physio/", {
+        const response = await fetch(process.env.REACT_APP_API + "/register_physio_v1/", {
             credentials: 'same-origin',
             method: "POST",
             headers: headers,
-            body: JSON.stringify(physioData)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData);
         if (data && data.role) {
             dispatch({ type: PHYSIO_REGISTER_SUCCESS });
             return [true];
@@ -72,7 +84,11 @@ export const physioUpdate = async (details, dispatch) => {
     delete tempData["status_flag"];
     delete tempData["end_date"];
     tempData["start_date"] = new Date(tempData["start_date"]).toISOString();
-
+    if(tempData['isHeadPhysio']==true){
+        tempData['isHeadPhysio'] = 1
+    }else{
+        tempData['isHeadPhysio'] = 0
+    }
     if (tempData["regd_no_2"] === "") {
         delete tempData["regd_no_2"];
     }
@@ -124,19 +140,20 @@ export const searchPhysio = async (value) => {
             Accept: 'application/json',
             "Content-type": "application/json"
         }
-
-        const response = await fetch(process.env.REACT_APP_API + "/physio-filter/", {
+        const encodedData = Encode({ query: value });
+        const response = await fetch(process.env.REACT_APP_API + "/physio-filter_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ query: value })
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+        const data = Decode(responseData)
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }
@@ -148,24 +165,140 @@ export const getPhysioList = async () => {
             "Content-type": "application/json"
         }
         const id = JSON.parse(localStorage.getItem("userId"))
-
-        const response = await fetch(process.env.REACT_APP_API + "/get_physio/", {
+const encodedData = Encode({ id: id })
+        const response = await fetch(process.env.REACT_APP_API + "/get_physio_v1/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
+        const responseData = await response.json();
+   
+       const data = Decode(responseData);
+
         if (response.status !== 200 && response.status !== 201) {
             return [];
         }
         return data;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return [];
     }
 }
+
+//get single physio
+export const getPhysio = async (physio_id) => {
+    const headers = {
+        Accept: 'application/json',
+        "Content-type": "application/json"
+    }
+    try{
+        const response = await fetch(process.env.REACT_APP_API+"/get_single_physio/",{
+            headers:headers,
+            method:"POST",
+            body:JSON.stringify({id:physio_id})
+        });
+        const data = await response.json();
+        if(response.status === 200 || response.status === 201){
+                return data;
+        }else{
+             return [];
+        }
+    }catch(err){
+        // console.log(err,"From Get Assesment data");
+        return [];
+    }
+}
+
+//get-clinics 
+export const getClincList = async () => {
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const response = await fetch(process.env.REACT_APP_API + "/clinic_list_v1/", {
+            method: "GET",
+            headers: headers,
+        });
+        const responseData = await response.json();
+   
+       const data = Decode(responseData);
+
+        if (response.status !== 200 && response.status !== 201) {
+            return [];
+        }
+        return data;
+    } catch (err) {
+        // console.log(err);
+        return [];
+    }
+}
+//search clinic
+export const searchClinic = async (value) => {
+    let qr = {
+        query : value
+    }
+    try {
+        const headers = {
+            Accept: 'application/json',
+            "Content-type": "application/json"
+        }
+        const encodedData = Encode(qr)
+        const response = await fetch(process.env.REACT_APP_API + "/search_clinic_v1/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(encodedData)
+        });
+        const responseData = await response.json();
+   
+       const data = Decode(responseData);
+
+        if (response.status !== 200 && response.status !== 201) {
+            return [];
+        }
+        return data;
+    } catch (err) {
+        // console.log(err);
+        return [];
+    }
+}
+
+
+
 //Update State of Patient 
 export const UpdatePhysioState = (val, dispatch) => {
+    console.log("physio fdetails ",val)
+    if(!expertise.includes(val.expertise_1)){
+        dispatch({
+            type: PHYSIO_STATE_CHANGE,
+            payload: {
+                key: "expertise_1",
+                value: "Others"
+            }
+        })
+        dispatch({
+            type: PHYSIO_STATE_CHANGE,
+            payload: {
+                key: "expertise_1_temp",
+                value: val.expertise_1
+            }
+        })
+    }
+    //isHeadPhysio
+    dispatch({
+        type: PHYSIO_STATE_CHANGE,
+        payload: {
+            key: "isHeadPhysio",
+            value: val.isHeadPhysio
+        }
+    })
+    dispatch({
+        type: PHYSIO_STATE_CHANGE,
+        payload: {
+            key: "clinic",
+            value: val.clinic
+        }
+    })
     dispatch({
         type: PHYSIO_STATE_CHANGE,
         payload: {
@@ -300,27 +433,27 @@ export const UpdatePhysioState = (val, dispatch) => {
             value: val.degree ? val.degree : ""
         }
     })
-    dispatch({
-        type: PHYSIO_STATE_CHANGE,
-        payload: {
-            key: "expertise_1",
-            value: val.expertise_1 ? val.expertise_1 : ""
-        }
-    })
-    dispatch({
-        type: PHYSIO_STATE_CHANGE,
-        payload: {
-            key: "expertise_2",
-            value: val.expertise_2 ? val.expertise_2 : ""
-        }
-    })
-    dispatch({
-        type: PHYSIO_STATE_CHANGE,
-        payload: {
-            key: "expertise_3",
-            value: val.expertise_3 ? val.expertise_3 : ""
-        }
-    })
+    // dispatch({
+    //     type: PHYSIO_STATE_CHANGE,
+    //     payload: {
+    //         key: "expertise_1",
+    //         value: val.expertise_1 ? val.expertise_1 : ""
+    //     }
+    // })
+    // dispatch({
+    //     type: PHYSIO_STATE_CHANGE,
+    //     payload: {
+    //         key: "expertise_2",
+    //         value: val.expertise_2 ? val.expertise_2 : ""
+    //     }
+    // })
+    // dispatch({
+    //     type: PHYSIO_STATE_CHANGE,
+    //     payload: {
+    //         key: "expertise_3",
+    //         value: val.expertise_3 ? val.expertise_3 : ""
+    //     }
+    // })
     dispatch({
         type: PHYSIO_STATE_CHANGE,
         payload: {

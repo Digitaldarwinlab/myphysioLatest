@@ -29,7 +29,7 @@ const GenerateRecurrenceEvents = (recrule,date) => {
   const rule = new RRule.fromString(
     "DTSTART;TZID=Asia/Kolkata:" + date + "\n"+ "RRULE:" + recrule
   ).all();
-  console.log(rule);
+  // console.log(rule);
   return rule;
 };
 

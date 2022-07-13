@@ -1,0 +1,140 @@
+/* *, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+   */
+  .containerr{
+      width:100%;
+      border: 1px solid black;
+      padding: 0;
+      
+  }
+  .bloc-tabss {
+    display: flex;
+    width: 100%;
+  }
+  .tabss {
+  
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    background: rgba(128, 128, 128, 0.075);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+    box-sizing: content-box;
+    position: relative;
+    outline: none;
+  }
+  .tabss:not(:last-child){
+    border-right: 1px solid rgba(0, 0, 0, 0.274);
+  }
+  
+  .active-tabss  {
+    background: white;
+    border: 1px solid transparent;
+    background: rgb(88, 147, 241) !important;
+    color: white;
+  }
+  
+  .active-tabss::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% + 2px);
+    height: 5px;
+    /* background: rgb(88, 147, 241); */
+  }
+  
+  
+  
+  button {
+    border: none;
+    
+  }
+  .content-tabss {
+    flex-grow : 1;
+  }
+  .contentt {
+    background: white;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+  .contentt h2 {
+    padding: 0px 0 5px 0px;
+  }
+  .contentt hr {
+    width: 100%;
+    height: 1px;
+    background: #222;
+    margin-bottom: 5px;
+  }
+  .contentt p {
+    width: 100%;
+    height: 100%;
+  }
+  .active-contentt {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+  .ant-switch {
+    border-radius: 100px !important;
+    }
+    img.pose_mobile_view_row_img{
+      margin:0 !important;
+      width:100% !important;
+    }
+    @media only screen and (max-width: 650px) {
+      .pose_mobile_view{
+        display: block !important ;
+      } 
+      .pose_mobile_view_row{
+        display: 'inline' !important ;
+       }
+       
+      th{
+        border: 0;
+        margin: 0;
+        padding:0 0 8px 0;
+      }
+      .pose_large_view{
+        display: none !important ;
+        }
+        .pose_mobile_view_details{
+          display: none !important ;
+        }
+        
+        .ant-col{
+       
+          padding:0 ;
+        }
+        .col-md-9{
+         
+          padding:10px 0 10px 10px !important;
+        }
+        .Ad_vid{
+          border: 20px solid #111;
+          margin-top: 8px;
+          height:480px;
+        }
+        .pose_note_input{
+          
+          margin-top:50px;
+        }
+        .pose_check_div{
+          border-left:0 !important;
+        }
+        .pose_mobile_view_row_video_screen{
+          display:block !important
+        }
+        img.pose_mobile_view_row_img{
+          margin:0 !important;
+          width:102% !important;
+        }
+    }

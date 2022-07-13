@@ -2,7 +2,7 @@ import { Form,DatePicker} from 'antd';
 import moment from "moment";
 const { MonthPicker, RangePicker } = DatePicker;
 
-const FormDate = (props) => { 
+const  FormDate = (props) => { 
     function disabledDate(current) {
         //  console.log(props.disabledDate[1])
         if(props.disabledDate[0]=='true')

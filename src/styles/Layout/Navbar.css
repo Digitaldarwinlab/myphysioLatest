@@ -1,7 +1,7 @@
 .navigationMenu{
     position: absolute;
     bottom: 10px;
-    right:30px;
+    right:40px;
 }
 .navbar-toggler-main{
     display: none;
@@ -11,6 +11,16 @@
     height:50px;
     border-right: none;
 }
+.navbar-brand{
+    position: absolute;
+    left: 50px;
+}
+.navbar-brand img{
+    margin-right: 0.5rem;
+    max-height: 30px;
+    border: none;
+    outline: none;
+}
 nav{
     display: flex;
     flex-direction: row;
@@ -18,6 +28,7 @@ nav{
 }
 .navigationBar{
     background-color:#013053;
+    /* height: 50px; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -49,7 +60,7 @@ nav{
     cursor: pointer!important;
 }
 .active{
-    background-color:#1ABC9C !important;
+    background-color:#0559a9 !important;
     color:white !important;
     border:none;
 }
@@ -64,6 +75,17 @@ nav{
     padding-right:0px !important;
     padding-left:0px !important;
 }
+@media only screen and (max-width:991px) {
+	.ham_one{
+		 display: none !important ;
+	}
+    .navbar-brand{
+        position: relative;
+    left: 5px;
+    }
+}
+
+
 @media only screen and (min-width:992px){
     .dropDownMenu{
         position: absolute !important;
@@ -149,4 +171,7 @@ nav{
 
 .menuItem:hover{
     background: none !important;
+}
+.white-backgorund{
+    background-color:#fff ;
 }

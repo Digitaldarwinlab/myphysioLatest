@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import svg from "./../../assets/step3.png";
 import StepBar from './../UtilityComponents/StepBar';
 import { physioRegister, physioUpdate } from './../../API/Physio/PhysioRegister';
-import { Typography, Row, Modal, Button, Col, Form, Table } from 'antd';
+import { Typography, Row, Modal, Button, Col, Form, Table ,Space } from 'antd';
 import FormInput from './../UI/antInputs/FormInput';
 import Error from './../UtilityComponents/ErrorHandler';
 import FormDate from './../UI/antInputs/FormDate';
@@ -29,13 +29,24 @@ const PhysioRegisteration3 = (props) => {
     const state = useSelector(state => state);
     const dispatch = useDispatch();
     const [form] = Form.useForm();
+    //cityclinic2
+    const findClinicName = (id) => {
+        let res 
+        state.clinicReg.clinics.map(clinic=>{
+            if(clinic.pp_cm_id==id){
+                console.log("clinic name is ",clinic.name)
+                res = clinic.name
+            }
+        })
+        return res
+    }
     const showModal = (e) => {
         e.preventDefault();
         let tempData = [];
         let keys = Object.keys(state.physioRegisterReducer);
         let index = 0;
         keys.forEach(key => {
-            if (!(["end_date", "status_flag", "roleid", "isLoading", "success", "id"].includes(key))) {
+            if (!(["end_date", "status_flag", "roleid", "isLoading", "success", "id","expertise_1_temp"].includes(key))) {
                 if (key === "start_date") {
                     tempData.push({
                         key: index,
@@ -48,6 +59,27 @@ const PhysioRegisteration3 = (props) => {
                         key: index,
                         Field: "Doctor Type",
                         Value: state.physioRegisterReducer.Doctor_type === 1 ? "Treating Doctor" : state.physioRegisterReducer.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
+                    });
+                    index += 1;
+                }else if (key ==="isHeadPhysio"){
+                    tempData.push({
+                        key: index,
+                        Field: "Head Physio",
+                        Value: state.physioRegisterReducer.isHeadPhysio?"Yes":"No"
+                    });
+                    index += 1;
+                }else if (key ==="expertise_1"){
+                    tempData.push({
+                        key: index,
+                        Field: "Expertise 1",
+                        Value: state.physioRegisterReducer.expertise_1==="Others"?state.physioRegisterReducer.expertise_1_temp:state.physioRegisterReducer.expertise_1
+                    });
+                    index += 1;
+                }else if (key ==="clinic"){
+                    tempData.push({
+                        key: index,
+                        Field: "Clinic",
+                        Value: findClinicName(state.physioRegisterReducer.clinic)
                     });
                     index += 1;
                 } else if (state.physioRegisterReducer[key] !== null && state.physioRegisterReducer[key] !== "NULL" && (state.physioRegisterReducer[key] !== "")) {
@@ -102,16 +134,17 @@ const PhysioRegisteration3 = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsModalVisible(false);
-        const checkError = state.Validation.error;
-        if (checkError) {
-            alert("check the fields")
-        } else {
+        // const checkError = state.Validation.error;
+        // if (checkError) {
+        //     alert("check the fields")
+        // } else {
             let result;
             if (!state.physioRegisterReducer.id) {
                 result = await physioRegister(state.physioRegisterReducer, dispatch);
             } else {
                 result = await physioUpdate(state.physioRegisterReducer, dispatch);
             }
+         //   history.push("/physio/list")
             if (result && result[0]) {
                 window.location.href = "/physio/list";
             } else {
@@ -121,7 +154,7 @@ const PhysioRegisteration3 = (props) => {
                     dispatch({ type: VALIDATION, payload: { error: "" } });
                 }, 10000);
             }
-        }
+      //  }
     }
 
     const handleReset = () => {
@@ -148,20 +181,20 @@ const PhysioRegisteration3 = (props) => {
             <div style={{ minHeight: "20px" }}></div>
             <Title level={3} className="">Physiotherapist</Title>
             <StepBar src={svg} />
-            <Title level={3} className="border mb-0 p-2">Other Information</Title>
+            <Title level={4} className="border mb-0 p-2">Other Information</Title>
             <Form layout="vertical">
                 <div className="border p-4 mb-4">
                     {state.Validation.error && (<Error error={state.Validation.error} />)}
                     {state.physioRegisterReducer.isLoading && <Loading />}
                     {state.physioRegisterReducer.success && <Success success={state.physioRegisterReducer.success} />}
-                    <Row gutter={[20, 20]}>
+                    <Row gutter={[20, 20]} style={{marginBottom:'15px'}}>
                         <Col md={24} lg={8} sm={24} xs={24}>
                             <FormDate name="start_date"
                                 className="input-field w-100"
                                 value={start}
                                 type="date" label="Start Date" placeholder="Start Date"
                                 onChange={handleChange}
-                                required="true"
+                                required={false}
                                 disabledDate={true}
                                 disabled={false}
                                 defaultValue={state.physioRegisterReducer.start_date ? moment(state.physioRegisterReducer.start_date, "YYYY-MM-DD") : moment(new Date(), "YYYY-MM-DD")}
@@ -193,16 +226,16 @@ const PhysioRegisteration3 = (props) => {
             </Form>
 
 
-            <div className="m-3 text-end">
+            <div className="m-3 text-center">
                 {/* <Button  className="my-3 me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button>
                 <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} onClick={handleReset}>
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}
                 </Button> */}
                  {/* aswin 10/15/2021 start (button disabled) */}
                 <Button  htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={Back}>Back</Button>    
-                <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} disabled onClick={handleReset}>
+                {/* <Button htmlType="reset" className=" me-2" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}} disabled onClick={handleReset}>
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}
-                </Button>
+                </Button> */}
                 {/* aswin 10/15/2021 end */}
                 <Button onClick={showModal} className=" me-3 btncolor" >
                     {state.physioRegisterReducer.id ? "Update" : "Submit"}

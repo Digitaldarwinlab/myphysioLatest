@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Spin } from 'antd';
+import { Row, Col, Button, Spin , Space } from 'antd';
 import { useSelector, useDispatch } from "react-redux";
 import AddButton from './../AddButton';
 import Loading from './../../UtilityComponents/Loading';
@@ -57,8 +57,8 @@ const Episodes = ({ handleClick2 }) => {
         });
         // eslint-disable-next-line
     }, [state.patient_code]);
-    console.log('episode iss')
-    console.log(episodeData)
+    // console.log('episode iss')
+    // console.log(episodeData)
     const Assesment = (id, complaint, Sdate) => {
         dispatch({
             type: STATECHANGE,
@@ -97,8 +97,8 @@ const Episodes = ({ handleClick2 }) => {
         const data = await getEpisode(state.patient_code)
         let newData = data[0]
         newData.treating_doc_details = JSON.parse(newData.treating_doc_details);
-        console.log('new Data')
-        console.log(data)
+        // console.log('new Data')
+        // console.log(data)
         dispatch({
             type: EPISODE_STATECHANGE,
             payload: {
@@ -154,7 +154,7 @@ const Episodes = ({ handleClick2 }) => {
   dispatch({
     type: EPISODE_STATECHANGE,
     payload: {
-        key: 'file',
+        key: 'files',
         value: newData.files,
     }
 })
@@ -209,19 +209,19 @@ const Episodes = ({ handleClick2 }) => {
     const EpisodeList = () => {
         return (
             <React.Fragment>
-
-                <Col span={24}>
-                    <Row>
-                        <Col lg={18} md={18} sm={18} xs={24}>
+                
+                <Col span={24} className="mb-3">
+                    <Row justify="space-between">
+                        <Col lg={18} md={18} sm={15} xs={15}>
                             <h4 className="fw-bold">All Episodes</h4>
                         </Col>
-                        <Col lg={6} md={6} sm={6} xs={24} className="text-end">
+                        <Col lg={6} md={6} sm={5} xs={5} className="text-end">
                             <AddButton className="addCourse" onClick={handleClick2} />
                         </Col>
                     </Row>
                 </Col>
                 <Col span={24}>
-                    {loading && <div className="text-center"><Spin tip="Fething Episodes" size="large"></Spin></div>}
+                    {loading && <div className="text-center"><Spin tip="Fetching Episodes" size="large"></Spin></div>}
                     {episodeData.length === 0 && !loading && <p className="fw-bold">No Episodes are Added..</p>}
                     {episodeData.length !== 0 && !loading && episodeData.map((episode, index) => {
                         return (
@@ -239,11 +239,23 @@ const Episodes = ({ handleClick2 }) => {
                                    <p className="p"><b> Start Date </b>: {episode.start_date}</p>
                                     <p className="p"><b> Operative Types:</b> {episode.Operative_Types}</p>
                                     { episode.end_date ? <p><b>End Date : </b>  {episode.end_date} </p> : null}
-                                                                <div className="text-end me-5">
-                                                                    {/* Dipsikha 23/10 */}
+                                    {/* <div className="text-center me-5">
+                                                                  
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
-                                    </div>
+                                    </div> */}
+                                      <Row justify="center">
+                                      <Col span={8}>   
+                                      <Space size="middle">
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
+                     </Space>
+                     </Col>
+                     {/* <Col span={2}>  
+                     </Col>
+                     <Col span={2}>  
+                     </Col> */}
+                </Row>
                                 </div>
                             </div>)
                     })}

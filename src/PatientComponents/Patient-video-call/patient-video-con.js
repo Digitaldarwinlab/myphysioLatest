@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Button, Modal, Space } from 'antd';
 import "../../styles/Layout/VideoCon.css"
-
-
+import Draggable from 'react-draggable';
+import './patient-video-call.css'
 var channel=""
 var uid=""
 var pid=""
@@ -13,7 +13,7 @@ const PatientVideoCallIndex = (props) => {
   const state = useSelector(state => state);
   const [modalVisible, setModalvisible] = useState(false)
   const [videoUrl,setVideoURL]=useState("")
-
+  const nodeRef = useRef(null)
 
   useEffect(() => {
     $("#mic-btn").prop("disabled", true);
@@ -21,7 +21,7 @@ const PatientVideoCallIndex = (props) => {
     $("#screen-share-btn").prop("disabled", true);
     $("#exit-btn").prop("disabled", true);
     setModalvisible(true)
-    const arr=props.match.params.channel.split("-")
+    const arr=props.match.params.channel.split("_")
     channel=arr[0]
     uid=arr[2]
     pid=arr[1]
@@ -45,10 +45,13 @@ const PatientVideoCallIndex = (props) => {
 
   const joinChannel = async() => {
     let streamCanvas = document.getElementById("scanvas");
-    var agoraAppId = "f31ea0f88fcf4974a349448e69d35c1d"
+    var agoraAppId = "616487fe8ede4785aa8f7e322efdbe7d"
     var channelName = $("#form-channel").val();
     var uid = parseInt($("#form-uid").val());
-    const res = await fetch(`https://myphysio.digitaldarwin.in/rtc/${channelName}/subscriber/uid/${uid}`);
+    // const data = await res.json();
+    // var token = data.rtcToken
+  //  const res = await fetch(`localhost:3000/rtc/${channelName}/subscriber/uid/${uid}`);
+    const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channelName}/subscriber/uid/${uid}`);
     const data = await res.json();
     var token = data.rtcToken
     setModalvisible(false)
@@ -63,100 +66,117 @@ const PatientVideoCallIndex = (props) => {
   }
 
   const Exit=()=>{
-    console.log("so sad to see you leave the channel");
+    // console.log("so sad to see you leave the channel");
     leaveChannel();
-    setModalvisible(true)
+    // setModalvisible(true)
+    handleCancel();
   }
 
   return (
 
     <React.Fragment>
-
-      {/* <Row gutter={[20,20]}>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <MyPhysioLogo text="text-white" />
-                    </Col>
-                    <Col lg={12} md={12} sm={12} xs={12}>
-                        <p className="p text-white fw-bold">| pqt-qxy-rty |</p>
-                    </Col>
-                </Row> */}
-      <div class="container-fluid p-0">
-        <div id="main-container">
-          <div id="buttons-container" class="row fixed-bottom justify-content-center mt-3 mb-1">
-            <div class="col-md-2 text-center">
-              {/* <Button id="mic-btn" className="btn-dark">
-                <i id="mic-icon" class="fas fa-microphone"></i>
-              </Button> */}
+       <Row gutter={[16,16]} style={{margin:'20px' , marginTop:'20px', marginBottom:'20px'}}>
+       <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+       <Row gutter={[16,16]} style={{justifyContent:'center'}}>
+       <Col className="local_video_small" style={{width:'640px',height:'380px' ,paddingLeft:'0px',paddingRight:'0px'}}>
+       <div id="local-stream-container" >
+              <div id="no-local-video" class="col text-center">
+                <i id="user-icon" class="fas fa-user"></i>
+              </div>
+              <div id="local-video" style={{width: "100%",height: "370px",  position: "absolute", transform:"scaleX(-1)"}} class="col p-0">
+              <canvas style={{width: "100%",height:'100%',  position: "absolute"}} class="col p-0" id="scanvas"></canvas>
+              <div id="mute-overlay">
+                <i id="mic-icon" class="fas fa-microphone-slash"></i>
+              </div>
+              <div id="remote-streams" class="row"></div>
+              </div>
+            </div>
+        </Col>
+        <Col className="sticky_button_grp " span={24} style={{justifyContent:'center',display:'flex' }}>
+        <Space size="small">
               <button
                 id="mic-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
-                <i id="mic-icon" class="fas fa-microphone"></i>
+                <i id="v_mic-icon" class="fas fa-microphone"></i>
               </button>
-            </div>
-            <div class="col-md-2 text-center">
               <button
                 id="video-btn"
                 type="button"
-                class="btn btn-block btn-dark btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
               >
                 <i id="video-icon" class="fas fa-video"></i>
               </button>
-            </div>
-            <div id="screen-share-btn-container" class="col-md-2 text-center">
-            <button 
+              <button 
             type="button" 
             id="screen-share-btn" 
-            class="btn btn-block btn-dark btn-lg"
+            class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
             </button>
-            </div>
-            <div class="col-md-2 text-center">
-              <button
+            <button
                 id="exit-btn"
                 type="button"
-                class="btn btn-block btn-red btn-lg"
+                class="btn video_con_bttn btn-block btn-dark btn-lg"
                 onClick={Exit}
               >
                 <i id="exit-icon" class="fas fa-phone-slash"></i>
               </button>
-            </div>
-          </div>
+          </Space>
+        </Col>
+       </Row>
+       </Col>
+       <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+       <Row>
+       <Draggable ref={nodeRef} scale={2}> 
+       <Col style={{width:'640px',height:'150px'}} span={24}>
+       <div  ref={nodeRef} id="full-screen-video" style={{
+              position:"absolute",
+              height:"100%",
+              width:'100%',
+              zIndex:1}}
+            ></div>
+      </Col>
+              </Draggable> 
+        </Row>
+       </Col>
+      </Row>
+      {/* <div class="container-fluid p-0">
+         
           <div id="local-stream-container" class="col-10 mt-3 ml-1">
               
               <div id="no-local-video" class="col text-center">
                 <i id="user-icon" class="fas fa-user"></i>
               </div>
               <div id="local-video" style={{width: "77vw",height: "80vh",  position: "absolute", transform:"scaleX(-1)"}} class="col p-0">
+              <canvas style={{width: "70vw",height:'70vh',  position: "absolute"}} class="col p-0" id="scanvas"></canvas>
               <div id="mute-overlay">
                 <i id="mic-icon" class="fas fa-microphone-slash"></i>
               </div>
               </div>
             </div>
-          <div id="lower-video-bar" class="row mb-1">
+          <div id="lower-video-bar" 
+          //style={{position:'absolute'}}
+          class="row mb-1">
             <div id="remote-streams-container" class="container col-9 ml-1">
               <div id="remote-streams" class="row">
               </div>
             </div>
-            <div id="full-screen-video" style={{
+            {/* <Draggable ref={nodeRef} scale={2}> 
+            <div  ref={nodeRef} id="full-screen-video" style={{
               position:"absolute",
-              height:"20vh",
-              width:"100%",
-              marginLeft:1170,
+              height:"150px",
+              width:'150',
+              maxWidth:"150px",
               zIndex:1}}
-            class="col-3 mr-4 p-0"></div>
+            class="d-flex flex-row-reverse offset-md-10 col-md-3 mr-4 p-0"></div>
 
-          </div>
-          <div id="video-block" style={{display:"none"}} > 
-          <div class="d-flex flex-row-reverse mt-4">
-          <video id="video-screen" src={'https://myphysio.digitaldarwin.in/'+videoUrl} autoPlay controls loop className="videoScreenCon" />
-          </div>
+           </Draggable> 
           </div>
 
-        </div>
-      </div>
+       
+      </div> */}
       <Modal
       onCancel={handleCancel}
         visible={modalVisible}
@@ -181,6 +201,7 @@ const PatientVideoCallIndex = (props) => {
           class="form-control"
           defaultValue={uid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">UID</label>
 
@@ -190,10 +211,10 @@ const PatientVideoCallIndex = (props) => {
           class="form-control"
           defaultValue={pid}
           data-decimals="0"
+          disabled
         />
         <label for="form-uid">Peer ID</label>
       </Modal>
-      <canvas hidden id="scanvas"></canvas>
       {/* <canvas ref={canvasRef} width="1310" height="550"></canvas> */}
     </React.Fragment>
   )

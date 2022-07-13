@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {Form, Button, Radio } from 'antd';
-import {Typography, Row, Col, Spin, Input, Modal, Pagination, Table } from "antd";
+import {Typography, Row, Col, Spin, Input, Modal, Pagination, Table ,Space} from "antd";
 import { searchPhysio, UpdatePhysioState } from "../../../API/Physio/PhysioRegister";
 import { NavLink } from 'react-router-dom'
 import { HiUserAdd } from "react-icons/hi"
@@ -9,7 +9,7 @@ import { BsFillEyeFill } from "react-icons/bs";
 import { getPhysioList } from './../../../API/Physio/PhysioRegister';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { forgotPassword } from "../../../API/userAuth/userAuth";
+import { forgotPassword, getUserData } from "../../../API/userAuth/userAuth";
 import { admin_password_reset } from "../../../API/userAuth/userAuth";
 import FormPassword from "../../UI/antInputs/FormPassword";
 import Success from "../../UtilityComponents/SuccessHandler";
@@ -20,7 +20,8 @@ import {MdEmail} from 'react-icons/md'
 import {MailOutlined } from '@ant-design/icons'
 import {FaUserNurse} from 'react-icons/fa'
 import {BsSearch} from 'react-icons/bs'
-import '../../../styles/Layout/Heading.css'
+import '../../../styles/Layout/Heading.css';
+import {getClinicDetails} from "../../../API/Physio/ClinicRegister"
 //let keyMapping
 export let keyMapping = {
     first_name: "First Name",
@@ -45,7 +46,14 @@ export let keyMapping = {
     expertise_2: "Expertise 2",
     expertise_3: "Expertise 3",
     start_date: "Start Date",
-    gender: "Gender"
+    gender: "Gender",
+    clinic: "Clinic",
+    uid:'User id',
+    clinic_code : 'Clinic Code',
+    zip:'Zip',
+    estab_date : 'Establishment Date',
+    landline_no : 'Landline',
+    website_url : 'Website'
 };
 const { Search } = Input;
 const PhysioList = () => {
@@ -73,15 +81,26 @@ const PhysioList = () => {
         pageSize: 10
     });
 
+
+    useEffect(async() => {
+const data = getClinicDetails(10);
+console.log(data);
+    },[])
+
     useEffect(() => {
         async function getPhysioData() {
             setLoading(true);
-            const data = await getPhysioList();
+            let data = await getPhysioList();
             setLoading(false);
-            setPhysios(data);
+            let dataArray=[]
+            for(const datas of data){
+                datas.full_name = `Dr. ${datas.full_name}`
+                dataArray.push(datas)
+            }
+            setPhysios(dataArray);
             setPaginationState({
                 ...paginationState,
-                totalPage: data.length / paginationState.pageSize,
+                totalPage: dataArray.length / paginationState.pageSize,
                 minIndex: 0,
                 maxIndex: paginationState.pageSize,
             })
@@ -89,9 +108,8 @@ const PhysioList = () => {
         getPhysioData();
  
     }, []);
-
     useEffect(()=>{
-        console.log(visible+' visible')
+        // console.log(visible+' visible')
     },[visible])
   
     //Search Result
@@ -99,22 +117,28 @@ const PhysioList = () => {
         let val=e.target.value
         setLoading(true);
         const searchedData = await searchPhysio(val);
-        setPhysios(searchedData);
+        let dataArray=[]
+            for(const datas of searchedData){
+                datas.full_name = `Dr. ${datas.full_name}`
+                dataArray.push(datas)
+            }
+        setPhysios(dataArray);
         setLoading(false);
         setPaginationState({
             ...paginationState,
-            totalPage: searchedData.length / paginationState.pageSize,
+            totalPage: dataArray.length / paginationState.pageSize,
             minIndex: 0,
             maxIndex: paginationState.pageSize,
         })
     }
     //View
     const handleView = (val) => {
+        console.log(val)
         let tempData = [];
         let keys = Object.keys(val);
         let index = 0;
         keys.forEach(key => {
-            if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id"].includes(key))) {
+            if (!(["end_date", "status_flag", "roleId", "isLoading", "success", "pp_pm_id" ,"full_name"].includes(key))) {
                 if (key === "start_date") {
                     tempData.push({
                         key: index,
@@ -129,7 +153,14 @@ const PhysioList = () => {
                         Value: val.Doctor_type === 1 ? "Treating Doctor" : val.Doctor_type === 2 ? "Referring Doctor" : "Both (Treating And Referring Doctor)"
                     });
                     index += 1;
-                } else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
+                }else if (key ==="isHeadPhysio"){
+                    tempData.push({
+                        key: index,
+                        Field: "Head Physio",
+                        Value: val.isHeadPhysio?"Yes":"No"
+                    });
+                    index += 1;
+                }else if (val[key] !== null && val[key] !== "NULL" && (val[key] !== "")) {
                     tempData.push({
                         key: index,
                         Field: keyMapping[key],
@@ -139,8 +170,9 @@ const PhysioList = () => {
                 }
             }
         });
+        console.log(tempData)
         setData(tempData);
-       console.log(val)
+       // console.log(val)
         setVisible(true);
     }
     // Edit
@@ -150,11 +182,11 @@ const PhysioList = () => {
     if(confirm)
     {
         Setbuttondiable(true)
-          console.log(uid)
+          // console.log(uid)
         const result = await forgotPassword(uid);
         setLoading(false);
         if (result && result[0]) {
-            console.log("An email has been sent on your registered mail-Id for further process.");
+            // console.log("An email has been sent on your registered mail-Id for further process.");
             setSuccess('"An email has been sent on the registered mail-Id."')
           
             setTimeout(()=>{
@@ -226,14 +258,17 @@ const PhysioList = () => {
         else {
             let result = await admin_password_reset({userid ,temp_uid, new_password });
             setLoading(false);
-            console.log(result)
+            // console.log(result)
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
+                setTimeout(() => {
+                    Setpasswordmodal(false)
+                }, 1500);
                 try{
                     form.resetFields()
                 }
                 catch{
-                    console.log('not resetting')
+                    // console.log('not resetting')
                 }
                 Settemp_uid(0)
                           
@@ -241,7 +276,7 @@ const PhysioList = () => {
                 
             } else {
                 setError(result[1]);
-                console.log(result[1])
+                // console.log(result[1])
                 setTimeout(() => {
                     setError("");
                 }, 3000);
@@ -290,13 +325,14 @@ const PhysioList = () => {
                         onChange={(key, value, id) => setConfirmPassword(value)}
                         required={true}
                     />
-                    <Form.Item>
-                        <center>
-                        <Button type="primary"  htmlType="submit" className="userAuthbtn">
+                    <center>
+                        <Button type="primary" htmlType="submit" size='large'
+                        style={{margin:'10px'}}
+                        //className="userAuthFRGTbtn"
+                        >
                             Change Password
                         </Button>
                         </center>
-                    </Form.Item>
                 </Form>   
     </Modal>
         )
@@ -337,87 +373,91 @@ const PhysioList = () => {
             maxIndex: page * (pageSize)
         })
     }
-   
+    let locale = {
+        emptyText: 'No Physio Found',
+      };
     // 
+   // let columns = ["Physio Code", "Given Name", "Mobile No", "Actions"]
+    const columns = [
+        {
+          title: "Name",
+          dataIndex: "full_name",
+          fixed: 'left',
+          width: "20%",
+         
+        },
+        {
+          title: "Physio Code",
+          dataIndex: "pp_pm_id",
+          width: "20%",
+         
+        },
+        {
+          title: "Mobile No",
+          dataIndex: "mobile_no",
+          width: "20%",
+         
+        },
+        {
+          title: "Actions",
+          dataIndex: "address",
+          fixed:'right',
+          width: "20%",
+          render: (text, record) => (
+            <Space size="middle">
+               <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+              <BiEdit onClick={() => handleEdit(record)} size={20} />
+              <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+            </Space>
+          )
+        }
+      ];
     //Rendered Part
     return (
-        <>
-            <div style={{ minHeight: "20px" }}></div>
-            <div className="top-bar" id="top-bar">
-                <div>
-                <h1 className="page-heading" id="page-heading" ><i className="fas fa-user-md" /><b> Physiotherapist</b></h1>
-                </div>
-                <div>
         
-                <NavLink  title="Add Physio" to="/physio/register" className="text-blue navlink" id="navlink">
-                <i  className="fas fa-user-md"  />  New Physio 
-                </NavLink>
-            </div>
-
-            </div>
-            
-            <BsSearch style={{position:'relative',top:'0px',left:'10px',zIndex:'2'}} />
-            <input
-                type="search"
-                               
-                className="px-4 py-2 input-field my-3"
-                style={{width:'40%',right:'15px',position:"relative"}}
-                placeholder="Seacrh Physio.."
-                onChange={onSearch}
-                
-                loading={loading}
-                
-            />
-            <Row className="bg-search text-center" justify="space-around">
-                {["Physio Code", "Given Name", "Mobile No", "Actions"].map((val, key) => {
-                    return (
-                        <Col lg={key === 4 ? 4 : 5} md={key === 4 ? 4 : 5} sm={key === 4 ? 4 : 5} xs={key === 4 ? 4 : 5} key={key} className="p-2">
-                            <h5>{val}</h5>
-                        </Col>
-                    )
-                })}
+        <>
+             <div style={{ minHeight: "20px" }}></div>
+            <Row justify='space-between'>          
+       <Col  style={{fontSize:"25px"}} span={16}>
+       <i className="fas fa-user-md" /> <b>  Physiotherapist</b>
+                    </Col>
+    
+                   
             </Row>
-            {loading &&
-                <div className="mt-2 text-center">
-                    <Spin tip="Searching Physio..." size="large">
-                    </Spin>
-                </div>
-            }
-            {
-                !loading && physios.length === 0 &&
-                <div className="mt-2 text-center">
-                    <p className="p">No Physio Found....</p>
-                </div>
-            }
-            {(physios.length !== 0 && !loading) &&
-                physios.map((val, key) => key >= paginationState.minIndex && key < paginationState.maxIndex && (
-                    <Row className="PhysiotherapistList  text-center" justify="space-around"  key={val.pp_pm_id}>
-                        <Col md={4} lg={4} sm={4} xs={4}>
-                            <p>{val.pp_pm_id}</p>
-                        </Col>
+            <div style={{ minHeight: "20px" }}></div>
+             <Row justify="space-between">
+             <Col md={12} sm={12} xs={12}>
+        <input
+                     //   className="p-2 input-field my-3"
+                    
+                        placeholder="Search Physio.."
+                        onChange={onSearch}
+                    
+                        loading={loading}
+                        style={{width:'100%'}}
+                    /> 
+                    </Col>
+                  
+                   {getUserData()==="admin"&& <Row justify="end">
 
-                        <Col  md={4} lg={4} sm={4} xs={4}>
-                            <p >{val.first_name[0].toUpperCase() + val.first_name.slice(1).toLowerCase() +' ' +val.last_name.slice(0).toLowerCase() }</p>
-                        </Col>
+                    <Col md={24} sm={24} xs={24}>
 
-                        <Col md={4} lg={4} sm={4} xs={4}><p>{val.mobile_no}</p></Col>
-
-                        <Col md={4} lg={4} sm={4} xs={4}>
-                            <BsFillEyeFill className=" me-1 action-icon" id="action-icon" title="View" onClick={() => handleView(val)} />
-                            <BiEdit className="  me-1 action-icon" id="action-icon" title="Edit" onClick={() => handleEdit(val)} />
-                            <AiFillUnlock className=" me-1 action-icon" id="action-icon"  title="Reset Password" onClick={()=>showmodal(val.uid)} />                         
-                        </Col>
+<NavLink to="/physio/register">
+         <i  className="fas fa-user-md"  />  New Physio 
+         </NavLink>
+ </Col>
+             </Row>}
+                  
                     </Row>
-                ))
-            }
-            <Pagination className="text-center"
-                pageSize={paginationState.pageSize}
-                current={paginationState.current}
-                total={physios.length}
-                showSizeChanger
-                onChange={PaginationChange}
-                style={{marginTop:'3%'}}
-            />
+                    <div style={{ minHeight: "20px" }}></div>
+                    <Row>
+        <Col className="pag_large" md={24} sm={24} xs={24}>
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8}} bordered columns={columns} dataSource={physios} />
+        </Col>
+        <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8,size: "small" }} bordered columns={columns} dataSource={physios} />
+        </Col>
+      </Row>
             {ShowPhysioInfo()}
             {show_password_modal()}
         </>

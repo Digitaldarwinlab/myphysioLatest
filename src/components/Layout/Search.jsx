@@ -3,19 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import Phead from "../Layout/PatientSearch/PatientHead";
 import PatDetails from '../Layout/PatientSearch/PatDetails';
-import {Typography, Row, Col, Input, Pagination,Button ,Modal,Form} from "antd"
+import {Typography, Row, Col, Input, Pagination,Button ,Modal,Form, Space, Table} from "antd"
 import "./../../styles/Layout/Search.css"
 import { getPatientList, searchPatient } from '../../API/PatientRegistration/Patient';
 import { BiEdit } from "react-icons/bi";
 import { NavLink } from 'react-router-dom';
 import { BsFillEyeFill } from "react-icons/bs";
+import { FaKey} from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { UpdateState } from './../../API/PatientRegistration/Patient';
 import { EPISODE_STATECHANGE } from './../../contextStore/actions/episode';
-import { forgotPassword } from '../../API/userAuth/userAuth';
+import { forgotPassword, getUserData } from '../../API/userAuth/userAuth';
 import { postNewPassword } from '../../API/userAuth/userAuth';
 import FormPassword from '../UI/antInputs/FormPassword';
+import FormInput from '../UI/antInputs/FormInput';
 import Success from '../UtilityComponents/SuccessHandler';
 import Error from '../UtilityComponents/ErrorHandler';
 import Loading from '../UtilityComponents/Loading';
@@ -24,7 +26,8 @@ import {AiFillUnlock} from 'react-icons/ai'
 import {MailOutlined } from '@ant-design/icons'
 import {BsSearch} from 'react-icons/bs'
 import '../../styles/Layout/Heading.css'
-
+import {getOTP, verifyOTP} from "../../API/Authorization/OTP"
+import { Empty } from 'antd';
 import { HiUserAdd } from 'react-icons/hi';
 import { Item } from 'rc-menu';
 const { Search } = Input;
@@ -33,6 +36,12 @@ const SearchPatient = () => {
 
 
     const {Title}=Typography
+    const [newLoading, setNewLoading] = useState(false)
+    const [scroll ,setScroll] = useState(0)
+    let locale = {
+        emptyText: 'No Patients Found',
+      };
+      const [columns ,setColumn] = useState([])
     const [patientData, setPatientData] = useState([]);
     const [searchvalue,Setsearchvalue]=useState('')    
     const state = useSelector(state => state.basicDetailsInitialState);
@@ -40,11 +49,14 @@ const SearchPatient = () => {
     const history = useHistory();
      const [new_password, setNewPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");
+    const [otp,setOTP] = useState('');
     const [physios, setPhysios] = useState([]);
+    const [message,setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const userInfo = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : { role: "physio" } 
     const [passwordmodal,Setpasswordmodal]=useState(false)
+    const [authorizeModal,setAuthorizeModal] = useState(false)
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [temp_uid,Settemp_uid]=useState(0)
@@ -59,7 +71,10 @@ const SearchPatient = () => {
     const [form] = Form.useForm();
     const [buttondisable,Setbuttondiable]=useState(false)
     useEffect(async () => {
+        setNewLoading(true)
         const data = await getPatientList();
+        console.log('patient list',data)
+        setNewLoading(false)
         setPatientData(data);
         //  console.log(patientData)
         setPaginationState({
@@ -69,20 +84,24 @@ const SearchPatient = () => {
             maxIndex: paginationState.pageSize,
         });
     }, [refresh]);
-   // console.log(patientData)
+   console.log(patientData)
     function Pahead(val) {
         return (
-            <PatDetails title={val.title} />
+            <>
+            {JSON.parse(localStorage.getItem("user")).role=="physio"?val.title!=="Mobile No"&&<PatDetails title={val.title} />:<PatDetails title={val.title} />}
+            </>
         );
     }
-    console.log(patientData)
+    console.log(patientData);
 
     const onSearch = async (value) => {
      //  console.log(value.target.value)
+     setNewLoading(true)
      Setsearchvalue(value.target.value)
         setLoading(true);
         const searchedData = await searchPatient(value.target.value);
         setPatientData(searchedData);
+        setNewLoading(false)
         setLoading(false);
         setPaginationState({
             ...paginationState,
@@ -91,34 +110,131 @@ const SearchPatient = () => {
             maxIndex: paginationState.pageSize,
         });
     }
-    //View 
-    const handleView = (val) => {
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_code",
-                value: val.pp_patm_id
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_main_code",
-                value: val.patient_code
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "patient_name",
-                value: val.first_name + " " + val.last_name
-            }
-        })
-        dispatch({
-            type: EPISODE_STATECHANGE, payload: {
-                key: "Patient_no",
-                value: val.mobile_no
-            }
-        });
-        history.push("/episode");
+    //Authorize
+    const handleAuthorizeClick = async (item) => {
+        const message = await getOTP({
+            "uid":item.uid
+            });
+            setMessage(message.message);
+            console.log('Message from OTP:',message);
+// console.log(item.uid);
+        showAuthorizemodal(item.uid)
+        console.log('patientData:',item)
     }
+
+    function showAuthorizemodal(e)
+    {   console.log(e)
+       Settemp_uid(e)
+       setAuthorizeModal(true)
+        Setbuttondiable(false)
+    }
+
+    const handleAuhtorizationSubmit = async (event) => {
+      event.preventDefault();
+        setLoading(true)
+        if (otp.length !== 6) {
+            setLoading(false);
+            setError("Enter Valid OTP");
+            setTimeout(() => {
+                setError("");
+            }, 3000);
+            return;
+        }
+        const message = await verifyOTP({
+            "uid":temp_uid,
+            "otp":otp
+            })
+            setMessage(message.message);
+            if(message.status_code==5){
+                setTimeout(() => {
+                    setAuthorizeModal(false)
+                    window.location.reload(false)
+                }, 2000);
+            }else{
+                setMessage('OTP Verification Failed');
+            }
+            console.log('Message from verify OTP',message);
+        setLoading(false);
+        setOTP('');
+    }
+
+    const show_Authorize_Modal=()=>
+    {   
+        return(
+        <Modal
+        visible={authorizeModal}
+        footer={null}
+        closable
+        onCancel={() => setAuthorizeModal(false)}
+        title="Authorization"
+        centered
+    >
+        {error && <Error error={error} />}
+                {success && <Success success={success} />}
+          {/* <Button  size={'medium'}  icon={<MailOutlined  style={{fontSize: '20px'}} />} style={{marginBottom:'10px',marginTop:'5px',backgroundColor:buttondisable ? 'white' : 'red',borderRadius:'5px'}} disabled={buttondisable}  onClick={()=>Sendpasswordemail(temp_uid)}></Button> */}
+
+        <form onSubmit={handleAuhtorizationSubmit}>
+            {message && <p>{message}</p>}
+            <label htmlFor="otp">Enter OTP</label>
+            <input style={{width:"100%"}} name='otp' onChange={(e) => {setOTP(e.target.value)}} value={otp} required>
+            </input>
+            {/* <center className="userAuthBtnMain">
+                     
+                        </center> */}
+                    <Space size="middle">
+                           <Button type="primary" htmlType="submit" 
+                        style={{background:'blue'}}
+                        className="Autherizebtn" 
+                        >
+                            Verify OTP
+                        </Button> {"  "}
+                        <Button type="primary" htmlType="button" 
+                        className="Autherizebtn" 
+                        onClick={async() => {const message = await getOTP({
+            "uid":temp_uid
+            });
+            
+            console.log('message from resend otp',message);
+            setMessage(message.message);}}>
+                            Resend OTP
+                        </Button>
+                        </Space>
+                        {/* <center className="userAuthBtnMain">
+                      
+                        </center> */}
+            </form>  
+    </Modal>
+        )
+    }
+
+    //View 
+        const handleView = (val) => {
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_code",
+                    value: val.pp_patm_id
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_main_code",
+                    value: val.patient_code
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "patient_name",
+                    value: val.first_name + " " + val.last_name
+                }
+            })
+            dispatch({
+                type: EPISODE_STATECHANGE, payload: {
+                    key: "Patient_no",
+                    value: val.mobile_no
+                }
+            });
+            history.push("/episode");
+        }
     //Edit 
     const handleEdit = (val) => {
         console.log(val)
@@ -174,6 +290,9 @@ const SearchPatient = () => {
             setLoading(false);
             if (result && result[0]) {
                 setSuccess("Password Changed Successfully Done.");
+                setTimeout(() => {
+                    Setpasswordmodal(false)
+                }, 2000);
                try{
                    form.resetFields()
                }
@@ -201,6 +320,8 @@ const SearchPatient = () => {
        Setpasswordmodal(true)
         Setbuttondiable(false)
     }
+
+
 
     const show_password_modal=()=>
     {   
@@ -239,13 +360,16 @@ const SearchPatient = () => {
                         onChange={(key, value, id) => setConfirmPassword(value)}
                         required={true}
                     />
-                    <Form.Item>
+                
                         <center>
-                        <Button type="primary" htmlType="submit" className="userAuthbtn">
+                        <Button type="primary" htmlType="submit" size='large'
+                        style={{margin:'10px'}}
+                        //className="userAuthFRGTbtn"
+                        >
                             Change Password
                         </Button>
                         </center>
-                    </Form.Item>
+                   
                 </Form>   
     </Modal>
         )
@@ -286,89 +410,137 @@ const SearchPatient = () => {
         
         
     }
-    return (
-        <>
-               <div style={{ minHeight: "0px" }}></div>
-            <Row justify="space-between">
-                <Col>
-                <h1 className="page-heading" id="page-heading"> <i className="fa fa-users"></i><b> Patients</b></h1>
+    useEffect(() => {
+        const AdminColumn = [
+            {
+                title: "Name",
+                dataIndex: "full_name",
+                width: "20%",
+                fixed: 'left',
+               
+              },
+              {
+                title: "Patient Code",
+                dataIndex: "patient_code",
+                width: "25%",
+               
+              },
+            {
+              title: "Date of Birth",
+              dataIndex: "dob",
+              width: "20%",
+             
+            },
+            {
+              title: "Mobile No",
+              dataIndex: "mobile_no",
+              width: "20%",
+             
+            },
+            {
+              title: "Actions",
+              dataIndex: "address",
+              fixed:'right',
+              width: "25%",
+              render: (text, record) => (
+                <Space size="middle">
+                   <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+                  <BiEdit onClick={() => handleEdit(record)} size={20} />
+                  <AiFillUnlock onClick={()=>showmodal(record.uid)} size={20} />
+                  {record.status_flag === 0 && <FaKey onClick={() => handleAuthorizeClick(record)} />}
+                </Space>
+              )
+            }
+          ];
+          const PhysioColumn = [
+            {
+              title: "Name",
+              dataIndex: "full_name",
+              width: "20%",
+              fixed: 'left',
+            },
+            {
+              title: "Patient Code",
+              dataIndex: "patient_code",
+              width: "25%",
+             
+            },
+            {
+              title: "Date of Birth",
+              dataIndex: "dob",
+              width: "20%",
+             
+            },
+            {
+              title: "Actions",
+              dataIndex: "address",
+              fixed:'right',
+              width: "17%",
+              render: (text, record) => (
+                <Space size="middle">
+                  <BsFillEyeFill onClick={() => handleView(record)} size={20} />
+                  {record.status_flag === 0 && <FaKey onClick={() => handleAuthorizeClick(record)} size={20} />}
+                </Space>
+              )
+            }
+          ];
+          if(getUserData() == "physio"){
+              setColumn(PhysioColumn)
+          }else{
+              setColumn(AdminColumn)
+              setScroll(500)
+          }
 
-                </Col> 
-                <Col>
-                <h4 className="text-end">
-                <NavLink to="pateints/new" className="navlink">
-                    New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
-                </NavLink>
-            </h4>
-                </Col>
-            </Row>
+       
+    }, []);
+    return (  <>
+     <div style={{ minHeight: "20px" }}></div>
+            <Row justify='space-between'>          
+            <Col  style={{fontSize:"25px"}} span={16}>
+                    <i className="fa fa-users"></i><b> Patients</b>
+                    </Col>
+                    </Row>
+                    <div style={{ minHeight: "20px" }}></div>
+        <Row justify="space-between">
 
-            
-            <div className="PatientsListing">
-  
-            <input
-                    className="p-2 input-field  my-3"
-                  
-                    placeholder="Search Patient.."
-                    onChange={onSearch}
-                   
-                    loading={loading}
-                    style={{width:'40%'}}
-                />
-                <Row className="bg-search text-center" justify="space-around">
-                    {Phead.map(Pahead)}
-                </Row>
+        <Col md={12} sm={12} xs={12}>
+        <input
+                     //   className="p-2 input-field my-3"
+                    
+                        placeholder="Search Patient.."gg
+                        onChange={onSearch}
+                    
+                        loading={loading}
+                        style={{width:'100%'}}
+                    /> 
+        </Col>
+        <Row justify="end">
 
-                {
-                    patientData.length === 0
-                        ?  
-                            <div className="mt-2 text-center">
-                                <p className="p">No Patient Found....</p>
-                            </div>
-                        : 
-                            <div>
-                                {
-                                    
-                                                                   
-                                    patientData.map((item,index) =>{
-                                       if(index >= paginationState.minIndex && index < paginationState.maxIndex)
-                                        return (
-                                            <Row  justify="space-around" className="text-center">
-                                                  <Col md={4} lg={4} sm={4} xs={4}><p>{item.patient_code}</p></Col>
+                    <Col md={24} sm={24} xs={24}>
 
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.first_name} {' '} {item.last_name} </p></Col>
-
-
-
-                                                    <Col md={4} lg={4} sm={4} xs={4}> <p> <p>{item.dob}</p></p></Col>
-
-                                                    <Col md={4} lg={4} sm={4} xs={4}><p>{item.mobile_no}</p></Col>
-
-                                                    <Col md={4} lg={4} sm={4} xs={4}>
-                                                        <BsFillEyeFill className="iconClass3 me-1" title="View" onClick={() => handleView(item)} />
-                                                        <BiEdit className="iconClass3 me-1" title="Edit" onClick={() => handleEdit(item)} />
-                                                       {userInfo.role=='admin' ? <AiFillUnlock className="iconClass3 me-1" size={25} onClick={()=>showmodal(item.uid)} />   : null}    
-                                                    </Col>
-                                            </Row>
-                                        )
-
-                                    })
-                                    
-                                }
-                            </div>
-                }
-                 { searchvalue=='' && patientData.length !== 0 && <Pagination
-                className="text-center" style={{marginTop:'2%'}}
-                    pageSize={paginationState.pageSize}
-                    current={paginationState.current}
-                    total={patientData.length}
-                   
-                    onChange={PaginationChange}
-                />}
-                   {show_password_modal()}
-            </div>
-        </>
-    )
+<NavLink to="/pateints/new">
+         <i  className="fas fa-user-md"  />  New Patient
+         </NavLink>
+ </Col>
+             </Row>
+                    </Row>
+                    <div style={{ minHeight: "20px" }}></div>
+           
+        <Row>
+        <Col className="pag_large" md={24} sm={24} xs={24}>
+          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 ,position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
+          {show_password_modal()}
+          {show_Authorize_Modal()}
+        </Col>
+        <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
+          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small",position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
+        </Col>
+          {/* {show_password_modal()} */}
+      </Row>
+      </>)
+        
+      
+    
 }
 
 export default SearchPatient;

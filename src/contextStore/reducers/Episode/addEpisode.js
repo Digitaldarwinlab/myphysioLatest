@@ -8,6 +8,8 @@ import {
 } from "./../../actions/episode.js";
 
 const episodeInitialState = {
+  
+    employee_code:"",
     patient_main_code:"",
     patient_code: "",
     patient_name: "",
@@ -33,7 +35,7 @@ const consentFormState = {
 }
 
 export const episodeReducer = (state = episodeInitialState, action) => {
-    console.log('EPISODE_CLEAR_STATE')
+    // console.log('EPISODE_CLEAR_STATE')
     // console.log(action.type)
     switch (action.type) {
         case EPISODE_STATECHANGE:
@@ -70,7 +72,13 @@ export const episodeReducer = (state = episodeInitialState, action) => {
                  patient_main_code:state.patient_main_code,
                 patient_code: state.patient_code,
                 patient_name: state.patient_name,
-                Patient_no: state.Patient_no
+                Patient_no: state.Patient_no,
+                employee_code:state.employee_code
+            }
+        
+        case "EPISODE_FULL_CLEAR_STATE":
+            return {
+                ...episodeInitialState
             }
         default:
             return {

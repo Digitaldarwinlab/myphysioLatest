@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from "react-redux"
 import "../../styles/Layout/ActiveSearch.css"
 import { getPatientList } from '../../API/PatientRegistration/Patient';
 import { ASSESSMENT_STATE_CHANGE, EPISODE_STATECHANGE } from "../../contextStore/actions/episode.js"
-import { getEpisodeDetails } from './../care-plan/carePlanIndex';
+import { getEpisodeDetails } from '../care-plan/carePlanIndex';
 import {BsSearch} from 'react-icons/bs'
 import './Activesearch.css'
 import {Form} from 'antd' 
+import { CARE_PLAN_CLEAR_STATE } from '../../contextStore/actions/care-plan-action';
+import { getEpisode } from '../../API/Episode/EpisodeApi';
 const ActiveSearch = (props) => {
     const icon=<BsSearch />
     const [PatientData, setPatientData] = useState([])
@@ -64,8 +66,9 @@ const ActiveSearch = (props) => {
     //    document.getElementById(`spanid + ${e.target.id}`).innerHTML= ''
     }
 
-    const SuggestionHandler = (text) => {
-
+    const SuggestionHandler =  (text) => {
+        dispatch({type:"EPISODE_FULL_CLEAR_STATE"})
+      //  dispatch({type: CARE_PLAN_CLEAR_STATE})
         let pdata = PatientData.filter((val, ind) => {
             return (
                 val.pp_patm_id.toString() === text
@@ -75,6 +78,8 @@ const ActiveSearch = (props) => {
         Setinputtextvalue('')
         // aswin start 10/30/2021 start 
         sessionStorage.removeItem('patient_code')
+        // const checkEpisode = await getEpisode(pdata[0].pp_patm_id)
+        // console.log("check episode",checkEpisode)
         // aswin start 10/30/2021
         if (props.carePlan) {
             // alert("Inside 1");
@@ -145,9 +150,9 @@ const ActiveSearch = (props) => {
         setSuggestions([]);
     }
     return (
-        <div className=" mb-4">
+        <div>
             <BsSearch style={{position:'absolute',top:'13px',left:'5px'}} />
-            <input type="text"  value={text} className="w-100 px-4 py-2 input-field "
+            <input type="text"  className="px-4 py-2 input-field "
                 placeholder=" Search Patients.."
                 onChange={e => handleChange(e.target.value)}
                 value={inputtextvalue}

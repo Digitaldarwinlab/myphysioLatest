@@ -1,11 +1,13 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
+import { encode } from "js-base64";
+import { Decode, Encode } from "../../Encode/hashing";
 import {
     EPISODE_BOOK_REQUEST,
     EPISODE_BOOK_SUCCESS,
     ASSESSMENT_REQUEST,
     ASSESSMENT_SUCCESS,
-} from "./../../contextStore/actions/episode";
+} from "../../contextStore/actions/episode";
 //@Add Episode 
 //@param Episode details
 //@return- Message.
@@ -72,16 +74,17 @@ export const EpisodeApi = async (details, dispatch) => {
   
     try {
        
-        console.log(formdata)
+        // console.log(formdata)
         const response = await fetch(process.env.REACT_APP_API + "/add_episode/", {
             method: "POST",
             body: formdata
         });
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
-     // aswin 10/16/2021 //
+        // aswin 10/16/2021 //
         if (response.status !== 200 && response.status !== 201) {
-            return [false, `Error ${response.status}: ` + " " + response.statusText];
+            console.log("response data",data)
+            return [false, data.message];
         }
         if (data && data.message === "episode added") {
             return [true];
@@ -124,27 +127,41 @@ export const getEpisode = async (patientID) => {
 // Update Episode
 export const UpdateEpisodeApi = async (details, dispatch) => {
     dispatch({ type: EPISODE_BOOK_REQUEST });
-    let EpisodeDetails = {};
-    EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
-    EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
-    EpisodeDetails["pp_pm_id"] = details.patient_code;
-    EpisodeDetails["pp_ed_id"] = details.episode_id;
-    EpisodeDetails["primary_complaint"] = details.complaint;
-    EpisodeDetails["start_date"] = details.start_date;
-    EpisodeDetails["end_date"] = details.end_date;
-    EpisodeDetails["Operative_Types"] = details.Operative_Types;
-    EpisodeDetails["Patient_History"] = details.Patient_History;
-    EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
-    EpisodeDetails["file"] = details.file;
+    //let EpisodeDetails = {};
+    // EpisodeDetails["treating_doc_details"] = JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID })
+    // EpisodeDetails["PP_Patient_Details"] = JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no });
+    // EpisodeDetails["pp_pm_id"] = details.patient_code;
+    // EpisodeDetails["pp_ed_id"] = details.episode_id;
+    // EpisodeDetails["primary_complaint"] = details.complaint;
+    // EpisodeDetails["start_date"] = details.start_date;
+    // EpisodeDetails["end_date"] = details.end_date;
+    // EpisodeDetails["Operative_Types"] = details.Operative_Types;
+    // EpisodeDetails["Patient_History"] = details.Patient_History;
+    // EpisodeDetails["Closure_Notes"] = details.Closure_Notes;
+    // EpisodeDetails["file"] = details.file;
+    let formdata = new FormData();
+ 
+    formdata.append("treating_doc_details",JSON.stringify({ Ref_Dr_Name: details.Ref_Dr_Name, Ref_Dr_ID: details.Ref_Dr_ID }))
+    formdata.append("PP_Patient_Details",JSON.stringify({ Patient_code: details.patient_code, Patient_name: details.patient_name, Patient_no: details.Patient_no }))
+    formdata.append("pp_pm_id",parseInt(details.patient_code))
+    formdata.append("pp_ed_id",parseInt(details.episode_id))
+    formdata.append("Operative_Types",details.Operative_Types)
+    formdata.append("primary_complaint",details.complaint)
+    formdata.append("start_date",details.start_date)
+    formdata.append("end_date",details.end_date)
+    formdata.append("Patient_History",details.Patient_History)
+    formdata.append("Closure_Notes",details.Closure_Notes)
+    for (const file of details.file) {  
+        formdata.append('files', file, file.name); 
+    }
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/update_episode/", {
-            headers: headers,
+        const response = await fetch(process.env.REACT_APP_API + "/update_episode_v1/", {
             method: "POST",
-            body: JSON.stringify(EpisodeDetails)
+            body: formdata
         });
         const data = await response.json();
         if (response.status !== 200 && response.status !== 201) {
@@ -185,8 +202,8 @@ const labsDetails = (labs) => {
 //@param Labs And Medication details
 //@return- Message.
 export const AddLabsAndMedicationApi = async (details, dispatch) => {
-    console.log('detail inside api')
-    console.log(details)
+    // console.log('detail inside api')
+    // console.log(details)
     dispatch({ type: ASSESSMENT_REQUEST });
     let PrescreptionDetails = {};
     PrescreptionDetails["date"] = details.date;
@@ -195,22 +212,24 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
     PrescreptionDetails["lab_tests"] = labsDetails(details.labsList);
     PrescreptionDetails["medication_detail"] = MedicationDetailsArray(details.medicationList);
     PrescreptionDetails["notes"] = details.labs_notes;
-    console.log('detail insdie api')
-    console.log(details)
+    // console.log('detail insdie api')
+    // console.log(details)
     const headers = {
         Accept: 'application/json',
         "Content-type": "application/json"
     }
+    const encodedData = Encode(PrescreptionDetails)
 
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/add_pres/", {
+        const response = await fetch(process.env.REACT_APP_API + "/add_pres_v1/", {
             headers: headers,
             method: "POST",
-            body: JSON.stringify(PrescreptionDetails)
+            body: JSON.stringify(encodedData)
         });
-        const data = await response.json();
-        console.log('api k andrx')
-        console.log(data)
+        const responseData = await response.json();
+        const data = Decode(responseData)
+        // console.log('api k andrx')
+        // console.log(data)
         if (response.status !== 200 && response.status !== 201) {
             return [false, "Error: " + response.status + " " + response.statusText];
         }
@@ -219,8 +238,8 @@ export const AddLabsAndMedicationApi = async (details, dispatch) => {
         }
         throw new Error(data.pp_ed_id[0]);
     } catch (err) {
-        console.log('error in error')
-        console.log(err)
+        // console.log('error in error')
+        // console.log(err)
         return [false,  { message:err.message}];
     }
 }
