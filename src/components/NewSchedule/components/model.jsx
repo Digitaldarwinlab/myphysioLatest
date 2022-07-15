@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
 //moment.js
-import moment from "moment";
-import "moment/locale/zh-cn";
+// import moment from "moment";
+import moment from 'moment-timezone';
+
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_VISIT } from "../actions/types";
@@ -34,7 +35,9 @@ import { ImPlus } from "react-icons/im";
 const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const episodeState = useSelector((state) => state.episodeReducer);
   console.log(episodeState);
-
+  // moment.tz.add("Asia/Calcutta|HMT BURT IST IST|-5R.k -6u -5u -6u|01232|-18LFR.k 1unn.k HB0 7zX0");
+  // moment.tz.link("Asia/Calcutta|Asia/Kolkata");
+  moment.tz.setDefault("Asia/Kolkata")
   const days = useMemo(() => {
     return [
       "sunday",

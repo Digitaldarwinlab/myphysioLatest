@@ -22,6 +22,7 @@
     "js-base64": "^3.7.2",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-circular-progressbar": "^2.0.4",
@@ -88,5 +89,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-  "buildDate": 1657176724716
+  "buildDate": 1657784703740
 }

@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment-timezone';
 import "moment/locale/zh-cn";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DAY_DATE } from "../actions/types";
 
 export default function Day({ setIsVisible, day }) {
+  moment.tz.setDefault("Asia/Kolkata")
   const dispatch = useDispatch();
   let dayTag = useSelector((state) => state.Calender.date);
   const [data, setData] = useState([]);

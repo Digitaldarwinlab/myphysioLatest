@@ -7,9 +7,10 @@ import {
   GetVisit,
 } from "../../../API/Visit/visitApi";
 import { useDispatch } from "react-redux";
-import moment from "moment";
+import moment from 'moment-timezone';
 
 export default function Week({ setIsVisible, currentWeek }) {
+  moment.tz.setDefault("Asia/Kolkata")
   let Arr = useSelector((state) => state.weekReducer);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
