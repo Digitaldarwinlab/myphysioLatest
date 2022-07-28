@@ -476,10 +476,11 @@ function stopScreenShare() {
   $("#video-btn").prop("disabled",false);
   screenClient.leave(function() {
     screenShareActive = false; 
-    console.log("screen client leaves channel ",toggleStreamID);
+    console.log(toggleStreamID);
     $("#screen-share-btn").prop("disabled",false); // enable button
     $('#full-screen-video').empty()
     $('#full-screen-video').append($('#player_'+toggleStreamID))
+    console.log('#player_'+toggleStreamID)
  //  screenClient.unpublish(localStreams.screen.stream); // unpublish the screen client
     localStreams.screen.stream.close(); // close the screen client stream
     localStreams.screen.id = ""; // reset the screen id
