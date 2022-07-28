@@ -271,7 +271,7 @@ const Assesment1 = ({ back, next }) => {
   useEffect(() => {
     console.log("assesment state is printing");
     console.log(state.FirstAssesment.Type);
-  }, [state.FirstAssesment]);
+  }, []);
 
   const [tempstate, setTemp] = useState(true);
   useEffect(() => {
@@ -779,79 +779,84 @@ const Assesment1 = ({ back, next }) => {
     );
     setLatR(tempData);
   };
-
-  //To detect change in localStorage
-  useEffect(() => {
-    function checkDataReceived() {
-      var romData = localStorage.getItem("AI_Data");
-      var postureData = localStorage.getItem("Posture_Data");
-      if (romData != "" && romData != null) {
-        var romdatajson = JSON.parse(romData);
-        console.log(romdatajson.Anterior);
-        if (romdatajson.Anterior != undefined) {
-          state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
-          // dispatch({
-          //   type: STATECHANGE,
-          //   payload: {
-          //     key:'Anterior_AI_Data',
-          //     value:romdatajson.Anterior,
-          //   },
-          // });
-          setAnteriorData();
-        }
-        if (romdatajson.leftLateral != undefined) {
-          state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
-          // dispatch({
-          //   type: STATECHANGE,
-          //   payload: {
-          //     key:'LeftLateral_AI_Data',
-          //     value:romdatajson.leftLateral,
-          //   },
-          // });
-          setLeftLateralData();
-        }
-        if (romdatajson.rightLateral != undefined) {
-          state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
-          // dispatch({
-          //   type: STATECHANGE,
-          //   payload: {
-          //     key:'RightLateral_AI_Data',
-          //     value:romdatajson.rightLateral,
-          //   },
-          // });
-          setRightLateralData();
-        }
-        localStorage.setItem("AI_Data", "");
-      } else if (postureData != "" && postureData != null) {
-        var posturedatajson = JSON.parse(postureData);
-        console.log(posturedatajson);
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key: "posture",
-            value: posturedatajson,
-          },
-        });
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key: "FrontCheck",
-            value: JSON.parse(localStorage.getItem("FrontCheck")),
-          },
-        });
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key: "SideCheck",
-            value: JSON.parse(localStorage.getItem("SideCheck")),
-          },
-        });
-        setPosture(true);
-        localStorage.setItem("Posture_Data", "");
-      } else {
-        console.log(postureData, romData);
+  function checkDataReceived() {
+    var romData = localStorage.getItem("AI_Data");
+    var postureData = localStorage.getItem("Posture_Data");
+    if (romData != "" && romData != null) {
+      console.log("Arom data")
+      var romdatajson = JSON.parse(romData);
+      console.log(romdatajson.Anterior);
+      if (romdatajson.Anterior != undefined) {
+        state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'Anterior_AI_Data',
+        //     value:romdatajson.Anterior,
+        //   },
+        // });
+        setAnteriorData();
       }
+      if (romdatajson.leftLateral != undefined) {
+        state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'LeftLateral_AI_Data',
+        //     value:romdatajson.leftLateral,
+        //   },
+        // });
+        setLeftLateralData();
+      }
+      if (romdatajson.rightLateral != undefined) {
+        state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key:'RightLateral_AI_Data',
+        //     value:romdatajson.rightLateral,
+        //   },
+        // });
+        setRightLateralData();
+      }
+      localStorage.setItem("AI_Data", "");
+    } 
+    if (postureData != "" && postureData != null) {
+      console.log("Posture data")
+      var posturedatajson = JSON.parse(postureData);
+      console.log(posturedatajson);
+     
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "posture",
+          value: posturedatajson,
+        },
+      });
+      setPosture(true);
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "FrontCheck",
+          value: JSON.parse(localStorage.getItem("FrontCheck")),
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "SideCheck",
+          value: JSON.parse(localStorage.getItem("SideCheck")),
+        },
+      });
+      setPosture(true);
+      localStorage.setItem("Posture_Data", "");
+    } else {
+      console.log(postureData, romData);
     }
+  }
+  //To detect change in localStorage
+  // window.addEventListener("storage", checkDataReceived);
+  useEffect(() => {
     window.addEventListener("storage", checkDataReceived);
     return () => {
       window.removeEventListener("storage", checkDataReceived);
@@ -2033,18 +2038,23 @@ const Assesment1 = ({ back, next }) => {
                   }
                 />
               </Col>
-              {state.FirstAssesment.FrontCheck.length > 0 && (
+              
                 <Col md={24} lg={24} sm={24} xs={24}>
                   <Descriptions title="">
-                    {state.FirstAssesment.FrontCheck.map((ob) => (
-                      <Descriptions.Item label="">
-                        <Badge color="#000000" />
-                        {ob}
-                      </Descriptions.Item>
-                    ))}
+                    {Object.keys(state.FirstAssesment.posture["Posterial_view"].checkbox).map((ob) => { 
+                        if(state.FirstAssesment.posture["Posterial_view"].checkbox[ob]==1){
+                          return(
+                            <Descriptions.Item label="">
+                            <Badge color="#000000" />
+                            {ob}
+                          </Descriptions.Item>
+                          )
+                      }
+                    }
+                    )}
                   </Descriptions>
                 </Col>
-              )}
+              
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
@@ -2075,18 +2085,21 @@ const Assesment1 = ({ back, next }) => {
                   }
                 />
               </Col>
-              {state.FirstAssesment.SideCheck.length > 0 && (
+              
                 <Col md={24} lg={24} sm={24} xs={24}>
-                  <Descriptions title="">
-                    {state.FirstAssesment.SideCheck.map((ob) => (
-                      <Descriptions.Item label="">
-                        <Badge color="#000000" />
-                        {ob}
-                      </Descriptions.Item>
-                    ))}
-                  </Descriptions>
+                 {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => { 
+                        if(state.FirstAssesment.posture["lateral_view"].checkbox[ob]==1){
+                          return(
+                            <Descriptions.Item label="">
+                            <Badge color="#000000" />
+                            {ob}
+                          </Descriptions.Item>
+                          )
+                      }
+                    }
+                    )}
                 </Col>
-              )}
+              
             </Row>
           </div>
         )}
