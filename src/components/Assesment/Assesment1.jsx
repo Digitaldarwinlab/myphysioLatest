@@ -2086,8 +2086,9 @@ const Assesment1 = ({ back, next }) => {
                 />
               </Col>
               
-                <Col md={24} lg={24} sm={24} xs={24}>
-                 {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => { 
+              <Col md={24} lg={24} sm={24} xs={24}>
+                  <Descriptions title="">
+                    {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => { 
                         if(state.FirstAssesment.posture["lateral_view"].checkbox[ob]==1){
                           return(
                             <Descriptions.Item label="">
@@ -2098,6 +2099,7 @@ const Assesment1 = ({ back, next }) => {
                       }
                     }
                     )}
+                  </Descriptions>
                 </Col>
               
             </Row>
