@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import EmployeeAuthForm from './EmployeeForm';
-import loginImage from "./../../assets/loginImage.JPG";
+import loginImage from "./../../assets/loginImage.webp";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../../styles/userAuth/userAuth.css"; 
 import { Row,Col} from 'antd';

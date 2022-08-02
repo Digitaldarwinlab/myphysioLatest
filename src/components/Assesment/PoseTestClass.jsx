@@ -153,12 +153,12 @@ class PoseTestClass extends Component {
       Posterial_view: {
         posterial_view_image: this.state.url1,
         Angles: this.state.frontAngles,
-        checkBox: this.props.FirstAssesmentReducer.frontChecks,
+        checkbox: this.props.FirstAssesmentReducer.frontChecks,
       },
       lateral_view: {
         posterial_view_image: this.state.url2,
         Angles: this.state.sideAngles,
-        checkBox: this.props.FirstAssesmentReducer.sideChecks,
+        checkbox: this.props.FirstAssesmentReducer.sideChecks,
       },
       Notes: this.state.notes,
     };

@@ -223,6 +223,7 @@ const PhysioClinic = () => {
   const handleSubmit = async (value) => {
     await clinicRegisterApi(state.clinicReg, dispatch);
     form.resetFields();
+    history.push('/clinic-list')
     //     if(Validation.checkNameValidation(state.clinicReg.name))
     //     {
     //         error=Validation.checkNameValidation(state.clinicReg.name)
@@ -586,7 +587,7 @@ const PhysioClinic = () => {
                   </span>
                 }
                 className="input-field"
-                value={dateState}
+                //defaultValue={dateState}
                 placeholder="Estb date"
                 onChange={handleChange}
                 //   onBlur = {handleBlur}

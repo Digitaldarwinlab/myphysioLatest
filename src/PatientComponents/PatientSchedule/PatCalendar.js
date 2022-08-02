@@ -17,7 +17,7 @@ import './patNew.css'
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
-import yt from '../../assets/YouTube.PNG'
+import yt from '../../assets/YouTube.webp'
 import ReactPlayer from "react-player";
 //TimeColors
 const activeArr = [

@@ -23,8 +23,9 @@ import {
   CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE,
   CARE_PLAN_STATE_CHANGE,
 } from "../../../contextStore/actions/care-plan-action";
-import yt from "../../../assets/YouTube.PNG";
+import yt from "../../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
+import { GetJoint } from "../../../API/care-plan/care-plan-api";
 const { Option } = Select;
 const { Meta } = Card;
 const joints = {
@@ -86,9 +87,48 @@ export default function CarePlanCard({
   const handleClick1 = () => {
     setVisible(true);
   };
-
+  const callJoints = async () => {
+    const romJoint = await GetJoint();
+    console.log("joints are ",romJoint)
+    let temp = romJoint.reverse();
+    let obj = {};
+    temp.filter((item) => {
+      if (
+        item.ex_jm_id !== 1 &&
+        item.ex_jm_id !== 2 &&
+        item.ex_jm_id !== 3 &&
+        item.ex_jm_id !== 4 &&
+        item.ex_jm_id !== 5
+      ) {
+        if (item.JointType == "Neck") {
+          let temp = {
+            joint: item.joint_name,
+            min: item.MinAngle,
+            max: item.MaxAngle,
+          };
+          obj["Cervical"] = temp;
+        } else {
+          console.log("joints are ",item)
+          let temp = {
+            joint: item.joint_name,
+            min: item.MinAngle,
+            max: item.MaxAngle,
+          };
+          obj[item.JointType] = temp;
+        }
+      }
+    });
+    console.log("joints are ",obj)
+    dispatch({
+      type: CARE_PLAN_STATE_CHANGE,
+      payload: {
+        key: "romJoints",
+        value: obj,
+      },
+    });
+  }
   useEffect(() => {
-   
+    callJoints()
   }, []);
 
   const handleChange1 = (key, value, id = 0) => {

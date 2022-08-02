@@ -64,7 +64,7 @@ export const GetAllExerciseList = async (dispatch, pageSize, current) => {
     }
 }
 ///
-export const GetJoint = async (dispatch, pageSize, current) => {
+export const GetJoint = async () => {
   //  dispatch({ type: FETCH_DATA });
     try {
         const headers = {

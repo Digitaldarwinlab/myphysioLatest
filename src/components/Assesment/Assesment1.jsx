@@ -820,12 +820,12 @@ const Assesment1 = ({ back, next }) => {
         setRightLateralData();
       }
       localStorage.setItem("AI_Data", "");
-    } 
+    }
     if (postureData != "" && postureData != null) {
       console.log("Posture data")
       var posturedatajson = JSON.parse(postureData);
       console.log(posturedatajson);
-     
+
       dispatch({
         type: STATECHANGE,
         payload: {
@@ -862,7 +862,7 @@ const Assesment1 = ({ back, next }) => {
       window.removeEventListener("storage", checkDataReceived);
     };
   }, []);
-  window.addEventListener('load',()=>localStorage.setItem("OnAssessmentScreen",false))
+  window.addEventListener('load', () => localStorage.setItem("OnAssessmentScreen", false))
   useEffect(
     () => {
       const question = document.getElementById("question");
@@ -1423,7 +1423,7 @@ const Assesment1 = ({ back, next }) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}
-        // form={form} name="control-hooks"
+      // form={form} name="control-hooks"
       >
         <Row>
           <Col md={12} lg={12} sm={24} xs={24}>
@@ -1630,7 +1630,7 @@ const Assesment1 = ({ back, next }) => {
                       md={24}
                       lg={
                         state.FirstAssesment.subjective[index].occupation ===
-                        "Sports"
+                          "Sports"
                           ? 5
                           : 12
                       }
@@ -1654,34 +1654,34 @@ const Assesment1 = ({ back, next }) => {
                     </Col>
                     {state.FirstAssesment.subjective[index].occupation ===
                       "Sports" && (
-                      <Col md={24} lg={6} sm={24} xs={24}>
-                        <h4>Sports Type</h4>
-                        <input
-                          class="mx-3 p-2"
-                          onChange={(e) => {
-                            handleChange(
-                              "Sports_type",
-                              e.target.value.length > 1
-                                ? e.target.value[0].toUpperCase() +
-                                    e.target.value.slice(
-                                      1,
-                                      e.target.value.length
-                                    )
-                                : e.target.value.length === 1
-                                ? e.target.value.toUpperCase()
-                                : "",
-                              index
-                            );
-                          }}
-                          value={
-                            state.FirstAssesment.subjective[index].Sports_type
-                          }
-                          type="text"
-                          name={"sports_type" + index}
-                          placeholder="Sports Type"
-                        />
-                      </Col>
-                    )}
+                        <Col md={24} lg={6} sm={24} xs={24}>
+                          <h4>Sports Type</h4>
+                          <input
+                            class="mx-3 p-2"
+                            onChange={(e) => {
+                              handleChange(
+                                "Sports_type",
+                                e.target.value.length > 1
+                                  ? e.target.value[0].toUpperCase() +
+                                  e.target.value.slice(
+                                    1,
+                                    e.target.value.length
+                                  )
+                                  : e.target.value.length === 1
+                                    ? e.target.value.toUpperCase()
+                                    : "",
+                                index
+                              );
+                            }}
+                            value={
+                              state.FirstAssesment.subjective[index].Sports_type
+                            }
+                            type="text"
+                            name={"sports_type" + index}
+                            placeholder="Sports Type"
+                          />
+                        </Col>
+                      )}
                   </Row>
                 </div>
               );
@@ -1729,10 +1729,10 @@ const Assesment1 = ({ back, next }) => {
                       "chiefCom",
                       e.target.value.length > 1
                         ? e.target.value[0].toUpperCase() +
-                            e.target.value.slice(1, e.target.value.length)
+                        e.target.value.slice(1, e.target.value.length)
                         : e.target.value.length === 1
-                        ? e.target.value.toUpperCase()
-                        : ""
+                          ? e.target.value.toUpperCase()
+                          : ""
                     );
                   }}
                 />
@@ -1798,7 +1798,7 @@ const Assesment1 = ({ back, next }) => {
                     handleChange("Medication1", e.target.checked);
                   }}
                   value={"Medication"}
-                  // options={['Medication']}
+                // options={['Medication']}
                 >
                   <input
                     class="mx-3 p-2"
@@ -1810,10 +1810,10 @@ const Assesment1 = ({ back, next }) => {
                         "Medication",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     name="medText"
@@ -1839,10 +1839,10 @@ const Assesment1 = ({ back, next }) => {
                         "Others",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     value={state.FirstAssesment.Others}
@@ -1874,10 +1874,10 @@ const Assesment1 = ({ back, next }) => {
                         "Surgical_History_Notes",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     value={state.FirstAssesment.Surgical_History_Notes}
@@ -1926,10 +1926,10 @@ const Assesment1 = ({ back, next }) => {
                       "any_other_details",
                       e.target.value.length > 1
                         ? e.target.value[0].toUpperCase() +
-                            e.target.value.slice(1, e.target.value.length)
+                        e.target.value.slice(1, e.target.value.length)
                         : e.target.value.length === 1
-                        ? e.target.value.toUpperCase()
-                        : ""
+                          ? e.target.value.toUpperCase()
+                          : ""
                     );
                   }}
                 />
@@ -1946,7 +1946,7 @@ const Assesment1 = ({ back, next }) => {
       >
         <>
           <h1 style={{ margin: 0, padding: 0 }}>
-            <b>Cheif Complaint Area</b>
+            <b>Chief Complaint Area</b>
           </h1>
           <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
         </>
@@ -2038,23 +2038,23 @@ const Assesment1 = ({ back, next }) => {
                   }
                 />
               </Col>
-              
-                <Col md={24} lg={24} sm={24} xs={24}>
-                  <Descriptions title="">
-                    {Object.keys(state.FirstAssesment.posture["Posterial_view"].checkbox).map((ob) => { 
-                        if(state.FirstAssesment.posture["Posterial_view"].checkbox[ob]==1){
-                          return(
-                            <Descriptions.Item label="">
-                            <Badge color="#000000" />
-                            {ob}
-                          </Descriptions.Item>
-                          )
-                      }
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["Posterial_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["Posterial_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
                     }
-                    )}
-                  </Descriptions>
-                </Col>
-              
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
@@ -2085,23 +2085,23 @@ const Assesment1 = ({ back, next }) => {
                   }
                 />
               </Col>
-              
+
               <Col md={24} lg={24} sm={24} xs={24}>
-                  <Descriptions title="">
-                    {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => { 
-                        if(state.FirstAssesment.posture["lateral_view"].checkbox[ob]==1){
-                          return(
-                            <Descriptions.Item label="">
-                            <Badge color="#000000" />
-                            {ob}
-                          </Descriptions.Item>
-                          )
-                      }
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["lateral_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
                     }
-                    )}
-                  </Descriptions>
-                </Col>
-              
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
             </Row>
           </div>
         )}
@@ -2160,14 +2160,14 @@ const Assesment1 = ({ back, next }) => {
             <Row className="border1">
               <Col lg={18} md={18} sm={18} xs={24}>
                 {state.FirstAssesment.shoulder ||
-                state.FirstAssesment.Ankle ||
-                state.FirstAssesment.Cervical_Spine ||
-                state.FirstAssesment.Thoracic_Spine ||
-                state.FirstAssesment.Lumbar_Spine ||
-                state.FirstAssesment.Forearm_wrist_Hand ||
-                state.FirstAssesment.Hip ||
-                state.FirstAssesment.Knee ||
-                state.FirstAssesment.Elbow ? (
+                  state.FirstAssesment.Ankle ||
+                  state.FirstAssesment.Cervical_Spine ||
+                  state.FirstAssesment.Thoracic_Spine ||
+                  state.FirstAssesment.Lumbar_Spine ||
+                  state.FirstAssesment.Forearm_wrist_Hand ||
+                  state.FirstAssesment.Hip ||
+                  state.FirstAssesment.Knee ||
+                  state.FirstAssesment.Elbow ? (
                   <h4 className="p-2">
                     <u>Special Test</u>
                   </h4>
@@ -2692,310 +2692,312 @@ const Assesment1 = ({ back, next }) => {
         </Col>
       </Row> */}
       <Row gutter={[10, 10]}>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          <Checkbox
-            checked={!state.FirstAssesment.quest}
-            onChange={(e) => handleChange("quest", !e.target.checked)}
-          >
-            {state.FirstAssesment.quest ? (
-              <Button
-                className="btn-new-check"
-                disabled={state.FirstAssesment.quest}
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.quest
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                onClick={() => {
-                  console.log(
-                    "OnAssessmentScreen ",
-                    localStorage.getItem("OnAssessmentScreen")
-                  );
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Questions();
-                  }
-                }}
-                id="question"
-              ></Button>
-            ) : (
-              <Button
-                type="text"
-                disabled={state.FirstAssesment.quest}
-                style={{
-                  backgroundColor: state.FirstAssesment.quest
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                onClick={() => {
-                  console.log(
-                    "OnAssessmentScreen ",
-                    localStorage.getItem("OnAssessmentScreen")
-                  );
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Questions();
-                  }
-                }}
-                id="question"
-              ></Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.pain1}
-            onChange={(e) => handleChange("pain1", !e.target.checked)}
-          >
-            {state.FirstAssesment.pain1 ? (
-              <Button
-                className="btn-new-check"
-                style={{
-                  backgroundColor: state.FirstAssesment.pain1
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.pain1}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    OnAssesmentPage();
-                  } else {
-                    goPain();
-                  }
-                }}
-              >
-                Pain Assessment
-              </Button>
-            ) : (
-              <Button
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.pain1
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.pain1}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    OnAssesmentPage();
-                  } else {
-                    goPain();
-                  }
-                }}
-              >
-                Pain Assessment
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.special}
-            onChange={(e) => handleChange("special", !e.target.checked)}
-          >
-            {state.FirstAssesment.special ? (
-              <Button
-                className="btn-new-check"
-                style={{
-                  backgroundColor: state.FirstAssesment.special
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.special}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/SpecialTest");
-                  }
-                }}
-              >
-                Special Test
-              </Button>
-            ) : (
-              <Button
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.special
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.special}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/SpecialTest");
-                  }
-                }}
-              >
-                Special Test
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.pose}
-            onChange={(e) => handleChange("pose", !e.target.checked)}
-          >
-            {state.FirstAssesment.pose ? (
-              <Button
-                className="btn-new-check"
-                style={{
-                  backgroundColor: state.FirstAssesment.pose
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                id="posture-btn"
-                disabled={state.FirstAssesment.pose}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/PoseTest");
-                  }
-                }}
-              >
-                Posture Test
-              </Button>
-            ) : (
-              <Button
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.pose
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                id="posture-btn"
-                disabled={state.FirstAssesment.pose}
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/PoseTest");
-                  }
-                }}
-              >
-                Posture Test
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.romAssAi}
-            onChange={(e) => handleChange("romAssAi", !e.target.checked)}
-          >
-            {state.FirstAssesment.romAssAi ? (
-              <Button
-                style={{
-                  backgroundColor: state.FirstAssesment.romAssAi
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.romAssAi}
-                className="btn-new-check"
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    RomAI();
-                  }
-                }}
-                id="rom"
-              >
-                AROM (using AI)
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  backgroundColor: state.FirstAssesment.romAssAi
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.romAssAi}
-                type="text"
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    RomAI();
-                  }
-                }}
-                id="rom"
-              >
-                AROM (using AI)
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.romAss}
-            onChange={(e) => handleChange("romAss", !e.target.checked)}
-          >
-            {state.FirstAssesment.romAss ? (
-              <Button
-                style={{
-                  backgroundColor: state.FirstAssesment.romAss
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.romAss}
-                className="btn-new-check"
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Rom();
-                  }
-                }}
-                id="rom_manual"
-              >
-                AROM
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  backgroundColor: state.FirstAssesment.romAss
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.romAss}
-                type="text"
-                onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Rom();
-                  }
-                }}
-                id="rom_manual"
-              >
-                AROM
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
+        {/* <Space> */}
+          <Col md={8} lg={4} sm={12} xs={12}>
+            <Checkbox
+              checked={!state.FirstAssesment.quest}
+              onChange={(e) => handleChange("quest", !e.target.checked)}
+            >
+              {state.FirstAssesment.quest ? (
+                <Button
+                  className="btn-new-check"
+                  disabled={state.FirstAssesment.quest}
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.quest
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  onClick={() => {
+                    console.log(
+                      "OnAssessmentScreen ",
+                      localStorage.getItem("OnAssessmentScreen")
+                    );
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      Questions();
+                    }
+                  }}
+                  id="question"
+                ></Button>
+              ) : (
+                <Button
+                  type="text"
+                  disabled={state.FirstAssesment.quest}
+                  style={{
+                    backgroundColor: state.FirstAssesment.quest
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  onClick={() => {
+                    console.log(
+                      "OnAssessmentScreen ",
+                      localStorage.getItem("OnAssessmentScreen")
+                    );
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      Questions();
+                    }
+                  }}
+                  id="question"
+                ></Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={4} sm={12} xs={12}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pain1}
+              onChange={(e) => handleChange("pain1", !e.target.checked)}
+            >
+              {state.FirstAssesment.pain1 ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={4} sm={12} xs={12}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.special}
+              onChange={(e) => handleChange("special", !e.target.checked)}
+            >
+              {state.FirstAssesment.special ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.special
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.special}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/SpecialTest");
+                    }
+                  }}
+                >
+                  Special Test
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.special
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.special}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/SpecialTest");
+                    }
+                  }}
+                >
+                  Special Test
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={4} sm={12} xs={12}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pose}
+              onChange={(e) => handleChange("pose", !e.target.checked)}
+            >
+              {state.FirstAssesment.pose ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={4} sm={12} xs={12}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.romAssAi}
+              onChange={(e) => handleChange("romAssAi", !e.target.checked)}
+            >
+              {state.FirstAssesment.romAssAi ? (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  className="btn-new-check"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  type="text"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={4} sm={12} xs={12}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.romAss}
+              onChange={(e) => handleChange("romAss", !e.target.checked)}
+            >
+              {state.FirstAssesment.romAss ? (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAss
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAss}
+                  className="btn-new-check"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      Rom();
+                    }
+                  }}
+                  id="rom_manual"
+                >
+                  AROM
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAss
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAss}
+                  type="text"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      Rom();
+                    }
+                  }}
+                  id="rom_manual"
+                >
+                  AROM
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+        {/* </Space> */}
       </Row>
 
       {/* <Row justify='space-between'>
