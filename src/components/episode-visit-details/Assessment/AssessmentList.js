@@ -588,7 +588,7 @@ const AssessmentList = ({ assesmentClick }) => {
   return (
     <React.Fragment>
       <div  className="divvv">
-        <Col span={24} className="px-3 py-3 mb-3">
+        <Col span={24} className="">
           <Row>
             <Col lg={18} md={18} sm={18} xs={24}>
               <h4 className="fw-bold">

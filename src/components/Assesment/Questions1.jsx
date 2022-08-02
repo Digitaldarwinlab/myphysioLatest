@@ -126,7 +126,7 @@ useEffect(() => {
 
     return (
         <>
-            <h4 className="border ps-4 py-2">KOOS {state.FirstAssesment.Questionnaire.template_name} Assesment</h4>
+            <h4 className="border ps-4 py-2">{state.FirstAssesment.Questionnaire.template_name=="Knee"&&"KOOS"} {state.FirstAssesment.Questionnaire.template_name} Assesment</h4>
             {/* <Form> */}
             <Collapse 
             defaultActiveKey={['1']} 

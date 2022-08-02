@@ -254,7 +254,7 @@ class PoseTestClass extends Component {
                 onClick={this.GoBack}
                 role="button"
               ></i>{" "}
-              <span className="CarePlanTitle ml-1"> Postural Analysis</span>
+              <span className="CarePlanTitle "> Postural Analysis</span>
             </h3>
             <p style={{ paddingTop: "4px" }}>
               {" "}
@@ -307,7 +307,7 @@ class PoseTestClass extends Component {
         <Row style={{ paddingBottom: "15px" }}>
           <Col md={12} lg={12} sm={24} xs={24} style={{ marginTop: "-48px" }}>
             <Input.TextArea
-            //  className="pose_note_input"
+              className="pose_note_input"
               width="100%"
               placeholder="Notes"
                 onChange={(e) => this.state.notes = e.target.value}

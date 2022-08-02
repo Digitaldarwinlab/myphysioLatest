@@ -1721,7 +1721,7 @@ const Assesment1 = ({ back, next }) => {
                 <input
                   type="text"
                   className="p-2 w-50"
-                  placeholder="Cheif Complaint"
+                  placeholder="Chief Complaint"
                   name="chiefCom"
                   value={state.FirstAssesment.chiefCom}
                   onChange={(e) => {
@@ -2844,7 +2844,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={4} sm={12} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.pose}
