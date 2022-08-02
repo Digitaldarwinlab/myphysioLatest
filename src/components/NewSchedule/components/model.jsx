@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
 //moment.js
-import moment from "moment";
-import "moment/locale/zh-cn";
+// import moment from "moment";
+import moment from 'moment-timezone';
+
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_VISIT } from "../actions/types";
@@ -34,7 +35,9 @@ import { ImPlus } from "react-icons/im";
 const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const episodeState = useSelector((state) => state.episodeReducer);
   console.log(episodeState);
-
+  // moment.tz.add("Asia/Calcutta|HMT BURT IST IST|-5R.k -6u -5u -6u|01232|-18LFR.k 1unn.k HB0 7zX0");
+  // moment.tz.link("Asia/Calcutta|Asia/Kolkata");
+  moment.tz.setDefault("Asia/Kolkata")
   const days = useMemo(() => {
     return [
       "sunday",
@@ -81,6 +84,34 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   if (data.date._d) {
     console.log(data.date._d.toISOString().slice(11, 19));
     console.log(data.date.toISOString());
+  }
+  async function videoLink2(e){
+    let channel = "";
+      const user_id = localStorage.getItem("userId");
+      // setEpisode(response)
+      var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+      const physioDetails = await getPhysio(user_id);
+      if (physioDetails != "") {
+        const physio_id = physioDetails[0].uid;
+        channel += physio_id + "-";
+      } else {
+        channel += user_id + "-";
+      }
+      const patient_id = episodeState.patient_main_code;
+      channel += patient_id + "-";
+      for (var i = 0; i < 7; i++) {
+        if (i == 6) {
+          channel += "_";
+          channel += user_id;
+          channel += "_";
+          channel += e.pp_ed_id;
+          break;
+        }
+        channel += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+      }
+      return channel
   }
 
   useEffect(async () => {
@@ -184,7 +215,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   };
   const removeVisitClick = () => {
     dispatch({ type: "NAME", payload: { name: "" } });
-
+    dispatch({ type: "DAYS", payload: { days: "" } });
     dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
     dispatch({ type: "VISIT_TYPE", payload: { visitType: "" } });
 
@@ -361,7 +392,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       status: reducerData.status,
       location: reducerData.location,
       isRepeat: reducerData.isRepeat ? 1 : 0,
-      video_link: reducerData.link,
+      video_link: data.location === "Video-confrence" ? data.link : "" ,
       repeat: "weekly",
       days: reducerData.days,
       occurence: reducerData.occurence || reducerData.visit_number || 1,
@@ -475,7 +506,6 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         autoComplete="off"
       >
         <Modal
-        afterClose={removeVisitClick}
           footer={[
             <>
               {!reducerData.id && (
@@ -504,6 +534,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
           style={{ top: 30 }}
           visible={isVisible}
           onOk={handleOk}
+          onCancel={removeVisitClick}
+          afterClose={removeVisitClick}
           bodyStyle={{
             overflowY: "auto",
             height: "400px",
@@ -536,7 +568,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>} */}
                 <Row>
                   <div className="patient_search">
-                    <PatientSearch value={reducerData.patient} />
+                    <PatientSearch value={window.location.href.split('/').pop() === 'appointments' ? data.patient : reducerData.patient} />
                   </div>
                 </Row>
               </Col>
@@ -664,7 +696,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                 <Col span={12} style={{ marginTop: "5px" }}>
                   <label className="lab"> Add Video Confrences</label>
                   <Input
-                    value={data.link}
+                    value={data.link }
                     placeholder="https://drive.in/.."
                     className="modalInputs"
                     onChange={(e) => handleChange(e.target.value, "link")}

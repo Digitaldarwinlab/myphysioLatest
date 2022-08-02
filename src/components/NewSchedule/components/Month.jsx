@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DAY_DATE } from '../actions/types';
 import { GetClinicVisits, getEndDate, GetVisit } from "../../../API/Visit/visitApi"
 import { Calendar, Badge } from 'antd';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default function Month({ setIsVisible, month,setMonth}) {
+  moment.tz.setDefault("Asia/Kolkata")
   const dispatch = useDispatch()
 
   let MonthTag = useSelector(state => state.Calender.date);

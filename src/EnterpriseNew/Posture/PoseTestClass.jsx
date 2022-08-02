@@ -42,7 +42,7 @@ class PoseTestClass extends Component {
     };
   }
  toggle =(index) => {
-this.setState({toggleState:index})
+  this.setState({toggleState:index})
  } 
 
   GoBack = () => {

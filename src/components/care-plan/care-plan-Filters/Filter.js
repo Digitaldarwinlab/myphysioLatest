@@ -12,7 +12,8 @@ export default function Filter({filterExercise,checkedList ,setFilterData}){
     }
     const handleFilter = (checked,filterType,filterName) => {
         setFilterData({checked,type:filterType,name:filterName})
-        console.log({checked,filterType,filterName})
+        // console.log({checked,filterType,filterName})
+        console.log('checking',{checked,filterType,filterName})
         filterExercise(checked,filterType,filterName);
     }
     return (

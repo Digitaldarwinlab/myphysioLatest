@@ -181,6 +181,7 @@ const Navigationbar = (props) => {
             id="hamburgerMenu"
           >
             {/* aswin 10/27/2021 start */}
+            {userInfo.role !== "patient"&& 
             <Menu.Item
               key="1"
               className="ant-menu-item-selected"
@@ -204,6 +205,7 @@ const Navigationbar = (props) => {
                 />
               )}
             </Menu.Item>
+              }
           </Menu>
         ) : null}
 

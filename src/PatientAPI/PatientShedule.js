@@ -1,5 +1,5 @@
 import fetch from "isomorphic-fetch";
-import { Encode } from "../Encode/hashing";
+import { Decode, Encode } from "../Encode/hashing";
 //@get Care plan Data
 //@Input - Episode Id, date
 
@@ -10,18 +10,19 @@ export const GetPatientCarePlan = async (episodeId, date) => {
     Accept: "application/json",
     "Content-type": "application/json",
   };
-
+  let bdy = Encode({ id: episodeId, date })
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/get-care-plan/",
+      process.env.REACT_APP_API + "/get-care-plan_v1/",
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({ id: episodeId, date }),
+        body: JSON.stringify(bdy),
       }
     );
     //  console.log(response)
-    const data = await response.json();
+    const responseData = await response.json();
+    const data = Decode(responseData);
     console.log("get careplan ", data);
     //  console.log(data, "Information")
     if (response.status !== 200 && response.status !== 201) {

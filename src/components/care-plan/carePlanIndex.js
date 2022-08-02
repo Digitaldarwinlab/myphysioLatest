@@ -214,6 +214,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   });
   const reduxState = useSelector((state) => state);
   const [firstTotalEx, setFirstTotalEx] = useState([]);
+  const [filterDatarequired, setFilterDatarequired] = useState();
   const locatoin = useLocation();
   const scrlRef = useRef(null);
   console.log("careplanStarted", reduxState.carePlanRedcucer);
@@ -839,13 +840,13 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       } else {
         newData[type].splice(index, 1);
       }
+      console.log('newdata',newData)
       const data = await getFiteredExercistData(
         newData,
         dispatch,
         Pagination1.pageSize,
         1
       );
-
       // if (!data['total_exercise with applied filter']) {
       //     data['total_exercise with applied filter'] = data.length
       // }
@@ -895,13 +896,14 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         };
       });
       setExerciseList(tempdata);
+      setFilterDatarequired(tempdata)
       setCheckedList(newData);
-      // setLength(cartActualData.length);
     } else {
       console.log("filter inside not checked");
       const newData = { ...checkedList };
       let index = newData[type].indexOf(name);
       newData[type].splice(index, 1);
+      console.log('newdata',newData)
       const data = await getFiteredExercistData(
         newData,
         dispatch,
@@ -967,6 +969,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       });
       setExerciseList(tempdata);
       setCheckedList(newData);
+      setFilterDatarequired(tempdata)
       //    setLength(cartActualData.length);
     }
     dispatch({ type: RECEIVED_DATA });
@@ -1087,16 +1090,23 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const handleSearch = (value) => {
     setSearchVal(value);
   };
+  console.log(filterDatarequired);
   const searchExercise = async (search_query) => {
     const newData = { ...checkedList };
     newData["search_query"] = search_query;
-    const data = await getFiteredExercistData(
-      newData,
-      dispatch,
-      Pagination1.pageSize,
-      1
-    );
-    console.log("filter full exercise ", data);
+    // const data = await getFiteredExercistData(
+    //   newData,
+    //   dispatch,
+    //   Pagination1.pageSize,
+    //   1
+    // );
+    console.log('newdata',newData)
+    const data =   await getFiteredExercistData(
+        newData,
+        dispatch,
+        Pagination1.pageSize,
+        1
+      );
     if (data.total_exercise) {
       data["total_exercise with applied filter"] = data.total_exercise;
     }
@@ -1108,7 +1118,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     let tempdata = data.data.map((val) => {
       return {
         ex_em_id: val.ex_em_id,
-        name: val.title ? val.title : "Exercise",
+        name: val.title ? val.title : val.name,
         Rep: {
           set: 1,
           rep_count: 10,
@@ -1126,10 +1136,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             : " ",
         },
         difficulty_level: val.difficulty_level,
-        image_url: val.image_path,
-        video_url: val.video_path,
+        image_url: val.image_path ? val.image_path : val.image_url,
+        video_url: val.video_path ? val.video_path : val.video_url ,
       };
     });
+    console.log(tempdata)
     setExerciseList(tempdata);
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
@@ -1316,7 +1327,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const refreshHtml = () => {};
   //handleActiveSearch
   const handleActiveSearchResult = async (pData) => {
-    await getEpisodeDetails(pData, dispatch);
+   let a = await getEpisodeDetails(pData, dispatch);
+   console.log(a)
   };
   const AddYouTube = () => {
     let obj = {

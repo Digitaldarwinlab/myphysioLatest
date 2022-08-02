@@ -33,7 +33,7 @@
   .active-tabss  {
     background: white;
     border: 1px solid transparent;
-    background: rgb(88, 147, 241);
+    background: rgb(88, 147, 241) !important;
     color: white;
   }
   
@@ -111,7 +111,7 @@
         }
         
         .ant-col{
-          margin: 0 !important;
+       
           padding:0 ;
         }
         .col-md-9{

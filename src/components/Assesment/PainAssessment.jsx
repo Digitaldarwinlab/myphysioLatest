@@ -48,64 +48,86 @@ const PainAssessment = ({ setActive, next }) => {
   });
   const handleChange1 = async (key, value, id = 0) => {
     if (key === "nature_of_pain") {
-      state.FirstAssesment.nature_of_pain_here = value;
+      state.FirstAssesment.nature_of_pain_here = JSON.stringify(value).replace('[', '').replace(']', '').replaceAll('"', '');
+      // console.log(JSON.stringify(value).replace('[', '').replace(']', ''))
+      
+      value.forEach((e)=>{
+        delete test[e]
+      })
+      value.forEach(value=>{
       if (value == "Aching") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Aching: 1 },
-          },
-        });
+        test["Aching"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Aching: 1 },
+        //   },
+        // });
       } else if (value === "Burning") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Burning: 1 },
-          },
-        });
+        test["Burning"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Burning: 1 },
+        //   },
+        // });
       } else if (value === "Stabbing") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Stabbing: 1 },
-          },
-        });
+        test["Stabbing"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Stabbing: 1 },
+        //   },
+        // });
       } else if (value === "Needles") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Needles: 1 },
-          },
-        });
+        test["Needles"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Needles: 1 },
+        //   },
+        // });
       } else if (value === "Numbness") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Numbness: 1 },
-          },
-        });
+        test["Numbness"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Numbness: 1 },
+        //   },
+        // });
       } else if (value === "Shooting") {
-        dispatch({
-          type: STATECHANGE,
-          payload: {
-            key,
-            value: { ...test, Shooting: 1 },
-          },
-        });
+        test["Shooting"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Shooting: 1 },
+        //   },
+        // });
       } else if (value === "Stiffness") {
-        dispatch({
+        test["Stiffness"] = 1 
+        // dispatch({
+        //   type: STATECHANGE,
+        //   payload: {
+        //     key,
+        //     value: { ...test, Stiffness: 1 },
+        //   },
+        // });
+      }
+      })
+      dispatch({
           type: STATECHANGE,
           payload: {
             key,
-            value: { ...test, Stiffness: 1 },
+            value:test,
           },
         });
-      }
+      
     } else if (key === "pain_aggravating") {
       state.FirstAssesment.pain_aggravating_here = value;
       let obj = {
@@ -260,7 +282,17 @@ const PainAssessment = ({ setActive, next }) => {
                 label={<b>Nature Of Pain</b>}
                 name="Nature Of Pain"
               ></Form.Item>
-              <Radio.Group
+              <Checkbox.Group
+                style={{
+                  paddingLeft: "0px",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}
+                options={["Aching","Burning","Stabbing","Needles","Numbness","Shooting","Stiffness"]}
+                onChange={(e) => handleChange1("nature_of_pain", e)}
+                name="Nature Of Pain"
+              />
+              {/* <Radio.Group
                 name="Nature Of Pain"
                 style={{ paddingLeft: "0px", paddingTop: "15px" }}
                 onChange={(e) =>
@@ -274,7 +306,7 @@ const PainAssessment = ({ setActive, next }) => {
                 <Radio value={"Numbness"}>Numbness</Radio>
                 <Radio value={"Shooting"}>Shooting</Radio>
                 <Radio value={"Stiffness"}>Stiffness</Radio>
-              </Radio.Group>
+              </Radio.Group> */}
             </Col>
             <Col
               md={24}
@@ -459,7 +491,7 @@ const PainAssessment = ({ setActive, next }) => {
               style={{ paddingTop: "10px" }}
               className="mt-2 AreasMain"
             >
-              <Card title="Sensory Input" style={{}}>
+              <Card title="Sensory Input" >
                 <Col
                   md={24}
                   lg={24}

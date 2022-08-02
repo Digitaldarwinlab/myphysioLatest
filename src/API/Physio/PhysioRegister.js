@@ -265,7 +265,6 @@ export const searchClinic = async (value) => {
 
 
 
-
 //Update State of Patient 
 export const UpdatePhysioState = (val, dispatch) => {
     console.log("physio fdetails ",val)

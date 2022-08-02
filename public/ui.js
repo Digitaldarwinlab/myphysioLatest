@@ -18,6 +18,7 @@ function enableUiControls(localStream) {
 
   $("#screen-share-btn").click(function () {
     toggleScreenShareBtn(); // set screen share button icon
+    
     $("#screen-share-btn").prop("disabled", true); // disable the button on click
     if (screenShareActive) {
       stopScreenShare();
@@ -93,13 +94,19 @@ function toggleVisibility(elementID, visible) {
 }
 
 function toggleMic(localStream) {
-  toggleBtn($("#mic-btn")); // toggle button colors
-  $("#mic-icon").toggleClass('fa-microphone').toggleClass('fa-microphone-slash'); // toggle the mic icon
-  if ($("#mic-icon").hasClass('fa-microphone')) {
+  //toggleBtn($("#mic-btn")); // toggle button colors
+  // toggle the mic icon
+  if ($("#mic-btn").hasClass('btn-red')) {
+    console.log("mic button clicked if ")
     localStream.unmuteAudio(); // enable the local mic
+    $("#mic-btn").toggleClass('btn-red').toggleClass('btn-dark')
+    $("#v_mic-icon").toggleClass('fa-microphone-slash').toggleClass('fa-microphone')
     toggleVisibility("#mute-overlay", false); // hide the muted mic icon
   } else {
+    console.log("mic button clicked else ")
     localStream.muteAudio(); // mute the local mic
+    $("#mic-btn").toggleClass('btn-dark').toggleClass('btn-red');
+    $("#v_mic-icon").toggleClass('fa-microphone').toggleClass('fa-microphone-slash'); 
     toggleVisibility("#mute-overlay", true); // show the muted mic icon
   }
 }

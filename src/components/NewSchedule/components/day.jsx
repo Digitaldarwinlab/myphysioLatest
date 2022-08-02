@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment-timezone';
 import "moment/locale/zh-cn";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DAY_DATE } from "../actions/types";
 
 export default function Day({ setIsVisible, day }) {
+  moment.tz.setDefault("Asia/Kolkata")
   const dispatch = useDispatch();
   let dayTag = useSelector((state) => state.Calender.date);
   const [data, setData] = useState([]);
@@ -312,7 +313,7 @@ export default function Day({ setIsVisible, day }) {
                         d.startTime.slice(3, 5) < 15
                     )
                     .map((d, i) => (
-                      <button onClick={() => handleVisitClick(d)}>
+                      <button style={{marginRight:'5px'}} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
@@ -430,7 +431,7 @@ export default function Day({ setIsVisible, day }) {
                         d.startTime.slice(3, 5) < 30
                     )
                     .map((d, i) => (
-                      <button key={d.id} onClick={() => handleVisitClick(d)}>
+                      <button style={{marginRight:'5px'}} key={d.id} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
@@ -531,7 +532,7 @@ export default function Day({ setIsVisible, day }) {
                         d.startTime.slice(3, 5) < 45
                     )
                     .map((d, i) => (
-                      <button key={d.id} onClick={() => handleVisitClick(d)}>
+                      <button  style={{marginRight:'5px'}} key={d.id} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
@@ -632,7 +633,7 @@ export default function Day({ setIsVisible, day }) {
                         d.startTime.slice(3, 5) < 60
                     )
                     .map((d, i) => (
-                      <button key={d.id} onClick={() => handleVisitClick(d)}>
+                      <button style={{marginRight:'5px'}} key={d.id} onClick={() => handleVisitClick(d)}>
                         {d.patient}
                       </button>
                     ))}
