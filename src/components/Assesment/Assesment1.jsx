@@ -2693,7 +2693,156 @@ const Assesment1 = ({ back, next }) => {
       </Row> */}
       <Row gutter={[10, 10]}>
         {/* <Space> */}
-          <Col md={8} lg={8} sm={12} xs={12}>
+       <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pain1}
+              onChange={(e) => handleChange("pain1", !e.target.checked)}
+            >
+              {state.FirstAssesment.pain1 ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pose}
+              onChange={(e) => handleChange("pose", !e.target.checked)}
+            >
+              {state.FirstAssesment.pose ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.romAssAi}
+              onChange={(e) => handleChange("romAssAi", !e.target.checked)}
+            >
+              {state.FirstAssesment.romAssAi ? (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  className="btn-new-check"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  type="text"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
             <Checkbox
               checked={!state.FirstAssesment.quest}
               onChange={(e) => handleChange("quest", !e.target.checked)}
@@ -2748,54 +2897,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.pain1}
-              onChange={(e) => handleChange("pain1", !e.target.checked)}
-            >
-              {state.FirstAssesment.pain1 ? (
-                <Button
-                  className="btn-new-check"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pain1
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.pain1}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      OnAssesmentPage();
-                    } else {
-                      goPain();
-                    }
-                  }}
-                >
-                  Pain Assessment
-                </Button>
-              ) : (
-                <Button
-                  type="text"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pain1
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.pain1}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      OnAssesmentPage();
-                    } else {
-                      goPain();
-                    }
-                  }}
-                >
-                  Pain Assessment
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.special}
@@ -2844,109 +2946,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={8} sm={12} xs={24}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.pose}
-              onChange={(e) => handleChange("pose", !e.target.checked)}
-            >
-              {state.FirstAssesment.pose ? (
-                <Button
-                  className="btn-new-check"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pose
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  id="posture-btn"
-                  disabled={state.FirstAssesment.pose}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      history.push("/assesment/PoseTest");
-                    }
-                  }}
-                >
-                  Posture Test
-                </Button>
-              ) : (
-                <Button
-                  type="text"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pose
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  id="posture-btn"
-                  disabled={state.FirstAssesment.pose}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      history.push("/assesment/PoseTest");
-                    }
-                  }}
-                >
-                  Posture Test
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.romAssAi}
-              onChange={(e) => handleChange("romAssAi", !e.target.checked)}
-            >
-              {state.FirstAssesment.romAssAi ? (
-                <Button
-                  style={{
-                    backgroundColor: state.FirstAssesment.romAssAi
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.romAssAi}
-                  className="btn-new-check"
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      RomAI();
-                    }
-                  }}
-                  id="rom"
-                >
-                  AROM (using AI)
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: state.FirstAssesment.romAssAi
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.romAssAi}
-                  type="text"
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      RomAI();
-                    }
-                  }}
-                  id="rom"
-                >
-                  AROM (using AI)
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
+         <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.romAss}
