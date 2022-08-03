@@ -503,6 +503,9 @@ const PainAssessment = ({ setActive, next }) => {
                 <Radio value={"Absent"}>Absent</Radio>
               </Radio.Group> */}
             </Col>
+            <Col style={{marginTop:'10px'}} span={24}>
+                  <u><b>Sensory Inputs</b></u>
+                </Col>
             <Col
               md={24}
               lg={24}
@@ -562,6 +565,26 @@ const PainAssessment = ({ setActive, next }) => {
                     </Col>
                   </Row>
                 </Col> */}
+                <Col
+                md={24}
+                lg={24}
+                sm={24}
+                xs={24}
+                style={{ paddingTop: "10px" }}
+               // className="mt-2 px-3"
+              >
+                <b>Superficial :</b><br/>
+                <Radio.Group
+                    name="Superficial"
+                    onChange={(e) =>
+                      handleChange1("superficial", e.target.value)
+                    }
+                  >
+                    <Radio value={"Intact"}>Intact</Radio>
+                    <Radio value={"Impaired"}>Impaired</Radio>
+                    <Radio value={"Absent"}>Absent</Radio>
+                  </Radio.Group>
+              </Col>
               <Col
                 md={24}
                 lg={24}
