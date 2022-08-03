@@ -764,7 +764,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     <Descriptions>
                                       <Descriptions.Item label="Nature Of Pain">
                                         {data.nature_of_pain
-                                          ? data.nature_of_pain
+                                          ? JSON.stringify(data.nature_of_pain).replace('[', '').replace(']', '').replaceAll('"', '')
                                           : "not available"}
                                       </Descriptions.Item>
                                       <Descriptions.Item label="Pain Scale">
@@ -1853,7 +1853,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     <Descriptions>
                                       <Descriptions.Item label="Nature Of Pain">
                                         {data.nature_of_pain
-                                          ? data.nature_of_pain
+                                          ? JSON.stringify(data.nature_of_pain).replace('[', '').replace(']', '').replaceAll('"', '')
                                           : "not available"}
                                       </Descriptions.Item>
                                       <Descriptions.Item label="Pain Scale">

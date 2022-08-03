@@ -116,41 +116,50 @@ export default function Week({ setIsVisible, currentWeek }) {
     return newVisits;
   };
 
+  // useEffect(() => {
+  //   const getVisits = async () => {
+  //     const responseData = await GetVisit();
+  //     const showVisits = parseVisits(responseData);
+  //     console.log(showVisits);
+  //     setData(showVisits);
+  //     console.log(showVisits);
+  //   };
+  //   let role = JSON.parse(localStorage.getItem("user"));
+  //   const getClinicVisits = async () => {
+  //     const responseData = await GetClinicVisits(role.clinic_id);
+  //     const showVisits = parseVisits(responseData);
+  //     console.log(showVisits);
+  //     setData(showVisits);
+  //   };
+  //   if (role.role == "admin") {
+  //     console.log(true);
+  //     getClinicVisits()
+  //   } else {
+  //     console.log("role is ", role.role);
+  //     getClinicVisits();
+  //   }
+
+  //   // let role = JSON.parse(localStorage.getItem("user"))
+  //   // // console.log(role)
+  //   // const getClinicVisits = async () => {
+  //   //   console.log(role)
+  //   //     const responseData = await GetClinicVisits(role.clinic_id);
+  //   //     const showVisits = parseVisits(responseData);
+  //   //     setData(showVisits)
+  //   // }
+
+  //   // getClinicVisits(role)
+  // }, []);
   useEffect(() => {
-    const getVisits = async () => {
-      const responseData = await GetVisit();
-      const showVisits = parseVisits(responseData);
-      console.log(showVisits);
-      setData(showVisits);
-      console.log(showVisits);
-    };
     let role = JSON.parse(localStorage.getItem("user"));
     const getClinicVisits = async () => {
       const responseData = await GetClinicVisits(role.clinic_id);
       const showVisits = parseVisits(responseData);
-      console.log(showVisits);
       setData(showVisits);
     };
-    if (role.role == "admin") {
-      console.log("role is ", role.role);
-      getVisits();
-    } else {
-      console.log("role is ", role.role);
-      getClinicVisits();
-    }
 
-    // let role = JSON.parse(localStorage.getItem("user"))
-    // // console.log(role)
-    // const getClinicVisits = async () => {
-    //   console.log(role)
-    //     const responseData = await GetClinicVisits(role.clinic_id);
-    //     const showVisits = parseVisits(responseData);
-    //     setData(showVisits)
-    // }
-
-    // getClinicVisits(role)
+    getClinicVisits(role);
   }, []);
-
   const handleVisitClick = (data) => {
     //         allDay: false
     // complaint: "Check Up"
