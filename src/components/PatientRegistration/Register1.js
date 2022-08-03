@@ -5,7 +5,7 @@ import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from "./../UtilityComponents/StepBar";
-import svg from "././../../assets/step1.png";
+import svg from "././../../assets/step1.webp";
 import "../../styles/Layout/Episode.css";
 import FormInput from "../UI/antInputs/FormInput";
 import FormDate from "../UI/antInputs/FormDate";

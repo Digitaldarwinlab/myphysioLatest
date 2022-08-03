@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import AuthForm from './Form';
-import loginImage from "../assets/loginImage.JPG";
+import loginImage from "../assets/loginImage.webp";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../Styles/userAuth/userAuth.css"; 
 import { LazyLoadImage } from 'react-lazy-load-image-component';

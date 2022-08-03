@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import signupImage from "./../../assets/signupImage.JPG";
+import signupImage from "./../../assets/signupImage.webp";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import { Row, Col } from 'antd';
 import { useParams } from "react-router-dom";

@@ -5,7 +5,7 @@ import { STATECHANGE, VALIDATION, BASIC_CLEARSTATE3, PATIENT_REG_FAILURE } from 
 import { Patient_Register, Patient_Update } from "../../API/PatientRegistration/Patient"
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
-import svg from "././../../assets/step3.png";
+import svg from "././../../assets/step3.webp";
 import StepBar from './../UtilityComponents/StepBar';
 import { Typography, Modal, Row, Col, Table, Button, Form, Space } from 'antd';
 import FormTextArea from '../UI/antInputs/FormTextArea';

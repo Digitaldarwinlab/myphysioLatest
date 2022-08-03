@@ -2,7 +2,7 @@
 /*eslint array-callback-return:"off" */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import svg from "./../../assets/step3.png";
+import svg from "./../../assets/step3.webp";
 import StepBar from './../UtilityComponents/StepBar';
 import { physioRegister, physioUpdate } from './../../API/Physio/PhysioRegister';
 import { Typography, Row, Modal, Button, Col, Form, Table } from 'antd';

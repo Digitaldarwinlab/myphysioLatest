@@ -128,11 +128,12 @@ client.on("peer-leave", function(evt) {
   if(remoteStreams[streamId] != undefined) {
     remoteStreams[streamId].stop(); // stop playing the feed
     delete remoteStreams[streamId]; // remove stream from list
-    if (streamId == mainStreamId) {
+    if (streamId === mainStreamId) {
       var streamIds = Object.keys(remoteStreams);
       var randomId = streamIds[Math.floor(Math.random()*streamIds.length)]; // select from the remaining streams
       remoteStreams[randomId].stop(); // stop the stream's existing playback
       var remoteContainerID = '#' + randomId + '_container';
+      console.log(remoteContainerID)
       $(remoteContainerID).empty().remove(); // remove the stream's miniView container
       remoteStreams[randomId].play('full-screen-video'); // play the random stream as the main stream
       mainStreamId = randomId; // set the new main remote stream

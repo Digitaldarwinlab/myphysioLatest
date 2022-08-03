@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import img from "../assets/bodyFront.png";
+// import img from "../../assets/bodyFront.webp";
 import { useContext } from "react";
 import { AuthContext } from "../Store/auth-context";
 import { useHistory } from "react-router-dom";

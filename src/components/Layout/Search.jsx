@@ -524,16 +524,16 @@ const SearchPatient = () => {
  </Col>
              </Row>
                     </Row>
-                    <div style={{ minHeight: "20px" }}></div>
+                    <div style={{ minHeight: "20px"}}></div>
            
-        <Row>
+        <Row >
         <Col className="pag_large" md={24} sm={24} xs={24}>
-          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 ,position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
+          <Table  locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8 ,position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
           {show_password_modal()}
           {show_Authorize_Modal()}
         </Col>
         <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
-          <Table locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small",position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
+          <Table style={{width:'100%'}} locale={locale} loading={newLoading} scroll={{ x: scroll }} pagination={{ pageSize: 8,size:"small",position:['none', 'bottomCenter'] }} bordered columns={columns} dataSource={patientData} />
         </Col>
           {/* {show_password_modal()} */}
       </Row>

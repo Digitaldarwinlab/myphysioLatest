@@ -1,4 +1,4 @@
-import logoImg from "../assets/newlogo1.png";
+import logoImg from "../assets/newlogo1.webp";
 import './logo.css'
 export default function MyPhysioLogo(props) {
     var style 

@@ -51,38 +51,38 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { notification, Descriptions, Table } from "antd";
 import "./Assesment1.css";
 // aswin 10/24/2021 stop
-import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
-import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
-import DeltoidsA from "./../../assets/Crops/07.A-Deltoids.png";
-import DeltoidsB from "./../../assets/Crops/07.B-Deltoids.png";
-import Pecs from "./../../assets/Crops/06.-Pecs.png";
-import bicepsA from "./../../assets/Crops/05.A-Biceps.png";
-import bicepsB from "./../../assets/Crops/05.B-Biceps.png";
-import forearmA from "./../../assets/Crops/14.A-Forearms.png";
-import forearmB from "./../../assets/Crops/14.B-Forearms.png";
-import obliques from "./../../assets/Crops/04.-Obliques.png";
-import quadsA from "./../../assets/Crops/01.A-Quads.png";
-import quadsB from "./../../assets/Crops/01.B-Quads.png";
-import calvesA from "./../../assets/Crops/13.A-Calves.png";
-import calvesB from "./../../assets/Crops/13.B-Calves.png";
-import backtrapsA from "./../../assets/Crops/08.B-Traps.png";
-import backtrapsB from "./../../assets/Crops/08.C-Traps.png";
-import backshouldersA from "./../../assets/Crops/07.C-Deltoids.png";
-import backshouldersB from "./../../assets/Crops/07.D-Deltoids.png";
-import tricepsA from "./../../assets/Crops/09.A-Triceps.png";
-import tricepsB from "./../../assets/Crops/09.B-Triceps.png";
-import backLatsA from "./../../assets/Crops/10.A-Lats.png";
-import backLatsB from "./../../assets/Crops/10.B-Lats.png";
-import backlower from "./../../assets/Crops/15.-Lower-Back.png";
-import backforearmsA from "./../../assets/Crops/14.C-Forearms.png";
-import backforearmsB from "./../../assets/Crops/14.D-Forearms.png";
-import backglutes from "./../../assets/Crops/11.-Glutes.png";
-import backhamstringsA from "./../../assets/Crops/12.A-Hamstrings.png";
-import backhamstringsB from "./../../assets/Crops/12.B-Hamstrings.png";
-import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
-import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
-import background from "./../../assets/Crops/00.-Blank-Figures.png";
-import MobBackground from "./../../assets/Crops//mobilebg.png";
+import TrapsLeft from "./../../assets/Crops/08TrapsLeft.webp";
+import Trapsright from "./../../assets/Crops/08.-TrapsRight.webp";
+import DeltoidsA from "./../../assets/Crops/07.A-Deltoids.webp";
+import DeltoidsB from "./../../assets/Crops/07.B-Deltoids.webp";
+import Pecs from "./../../assets/Crops/06.-Pecs.webp";
+import bicepsA from "./../../assets/Crops/05.A-Biceps.webp";
+import bicepsB from "./../../assets/Crops/05.B-Biceps.webp";
+import forearmA from "./../../assets/Crops/14.A-Forearms.webp";
+import forearmB from "./../../assets/Crops/14.B-Forearms.webp";
+import obliques from "./../../assets/Crops/04.-Obliques.webp";
+import quadsA from "./../../assets/Crops/01.A-Quads.webp";
+import quadsB from "./../../assets/Crops/01.B-Quads.webp";
+import calvesA from "./../../assets/Crops/13.A-Calves.webp";
+import calvesB from "./../../assets/Crops/13.B-Calves.webp";
+import backtrapsA from "./../../assets/Crops/08.B-Traps.webp";
+import backtrapsB from "./../../assets/Crops/08.C-Traps.webp";
+import backshouldersA from "./../../assets/Crops/07.C-Deltoids.webp";
+import backshouldersB from "./../../assets/Crops/07.D-Deltoids.webp";
+import tricepsA from "./../../assets/Crops/09.A-Triceps.webp";
+import tricepsB from "./../../assets/Crops/09.B-Triceps.webp";
+import backLatsA from "./../../assets/Crops/10.A-Lats.webp";
+import backLatsB from "./../../assets/Crops/10.B-Lats.webp";
+import backlower from "./../../assets/Crops/15.-Lower-Back.webp";
+import backforearmsA from "./../../assets/Crops/14.C-Forearms.webp";
+import backforearmsB from "./../../assets/Crops/14.D-Forearms.webp";
+import backglutes from "./../../assets/Crops/11.-Glutes.webp";
+import backhamstringsA from "./../../assets/Crops/12.A-Hamstrings.webp";
+import backhamstringsB from "./../../assets/Crops/12.B-Hamstrings.webp";
+import backcalvesA from "./../../assets/Crops/13.C-Calves.webp";
+import backcalvesB from "./../../assets/Crops/13.D-Calves.webp";
+import background from "./../../assets/Crops/00.-Blank-Figures.webp";
+import MobBackground from "./../../assets/Crops//mobilebg.webp";
 import { useRef } from "react";
 import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
 
@@ -2693,7 +2693,156 @@ const Assesment1 = ({ back, next }) => {
       </Row> */}
       <Row gutter={[10, 10]}>
         {/* <Space> */}
-          <Col md={8} lg={8} sm={12} xs={12}>
+       <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pain1}
+              onChange={(e) => handleChange("pain1", !e.target.checked)}
+            >
+              {state.FirstAssesment.pain1 ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pain1
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.pain1}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      OnAssesmentPage();
+                    } else {
+                      goPain();
+                    }
+                  }}
+                >
+                  Pain Assessment
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.pose}
+              onChange={(e) => handleChange("pose", !e.target.checked)}
+            >
+              {state.FirstAssesment.pose ? (
+                <Button
+                  className="btn-new-check"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              ) : (
+                <Button
+                  type="text"
+                  style={{
+                    backgroundColor: state.FirstAssesment.pose
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  id="posture-btn"
+                  disabled={state.FirstAssesment.pose}
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      history.push("/assesment/PoseTest");
+                    }
+                  }}
+                >
+                  Posture Test
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
+            {" "}
+            <Checkbox
+              checked={!state.FirstAssesment.romAssAi}
+              onChange={(e) => handleChange("romAssAi", !e.target.checked)}
+            >
+              {state.FirstAssesment.romAssAi ? (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  className="btn-new-check"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    backgroundColor: state.FirstAssesment.romAssAi
+                      ? "grey"
+                      : "#2d7ecb",
+                  }}
+                  disabled={state.FirstAssesment.romAssAi}
+                  type="text"
+                  onClick={() => {
+                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+                      console.log("OnAssessmentScreen inside");
+                      OnAssesmentPage();
+                    } else {
+                      RomAI();
+                    }
+                  }}
+                  id="rom"
+                >
+                  AROM (using AI)
+                </Button>
+              )}
+            </Checkbox>
+          </Col>
+          <Col md={8} lg={8} sm={24} xs={24}>
             <Checkbox
               checked={!state.FirstAssesment.quest}
               onChange={(e) => handleChange("quest", !e.target.checked)}
@@ -2748,54 +2897,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.pain1}
-              onChange={(e) => handleChange("pain1", !e.target.checked)}
-            >
-              {state.FirstAssesment.pain1 ? (
-                <Button
-                  className="btn-new-check"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pain1
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.pain1}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      OnAssesmentPage();
-                    } else {
-                      goPain();
-                    }
-                  }}
-                >
-                  Pain Assessment
-                </Button>
-              ) : (
-                <Button
-                  type="text"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pain1
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.pain1}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      OnAssesmentPage();
-                    } else {
-                      goPain();
-                    }
-                  }}
-                >
-                  Pain Assessment
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.special}
@@ -2844,109 +2946,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={8} sm={12} xs={24}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.pose}
-              onChange={(e) => handleChange("pose", !e.target.checked)}
-            >
-              {state.FirstAssesment.pose ? (
-                <Button
-                  className="btn-new-check"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pose
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  id="posture-btn"
-                  disabled={state.FirstAssesment.pose}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      history.push("/assesment/PoseTest");
-                    }
-                  }}
-                >
-                  Posture Test
-                </Button>
-              ) : (
-                <Button
-                  type="text"
-                  style={{
-                    backgroundColor: state.FirstAssesment.pose
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  id="posture-btn"
-                  disabled={state.FirstAssesment.pose}
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      history.push("/assesment/PoseTest");
-                    }
-                  }}
-                >
-                  Posture Test
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
-            {" "}
-            <Checkbox
-              checked={!state.FirstAssesment.romAssAi}
-              onChange={(e) => handleChange("romAssAi", !e.target.checked)}
-            >
-              {state.FirstAssesment.romAssAi ? (
-                <Button
-                  style={{
-                    backgroundColor: state.FirstAssesment.romAssAi
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.romAssAi}
-                  className="btn-new-check"
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      RomAI();
-                    }
-                  }}
-                  id="rom"
-                >
-                  AROM (using AI)
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    backgroundColor: state.FirstAssesment.romAssAi
-                      ? "grey"
-                      : "#2d7ecb",
-                  }}
-                  disabled={state.FirstAssesment.romAssAi}
-                  type="text"
-                  onClick={() => {
-                    if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                      console.log("OnAssessmentScreen inside");
-                      OnAssesmentPage();
-                    } else {
-                      RomAI();
-                    }
-                  }}
-                  id="rom"
-                >
-                  AROM (using AI)
-                </Button>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={8} lg={8} sm={12} xs={12}>
+         <Col md={8} lg={8} sm={24} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.romAss}
