@@ -26,7 +26,6 @@ import {
 } from "../../../contextStore/actions/care-plan-action";
 import {
   EditCarePlanAllocation,
-  GetJoint,
   postCarePlanAllocation,
 } from "../../../API/care-plan/care-plan-api";
 import { FaCheck } from "react-icons/fa";
@@ -86,49 +85,8 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       let timepick = document.getElementsByName("startDate");
       console.log("timepick ", timepick);
     }
-    const callJoints = async () => {
-      const romJoint = await GetJoint();
-      console.log("joints are ",romJoint)
-      let temp = romJoint.reverse();
-      let obj = {};
-      temp.filter((item) => {
-        if (
-          item.ex_jm_id !== 1 &&
-          item.ex_jm_id !== 2 &&
-          item.ex_jm_id !== 3 &&
-          item.ex_jm_id !== 4 &&
-          item.ex_jm_id !== 5
-        ) {
-          if (item.JointType == "Neck") {
-            let temp = {
-              joint: item.joint_name,
-              min: item.MinAngle,
-              max: item.MaxAngle,
-            };
-            obj["Cervical"] = temp;
-          } else {
-            console.log("joints are ",item)
-            let temp = {
-              joint: item.joint_name,
-              min: item.MinAngle,
-              max: item.MaxAngle,
-            };
-            obj[item.JointType] = temp;
-          }
-        }
-      });
-      console.log("joints are ",obj)
-      dispatch({
-        type: CARE_PLAN_STATE_CHANGE,
-        payload: {
-          key: "romJoints",
-          value: obj,
-        },
-      });
-    }
-    useEffect(() => {
-      callJoints()
-    }, []);
+    
+    
     let timeSlots = changeTimeSlots(state.count_time_slots);
     if (state.time_slot_edit == 1) {
     console.log("not replicate")
