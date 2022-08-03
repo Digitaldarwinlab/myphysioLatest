@@ -18,34 +18,34 @@ import CarePlanView from './carePlanView/carePlanView';
 import '../../styles/Layout/Heading.css'
 import Tempdashboard from "./PatientGraph/Tempdashboard";
 import Exercise from './ExerciseDetail/Exercise'
-{/* aswin start 10/30/2021 stop */}
+{/* aswin start 10/30/2021 stop */ }
 import { getEpisode } from "../../API/Episode/EpisodeApi";
 import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
-import {STATECHANGE}  from '../../contextStore/actions/Assesment'
+import { STATECHANGE } from '../../contextStore/actions/Assesment'
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import Invoice from "./Invoice/Invoice";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
-const pp='asas'
+const pp = 'asas'
 
 const EpisodeVisitDetails = () => {
     const episodeRef = useRef(null);
-    const episodeDetail=useSelector(state=>state)
+    const episodeDetail = useSelector(state => state)
     const history = useHistory();
     const checkEpisodeId = async () => {
-        if(episodeDetail.episodeReducer.patient_code){
+        if (episodeDetail.episodeReducer.patient_code) {
             const res = await getEpisode(episodeDetail.episodeReducer.patient_code)
-            if(res.length===0){
+            if (res.length === 0) {
                 dispatch({ type: "EPISODE_CHECK", payload: "patient don't have an episode" });
                 setTimeout(() => {
-                    dispatch({type:"NOERROR"})
+                    dispatch({ type: "NOERROR" })
                 }, 10000);
                 return false;
             }
-            if(res[0].end_date.length===0){
+            if (res[0].end_date.length === 0) {
                 return true;
             }
             // notification.warning({
@@ -63,23 +63,23 @@ const EpisodeVisitDetails = () => {
             //       Add-episode
             //     </Button>,
             // })
-            dispatch({ type: "EPISODE_CHECK", payload: "patient don't have open an episode"  });
+            dispatch({ type: "EPISODE_CHECK", payload: "patient don't have open an episode" });
             setTimeout(() => {
-                dispatch({type:"NOERROR"})
+                dispatch({ type: "NOERROR" })
             }, 10000);
             return false;
-           // message.error("Patient don't have an open episode");
-          //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
-        }else{
+            // message.error("Patient don't have an open episode");
+            //  setTimeout(function(){ history.push('/add-episode'); }, 5000);
+        } else {
             // notification.warning({
             //     message: "Please select a patient",
             //     placement: 'bottomLeft',
             //     duration: 5,
             //     style:'margin-top:20px'
             // });
-            dispatch({ type: "EPISODE_CHECK", payload: "Please select a patient"  });
+            dispatch({ type: "EPISODE_CHECK", payload: "Please select a patient" });
             setTimeout(() => {
-                dispatch({type:"NOERROR"})
+                dispatch({ type: "NOERROR" })
             }, 3000);
             return false;
         }
@@ -89,10 +89,10 @@ const EpisodeVisitDetails = () => {
     const carePlanState = useSelector(state => state.carePlanRedcucer)
     //  console.log(state)
     const dispatch = useDispatch();
-    const [activetabindex,Setactivetabindex]=useState(history.location.state ? history.location.state.tab : '1 '  )
-  // console.log('historyyy is : ' + history.location.state.tab + ' : '  + activetabindex)
-//  console.log('history iss : ' +  activetabindex)
-//console.log(history)   
+    const [activetabindex, Setactivetabindex] = useState(history.location.state ? history.location.state.tab : '1 ')
+    // console.log('historyyy is : ' + history.location.state.tab + ' : '  + activetabindex)
+    //  console.log('history iss : ' +  activetabindex)
+    //console.log(history)   
     const [patId, setPatId] = React.useState(state.patient_code);
     const [change, setChange] = React.useState(true);
     const [viewState, setViewState] = React.useState({
@@ -147,7 +147,7 @@ const EpisodeVisitDetails = () => {
     //update Patient State 
     const updatePatientState = async (val) => {
         //Updating Care Plan Episode Details
-       await  getEpisodeDetails(val, dispatch);
+        await getEpisodeDetails(val, dispatch);
 
         setViewState({
             ...viewState,
@@ -159,7 +159,7 @@ const EpisodeVisitDetails = () => {
             MobileNo: val.mobile_no,
             landline: val.landline,
             WhatsAppNo: val.whatsapp_no,
-            Address: val.Address_1, 
+            Address: val.Address_1,
             pincode: val.pin,
             City: val.city,
             dob: val.dob,
@@ -174,52 +174,75 @@ const EpisodeVisitDetails = () => {
             FamilyHistory: val.patient_Family_History
         });
     }
-    useEffect( async () => {
+    useEffect(async () => {
         localStorage.setItem('care-plan-cart', JSON.stringify([]))
+        localStorage.removeItem("AI_Data");
+        localStorage.removeItem("Posture_Data");
+        dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:"Anterior_AI_Data",
+              value:"",
+            },
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:"LeftLateral_AI_Data",
+              value:"",
+            },
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key:"RightLateral_AI_Data",
+              value:"",
+            },
+          });
         let state = { ...history.location.state };
         // console.log("history loaction ",state)
-        if(history.location.state){
-            if(history.location.state.prevPath==='/visit')
-            if(!isNaN(history.location.state.id)){
-                const res = await Patient_profile(parseInt(history.location.state.id))
-                // console.log("working ",res)
-                updatePatientState(res)
-                dispatch({
-                    type: EPISODE_STATECHANGE,
-                    payload: {
-                        key: 'patient_main_code',
-                        value: res.patient_code
-                    }
-                })
-                dispatch({
-                    type: EPISODE_STATECHANGE,
-                    payload: {
-                        key: 'patient_name',
-                        value: res.first_name+" "+res.last_name
-                    }
-                })
-                dispatch({
-                    type: EPISODE_STATECHANGE,
-                    payload: {
-                        key: 'Patient_no',
-                        value: res.mobile_no
-                    }
-                })
-                dispatch({
-                    type: EPISODE_STATECHANGE,
-                    payload: {
-                        key: 'patient_code',
-                        value: res.pp_patm_id
-                    }
-                })
-                history.replace({ ...history.location, state:{} })
-               // window.history.location.state = {}
-            }
+        if (history.location.state) {
+            if (history.location.state.prevPath === '/visit')
+                if (!isNaN(history.location.state.id)) {
+                    const res = await Patient_profile(parseInt(history.location.state.id))
+                    // console.log("working ",res)
+                    updatePatientState(res)
+                    dispatch({
+                        type: EPISODE_STATECHANGE,
+                        payload: {
+                            key: 'patient_main_code',
+                            value: res.patient_code
+                        }
+                    })
+                    dispatch({
+                        type: EPISODE_STATECHANGE,
+                        payload: {
+                            key: 'patient_name',
+                            value: res.first_name + " " + res.last_name
+                        }
+                    })
+                    dispatch({
+                        type: EPISODE_STATECHANGE,
+                        payload: {
+                            key: 'Patient_no',
+                            value: res.mobile_no
+                        }
+                    })
+                    dispatch({
+                        type: EPISODE_STATECHANGE,
+                        payload: {
+                            key: 'patient_code',
+                            value: res.pp_patm_id
+                        }
+                    })
+                    history.replace({ ...history.location, state: {} })
+                    // window.history.location.state = {}
+                }
         }
-  
-      }, []);
+
+    }, []);
     const episodeClick = () => {
-        
+
         history.push({
             pathname: "/add-episode",
             state: {
@@ -231,12 +254,12 @@ const EpisodeVisitDetails = () => {
             }
         })
 
-        
+
     }
     // aswin 11/1/2021 start
     const handleClick = async () => {
         const res = await checkEpisodeId()
-        if(res===true){
+        if (res === true) {
             return history.push({
                 pathname: "/appointments",
                 state: {
@@ -246,26 +269,26 @@ const EpisodeVisitDetails = () => {
         }
     }
 
-    
-  const handlePrint = useReactToPrint({
-    content: () => episodeRef.current,
-  });
+
+    const handlePrint = useReactToPrint({
+        content: () => episodeRef.current,
+    });
 
     const assesmentClick = async () => {
         const res = await checkEpisodeId()
-        if(res===true){
-        history.push({
-            pathname: "/assessment/1",
-            state: {
-                patient: [{ code: state.patient_code }],
+        if (res === true) {
+            history.push({
+                pathname: "/assessment/1",
+                state: {
+                    patient: [{ code: state.patient_code }],
 
-            }
-        })
+                }
+            })
+        }
     }
-}
     const prescriptionClick = async () => {
         const res = await checkEpisodeId()
-        if(res===true){
+        if (res === true) {
             history.push({
                 pathname: "/notes"
             })
@@ -273,7 +296,7 @@ const EpisodeVisitDetails = () => {
     }
     const carePlanClick = async () => {
         const res = await checkEpisodeId()
-        if(res===true){
+        if (res === true) {
             history.push({
                 pathname: "/care-plan"
             })
@@ -289,12 +312,12 @@ const EpisodeVisitDetails = () => {
                 <div style={{ minHeight: "20px" }}></div>
                 <Row>
                     <Col lg={18} md={14} sm={14} xs={24}>
-                        <h3 style={{fontSize:'20px'}} className="fw-bold page-heading">
+                        <h3 style={{ fontSize: '20px' }} className="fw-bold page-heading">
                             <i className="fas fa-arrow-left" style={{ cursor: "pointer" }}
                                 onClick={() => { history.push('/pateints') }}
                                 title="Go Back"
                                 role="button"></i>
-                             <b className="fw-bold"> Patient</b>
+                            <b className="fw-bold"> Patient</b>
                         </h3>
                     </Col>
                     <Col lg={6} md={10} sm={10} xs={24}>
@@ -310,22 +333,22 @@ const EpisodeVisitDetails = () => {
         return (
             <Row className="pat_details_mobile" >
                 <Col lg={6} md={6} sm={4} xs={24}>
-                    <h3 style={{fontSize:'20px'}} className="fw-bold">Patient Details</h3>
+                    <h3 style={{ fontSize: '20px' }} className="fw-bold">Patient Details</h3>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24} >
-                        <p className="fw-bold" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
+                    <p className="fw-bold" ><strong>Patient Code : </strong> {state.patient_main_code}</p>
                     {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                     
                     </div> */}
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={24}>
-                        <p className="fw-bold"> <strong>Patient Name :</strong> {state.patient_name}</p>
+                    <p className="fw-bold"> <strong>Patient Name :</strong> {state.patient_name}</p>
                     {/* <div className="border rounded " style={{maxHeight:'45px'}}>
                        
                     </div> */}
                 </Col>
-               {userInfo.role!='physio'&&<Col lg={6} md={6} sm={12} xs={24}>
-                        <p className="fw-bold"><strong> Contact Number : </strong> {state.Patient_no} </p>
+                {userInfo.role != 'physio' && <Col lg={6} md={6} sm={12} xs={24}>
+                    <p className="fw-bold"><strong> Contact Number : </strong> {state.Patient_no} </p>
                 </Col>}
             </Row>
         )
@@ -339,8 +362,8 @@ const EpisodeVisitDetails = () => {
     const DetailTabs = () => {
         return (
             <div className="card card-container PatientDetails">
-                <Tabs defaultActiveKey={activetabindex==2 ? '2' :  '1'} type="card" size="medium">
-                    <TabPane 
+                <Tabs defaultActiveKey={activetabindex == 2 ? '2' : '1'} type="card" size="medium">
+                    <TabPane
                         tab={<div className="fw-bold ant-tabs-btn">Patient Details</div>}
                         key="1"
                     >
@@ -353,7 +376,7 @@ const EpisodeVisitDetails = () => {
                         }
                         key="2"
                     >
-                        <Episodes handleClick2={episodeClick}  />
+                        <Episodes handleClick2={episodeClick} />
                     </TabPane>
                     <TabPane
                         tab={
@@ -397,23 +420,23 @@ const EpisodeVisitDetails = () => {
                         }
                         key="8"
                     >
-                        {console.log('params ',`${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
-                        {process.env.NODE_ENV=="development"?  <iframe
+                        {console.log('params ', `${`http://13.127.176.250:8089/superset/dashboard/1/?standalone=true&physio_id=${localStorage.getItem('userId')}&patient_id=${carePlanState.patient_code}`}`)}
+                        {process.env.NODE_ENV == "development" ? <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
                             src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>:  <iframe
+                        >
+                        </iframe> : <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"
                             frameBorder="0"
                             id="physioDashboard"
                             src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
-                            >
+                        >
                         </iframe>}
                     </TabPane>
                     <TabPane
@@ -440,18 +463,18 @@ const EpisodeVisitDetails = () => {
     }
 
     return (
-        <div className="" style={{maxWidth:'100%',msOverflowX:'hidden'}} ref={episodeRef}>
+        <div className="" style={{ maxWidth: '100%', msOverflowX: 'hidden' }} ref={episodeRef}>
             {Header()}
             <div className="rest">
                 {/* aswin 11/15/2021 start */}
-                {episodeDetail.Validation.episode_check==='failed'&&<Error error={episodeDetail.Validation.msg} />}
+                {episodeDetail.Validation.episode_check === 'failed' && <Error error={episodeDetail.Validation.msg} />}
                 {/* aswin 11/15/2021 start */}
-            {/* <div style={{ minHeight: "20px" }}></div> */}
-            {PatientDetails()}
-            <div style={{ minHeight: "20px" }}></div>
-            {DetailTabs()}
+                {/* <div style={{ minHeight: "20px" }}></div> */}
+                {PatientDetails()}
+                <div style={{ minHeight: "20px" }}></div>
+                {DetailTabs()}
             </div>
-           
+
         </div>
     )
 }
