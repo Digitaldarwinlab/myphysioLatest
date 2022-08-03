@@ -9,7 +9,7 @@ import { Switch } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import StepBar from "./../UtilityComponents/StepBar";
 import validation from "./../Validation/authValidation/authValidation";
-import { Typography, Select, Row, Button, Col, Form, Checkbox,Space } from "antd";
+import { Typography, Select, Row, Button, Col, Form, Checkbox, Space } from "antd";
 import FormInput from "./../UI/antInputs/FormInput";
 import { getPhysioList } from "../../API/Physio/PhysioRegister";
 import { FaSearch } from "react-icons/fa";
@@ -43,13 +43,28 @@ const PhysioRegisteration1 = (props) => {
   }, [props.clearState]);
 
   const handleChange = (key, value, idx = 0) => {
-    dispatch({
-      type: PHYSIO_STATE_CHANGE,
-      payload: {
-        key,
-        value,
-      },
-    });
+    if (key === "first_name" || key === "last_name") {
+      dispatch({
+        type: PHYSIO_STATE_CHANGE,
+        payload: {
+          key,
+          value:
+            value.length > 1
+              ? value[0].toUpperCase() + value.slice(1, value.length)
+              : value.length === 1
+                ? value.toUpperCase()
+                : "",
+        },
+      });
+    } else {
+      dispatch({
+        type: PHYSIO_STATE_CHANGE,
+        payload: {
+          key,
+          value,
+        },
+      });
+    }
     dispatch({ type: "NOERROR" });
   };
 
@@ -279,10 +294,10 @@ const PhysioRegisteration1 = (props) => {
                 <Select
                   showSearch
                   allowClear
-                  suffixIcon={<FaSearch/>}
+                  suffixIcon={<FaSearch />}
                   placeHolder="Search to Select Clinic"
                   onChange={(value) => handleChange("clinic", value)}
-                  value={state.physioRegisterReducer.clinic?state.physioRegisterReducer.clinic:undefined}
+                  value={state.physioRegisterReducer.clinic ? state.physioRegisterReducer.clinic : undefined}
                   defaultValue={state.physioRegisterReducer.clinic}
                   filterOption={(input, option) =>
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -297,12 +312,12 @@ const PhysioRegisteration1 = (props) => {
               </Form.Item>
             </Col>
             <Col md={24} lg={8} sm={24} xs={24}>
-             
+
               <span style={{ fontSize: "14px", fontWeight: "600" }}>
                 {"Role"}
               </span>{" "}
               <br />
-              <Checkbox checked={state.physioRegisterReducer.isHeadPhysio}  onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}>Head Physio</Checkbox>
+              <Checkbox checked={state.physioRegisterReducer.isHeadPhysio} onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}>Head Physio</Checkbox>
             </Col>
           </Row>
           <Row gutter={[20, 20]} style={{ marginBottom: "15px" }}>
@@ -355,7 +370,7 @@ const PhysioRegisteration1 = (props) => {
                   </span>
                 }
                 name="Doctor_type"
-                //  rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
+              //  rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
               >
                 <Select
                   placeholder="Doctor Type"
@@ -365,7 +380,7 @@ const PhysioRegisteration1 = (props) => {
                   value={state.physioRegisterReducer.Doctor_type}
                 //  defaultValue={state.physioRegisterReducer.Doctor_type}
                 >
-                 {doctor_type.map((item,index)=><Option key={item} value={index+1}>{item}</Option>)}
+                  {doctor_type.map((item, index) => <Option key={item} value={index + 1}>{item}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -377,7 +392,7 @@ const PhysioRegisteration1 = (props) => {
                   </span>
                 }
                 name="gender"
-                //  rules={[{ required: true, message: `Please Select Gender.` }]}
+              //  rules={[{ required: true, message: `Please Select Gender.` }]}
               >
                 <Select
                   placeholder="Gender"
@@ -396,30 +411,30 @@ const PhysioRegisteration1 = (props) => {
         </div>
 
         <Row justify="center">
-        <Space size={'middle'}>
-      <Col span={2}> <Link to="/dashboard">
-              <Button 
+          <Space size={'middle'}>
+            <Col span={2}> <Link to="/dashboard">
+              <Button
               //className="me-2" 
               //style={{ borderRadius: "1px", backgroundColor:'#2d7ecb' }}
               >
                 Cancel
               </Button>
             </Link></Col>
-      <Col span={2}> <Button
-             // className="me-2  "
-            // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+            <Col span={2}> <Button
+              // className="me-2  "
+              // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
               onClick={handleReset}
             >
               Reset
             </Button></Col>
-      <Col span={2}> <Button 
-     // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
-            //className="me-2 btncolor" 
-            htmlType="submit">
+            <Col span={2}> <Button
+              // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+              //className="me-2 btncolor" 
+              htmlType="submit">
               Next
             </Button></Col>
-            </Space>
-    </Row>
+          </Space>
+        </Row>
         {/* <Row
          // className="text-center"
          gutter={[20, 20]}

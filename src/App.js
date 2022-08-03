@@ -49,6 +49,7 @@ const Tempdashboard = lazy(() => import('./PatientComponents/Tempdashboard.js'))
 const PainAssessment = lazy(() => import('./components/Assesment/PainAssessment.jsx'));
 const SpecialTest = lazy(() => import('./components/Assesment/SpecialTest.jsx'));
 const Invoice = lazy(() => import("./components/Invoice/Invoice"));
+
 const PostTestClass = lazy(() => import("./components/Assesment/PoseTestClass.jsx"));
 const EnterprisePatient = lazy(() => import('./PatientEnterprice/EnterprisePatient.jsx'));
 const EnterprisePatient1 = lazy(() => import('./PatientEnterprice/EnterprisePatient1.jsx'));
@@ -103,6 +104,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import PatientVideoCallIndex from "./PatientComponents/Patient-video-call/patient-video-con.js";
 // import Logout from "./components/userAuth/Logout.js";
 // import PatientRoute from './components/PrivateRoute/PatientRoute';
+
 // import PatientDashboard from './PatientComponents/patientDashboard';
 // import PatientSchedule from './PatientComponents/PatientSchedule/PatSchedule';
 // import ResetPassword from './components/userAuth/ResetPassword';
@@ -118,6 +120,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import PainAssessment from "./components/Assesment/PainAssessment.jsx";
 // import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 // import Invoice from "./components/Invoice/Invoice"
+
 // import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 // import EnterprisePatient from "./EnterpriseNew/PatientEnterprice/EnterprisePatient.jsx";
 // import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";

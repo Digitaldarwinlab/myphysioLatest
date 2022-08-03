@@ -114,7 +114,7 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        <Menu.Item key="2" style={{}}>
+        <Menu.Item key="3" style={{ borderTop: "0px solid black" }}>
           <Link to="/logout" className="text-secondary text-decoration-none">
             LogOut
           </Link>
