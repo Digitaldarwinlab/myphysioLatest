@@ -294,7 +294,6 @@ export   const delete_visit= async (id)=>{
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
-
         const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
             method: "POST",
             headers: headers,

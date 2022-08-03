@@ -151,39 +151,51 @@ export default function Month({ setIsVisible, month,setMonth}) {
 
   }
 
+  // useEffect(() => {
+  //   const getVisits = async () => {
+  //     const responseData = await GetVisit();
+  //     const showVisits = parseVisits(responseData);
+  //     console.log(showVisits)
+  //     setData(showVisits)
+  //   }
+  //   let role = JSON.parse(localStorage.getItem("user"))
+  //   const getClinicVisits = async () => {
+  //     const responseData = await GetClinicVisits(role.clinic_id);
+  //     const showVisits = parseVisits(responseData);
+  //     // console.log(showVisits)
+  //     setData(showVisits)
+  //   }
+  //   if (role.role == "admin") {
+  //     console.log("role is ", role.role)
+  //     getVisits();
+  //   } else {
+  //     console.log("role is ", role.role)
+  //     getClinicVisits()
+  //   }
+  //   // let role = JSON.parse(localStorage.getItem("user"))
+  //   // // console.log(role)
+  //   // const getClinicVisits = async () => {
+  //   //   console.log(role)
+  //   //     const responseData = await GetClinicVisits(role.clinic_id);
+  //   //     const showVisits = parseVisits(responseData);
+  //   //     setData(showVisits)
+  //   // }
+
+  //   // getClinicVisits(role)
+
+  // }, [])
+
   useEffect(() => {
-    const getVisits = async () => {
-      const responseData = await GetVisit();
-      const showVisits = parseVisits(responseData);
-      console.log(showVisits)
-      setData(showVisits)
-    }
-    let role = JSON.parse(localStorage.getItem("user"))
+    let role = JSON.parse(localStorage.getItem("user"));
     const getClinicVisits = async () => {
+      console.log(role)
       const responseData = await GetClinicVisits(role.clinic_id);
       const showVisits = parseVisits(responseData);
-      // console.log(showVisits)
-      setData(showVisits)
-    }
-    if (role.role == "admin") {
-      console.log("role is ", role.role)
-      getVisits();
-    } else {
-      console.log("role is ", role.role)
-      getClinicVisits()
-    }
-    // let role = JSON.parse(localStorage.getItem("user"))
-    // // console.log(role)
-    // const getClinicVisits = async () => {
-    //   console.log(role)
-    //     const responseData = await GetClinicVisits(role.clinic_id);
-    //     const showVisits = parseVisits(responseData);
-    //     setData(showVisits)
-    // }
+      setData(showVisits);
+    };
 
-    // getClinicVisits(role)
-
-  }, [])
+    getClinicVisits(role);
+  }, []);
 
   function onPanelChange(value, mode) {
     console.log(value.format('YYYY-MM-DD'), mode);
