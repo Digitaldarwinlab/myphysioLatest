@@ -2693,7 +2693,7 @@ const Assesment1 = ({ back, next }) => {
       </Row> */}
       <Row gutter={[10, 10]}>
         {/* <Space> */}
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={12} xs={12}>
             <Checkbox
               checked={!state.FirstAssesment.quest}
               onChange={(e) => handleChange("quest", !e.target.checked)}
@@ -2748,7 +2748,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={12} xs={12}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.pain1}
@@ -2795,7 +2795,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={12} xs={12}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.special}
@@ -2844,7 +2844,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={24}>
+          <Col md={8} lg={8} sm={12} xs={24}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.pose}
@@ -2895,7 +2895,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={12} xs={12}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.romAssAi}
@@ -2946,7 +2946,7 @@ const Assesment1 = ({ back, next }) => {
               )}
             </Checkbox>
           </Col>
-          <Col md={8} lg={4} sm={12} xs={12}>
+          <Col md={8} lg={8} sm={12} xs={12}>
             {" "}
             <Checkbox
               checked={!state.FirstAssesment.romAss}

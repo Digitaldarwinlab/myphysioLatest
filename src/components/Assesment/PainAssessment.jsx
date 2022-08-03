@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Input, Slider, Form, Checkbox, Radio, Card, Space ,Divider } from "antd";
+import { Row, Col, Input, Slider, Form, Checkbox, Radio, Card, Space, Divider } from "antd";
 //import "../../styles/Assessment/PainAssessment.css";
 import { AiFillMedicineBox } from "react-icons/ai";
 import Body from "./Body";
@@ -29,7 +29,7 @@ const PainAssessment = ({ setActive, next }) => {
   const state = useSelector((state) => state);
   const assesmentstate = useSelector((state) => state.FirstAssesment);
 
-  useEffect(() => {}, [assesmentstate]);
+  useEffect(() => { }, [assesmentstate]);
   const dispatch = useDispatch();
   const [test, setTest] = useState({
     Aching: 0,
@@ -241,7 +241,7 @@ const PainAssessment = ({ setActive, next }) => {
             ></i>{"  "}
             <b>Pain Assesment</b>
           </h3>
-         
+
         </Col>
         {/* <Col md={24} lg={24} sm={24} xs={24}>
           <DummyBody />
@@ -306,28 +306,28 @@ const PainAssessment = ({ setActive, next }) => {
                   style={{ width: 200 }}
                 />
               </div> */}
-               <Row>
-                    <Col md={3} lg={3} sm={24} xs={24}><b>Pain Scale : </b></Col>
-                    <Col md={18} lg={18} sm={24} xs={24}> 
-                    <div
-                style={{
-                  paddingLeft: "0px",
-                  paddingBottom: "10px",
-                }}
-              >
-                <Slider
-                  marks={marks1}
-                  min={0}
-                  max={10}
-                  step={2}
-                  onChange={(value) => handleChange1("pain_scale", value)}
-                  defaultValue={state.FirstAssesment.pain_scale}
-                  value={state.FirstAssesment.pain_scale}
-                  style={{ width: 200 }}
-                />
-              </div>
-                    </Col>
-                  </Row>
+              <Row>
+                <Col md={3} lg={3} sm={24} xs={24}><b>Pain Scale : </b></Col>
+                <Col md={18} lg={18} sm={24} xs={24}>
+                  <div
+                    style={{
+                      paddingLeft: "0px",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <Slider
+                      marks={marks1}
+                      min={0}
+                      max={10}
+                      step={2}
+                      onChange={(value) => handleChange1("pain_scale", value)}
+                      defaultValue={state.FirstAssesment.pain_scale}
+                      value={state.FirstAssesment.pain_scale}
+                      style={{ width: 200 }}
+                    />
+                  </div>
+                </Col>
+              </Row>
             </Col>
             <Col
               md={24}
@@ -405,19 +405,19 @@ const PainAssessment = ({ setActive, next }) => {
                   onChange={handleChange1}
                 />
               </Form.Item> */}
-                <Row>
-                    <Col md={3} lg={3} sm={24} xs={24}>   <b>Scars :</b></Col>
-                    <Col md={18} lg={18} sm={24} xs={24}> 
-                    <Input
+              <Row>
+                <Col md={3} lg={3} sm={24} xs={24}>   <b>Scars :</b></Col>
+                <Col md={18} lg={18} sm={24} xs={24}>
+                  <Input
                     placeholder="Scars"
-                     value={state.FirstAssesment.pain_scars}
-                     defaultValue={state.FirstAssesment.pain_scars}
-                onChange={(e) => handleChange1("pain_scars", e.target.value)}
-                name="pain_scars"
-              />
-              
-                    </Col>
-                  </Row>
+                    value={state.FirstAssesment.pain_scars}
+                    defaultValue={state.FirstAssesment.pain_scars}
+                    onChange={(e) => handleChange1("pain_scars", e.target.value)}
+                    name="pain_scars"
+                  />
+
+                </Col>
+              </Row>
             </Col>
             <Col
               md={24}
@@ -427,19 +427,39 @@ const PainAssessment = ({ setActive, next }) => {
               style={{ paddingTop: "10px" }}
               className="mt-3 AreasMain"
             >
-               <Row>
-                    <Col md={3} lg={3} sm={24} xs={24}>   <b>Swelling :</b></Col>
-                    <Col md={18} lg={18} sm={24} xs={24}> 
-                    <Radio.Group
-                onChange={(e) => handleChange1("pain_swelling", e.target.value)}
-                name="pain_swelling"
+              {/* <Row>
+                
+              </Row> */}
+              {/* <Col md={3} lg={3} sm={24} xs={24}>   <b>Swelling :</b></Col>
+                <Col md={18} lg={18} sm={24} xs={24}>
+                  <Radio.Group
+                    onChange={(e) => handleChange1("pain_swelling", e.target.value)}
+                    name="pain_swelling"
+                  >
+                    <Radio value={"Pitting"}>Pitting</Radio>
+                    <Radio value={"Non-pitting"}>Non-pitting</Radio>
+                    <Radio value={"Absent"}>Absent</Radio>
+                  </Radio.Group>
+                </Col> */}
+                <Col
+                md={24}
+                lg={24}
+                sm={24}
+                xs={24}
+                style={{ paddingTop: "10px" }}
+                //className="mt-2 px-3"
               >
-                <Radio value={"Pitting"}>Pitting</Radio>
-                <Radio value={"Non-pitting"}>Non-pitting</Radio>
-                <Radio value={"Absent"}>Absent</Radio>
-              </Radio.Group> 
-                    </Col>
-                  </Row>
+               <b>Swelling :</b><br/>
+                <Radio.Group
+                  onChange={(e) => handleChange1("pain_swelling", e.target.value)}
+                  name="pain_swelling"
+                 // style={{ paddingLeft: "60px" }}
+                >
+                 <Radio value={"Pitting"}>Pitting</Radio>
+                    <Radio value={"Non-pitting"}>Non-pitting</Radio>
+                    <Radio value={"Absent"}>Absent</Radio>
+                </Radio.Group>
+              </Col>
               {/* <b>Swelling :</b>
               <Radio.Group
                 onChange={(e) => handleChange1("pain_swelling", e.target.value)}
@@ -457,10 +477,10 @@ const PainAssessment = ({ setActive, next }) => {
               sm={24}
               xs={24}
               style={{ paddingTop: "10px" }}
-              className="mt-2 AreasMain"
+             // className="mt-2 AreasMain"
             >
-              <Card title="Sensory Input" style={{}}>
-                <Col
+              {/* <Card title="Sensory Input" style={{}}> */}
+              {/* <Col
                   md={24}
                   lg={24}
                   sm={24}
@@ -509,46 +529,46 @@ const PainAssessment = ({ setActive, next }) => {
                   </Radio.Group>
                     </Col>
                   </Row>
-                </Col>
-                {/* <Col
-                  md={24}
-                  lg={24}
-                  sm={24}
-                  xs={24}
-                  style={{ paddingTop: "10px" }}
-                  className="mt-2 px-3 AreasMain"
-                >
-                  <b>Deep :</b>
-                  <Radio.Group
-                    onChange={(e) => handleChange1("deep", e.target.value)}
-                    name="Deep"
-                    style={{ paddingLeft: "60px" }}
-                  >
-                    <Radio value={"Intact"}>Intact</Radio>
-                    <Radio value={"Impaired"}>Impaired</Radio>
-                    <Radio value={"Absent"}>Absent</Radio>
-                  </Radio.Group>
                 </Col> */}
-                {/* <Col
-                  md={24}
-                  lg={24}
-                  sm={24}
-                  xs={24}
-                  style={{ paddingTop: "20px" }}
-                  className="mt-2 px-3 AreasMain"
+              <Col
+                md={24}
+                lg={24}
+                sm={24}
+                xs={24}
+                style={{ paddingTop: "10px" }}
+               // className="mt-2 px-3"
+              >
+                <b>Deep :</b><br/>
+                <Radio.Group
+                  onChange={(e) => handleChange1("deep", e.target.value)}
+                  name="Deep"
+                  //style={{ paddingLeft: "60px" }}
                 >
-                  <b>Cortial :</b>
-                  <Radio.Group
-                    onChange={(e) => handleChange1("cortial", e.target.value)}
-                    name="Cortial"
-                    style={{ paddingLeft: "60px" }}
-                  >
-                    <Radio value={"Intact"}>Intact</Radio>
-                    <Radio value={"Impaired"}>Impaired</Radio>
-                    <Radio value={"Absent"}>Absent</Radio>
-                  </Radio.Group>
-                </Col> */}
-              </Card>
+                  <Radio value={"Intact"}>Intact</Radio>
+                  <Radio value={"Impaired"}>Impaired</Radio>
+                  <Radio value={"Absent"}>Absent</Radio>
+                </Radio.Group>
+              </Col>
+              <Col
+                md={24}
+                lg={24}
+                sm={24}
+                xs={24}
+                style={{ paddingTop: "20px" }}
+               // className="mt-2 px-3 AreasMain"
+              >
+                <b>Cortial :</b><br/>
+                <Radio.Group
+                  onChange={(e) => handleChange1("cortial", e.target.value)}
+                  name="Cortial"
+                 // style={{ paddingLeft: "60px" }}
+                >
+                  <Radio value={"Intact"}>Intact</Radio>
+                  <Radio value={"Impaired"}>Impaired</Radio>
+                  <Radio value={"Absent"}>Absent</Radio>
+                </Radio.Group>
+              </Col>
+              {/* </Card> */}
             </Col>
             <div className="text-center mb-3 mt-3">
               <button onClick={goBack}>Back</button>

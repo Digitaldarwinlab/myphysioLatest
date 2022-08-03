@@ -28,30 +28,24 @@ const ExerciseDetailsClass = () => {
       if (ex.name == "YouTube") {
         let a = {
           title: ex.name,
+          name:ex.name,
           video_path: ex.youtube_link,
         };
         yt_temp.push(a);
       }
-      res.map(e => {
-        if (ex.ex_em_id == e.ex_em_id) {
-          ex.startingPosition = e.flex_field_1
-          ex.initialPosture = e.start_posture
-          ex.derivedPosture = e.hold_posture
-          ex.hold = e.hold_flag
-        }
-      })
     });
     // setExercises([...yt_temp,...res]);
     let temp = []
+    console.log("exercise ",[...yt_temp, ...res])
     location.state.exercises.map(ex => {
-      let te = [...yt_temp, ...res].find(e => e.ex_em_id == ex.ex_em_id)
-      console.log("exercise array ", te)
+      let te = [...yt_temp, ...res].find(e => e.title == ex.name)
+      console.log("exercise array1 ", te)
       temp.push(te)
     })
     setExercises(temp)
-    console.log("exercise array ", [...res, ...yt_temp])
-    console.log("exercise array ", temp)
-    console.log("exercise array ", location.state.exercises)
+     console.log("exercise array ", temp)
+     console.log("exercise array ", res)
+     console.log("exercise array ", location.state.exercises)
   }
   useEffect( () => {
     CallDetails()
@@ -113,7 +107,6 @@ const ExerciseDetailsClass = () => {
         style={{ float: "right" }}
         className="skip-button"
         id="skip-button"
-        // disabled={location.state.status_flag}
         onClick={handleClick}
       >
         Skip
@@ -121,7 +114,7 @@ const ExerciseDetailsClass = () => {
       {exercises.length > 0 &&
         exercises.map((exercise, index) => (
           <>
-            {/* {exercise.title != "YouTube" ? ( */}
+            
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">
                   <div className="top-heading" id="top-heading">
@@ -148,7 +141,6 @@ const ExerciseDetailsClass = () => {
                       className="react-player"
                       url={exercise.video_path}
                       width="100%"
-                    //  height="auto"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">

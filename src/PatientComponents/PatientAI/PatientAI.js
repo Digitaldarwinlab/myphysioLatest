@@ -619,8 +619,16 @@ class PatientAI extends Component {
       <div className="pat_main_div">
         <Row>
           <Col lg={8} md={8} sm={8} xs={8}>
-            <h3 style={{fontSize:'20px'}} className="fw-bold">
-              <BackButton />
+          <h3 style={{ fontSize: '20px' }} className="fw-bold">
+              <i className="fas fa-arrow-left"
+                style={{ cursor: "pointer" }}
+                title="Go Back"
+                onClick={() => {
+                  if (window.confirm("This will cancel your current therapy and take you back to the schedule page. Are you sure you want to abandon and go back?")) {
+                    this.props.history.push("/patient/schedule");
+                    window.location.reload();
+                  }
+                }} role="button"></i>
             </h3>
           </Col>
           <Col lg={8} md={8} sm={12} xs={12}>
