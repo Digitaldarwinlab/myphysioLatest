@@ -161,12 +161,11 @@ const ExerciseDetailsClass = () => {
                       column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
                       title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
                     >
-                      <Descriptions.Item label="1">
-                        <h5 style={{fontSize:'16px'}}>{exercise.instruction1}</h5>
+                      {exercise.instruction_array.map((i,index)=>
+                      <Descriptions.Item label={index+1}>
+                        <h5 style={{fontSize:'16px'}}>{i}</h5>
                       </Descriptions.Item>
-                      <Descriptions.Item label="2">
-                        <h5 style={{fontSize:'16px'}}>{exercise.instruction2}</h5>
-                      </Descriptions.Item>
+                      )}
                     </Descriptions>
                   </div>
                 </Col>
