@@ -82,12 +82,12 @@ function Tabs({
                             const res = await darwin.showAngles();
                             console.log("show front angles ", res);
                             setFrontAngles([
-                              res[0],
-                              res[1],
-                              res[2],
-                              res[3],
-                              res[4],
-                              res[5]
+                              res[0].angle,
+                              res[1].angle,
+                              res[2].angle,
+                              res[3].angle,
+                              res[4].angle,
+                              res[5].angle,
                             ]);
                             console.log('backward')
                             darwin.stop()
@@ -148,7 +148,7 @@ function Tabs({
                             setChecked2(false);
                             const res = await darwin.showAngles();
                             console.log("show side angles ", res);
-                            setSideAngles([res[0],res[1], res[2], res[3]]);
+                            setSideAngles([res[0].angle,res[1].angle, res[2].angle, res[3].angle]);
                             console.log('backward')
                             darwin.stop()
                         }
@@ -330,12 +330,12 @@ function Tabs({
                             const res = await darwin.showAngles();
                             console.log("show front angles ", res);
                             setFrontAngles([
-                              res[0],
-                              res[1],
-                              res[2],
-                              res[3],
-                              res[4],
-                              res[5]
+                              res[0].angle,
+                              res[1].angle,
+                              res[2].angle,
+                              res[3].angle,
+                              res[4].angle,
+                              res[5].angle,
                             ]);
                             console.log('backward')
                             darwin.stop()
@@ -487,7 +487,7 @@ function Tabs({
                             setChecked2(false);
                             const res = await darwin.showAngles();
                             console.log("show side angles ", res);
-                            setSideAngles([res[0],res[1], res[2], res[3]]);
+                            setSideAngles([res[0].angle,res[1].angle, res[2].angle, res[3].angle]);
                             console.log('backward')
                             darwin.stop()
                         }
