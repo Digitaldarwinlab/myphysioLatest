@@ -89,9 +89,5 @@
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2"
   },
-<<<<<<< HEAD
-  "buildDate": 1659551068002
-=======
   "buildDate": 1659700321879
->>>>>>> ui-dev2
 }
