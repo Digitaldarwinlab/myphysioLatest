@@ -33,6 +33,11 @@ const ExerciseDetailsClass = () => {
         };
         yt_temp.push(a);
       }
+      res.map(e => {
+        if (ex.ex_em_id == e.ex_em_id) {
+          ex.hold = e.hold_flag
+        }
+      })
     });
     // setExercises([...yt_temp,...res]);
     let temp = []
