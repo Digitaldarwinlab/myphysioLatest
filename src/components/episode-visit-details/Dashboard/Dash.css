@@ -1,0 +1,14 @@
+.pvtUi {
+    color: #2a3f5f;
+    font-family: Verdana;
+    border-collapse: collapse;
+    width: 100%;
+}
+table.pvtTable{
+    width: 90%;
+    margin: auto;
+}
+
+table.pvtTable thead tr th, table.pvtTable tbody tr th {
+    background-color: #fff;
+}
