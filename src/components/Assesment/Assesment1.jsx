@@ -202,7 +202,7 @@ const Assesment1 = ({ back, next }) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != "/assesment/Questions" &&
-        location.pathname != "/care-plan" &&
+        location.pathname != "/assessment/AI" &&
         location.pathname != "/assesment/PainAssessment" &&
         location.pathname != "/assesment/SpecialTest" &&
         location.pathname != "/assesment/PoseTest" &&
@@ -1183,10 +1183,10 @@ const Assesment1 = ({ back, next }) => {
 
   const RomAI = () => {
     console.log(!state.jointReducer.joints);
-    if (!state.jointReducer.joints.length > 0) {
-      warningJoint();
-      return false;
-    }
+    // if (!state.jointReducer.joints.length > 0) {
+    //   warningJoint();
+    //   return false;
+    // }
     let temp = [];
     state.jointReducer.joints.map((jo) => {
       temp.push(...jo.joint);
@@ -1196,12 +1196,12 @@ const Assesment1 = ({ back, next }) => {
     console.log("values ", MuscleJoint);
     console.log("values ", BodyParts);
     history.push({
-      pathname: "/care-plan",
-      state: {
-        Joints: temp,
-        Muscles: BodyParts,
-        prevpath: "/assesment",
-      },
+      pathname: "/assessment/AI",
+      // state: {
+      //   Joints: temp,
+      //   Muscles: BodyParts,
+      //   prevpath: "/assesment",
+      // },
     });
     //  console.log(Object.keys(MuscleJoint));
   };
