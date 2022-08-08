@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
       pivotTable: {
         rows: ["ExerciseName", "Metrix"],
         cols: ["date"],
-        // aggregatorName: "Sum",
+        aggregatorName: "Sum",
         vals: ["value"],
       },
     };
