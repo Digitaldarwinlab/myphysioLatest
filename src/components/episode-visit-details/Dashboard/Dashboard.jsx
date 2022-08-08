@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
       pivotTable: {
         rows: ["ExerciseName", "Metrix"],
         cols: ["date"],
-        // aggregatorName: "Sum",
+        aggregatorName: "Sum",
         vals: ["value"],
       },
     };
@@ -24,9 +24,9 @@ class Dashboard extends React.Component {
   render() {
       console.log(this.props.value)
     return (
-      <div>
+      <div style={{maxWidth:'fit-content',overflow:'auto'}}>
         {this.props.value !== undefined ? (
-          <>
+          <> 
             {this.props.value.length > 0 ? (
               <PivotTableUI
                 data={this.props.value}
