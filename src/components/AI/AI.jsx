@@ -114,7 +114,7 @@ let JointNew1 = {
   leftPelvic: [10, 11],
   leftWrist: [12, 13],
   leftAnkle: [14, 15],
-  
+
 }
 
 let JointNew2 = {
@@ -126,7 +126,7 @@ let JointNew2 = {
   leftPelvic: [10, 11],
   leftWrist: [12, 13],
   leftAnkle: [14, 15],
-  cervicalForwardFlexion: [18,18]
+  cervicalForwardFlexion: [18, 18]
 }
 
 let JointNew3 = {
@@ -233,13 +233,13 @@ class AI extends Component {
       exerciseId: this.props.history.location.exerciseId,
       arrayIndex: 0,
       //primaryExercise: this.props.history.location.state.exercisePrimary,
-     // selectedExercise: preveState[0],
+      // selectedExercise: preveState[0],
       selectedOrientation: 1,
       angles: [],
       ref: 1,
       disabledButton: true,
-      disabledAnteriorDrop:false,
-      disabledLateralDrop:false,
+      disabledAnteriorDrop: false,
+      disabledLateralDrop: false,
       newJoint: joints,
       newJointChecked: [],
       selectState: null,
@@ -249,9 +249,9 @@ class AI extends Component {
       lateralJoints: leftJoints,
       lateralJointsR: rightJoints,
       latSide: "left",
-      OrgAntPrimary:[],
-      OrgLatLeftPrimary:[],
-      OrgLatRightPrimary:[],
+      OrgAntPrimary: [],
+      OrgLatLeftPrimary: [],
+      OrgLatRightPrimary: [],
       romJoints: [],
       primary_joints: [],
       newJointCheckedLeft: [],
@@ -381,7 +381,7 @@ class AI extends Component {
 
   configSideL = (e) => {
     this.setState({ disabledButton: false })
-   // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+    // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
     // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
     // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
     let tempIn = {}
@@ -410,7 +410,7 @@ class AI extends Component {
 
   configSideR = (e) => {
     this.setState({ disabledButton: false })
-   // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+    // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
     // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
     // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
     let tempIn = {}
@@ -739,7 +739,7 @@ class AI extends Component {
     this.setState({ start_stop: !this.state.start_stop });
     if (this.state.toggleState == 1) {
       if (!this.state.start_stop) {
-        this.setState({disabledAnteriorDrop:true})
+        this.setState({ disabledAnteriorDrop: true })
         console.log({
           name: "AROM",
           primaryKeypoint: 0,
@@ -754,28 +754,28 @@ class AI extends Component {
           totalReps: 3,
           totalSets: 2,
         })
-          window.darwin.restart();
-          window.darwin.setExcersiseParams({
-            name: "AROM",
-            primaryKeypoint: 0,
-            angles: [...this.state.newJointChecked, ...this.state.AntPriValue],
-            dir: 1,
-            minAmp: 30,
-            primaryAngles: this.state.OrgAntPrimary,
-            ROMs: [
-              [30, 160],
-              [30, 160],
-            ],
-            totalReps: 3,
-            totalSets: 2,
-          });
+        window.darwin.restart();
+        window.darwin.setExcersiseParams({
+          name: "AROM",
+          primaryKeypoint: 0,
+          angles: [...this.state.newJointChecked, ...this.state.AntPriValue],
+          dir: 1,
+          minAmp: 30,
+          primaryAngles: this.state.OrgAntPrimary,
+          ROMs: [
+            [30, 160],
+            [30, 160],
+          ],
+          totalReps: 3,
+          totalSets: 2,
+        });
         //   window.darwin.setExcersiseParams({
         //     angles: this.state.newJointChecked,
         //   });
         //   darwin.selectOrientation(this.state.selectedOrientation);
         //  this.timer();
       } else {
-        this.setState({disabledAnteriorDrop:false})
+        this.setState({ disabledAnteriorDrop: false })
         console.log("else")
         //    clearInterval(this.interval)
 
@@ -834,14 +834,14 @@ class AI extends Component {
     if (this.state.toggleState == 2) {
       if (this.state.latSide == "left") {
         if (!this.state.start_stop) {
-          this.setState({disabledLateralDrop:true})
+          this.setState({ disabledLateralDrop: true })
           console.log({
             name: "Left",
             primaryKeypoint: 0,
-            angles: [...this.state.newJointCheckedLeft,Number(...this.state.LatLeftPriValue)],
+            angles: [...this.state.newJointCheckedLeft, Number(...this.state.LatLeftPriValue)],
             dir: 1,
             minAmp: 30,
-            primaryAngles: this.state.LatLeftPriValue[0]=='18'?[18,18]:this.state.LatLeftPriValue[0]%2==0?[this.state.LatLeftPriValue[0],Number(this.state.LatLeftPriValue)+1]:[Number(this.state.LatLeftPriValue)-1,this.state.LatLeftPriValue[0]],
+            primaryAngles: this.state.LatLeftPriValue[0] == '18' ? [18, 18] : this.state.LatLeftPriValue[0] % 2 == 0 ? [this.state.LatLeftPriValue[0], Number(this.state.LatLeftPriValue) + 1] : [Number(this.state.LatLeftPriValue) - 1, this.state.LatLeftPriValue[0]],
             ROMs: [
               [30, 160],
               [30, 160],
@@ -853,10 +853,10 @@ class AI extends Component {
           window.darwin.setExcersiseParams({
             name: "Left",
             primaryKeypoint: 0,
-            angles: [...this.state.newJointCheckedLeft,Number(...this.state.LatLeftPriValue)],
+            angles: [...this.state.newJointCheckedLeft, Number(...this.state.LatLeftPriValue)],
             dir: 1,
             minAmp: 30,
-            primaryAngles: this.state.LatLeftPriValue[0]=='18'?[18,18]:this.state.LatLeftPriValue[0]%2==0?[this.state.LatLeftPriValue[0],Number(this.state.LatLeftPriValue)+1]:[Number(this.state.LatLeftPriValue)-1,this.state.LatLeftPriValue[0]],
+            primaryAngles: this.state.LatLeftPriValue[0] == '18' ? [18, 18] : this.state.LatLeftPriValue[0] % 2 == 0 ? [this.state.LatLeftPriValue[0], Number(this.state.LatLeftPriValue) + 1] : [Number(this.state.LatLeftPriValue) - 1, this.state.LatLeftPriValue[0]],
             ROMs: [
               [30, 160],
               [30, 160],
@@ -864,7 +864,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           });
-        }else{
+        } else {
           let data = darwin.getAssesmentData();
           if (this.state.selectedOrientation == 2) {
             if (data !== undefined && data !== null) {
@@ -880,20 +880,20 @@ class AI extends Component {
             }
           }
           window.darwin.stop();
-          this.setState({disabledLateralDrop:false})
+          this.setState({ disabledLateralDrop: false })
           console.log("get assessment call")
         }
       }
       if (this.state.latSide == "right") {
         if (!this.state.start_stop) {
-          this.setState({disabledLateralDrop:true})
+          this.setState({ disabledLateralDrop: true })
           console.log({
             name: "Right",
             primaryKeypoint: 0,
-            angles: [...this.state.newJointCheckedRight,Number(...this.state.LatRightPriValue)],
+            angles: [...this.state.newJointCheckedRight, Number(...this.state.LatRightPriValue)],
             dir: 1,
             minAmp: 30,
-            primaryAngles: this.state.LatRightPriValue[0]=='18'?[18,18]:this.state.LatRightPriValue[0]%2==0?[this.state.LatRightPriValue[0],Number(this.state.LatRightPriValue)+1]:[Number(this.state.LatRightPriValue)-1,this.state.LatRightPriValue[0]],
+            primaryAngles: this.state.LatRightPriValue[0] == '18' ? [18, 18] : this.state.LatRightPriValue[0] % 2 == 0 ? [this.state.LatRightPriValue[0], Number(this.state.LatRightPriValue) + 1] : [Number(this.state.LatRightPriValue) - 1, this.state.LatRightPriValue[0]],
             ROMs: [
               [30, 160],
               [30, 160],
@@ -905,10 +905,10 @@ class AI extends Component {
           window.darwin.setExcersiseParams({
             name: "Right",
             primaryKeypoint: 0,
-            angles: [...this.state.newJointCheckedRight,Number(...this.state.LatRightPriValue)],
+            angles: [...this.state.newJointCheckedRight, Number(...this.state.LatRightPriValue)],
             dir: 1,
             minAmp: 30,
-            primaryAngles: this.state.LatRightPriValue[0]=='18'?[18,18]:this.state.LatRightPriValue[0]%2==0?[this.state.LatRightPriValue[0],Number(this.state.LatRightPriValue)+1]:[Number(this.state.LatRightPriValue)-1,this.state.LatRightPriValue[0]],
+            primaryAngles: this.state.LatRightPriValue[0] == '18' ? [18, 18] : this.state.LatRightPriValue[0] % 2 == 0 ? [this.state.LatRightPriValue[0], Number(this.state.LatRightPriValue) + 1] : [Number(this.state.LatRightPriValue) - 1, this.state.LatRightPriValue[0]],
             ROMs: [
               [30, 160],
               [30, 160],
@@ -916,7 +916,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           });
-        }else{
+        } else {
           let data = darwin.getAssesmentData();
           if (this.state.selectedOrientation == 3) {
             if (data !== undefined && data !== null) {
@@ -932,7 +932,7 @@ class AI extends Component {
             }
           }
           window.darwin.stop();
-          this.setState({disabledLateralDrop:false})
+          this.setState({ disabledLateralDrop: false })
           console.log("get assessment call")
         }
       }
@@ -1024,7 +1024,6 @@ class AI extends Component {
     this.setState({ romJoints: temp1 })
     this.props.Careplan("romJoints", obj);
   }
-
   componentDidMount() {
     this.callJoints()
     this.props.FirstAssesment("AI_data", "");
@@ -1180,9 +1179,17 @@ class AI extends Component {
     //newJointChecked
   }
   render() {
+    window.addEventListener("beforeunload", ()=>{ // the method that will be used for both add and remove event
+      e.preventDefault();
+      e.returnValue = '';
+    });
+    // onUnload = e => { // the method that will be used for both add and remove event
+    //   e.preventDefault();
+    //   e.returnValue = '';
+    // }
     console.log("Joints ", joints);
     console.log("Joint pre ", this.state.PreKey);
-
+    //window.onload(()=>console.log("user reloading"))
     return (
       <>
         <Row
@@ -1216,9 +1223,9 @@ class AI extends Component {
             actions={[
               <Row className="arom_switch" justify="center" span={6}>
                 <Switch
-                   disabled={this.state.disabledButton}
-                   onChange={this.handleChange}
-                   checked={this.state.SWITCH}
+                  disabled={this.state.disabledButton}
+                  onChange={this.handleChange}
+                  checked={this.state.SWITCH}
                 //  style={{ color: "red", marginTop: 5 }}
                 />{" "}
                 {this.state.SWITCH ? (
@@ -1396,15 +1403,15 @@ class AI extends Component {
                                 ]
                               })
                               let temp = this.props.carePlanReducer.romJoints
-                              temp["Cervical"] =   {
+                              temp["Cervical"] = {
                                 "joint": "leftNeck",
                                 "min": 30,
                                 "max": 120
-                            }
+                              }
                               this.props.Careplan("romJoints", temp);
                               if (this.state.AntPriValue.length == 0) {
                                 this.setState({ disabledButton: true })
-                              }else{
+                              } else {
                                 this.setState({ disabledButton: false })
                               }
                               this.setSelectOrientation(1);
@@ -1443,12 +1450,12 @@ class AI extends Component {
                                   "Hip"
                                 ]
                               })
-                              console.log("side ",this.props.carePlanReducer.romJoints)
+                              console.log("side ", this.props.carePlanReducer.romJoints)
                               let temp = this.props.carePlanReducer.romJoints
                               temp["Cervical"] = {
-                                joint:'cervicalForwardFlexion',
-                                min:30,
-                                max:40
+                                joint: 'cervicalForwardFlexion',
+                                min: 30,
+                                max: 40
                               }
                               this.props.Careplan("romJoints", temp);
                               // let cervicalSide = {
@@ -1458,7 +1465,7 @@ class AI extends Component {
                               // }
                               if (this.state.LatLeftPri.length == 0 && this.state.LatRightPri.length == 0) {
                                 this.setState({ disabledButton: true })
-                              }else{
+                              } else {
                                 this.setState({ disabledButton: false })
                               }
                               this.setSelectOrientation(2);
@@ -1495,7 +1502,7 @@ class AI extends Component {
                               //value={this.state.selectState}
                               onChange={(e) => {
                                 this.setState({ disabledButton: false })
-                               // this.setState({ newJointChecked: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                // this.setState({ newJointChecked: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
                                 // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
                                 // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
                                 let tempIn = {}
@@ -1518,7 +1525,7 @@ class AI extends Component {
                                   selected.push(Number(Object.keys(tempOut)[k]))
                                 }
                                 console.log("checking 3 ", selected)
-                                this.setState({OrgAntPrimary:selected})
+                                this.setState({ OrgAntPrimary: selected })
                                 this.setState({ AntPri: Object.values(tempOut) })
                                 this.setState({ AntPriValue: selected })
                                 this.setState({ newJoint: Object.values(tempIn) })
@@ -1548,7 +1555,7 @@ class AI extends Component {
                               if (e.length >= 1) {
                                 this.setState({ AntPriValue: e })
                                 if (this.state.SWITCH) {
-                                  this.setAngles1([...e,...this.state.newJointChecked])
+                                  this.setAngles1([...e, ...this.state.newJointChecked])
                                   //[...this.state.newJointChecked
                                 }
                                 console.log("checking ", e)
@@ -1587,7 +1594,7 @@ class AI extends Component {
                           }
                         >
                           <Col span={24}>
-                          <b>Primary joints : </b>
+                            <b>Primary joints : </b>
                             <Select
                               className="w-50 mx-2 my-3"
                               style={{ marginTop: 5 }}
@@ -1603,7 +1610,7 @@ class AI extends Component {
                                 this.setState({ selectStateR: e })
                                 if (this.state.latSide == "left") {
                                   this.setState({ disabledButton: false })
-                                 // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                  // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
                                   // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
                                   // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
                                   let tempIn = {}
@@ -1625,14 +1632,14 @@ class AI extends Component {
                                   for (let k = 0; k < Object.keys(tempOut).length; k++) {
                                     selected.push(Number(Object.keys(tempOut)[k]))
                                   }
-                                  this.setState({OrgLatLeftPrimary:selected})
+                                  this.setState({ OrgLatLeftPrimary: selected })
                                   this.setState({ LatLeftPri: Object.values(tempOut) })
                                   this.setState({ LatLeftPriValue: selected })
                                   this.setState({ lateralJoints: Object.values(tempIn) })
                                 }
                                 if (this.state.latSide == "right") {
                                   this.setState({ disabledButton: false })
-                                 // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                  // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
                                   // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
                                   // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
                                   let tempIn = {}
@@ -1654,8 +1661,8 @@ class AI extends Component {
                                   for (let k = 0; k < Object.keys(tempOut).length; k++) {
                                     selected.push(Number(Object.keys(tempOut)[k]))
                                   }
-                                  this.setState({OrgLatRightPrimary:selected})
-                                  this.setState({OrgLatRightPrimary:selected})
+                                  this.setState({ OrgLatRightPrimary: selected })
+                                  this.setState({ OrgLatRightPrimary: selected })
                                   this.setState({ LatRightPri: Object.values(tempOut) })
                                   this.setState({ LatRightPriValue: selected })
                                   this.setState({ lateralJointsR: Object.values(tempIn) })
@@ -1691,7 +1698,7 @@ class AI extends Component {
                                   if (e.length >= 1) {
                                     this.setState({ LatLeftPriValue: e })
                                     if (this.state.SWITCH) {
-                                      this.setAngles1([...e,...this.state.newJointCheckedLeft])
+                                      this.setAngles1([...e, ...this.state.newJointCheckedLeft])
                                       //[...this.state.newJointChecked
                                     }
                                     console.log("checking ", e)
@@ -1701,7 +1708,7 @@ class AI extends Component {
                               <hr />
                             </>}
                           {this.state.latSide == "left" && <div>
-                          <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                            <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
                             <Checkbox.Group
                               options={this.state.lateralJoints}
                               // disabled
@@ -1710,7 +1717,7 @@ class AI extends Component {
                               onChange={(e) => {
                                 console.log(e)
                                 if (this.state.SWITCH) {
-                                  this.setAngles1([...e,...this.state.LatLeftPriValue])
+                                  this.setAngles1([...e, ...this.state.LatLeftPriValue])
                                   //[...e,...this.state.newJointChecked]
                                 }
                                 this.setState({ newJointCheckedLeft: e })
@@ -1728,7 +1735,7 @@ class AI extends Component {
                                   if (e.length >= 1) {
                                     this.setState({ LatRightPriValue: e })
                                     if (this.state.SWITCH) {
-                                      this.setAngles1([...e,...this.state.newJointCheckedRight])
+                                      this.setAngles1([...e, ...this.state.newJointCheckedRight])
                                       //[...this.state.newJointChecked
                                     }
                                     console.log("checking ", e)
@@ -1738,7 +1745,7 @@ class AI extends Component {
                               <hr />
                             </>}
                           {this.state.latSide == "right" && <div>
-                          <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                            <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
                             <Checkbox.Group
                               options={this.state.lateralJointsR}
                               // disabled
