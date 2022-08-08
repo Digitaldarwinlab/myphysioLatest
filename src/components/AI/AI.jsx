@@ -1216,8 +1216,9 @@ class AI extends Component {
             actions={[
               <Row className="arom_switch" justify="center" span={6}>
                 <Switch
-                  onChange={this.handleChange}
-                  checked={this.state.SWITCH}
+                   disabled={this.state.disabledButton}
+                   onChange={this.handleChange}
+                   checked={this.state.SWITCH}
                 //  style={{ color: "red", marginTop: 5 }}
                 />{" "}
                 {this.state.SWITCH ? (
