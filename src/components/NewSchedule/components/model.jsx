@@ -44,7 +44,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
       "monday",
       "tuesday",
       "wednesday",
-      "thrusday",
+      "thursday",
       "friday",
       "saturday",
     ];
