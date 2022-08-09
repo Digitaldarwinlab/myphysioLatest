@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { AiFillMedicineBox } from "react-icons/ai";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   Select,
   Row,
@@ -17,6 +18,7 @@ import {
   Tabs,
   Badge,
   Switch,
+  Spin,
 } from "antd";
 import {
   ASSESMENT_CLEARSTATE,
@@ -85,6 +87,8 @@ import background from "./../../assets/Crops/00.-Blank-Figures.webp";
 import MobBackground from "./../../assets/Crops//mobilebg.webp";
 import { useRef } from "react";
 import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
+import Loading from "../UtilityComponents/Loading";
+import { SpinnerCircularSplit } from 'spinners-react';
 
 const muscle = [
   "TrapsA",
@@ -118,6 +122,12 @@ const muscle = [
   "HamstringsA",
   "HamstringsB",
 ];
+
+// const override =  React.CSSProperties({
+//   display: "block",
+//   margin: "0 auto",
+//   borderColor: "red",
+// })
 
 const marks1 = {
   0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
@@ -202,7 +212,7 @@ const Assesment1 = ({ back, next }) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != "/assesment/Questions" &&
-        location.pathname != "/care-plan" &&
+        location.pathname != "/assessment/AI" &&
         location.pathname != "/assesment/PainAssessment" &&
         location.pathname != "/assesment/SpecialTest" &&
         location.pathname != "/assesment/PoseTest" &&
@@ -531,7 +541,7 @@ const Assesment1 = ({ back, next }) => {
   const [QuestionVisibility, setQuestionVisibility] = useState("block");
 
   const [posture, setPosture] = useState(false);
-
+  const  [submitLoading,setSubmitLoading] = useState(false)
   const [RomVisibility, setRomVisibility] = useState("none");
   const [RomVisibilityM, setRomVisibilityM] = useState("none");
   const [RomVisibilityL, setRomVisibilityL] = useState("none");
@@ -1183,10 +1193,10 @@ const Assesment1 = ({ back, next }) => {
 
   const RomAI = () => {
     console.log(!state.jointReducer.joints);
-    if (!state.jointReducer.joints.length > 0) {
-      warningJoint();
-      return false;
-    }
+    // if (!state.jointReducer.joints.length > 0) {
+    //   warningJoint();
+    //   return false;
+    // }
     let temp = [];
     state.jointReducer.joints.map((jo) => {
       temp.push(...jo.joint);
@@ -1196,12 +1206,12 @@ const Assesment1 = ({ back, next }) => {
     console.log("values ", MuscleJoint);
     console.log("values ", BodyParts);
     history.push({
-      pathname: "/care-plan",
-      state: {
-        Joints: temp,
-        Muscles: BodyParts,
-        prevpath: "/assesment",
-      },
+      pathname: "/assessment/AI",
+      // state: {
+      //   Joints: temp,
+      //   Muscles: BodyParts,
+      //   prevpath: "/assesment",
+      // },
     });
     //  console.log(Object.keys(MuscleJoint));
   };
@@ -1383,7 +1393,7 @@ const Assesment1 = ({ back, next }) => {
             dispatch({ type: ASSESMENT_CLEARSTATE });
             dispatch({ type: "JOINT_CLEARSTATE" });
           }, 1000);
-
+          setSubmitLoading(false)
           notification.success({
             message: "Assessment successfully submitted!",
             placement: "bottomLeft",
@@ -1392,17 +1402,21 @@ const Assesment1 = ({ back, next }) => {
 
           history.push("/dashboard");
         } else {
+          setSubmitLoading(false)
           notification.error({
             message: "Form was not submitted",
             placement: "bottomLeft",
             duration: 2,
           });
         }
+      }else{
+        setSubmitLoading(false)
       }
       // aswin 11/13/2021 stop
     } else {
+      setSubmitLoading(false)
       return notification.warning({
-        message: "Patient don't have an open episode1",
+        message: "Patient don't have an open episode",
         placement: "bottomRight",
         duration: 2,
       });
@@ -1410,6 +1424,7 @@ const Assesment1 = ({ back, next }) => {
   };
   const Submit = async () => {
     let video = screenShotRef.current;
+    setSubmitLoading(true)
     console.log("divvvv ", video);
     console.log(video.id);
     let url = "";
@@ -3083,7 +3098,9 @@ const Assesment1 = ({ back, next }) => {
                 }
         </Col>
      </Row> */}
+        {submitLoading&&<Loading  />}
 
+        {/* <ClipLoader color={"#ffffff"} loading={submitLoading}  size={150} /> */}
       <div className="text-center m-3">
         <Button
           htmlType="submit"

@@ -335,7 +335,7 @@ function Tabs({
                               res[2].angle,
                               res[3].angle,
                               res[4].angle,
-                              res[5].angle,
+                              res[5].angle
                             ]);
                             console.log('backward')
                             darwin.stop()

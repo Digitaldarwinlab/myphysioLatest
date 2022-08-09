@@ -275,7 +275,7 @@ const  captureSide = () => {
     Lateral_Data.angles[0].angle,
     Lateral_Data.angles[1].angle,
     Lateral_Data.angles[2].angle,
-    Lateral_Data.angles[3].angle
+    Lateral_Data.angles[3].angle,
   ])
   aiModelAppear = !aiModelAppear;
    // $("#magic-btn").html("Start")
@@ -770,13 +770,13 @@ const assesmentChange=(e)=>{
               </button>
                    
                     
-                    <button 
+                    {/* <button 
             type="button" 
             id="screen-share-btn" 
             class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
-            </button>
+            </button> */}
                    
                     
                     <button

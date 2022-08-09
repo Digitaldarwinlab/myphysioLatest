@@ -161,25 +161,25 @@ const App = () => {
 	function SideNavbarCollpased(params) {
 		setIsSideNavbarCollapsed(!isSideNavbarCollpased);
 	}
-	// useEffect(() => {
-	// 	if(isAuthenticated()){
-	// 		// let a = ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","AgoraRTCSDK-3.6.11.js","agora-rtm-sdk-1.4.5.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
-	// 		// a.map((i)=>{
-	// 		// 	var script = document.createElement("script");
-	// 		// 	script.setAttribute('src',i)
-	// 		// 	script.setAttribute('crossorigin',true)
-	// 		// 	document.head.appendChild(script)
-	// 		// })
+	useEffect(() => {
+		if(isAuthenticated()){
+			let a = [process.env.REACT_APP_MAIN_JS_URL,"https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","agora-rtm-sdk-1.4.5.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
+			a.map((i)=>{
+				var script = document.createElement("script");
+				script.setAttribute('src',i)
+				script.setAttribute('crossorigin',true)
+				document.head.appendChild(script)
+			})
 			
-	// 		let b = ["https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css","//db.onlinewebfonts.com/c/4f3e552b377b6cedd155639fb9b44efd?family=LCD-bold"]
-	// 		b.map((i)=>{
-	// 			var link = document.createElement("link");
-	// 			link.setAttribute('href',i)
-	// 			link.setAttribute('rel','stylesheet')
-	// 			document.head.appendChild(link)
-	// 		})
-	// 	}
-    // }, []);
+			let b = ["https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css","https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css","//db.onlinewebfonts.com/c/4f3e552b377b6cedd155639fb9b44efd?family=LCD-bold"]
+			b.map((i)=>{
+				var link = document.createElement("link");
+				link.setAttribute('href',i)
+				link.setAttribute('rel','stylesheet')
+				document.head.appendChild(link)
+			})
+		}
+    }, []);
 
 // 	if (process.env.REACT_APP_STAGE === 'PROD')
 //   console.log = function no_console() {};
