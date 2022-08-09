@@ -163,7 +163,7 @@ const App = () => {
 	}
 	useEffect(() => {
 		if(isAuthenticated()){
-			let a = ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","agora-rtm-sdk-1.4.5.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
+			let a = [process.env.REACT_APP_MAIN_JS_URL,"https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","agora-rtm-sdk-1.4.5.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
 			a.map((i)=>{
 				var script = document.createElement("script");
 				script.setAttribute('src',i)

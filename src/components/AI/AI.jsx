@@ -10,6 +10,8 @@ import {
   Avatar,
   Radio,
   Select,
+  Modal,
+  Result,
 } from "antd";
 import {
   CaretLeftFilled,
@@ -221,6 +223,7 @@ class AI extends Component {
       // ExcerciseIndices: preIndices,
       // PreKey: PreJointKeys,
       // preValue: PreJointValue,
+      AI: false,
       start_stop: false,
       BACK: false,
       SWITCH: false,
@@ -961,19 +964,21 @@ class AI extends Component {
   // start();
 
   componentWillUnmount() {
-    const video = document.getElementById("video");
-    const mediaStream = video.srcObject;
-    try {
-      const tracks = mediaStream.getTracks();
-      tracks[0].stop();
-      tracks.forEach((track) => track.stop());
-
-      console.log("camera releasing....");
-      console.log(tracks);
-    } catch (err) {
-      console.log(mediaStream)
-      console.log("camera not releasing....");
-      console.log(err);
+    if(this.props.carePlanReducer.patient_main_code.length != 0){
+      const video = document.getElementById("video");
+      const mediaStream = video.srcObject;
+      try {
+        const tracks = mediaStream.getTracks();
+        tracks[0].stop();
+        tracks.forEach((track) => track.stop());
+  
+        console.log("camera releasing....");
+        console.log(tracks);
+      } catch (err) {
+        console.log(mediaStream)
+        console.log("camera not releasing....");
+        console.log(err);
+      }
     }
   }
   callJoints = async () => {
@@ -1025,148 +1030,154 @@ class AI extends Component {
     this.props.Careplan("romJoints", obj);
   }
   componentDidMount() {
-    this.callJoints()
-    this.props.FirstAssesment("AI_data", "");
-    this.props.FirstAssesment("Exercise_Name", "");
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("output");
-    const myVideo = document.getElementById("New_Ai_vid");
-    let { width, height } = myVideo.getBoundingClientRect();
-    this.setState({ latSide: "left" });
-    //  video.width = width;
-    //  video.height = height;
-    const options = {
-      video,
-      videoWidth: 640,
-      videoHeight: 480,
-      canvas,
-      supervised: true,
-      showAngles: true,
-    };
-    // const options = {
-    //     video,
-    //     videoWidth: 550,
-    //     videoHeight: 420,//window.innerHeight-20,
-    //     canvas,
-    //     // loadingEleId: 'loading',
-    //     // mainEleId: 'main',
-    //     supervised: true,
-    //     showAngles: true,
-    // };
-    // this.innerHTML2();
-    console.log(options)
-    window.darwin.initializeModel(options);
-    this.start();
-    console.log("exerc ", this.state.primaryExercise);
-    var priArr = [];
-    // priArr = this.state.primaryExercise[0].primary_angles
-    //   ? this.state.primaryExercise[0].primary_angles
-    //   : this.state.primaryExercise[0].joint;
-    // console.log("primary  ", priArr);
-    // console.log("angles ", priArr);
-    // const primaryAnglesValue = [];
-    // allNewJoints.map((jo) => {
-    //   priArr.map((pr) => {
-    //     if (pr === jo.label) {
-    //       primaryAnglesValue.push(jo.value);
-    //     }
-    //   });
-    // });
+    //pp_ed_id
+    if (this.props.carePlanReducer.patient_main_code.length > 0) {
+      this.setState({ AI: false })
+      this.callJoints()
+      this.props.FirstAssesment("AI_data", "");
+      this.props.FirstAssesment("Exercise_Name", "");
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("output");
+      const myVideo = document.getElementById("New_Ai_vid");
+      let { width, height } = myVideo.getBoundingClientRect();
+      this.setState({ latSide: "left" });
+      //  video.width = width;
+      //  video.height = height;
+      const options = {
+        video,
+        videoWidth: 640,
+        videoHeight: 480,
+        canvas,
+        supervised: true,
+        showAngles: true,
+      };
+      // const options = {
+      //     video,
+      //     videoWidth: 550,
+      //     videoHeight: 420,//window.innerHeight-20,
+      //     canvas,
+      //     // loadingEleId: 'loading',
+      //     // mainEleId: 'main',
+      //     supervised: true,
+      //     showAngles: true,
+      // };
+      // this.innerHTML2();
+      console.log(options)
+      window.darwin.initializeModel(options);
+      this.start();
+      console.log("exerc ", this.state.primaryExercise);
+      var priArr = [];
+      // priArr = this.state.primaryExercise[0].primary_angles
+      //   ? this.state.primaryExercise[0].primary_angles
+      //   : this.state.primaryExercise[0].joint;
+      // console.log("primary  ", priArr);
+      // console.log("angles ", priArr);
+      // const primaryAnglesValue = [];
+      // allNewJoints.map((jo) => {
+      //   priArr.map((pr) => {
+      //     if (pr === jo.label) {
+      //       primaryAnglesValue.push(jo.value);
+      //     }
+      //   });
+      // });
 
-    // window.darwin.setExcersiseParams({
-    //   name: this.state.ExcerciseName,
-    //   primaryKeypoint: 0,
-    //   angles: [0, 1, 2, 3, 8, 9, 10, 11, 16, 17],
-    //   dir: 1,
-    //   minAmp: 30,
-    //   primaryAngles: primaryAnglesValue,
-    //   ROMs: [
-    //     [30, 160],
-    //     [30, 160],
-    //   ],
-    //   totalReps: 3,
-    //   totalSets: 2,
-    // });
-    // this.setState({ angles: [0, 1, 2, 3, 8, 9, 10, 11, 16, 17] });
-    // fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ exercise: this.state.ExcerciseName[0] }),
-    // })
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("data issss ", data);
-    //     data.map((val) => {
-    //       this.setState({ VideoData: val.image_path });
-    //     });
-    //     data.map((val) => {
-    //       this.setState({ videoUrl: val.video_path });
-    //     });
-    //   });
-    window.darwin.addProgressListener((setCount, repCount) => {
-      console.log(setCount + "setCount");
-    });
-    /*
-        window.addEventListener('blur', function(){
-
-            const video = document.getElementById('video');
-            if(video)
-            {
-                const mediaStream = video.srcObject;
-                try{
-                    const tracks = mediaStream.getTracks();
-                   
-
-                // Tracks are returned as an array, so if you know you only have one, you can stop it with: 
-                     tracks[0].stop();
-
-                // Or stop all like so:
-                tracks.forEach(track => track.stop())
-                }
-                catch(err){
-                    console.log(err)
-                }
-               
-            }
-         }, false);
-
-        */
-    /*
-    window.addEventListener('focus', function(){
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('output');
-        
-            try{
-                var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
-                    var constraints = {
-                    audio: false,
-                    video: {
-                    facingMode: facingMode
-                    }
-                    };
-
-                   
-                    navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
-                    video.srcObject = stream;
-                      this.innerHTML2();
-                    });
-                 }
-
-                 catch(err)
-                 {
-                     console.log(err)
-                 }
-       
-    
-        
-     }, false);
-
-     */
+      // window.darwin.setExcersiseParams({
+      //   name: this.state.ExcerciseName,
+      //   primaryKeypoint: 0,
+      //   angles: [0, 1, 2, 3, 8, 9, 10, 11, 16, 17],
+      //   dir: 1,
+      //   minAmp: 30,
+      //   primaryAngles: primaryAnglesValue,
+      //   ROMs: [
+      //     [30, 160],
+      //     [30, 160],
+      //   ],
+      //   totalReps: 3,
+      //   totalSets: 2,
+      // });
+      // this.setState({ angles: [0, 1, 2, 3, 8, 9, 10, 11, 16, 17] });
+      // fetch(`${process.env.REACT_APP_API}/exercise_detail/`, {
+      //   method: "POST",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "content-type": "application/json",
+      //   },
+      //   body: JSON.stringify({ exercise: this.state.ExcerciseName[0] }),
+      // })
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((data) => {
+      //     console.log("data issss ", data);
+      //     data.map((val) => {
+      //       this.setState({ VideoData: val.image_path });
+      //     });
+      //     data.map((val) => {
+      //       this.setState({ videoUrl: val.video_path });
+      //     });
+      //   });
+      window.darwin.addProgressListener((setCount, repCount) => {
+        console.log(setCount + "setCount");
+      });
+      /*
+          window.addEventListener('blur', function(){
+  
+              const video = document.getElementById('video');
+              if(video)
+              {
+                  const mediaStream = video.srcObject;
+                  try{
+                      const tracks = mediaStream.getTracks();
+                     
+  
+                  // Tracks are returned as an array, so if you know you only have one, you can stop it with: 
+                       tracks[0].stop();
+  
+                  // Or stop all like so:
+                  tracks.forEach(track => track.stop())
+                  }
+                  catch(err){
+                      console.log(err)
+                  }
+                 
+              }
+           }, false);
+  
+          */
+      /*
+      window.addEventListener('focus', function(){
+          const video = document.getElementById('video');
+          const canvas = document.getElementById('output');
+          
+              try{
+                  var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
+                      var constraints = {
+                      audio: false,
+                      video: {
+                      facingMode: facingMode
+                      }
+                      };
+  
+                     
+                      navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+                      video.srcObject = stream;
+                        this.innerHTML2();
+                      });
+                   }
+  
+                   catch(err)
+                   {
+                       console.log(err)
+                   }
+         
+      
+          
+       }, false);
+  
+       */
+    } else {
+      this.setState({ AI: false })
+    }
   }
   componentDidUpdate = () => {
     console.log("romjoints ", Object.keys(this.props.carePlanReducer.romJoints))
@@ -1179,7 +1190,7 @@ class AI extends Component {
     //newJointChecked
   }
   render() {
-    window.addEventListener("beforeunload", ()=>{ // the method that will be used for both add and remove event
+    window.addEventListener("beforeunload", () => { // the method that will be used for both add and remove event
       e.preventDefault();
       e.returnValue = '';
     });
@@ -1192,83 +1203,84 @@ class AI extends Component {
     //window.onload(()=>console.log("user reloading"))
     return (
       <>
-        <Row
-          //align="top"
-          gutter={[16, 16]}
-          className="arom_container"
-        >
-          <Col
-            id="New_Ai_vid"
-            className="arom_vid"
-            md={14}
-            lg={14}
-            sm={24}
-            xs={24}
+        {this.props.carePlanReducer.patient_main_code.length > 0 ?
+          <Row
+            //align="top"
+            gutter={[16, 16]}
+            className="arom_container"
           >
-            <video
-              id="video"
-              className="video"
-              playsInline
+            <Col
+              id="New_Ai_vid"
+              className="arom_vid"
+              md={14}
+              lg={14}
+              sm={24}
+              xs={24}
+            >
+              <video
+                id="video"
+                className="video"
+                playsInline
+                style={{ display: "none" }}
+              ></video>
+              <canvas
+                id="output"
+                className="output"
+                style={{ height: "450px" }}
+              />
+            </Col>
+            <Card
+              className="arom_button_grp2"
               style={{ display: "none" }}
-            ></video>
-            <canvas
-              id="output"
-              className="output"
-              style={{ height: "450px" }}
-            />
-          </Col>
-          <Card
-            className="arom_button_grp2"
-            style={{ display: "none" }}
-            actions={[
-              <Row className="arom_switch" justify="center" span={6}>
-                <Switch
-                  disabled={this.state.disabledButton}
-                  onChange={this.handleChange}
-                  checked={this.state.SWITCH}
-                //  style={{ color: "red", marginTop: 5 }}
-                />{" "}
-                {this.state.SWITCH ? (
-                  <PauseCircleOutlined className="arom_play_btn" />
-                ) : (
-                  <PlayCircleOutlined className="arom_play_btn" />
-                )}
-              </Row>,
-              // <Row justify="start" span={6}>
-              //   <Button
-              //     // className="mx-2"
-              //     disabled={this.state.SWITCH}
-              //     style={{ border: "none" }}
-              //     icon={<MinusCircleOutlined />}
-              //     onClick={this.stop}
-              //   >
-              //     Stop
-              //   </Button>
-              // </Row>,
+              actions={[
+                <Row className="arom_switch" justify="center" span={6}>
+                  <Switch
+                    disabled={this.state.disabledButton}
+                    onChange={this.handleChange}
+                    checked={this.state.SWITCH}
+                  //  style={{ color: "red", marginTop: 5 }}
+                  />{" "}
+                  {this.state.SWITCH ? (
+                    <PauseCircleOutlined className="arom_play_btn" />
+                  ) : (
+                    <PlayCircleOutlined className="arom_play_btn" />
+                  )}
+                </Row>,
+                // <Row justify="start" span={6}>
+                //   <Button
+                //     // className="mx-2"
+                //     disabled={this.state.SWITCH}
+                //     style={{ border: "none" }}
+                //     icon={<MinusCircleOutlined />}
+                //     onClick={this.stop}
+                //   >
+                //     Stop
+                //   </Button>
+                // </Row>,
 
-              <Row justify="start" span={6}>
-                <Button
-                  style={{ border: "none" }}
-                  icon={<CameraFilled />}
-                  onClick={this.capture}
-                >
-                  Snap
-                </Button>
-              </Row>,
-              <Row justify="start" span={6}>
-                <Button
-                  //  className="mx-2"
-                  style={{ border: "none" }}
-                  icon={<RollbackOutlined />}
-                  onClick={this.reset}
-                >
-                  Reset
-                </Button>
-              </Row>,
-            ]}
-          ></Card>
-          <Col md={10} lg={10} sm={24} xs={24}>
-            {/* <Row className="arom_details_tab">
+                <Row justify="start" span={6}>
+                  <Button
+                    style={{ border: "none" }}
+                    icon={<CameraFilled />}
+                    onClick={this.capture}
+                  >
+                    Snap
+                  </Button>
+                </Row>,
+                <Row justify="start" span={6}>
+                  <Button
+                    //  className="mx-2"
+                    style={{ border: "none" }}
+                    icon={<RollbackOutlined />}
+                    onClick={this.reset}
+                  >
+                    Reset
+                  </Button>
+                </Row>,
+              ]}
+            ></Card>
+            <Col md={10} lg={10} sm={24} xs={24}>
+              {/* <Row className="arom_details_tab">
               <Col span={12}>
                 Patient :{" "}
                 <b>
@@ -1277,7 +1289,7 @@ class AI extends Component {
               </Col>
             </Row> */}
 
-            {/* <Row className="arom_video_screen">
+              {/* <Row className="arom_video_screen">
             <video
               src={
                 process.env.REACT_APP_EXERCISE_URL + "/" + this.state.videoUrl
@@ -1289,49 +1301,49 @@ class AI extends Component {
               className="videoScreen"
             />
           </Row> */}
-            <Row>
-              <Card
-                style={{ marginTop: 5, borderRadius: 10, width: "100%" }}
-                actions={[
-                  <Button
-                    className="mx-2 screenshot_btn"
-                    style={{ border: "none" }}
-                    icon={<CameraFilled />}
-                    onClick={this.capture}
-                  >
-                    Screenshots
-                  </Button>,
-                  <Button
-                    disabled={this.state.SWITCH}
-                    className="mx-2"
-                    style={{ border: "none" }}
-                    icon={<CaretLeftFilled />}
-                    onClick={this.back}
-                  // disabled={this.state.BACK}
-                  >
-                    Backs
-                  </Button>,
-                ]}
-              >
-                <Row
-                  className="arom_button_grp"
-                  gutter={[10, 10]}
-                  justify="space-around"
+              <Row>
+                <Card
+                  style={{ marginTop: 5, borderRadius: 10, width: "100%" }}
+                  actions={[
+                    <Button
+                      className="mx-2 screenshot_btn"
+                      style={{ border: "none" }}
+                      icon={<CameraFilled />}
+                      onClick={this.capture}
+                    >
+                      Screenshots
+                    </Button>,
+                    <Button
+                      disabled={this.state.SWITCH}
+                      className="mx-2"
+                      style={{ border: "none" }}
+                      icon={<CaretLeftFilled />}
+                      onClick={this.back}
+                    // disabled={this.state.BACK}
+                    >
+                      Backs
+                    </Button>,
+                  ]}
                 >
-                  <Row justify="center" span={8}>
-                    <Switch
-                      disabled={this.state.disabledButton}
-                      onChange={this.handleChange}
-                      checked={this.state.SWITCH}
-                    //  style={{ color: "red", marginTop: 5 }}
-                    />{" "}
-                    {this.state.SWITCH ? (
-                      <PauseCircleOutlined />
-                    ) : (
-                      <PlayCircleOutlined />
-                    )}
-                  </Row>
-                  {/* <Row justify="center" span={8}>
+                  <Row
+                    className="arom_button_grp"
+                    gutter={[10, 10]}
+                    justify="space-around"
+                  >
+                    <Row justify="center" span={8}>
+                      <Switch
+                        disabled={this.state.disabledButton}
+                        onChange={this.handleChange}
+                        checked={this.state.SWITCH}
+                      //  style={{ color: "red", marginTop: 5 }}
+                      />{" "}
+                      {this.state.SWITCH ? (
+                        <PauseCircleOutlined />
+                      ) : (
+                        <PlayCircleOutlined />
+                      )}
+                    </Row>
+                    {/* <Row justify="center" span={8}>
                   <Button
                     // className="mx-2"
                     disabled={this.state.SWITCH}
@@ -1343,24 +1355,24 @@ class AI extends Component {
                   </Button>
                 </Row> */}
 
-                  <Row justify="center" span={8}>
-                    <Button
-                      //  className="mx-2"
-                      style={{ border: "none" }}
-                      icon={<RollbackOutlined />}
-                      onClick={this.reset}
-                    >
-                      Reset
-                    </Button>
+                    <Row justify="center" span={8}>
+                      <Button
+                        //  className="mx-2"
+                        style={{ border: "none" }}
+                        icon={<RollbackOutlined />}
+                        onClick={this.reset}
+                      >
+                        Reset
+                      </Button>
+                    </Row>
                   </Row>
-                </Row>
-                <Row
-                  className="arom_containerrr"
-                  style={{ marginTop: "5px" }}
-                  gutter={[10, 10]}
-                  justify="start"
-                >
-                  {/* <Col span={12}>
+                  <Row
+                    className="arom_containerrr"
+                    style={{ marginTop: "5px" }}
+                    gutter={[10, 10]}
+                    justify="start"
+                  >
+                    {/* <Col span={12}>
                     <select
                       className="w-50 mx-2 my-3"
                       style={{ marginTop: 5 }}
@@ -1371,204 +1383,178 @@ class AI extends Component {
                     >
                     </select>
                   </Col> */}
-                  <Col>
-                    <>
-                      <div className="containerrr">
-                        <div className="bloc-tabss">
-                          <span
-                            aria-disabled
-                            style={{
-                              width: "460px",
-                              padding: "0px 0 0 0",
-                              height: "35px",
-                            }}
-                            className={
-                              this.state.toggleState == 1
-                                ? "tabss active-tabss"
-                                : "tabss"
-                            }
-                            onClick={() => {
-                              //setToggleState(1);
-                              this.setState({ toggleState: 1 });
-                              this.setAngles([
-                                0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
-                              ]);
-                              this.setState({
-                                romJoints: [
-                                  "Pelvic",
-                                  "Cervical",
-                                  "Hip",
-                                  "Elbow",
-                                  "Shoulder"
-                                ]
-                              })
-                              let temp = this.props.carePlanReducer.romJoints
-                              temp["Cervical"] = {
-                                "joint": "leftNeck",
-                                "min": 30,
-                                "max": 120
+                    <Col>
+                      <>
+                        <div className="containerrr">
+                          <div className="bloc-tabss">
+                            <span
+                              aria-disabled
+                              style={{
+                                width: "460px",
+                                padding: "0px 0 0 0",
+                                height: "35px",
+                              }}
+                              className={
+                                this.state.toggleState == 1
+                                  ? "tabss active-tabss"
+                                  : "tabss"
                               }
-                              this.props.Careplan("romJoints", temp);
-                              if (this.state.AntPriValue.length == 0) {
-                                this.setState({ disabledButton: true })
-                              } else {
-                                this.setState({ disabledButton: false })
-                              }
-                              this.setSelectOrientation(1);
-                              if (this.state.SWITCH) {
-                                this.handleChange();
-                              }
-                            }}
-                          >
-                            <div className="fw-bold ant-tabss-btn">
-                              Anterior
-                            </div>
-                          </span>
-                          <span
-                            style={{
-                              width: "460px",
-                              padding: "0px 0 0 0",
-                              height: "35px",
-                            }}
-                            className={
-                              this.state.toggleState == 2
-                                ? "tabss active-tabss"
-                                : "tabss"
-                            }
-                            onClick={() => {
-                              //setToggleState(2);
-                              this.setState({ toggleState: 2 });
-                              this.setAngles([0, 4, 6, 12, 14, 18]);
-                              console.log("test ",)
-                              this.setState({
-                                romJoints: [
-                                  "Ankle",
-                                  "Knee",
-                                  "Wrist",
-                                  "Shoulder",
-                                  "Cervical",
-                                  "Hip"
-                                ]
-                              })
-                              console.log("side ", this.props.carePlanReducer.romJoints)
-                              let temp = this.props.carePlanReducer.romJoints
-                              temp["Cervical"] = {
-                                joint: 'cervicalForwardFlexion',
-                                min: 30,
-                                max: 40
-                              }
-                              this.props.Careplan("romJoints", temp);
-                              // let cervicalSide = {
-                              //   joint:'cervicalForwardFlexion',
-                              //   min:30,
-                              //   max:40
-                              // }
-                              if (this.state.LatLeftPri.length == 0 && this.state.LatRightPri.length == 0) {
-                                this.setState({ disabledButton: true })
-                              } else {
-                                this.setState({ disabledButton: false })
-                              }
-                              this.setSelectOrientation(2);
-                              //this.clearState()
-                              if (this.state.SWITCH) {
-                                this.handleChange();
-                              }
-                            }}
-                          >
-                            <div className="fw-bold ant-tabss-btn">Lateral</div>
-                          </span>
-                        </div>
-
-                        <div
-                          className={
-                            this.state.toggleState == 1
-                              ? "contentt  active-contentt"
-                              : "contentt"
-                          }
-                        >
-                          {/* <Radio checked value={"front"}>
-          front
-        </Radio> */}
-                          <Col span={24}>
-                            <b>Primary joints : </b>
-                            <Select
-                              className="w-50 mx-2 my-3"
-                              style={{ marginTop: 5 }}
-                              // name="ex"
-                              // id="ex"
-                              disabled={this.state.disabledAnteriorDrop}
-                              placeholder="select"
-                              id="LatL"
-                              //value={this.state.selectState}
-                              onChange={(e) => {
-                                this.setState({ disabledButton: false })
-                                // this.setState({ newJointChecked: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
-                                // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
-                                // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
-                                let tempIn = {}
-                                let tempOut = {}
-                                for (let i = 0; i < JointNew1[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
-                                  for (let j = 0; j < joints.length; j++) {
-                                    if (JointNew1[this.props.carePlanReducer.romJoints[e].joint].includes(joints[j].value)) {
-                                      tempOut[joints[j].value] = joints[j]
-                                    } else {
-                                      tempIn[joints[j].value] = joints[j]
-                                    }
-                                  }
+                              onClick={() => {
+                                //setToggleState(1);
+                                this.setState({ toggleState: 1 });
+                                this.setAngles([
+                                  0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+                                ]);
+                                this.setState({
+                                  romJoints: [
+                                    "Pelvic",
+                                    "Cervical",
+                                    "Hip",
+                                    "Elbow",
+                                    "Shoulder"
+                                  ]
+                                })
+                                let temp = this.props.carePlanReducer.romJoints
+                                temp["Cervical"] = {
+                                  "joint": "leftNeck",
+                                  "min": 30,
+                                  "max": 120
                                 }
-                                //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
-                                // console.log("checking 1 ", tempIn)
-                                console.log("checking 1 ", Object.values(tempOut))
-                                console.log("checking 2 ", Object.keys(tempOut))
-                                let selected = []
-                                for (let k = 0; k < Object.keys(tempOut).length; k++) {
-                                  selected.push(Number(Object.keys(tempOut)[k]))
+                                this.props.Careplan("romJoints", temp);
+                                if (this.state.AntPriValue.length == 0) {
+                                  this.setState({ disabledButton: true })
+                                } else {
+                                  this.setState({ disabledButton: false })
                                 }
-                                console.log("checking 3 ", selected)
-                                this.setState({ OrgAntPrimary: selected })
-                                this.setState({ AntPri: Object.values(tempOut) })
-                                this.setState({ AntPriValue: selected })
-                                this.setState({ newJoint: Object.values(tempIn) })
-                                // tempIn = []
-                                // tempOut = []
+                                this.setSelectOrientation(1);
+                                if (this.state.SWITCH) {
+                                  this.handleChange();
+                                }
                               }}
                             >
-                              {this.state.romJoints.map((jo) => (
-                                <Option value={jo}>{jo}</Option>
-                              ))}
-                            </Select>
-                          </Col>
-                          <Checkbox.Group
-                            options={this.state.AntPri}
-                            // disabled
-                            className="selectedJointsCheckbox"
-                            value={this.state.AntPriValue}
-                            onChange={(e) => {
-                              // let temp = []
-                              // for(let i=0;i<e.length;i++){
-                              //   console.log("checkbox ",e[i])
-                              //   if(!this.state.newJointChecked.includes(e[i])){
-                              //     temp.push(e[i])
-                              //   }
-                              // }
-                              //this.setState({ newJointChecked: e })
-                              if (e.length >= 1) {
-                                this.setState({ AntPriValue: e })
-                                if (this.state.SWITCH) {
-                                  this.setAngles1([...e, ...this.state.newJointChecked])
-                                  //[...this.state.newJointChecked
-                                }
-                                console.log("checking ", e)
+                              <div className="fw-bold ant-tabss-btn">
+                                Anterior
+                              </div>
+                            </span>
+                            <span
+                              style={{
+                                width: "460px",
+                                padding: "0px 0 0 0",
+                                height: "35px",
+                              }}
+                              className={
+                                this.state.toggleState == 2
+                                  ? "tabss active-tabss"
+                                  : "tabss"
                               }
-                            }}
-                          />
-                          <hr />
-                          <div>
-                            <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                              onClick={() => {
+                                //setToggleState(2);
+                                this.setState({ toggleState: 2 });
+                                this.setAngles([0, 4, 6, 12, 14, 18]);
+                                console.log("test ",)
+                                this.setState({
+                                  romJoints: [
+                                    "Ankle",
+                                    "Knee",
+                                    "Wrist",
+                                    "Shoulder",
+                                    "Cervical",
+                                    "Hip"
+                                  ]
+                                })
+                                console.log("side ", this.props.carePlanReducer.romJoints)
+                                let temp = this.props.carePlanReducer.romJoints
+                                temp["Cervical"] = {
+                                  joint: 'cervicalForwardFlexion',
+                                  min: 30,
+                                  max: 40
+                                }
+                                this.props.Careplan("romJoints", temp);
+                                // let cervicalSide = {
+                                //   joint:'cervicalForwardFlexion',
+                                //   min:30,
+                                //   max:40
+                                // }
+                                if (this.state.LatLeftPri.length == 0 && this.state.LatRightPri.length == 0) {
+                                  this.setState({ disabledButton: true })
+                                } else {
+                                  this.setState({ disabledButton: false })
+                                }
+                                this.setSelectOrientation(2);
+                                //this.clearState()
+                                if (this.state.SWITCH) {
+                                  this.handleChange();
+                                }
+                              }}
+                            >
+                              <div className="fw-bold ant-tabss-btn">Lateral</div>
+                            </span>
+                          </div>
+
+                          <div
+                            className={
+                              this.state.toggleState == 1
+                                ? "contentt  active-contentt"
+                                : "contentt"
+                            }
+                          >
+                            {/* <Radio checked value={"front"}>
+          front
+        </Radio> */}
+                            <Col span={24}>
+                              <b>Primary joints : </b>
+                              <Select
+                                className="w-50 mx-2 my-3"
+                                style={{ marginTop: 5 }}
+                                // name="ex"
+                                // id="ex"
+                                disabled={this.state.disabledAnteriorDrop}
+                                placeholder="select"
+                                id="LatL"
+                                //value={this.state.selectState}
+                                onChange={(e) => {
+                                  this.setState({ disabledButton: false })
+                                  // this.setState({ newJointChecked: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                  // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
+                                  // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
+                                  let tempIn = {}
+                                  let tempOut = {}
+                                  for (let i = 0; i < JointNew1[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
+                                    for (let j = 0; j < joints.length; j++) {
+                                      if (JointNew1[this.props.carePlanReducer.romJoints[e].joint].includes(joints[j].value)) {
+                                        tempOut[joints[j].value] = joints[j]
+                                      } else {
+                                        tempIn[joints[j].value] = joints[j]
+                                      }
+                                    }
+                                  }
+                                  //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
+                                  // console.log("checking 1 ", tempIn)
+                                  console.log("checking 1 ", Object.values(tempOut))
+                                  console.log("checking 2 ", Object.keys(tempOut))
+                                  let selected = []
+                                  for (let k = 0; k < Object.keys(tempOut).length; k++) {
+                                    selected.push(Number(Object.keys(tempOut)[k]))
+                                  }
+                                  console.log("checking 3 ", selected)
+                                  this.setState({ OrgAntPrimary: selected })
+                                  this.setState({ AntPri: Object.values(tempOut) })
+                                  this.setState({ AntPriValue: selected })
+                                  this.setState({ newJoint: Object.values(tempIn) })
+                                  // tempIn = []
+                                  // tempOut = []
+                                }}
+                              >
+                                {this.state.romJoints.map((jo) => (
+                                  <Option value={jo}>{jo}</Option>
+                                ))}
+                              </Select>
+                            </Col>
                             <Checkbox.Group
-                              options={this.state.newJoint}
+                              options={this.state.AntPri}
                               // disabled
-                              value={this.state.newJointChecked}
+                              className="selectedJointsCheckbox"
+                              value={this.state.AntPriValue}
                               onChange={(e) => {
                                 // let temp = []
                                 // for(let i=0;i<e.length;i++){
@@ -1577,199 +1563,238 @@ class AI extends Component {
                                 //     temp.push(e[i])
                                 //   }
                                 // }
-                                if (this.state.SWITCH) {
-                                  this.setAngles1(e)
+                                //this.setState({ newJointChecked: e })
+                                if (e.length >= 1) {
+                                  this.setState({ AntPriValue: e })
+                                  if (this.state.SWITCH) {
+                                    this.setAngles1([...e, ...this.state.newJointChecked])
+                                    //[...this.state.newJointChecked
+                                  }
+                                  console.log("checking ", e)
                                 }
-                                this.setState({ newJointChecked: e })
-                                console.log(e)
                               }}
                             />
+                            <hr />
+                            <div>
+                              <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                              <Checkbox.Group
+                                options={this.state.newJoint}
+                                // disabled
+                                value={this.state.newJointChecked}
+                                onChange={(e) => {
+                                  // let temp = []
+                                  // for(let i=0;i<e.length;i++){
+                                  //   console.log("checkbox ",e[i])
+                                  //   if(!this.state.newJointChecked.includes(e[i])){
+                                  //     temp.push(e[i])
+                                  //   }
+                                  // }
+                                  if (this.state.SWITCH) {
+                                    this.setAngles1([...e,...this.state.AntPriValue])
+                                  }
+                                  this.setState({ newJointChecked: e })
+                                  console.log(e)
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div
-                          className={
-                            this.state.toggleState == 2
-                              ? "contentt  active-contentt"
-                              : "contentt"
-                          }
-                        >
-                          <Col span={24}>
-                            <b>Primary joints : </b>
-                            <Select
-                              className="w-50 mx-2 my-3"
-                              style={{ marginTop: 5 }}
-                              // name="ex"
-                              // id="ex"
-                              disabled={this.state.disabledLateralDrop}
-                              placeholder="select"
-                              id="LatL"
-                              //value={this.state.selectState}
+                          <div
+                            className={
+                              this.state.toggleState == 2
+                                ? "contentt  active-contentt"
+                                : "contentt"
+                            }
+                          >
+                            <Col span={24}>
+                              <b>Primary joints : </b>
+                              <Select
+                                className="w-50 mx-2 my-3"
+                                style={{ marginTop: 5 }}
+                                // name="ex"
+                                // id="ex"
+                                disabled={this.state.disabledLateralDrop}
+                                placeholder="select"
+                                id="LatL"
+                                //value={this.state.selectState}
+                                onChange={(e) => {
+                                  this.setState({ selectState: e })
+                                  this.setState({ selectStateL: e })
+                                  this.setState({ selectStateR: e })
+                                  if (this.state.latSide == "left") {
+                                    this.setState({ disabledButton: false })
+                                    // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                    // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
+                                    // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
+                                    let tempIn = {}
+                                    let tempOut = {}
+                                    for (let i = 0; i < JointNew2[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
+                                      for (let j = 0; j < leftJoints.length; j++) {
+                                        if (JointNew2[this.props.carePlanReducer.romJoints[e].joint].includes(leftJoints[j].value)) {
+                                          tempOut[leftJoints[j].value] = leftJoints[j]
+                                        } else {
+                                          tempIn[leftJoints[j].value] = leftJoints[j]
+                                        }
+                                      }
+                                    }
+                                    //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
+                                    // console.log("checking 1 ", tempIn)
+                                    console.log("checking 1 ", e)
+                                    console.log("checking 2 ", Object.keys(tempOut))
+                                    let selected = []
+                                    for (let k = 0; k < Object.keys(tempOut).length; k++) {
+                                      selected.push(Number(Object.keys(tempOut)[k]))
+                                    }
+                                    this.setState({ OrgLatLeftPrimary: selected })
+                                    this.setState({ LatLeftPri: Object.values(tempOut) })
+                                    this.setState({ LatLeftPriValue: selected })
+                                    this.setState({ lateralJoints: Object.values(tempIn) })
+                                  }
+                                  if (this.state.latSide == "right") {
+                                    this.setState({ disabledButton: false })
+                                    // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
+                                    // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
+                                    // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
+                                    let tempIn = {}
+                                    let tempOut = {}
+                                    for (let i = 0; i < JointNew2[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
+                                      for (let j = 0; j < rightJoints.length; j++) {
+                                        if (JointNew2[this.props.carePlanReducer.romJoints[e].joint].includes(rightJoints[j].value)) {
+                                          tempOut[rightJoints[j].value] = rightJoints[j]
+                                        } else {
+                                          tempIn[rightJoints[j].value] = rightJoints[j]
+                                        }
+                                      }
+                                    }
+                                    //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
+                                    // console.log("checking 1 ", tempIn)
+                                    console.log("checking 1 ", e)
+                                    console.log("checking 2 ", Object.keys(tempOut))
+                                    let selected = []
+                                    for (let k = 0; k < Object.keys(tempOut).length; k++) {
+                                      selected.push(Number(Object.keys(tempOut)[k]))
+                                    }
+                                    this.setState({ OrgLatRightPrimary: selected })
+                                    this.setState({ OrgLatRightPrimary: selected })
+                                    this.setState({ LatRightPri: Object.values(tempOut) })
+                                    this.setState({ LatRightPriValue: selected })
+                                    this.setState({ lateralJointsR: Object.values(tempIn) })
+                                  }
+                                  // tempIn = []
+                                  // tempOut = []
+                                }}
+                              >
+                                {this.state.romJoints.map((jo) => (
+                                  <Option value={jo}>{jo}</Option>
+                                ))}
+                              </Select>
+                            </Col>
+                            <Radio.Group
+                              defaultValue={"left"}
                               onChange={(e) => {
-                                this.setState({ selectState: e })
-                                this.setState({ selectStateL: e })
-                                this.setState({ selectStateR: e })
-                                if (this.state.latSide == "left") {
-                                  this.setState({ disabledButton: false })
-                                  // this.setState({ newJointCheckedLeft: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
-                                  // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
-                                  // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
-                                  let tempIn = {}
-                                  let tempOut = {}
-                                  for (let i = 0; i < JointNew2[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
-                                    for (let j = 0; j < leftJoints.length; j++) {
-                                      if (JointNew2[this.props.carePlanReducer.romJoints[e].joint].includes(leftJoints[j].value)) {
-                                        tempOut[leftJoints[j].value] = leftJoints[j]
-                                      } else {
-                                        tempIn[leftJoints[j].value] = leftJoints[j]
-                                      }
-                                    }
-                                  }
-                                  //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
-                                  // console.log("checking 1 ", tempIn)
-                                  console.log("checking 1 ", e)
-                                  console.log("checking 2 ", Object.keys(tempOut))
-                                  let selected = []
-                                  for (let k = 0; k < Object.keys(tempOut).length; k++) {
-                                    selected.push(Number(Object.keys(tempOut)[k]))
-                                  }
-                                  this.setState({ OrgLatLeftPrimary: selected })
-                                  this.setState({ LatLeftPri: Object.values(tempOut) })
-                                  this.setState({ LatLeftPriValue: selected })
-                                  this.setState({ lateralJoints: Object.values(tempIn) })
-                                }
-                                if (this.state.latSide == "right") {
-                                  this.setState({ disabledButton: false })
-                                  // this.setState({ newJointCheckedRight: JointNew[this.props.carePlanReducer.romJoints[e].joint] })
-                                  // this.setState({ selectState: this.props.carePlanReducer.romJoints[e].joint })
-                                  // this.setState({ primary_joints: primary_joint[this.props.carePlanReducer.romJoints[e].joint] })
-                                  let tempIn = {}
-                                  let tempOut = {}
-                                  for (let i = 0; i < JointNew2[this.props.carePlanReducer.romJoints[e].joint].length; i++) {
-                                    for (let j = 0; j < rightJoints.length; j++) {
-                                      if (JointNew2[this.props.carePlanReducer.romJoints[e].joint].includes(rightJoints[j].value)) {
-                                        tempOut[rightJoints[j].value] = rightJoints[j]
-                                      } else {
-                                        tempIn[rightJoints[j].value] = rightJoints[j]
-                                      }
-                                    }
-                                  }
-                                  //this.setState({ newJointChecked: [...this.state.newJointChecked, ...JointNew[this.props.carePlanReducer.romJoints[e].joint]] })
-                                  // console.log("checking 1 ", tempIn)
-                                  console.log("checking 1 ", e)
-                                  console.log("checking 2 ", Object.keys(tempOut))
-                                  let selected = []
-                                  for (let k = 0; k < Object.keys(tempOut).length; k++) {
-                                    selected.push(Number(Object.keys(tempOut)[k]))
-                                  }
-                                  this.setState({ OrgLatRightPrimary: selected })
-                                  this.setState({ OrgLatRightPrimary: selected })
-                                  this.setState({ LatRightPri: Object.values(tempOut) })
-                                  this.setState({ LatRightPriValue: selected })
-                                  this.setState({ lateralJointsR: Object.values(tempIn) })
-                                }
-                                // tempIn = []
-                                // tempOut = []
+                                this.changeSide(e.target.value)
                               }}
                             >
-                              {this.state.romJoints.map((jo) => (
-                                <Option value={jo}>{jo}</Option>
-                              ))}
-                            </Select>
-                          </Col>
-                          <Radio.Group
-                            defaultValue={"left"}
-                            onChange={(e) => {
-                              this.changeSide(e.target.value)
-                            }}
-                          >
-                            <Radio value={"left"}>left</Radio>
-                            <Radio value={"right"}>right</Radio>
-                          </Radio.Group>
-                          <br />
-                          <br />
-                          {this.state.latSide == "left" &&
-                            <>
-                              <Checkbox.Group
-                                options={this.state.LatLeftPri}
-                                // disabled
-                                className="selectedJointsCheckbox"
-                                value={this.state.LatLeftPriValue}
-                                onChange={(e) => {
-                                  if (e.length >= 1) {
-                                    this.setState({ LatLeftPriValue: e })
-                                    if (this.state.SWITCH) {
-                                      this.setAngles1([...e, ...this.state.newJointCheckedLeft])
-                                      //[...this.state.newJointChecked
+                              <Radio value={"left"}>left</Radio>
+                              <Radio value={"right"}>right</Radio>
+                            </Radio.Group>
+                            <br />
+                            <br />
+                            {this.state.latSide == "left" &&
+                              <>
+                                <Checkbox.Group
+                                  options={this.state.LatLeftPri}
+                                  // disabled
+                                  className="selectedJointsCheckbox"
+                                  value={this.state.LatLeftPriValue}
+                                  onChange={(e) => {
+                                    if (e.length >= 1) {
+                                      this.setState({ LatLeftPriValue: e })
+                                      if (this.state.SWITCH) {
+                                        this.setAngles1([...e, ...this.state.newJointCheckedLeft])
+                                        //[...this.state.newJointChecked
+                                      }
+                                      console.log("checking ", e)
                                     }
-                                    console.log("checking ", e)
+                                  }}
+                                />
+                                <hr />
+                              </>}
+                            {this.state.latSide == "left" && <div>
+                              <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                              <Checkbox.Group
+                                options={this.state.lateralJoints}
+                                // disabled
+                                value={this.state.newJointCheckedLeft}
+                                //defaultValue={['Apple']}
+                                onChange={(e) => {
+                                  console.log(e)
+                                  if (this.state.SWITCH) {
+                                    this.setAngles1([...e, ...this.state.LatLeftPriValue])
+                                    //[...e,...this.state.newJointChecked]
                                   }
+                                  this.setState({ newJointCheckedLeft: e })
                                 }}
                               />
-                              <hr />
-                            </>}
-                          {this.state.latSide == "left" && <div>
-                            <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
-                            <Checkbox.Group
-                              options={this.state.lateralJoints}
-                              // disabled
-                              value={this.state.newJointCheckedLeft}
-                              //defaultValue={['Apple']}
-                              onChange={(e) => {
-                                console.log(e)
-                                if (this.state.SWITCH) {
-                                  this.setAngles1([...e, ...this.state.LatLeftPriValue])
-                                  //[...e,...this.state.newJointChecked]
-                                }
-                                this.setState({ newJointCheckedLeft: e })
-                              }}
-                            />
-                          </div>}
-                          {this.state.latSide == "right" &&
-                            <>
-                              <Checkbox.Group
-                                options={this.state.LatRightPri}
-                                // disabled
-                                className="selectedJointsCheckbox"
-                                value={this.state.LatRightPriValue}
-                                onChange={(e) => {
-                                  if (e.length >= 1) {
-                                    this.setState({ LatRightPriValue: e })
-                                    if (this.state.SWITCH) {
-                                      this.setAngles1([...e, ...this.state.newJointCheckedRight])
-                                      //[...this.state.newJointChecked
+                            </div>}
+                            {this.state.latSide == "right" &&
+                              <>
+                                <Checkbox.Group
+                                  options={this.state.LatRightPri}
+                                  // disabled
+                                  className="selectedJointsCheckbox"
+                                  value={this.state.LatRightPriValue}
+                                  onChange={(e) => {
+                                    if (e.length >= 1) {
+                                      this.setState({ LatRightPriValue: e })
+                                      if (this.state.SWITCH) {
+                                        this.setAngles1([...e, ...this.state.newJointCheckedRight])
+                                        //[...this.state.newJointChecked
+                                      }
+                                      console.log("checking ", e)
                                     }
-                                    console.log("checking ", e)
+                                  }}
+                                />
+                                <hr />
+                              </>}
+                            {this.state.latSide == "right" && <div>
+                              <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
+                              <Checkbox.Group
+                                options={this.state.lateralJointsR}
+                                // disabled
+                                placeholder="Select"
+                                value={this.state.newJointCheckedRight}
+                                //defaultValue={['Apple']}
+                                onChange={(e) => {
+                                  console.log(e)
+                                  if (this.state.SWITCH) {
+                                    this.setAngles1(e)
                                   }
+                                  this.setState({ newJointCheckedRight: e })
                                 }}
                               />
-                              <hr />
-                            </>}
-                          {this.state.latSide == "right" && <div>
-                            <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
-                            <Checkbox.Group
-                              options={this.state.lateralJointsR}
-                              // disabled
-                              placeholder="Select"
-                              value={this.state.newJointCheckedRight}
-                              //defaultValue={['Apple']}
-                              onChange={(e) => {
-                                console.log(e)
-                                if (this.state.SWITCH) {
-                                  this.setAngles1(e)
-                                }
-                                this.setState({ newJointCheckedRight: e })
-                              }}
-                            />
-                          </div>}
+                            </div>}
+                          </div>
                         </div>
-                      </div>
-                    </>
-                  </Col>
-                </Row>
-              </Card>
-            </Row>
-          </Col>
-        </Row>
+                      </>
+                    </Col>
+                  </Row>
+                </Card>
+              </Row>
+            </Col>
+          </Row>
+          : <div>
+            <Modal headers={false} footer={false} title="Basic Modal" visible={true}>
+              <Result
+              status="warning"
+                title="You have not selected any patient. Please select"
+                extra={
+                  <Button onClick={()=> this.props.history.push("/pateints")} type="primary" key="console">
+                    Go To Patient List
+                  </Button>
+                }
+              />
+            </Modal>
+          </div>}
       </>
     );
   }

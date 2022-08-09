@@ -108,13 +108,13 @@ const PatientVideoCallIndex = (props) => {
               >
                 <i id="video-icon" class="fas fa-video"></i>
               </button>
-              <button 
+              {/* <button 
             type="button" 
             id="screen-share-btn" 
             class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
-            </button>
+            </button> */}
             <button
                 id="exit-btn"
                 type="button"
