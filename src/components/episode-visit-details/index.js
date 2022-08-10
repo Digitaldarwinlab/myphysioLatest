@@ -99,8 +99,12 @@ const EpisodeVisitDetails = () => {
   };
   //aswin 10/30/2021 start
   const state = useSelector((state) => state.episodeReducer);
-  const [value, setValue] = useState();
   const carePlanState = useSelector((state) => state.carePlanRedcucer);
+  
+  const [exerciseDates, setExerciseDates] = useState();
+
+  const [patientepID, setPatientepID] = useState();
+
   //  console.log(state)
   const dispatch = useDispatch();
   const [activetabindex, Setactivetabindex] = useState(
@@ -151,43 +155,7 @@ const EpisodeVisitDetails = () => {
     }
     getPatients();
 
-    async function data() {
-      let a = [];
-      let response = await fetchDashboardDetails(state.patient_code);
-      let objLength = Object.keys(response).length;
-      for (let i = 0; i < objLength; i++) {
-        const [name, array] = Object.entries(response)[i];
-        for (let j = 0; j < Object.keys(array).length; j++) {
-          const [arrayName, arrayValue] = Object.entries(array)[j];
-          if (Object.values(arrayValue).length === 9) {
-            for (let l = 0; l < 9; l++) {
-              const [mainName, mainValue] = Object.entries(arrayValue)[l];
-              let b = { date: name, ExerciseName: arrayName };
-              if (mainName !== "image_url" && mainName !== "") {
-                b["Metrix"] = mainName;
-                b["value"] = mainValue;
-                a.push(b);
-              }
-            }
-          } else if (Object.values(arrayValue).length === 5) {
-            for (let m = 0; m < 5; m++) {
-              const [mainName, mainValue] = Object.entries(arrayValue)[m];
-              let b = { date: name, ExerciseName: arrayName };
-              if (mainName !== "image_url" && mainName !== "") {
-                b["Metrix"] = mainName;
-                b["value"] = mainValue;
-                a.push(b);
-              }
-            }
-          }
-
-        }
-      }
-      setValue(a);
-    }
-    if (state.patient_code ) {
-      data();
-    }
+    
 
     // ['quest','pain1','special','pose','romAss'].map(key=>{
     //     dispatch({
@@ -490,7 +458,9 @@ const EpisodeVisitDetails = () => {
                             src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
                             >
                         </iframe>} */}
-            <Dashboard patientId={state.patient_code} value={value} />
+            <Dashboard
+              patientId={state.patient_code}
+            />
           </TabPane>
           <TabPane
             tab={<div className="fw-bold ant-tabs-btn">Prescription</div>}

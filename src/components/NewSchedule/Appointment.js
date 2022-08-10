@@ -3,14 +3,12 @@ import { useState } from "react";
 import Model from "./components/model";
 import TabelTab from "./components/TabelTab";
 //import ant design
-import 'antd/dist/antd.css';
-import './Appointment.css';
+import "antd/dist/antd.css";
+import "./Appointment.css";
 
-import Error from './../UtilityComponents/ErrorHandler';
-import Success from './../UtilityComponents/SuccessHandler';
+import Error from "./../UtilityComponents/ErrorHandler";
+import Success from "./../UtilityComponents/SuccessHandler";
 import BackButton from "../../PatientComponents/shared/BackButton";
-
-
 
 function Appointment() {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,14 +16,21 @@ function Appointment() {
   const [error, setError] = useState("");
   return (
     <>
-    {/* header */}
+      {/* header */}
       <div className="header">
-      
-        <h2 >  <BackButton />  Visits</h2>
+        <h2>
+          {" "}
+          <BackButton /> Visits
+        </h2>
         {error && <Error error={error} />}
-    {success && <Success success={success} />}
-        <div className="end" >
-          <Model setError={setError} setSuccess={setSuccess} isVisible={isVisible} setIsVisible={setIsVisible} />
+        {success && <Success success={success} />}
+        <div className="end">
+          <Model
+            setError={setError}
+            setSuccess={setSuccess}
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
+          />
         </div>
       </div>
       {/* body */}
