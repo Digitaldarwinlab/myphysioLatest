@@ -26,6 +26,7 @@ import { useHistory } from "react-router-dom";
 import "../../../styles/Layout/Heading.css";
 import { ItemDragging } from "devextreme-react/list";
 import { useForm } from "antd/lib/form/Form";
+import { country } from "./Country";
 const { Title } = Typography;
 const PhysioClinic = () => {
   // const formRef = React.createRef();
@@ -471,7 +472,7 @@ const PhysioClinic = () => {
                 //  rules={[{ required: true, message: `Please Select Country.` }]}
               >
                 <Select
-                  //showSearch
+                  showSearch
                   optionFilterProp="children"
                   placeholder="please select country"
                   value={state.clinicReg.country}
@@ -484,8 +485,7 @@ const PhysioClinic = () => {
                       .toLowerCase()
                       .indexOf(input.toLowerCase()) >= 0
                   }
-                >
-                  <Select.Option value="India">India</Select.Option>
+                >{country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                 </Select>
               </Form.Item>
             </Col>
