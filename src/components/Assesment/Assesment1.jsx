@@ -930,7 +930,7 @@ const Assesment1 = ({ back, next }) => {
         if (state.FirstAssesment.Arom_M) {
           rom_manual.innerHTML = "AROM calculated";
         } else {
-          rom_manual.innerHTML = "AROM";
+          rom_manual.innerHTML = "AROM (Manual)";
         }
         if (state.FirstAssesment.Arom_Ai) {
           rom.innerHTML = "AROM calculated";
@@ -2740,11 +2740,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.pain1 ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2759,11 +2760,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2787,11 +2790,13 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.pose ? (
               <Button
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px',
+                    borderRadius:'5px !important'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2808,11 +2813,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+               className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2842,9 +2849,10 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 onClick={() => {
                   if (localStorage.getItem("OnAssessmentScreen") == "true") {
                     console.log("OnAssessmentScreen inside");
@@ -2859,10 +2867,12 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
@@ -2888,13 +2898,14 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.quest ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 disabled={state.FirstAssesment.quest}
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -2912,12 +2923,14 @@ const Assesment1 = ({ back, next }) => {
               ></Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 disabled={state.FirstAssesment.quest}
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -2944,11 +2957,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.special ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -2964,11 +2978,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -2997,9 +3013,10 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 onClick={() => {
                   if (localStorage.getItem("OnAssessmentScreen") == "true") {
                     console.log("OnAssessmentScreen inside");
@@ -3010,14 +3027,16 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
                 type="text"
@@ -3031,7 +3050,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             )}
           </Checkbox>

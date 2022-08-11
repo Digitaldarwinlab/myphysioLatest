@@ -8,6 +8,21 @@ import { Decode, Encode } from "../../Encode/hashing";
 //@Register Clinic
 //@param Clinic details
 //@return- Message.
+let labels = {
+  name: "Name: ",
+  address_1: "Address 1: ",
+  address_2: "Address 2: ",
+  address_3: "Address 3: ",
+  city: "City: ",
+  state: "State: ",
+  country: "Country: ",
+  zip: "Zip: ",
+  estab_date: "Estb: ",
+  mobile_no: "Mobile: ",
+  landline_no: "Lanline: ",
+  whatsapp_no: "WhatsApp: ",
+  email: "E#mail: "
+};
 export const clinicRegisterApi = async (details, dispatch) => {
   let body = {
     name: details.name,
@@ -19,7 +34,7 @@ export const clinicRegisterApi = async (details, dispatch) => {
     country: details.country,
     zip: details.zip,
     estab_date: details.estab_date,
-    mobile_no: details.mobile_no,
+    mobile_no: details.mobile_no.replaceAll(/\s/g,''),
     landline_no: details.landline_no,
     whatsapp_no: details.whatsapp_no,
     email: details.email,
@@ -41,21 +56,24 @@ export const clinicRegisterApi = async (details, dispatch) => {
     );
     const responseData = await response.json();
     const data = Decode(responseData);
-  // dispatch({ type: VALIDATION, payload: "etrrrpo tests"});
-    // if(Object.keys(data).length>0){
-    //   dispatch({ type: CLINIC_REGISTER_FAILED });
-    //   Object.keys(data).map(item=>{
-    //     dispatch({ type: VALIDATION, payload: {error :item+" "+data[item][0]} });
-    //   })
-    //   return 
-    // }
-    dispatch({ type: CLINIC_REGISTER_SUCCESS, payload : { msg : 'Clinic Registered SuccessFully.' } });
+    console.log("details ", data)
+    if(data.message){
+      dispatch({ type: CLINIC_REGISTER_SUCCESS, payload : { msg : 'Clinic Registered SuccessFully.' } });
+    return true
+    }
+    if(Object.keys(data).length>0){
+      dispatch({ type: CLINIC_REGISTER_FAILED });
+      Object.keys(data).map(item=>{
+        dispatch({ type: VALIDATION, payload: {error :labels[item]?labels[item]:item+" "+data[item][0]} });
+      })
+      return false
+    }
 //CLINIC_REGISTER_FAILED
   } catch (error) {
     console.log(error)
  //   return [false, "Error 501: Internal Server Error. Try After Some Time."];
 }
-  console.log(details, dispatch);
+
 };
 
 export const clinicUpdateApi = async (details, dispatch) => {
@@ -93,13 +111,13 @@ export const clinicUpdateApi = async (details, dispatch) => {
     const responseData = await response.json();
     const data = Decode(responseData);
   // dispatch({ type: VALIDATION, payload: "etrrrpo tests"});
-    // if(Object.keys(data).length>0){
-    //   dispatch({ type: CLINIC_REGISTER_FAILED });
-    //   Object.keys(data).map(item=>{
-    //     dispatch({ type: VALIDATION, payload: {error :item+" "+data[item][0]} });
-    //   })
-    //   return 
-    // }
+    if(Object.keys(data).length>0){
+      dispatch({ type: CLINIC_REGISTER_FAILED });
+      Object.keys(data).map(item=>{
+        dispatch({ type: VALIDATION, payload: {error :item+" "+data[item][0]} });
+      })
+      return 
+    }
      dispatch({ type: CLINIC_REGISTER_SUCCESS, payload : { msg : 'Clinic Updated SuccessFully.' } });
      return true
 //CLINIC_REGISTER_FAILED

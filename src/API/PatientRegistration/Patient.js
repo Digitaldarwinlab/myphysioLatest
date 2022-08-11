@@ -422,4 +422,11 @@ export const UpdateState = (state, val, dispatch) => {
             value: val.pp_patm_id ? val.pp_patm_id : ""
         }
     })
+    dispatch({
+        type: STATECHANGE,
+        payload: {
+            key: "Title",
+            value: val.title ? val.title : ""
+        }
+    })
 }
