@@ -84,11 +84,11 @@ const Dashboard = (props) => {
     ]);
   };
   useEffect(() => {
+    let a = [];
+    let date = [];
+    let excercise = [];
+    let mainValue = [];
     async function data() {
-      let a = [];
-      let date = [];
-      let excercise = [];
-      let mainValue = [];
       const data2 = await getEpisode(props.patientId);
       let response = await fetchDashboardDetails(
         data2[0].pp_ed_id,
@@ -142,27 +142,27 @@ const Dashboard = (props) => {
           return index.indexOf(k) >= 0 ? false : index.push(k);
         });
       }
-      const combinedItems = (arr = []) => {
-        const res = arr.reduce((acc, obj) => {
-          let found = false;
-          for (let i = 0; i < acc.length; i++) {
-            if (acc[i].exercise === obj.exercise) {
-              found = true;
-              //  console.log(acc[i],obj)
-              acc[i]["date"] = [acc[i]["date"], obj["date"]];
-              acc[i]["value"] = [acc[i]["value"], obj["value"]];
-              acc[i].count++;
-            }
-          }
-          if (!found) {
-            obj.count = 1;
-            acc.push(obj);
-          }
-          return acc;
-        }, []);
-        return res;
-      };
-      console.log(combinedItems(mainValue));
+     
+const combinedItems = (arr = []) => {
+    const res = arr.reduce((acc, obj) => {
+      let found = false;
+      for (let i = 0; i < acc.length; i++) {
+        if (acc[i].exercise === obj.exercise) {
+          found = true;
+          acc[i]["date"] = [[acc[i]["date"], obj["date"]]];
+          acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
+          acc[i].count++;
+        }
+      }
+      if (!found) {
+        obj.count = 1;
+        acc.push(obj);
+      }
+      return acc;
+    }, []);
+    return res;
+  };
+      // console.log(combinedItems(mainValue));
       setValue(combinedItems(mainValue));
       setExerciseDates(date);
       setExerciseValue(uniqBy(excercise, JSON.stringify));
@@ -199,13 +199,14 @@ const Dashboard = (props) => {
   }, [startDate, endDate]);
   const getData = (e) => {
     let a = 8 - parseInt(e);
-    console.log(a);
+    // console.log(a);
     let b = [];
     for (let i = 1; i < a; i++) {
       b.push(<td className="text-center">-</td>);
     }
     return b;
   };
+  
   return (
     <div className="otherDashboard">
       {value !== undefined ? (
@@ -219,7 +220,7 @@ const Dashboard = (props) => {
             }}
           >
             <div className="cus-cal">
-              <span className="icon-btn" onClick={changeLeft}>
+              <span className="icon-btn2" onClick={changeLeft}>
                 <CaretLeftOutlined />
               </span>
               <DateRangePicker
@@ -240,7 +241,7 @@ const Dashboard = (props) => {
                   setWeek(moment(value[1], "DD/MM/YYYY"));
                 }}
               />
-              <span className="icon-btn" onClick={changeRight}>
+              <span className="icon-btn2" onClick={changeRight}>
                 <CaretRightFilled />
               </span>
             </div>

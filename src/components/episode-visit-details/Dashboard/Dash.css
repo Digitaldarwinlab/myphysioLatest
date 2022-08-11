@@ -15,10 +15,10 @@
   border-right: 2px solid #dee2e6;
   border-bottom: 2px solid #dee2e6;
 }
-.icon-btn {
+.icon-btn2 {
   cursor: pointer;
   font-size: 20px !important;
-  width: 70px !important;
+  /* width: 70px !important; */
   background-color: #2d7ecb !important;
   color: white !important;
   padding-bottom: 10px !important;

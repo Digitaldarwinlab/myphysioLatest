@@ -680,6 +680,9 @@ class PatientAI extends Component {
             <p className="p text-center mt-2">
               You have successfully completed the session.
             </p>
+            <h6 className="p text-center mt-2 mb-1">
+          What is your Pain Level after doing the exercises?
+        </h6>
             {this.PainMeter()}
 
             {/* <div style={{ marginTop: 20 }}>

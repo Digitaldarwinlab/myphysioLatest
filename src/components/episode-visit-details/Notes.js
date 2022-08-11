@@ -10,6 +10,8 @@ const Notes = (props) => {
     const [notes, setNotes] = React.useState("");
     const [form] = Form.useForm();
     const [AllNotes, setAllNotes] = React.useState([]);
+    const [TimeNotes, setTimeNotes] = React.useState([]);
+
     const [isLoading, setIsLoading] = React.useState(false);
     const [success, setSuccess] = React.useState({state:false,msg:''});
     const [error, setError] = React.useState("");
@@ -29,11 +31,19 @@ const Notes = (props) => {
             let newData = data.map((val) => {
                 return val.notes;
             });
+            let newTime = data.map((val) => {
+                return val.time;
+            });
             let newDataNotes = [];
             for (let i = 0; i < newData.length; i++) {
                 newDataNotes.push(newData[i][0]);
             }
+            let newTimeNotes = [];
+            for (let i = 0; i < newTime.length; i++) {
+                newTimeNotes.push(newTime[i][0]);
+            }
             setAllNotes(newDataNotes);
+            setTimeNotes(newTimeNotes)
             setPaginationState({
                 ...paginationState,
                 totalPage: newDataNotes.length / paginationState.pageSize,
@@ -60,9 +70,10 @@ const Notes = (props) => {
             notes: [
                 {
                     date: new Date().toISOString().slice(0, 10),
-                    note: notes
+                    note: notes,
                 }
-            ]
+            ],
+            time:[new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" })]
         };
         let result = await Add_Notes(data);
         setIsLoading(false);
@@ -122,7 +133,7 @@ const Notes = (props) => {
                         index >= paginationState.minIndex && index < paginationState.maxIndex
                         && (<div className="border m-1 px-2 py-2 w-100" key={index}>
                             <p className="fw-bold">{val.note}</p>
-                            <p>{val.date}</p>
+                            <p>{val.date} {TimeNotes[index]}</p>
                         </div>
                         ))
                 }
