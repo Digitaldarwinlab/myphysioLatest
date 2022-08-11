@@ -1,6 +1,7 @@
 import { useState } from "react";
 // import "./Invoice.css";
 import InvoiceForm from "./InvoiceForm";
+import moment from "moment"
 import Invoicer from "./Invoicer";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
@@ -20,6 +21,8 @@ function Invoice() {
   });
   console.log(patientDetails);
   const [preview, setPreview] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalDiscount,setTotalDiscount] = useState(0);
   const [totalTax,setTotalTax] = useState(0);
@@ -91,7 +94,7 @@ useEffect(() => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (item.Description && item.UnitCost && item.Quantity && item.Discount && item.Tax) {
+    if (item.Description && item.UnitCost && item.Quantity && item.Discount && item.Tax && startDate && endDate) {
       const Amount = CalculateAmount(
         item.Description,
         item.UnitCost,
@@ -144,7 +147,8 @@ useEffect(() => {
     const total_amount =  totalAmount + totalDiscount - totalTax
 
     const invoice_header = {
-      invoice_date : todayDate(),
+      start_date:moment(startDate).format('YYYY-MM-DD'),
+      end_date:moment(endDate).format('YYYY-MM-DD'),
       physio_id,
       clinic_id,
       patient_id,
@@ -179,6 +183,8 @@ useEffect(() => {
       {preview ? <Invoicer list={list} totalAmount={totalAmount} setPreview={setPreview}/>: <InvoiceForm
         handleDelete={handleDelete}
         list={list}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
         item={item}
         totalAmount={totalAmount}
         handleChange={handleChange}

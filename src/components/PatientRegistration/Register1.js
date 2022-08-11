@@ -34,7 +34,6 @@ const Register1 = (props) => {
 
   useEffect(() => {
     const data = state.BasicDetails;
-
     form.setFieldsValue({ FirstName: data.FirstName });
     form.setFieldsValue({ MiddleName: data.MiddleName });
     form.setFieldsValue({ LastName: data.LastName });

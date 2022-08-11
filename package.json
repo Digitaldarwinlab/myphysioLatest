@@ -83,6 +83,9 @@
   "devDependencies": {
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-external-helpers": "^6.18.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-latest": "^6.16.0",
     "compress-create-react-app": "^1.2.1",
     "enzyme": "^3.11.0",
     "eslint": "^7.31.0",
@@ -90,7 +93,14 @@
     "eslint-config-react": "^1.1.7",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "rollup": "^0.41.4",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^3.2.2"
   },
-  "buildDate": 1659940637543
+  "buildDate": 1659964890117
 }
