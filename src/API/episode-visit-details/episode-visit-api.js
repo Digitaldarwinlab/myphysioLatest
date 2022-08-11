@@ -74,11 +74,14 @@ const filterCarePlanData = (data) => {
     console.log("check data 5 ", el);
     console.log("check data 6 ", keyObject[el].length - 1);
     console.log("check data 7 ", keyObject[el][keyObject[el].length - 1].date);
-    console.log("check data 8 ", keyObject[el][keyObject[el].length - 1].end_date);
+    console.log(
+      "check data 8 ",
+      keyObject[el][keyObject[el].length - 1].end_date
+    );
     keyObject[el].length - 1;
     element["start_date"] = element.date;
     delete element["date"];
-    element["end_date"] =  keyObject[el][keyObject[el].length - 1].end_date;
+    element["end_date"] = keyObject[el][keyObject[el].length - 1].end_date;
     newData.push(element);
   });
   return newData;
@@ -124,7 +127,7 @@ const newFilterCarePlanData = (data) => {
   });
 
   console.log("data is coming ", Object.values(keyObj));
-  return Object.values(keyObj)
+  return Object.values(keyObj);
 };
 export const CarePlan = async (eid) => {
   try {
@@ -160,8 +163,8 @@ export const CarePlan = async (eid) => {
 //@param -
 //@return - Fetched History.
 export const fetchHistory = () => {
-    // console.log("Fetched History");
-}
+  // console.log("Fetched History");
+};
 
 const filterCarePlanDataEnterprise = (data) => {
   console.log("check data  ", data);
@@ -187,46 +190,56 @@ const filterCarePlanDataEnterprise = (data) => {
     console.log("check data 5 ", el);
     console.log("check data 6 ", keyObject[el].length - 1);
     console.log("check data 7 ", keyObject[el][keyObject[el].length - 1].date);
-    console.log("check data 8 ", keyObject[el][keyObject[el].length - 1].end_date);
+    console.log(
+      "check data 8 ",
+      keyObject[el][keyObject[el].length - 1].end_date
+    );
     keyObject[el].length - 1;
-    element["start_date"] =  keyObject[el][keyObject[el].length - 1].start_date;
+    element["start_date"] = keyObject[el][keyObject[el].length - 1].start_date;
     delete element["date"];
-    element["end_date"] =  keyObject[el][keyObject[el].length - 1].end_date;
+    element["end_date"] = keyObject[el][keyObject[el].length - 1].end_date;
     newData.push(element);
   });
   return newData;
 };
 
 export const fetchCarePlanEmp = async (eid) => {
-    try {
-        const headers = {
-            Accept: 'application/json',
-            "Content-type": "application/json"
-        }
-        // const encodedData = Encode();
-        const response = await fetch(process.env.REACT_APP_API + "/get_emp_all_careplan/", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify({ id: eid })
-        });
-        const data = await response.json();
-           console.log("data is coming ",data);
-        // const data = Decode(responseData);
-        // console.log(data);
-      
-        if (response.status !== 200 && response.status !== 201) {
-            throw new Error("Error: " + response.status + response.statusText);
-        }
-        return filterCarePlanDataEnterprise(data);
-        // return data;
-    } catch (err) {
-        // console.log(err, "Error in Fetching Patient Care Plan");
-        return [];
-    }
-}
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+    // const encodedData = Encode();
+    const response = await fetch(
+      process.env.REACT_APP_API + "/get_emp_all_careplan/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({ id: eid }),
+      }
+    );
+    const data = await response.json();
+    console.log("data is coming ", data);
+    // const data = Decode(responseData);
+    // console.log(data);
 
-export const fetchDashboardDetails = async (patId) => {
-  const encodedData = { id: patId };
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return filterCarePlanDataEnterprise(data);
+    // return data;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Care Plan");
+    return [];
+  }
+};
+
+export const fetchDashboardDetails = async (patId,startDate,endDate) => {
+  const encodedData = {
+    id: patId,
+    start_date: startDate,
+    end_date: endDate,
+  };
   try {
     const headers = {
       Accept: "application/json",

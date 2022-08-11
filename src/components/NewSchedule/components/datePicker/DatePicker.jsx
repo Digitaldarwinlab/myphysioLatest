@@ -66,6 +66,7 @@ moment.updateLocale('en', {
 export const WeekDatePicker = ({ week, setWeek }) => {
   const dispatch = useDispatch()
   const {beforeToday} = DateRangePicker;
+  console.log(week)
   const start_date = week.startOf('week').format("DD/MM/YYYY");
   const end_date = week.endOf('week').format("DD/MM/YYYY");
   const [weekValue, setweekValue] = useState([moment(start_date, "DD/MM/YYYY")._d , moment(end_date, "DD/MM/YYYY")._d])

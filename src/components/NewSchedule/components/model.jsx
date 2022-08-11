@@ -80,7 +80,31 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   });
 
   console.log(activeDays);
-
+async function adminId(id){
+  
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+    // const encodedData = Encode();
+    const response = await fetch(
+      process.env.REACT_APP_API + "/auth_detail/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({ id: id }),
+      }
+    );
+    const data = await response.json();
+    
+    return data;
+    // return data;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Care Plan");
+    return [];
+  }
+}
   if (data.date._d) {
     console.log(data.date._d.toISOString().slice(11, 19));
     console.log(data.date.toISOString());
@@ -95,7 +119,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         const physio_id = physioDetails[0].uid;
         channel += physio_id + "-";
       } else {
-        channel += user_id + "-";
+        let id = await adminId(user_id)
+        channel += id['uid'] + "-";
       }
       const patient_id = episodeState.patient_main_code;
       channel += patient_id + "-";
@@ -126,7 +151,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
         const physio_id = physioDetails[0].uid;
         channel += physio_id + "-";
       } else {
-        channel += user_id + "-";
+        let id = await adminId(user_id)
+        channel += id['uid'] + "-";
       }
       const patient_id = episodeState.patient_main_code;
       channel += patient_id + "-";
