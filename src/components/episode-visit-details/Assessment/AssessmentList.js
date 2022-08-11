@@ -608,7 +608,7 @@ const AssessmentList = ({ assesmentClick }) => {
               </Button>
             </Col>
           </Row>
-
+             {AssesmentData.length === 0 && <Col span={24} className="px-3"> <p className="fw-bold">No Assesment Present..</p></Col>}
           {AssesmentData.map(
             (data, index) =>
               //aswin 10/30/2021 start
@@ -624,9 +624,9 @@ const AssessmentList = ({ assesmentClick }) => {
                   <Col span={24} className="px-3">
                     {loading && <Loading />}
                     {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
-                    {AssesmentData.length === 0 ? (
+                    {/* {AssesmentData.length === 0 ? (
                       <p className="fw-bold">No Assesment Present..</p>
-                    ) : (
+                    ) : ( */}
                       <>
                         <Collapse defaultActiveKey={["1"]}>
                           {data.body_image && (
@@ -1715,7 +1715,7 @@ const AssessmentList = ({ assesmentClick }) => {
                           </center>
                         </div>
                       </>
-                    )}
+                  
                     { <div id="assesmentPrint" className={showAssesment ? "":"assesmentPrint"} ref={assessmentRef}>
                        
                           {data.body_image && (

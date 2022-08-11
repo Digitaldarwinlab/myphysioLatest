@@ -1,4 +1,4 @@
-import { Button, Col, Input, Modal, Result, Row } from "antd";
+import { Alert, Button, Col, Input, Modal, Result, Row } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import bodyImage from "../.././assets/lateral.webp";
@@ -273,6 +273,11 @@ class PoseTestClass extends Component {
                   ? this.props.episodeReducer.patient_main_code
                   : "not selected"}
               </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+            <Alert message="The angle of deviation is calculated from Left to Right" type="info" showIcon closable />
             </Col>
           </Row>
           <Row className="pose_mobile_view_row_video_screen">

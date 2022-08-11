@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { temp } from "./temp";
 import CarePlanCard from "../care-plan/care-plan-card/Card";
+import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import { CARE_PLAN_STATE_CHANGE } from "../../contextStore/actions/care-plan-action";
 import { getTemplates } from "../../API/Template/template";
@@ -27,6 +28,9 @@ const { confirm } = Modal;
 const { Text, Link } = Typography;
 const GlobalTemplate = () => {
   const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+  const [video, setVideo] = useState('');
+  const [video1, setVideo1] = useState('');
   const [tempEx, setTempEx] = useState([]);
   const [loadArr, setLoadArr] = useState([]);
   const [tempName, setTempName] = useState("");
@@ -186,7 +190,7 @@ const GlobalTemplate = () => {
       setLoadArr([...loadArr, exercise]);
     }
   };
-  const handleOk = () => {};
+  const handleOk = () => { };
   return (
     <>
       {tempEx.length > 0 ? (
@@ -264,7 +268,17 @@ const GlobalTemplate = () => {
                           </Row>
                         }
                         cover={
-                          <img
+                          ex.name == "YouTube" ? <ReactPlayer
+                            controls={true}
+                            className="react-player"
+                            url={ex.youtube_link}
+                            width="100%"
+                            height={180}
+                          /> : <img
+                          onClick={()=>{
+                            setVisible(true)
+                            setVideo(ex.video_url)
+                          }}
                             alt="example"
                             className="px-2 py-3 w-100"
                             style={{ height: "180px", cursor: "pointer" }}
@@ -332,7 +346,7 @@ const GlobalTemplate = () => {
                     )
                   }
                   title={<Link>{item.template_name}</Link>}
-                  // description={item.email}
+                // description={item.email}
                 />
                 <span className="template_badge">
                   <center>
@@ -347,6 +361,25 @@ const GlobalTemplate = () => {
       {/* <Modal title="Load exercises" visible={visible} onOk={handleOk} onCancel={()=>setVisible(false)}>
         <p>Exercises will be added to cart</p>
       </Modal> */}
+      <Modal
+        footer={null}
+        visible={visible}
+        title="Video"
+        // onOk={onOk}
+         onCancel={()=>  setVisible(false)}
+        centered
+      >
+        {video ? (
+          <video controls autoplay="autoplay" loop width="100%">
+            <source
+              src={`${process.env.REACT_APP_EXERCISE_URL}/${video}`}
+              type="video/mp4"
+            />
+          </video>
+        ) : (
+          <p>No Video Present...</p>
+        )}
+      </Modal>
     </>
     // </div>
   );

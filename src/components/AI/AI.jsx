@@ -920,23 +920,30 @@ class AI extends Component {
             totalSets: 2,
           });
         } else {
-          let data = darwin.getAssesmentData();
-          if (this.state.selectedOrientation == 3) {
-            if (data !== undefined && data !== null) {
-              let TEMP = {};
-              TEMP["AROM"] = data[Object.keys(data)[0]];
-              console.log(TEMP);
-              this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
-              notification.success({
-                message: "Angles have been calculated",
-                placement: "bottomLeft",
-                duration: 2,
-              });
+          let data
+          try {
+            data = darwin.getAssesmentData();
+            console.log("right side ", data)
+            if (this.state.selectedOrientation == 3) {
+              if (data !== undefined && data !== null) {
+                let TEMP = {};
+                TEMP["AROM"] = data[Object.keys(data)[0]];
+                console.log(TEMP);
+                this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
+                notification.success({
+                  message: "Angles have been calculated",
+                  placement: "bottomLeft",
+                  duration: 2,
+                });
+              }
             }
+            window.darwin.stop();
+            this.setState({ disabledLateralDrop: false })
+            console.log("get assessment call")
+          } catch (error) {
+            console.log("catch ", error)
+            window.darwin.stop();
           }
-          window.darwin.stop();
-          this.setState({ disabledLateralDrop: false })
-          console.log("get assessment call")
         }
       }
     }
@@ -964,14 +971,14 @@ class AI extends Component {
   // start();
 
   componentWillUnmount() {
-    if(this.props.carePlanReducer.patient_main_code.length != 0){
+    if (this.props.carePlanReducer.patient_main_code.length != 0) {
       const video = document.getElementById("video");
       const mediaStream = video.srcObject;
       try {
         const tracks = mediaStream.getTracks();
         tracks[0].stop();
         tracks.forEach((track) => track.stop());
-  
+
         console.log("camera releasing....");
         console.log(tracks);
       } catch (err) {
@@ -1502,7 +1509,7 @@ class AI extends Component {
           front
         </Radio> */}
                             <Col span={24}>
-                            <b style={{ paddingLeft: '5px' }}>Step-1 : </b>
+                              <b style={{ paddingLeft: '5px' }}>Step-1 : </b>
                               <b>Primary joints : </b>
                               <Select
                                 className="w-50 mx-2 my-3"
@@ -1577,7 +1584,7 @@ class AI extends Component {
                             />
                             <hr />
                             <div>
-                            <b style={{ paddingLeft: '5px' }}>Step-2 : </b> 
+                              <b style={{ paddingLeft: '5px' }}>Step-2 : </b>
                               <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
                               <Checkbox.Group
                                 options={this.state.newJoint}
@@ -1592,7 +1599,7 @@ class AI extends Component {
                                   //   }
                                   // }
                                   if (this.state.SWITCH) {
-                                    this.setAngles1([...e,...this.state.AntPriValue])
+                                    this.setAngles1([...e, ...this.state.AntPriValue])
                                   }
                                   this.setState({ newJointChecked: e })
                                   console.log(e)
@@ -1608,7 +1615,7 @@ class AI extends Component {
                             }
                           >
                             <Col span={24}>
-                            <b style={{ paddingLeft: '5px' }}>Step-1 : </b>
+                              <b style={{ paddingLeft: '5px' }}>Step-1 : </b>
                               <b>Primary joints : </b>
                               <Select
                                 className="w-50 mx-2 my-3"
@@ -1723,7 +1730,7 @@ class AI extends Component {
                                 <hr />
                               </>}
                             {this.state.latSide == "left" && <div>
-                            <b style={{ paddingLeft: '5px' }}>Step-2 : </b>
+                              <b style={{ paddingLeft: '5px' }}>Step-2 : </b>
                               <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
                               <Checkbox.Group
                                 options={this.state.lateralJoints}
@@ -1761,7 +1768,7 @@ class AI extends Component {
                                 <hr />
                               </>}
                             {this.state.latSide == "right" && <div>
-                            <b style={{ paddingLeft: '5px' }}>Step-2 : </b>
+                              <b style={{ paddingLeft: '5px' }}>Step-2 : </b>
                               <b style={{ paddingLeft: '5px' }}>Secondary joints : </b> (optional)
                               <Checkbox.Group
                                 options={this.state.lateralJointsR}
@@ -1772,7 +1779,7 @@ class AI extends Component {
                                 onChange={(e) => {
                                   console.log(e)
                                   if (this.state.SWITCH) {
-                                    this.setAngles1(e)
+                                    this.setAngles1([...e, ...this.state.LatRightPriValue])
                                   }
                                   this.setState({ newJointCheckedRight: e })
                                 }}
@@ -1790,10 +1797,10 @@ class AI extends Component {
           : <div>
             <Modal headers={false} footer={false} title="Basic Modal" visible={true}>
               <Result
-              status="warning"
+                status="warning"
                 title="You have not selected any patient. Please select"
                 extra={
-                  <Button onClick={()=> this.props.history.push("/pateints")} type="primary" key="console">
+                  <Button onClick={() => this.props.history.push("/pateints")} type="primary" key="console">
                     Go To Patient List
                   </Button>
                 }

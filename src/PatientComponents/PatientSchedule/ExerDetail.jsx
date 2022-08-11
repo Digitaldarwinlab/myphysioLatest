@@ -121,11 +121,12 @@ const ExerDetail = () => {
     });
     // data.output_json[ChoosenTime] = ch;
     // console.log(data);
-    let res = await update_careplan(ch, [tempId[0]], 2, ChoosenTime, pp_cp_id);
+    let res = await update_careplan(ch, [tempId[0]], 2, 1 , ChoosenTime, location.state.exercises[0].pp_cp_id);
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
+    console.log("pain ",location.state.exercises[0].pp_cp_id, pain)
     await updatePainMeter(location.state.exercises[0].pp_cp_id, pain);
     window.location.href = "/patient/schedule";
     //window.location.reload();
@@ -234,16 +235,19 @@ console.log("final ",exercises)
                   </Descriptions>
                   <p></p>
                   <Descriptions
-                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                    title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
-                  >
-                    <Descriptions.Item label="1">
-                      <h5>{exercise.instruction1}</h5>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="2">
-                      <h5>{exercise.instruction2}</h5>
-                    </Descriptions.Item>
-                  </Descriptions>
+                      column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                      title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
+                    >
+                      {exercise.instruction_array!== undefined &&
+                      <>
+                      {exercise.instruction_array.map((i,index)=>
+                      <Descriptions.Item label={index+1}>
+                        <h5 style={{fontSize:'16px'}}>{i}</h5>
+                      </Descriptions.Item>
+                      )}
+                      </>
+                      }
+                    </Descriptions>
                   {/* <p>Set : {location.state.repArr[index].set}</p>
                       {"       "}
                       <p>

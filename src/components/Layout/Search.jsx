@@ -274,7 +274,7 @@ const SearchPatient = () => {
   };
   //Edit
   const handleEdit = (val) => {
-    console.log(val);
+    console.log("patient details ",val);
     UpdateState(state, val, dispatch);
     history.push("/pateints/update");
   };
