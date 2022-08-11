@@ -445,6 +445,9 @@ const dispatch = useDispatch();
             >
                 <h3 className="fw-bold text-center">Congratulation</h3>
                 <p className="p text-center mt-2">You have successfully completed the session.</p>
+                <h6 className="p text-center mt-2 mb-1">
+          What is your Pain Level after doing the exercises?
+        </h6>
                 {PainMeter()}
 
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: 20 }}>

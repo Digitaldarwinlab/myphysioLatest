@@ -388,7 +388,7 @@ console.log(data);
         },
         {
           title: "Physio Code",
-          dataIndex: "pp_pm_id",
+          dataIndex: "uid",
           width: "20%",
          
         },

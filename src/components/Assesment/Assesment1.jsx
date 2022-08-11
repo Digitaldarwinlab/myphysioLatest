@@ -2041,6 +2041,9 @@ const Assesment1 = ({ back, next }) => {
               </Col>
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h1>Degree of Deviation</h1>
+                                      </Col>
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
                   <Descriptions.Item label="Nasal Bridge">
@@ -2096,6 +2099,9 @@ const Assesment1 = ({ back, next }) => {
 
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h1>Degree of Deviation</h1>
+                                      </Col>
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Lateral" bordered>
                   <Descriptions.Item label="Head deviation">
