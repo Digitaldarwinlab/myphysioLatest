@@ -14,7 +14,14 @@ const Dashboard = (props) => {
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
   const [showValue, setShowValue] = useState();
-  const [exercisedates, setExerciseDates] = useState();
+  const [exercisedates, setExerciseDates] = useState([]);
+  const [exerciseAlloted, setExerciseAlloted] = useState();
+  const [exercisecompleted, setExercisecompleted] = useState();
+  const [setsAlloted, setSetsAlloted] = useState();
+  const [setscompleted, setSetscompleted] = useState();
+  const [repsAlloted, setRepsAlloted] = useState();
+  const [repscompleted, setRepscompleted] = useState();
+
   const [week, setWeek] = useState(moment());
   const [startDate, setstartDate] = useState(
     week.startOf("week").format("YYYY/MM/DD")
@@ -83,11 +90,54 @@ const Dashboard = (props) => {
       moment(end_date, "DD/MM/YYYY")._d,
     ]);
   };
+  function uniqBy(a, key) {
+    var index = [];
+    return a.filter(function (item) {
+      var k = key(item);
+      return index.indexOf(k) >= 0 ? false : index.push(k);
+    });
+  }
   useEffect(() => {
     let a = [];
     let date = [];
     let excercise = [];
     let mainValue = [];
+    let exDate;
+    function nameChange() {
+      let date = moment(startDate).subtract(1, "day").format("DD");
+      let month = moment(startDate).format("M");
+      let month2 = moment(startDate).format("MM");
+      let year = moment(startDate).format("YYYY");
+      let m = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let a = [];
+      let b = [];
+      for (let i = 1; i < 8; i++) {
+        a.push(parseInt(date) + i + " " + m[parseInt(month)]);
+        let s = JSON.stringify(parseInt(date) + i);
+        if (s.length === 1) {
+          b.push(year + "-" + month2 + "-" + 0 + s);
+        } else {
+          b.push(year + "-" + month2 + "-" + s);
+        }
+      }
+      exDate = b;
+      setShowValue(a);
+      setExerciseDates(b);
+    }
+    nameChange();
     async function data() {
       const data2 = await getEpisode(props.patientId);
       let response = await fetchDashboardDetails(
@@ -135,78 +185,241 @@ const Dashboard = (props) => {
           }
         }
       }
-      function uniqBy(a, key) {
-        var index = [];
-        return a.filter(function (item) {
-          var k = key(item);
-          return index.indexOf(k) >= 0 ? false : index.push(k);
+
+      const combinedItems = (arr = []) => {
+        let date = [];
+        let value = [];
+        const res = arr.reduce((acc, obj) => {
+          let found = false;
+          for (let i = 0; i < acc.length; i++) {
+            if (acc[i].exercise === obj.exercise) {
+              found = true;
+              // acc[i]["date"] = [acc[i]["date"], obj["date"]];
+              // acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
+              date.push(obj["date"]);
+              value.push(obj["value"]);
+              acc[i]["date"] = [[uniqBy(date, JSON.stringify)]];
+              if (value.length > 2) {
+                acc[i]["value"] = [[value.slice(value.length / 2)]];
+              } else {
+                acc[i]["value"] = [[value]];
+              }
+              // acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
+              acc[i].count++;
+            }
+          }
+          if (!found) {
+            obj.count = 1;
+            acc.push(obj);
+          }
+          return acc;
+        }, []);
+        return res;
+      };
+      function diff(a1, a2) {
+        return a1.concat(a2).filter(function (val, index, arr) {
+          return arr.indexOf(val) === arr.lastIndexOf(val);
         });
       }
-     
-const combinedItems = (arr = []) => {
-    const res = arr.reduce((acc, obj) => {
-      let found = false;
-      for (let i = 0; i < acc.length; i++) {
-        if (acc[i].exercise === obj.exercise) {
-          found = true;
-          acc[i]["date"] = [[acc[i]["date"], obj["date"]]];
-          acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
-          acc[i].count++;
-        }
-      }
-      if (!found) {
-        obj.count = 1;
-        acc.push(obj);
-      }
-      return acc;
-    }, []);
-    return res;
-  };
-      // console.log(combinedItems(mainValue));
+
+      let am = await exDate.filter((x) => !date.includes(x));
+      let we = await exDate.filter((x) => !am.includes(x));
+      // exercisedates.length > 0 && console.log(exercisedates, date)
+      // let am  = await exercisedates.length > 0 && diff(exercisedates, date)
+      // let we = await  exercisedates.length > 0 && diff(exercisedates, am)
+      // console.log(we)
+      let combine = await combinedItems(mainValue);
+      await combine.forEach(async (e) => {
+        // let a = await diff(exercisedates, date)
+        // let b = await diff(exercisedates, a)
+        console.log(true);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let exercise_alloted = await getData(
+            val,
+            e["value"][0][0][0]["exercise_alloted"],
+            exDate,
+            null
+          );
+          console.log(exercise_alloted);
+          if (exercise_alloted !== undefined) {
+            setExerciseAlloted(exercise_alloted);
+          }
+        });
+      });
+      await combine.forEach(async (e) => {
+        let a = exercisedates.filter((x) => !date.includes(x));
+        let b = exercisedates.filter((x) => !a.includes(x));
+        console.log(b);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let reps_alloted = await getData(
+            val,
+            e["value"][0][0][0]["reps_alloted"],
+            exDate,
+            null
+          );
+          if (reps_alloted !== undefined) {
+            setRepsAlloted(reps_alloted);
+          }
+        });
+      });
+      await combine.forEach(async (e) => {
+        let a = exercisedates.filter((x) => !date.includes(x));
+        let b = exercisedates.filter((x) => !a.includes(x));
+        console.log(b);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let set_alloted = await getData(
+            val,
+            e["value"][0][0][0]["set_alloted"],
+            exDate,
+            null
+          );
+          if (set_alloted !== undefined) {
+            setSetsAlloted(set_alloted);
+          }
+        });
+      });
+      await combine.forEach(async (e) => {
+        let a = exercisedates.filter((x) => !date.includes(x));
+        let b = exercisedates.filter((x) => !a.includes(x));
+        console.log(b);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let exercise_completed = await getData(
+            val,
+            e["value"][0][0][0]["exercise_completed"]
+              ? e["value"][0][0][0]["exercise_completed"]
+              : "-",
+            exDate,
+            parseInt(e["value"][0][0][0]["exercise_completed"]) > 3
+              ? "remaining"
+              : parseInt(e["value"][0][0][0]["exercise_completed"]) === 3
+              ? "pending"
+              : "completed"
+          );
+          if (exercise_completed !== undefined) {
+            setExercisecompleted(exercise_completed);
+          }
+        });
+      });
+      await combine.forEach(async (e) => {
+        let a = exercisedates.filter((x) => !date.includes(x));
+        let b = exercisedates.filter((x) => !a.includes(x));
+        console.log(b);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let set_completed = await getData(
+            val,
+            e["value"][0][0][0]["set_completed"]
+              ? e["value"][0][0][0]["set_completed"]
+              : "-",
+            exDate,
+            parseInt(e["value"][0][0][0]["set_completed"]) > 3
+              ? "remaining"
+              : parseInt(e["value"][0][0][0]["set_completed"]) === 3
+              ? "pending"
+              : "completed"
+          );
+          if (set_completed !== undefined) {
+            setSetscompleted(set_completed);
+          }
+        });
+      });
+      await combine.forEach(async (e) => {
+        let a = exercisedates.filter((x) => !date.includes(x));
+        let b = exercisedates.filter((x) => !a.includes(x));
+        console.log(b);
+        am.forEach(async (val) => {
+          await getData(val, "-", exDate);
+        });
+        we.forEach(async (val) => {
+          let reps_completed = await getData(
+            val,
+            e["value"][0][0][0]["reps_completed"]
+              ? e["value"][0][0][0]["reps_completed"]
+              : "-",
+            exDate,
+            parseInt(e["value"][0][0][0]["reps_completed"]) > 3
+              ? "remaining"
+              : parseInt(e["value"][0][0][0]["reps_completed"]) === 3
+              ? "pending"
+              : "completed"
+          );
+          if (reps_completed !== undefined) {
+            setRepscompleted(reps_completed);
+          }
+        });
+      });
+
       setValue(combinedItems(mainValue));
-      setExerciseDates(date);
-      setExerciseValue(uniqBy(excercise, JSON.stringify));
+      setExerciseValue(date);
     }
     if (props.patientId) {
       data();
     }
   }, [startDate, endDate]);
-  useEffect(() => {
-    function nameChange() {
-      let date = moment(startDate).format("DD");
-      let month = moment(startDate).format("M");
-      let m = {
-        1: "January",
-        2: "February",
-        3: "March",
-        4: "April",
-        5: "May",
-        6: "June",
-        7: "July",
-        8: "August",
-        9: "September",
-        10: "October",
-        11: "November",
-        12: "December",
-      };
-      let a = [];
+
+  // result = onlyInA.concat(onlyInB);
+
+  // console.log(result);
+  let a = [];
+  let b = [];
+  const getData = async (date, value, mainDates, classname) => {
+    console.log(date, value);
+    let we = {};
+    let c;
+    a.push([date, value, classname]);
+    let s = await uniqBy(a, JSON.stringify);
+    if (s.length === 7) {
+      s.forEach((val) => {
+        if (val[0] === mainDates[0]) {
+          we[1] = [val[1], val[2]];
+        } else if (val[0] === mainDates[1]) {
+          we[2] = [val[1], val[2]];
+        } else if (val[0] === mainDates[2]) {
+          we[3] = [val[1], val[2]];
+        } else if (val[0] === mainDates[3]) {
+          we[4] = [val[1], val[2]];
+        } else if (val[0] === mainDates[4]) {
+          we[5] = [val[1], val[2]];
+        } else if (val[0] === mainDates[5]) {
+          we[6] = [val[1], val[2]];
+        } else if (val[0] === mainDates[6]) {
+          we[7] = [val[1], val[2]];
+        }
+      });
       for (let i = 1; i < 8; i++) {
-        a.push(parseInt(date) + i + " " + m[parseInt(month)]);
+        {
+          we[i][1] === null || we[i][0] === "-"
+            ? b.push(<td>{we[i][0]}</td>)
+            : b.push(
+                <td>
+                  <span className={we[i][1]}>
+                    {we[i][0]}
+                  </span>
+                </td>
+              );
+        }
       }
-      setShowValue(a);
     }
-    nameChange();
-  }, [startDate, endDate]);
-  const getData = (e) => {
-    let a = 8 - parseInt(e);
-    // console.log(a);
-    let b = [];
-    for (let i = 1; i < a; i++) {
-      b.push(<td className="text-center">-</td>);
-    }
-    return b;
+    console.log(b);
+    c = b;
+    b = [];
+    a = [];
+    return c;
   };
-  
   return (
     <div className="otherDashboard">
       {value !== undefined ? (
@@ -278,7 +491,7 @@ const combinedItems = (arr = []) => {
                           style={{ minWidth: "fit-content", overflow: "auto" }}
                         >
                           <tr>
-                            <th rowSpan="9" style={{ position: "sticky" }}>
+                            <th rowSpan="7" style={{ position: "sticky" }}>
                               <div className="logo">
                                 <span className="fw-bold">
                                   <span className="number">{index + 1}</span>{" "}
@@ -289,7 +502,7 @@ const combinedItems = (arr = []) => {
                                     Array.isArray(exercise["value"])
                                       ? process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
-                                        exercise["value"][0][0]["image_url"]
+                                        exercise["value"][0][0][0]["image_url"]
                                       : process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
                                         exercise["value"]["image_url"]
@@ -298,23 +511,14 @@ const combinedItems = (arr = []) => {
                                 />
                               </div>
                             </th>
-                            <td className="text-center">Excercise Alloted</td>
+                          </tr>
+                          <tr className="text-center">
+                            <td className="text-center">Time Slots</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td className="text-center">
-                                            {i["exercise_alloted"]}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {exerciseAlloted !== undefined && (
+                                  <>{exerciseAlloted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
@@ -374,18 +578,9 @@ const combinedItems = (arr = []) => {
                             <td>Reps</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>{i["reps_alloted"]}</td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {repsAlloted !== undefined && (
+                                  <>{repsAlloted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
@@ -431,26 +626,9 @@ const combinedItems = (arr = []) => {
                             <td>Reps Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["reps_completed"] ? (
-                                              <span className="completed">
-                                                {i["reps_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {repscompleted !== undefined && (
+                                  <>{repscompleted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
@@ -552,22 +730,9 @@ const combinedItems = (arr = []) => {
                             <td>Sets</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_alloted"]
-                                              ? i["set_alloted"]
-                                              : "-"}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {setsAlloted !== undefined && (
+                                  <>{setsAlloted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
@@ -603,127 +768,6 @@ const combinedItems = (arr = []) => {
                                 )}
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>{exercise["value"]["set_alloted"]}</td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                              </>
-                            )}
-                          </tr>
-                          <tr className="text-center">
-                            <td>Sets Pending</td>
-                            {Array.isArray(exercise["value"]) ? (
-                              <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_pending"] ? (
-                                              <span className="pending">
-                                                {i["set_pending"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
-                              </>
-                            ) : (
-                              <>
-                                {exercise["date"] === exercisedates[0] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[1] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[2] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[3] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[4] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[5] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[6] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
                                 ) : (
                                   <td>-</td>
                                 )}
@@ -734,26 +778,9 @@ const combinedItems = (arr = []) => {
                             <td>Sets Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_completed"] ? (
-                                              <span className="completed">
-                                                {i["set_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {setscompleted !== undefined && (
+                                  <>{setscompleted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
@@ -852,150 +879,12 @@ const combinedItems = (arr = []) => {
                             )}
                           </tr>
                           <tr className="text-center">
-                            <td>Exercise Pending</td>
-                            {Array.isArray(exercise["value"]) ? (
-                              <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["exercise_pending"] ? (
-                                              <span className="pending">
-                                                {i["exercise_pending"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
-                              </>
-                            ) : (
-                              <>
-                                {exercise["date"] === exercisedates[0] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[1] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[2] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[3] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[4] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[5] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[6] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                              </>
-                            )}
-                          </tr>
-                          <tr className="text-center">
                             <td>Exercise Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["exercise_completed"] ? (
-                                              <span className="completed">
-                                                {i["exercise_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {exercisecompleted !== undefined && (
+                                  <>{exercisecompleted.map((i) => i)}</>
+                                )}
                               </>
                             ) : (
                               <>
