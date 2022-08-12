@@ -188,7 +188,7 @@ function Tabs({
           <table style={{ marginLeft: "5px" }}>
             <tr>
               <td width="75%"></td>
-              <td>Deviation</td>
+              <td>Deviation(Degree)</td>
             </tr>
             <tr>
               <td>Nasal Bridge</td>
@@ -358,7 +358,7 @@ function Tabs({
           <table style={{ marginLeft: "5px" }}>
             <tr>
               <td width="75%"></td>
-              <td>Deviation</td>
+              <td>Deviation(Degree)</td>
             </tr>
             <tr>
               <td>Head deviation</td>

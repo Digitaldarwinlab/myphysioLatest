@@ -2040,10 +2040,12 @@ const Assesment1 = ({ back, next }) => {
                 </Descriptions>
               </Col>
             </Row>
-            <Row gutter={[10, 10]} className="px-4 py-2">
+            <Row>
             <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h1>Degree of Deviation</h1>
+                                        <h2>Degree of Deviation</h2>
                                       </Col>
+            </Row>
+            <Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
                   <Descriptions.Item label="Nasal Bridge">
@@ -2099,9 +2101,6 @@ const Assesment1 = ({ back, next }) => {
 
             </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h1>Degree of Deviation</h1>
-                                      </Col>
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Lateral" bordered>
                   <Descriptions.Item label="Head deviation">
@@ -2154,7 +2153,14 @@ const Assesment1 = ({ back, next }) => {
           <div className="  mb-3 mt-3">
             <Row gutter={[10, 10]}>
               <Col md={24} lg={24} sm={24} xs={24}>
-                <Descriptions title="Pain Assessment" bordered>
+              {/* <Row className="border1">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Pain Assessment</h4>
+            </Col>
+          </Row> */}
+                <Descriptions  title={ <Col className="border1" md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Pain Assessment</h4>
+            </Col>} bordered>
                   <Descriptions.Item label="Nature Of Pain">
                     {state.FirstAssesment.nature_of_pain_here}
                   </Descriptions.Item>
@@ -2612,8 +2618,8 @@ const Assesment1 = ({ back, next }) => {
         }
         <div className=" border mb-3 mt-3">
           <Row style={{ display: RomVisibility }}>
-            <Row className="border">
-              <Col md={24} lg={24} sm={24} xs={24}>
+            <Row >
+              <Col className="border1" md={24} lg={24} sm={24} xs={24}>
                 <h4 className="p-2">Anterior ROM Assesment</h4>
               </Col>
             </Row>
@@ -2635,8 +2641,8 @@ const Assesment1 = ({ back, next }) => {
             </Row>
           </Row>
 
-          <Row style={{ display: RomVisibilityM }} className="border">
-            <Col md={24} lg={24} sm={24} xs={24}>
+          <Row style={{ display: RomVisibilityM }}>
+            <Col md={24} lg={24} sm={24} xs={24}  className="border1">
               <h4 className="p-2">Lateral ROM Assesment</h4>
             </Col>
           </Row>

@@ -288,7 +288,7 @@ const PhysioClinic = () => {
     setSubmitState(true)
     let error={}
          if(Validation.checkMobNoValidation(state.clinicReg.mobile_no).error){
-         // error = Validation.checkMobNoValidation(state.clinicReg.mobile_no);
+          error = Validation.checkMobNoValidation(state.clinicReg.mobile_no);
         }else if(Validation.checkAddrValidation(state.clinicReg.address_1).error || Validation.checkAddrValidation(state.clinicReg.address_2).error || Validation.checkAddrValidation(state.clinicReg.address_3).error)
         {
             error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
