@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment-timezone";
+import moment from "moment";
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
 import { fetchDashboardDetails } from "../../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
@@ -9,7 +9,6 @@ import { DateBox } from "devextreme-react";
 
 const Dashboard = (props) => {
   // console.log(props.value);
-  moment.tz.setDefault("Asia/Kolkata");
   const { beforeToday } = DateRangePicker;
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
