@@ -38,7 +38,7 @@ const Dashboard = (props) => {
     let arr = [];
     for (let i = 1; i <= 7; i++) {
       let weekMonth = moment(week).add(i, "day").format("M");
-      console.log("weekMonth", weekMonth);
+      // console.log("weekMonth", weekMonth);
       let weekDay = moment(week).add(i, "day").format("D");
       arr.push(weekDay);
     }
@@ -100,7 +100,7 @@ const Dashboard = (props) => {
     let a = [];
     let date = [];
     let excercise = [];
-    let mainValue = [];
+    let main = [];
     let exDate;
     function nameChange() {
       let date = moment(startDate).subtract(1, "day").format("DD");
@@ -152,7 +152,7 @@ const Dashboard = (props) => {
         for (let j = 0; j < Object.keys(array).length; j++) {
           const [arrayName, arrayValue] = Object.entries(array)[j];
           // console.log(arrayName, arrayValue);
-          mainValue.push({
+          main.push({
             exercise: arrayName,
             value: arrayValue,
             date: name,
@@ -184,65 +184,79 @@ const Dashboard = (props) => {
           }
         }
       }
-
+      // console.log(mainValue)
       const combinedItems = (arr = []) => {
+        // console.log(arr)
         let date = [];
         let value = [];
         const res = arr.reduce((acc, obj) => {
+          // console.log(acc,obj)
           let found = false;
           for (let i = 0; i < acc.length; i++) {
             if (acc[i].exercise === obj.exercise) {
+              // console.log(date)
               found = true;
-              // acc[i]["date"] = [acc[i]["date"], obj["date"]];
-              // acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
-              date.push(obj["date"]);
               value.push(obj["value"]);
+              date.push(obj["date"]);
+              // console.log(acc[i]['date'])
               acc[i]["date"] = [[uniqBy(date, JSON.stringify)]];
-              if (value.length > 2) {
-                acc[i]["value"] = [[value.slice(value.length / 2)]];
-              } else {
                 acc[i]["value"] = [[value]];
-              }
-              // acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
               acc[i].count++;
             }
           }
           if (!found) {
             obj.count = 1;
             acc.push(obj);
+            // console.log(obj['date'])
           }
           return acc;
         }, []);
         return res;
       };
-      function diff(a1, a2) {
-        return a1.concat(a2).filter(function (val, index, arr) {
-          return arr.indexOf(val) === arr.lastIndexOf(val);
-        });
-      }
 
+      
+      var output = main.reduce(function(o, cur) {
+        var occurs = o.reduce(function(n, item, i) {
+          return (item.exercise === cur.exercise) ? i : n;
+        }, -1);
+        if (occurs >= 0) {
+          o[occurs].value = o[occurs].value.concat(cur.value);
+          o[occurs].date = o[occurs].date.concat(cur.date);
+        } else {
+      
+          var obj = {
+            exercise: cur.exercise,
+            value: [cur.value],
+            date:[cur.date]
+          };
+          o = o.concat([obj]);
+        }
+      
+        return o;
+      }, []);
+      
+      console.log(output)
       let am = await exDate.filter((x) => !date.includes(x));
       let we = await exDate.filter((x) => !am.includes(x));
       // exercisedates.length > 0 && console.log(exercisedates, date)
       // let am  = await exercisedates.length > 0 && diff(exercisedates, date)
       // let we = await  exercisedates.length > 0 && diff(exercisedates, am)
-      // console.log(we)
-      let combine = await combinedItems(mainValue);
+      // console.log(main)
+      let combine = await output;
+      console.log(combine)
       await combine.forEach(async (e) => {
         // let a = await diff(exercisedates, date)
         // let b = await diff(exercisedates, a)
-        console.log(true);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let exercise_alloted = await getData(
             val,
-            e["value"][0][0][0]["exercise_alloted"],
+            e["value"][0]["exercise_alloted"],
             exDate,
             null
           );
-          console.log(exercise_alloted);
           if (exercise_alloted !== undefined) {
             setExerciseAlloted(exercise_alloted);
           }
@@ -251,14 +265,14 @@ const Dashboard = (props) => {
       await combine.forEach(async (e) => {
         let a = exercisedates.filter((x) => !date.includes(x));
         let b = exercisedates.filter((x) => !a.includes(x));
-        console.log(b);
+        // console.log(b);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let reps_alloted = await getData(
             val,
-            e["value"][0][0][0]["reps_alloted"],
+            e["value"][0]["reps_alloted"],
             exDate,
             null
           );
@@ -270,14 +284,14 @@ const Dashboard = (props) => {
       await combine.forEach(async (e) => {
         let a = exercisedates.filter((x) => !date.includes(x));
         let b = exercisedates.filter((x) => !a.includes(x));
-        console.log(b);
+        // console.log(b);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let set_alloted = await getData(
             val,
-            e["value"][0][0][0]["set_alloted"],
+            e["value"][0]["set_alloted"],
             exDate,
             null
           );
@@ -289,22 +303,21 @@ const Dashboard = (props) => {
       await combine.forEach(async (e) => {
         let a = exercisedates.filter((x) => !date.includes(x));
         let b = exercisedates.filter((x) => !a.includes(x));
-        console.log(b);
+        // console.log(b);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let exercise_completed = await getData(
             val,
-            e["value"][0][0][0]["exercise_completed"]
-              ? e["value"][0][0][0]["exercise_completed"]
-              : "-",
+            e["value"][0]["exercise_completed"]
+              ? e["value"][0]["exercise_completed"]
+              : e["value"][0]["exercise_pending"] ? parseInt(e["value"][0]["exercise_alloted"])-parseInt(e["value"][0]["exercise_pending"])  : '-',
             exDate,
-            parseInt(e["value"][0][0][0]["exercise_completed"]) > 3
-              ? "remaining"
-              : parseInt(e["value"][0][0][0]["exercise_completed"]) === 3
-              ? "pending"
-              : "completed"
+            parseInt(e["value"][0]["exercise_alloted"]) ===
+            parseInt(e["value"][0]["exercise_completed"] ? e["value"][0]["exercise_completed"] :e["value"][0]["exercise_pending"])
+            ? "remaining"
+            : "completed"
           );
           if (exercise_completed !== undefined) {
             setExercisecompleted(exercise_completed);
@@ -314,22 +327,21 @@ const Dashboard = (props) => {
       await combine.forEach(async (e) => {
         let a = exercisedates.filter((x) => !date.includes(x));
         let b = exercisedates.filter((x) => !a.includes(x));
-        console.log(b);
+        // console.log(b);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let set_completed = await getData(
             val,
-            e["value"][0][0][0]["set_completed"]
-              ? e["value"][0][0][0]["set_completed"]
-              : "-",
-            exDate,
-            parseInt(e["value"][0][0][0]["set_completed"]) > 3
-              ? "remaining"
-              : parseInt(e["value"][0][0][0]["set_completed"]) === 3
-              ? "pending"
-              : "completed"
+            e["value"][0]["set_completed"]
+            ? e["value"][0]["set_completed"]
+            : e["value"][0]["set_pending"] ? parseInt(e["value"][0]["set_alloted"])-parseInt(e["value"][0]["set_pending"])  : '0',
+          exDate,
+          parseInt(e["value"][0]["set_alloted"]) ===
+          parseInt(e["value"][0]["set_completed"] ? e["value"][0]["set_completed"] :e["value"][0]["set_pending"])
+          ? "completed"
+            : "remaining"
           );
           if (set_completed !== undefined) {
             setSetscompleted(set_completed);
@@ -339,22 +351,21 @@ const Dashboard = (props) => {
       await combine.forEach(async (e) => {
         let a = exercisedates.filter((x) => !date.includes(x));
         let b = exercisedates.filter((x) => !a.includes(x));
-        console.log(b);
+        // console.log(b);
         am.forEach(async (val) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
           let reps_completed = await getData(
             val,
-            e["value"][0][0][0]["reps_completed"]
-              ? e["value"][0][0][0]["reps_completed"]
-              : "-",
+            e["value"][0]["reps_completed"]
+              ? e["value"][0]["reps_completed"]
+              : e["value"][0]["reps_pending"] ? parseInt(e["value"][0]["reps_alloted"])-parseInt(e["value"][0]["reps_pending"])  : '0',
             exDate,
-            parseInt(e["value"][0][0][0]["reps_completed"]) > 3
-              ? "remaining"
-              : parseInt(e["value"][0][0][0]["reps_completed"]) === 3
-              ? "pending"
-              : "completed"
+            parseInt(e["value"][0]["reps_alloted"]) ===
+            parseInt(e["value"][0]["reps_completed"] ? e["value"][0]["reps_completed"] :e["value"][0]["reps_pending"])
+            ? "completed"
+            : "remaining"
           );
           if (reps_completed !== undefined) {
             setRepscompleted(reps_completed);
@@ -362,7 +373,7 @@ const Dashboard = (props) => {
         });
       });
 
-      setValue(combinedItems(mainValue));
+      setValue(combinedItems(main));
       setExerciseValue(date);
     }
     if (props.patientId) {
@@ -376,7 +387,7 @@ const Dashboard = (props) => {
   let a = [];
   let b = [];
   const getData = async (date, value, mainDates, classname) => {
-    console.log(date, value);
+    // console.log(date, value);
     let we = {};
     let c;
     a.push([date, value, classname]);
@@ -405,15 +416,13 @@ const Dashboard = (props) => {
             ? b.push(<td>{we[i][0]}</td>)
             : b.push(
                 <td>
-                  <span className={we[i][1]}>
-                    {we[i][0]}
-                  </span>
+                  <span className={we[i][1]}>{we[i][0]}</span>
                 </td>
               );
         }
       }
     }
-    console.log(b);
+    // console.log(b);
     c = b;
     b = [];
     a = [];
@@ -484,7 +493,8 @@ const Dashboard = (props) => {
 
                 {exercisedates !== undefined && (
                   <>
-                    {value.map((exercise, index) => (
+                    {value.map((exercise, index) => 
+                    (
                       <>
                         <tbody
                           style={{ minWidth: "fit-content", overflow: "auto" }}
@@ -501,10 +511,10 @@ const Dashboard = (props) => {
                                     Array.isArray(exercise["value"])
                                       ? process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
-                                        exercise["value"][0][0][0]["image_url"]
+                                        exercise['value'][0][0][index]['image_url']
                                       : process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
-                                        exercise["value"]["image_url"]
+                                        exercise['value']['image_url']
                                   }
                                   alt=""
                                 />
@@ -1011,7 +1021,8 @@ const Dashboard = (props) => {
                           </tr>
                         </tbody>
                       </>
-                    ))}
+                    )
+                    )}
                   </>
                 )}
               </table>
