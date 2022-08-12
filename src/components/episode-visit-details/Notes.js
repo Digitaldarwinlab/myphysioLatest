@@ -40,7 +40,9 @@ const Notes = (props) => {
             }
             let newTimeNotes = [];
             for (let i = 0; i < newTime.length; i++) {
-                newTimeNotes.push(newTime[i][0]);
+                if(newTime[i]){
+                    newTimeNotes.push(newTime[i][0]);
+                }
             }
             setAllNotes(newDataNotes);
             setTimeNotes(newTimeNotes)
