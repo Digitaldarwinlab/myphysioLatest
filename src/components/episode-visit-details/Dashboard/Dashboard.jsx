@@ -251,14 +251,16 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
-          let exercise_alloted = await getData(
-            val,
-            e["value"][0]["exercise_alloted"],
-            exDate,
-            null
-          );
-          if (exercise_alloted !== undefined) {
-            setExerciseAlloted(exercise_alloted);
+          if(e['date'].indexOf(val) !== -1){
+            let exercise_alloted = await getData(
+              val,
+              e["value"][0]["exercise_alloted"],
+              exDate,
+              null
+            );
+            if (exercise_alloted !== undefined) {
+              setExerciseAlloted(exercise_alloted);
+            }
           }
         });
       });
@@ -270,6 +272,7 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          if(e['date'].indexOf(val) !== -1){
           let reps_alloted = await getData(
             val,
             e["value"][0]["reps_alloted"],
@@ -279,6 +282,7 @@ const Dashboard = (props) => {
           if (reps_alloted !== undefined) {
             setRepsAlloted(reps_alloted);
           }
+        }
         });
       });
       await combine.forEach(async (e) => {
@@ -289,6 +293,7 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          if(e['date'].indexOf(val) !== -1){
           let set_alloted = await getData(
             val,
             e["value"][0]["set_alloted"],
@@ -298,6 +303,7 @@ const Dashboard = (props) => {
           if (set_alloted !== undefined) {
             setSetsAlloted(set_alloted);
           }
+        }
         });
       });
       await combine.forEach(async (e) => {
@@ -308,6 +314,7 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          if(e['date'].indexOf(val) !== -1){
           let exercise_completed = await getData(
             val,
             e["value"][0]["exercise_completed"]
@@ -322,6 +329,7 @@ const Dashboard = (props) => {
           if (exercise_completed !== undefined) {
             setExercisecompleted(exercise_completed);
           }
+        }
         });
       });
       await combine.forEach(async (e) => {
@@ -332,6 +340,7 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          if(e['date'].indexOf(val) !== -1){
           let set_completed = await getData(
             val,
             e["value"][0]["set_completed"]
@@ -346,6 +355,7 @@ const Dashboard = (props) => {
           if (set_completed !== undefined) {
             setSetscompleted(set_completed);
           }
+        }
         });
       });
       await combine.forEach(async (e) => {
@@ -356,6 +366,7 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          if(e['date'].indexOf(val) !== -1){
           let reps_completed = await getData(
             val,
             e["value"][0]["reps_completed"]
@@ -370,6 +381,7 @@ const Dashboard = (props) => {
           if (reps_completed !== undefined) {
             setRepscompleted(reps_completed);
           }
+        }
         });
       });
 
@@ -641,14 +653,19 @@ const Dashboard = (props) => {
                               </>
                             ) : (
                               <>
+                              
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -657,11 +674,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -670,11 +691,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -682,12 +707,16 @@ const Dashboard = (props) => {
                                 )}
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
-                                    {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                   {exercise["value"]["reps_completed"] ? (
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -696,11 +725,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -709,11 +742,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -722,11 +759,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["reps_alloted"]) ===
+                                      parseInt(exercise["date"] ["reps_completed"] ? exercise["date"] ["reps_completed"] :exercise["date"] ["reps_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -796,11 +837,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -808,7 +853,7 @@ const Dashboard = (props) => {
                                 )}
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
-                                    {exercise["value"]["tset_completed"] ? (
+                                    {exercise["value"]["set_completed"] ? (
                                       <span className="completed">
                                         {exercise["value"]["set_completed"]}
                                       </span>
@@ -822,11 +867,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -835,11 +884,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -848,11 +901,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -861,11 +918,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -874,11 +935,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span className={parseInt(exercise["date"] ["set_alloted"]) ===
+                                      parseInt(exercise["date"] ["set_completed"] ? exercise["date"] ["set_completed"] :exercise["date"] ["set_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -900,15 +965,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -917,15 +982,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -934,15 +999,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -951,15 +1016,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -968,15 +1033,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -985,15 +1050,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1002,15 +1067,15 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
-                                        {
-                                          exercise["value"][
-                                            "exercise_completed"
-                                          ]
-                                        }
+                                      <span className={parseInt(exercise["date"] ["exercise_alloted"]) ===
+                                      parseInt(exercise["date"] ["exercise_completed"] ? exercise["date"] ["exercise_completed"] :exercise["date"] ["exercise_pending"])
+                                      ? "completed"
+                                        : "remaining"
+                                      }>
+                                        {exercise["value"]["exercise_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
