@@ -15,6 +15,7 @@ import { getPhysioList } from '../../API/Physio/PhysioRegister';
 import { CLEAR_STATE, PHYSIO_REGISTER_FAILURE } from '../../contextStore/actions/physioRegAction';
 import '../../styles/Layout/Heading.css'
 import { degree, expertise } from './PhysioConstants';
+import { country } from './ClinicRegister/Country';
 const { Title } = Typography;
 const PhysioRegisteration2 = (props) => {
     const [stateList, setStateList] = useState([]);
@@ -303,7 +304,7 @@ const PhysioRegisteration2 = (props) => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Select.Option value="India">India</Select.Option>
+                                    {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>

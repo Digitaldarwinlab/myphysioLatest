@@ -18,6 +18,7 @@ import {Employee_Registration} from "../../API/Enterprise/Enterprise";
 import { Employee_Update } from '../../API/Enterprise/Enterprise';
 import axios from "axios";
 import { PATIENT_REG_FAILURE } from '../../contextStore/actions/authAction';
+import { country } from '../Physio/ClinicRegister/Country';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -640,7 +641,7 @@ const EmployeeRegister = (props) => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Select.Option value="India">India</Select.Option>
+                                   {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>
