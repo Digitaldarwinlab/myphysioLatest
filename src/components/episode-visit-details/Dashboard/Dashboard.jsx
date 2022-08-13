@@ -235,7 +235,7 @@ const Dashboard = (props) => {
         return o;
       }, []);
       
-      console.log(output)
+      // console.log(output)
       let am = await exDate.filter((x) => !date.includes(x));
       let we = await exDate.filter((x) => !am.includes(x));
       // exercisedates.length > 0 && console.log(exercisedates, date)
@@ -251,10 +251,11 @@ const Dashboard = (props) => {
           await getData(val, "-", exDate);
         });
         we.forEach(async (val) => {
+          console.log(e['date'].indexOf(val))
           if(e['date'].indexOf(val) !== -1){
             let exercise_alloted = await getData(
               val,
-              e["value"][0]["exercise_alloted"],
+              e["value"][e['date'].indexOf(val)]["exercise_alloted"],
               exDate,
               null
             );
@@ -275,7 +276,7 @@ const Dashboard = (props) => {
           if(e['date'].indexOf(val) !== -1){
           let reps_alloted = await getData(
             val,
-            e["value"][0]["reps_alloted"],
+            e["value"][e['date'].indexOf(val)]["reps_alloted"],
             exDate,
             null
           );
@@ -296,7 +297,7 @@ const Dashboard = (props) => {
           if(e['date'].indexOf(val) !== -1){
           let set_alloted = await getData(
             val,
-            e["value"][0]["set_alloted"],
+            e["value"][e['date'].indexOf(val)]["set_alloted"],
             exDate,
             null
           );
@@ -317,12 +318,12 @@ const Dashboard = (props) => {
           if(e['date'].indexOf(val) !== -1){
           let exercise_completed = await getData(
             val,
-            e["value"][0]["exercise_completed"]
-              ? e["value"][0]["exercise_completed"]
-              : e["value"][0]["exercise_pending"] ? parseInt(e["value"][0]["exercise_alloted"])-parseInt(e["value"][0]["exercise_pending"])  : '-',
+            e["value"][e['date'].indexOf(val)]["exercise_completed"]
+              ? e["value"][e['date'].indexOf(val)]["exercise_completed"]
+              : e["value"][e['date'].indexOf(val)]["exercise_pending"] ? parseInt(e["value"][e['date'].indexOf(val)]["exercise_alloted"])-parseInt(e["value"][e['date'].indexOf(val)]["exercise_pending"])  : '-',
             exDate,
-            parseInt(e["value"][0]["exercise_alloted"]) ===
-            parseInt(e["value"][0]["exercise_completed"] ? e["value"][0]["exercise_completed"] :e["value"][0]["exercise_pending"])
+            parseInt(e["value"][e['date'].indexOf(val)]["exercise_alloted"]) ===
+            parseInt(e["value"][e['date'].indexOf(val)]["exercise_completed"] ? e["value"][e['date'].indexOf(val)]["exercise_completed"] :e["value"][e['date'].indexOf(val)]["exercise_pending"])
             ? "remaining"
             : "completed"
           );
@@ -343,12 +344,12 @@ const Dashboard = (props) => {
           if(e['date'].indexOf(val) !== -1){
           let set_completed = await getData(
             val,
-            e["value"][0]["set_completed"]
-            ? e["value"][0]["set_completed"]
-            : e["value"][0]["set_pending"] ? parseInt(e["value"][0]["set_alloted"])-parseInt(e["value"][0]["set_pending"])  : '0',
+            e["value"][e['date'].indexOf(val)]["set_completed"]
+            ? e["value"][e['date'].indexOf(val)]["set_completed"]
+            : e["value"][e['date'].indexOf(val)]["set_pending"] ? parseInt(e["value"][e['date'].indexOf(val)]["set_alloted"])-parseInt(e["value"][e['date'].indexOf(val)]["set_pending"])  : '0',
           exDate,
-          parseInt(e["value"][0]["set_alloted"]) ===
-          parseInt(e["value"][0]["set_completed"] ? e["value"][0]["set_completed"] :e["value"][0]["set_pending"])
+          parseInt(e["value"][e['date'].indexOf(val)]["set_alloted"]) ===
+          parseInt(e["value"][e['date'].indexOf(val)]["set_completed"] ? e["value"][e['date'].indexOf(val)]["set_completed"] :e["value"][e['date'].indexOf(val)]["set_pending"])
           ? "completed"
             : "remaining"
           );
@@ -369,12 +370,12 @@ const Dashboard = (props) => {
           if(e['date'].indexOf(val) !== -1){
           let reps_completed = await getData(
             val,
-            e["value"][0]["reps_completed"]
-              ? e["value"][0]["reps_completed"]
-              : e["value"][0]["reps_pending"] ? parseInt(e["value"][0]["reps_alloted"])-parseInt(e["value"][0]["reps_pending"])  : '0',
+            e["value"][e['date'].indexOf(val)]["reps_completed"]
+              ? e["value"][e['date'].indexOf(val)]["reps_completed"]
+              : e["value"][e['date'].indexOf(val)]["reps_pending"] ? parseInt(e["value"][e['date'].indexOf(val)]["reps_alloted"])-parseInt(e["value"][e['date'].indexOf(val)]["reps_pending"])  : '0',
             exDate,
-            parseInt(e["value"][0]["reps_alloted"]) ===
-            parseInt(e["value"][0]["reps_completed"] ? e["value"][0]["reps_completed"] :e["value"][0]["reps_pending"])
+            parseInt(e["value"][e['date'].indexOf(val)]["reps_alloted"]) ===
+            parseInt(e["value"][e['date'].indexOf(val)]["reps_completed"] ? e["value"][e['date'].indexOf(val)]["reps_completed"] :e["value"][e['date'].indexOf(val)]["reps_pending"])
             ? "completed"
             : "remaining"
           );
