@@ -493,7 +493,7 @@ const Dashboard = (props) => {
 
                 {exercisedates !== undefined && (
                   <>
-                    {value.map((exercise, index) => 
+                    {value.map((exercise, index) =>  
                     (
                       <>
                         <tbody
@@ -514,7 +514,7 @@ const Dashboard = (props) => {
                                         exercise['value'][0][0][index]['image_url']
                                       : process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
-                                        exercise['value'][0]['image_url']
+                                        exercise['value']['image_url']
                                   }
                                   alt=""
                                 />
