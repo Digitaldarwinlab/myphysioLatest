@@ -778,60 +778,36 @@ class AI extends Component {
         //   darwin.selectOrientation(this.state.selectedOrientation);
         //  this.timer();
       } else {
-        this.setState({ disabledAnteriorDrop: false })
+        let data
         console.log("else")
         //    clearInterval(this.interval)
 
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
         console.log("FINALLL!!!!");
-        let data = darwin.getAssesmentData();
-        console.log("front", data);
-        if (this.state.selectedOrientation == 1) {
-          if (data !== undefined && data !== null) {
-            let TEMP = {};
-            TEMP["AROM"] = data[Object.keys(data)[0]];
-            console.log(TEMP);
-            this.props.FirstAssesment("Anterior_AI_Data", TEMP);
+        try {
+          data = darwin.getAssesmentData();
+          console.log("front", data);
+          if (this.state.selectedOrientation == 1) {
+            if (data !== undefined && data !== null) {
+              let TEMP = {};
+              TEMP["AROM"] = data[Object.keys(data)[0]];
+              console.log(TEMP);
+              this.props.FirstAssesment("Anterior_AI_Data", TEMP);
 
-            notification.success({
-              message: "Angles have been calculated",
-              placement: "bottomLeft",
-              duration: 2,
-            });
+              notification.success({
+                message: "Angles have been calculated",
+                placement: "bottomLeft",
+                duration: 2,
+              });
+            }
           }
+          window.darwin.stop();
+          this.setState({ disabledAnteriorDrop: false })
+          console.log("get assessment call")
+        } catch (error) {
+          console.log("catch ", error)
+          window.darwin.stop();
         }
-        if (this.state.selectedOrientation == 2) {
-          if (data !== undefined && data !== null) {
-            let TEMP = {};
-            TEMP["AROM"] = data[Object.keys(data)[0]];
-            console.log(TEMP);
-            this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
-            notification.success({
-              message: "Angles have been calculated",
-              placement: "bottomLeft",
-              duration: 2,
-            });
-          }
-        }
-        if (this.state.selectedOrientation == 3) {
-          if (data !== undefined && data !== null) {
-            let TEMP = {};
-            TEMP["AROM"] = data[Object.keys(data)[0]];
-            console.log(TEMP);
-            this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
-            notification.success({
-              message: "Angles have been calculated",
-              placement: "bottomLeft",
-              duration: 2,
-            });
-          }
-        }
-        console.log(this.state.data);
-        this.array = JSON.stringify(this.state.data);
-        console.log("hashedd");
-        // this.hashed = Buffer.from(this.array).toString("base64");
-        // console.log(this.hashed);
-        window.darwin.stop();
       }
     }
     if (this.state.toggleState == 2) {
@@ -852,7 +828,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           })
-          window.darwin.restart();
+         
           window.darwin.setExcersiseParams({
             name: "Left",
             primaryKeypoint: 0,
@@ -867,24 +843,32 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           });
+          window.darwin.restart();
         } else {
-          let data = darwin.getAssesmentData();
-          if (this.state.selectedOrientation == 2) {
-            if (data !== undefined && data !== null) {
-              let TEMP = {};
-              TEMP["AROM"] = data[Object.keys(data)[0]];
-              console.log(TEMP);
-              this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
-              notification.success({
-                message: "Angles have been calculated",
-                placement: "bottomLeft",
-                duration: 2,
-              });
+          let data
+          try {
+            data = darwin.getAssesmentData();
+            window.darwin.stop();
+            if (this.state.selectedOrientation == 2) {
+              if (data !== undefined && data !== null) {
+                let TEMP = {};
+                TEMP["AROM"] = data[Object.keys(data)[0]];
+                console.log(TEMP);
+                this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
+                notification.success({
+                  message: "Angles have been calculated",
+                  placement: "bottomLeft",
+                  duration: 2,
+                });
+              }
             }
+            window.darwin.stop();
+            this.setState({ disabledLateralDrop: false })
+            console.log("get assessment call")
+          } catch (error) {
+            console.log("catch ", error)
+            window.darwin.stop();
           }
-          window.darwin.stop();
-          this.setState({ disabledLateralDrop: false })
-          console.log("get assessment call")
         }
       }
       if (this.state.latSide == "right") {
@@ -904,7 +888,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           })
-          window.darwin.restart();
+          
           window.darwin.setExcersiseParams({
             name: "Right",
             primaryKeypoint: 0,
@@ -919,10 +903,12 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           });
+          window.darwin.restart();
         } else {
           let data
           try {
             data = darwin.getAssesmentData();
+            window.darwin.stop();
             console.log("right side ", data)
             if (this.state.selectedOrientation == 3) {
               if (data !== undefined && data !== null) {
@@ -937,7 +923,6 @@ class AI extends Component {
                 });
               }
             }
-            window.darwin.stop();
             this.setState({ disabledLateralDrop: false })
             console.log("get assessment call")
           } catch (error) {
@@ -1214,7 +1199,7 @@ class AI extends Component {
           <Row
             //align="top"
             gutter={[16, 16]}
-            className="arom_container"
+            className="arom_container checkbox-group-AROM"
           >
             <Col
               id="New_Ai_vid"
@@ -1561,7 +1546,7 @@ class AI extends Component {
                             <Checkbox.Group
                               options={this.state.AntPri}
                               // disabled
-                              className="selectedJointsCheckbox"
+                              className="selectedJointsCheckbox checkbox-group-AROM"
                               value={this.state.AntPriValue}
                               onChange={(e) => {
                                 // let temp = []
@@ -1589,6 +1574,7 @@ class AI extends Component {
                               <Checkbox.Group
                                 options={this.state.newJoint}
                                 // disabled
+                                className="checkbox-group-AROM"
                                 value={this.state.newJointChecked}
                                 onChange={(e) => {
                                   // let temp = []
@@ -1714,7 +1700,7 @@ class AI extends Component {
                                 <Checkbox.Group
                                   options={this.state.LatLeftPri}
                                   // disabled
-                                  className="selectedJointsCheckbox"
+                                  className="selectedJointsCheckbox checkbox-group-AROM"
                                   value={this.state.LatLeftPriValue}
                                   onChange={(e) => {
                                     if (e.length >= 1) {
@@ -1735,6 +1721,7 @@ class AI extends Component {
                               <Checkbox.Group
                                 options={this.state.lateralJoints}
                                 // disabled
+                                className="checkbox-group-AROM"
                                 value={this.state.newJointCheckedLeft}
                                 //defaultValue={['Apple']}
                                 onChange={(e) => {
@@ -1752,7 +1739,7 @@ class AI extends Component {
                                 <Checkbox.Group
                                   options={this.state.LatRightPri}
                                   // disabled
-                                  className="selectedJointsCheckbox"
+                                  className="selectedJointsCheckbox checkbox-group-AROM"
                                   value={this.state.LatRightPriValue}
                                   onChange={(e) => {
                                     if (e.length >= 1) {
@@ -1773,6 +1760,7 @@ class AI extends Component {
                               <Checkbox.Group
                                 options={this.state.lateralJointsR}
                                 // disabled
+                                className="checkbox-group-AROM"
                                 placeholder="Select"
                                 value={this.state.newJointCheckedRight}
                                 //defaultValue={['Apple']}
