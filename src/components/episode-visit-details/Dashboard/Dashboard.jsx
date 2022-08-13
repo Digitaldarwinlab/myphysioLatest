@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
+import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardApi";
 import { fetchDashboardDetails } from "../../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
@@ -161,10 +162,12 @@ const Dashboard = (props) => {
       setExerciseDates(b);
     }
     nameChange();
-    async function data() {
-      const data2 = await getEpisode(props.patientId);
+    async function data(id) {
+      const data2=  props.patient ? await GetPatientCurrentEpisode() : await getEpisode(props.patientId); 
+      console.log(data2)
+      let der = await props.patient ? (data2[1].length > 0 && data2[1][0].pp_ed_id) :  data2[0].pp_ed_id
       let response = await fetchDashboardDetails(
-        data2[0].pp_ed_id,
+        der,
         startDate,
         endDate
       );
@@ -466,7 +469,7 @@ const Dashboard = (props) => {
                   parseInt(
                     e["value"][e["date"].indexOf(val)]["exercise_pending"]
                   )
-                : "-",
+                : "0",
               parseInt(
                 e["value"][e["date"].indexOf(val)]["exercise_alloted"]
               ) ===
@@ -642,7 +645,7 @@ const Dashboard = (props) => {
       setValue(combinedItems(main));
       setExerciseValue(date);
     }
-    if (props.patientId) {
+    if (props.patientId || props.patient) {
       data();
     }
   }, [startDate, endDate]);
@@ -935,13 +938,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -963,13 +964,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -991,13 +990,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -1019,13 +1016,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -1047,13 +1042,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -1075,13 +1068,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -1103,13 +1094,11 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["reps_completed"]
-                                              ? exercise["date"][
-                                                  "reps_completed"
-                                                ]
-                                              : exercise["date"]["reps_pending"]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["reps_completed"]}
@@ -1201,14 +1190,12 @@ const Dashboard = (props) => {
                                             exercise["date"]["set_alloted"]
                                           ) ===
                                           parseInt(
-                                            exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                            exercise["date"]["set_completed"]   
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1223,11 +1210,25 @@ const Dashboard = (props) => {
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1243,13 +1244,12 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                              
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1271,13 +1271,12 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                              
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1299,13 +1298,12 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                              
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1327,13 +1325,12 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                              
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1355,13 +1352,12 @@ const Dashboard = (props) => {
                                           ) ===
                                           parseInt(
                                             exercise["date"]["set_completed"]
-                                              ? exercise["date"][
-                                                  "set_completed"
-                                                ]
-                                              : exercise["date"]["set_pending"]
+                                              
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {exercise["value"]["set_completed"]}
@@ -1398,15 +1394,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1434,15 +1426,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1470,15 +1458,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1506,15 +1490,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1542,15 +1522,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1578,15 +1554,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
@@ -1614,15 +1586,11 @@ const Dashboard = (props) => {
                                             exercise["date"][
                                               "exercise_completed"
                                             ]
-                                              ? exercise["date"][
-                                                  "exercise_completed"
-                                                ]
-                                              : exercise["date"][
-                                                  "exercise_pending"
-                                                ]
                                           )
                                             ? "completed"
-                                            : "remaining"
+                                            :   exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
                                         }
                                       >
                                         {
