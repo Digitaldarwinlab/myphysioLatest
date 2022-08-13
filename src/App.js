@@ -40,7 +40,8 @@ const PatientAI = lazy(() => import('./PatientComponents/PatientAI/PatientAI'));
 const PatientProfile = lazy(() => import('./PatientComponents/PatientProfile/PatientProfile'));
 const PhysioList = lazy(() => import('./components/Physio/PhysioList/PhysioList'));
 const PhysioIndex = lazy(() => import('./components/Physio/PhysioIndex'));
-
+// import HomeDashboard from "./PatientComponents/HomeDashboard";
+const HomeDashboard= lazy(() => import('./PatientComponents/HomeDashboard')); 
 const PatientIndex = lazy(() => import('./components/PatientRegistration/PatientIndex'));
 const ListOfExercises = lazy(() => import('./PatientComponents/ListOfExercise/ListOfExercises'));
 const ExerciseDetail = lazy(() => import('./PatientComponents/PatientSchedule/ExerciseDetail.js'));
@@ -75,6 +76,8 @@ const Appointment = lazy(() => import("./components/NewSchedule/Appointment.js")
 const EmployeeLogin = lazy(() => import("./components/userAuth/EmployeeLogin.js"));
 const EmployeeDashborad = lazy(() => import("./components/Enterprise/EmployeeDashboard.js"));
 const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDetail.jsx"));
+
+
 
 
 // import Assesment1 from "./components/Assesment/Assesment1";
@@ -259,7 +262,7 @@ const App = () => {
 							<PrivateRoute exact path="/enterprise/care-plan" component={CareplanEnterprise} />
 							<PrivateRoute exact path="/patient/consent-form" component={PatientConsuntForm} />
 							<Route exact path="/logout" component={Logout} />
-							<PatientRoute exact path="/patient/dashboard" component={PatientDashboard} />
+							{/* <PatientRoute exact path="/patient/dashboard" component={PatientDashboard} /> */}
 							{/* <PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  /> */}
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient} />
 							<EnterpriseRoute exact path="/patient/enterprise/dashboard/1" component={EnterprisePatient1} />
@@ -276,6 +279,7 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
 							<EnterpriseRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
+							<PatientRoute exact path="/patient/dashboard" component={HomeDashboard} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
