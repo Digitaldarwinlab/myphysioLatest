@@ -25,6 +25,7 @@ import {
   submitManuelAi,
   updatePainMeter,
   update_careplan,
+  update_careplan_Nno_AI,
 } from "../../PatientAPI/PatientShedule";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 
@@ -80,8 +81,21 @@ const ExerDetail = () => {
         yt_temp.push(a);
       }
     });
-    console.log("exercises ", res);
-    console.log("exercises ", yt_temp);
+   // console.log("exercises ", res);
+    let temp = []
+    location.state.exercises.map(ex => {
+      let te = [...yt_temp, ...res].find(e => {
+        if(e.title == ex.name){
+          console.log("exercise array1 ", ex)
+          let temp_E = e
+          temp_E['Rep'] = ex.Rep
+          return temp_E
+        }
+      })
+     // console.log("exercise array1 ", te)
+      temp.push(te)
+    })
+    console.log("exercises ", temp);
     setExercises([...res, ...yt_temp]);
   }, []);
 
@@ -92,8 +106,11 @@ const ExerDetail = () => {
     });
     let tempName = [];
     comp.map((item) => {
-      tempName.push(location.state.exercises[item].name);
+      tempName.push({name:location.state.exercises[item].name,Rep:location.state.exercises[item].Rep});
     });
+    console.log(comp)
+    console.log(tempName)
+    console.log(tempId)
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);
@@ -117,11 +134,17 @@ const ExerDetail = () => {
     // };
     let ch = {};
     tempName.map((item) => {
-      ch[item] = {};
+      ch[item.name] = {
+        set:item.Rep.set,
+        rep:item.Rep.rep_count
+      };
     });
-    // data.output_json[ChoosenTime] = ch;
-    // console.log(data);
-    let res = await update_careplan(ch, [tempId[0]], 2, 1 , ChoosenTime, location.state.exercises[0].pp_cp_id);
+    console.log(ch)
+    //ch['output_json']=ch
+    let tempData = {}
+    tempData['output_json']=ch
+    tempData['id']= location.state.exercises[0].pp_cp_id
+     let res = await update_careplan_Nno_AI(tempData);
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });

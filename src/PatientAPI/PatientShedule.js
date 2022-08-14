@@ -143,3 +143,31 @@ export const update_careplan = async (
     return [false, "Error 403: " + err.message];
   }
 };
+
+export const update_careplan_Nno_AI = async (
+  tempData
+) => {
+
+  try {
+    const response = await fetch(
+      process.env.REACT_APP_API + "/update_care_plan/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(tempData),
+      }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+    console.log(data, "Information");
+    if (response.status !== 200 && response.status !== 201) {
+      return [false, "Error " + response.status + response.statusText];
+    } else {
+      return [true, data];
+    }
+  } catch (err) {
+    return [false, "Error 403: " + err.message];
+  }
+};
