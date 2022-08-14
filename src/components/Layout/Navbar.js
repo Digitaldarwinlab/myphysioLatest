@@ -7,14 +7,14 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import "./../../styles/Layout/Navbar.css";
 import DropDownMenu from "./DropDownMenu/DropDownMenu";
-import { Dropdown, Menu, Row, Col ,Space } from "antd";
+import { Dropdown, Menu, Row, Col, Space } from "antd";
 import MyPhysioLogo from "./../UtilityComponents/MyPhysioLogo";
 import { GoCalendar } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaWindowClose } from "react-icons/fa"; 
+import { FaWindowClose } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
 import SideDrawer from "./SideDrawer";
-import { FaLanguage} from "react-icons/fa";
+import { FaLanguage } from "react-icons/fa";
 import { GetJoint } from "../../API/care-plan/care-plan-api";
 import { CARE_PLAN_STATE_CHANGE } from "../../contextStore/actions/care-plan-action";
 import { useDispatch } from "react-redux";
@@ -81,14 +81,14 @@ const Navigationbar = (props) => {
       },
     });
   }, []);
-  const handleCameraClick = (id,label) => {
+  const handleCameraClick = (id, label) => {
     // console.log("Label",label)
     let flag = 0;
-    if(label.toLowerCase().includes("back")){
+    if (label.toLowerCase().includes("back")) {
       flag = 1;
     }
     console.log(flag);
-    darwin.cameraIdFunc(id,flag)
+    darwin.cameraIdFunc(id, flag)
   }
 
   const LogoutMenu = () => {
@@ -104,7 +104,7 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio"  && (
+        {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" && (
           <Menu.Item key="2" style={{ borderTop: "0px solid black" }}>
             <Link
               to="/patient/profile"
@@ -114,11 +114,11 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        <Menu.Item key="2" style={{}}>
+        {userInfo.role == "patient" && <Menu.Item key="2" style={{}}>
           <Link to="/patient/dashboard" className="text-secondary text-decoration-none">
             Dashboard
           </Link>
-        </Menu.Item>
+        </Menu.Item>}
         <Menu.Item key="3" style={{}}>
           <Link to="/logout" className="text-secondary text-decoration-none">
             LogOut
@@ -186,40 +186,40 @@ const Navigationbar = (props) => {
             id="hamburgerMenu"
           >
             {/* aswin 10/27/2021 start */}
-            {userInfo.role !== "patient"&& 
-            <Menu.Item
-              key="1"
-              className="ant-menu-item-selected"
-              style={{ backgroundColor: "transparent", color: "white" }}
-              onClick={() => {
-                props.SideNavbarCollpased();
-              }}
-            >
-              {/* aswin 10/27/2021 stop */}
-              {props.isSideNavbarCollpased ? (
-                <GiHamburgerMenu
-                  className="ham_one"
-                  style={{ marginTop: "5px" }}
-                  size={25}
-                />
-              ) : (
-                <GiHamburgerMenu
-                  className="ham_one"
-                  style={{ marginTop: "5px" }}
-                  size={25}
-                />
-              )}
-            </Menu.Item>
-              }
+            {userInfo.role !== "patient" &&
+              <Menu.Item
+                key="1"
+                className="ant-menu-item-selected"
+                style={{ backgroundColor: "transparent", color: "white" }}
+                onClick={() => {
+                  props.SideNavbarCollpased();
+                }}
+              >
+                {/* aswin 10/27/2021 stop */}
+                {props.isSideNavbarCollpased ? (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                ) : (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                )}
+              </Menu.Item>
+            }
           </Menu>
         ) : null}
 
         <Link
-          
+
           to={
             userInfo.role === "physio" || userInfo.role === "admin" || userInfo.role === "HeadPhysio"
               ? "/dashboard"
-              : userInfo.role === "enterprise_patient" ||  userInfo.role === "employee" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
+              : userInfo.role === "enterprise_patient" || userInfo.role === "employee" ? "/patient/enterprise/dashboard" : "/patient/dashboard"
           }
           className="navbar-brand text-white text-decoration-none"
         >
@@ -228,15 +228,15 @@ const Navigationbar = (props) => {
 
         <div className="d-inline-flex p-2 text-white navigationMenu topScheduleIcon">
           {userInfo.role !== "admin" &&
-          userInfo.role !== "physio" &&
-          userInfo.role !== "HeadPhysio" ? (
+            userInfo.role !== "physio" &&
+            userInfo.role !== "HeadPhysio" ? (
             <Space>
               <Dropdown
                 overlay={() => (
                   <Menu>
-                    <Menu.Item onClick={()=>darwin.selectLang("en-US")} key="0">English</Menu.Item>
-                    <Menu.Item onClick={()=>darwin.selectLang("hi-IN")} key="1">Hindi</Menu.Item>
-                    <Menu.Item onClick={()=>darwin.selectLang("ar-SA")} key="3">Arabic</Menu.Item>
+                    <Menu.Item onClick={() => darwin.selectLang("en-US")} key="0">English</Menu.Item>
+                    <Menu.Item onClick={() => darwin.selectLang("hi-IN")} key="1">Hindi</Menu.Item>
+                    <Menu.Item onClick={() => darwin.selectLang("ar-SA")} key="3">Arabic</Menu.Item>
                   </Menu>
                 )}
                 trigger={["click"]}
@@ -249,7 +249,7 @@ const Navigationbar = (props) => {
                 </a>
               </Dropdown>
               {"  "}
-              <Link to={userInfo.role==='enterprise_patient' || userInfo.role==='employee'? "/patient/enterprise/schedule" :"/patient/schedule"}>
+              <Link to={userInfo.role === 'enterprise_patient' || userInfo.role === 'employee' ? "/patient/enterprise/schedule" : "/patient/schedule"}>
                 <h4 className="text-white me-3 ">
                   <GoCalendar /> Schedule
                 </h4>
@@ -268,7 +268,7 @@ const Navigationbar = (props) => {
                   <SubMenu key="sub2" title="  Camera" icon={<IoMdVideocam />}>
                     {devices.map((item) => (
                       <Menu.Item
-                        onClick={() => handleCameraClick(item.deviceId,item.label)}
+                        onClick={() => handleCameraClick(item.deviceId, item.label)}
                         key="7"
                       >
                         {item.label}
@@ -306,7 +306,7 @@ const Navigationbar = (props) => {
                     marginTop: "0px",
                   }}
                 />{" "}
-                Hello {userInfo.info.first_name.slice(0,1).toUpperCase() + userInfo.info.first_name.slice(1,userInfo.info.first_name.length).toLowerCase()}
+                Hello {userInfo.info.first_name.slice(0, 1).toUpperCase() + userInfo.info.first_name.slice(1, userInfo.info.first_name.length).toLowerCase()}
               </a>
             </Dropdown>
           </div>
