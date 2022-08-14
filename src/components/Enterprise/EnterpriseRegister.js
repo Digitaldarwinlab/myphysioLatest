@@ -21,7 +21,7 @@ import { ItemDragging } from 'devextreme-react/list';
 import { EnterpriseOrganization } from "../../API/Enterprise/Enterprise"
 import { useForm } from 'antd/lib/form/Form';
 import { UpdateOrganization } from '../../API/Enterprise/Enterprise';
-import { country } from '../Physio/ClinicRegister/Country';
+import {country} from '../Physio/ClinicRegister/Country.js'
 const { Title } = Typography;
 
 
@@ -325,7 +325,7 @@ const EnterpriseRegister = () => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
+                                   {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>

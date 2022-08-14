@@ -8,7 +8,7 @@ import { IoMdVideocam, IoMdPerson } from "react-icons/io";
 import { FaCalendarPlus, FaPills, FaMicroscope } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
-import { AiFillCalendar, AiOutlineLogout, AiFillMedicineBox, AiTwotoneSetting } from "react-icons/ai";
+import { AiFillCalendar, AiOutlineLogout, AiFillMedicineBox, AiTwotoneSetting, AiFillDashboard } from "react-icons/ai";
 import "antd/dist/antd.css";
 import "./SideDrawer.css";
 import { FaLanguage } from "react-icons/fa";
@@ -288,6 +288,16 @@ const SideDrawer = ({ visState, setVisState }) => {
               Arabic
             </Menu.Item>
           </SubMenu>
+          <Menu.Item
+            icon={<AiFillDashboard className="iconClass2" />}
+            onClick={() => {
+              history.push("/patient/dashboard");
+              setVisState(false);
+            }}
+            key="10117"
+          >
+            Dashboard
+          </Menu.Item>
           <Menu.Item
             icon={<IoMdPerson className="iconClass2" />}
             onClick={() => {

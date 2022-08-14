@@ -145,21 +145,36 @@ export const update_careplan = async (
 };
 
 export const update_careplan_Nno_AI = async (
-  tempData
+  object,exerciseTime,id
 ) => {
 
+  const json_data = {
+    id: id,
+    output_json: {},
+  };
+
+  if (typeof exerciseTime == "string") {
+    json_data.output_json[exerciseTime] = object;
+  } else {
+    json_data.output_json[JSON.parse(exerciseTime)] = object;
+  }
+
+const headers = {
+  Accept: "application/json",
+  "Content-type": "application/json",
+};
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/update_care_plan/",
+      process.env.REACT_APP_API + "/update-care-plan-status/",
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(tempData),
+        body: JSON.stringify(json_data),
       }
     );
 
     const data = await response.json();
-
+    console.log('tempdata ',tempData)
     console.log(data);
     console.log(data, "Information");
     if (response.status !== 200 && response.status !== 201) {

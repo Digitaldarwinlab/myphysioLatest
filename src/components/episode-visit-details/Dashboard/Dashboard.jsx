@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment-timezone";
+import moment from "moment";
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
+import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardApi";
 import { fetchDashboardDetails } from "../../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
@@ -9,12 +10,18 @@ import { DateBox } from "devextreme-react";
 
 const Dashboard = (props) => {
   // console.log(props.value);
-  moment.tz.setDefault("Asia/Kolkata");
   const { beforeToday } = DateRangePicker;
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
   const [showValue, setShowValue] = useState();
-  const [exercisedates, setExerciseDates] = useState();
+  const [exercisedates, setExerciseDates] = useState([]);
+  const [exerciseAlloted, setExerciseAlloted] = useState();
+  const [exercisecompleted, setExercisecompleted] = useState();
+  const [setsAlloted, setSetsAlloted] = useState();
+  const [setscompleted, setSetscompleted] = useState();
+  const [repsAlloted, setRepsAlloted] = useState();
+  const [repscompleted, setRepscompleted] = useState();
+
   const [week, setWeek] = useState(moment());
   const [startDate, setstartDate] = useState(
     week.startOf("week").format("YYYY/MM/DD")
@@ -32,7 +39,7 @@ const Dashboard = (props) => {
     let arr = [];
     for (let i = 1; i <= 7; i++) {
       let weekMonth = moment(week).add(i, "day").format("M");
-      console.log("weekMonth", weekMonth);
+      // console.log("weekMonth", weekMonth);
       let weekDay = moment(week).add(i, "day").format("D");
       arr.push(weekDay);
     }
@@ -83,15 +90,84 @@ const Dashboard = (props) => {
       moment(end_date, "DD/MM/YYYY")._d,
     ]);
   };
+  function uniqBy(a, key) {
+    var index = [];
+    return a.filter(function (item) {
+      var k = key(item);
+      return index.indexOf(k) >= 0 ? false : index.push(k);
+    });
+  }
   useEffect(() => {
     let a = [];
     let date = [];
     let excercise = [];
-    let mainValue = [];
-    async function data() {
-      const data2 = await getEpisode(props.patientId);
+    let main = [];
+    let exDate;
+    function nameChange() {
+      let date = moment(startDate).subtract(1, "day").format("DD");
+      let date2 = moment(startDate).format("YYYY-MM-DD");
+      let edate = moment(endDate).format("YYYY-MM-DD");
+      function getDatesInRange(startDate, endDate) {
+        const date = new Date(startDate.getTime());
+      
+        const dates = [];
+      
+        while (date <= endDate) {
+          dates.push(moment(new Date(date)).format("YYYY-MM-DD"));
+          date.setDate(date.getDate() + 1);
+        }
+      
+        return dates;
+      }
+      
+      console.log(getDatesInRange(new Date(date2), new Date(edate)))
+      let mainDates = getDatesInRange(new Date(date2), new Date(edate))
+      let month = moment(startDate).format("M");
+      let month2 = moment(startDate).format("MM");
+      let year = moment(startDate).format("YYYY");
+      let d =[]
+      let m = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December",
+      };
+      let a = [];
+      let b = [];
+      mainDates.forEach(val=>{
+        let s = moment(val).format('DD')
+        let mon = moment(val).format('M')
+        mon = m[parseInt(mon)]
+        a.push(s + " " + mon);
+      })
+      for (let i = 1; i < 8; i++) {
+        // a.push(parseInt(date) + i + " " + m[parseInt(month)]);
+        let s = JSON.stringify(parseInt(date) + i);
+        if (s.length === 1) {
+          b.push(year + "-" + month2 + "-" + 0 + s);
+        } else {
+          b.push(year + "-" + month2 + "-" + s);
+        }
+      }
+      exDate = getDatesInRange(new Date(date2), new Date(edate));
+      setShowValue(a);
+      setExerciseDates(b);
+    }
+    nameChange();
+    async function data(id) {
+      const data2=  props.patient ? await GetPatientCurrentEpisode() : await getEpisode(props.patientId); 
+      console.log(data2)
+      let der = await props.patient ? (data2[1].length > 0 && data2[1][0].pp_ed_id) :  data2[0].pp_ed_id
       let response = await fetchDashboardDetails(
-        data2[0].pp_ed_id,
+        der,
         startDate,
         endDate
       );
@@ -103,7 +179,7 @@ const Dashboard = (props) => {
         for (let j = 0; j < Object.keys(array).length; j++) {
           const [arrayName, arrayValue] = Object.entries(array)[j];
           // console.log(arrayName, arrayValue);
-          mainValue.push({
+          main.push({
             exercise: arrayName,
             value: arrayValue,
             date: name,
@@ -135,78 +211,494 @@ const Dashboard = (props) => {
           }
         }
       }
-      function uniqBy(a, key) {
-        var index = [];
-        return a.filter(function (item) {
-          var k = key(item);
-          return index.indexOf(k) >= 0 ? false : index.push(k);
-        });
-      }
-     
-const combinedItems = (arr = []) => {
-    const res = arr.reduce((acc, obj) => {
-      let found = false;
-      for (let i = 0; i < acc.length; i++) {
-        if (acc[i].exercise === obj.exercise) {
-          found = true;
-          acc[i]["date"] = [[acc[i]["date"], obj["date"]]];
-          acc[i]["value"] = [[acc[i]["value"], obj["value"]]];
-          acc[i].count++;
+      // console.log(mainValue)
+      const combinedItems = (arr = []) => {
+        // console.log(arr)
+        let date = [];
+        let value = [];
+        const res = arr.reduce((acc, obj) => {
+          // console.log(acc,obj)
+          let found = false;
+          for (let i = 0; i < acc.length; i++) {
+            if (acc[i].exercise === obj.exercise) {
+              // console.log(date)
+              found = true;
+              value.push(obj["value"]);
+              date.push(obj["date"]);
+              // console.log(acc[i]['date'])
+              acc[i]["date"] = [[uniqBy(date, JSON.stringify)]];
+              acc[i]["value"] = [[value]];
+              acc[i].count++;
+            }
+          }
+          if (!found) {
+            obj.count = 1;
+            acc.push(obj);
+            // console.log(obj['date'])
+          }
+          return acc;
+        }, []);
+        return res;
+      };
+
+      var output = main.reduce(function (o, cur) {
+        var occurs = o.reduce(function (n, item, i) {
+          return item.exercise === cur.exercise ? i : n;
+        }, -1);
+        if (occurs >= 0) {
+          o[occurs].value = o[occurs].value.concat(cur.value);
+          o[occurs].date = o[occurs].date.concat(cur.date);
+        } else {
+          var obj = {
+            exercise: cur.exercise,
+            value: [cur.value],
+            date: [cur.date],
+          };
+          o = o.concat([obj]);
         }
-      }
-      if (!found) {
-        obj.count = 1;
-        acc.push(obj);
-      }
-      return acc;
-    }, []);
-    return res;
-  };
-      // console.log(combinedItems(mainValue));
-      setValue(combinedItems(mainValue));
-      setExerciseDates(date);
-      setExerciseValue(uniqBy(excercise, JSON.stringify));
+
+        return o;
+      }, []);
+
+      // console.log(exDate,date)
+
+      let am = await exDate.filter((x) => !date.includes(x));
+      let we = await exDate.filter((x) => !am.includes(x));
+      // exercisedates.length > 0 && console.log(exercisedates, date)
+      // let am  = await exercisedates.length > 0 && diff(exercisedates, date)
+      // let we = await  exercisedates.length > 0 && diff(exercisedates, am)
+      // console.log(we,am)
+      let combine = await output;
+      let exerciseAllot = [];
+      let repsAllot = [];
+      let setAllot = [];
+      let exerciseComplete = [];
+      let repsComplete = [];
+      let setComplete = [];
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+          if (e["date"].indexOf(val) !== -1) {
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["exercise_alloted"],
+              null,
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let exercise_alloted = await getData(m, exDate, null);
+          exerciseAllot.push(...exercise_alloted);
+          setExerciseAlloted(exerciseAllot);
+        }
+      });
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+          if (e["date"].indexOf(val) !== -1) {
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["reps_alloted"],
+              null,
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let reps_alloted = await getData(m, exDate, null);
+          repsAllot.push(...reps_alloted);
+          setRepsAlloted(repsAllot);
+        }
+      });
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+          if (e["date"].indexOf(val) !== -1) {
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["set_alloted"],
+              null,
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let set_alloted = await getData(m, exDate, null);
+          setAllot.push(...set_alloted);
+          setSetsAlloted(setAllot);
+        }
+      });
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+          if (e["date"].indexOf(val) !== -1) {
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["reps_completed"]
+                ? e["value"][e["date"].indexOf(val)]["reps_completed"]
+                : e["value"][e["date"].indexOf(val)]["reps_pending"]
+                ? parseInt(e["value"][e["date"].indexOf(val)]["reps_alloted"]) -
+                  parseInt(e["value"][e["date"].indexOf(val)]["reps_pending"])
+                : "0",
+              parseInt(e["value"][e["date"].indexOf(val)]["reps_alloted"]) ===
+              parseInt(
+                e["value"][e["date"].indexOf(val)]["reps_completed"]
+                  ? e["value"][e["date"].indexOf(val)]["reps_completed"]
+                  : e["value"][e["date"].indexOf(val)]["reps_pending"]
+              )
+                ? "completed"
+                : e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+                ===
+                   e["value"][e["date"].indexOf(val)]["exercise_completed"] ? "completed" : "remaining",
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let reps_completed = await getData(m, exDate, null);
+          repsComplete.push(...reps_completed);
+          setRepscompleted(repsComplete);
+        }
+      });
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+
+          if (e["date"].indexOf(val) !== -1) {
+            console.log(e["value"][e["date"].indexOf(val)]["exercise_alloted"],
+               e["value"][e["date"].indexOf(val)]["exercise_completed"])
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["set_completed"]
+                ? e["value"][e["date"].indexOf(val)]["set_completed"]
+                : e["value"][e["date"].indexOf(val)]["set_pending"]
+                ? parseInt(e["value"][e["date"].indexOf(val)]["set_alloted"]) -
+                  parseInt(e["value"][e["date"].indexOf(val)]["set_pending"])
+                :'0',
+                
+                (parseInt(
+                    e["value"][e["date"].indexOf(val)]["set_alloted"]
+                  ) ===
+                  parseInt(e["value"][e["date"].indexOf(val)]["set_completed"]))
+                ? "completed"
+                : e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+                ===
+                   e["value"][e["date"].indexOf(val)]["exercise_completed"] ? "completed" : "remaining",
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let set_completed = await getData(m, exDate, null);
+          setComplete.push(...set_completed);
+          setSetscompleted(setComplete);
+        }
+      });
+      await combine.forEach(async (e) => {
+        let m = [];
+        let xvr = exDate.filter((x) => !e["date"].includes(x));
+        // let b = await diff(exercisedates, a)
+        xvr.forEach(async (val) => {
+          m.push([val, "-", null, e["exercise"]]);
+          // let a = await getData(val, "-", exDate);
+          //  console.log(a)
+        });
+        e["date"].forEach(async (val) => {
+          // console.log(e['exercise'],val)
+
+          if (e["date"].indexOf(val) !== -1) {
+            m.push([
+              val,
+              e["value"][e["date"].indexOf(val)]["exercise_completed"]
+                ? e["value"][e["date"].indexOf(val)]["exercise_completed"]
+                : e["value"][e["date"].indexOf(val)]["exercise_pending"]
+                ? parseInt(
+                    e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+                  ) -
+                  parseInt(
+                    e["value"][e["date"].indexOf(val)]["exercise_pending"]
+                  )
+                : "0",
+              parseInt(
+                e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+              ) ===
+                parseInt(
+                  e["value"][e["date"].indexOf(val)]["exercise_completed"]
+                )
+                ? "completed"
+                : "remaining",
+              e["exercise"],
+            ]);
+          }
+        });
+
+        // console.log(m);
+        if (m.length === 7) {
+          let exercise_completed = await getData(m, exDate, null);
+          exerciseComplete.push(...exercise_completed);
+          setExercisecompleted(exerciseComplete);
+        }
+      });
+      // await combine.forEach(async (e) => {
+      //   let xvr = exDate.filter((x) => !e["date"].includes(x));
+      //   // console.log(b);
+      //   xvr.forEach(async (val) => {
+      //     await getData(val, "-", exDate);
+      //   });
+      //   we.forEach(async (val) => {
+      //     if (e["date"].indexOf(val) !== -1) {
+      //       let reps_alloted = await getData(
+      //         val,
+      //         e["value"][e["date"].indexOf(val)]["reps_alloted"],
+      //         exDate,
+      //         null
+      //       );
+      //       if (reps_alloted !== undefined) {
+      //         if (reps_alloted.length === 7) {
+      //           setRepsAlloted(reps_alloted);
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+      // await combine.forEach(async (e) => {
+      //   let xvr = exDate.filter((x) => !e["date"].includes(x));
+      //   // console.log(b);
+      //   xvr.forEach(async (val) => {
+      //     await getData(val, "-", exDate);
+      //   });
+      //   we.forEach(async (val) => {
+      //     if (e["date"].indexOf(val) !== -1) {
+      //       let set_alloted = await getData(
+      //         val,
+      //         e["value"][e["date"].indexOf(val)]["set_alloted"],
+      //         exDate,
+      //         null
+      //       );
+      //       if (set_alloted !== undefined) {
+      //         if (set_alloted.length === 7) {
+      //           setSetsAlloted(set_alloted);
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+      // await combine.forEach(async (e) => {
+      //   let xvr = exDate.filter((x) => !e["date"].includes(x));
+      //   // console.log(b);
+      //   xvr.forEach(async (val) => {
+      //     await getData(val, "-", exDate);
+      //   });
+      //   we.forEach(async (val) => {
+      //     if (e["date"].indexOf(val) !== -1) {
+      //       let exercise_completed = await getData(
+      //         val,
+      //         e["value"][e["date"].indexOf(val)]["exercise_completed"]
+      //           ? e["value"][e["date"].indexOf(val)]["exercise_completed"]
+      //           : e["value"][e["date"].indexOf(val)]["exercise_pending"]
+      //           ? parseInt(
+      //               e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+      //             ) -
+      //             parseInt(
+      //               e["value"][e["date"].indexOf(val)]["exercise_pending"]
+      //             )
+      //           : "-",
+      //         exDate,
+      //         parseInt(
+      //           e["value"][e["date"].indexOf(val)]["exercise_alloted"]
+      //         ) ===
+      //           parseInt(
+      //             e["value"][e["date"].indexOf(val)]["exercise_completed"]
+      //               ? e["value"][e["date"].indexOf(val)]["exercise_completed"]
+      //               : e["value"][e["date"].indexOf(val)]["exercise_pending"]
+      //           )
+      //           ? "remaining"
+      //           : "completed"
+      //       );
+      //       if (exercise_completed !== undefined) {
+      //         if (exercise_completed.length === 7) {
+      //           setExercisecompleted(exercise_completed);
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+      // await combine.forEach(async (e) => {
+      //   let xvr = exDate.filter((x) => !e["date"].includes(x));
+      //   // console.log(b);
+      //   xvr.forEach(async (val) => {
+      //     await getData(val, "-", exDate);
+      //   });
+      //   we.forEach(async (val) => {
+      //     if (e["date"].indexOf(val) !== -1) {
+      //       let set_completed = await getData(
+      //         val,
+      //         e["value"][e["date"].indexOf(val)]["set_completed"]
+      //           ? e["value"][e["date"].indexOf(val)]["set_completed"]
+      //           : e["value"][e["date"].indexOf(val)]["set_pending"]
+      //           ? parseInt(e["value"][e["date"].indexOf(val)]["set_alloted"]) -
+      //             parseInt(e["value"][e["date"].indexOf(val)]["set_pending"])
+      //           : "0",
+      //         exDate,
+      //         parseInt(e["value"][e["date"].indexOf(val)]["set_alloted"]) ===
+      //           parseInt(
+      //             e["value"][e["date"].indexOf(val)]["set_completed"]
+      //               ? e["value"][e["date"].indexOf(val)]["set_completed"]
+      //               : e["value"][e["date"].indexOf(val)]["set_pending"]
+      //           )
+      //           ? "completed"
+      //           : "remaining"
+      //       );
+      //       if (set_completed !== undefined) {
+      //         if (set_completed.length === 7) {
+      //           setSetscompleted(set_completed);
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+      // await combine.forEach(async (e) => {
+      //   let xvr = exDate.filter((x) => !e["date"].includes(x));
+      //   // console.log(b);
+      //   xvr.forEach(async (val) => {
+      //     await getData(val, "-", exDate);
+      //   });
+      //   we.forEach(async (val) => {
+      //     if (e["date"].indexOf(val) !== -1) {
+      //       let reps_completed = await getData(
+      //         val,
+      //         e["value"][e["date"].indexOf(val)]["reps_completed"]
+      //           ? e["value"][e["date"].indexOf(val)]["reps_completed"]
+      //           : e["value"][e["date"].indexOf(val)]["reps_pending"]
+      //           ? parseInt(e["value"][e["date"].indexOf(val)]["reps_alloted"]) -
+      //             parseInt(e["value"][e["date"].indexOf(val)]["reps_pending"])
+      //           : "0",
+      //         exDate,
+      //         parseInt(e["value"][e["date"].indexOf(val)]["reps_alloted"]) ===
+      //           parseInt(
+      //             e["value"][e["date"].indexOf(val)]["reps_completed"]
+      //               ? e["value"][e["date"].indexOf(val)]["reps_completed"]
+      //               : e["value"][e["date"].indexOf(val)]["reps_pending"]
+      //           )
+      //           ? "completed"
+      //           : "remaining"
+      //       );
+      //       if (reps_completed !== undefined) {
+      //         if (reps_completed.length === 7) {
+      //           setRepscompleted(reps_completed);
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+      setValue(combinedItems(main));
+      setExerciseValue(date);
     }
-    if (props.patientId) {
+    if (props.patientId || props.patient) {
       data();
     }
   }, [startDate, endDate]);
-  useEffect(() => {
-    function nameChange() {
-      let date = moment(startDate).format("DD");
-      let month = moment(startDate).format("M");
-      let m = {
-        1: "January",
-        2: "February",
-        3: "March",
-        4: "April",
-        5: "May",
-        6: "June",
-        7: "July",
-        8: "August",
-        9: "September",
-        10: "October",
-        11: "November",
-        12: "December",
-      };
-      let a = [];
-      for (let i = 1; i < 8; i++) {
-        a.push(parseInt(date) + i + " " + m[parseInt(month)]);
+
+  // result = onlyInA.concat(onlyInB);
+
+  // console.log(result);
+  let b = [];
+  let a = [];
+  const getData = async (arr, mainDates, classname) => {
+    let we = {};
+    // console.log(arr)
+    let c;
+    // a.push([date, value, classname]);
+    arr.forEach((val) => {
+      // console.log(val)
+      if (val[0] === mainDates[0]) {
+        we[1] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[1]) {
+        we[2] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[2]) {
+        we[3] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[3]) {
+        we[4] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[4]) {
+        we[5] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[5]) {
+        we[6] = [val[1], val[2], val[3]];
+      } else if (val[0] === mainDates[6]) {
+        we[7] = [val[1], val[2], val[3]];
       }
-      setShowValue(a);
+    });
+
+    for (let i = 1; i < 8; i++) {
+      {
+        we[i][1] === null || we[i][0] === "-"
+          ? b.push([<td>{we[i][0]}</td>, we[i][2]])
+          : b.push([
+              <td>
+                <span className={we[i][1]}>{we[i][0]}</span>
+              </td>,
+              we[i][2],
+            ]);
+      }
     }
-    nameChange();
-  }, [startDate, endDate]);
-  const getData = (e) => {
-    let a = 8 - parseInt(e);
-    // console.log(a);
-    let b = [];
-    for (let i = 1; i < a; i++) {
-      b.push(<td className="text-center">-</td>);
-    }
-    return b;
+
+    // console.log(b);
+    c = b;
+    b = [];
+    a = [];
+    // console.log(c)
+    return c;
   };
-  
   return (
     <div className="otherDashboard">
       {value !== undefined ? (
@@ -278,7 +770,7 @@ const combinedItems = (arr = []) => {
                           style={{ minWidth: "fit-content", overflow: "auto" }}
                         >
                           <tr>
-                            <th rowSpan="9" style={{ position: "sticky" }}>
+                            <th rowSpan="7" style={{ position: "sticky" }}>
                               <div className="logo">
                                 <span className="fw-bold">
                                   <span className="number">{index + 1}</span>{" "}
@@ -289,7 +781,9 @@ const combinedItems = (arr = []) => {
                                     Array.isArray(exercise["value"])
                                       ? process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
-                                        exercise["value"][0][0]["image_url"]
+                                        exercise["value"][0][0][index][
+                                          "image_url"
+                                        ]
                                       : process.env.REACT_APP_EXERCISE_URL +
                                         "/" +
                                         exercise["value"]["image_url"]
@@ -298,23 +792,19 @@ const combinedItems = (arr = []) => {
                                 />
                               </div>
                             </th>
-                            <td className="text-center">Excercise Alloted</td>
+                          </tr>
+                          <tr className="text-center">
+                            <td className="text-center">Time Slots</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
+                                {exerciseAlloted !== undefined && (
                                   <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td className="text-center">
-                                            {i["exercise_alloted"]}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
+                                    {exerciseAlloted.map(
+                                      (i) =>
+                                        i[1] === exercise["exercise"] && i[0]
+                                    )}
                                   </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                )}
                               </>
                             ) : (
                               <>
@@ -374,18 +864,14 @@ const combinedItems = (arr = []) => {
                             <td>Reps</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
+                                {repsAlloted !== undefined && (
                                   <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>{i["reps_alloted"]}</td>
-                                        )}
-                                      </>
-                                    ))}
+                                    {repsAlloted.map(
+                                      (i) =>
+                                        i[1] === exercise["exercise"] && i[0]
+                                    )}
                                   </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                )}
                               </>
                             ) : (
                               <>
@@ -431,37 +917,38 @@ const combinedItems = (arr = []) => {
                             <td>Reps Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
+                                {repscompleted !== undefined && (
                                   <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["reps_completed"] ? (
-                                              <span className="completed">
-                                                {i["reps_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
+                                    {repscompleted.map(
+                                      (i) =>
+                                        i[1] === exercise["exercise"] && i[0]
+                                    )}
                                   </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                )}
                               </>
                             ) : (
                               <>
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -470,11 +957,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -483,11 +983,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -496,11 +1009,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -509,11 +1035,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -522,11 +1061,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -535,11 +1087,24 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["reps_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["reps_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["reps_completed"]
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["reps_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -552,22 +1117,14 @@ const combinedItems = (arr = []) => {
                             <td>Sets</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
+                                {setsAlloted !== undefined && (
                                   <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_alloted"]
-                                              ? i["set_alloted"]
-                                              : "-"}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
+                                    {setsAlloted.map(
+                                      (i) =>
+                                        i[1] === exercise["exercise"] && i[0]
+                                    )}
                                   </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                )}
                               </>
                             ) : (
                               <>
@@ -603,127 +1160,6 @@ const combinedItems = (arr = []) => {
                                 )}
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>{exercise["value"]["set_alloted"]}</td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                              </>
-                            )}
-                          </tr>
-                          <tr className="text-center">
-                            <td>Sets Pending</td>
-                            {Array.isArray(exercise["value"]) ? (
-                              <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_pending"] ? (
-                                              <span className="pending">
-                                                {i["set_pending"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
-                              </>
-                            ) : (
-                              <>
-                                {exercise["date"] === exercisedates[0] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[1] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[2] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[3] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[4] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[5] ? (
-                                  <td>
-                                    {exercise["value"]["set_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[6] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["set_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
                                 ) : (
                                   <td>-</td>
                                 )}
@@ -734,37 +1170,38 @@ const combinedItems = (arr = []) => {
                             <td>Sets Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
+                                {setscompleted !== undefined && (
                                   <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["set_completed"] ? (
-                                              <span className="completed">
-                                                {i["set_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
+                                    {setscompleted.map(
+                                      (i) =>
+                                        i[1] === exercise["exercise"] && i[0]
+                                    )}
                                   </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                )}
                               </>
                             ) : (
                               <>
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]   
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -772,12 +1209,26 @@ const combinedItems = (arr = []) => {
                                 )}
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
-                                    {exercise["value"]["tset_completed"] ? (
-                                      <span className="completed">
+                                    {exercise["value"]["set_completed"] ? (
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -786,11 +1237,25 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -799,11 +1264,25 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -812,11 +1291,25 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -825,11 +1318,25 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -838,132 +1345,25 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["set_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["date"]["set_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["date"]["set_completed"]
+                                              
+                                          )
+                                            ? "completed"
+                                            : exercise["date"]["exercise_alloted"]
+                                            ===
+                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {exercise["value"]["set_completed"]}
                                       </span>
                                     ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                              </>
-                            )}
-                          </tr>
-                          <tr className="text-center">
-                            <td>Exercise Pending</td>
-                            {Array.isArray(exercise["value"]) ? (
-                              <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["exercise_pending"] ? (
-                                              <span className="pending">
-                                                {i["exercise_pending"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
-                              </>
-                            ) : (
-                              <>
-                                {exercise["date"] === exercisedates[0] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[1] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[2] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[3] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[4] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[5] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                ) : (
-                                  <td>-</td>
-                                )}
-                                {exercise["date"] === exercisedates[6] ? (
-                                  <td>
-                                    {exercise["value"]["exercise_pending"] ? (
-                                      <span className="pending">
-                                        {exercise["value"]["exercise_pending"]}
-                                      </span>
-                                    ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -976,33 +1376,31 @@ const combinedItems = (arr = []) => {
                             <td>Exercise Completed</td>
                             {Array.isArray(exercise["value"]) ? (
                               <>
-                                {exercise["date"][0].map((dates) => (
-                                  <>
-                                    {exercise["value"][0].map((i) => (
-                                      <>
-                                        {dates === exercisedates[0] && (
-                                          <td>
-                                            {i["exercise_completed"] ? (
-                                              <span className="completed">
-                                                {i["exercise_completed"]}
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
-                                          </td>
-                                        )}
-                                      </>
-                                    ))}
-                                  </>
-                                ))}
-                                {getData(exercise["date"][0].length)}
+                                {exercisecompleted !== undefined && (
+                                  <>{exercisecompleted.map((i) =>  i[1] === exercise["exercise"] && i[0])}</>
+                                )}
                               </>
                             ) : (
                               <>
                                 {exercise["date"] === exercisedates[0] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                        className={
+                                          parseInt(
+                                            exercise["value"]["exercise_alloted"]
+                                          ) ===
+                                          parseInt(
+                                            exercise["value"][
+                                              "exercise_completed"
+                                            ]
+                                          )
+                                            ? "completed"
+                                            : exercise["value"]["exercise_alloted"]
+                                            ===
+                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                        }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1010,7 +1408,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1019,7 +1417,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[1] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1027,7 +1440,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1036,7 +1449,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[2] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1044,7 +1472,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1053,7 +1481,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[3] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1061,7 +1504,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1070,7 +1513,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[4] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1078,7 +1536,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1087,7 +1545,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[5] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1095,7 +1568,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (
@@ -1104,7 +1577,22 @@ const combinedItems = (arr = []) => {
                                 {exercise["date"] === exercisedates[6] ? (
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
-                                      <span className="completed">
+                                      <span
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
+                                      >
                                         {
                                           exercise["value"][
                                             "exercise_completed"
@@ -1112,7 +1600,7 @@ const combinedItems = (arr = []) => {
                                         }
                                       </span>
                                     ) : (
-                                      "-"
+                                      <span className="remaining"> 0 </span>
                                     )}
                                   </td>
                                 ) : (

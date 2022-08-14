@@ -141,10 +141,18 @@ const ExerDetail = () => {
     });
     console.log(ch)
     //ch['output_json']=ch
-    let tempData = {}
-    tempData['output_json']=ch
-    tempData['id']= location.state.exercises[0].pp_cp_id
-     let res = await update_careplan_Nno_AI(tempData);
+    // if (typeof ChoosenTime == "string") {
+    //   json_data.output_json[ChoosenTime] = object;
+    // } else {
+    //   json_data.output_json[JSON.parse(ChoosenTime)] = object;
+    // }
+    // let tempData = {}
+    // // tempData["output_json"] = JSON.parse(ChoosenTime)
+    // tempData.output_json[ChoosenTime] = ch
+  //  tempData[ChoosenTime] = "output_json"
+  //   tempData['output_json']=ch
+  //   tempData['id']= location.state.exercises[0].pp_cp_id
+     await update_careplan_Nno_AI(ch,ChoosenTime,location.state.exercises[0].pp_cp_id);
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });

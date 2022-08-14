@@ -15,7 +15,7 @@ import { getPhysioList } from '../../API/Physio/PhysioRegister';
 import { CLEAR_STATE, PHYSIO_REGISTER_FAILURE } from '../../contextStore/actions/physioRegAction';
 import '../../styles/Layout/Heading.css'
 import { degree, expertise } from './PhysioConstants';
-import { country } from './ClinicRegister/Country';
+import {country} from './ClinicRegister/Country.js'
 const { Title } = Typography;
 const PhysioRegisteration2 = (props) => {
     const [stateList, setStateList] = useState([]);
