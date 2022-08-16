@@ -293,21 +293,21 @@ const Register3 = (props) => {
      } else {
          result = await Patient_Update(state.BasicDetails, dispatch);
      }
-     if (result && result[0]) {
-         if(JSON.parse(localStorage.getItem("user")).role=='patient')
-             {
-                 window.location.href = "/patient/profile";
-             }
-             else
-             {
-                 window.location.href = "/pateints";
-             }
-         window.location.href = "/pateints";
-     } else {
-         dispatch({ type: PATIENT_REG_FAILURE });
-         dispatch({ type: VALIDATION, payload: { error: result[1] } });
+    //  if (result && result[0]) {
+    //      if(JSON.parse(localStorage.getItem("user")).role=='patient')
+    //          {
+    //              window.location.href = "/patient/profile";
+    //          }
+    //          else
+    //          {
+    //              window.location.href = "/pateints";
+    //          }
+    //      window.location.href = "/pateints";
+    //  } else {
+    //      dispatch({ type: PATIENT_REG_FAILURE });
+    //      dispatch({ type: VALIDATION, payload: { error: result[1] } });
          
-     }
+    //  }
  };
 
  const handleCancel = () => {
