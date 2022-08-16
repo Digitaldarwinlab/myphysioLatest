@@ -1226,7 +1226,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
               setCheckedList({ ...checkedList, search_query: e.target.value });
               console.log("search ", e.target.value);
             }}
-            onSearch={(e) => console.log("search ", e.target.value)}
+            onSearch={(e) =>  {
+              searchExercise(e);
+              setCheckedList({ ...checkedList, search_query: e });
+              console.log("search ", e);
+              }
+            }
           />
         </Col>
         <Col span={24}>

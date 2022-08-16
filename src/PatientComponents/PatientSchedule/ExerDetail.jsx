@@ -25,6 +25,7 @@ import {
   submitManuelAi,
   updatePainMeter,
   update_careplan,
+  update_careplan_Nno_AI,
 } from "../../PatientAPI/PatientShedule";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 
@@ -80,8 +81,21 @@ const ExerDetail = () => {
         yt_temp.push(a);
       }
     });
-    console.log("exercises ", res);
-    console.log("exercises ", yt_temp);
+   // console.log("exercises ", res);
+    let temp = []
+    location.state.exercises.map(ex => {
+      let te = [...yt_temp, ...res].find(e => {
+        if(e.title == ex.name){
+          console.log("exercise array1 ", ex)
+          let temp_E = e
+          temp_E['Rep'] = ex.Rep
+          return temp_E
+        }
+      })
+     // console.log("exercise array1 ", te)
+      temp.push(te)
+    })
+    console.log("exercises ", temp);
     setExercises([...res, ...yt_temp]);
   }, []);
 
@@ -92,8 +106,11 @@ const ExerDetail = () => {
     });
     let tempName = [];
     comp.map((item) => {
-      tempName.push(location.state.exercises[item].name);
+      tempName.push({name:location.state.exercises[item].name,Rep:location.state.exercises[item].Rep});
     });
+    console.log(comp)
+    console.log(tempName)
+    console.log(tempId)
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);
@@ -117,15 +134,30 @@ const ExerDetail = () => {
     // };
     let ch = {};
     tempName.map((item) => {
-      ch[item] = {};
+      ch[item.name] = {
+        set:item.Rep.set,
+        rep:item.Rep.rep_count
+      };
     });
-    // data.output_json[ChoosenTime] = ch;
-    // console.log(data);
-    let res = await update_careplan(ch, [tempId[0]], 2, ChoosenTime, pp_cp_id);
+    console.log(ch)
+    //ch['output_json']=ch
+    // if (typeof ChoosenTime == "string") {
+    //   json_data.output_json[ChoosenTime] = object;
+    // } else {
+    //   json_data.output_json[JSON.parse(ChoosenTime)] = object;
+    // }
+    // let tempData = {}
+    // // tempData["output_json"] = JSON.parse(ChoosenTime)
+    // tempData.output_json[ChoosenTime] = ch
+  //  tempData[ChoosenTime] = "output_json"
+  //   tempData['output_json']=ch
+  //   tempData['id']= location.state.exercises[0].pp_cp_id
+     await update_careplan_Nno_AI(ch,ChoosenTime,location.state.exercises[0].pp_cp_id);
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
+    console.log("pain ",location.state.exercises[0].pp_cp_id, pain)
     await updatePainMeter(location.state.exercises[0].pp_cp_id, pain);
     window.location.href = "/patient/schedule";
     //window.location.reload();
@@ -234,16 +266,19 @@ console.log("final ",exercises)
                   </Descriptions>
                   <p></p>
                   <Descriptions
-                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                    title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
-                  >
-                    <Descriptions.Item label="1">
-                      <h5>{exercise.instruction1}</h5>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="2">
-                      <h5>{exercise.instruction2}</h5>
-                    </Descriptions.Item>
-                  </Descriptions>
+                      column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                      title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
+                    >
+                      {exercise.instruction_array!== undefined &&
+                      <>
+                      {exercise.instruction_array.map((i,index)=>
+                      <Descriptions.Item label={index+1}>
+                        <h5 style={{fontSize:'16px'}}>{i}</h5>
+                      </Descriptions.Item>
+                      )}
+                      </>
+                      }
+                    </Descriptions>
                   {/* <p>Set : {location.state.repArr[index].set}</p>
                       {"       "}
                       <p>

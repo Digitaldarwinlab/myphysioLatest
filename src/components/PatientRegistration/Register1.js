@@ -354,7 +354,6 @@ const Register1 = (props) => {
                 reverse="true"
                 className="input-field w-100"
                 value={startDateState}
-                required={true}
                 onChange={handleChange}
                 // onBlur={handleBlur}
               />

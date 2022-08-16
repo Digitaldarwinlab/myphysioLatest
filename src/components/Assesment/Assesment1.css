@@ -10,6 +10,9 @@
     background: #2d7ecb !important;
     color: #fff !important;
 } */
+.btn-Assesment{
+  border-radius: 5px !important;
+}
 .btn-new-check:hover {
   background: grey !important;
 }

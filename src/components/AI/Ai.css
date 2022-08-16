@@ -1,6 +1,12 @@
-.ant-checkbox-group{
+.checkbox-group-AROM .ant-checkbox-group{
     display: grid !important;
     grid-template-columns: 50% 50% !important;
+}
+.ant-modal-header{
+    display: none;
+}
+.ant-modal-close{
+    display: none;
 }
 .selectedJointsCheckbox span{
     font-weight: 900;

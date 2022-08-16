@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { AiFillMedicineBox } from "react-icons/ai";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   Select,
   Row,
@@ -17,6 +18,7 @@ import {
   Tabs,
   Badge,
   Switch,
+  Spin,
 } from "antd";
 import {
   ASSESMENT_CLEARSTATE,
@@ -85,6 +87,8 @@ import background from "./../../assets/Crops/00.-Blank-Figures.webp";
 import MobBackground from "./../../assets/Crops//mobilebg.webp";
 import { useRef } from "react";
 import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
+import Loading from "../UtilityComponents/Loading";
+import { SpinnerCircularSplit } from 'spinners-react';
 
 const muscle = [
   "TrapsA",
@@ -118,6 +122,12 @@ const muscle = [
   "HamstringsA",
   "HamstringsB",
 ];
+
+// const override =  React.CSSProperties({
+//   display: "block",
+//   margin: "0 auto",
+//   borderColor: "red",
+// })
 
 const marks1 = {
   0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
@@ -531,7 +541,7 @@ const Assesment1 = ({ back, next }) => {
   const [QuestionVisibility, setQuestionVisibility] = useState("block");
 
   const [posture, setPosture] = useState(false);
-
+  const  [submitLoading,setSubmitLoading] = useState(false)
   const [RomVisibility, setRomVisibility] = useState("none");
   const [RomVisibilityM, setRomVisibilityM] = useState("none");
   const [RomVisibilityL, setRomVisibilityL] = useState("none");
@@ -920,7 +930,7 @@ const Assesment1 = ({ back, next }) => {
         if (state.FirstAssesment.Arom_M) {
           rom_manual.innerHTML = "AROM calculated";
         } else {
-          rom_manual.innerHTML = "AROM";
+          rom_manual.innerHTML = "AROM (Manual)";
         }
         if (state.FirstAssesment.Arom_Ai) {
           rom.innerHTML = "AROM calculated";
@@ -1383,7 +1393,7 @@ const Assesment1 = ({ back, next }) => {
             dispatch({ type: ASSESMENT_CLEARSTATE });
             dispatch({ type: "JOINT_CLEARSTATE" });
           }, 1000);
-
+          setSubmitLoading(false)
           notification.success({
             message: "Assessment successfully submitted!",
             placement: "bottomLeft",
@@ -1392,17 +1402,21 @@ const Assesment1 = ({ back, next }) => {
 
           history.push("/dashboard");
         } else {
+          setSubmitLoading(false)
           notification.error({
             message: "Form was not submitted",
             placement: "bottomLeft",
             duration: 2,
           });
         }
+      }else{
+        setSubmitLoading(false)
       }
       // aswin 11/13/2021 stop
     } else {
+      setSubmitLoading(false)
       return notification.warning({
-        message: "Patient don't have an open episode1",
+        message: "Patient don't have an open episode",
         placement: "bottomRight",
         duration: 2,
       });
@@ -1410,6 +1424,7 @@ const Assesment1 = ({ back, next }) => {
   };
   const Submit = async () => {
     let video = screenShotRef.current;
+    setSubmitLoading(true)
     console.log("divvvv ", video);
     console.log(video.id);
     let url = "";
@@ -2025,6 +2040,11 @@ const Assesment1 = ({ back, next }) => {
                 </Descriptions>
               </Col>
             </Row>
+            <Row>
+            <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h2>Degree of Deviation</h2>
+                                      </Col>
+            </Row>
             <Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
@@ -2133,7 +2153,14 @@ const Assesment1 = ({ back, next }) => {
           <div className="  mb-3 mt-3">
             <Row gutter={[10, 10]}>
               <Col md={24} lg={24} sm={24} xs={24}>
-                <Descriptions title="Pain Assessment" bordered>
+              {/* <Row className="border1">
+            <Col md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Pain Assessment</h4>
+            </Col>
+          </Row> */}
+                <Descriptions  title={ <Col className="border1" md={24} lg={24} sm={24} xs={24}>
+              <h4 className="p-2">Pain Assessment</h4>
+            </Col>} bordered>
                   <Descriptions.Item label="Nature Of Pain">
                     {state.FirstAssesment.nature_of_pain_here}
                   </Descriptions.Item>
@@ -2591,8 +2618,8 @@ const Assesment1 = ({ back, next }) => {
         }
         <div className=" border mb-3 mt-3">
           <Row style={{ display: RomVisibility }}>
-            <Row className="border">
-              <Col md={24} lg={24} sm={24} xs={24}>
+            <Row >
+              <Col className="border1" md={24} lg={24} sm={24} xs={24}>
                 <h4 className="p-2">Anterior ROM Assesment</h4>
               </Col>
             </Row>
@@ -2614,8 +2641,8 @@ const Assesment1 = ({ back, next }) => {
             </Row>
           </Row>
 
-          <Row style={{ display: RomVisibilityM }} className="border">
-            <Col md={24} lg={24} sm={24} xs={24}>
+          <Row style={{ display: RomVisibilityM }}>
+            <Col md={24} lg={24} sm={24} xs={24}  className="border1">
               <h4 className="p-2">Lateral ROM Assesment</h4>
             </Col>
           </Row>
@@ -2725,11 +2752,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.pain1 ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2744,11 +2772,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2772,11 +2802,13 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.pose ? (
               <Button
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px',
+                    borderRadius:'5px !important'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2793,11 +2825,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+               className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2827,9 +2861,10 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 onClick={() => {
                   if (localStorage.getItem("OnAssessmentScreen") == "true") {
                     console.log("OnAssessmentScreen inside");
@@ -2844,10 +2879,12 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
@@ -2873,13 +2910,14 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.quest ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 disabled={state.FirstAssesment.quest}
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -2897,12 +2935,14 @@ const Assesment1 = ({ back, next }) => {
               ></Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 disabled={state.FirstAssesment.quest}
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -2929,11 +2969,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.special ? (
               <Button
-                className="btn-new-check"
+              className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -2949,11 +2990,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -2982,9 +3025,10 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 onClick={() => {
                   if (localStorage.getItem("OnAssessmentScreen") == "true") {
                     console.log("OnAssessmentScreen inside");
@@ -2995,14 +3039,16 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             ) : (
               <Button
+              className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                    width:'138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
                 type="text"
@@ -3016,7 +3062,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             )}
           </Checkbox>
@@ -3083,7 +3129,9 @@ const Assesment1 = ({ back, next }) => {
                 }
         </Col>
      </Row> */}
+        {submitLoading&&<Loading  />}
 
+        {/* <ClipLoader color={"#ffffff"} loading={submitLoading}  size={150} /> */}
       <div className="text-center m-3">
         <Button
           htmlType="submit"

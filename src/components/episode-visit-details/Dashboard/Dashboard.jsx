@@ -1414,20 +1414,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["value"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["value"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            : exercise["value"]["exercise_alloted"]
-                                            ===
-                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][
@@ -1446,20 +1446,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["value"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["value"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            : exercise["value"]["exercise_alloted"]
-                                            ===
-                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][
@@ -1478,20 +1478,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["value"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["value"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            : exercise["value"]["exercise_alloted"]
-                                            ===
-                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][
@@ -1510,20 +1510,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["value"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["value"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            : exercise["value"]["exercise_alloted"]
-                                            ===
-                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][
@@ -1542,20 +1542,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["value"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["value"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            : exercise["value"]["exercise_alloted"]
-                                            ===
-                                            exercise["value"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][
@@ -1574,20 +1574,20 @@ console.log(combinedItems(main))
                                   <td>
                                     {exercise["value"]["exercise_completed"] ? (
                                       <span
-                                        className={
-                                          parseInt(
-                                            exercise["date"]["exercise_alloted"]
-                                          ) ===
-                                          parseInt(
-                                            exercise["date"][
-                                              "exercise_completed"
-                                            ]
-                                          )
-                                            ? "completed"
-                                            :   exercise["date"]["exercise_alloted"]
-                                            ===
-                                            exercise["date"]["exercise_completed"] ? "completed" : "remaining"
-                                        }
+                                      className={
+                                        parseInt(
+                                          exercise["value"]["exercise_alloted"]
+                                        ) ===
+                                        parseInt(
+                                          exercise["value"][
+                                            "exercise_completed"
+                                          ]
+                                        )
+                                          ? "completed"
+                                          : exercise["value"]["exercise_alloted"]
+                                          ===
+                                          exercise["value"]["exercise_completed"] ? "completed" : "remaining"
+                                      }
                                       >
                                         {
                                           exercise["value"][

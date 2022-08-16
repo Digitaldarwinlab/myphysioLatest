@@ -12,7 +12,7 @@ import FormInput from '../UI/antInputs/FormInput';
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import '../../styles/Layout/Heading.css'
 import { CLEAR_STATE } from '../../contextStore/actions/physioRegAction';
-
+import { country } from '../Physio/ClinicRegister/Country.js'
 const { Title } = Typography;
 
 const Register2 = (props) => {
@@ -163,7 +163,6 @@ const Register2 = (props) => {
                     <Row gutter={[20, 20]}>
                         <Col md={24} lg={24} sm={24} xs={24}>
                             <FormTextArea label={<span style={{fontSize:'18px',fontWeight:'600'}}>{'Address'}</span>}
-                                required={true}
                                 name="Address"
                                 className="input-field w-100"
                                 value={state.BasicDetails.address}
@@ -195,7 +194,7 @@ const Register2 = (props) => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Select.Option value="India">India</Select.Option>
+                                    {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>
