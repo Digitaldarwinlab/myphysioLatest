@@ -265,8 +265,8 @@ const Dashboard = (props) => {
 
         return o;
       }, []);
-console.log(combinedItems(main))
       let combine = await output;
+      setExerciseValue(combine)
       let exerciseAllot = [];
       let repsAllot = [];
       let setAllot = [];
@@ -644,7 +644,7 @@ console.log(combinedItems(main))
       // });
       await combining();
       setValue(combinedItems(main));
-      setExerciseValue(date);
+      
     }
     if (props.patientId || props.patient) {
       data();
@@ -765,8 +765,7 @@ console.log(combinedItems(main))
 
                 {exercisedates !== undefined && (
                   <>
-                    {value.map((exercise, index) => 
-                    (
+                    {value.map((exercise, index) =>                     (
                       <>
                         <tbody
                           style={{ minWidth: "fit-content", overflow: "auto" }}
@@ -778,20 +777,13 @@ console.log(combinedItems(main))
                                   <span className="number">{index + 1}</span>{" "}
                                   {exercise["exercise"]}
                                 </span>
-                                <img
-                                  src={
-                                    Array.isArray(exercise["value"])
-                                      ? process.env.REACT_APP_EXERCISE_URL +
-                                        "/" +
-                                        exercise["value"][0][0][index][
-                                          "image_url"
-                                        ]
-                                      : process.env.REACT_APP_EXERCISE_URL +
-                                        "/" +
-                                        exercise["value"]["image_url"]
+                                {
+                                    exerciseValue.map(image=> image['exercise'] === exercise["exercise"] ? <img
+                                    src={ process.env.REACT_APP_EXERCISE_URL +
+                                      "/" +image["value"][0]["image_url"]}
+                                    alt=""
+                                  /> : '')
                                   }
-                                  alt=""
-                                />
                               </div>
                             </th>
                           </tr>
