@@ -29,9 +29,15 @@ const Dashboard = (props) => {
   const [endDate, setEndDate] = useState(
     week.endOf("week").format("YYYY/MM/DD")
   );
+  const start_date = moment(week, "DD/MM/YYYY")
+      .startOf("week")
+      .format("DD/MM/YYYY");
+    const end_date = moment(week, "DD/MM/YYYY")
+      .endOf("week")
+      .format("DD/MM/YYYY");
   const [weekValue, setweekValue] = useState([
-    moment(startDate, "DD/MM/YYYY")._d,
-    moment(endDate, "DD/MM/YYYY")._d,
+    moment(start_date, "DD/MM/YYYY")._d,
+    moment(end_date, "DD/MM/YYYY")._d,
   ]);
   // console.log([startDate, endDate]);
   const changeRight = () => {
