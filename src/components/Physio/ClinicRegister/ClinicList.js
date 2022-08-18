@@ -246,7 +246,7 @@ const ClinicList = () => {
           <Table
             locale={locale}
             scroll={{ x: 500 }}
-            pagination={{ pageSize: 8 }}
+            pagination={{ pageSize: 8,position:["none","bottomCenter"]  }}
             bordered
             columns={columns}
             dataSource={clinics}
@@ -262,7 +262,7 @@ const ClinicList = () => {
           <Table
             locale={locale}
             scroll={{ x: 500 }}
-            pagination={{ pageSize: 8, size: "small" }}
+            pagination={{ pageSize: 8, size: "small",position:["none","bottomCenter"] }}
             bordered
             columns={columns}
             dataSource={clinics}

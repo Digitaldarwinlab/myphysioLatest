@@ -56,6 +56,7 @@ const ViewClinic = () => {
   useEffect(async () => {
     let clinic_id = JSON.parse(localStorage.getItem("user")).clinic_id;
     const res = await getClinicDetails(clinic_id);
+    console.log("clinic details ",res)
      form.setFieldsValue({country: 'aswin'})
     setClinicDetails('rest')
     if (Object.keys(res).length > 0) {
@@ -65,6 +66,13 @@ const ViewClinic = () => {
         let temp={}
         temp[data] = res[data]
         form.setFieldsValue(temp)
+        dispatch({
+          type: CLINIC_STATE_CHANGE,
+          payload: {
+            key:data,
+            value: res[data]
+          },
+        })
         }
       });
     }
@@ -102,7 +110,7 @@ const ViewClinic = () => {
             <Col md={24} lg={12} sm={24} xs={24}>
               {/* {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)} */}
               <FormInput name="name" label={<span style={{fontSize:'14px',fontWeight:'600'}}>{'Name'}</span>}
-                               // value={state.clinicReg.name}
+                                value={state.clinicReg.name}
                                 //defaultValue={state.clinicReg.name}
                                 disabled={status_flag}
                             

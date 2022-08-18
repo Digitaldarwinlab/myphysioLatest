@@ -1480,7 +1480,7 @@ i.fas.fa-user-plus {
   .ant-col {
     max-width: 98% !important;
     width: 98% !important;
-    margin-left: 1%;
+    /* margin-left: 1%; */
   }
   .main-card {
     padding: 0px !important;

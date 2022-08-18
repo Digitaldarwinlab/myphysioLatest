@@ -50,6 +50,7 @@ const Tempdashboard = lazy(() => import('./PatientComponents/Tempdashboard.js'))
 const PainAssessment = lazy(() => import('./components/Assesment/PainAssessment.jsx'));
 const SpecialTest = lazy(() => import('./components/Assesment/SpecialTest.jsx'));
 const Invoice = lazy(() => import("./components/Invoice/Invoice"));
+
 const PostTestClass = lazy(() => import("./components/Assesment/PoseTestClass.jsx"));
 const EnterprisePatient = lazy(() => import('./PatientEnterprice/EnterprisePatient.jsx'));
 const EnterprisePatient1 = lazy(() => import('./PatientEnterprice/EnterprisePatient1.jsx'));
@@ -106,6 +107,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import PatientVideoCallIndex from "./PatientComponents/Patient-video-call/patient-video-con.js";
 // import Logout from "./components/userAuth/Logout.js";
 // import PatientRoute from './components/PrivateRoute/PatientRoute';
+
 // import PatientDashboard from './PatientComponents/patientDashboard';
 // import PatientSchedule from './PatientComponents/PatientSchedule/PatSchedule';
 // import ResetPassword from './components/userAuth/ResetPassword';
@@ -121,6 +123,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import PainAssessment from "./components/Assesment/PainAssessment.jsx";
 // import SpecialTest from "./components/Assesment/SpecialTest.jsx";
 // import Invoice from "./components/Invoice/Invoice"
+
 // import PostTestClass from "./components/Assesment/PoseTestClass.jsx";
 // import EnterprisePatient from "./EnterpriseNew/PatientEnterprice/EnterprisePatient.jsx";
 // import EnterprisePatient1 from "./PatientEnterprice/EnterprisePatient1.jsx";
@@ -163,7 +166,7 @@ const App = () => {
 	}
 	useEffect(() => {
 		if(isAuthenticated()){
-			let a = ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","agora-rtm-sdk-1.4.5.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
+			let a = [process.env.REACT_APP_MAIN_JS_URL,"https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js","https://mozilla.github.io/pdf.js/build/pdf.js","https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js","index.js","ui.js","agora-interface.js","https://kit.fontawesome.com/1ee1e3b82c.js"]
 			a.map((i)=>{
 				var script = document.createElement("script");
 				script.setAttribute('src',i)

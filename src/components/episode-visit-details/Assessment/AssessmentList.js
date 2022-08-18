@@ -588,7 +588,7 @@ const AssessmentList = ({ assesmentClick }) => {
   return (
     <React.Fragment>
       <div  className="divvv">
-        <Col span={24} className="px-3 py-3 mb-3">
+        <Col span={24} className="">
           <Row>
             <Col lg={18} md={18} sm={18} xs={24}>
               <h4 className="fw-bold">
@@ -608,7 +608,7 @@ const AssessmentList = ({ assesmentClick }) => {
               </Button>
             </Col>
           </Row>
-
+             {AssesmentData.length === 0 && <Col span={24} className="px-3"> <p className="fw-bold">No Assesment Present..</p></Col>}
           {AssesmentData.map(
             (data, index) =>
               //aswin 10/30/2021 start
@@ -624,9 +624,9 @@ const AssessmentList = ({ assesmentClick }) => {
                   <Col span={24} className="px-3">
                     {loading && <Loading />}
                     {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
-                    {AssesmentData.length === 0 ? (
+                    {/* {AssesmentData.length === 0 ? (
                       <p className="fw-bold">No Assesment Present..</p>
-                    ) : (
+                    ) : ( */}
                       <>
                         <Collapse defaultActiveKey={["1"]}>
                           {data.body_image && (
@@ -1380,9 +1380,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                      {data.posture&&data.posture.Posterial_view.checkBox&&data.posture[
+                                      {/* {data.posture&&data.posture.Posterial_view.checkbox&&data.posture[
                                           "Posterial_view"
-                                        ].checkBox.map((ob) => (
+                                        ].checkbox.map((ob) => (
                                           <>
                                             {ob[1] == 1 && (
                                               <Descriptions.Item label="">
@@ -1391,7 +1391,19 @@ const AssessmentList = ({ assesmentClick }) => {
                                               </Descriptions.Item>
                                             )}
                                           </>
-                                        ))}
+                                        ))} */}
+                                        {
+                                          Object.keys(data.posture.Posterial_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.Posterial_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                          ))
+                                        }
                                       </Descriptions>
                                     </Row>
                                   )}
@@ -1438,18 +1450,18 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                      {data.posture.lateral_view.checkBox&&data.posture[
-                                          "lateral_view"
-                                        ].checkBox.map((ob) => (
-                                          <>
-                                            {ob[1] == 1 && (
+                                      {
+                                          Object.keys(data.posture.lateral_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
                                                 <Badge color="#000000" />
-                                                {ob[0]}
+                                                {ob}
                                               </Descriptions.Item>
                                             )}
                                           </>
-                                        ))}
+                                          ))
+                                        }
                                       </Descriptions>
                                     </Row>
                                   )}
@@ -1703,7 +1715,7 @@ const AssessmentList = ({ assesmentClick }) => {
                           </center>
                         </div>
                       </>
-                    )}
+                  
                     { <div id="assesmentPrint" className={showAssesment ? "":"assesmentPrint"} ref={assessmentRef}>
                        
                           {data.body_image && (

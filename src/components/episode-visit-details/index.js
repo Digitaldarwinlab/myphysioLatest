@@ -20,7 +20,7 @@ import Notes from "./Notes.js";
 import CarePlanView from "./carePlanView/carePlanView";
 import "../../styles/Layout/Heading.css";
 import Tempdashboard from "./PatientGraph/Tempdashboard";
-import Dashboard from "./Dashboard/Dashboard";
+import Dashboard from "./Dashboard/Dashboard.jsx";
 import Exercise from "./ExerciseDetail/Exercise";
 {
   /* aswin start 10/30/2021 stop */
@@ -448,8 +448,8 @@ const EpisodeVisitDetails = () => {
                             frameBorder="0"
                             id="physioDashboard"
                             src={`https://reports.physioai.care/superset/dashboard/6/?standalone=true&patient_id=${carePlanState.patient_code}`}
-                            >
-                        </iframe>:  <iframe
+                        >
+                        </iframe> : <iframe
                             width='100%'
                             height={screen.height}
                             className="iframeDashboard"

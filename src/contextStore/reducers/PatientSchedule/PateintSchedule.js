@@ -2,7 +2,7 @@ import { PATIENT_STATECHANGE } from "../../actions/ParientAction";
 
 //Episode Id State
 const episode = {
-    pp_ed_id: "",
+    pp_ed_id: 0,
     prescription:[],
     current_pres:{},
     comp:[]

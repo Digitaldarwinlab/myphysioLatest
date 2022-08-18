@@ -85,7 +85,8 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       let timepick = document.getElementsByName("startDate");
       console.log("timepick ", timepick);
     }
-
+    
+    
     let timeSlots = changeTimeSlots(state.count_time_slots);
     if (state.time_slot_edit == 1) {
     console.log("not replicate")

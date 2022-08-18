@@ -386,6 +386,7 @@ const AImodel = () => {
     aiModelAppear = !aiModelAppear;
     var peerID = $("#form-peerId").val();
     console.log("perr id is ",peerID)
+    document.getElementById(`video${peerID}`).style.objectFit = "inherit"
     localStorage.setItem("aiModelAppear", JSON.stringify(aiModelAppear));
     if (aiModelAppear) {
       if(selectedAssessmentType=='rom'){
@@ -769,13 +770,13 @@ const assesmentChange=(e)=>{
               </button>
                    
                     
-                    <button 
+                    {/* <button 
             type="button" 
             id="screen-share-btn" 
             class="btn video_con_bttn btn-block btn-dark btn-lg"
             >
               <i id="screen-share-icon" class="fas fa-desktop"></i>
-            </button>
+            </button> */}
                    
                     
                     <button

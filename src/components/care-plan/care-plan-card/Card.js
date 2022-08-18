@@ -25,6 +25,7 @@ import {
 } from "../../../contextStore/actions/care-plan-action";
 import yt from "../../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
+import { GetJoint } from "../../../API/care-plan/care-plan-api";
 const { Option } = Select;
 const { Meta } = Card;
 const joints = {
@@ -86,10 +87,7 @@ export default function CarePlanCard({
   const handleClick1 = () => {
     setVisible(true);
   };
-
-  useEffect(() => {
-   
-  }, []);
+  
 
   const handleChange1 = (key, value, id = 0) => {
     const reg = /^-?\d*(\.\d*)?$/;

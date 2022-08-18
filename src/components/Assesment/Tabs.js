@@ -87,7 +87,7 @@ function Tabs({
                               res[2].angle,
                               res[3].angle,
                               res[4].angle,
-                              res[5].angle
+                              res[5].angle,
                             ]);
                             console.log('backward')
                             darwin.stop()
@@ -188,7 +188,7 @@ function Tabs({
           <table style={{ marginLeft: "5px" }}>
             <tr>
               <td width="75%"></td>
-              <td>Deviation</td>
+              <td>Deviation(Degree)</td>
             </tr>
             <tr>
               <td>Nasal Bridge</td>
@@ -358,7 +358,7 @@ function Tabs({
           <table style={{ marginLeft: "5px" }}>
             <tr>
               <td width="75%"></td>
-              <td>Deviation</td>
+              <td>Deviation(Degree)</td>
             </tr>
             <tr>
               <td>Head deviation</td>
@@ -487,7 +487,7 @@ function Tabs({
                             setChecked2(false);
                             const res = await darwin.showAngles();
                             console.log("show side angles ", res);
-                            setSideAngles([res[0].angle, res[1].angle, res[2].angle, res[3].angle]);
+                            setSideAngles([res[0].angle,res[1].angle, res[2].angle, res[3].angle]);
                             console.log('backward')
                             darwin.stop()
                         }

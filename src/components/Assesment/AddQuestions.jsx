@@ -28,7 +28,7 @@ const AddQuestions = ({back,next}) => {
   async function handleChange(value) {
     setShowQuestion(false)
     let data = await getQuestions(value);
-    // console.log('res data ',data)
+    console.log('res data ',data)
     let temp = []
     Object.keys(data.question).map((d,index)=>{
       if(d!=='description'){

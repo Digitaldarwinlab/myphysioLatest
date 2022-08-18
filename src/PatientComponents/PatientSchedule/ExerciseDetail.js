@@ -1,4 +1,4 @@
-import { Col, Row, Descriptions, Space, Checkbox, Divider } from "antd";
+import { Col, Row, Descriptions, Space, Checkbox, Divider, Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
@@ -18,26 +18,42 @@ const ExerciseDetailsClass = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const history = useHistory();
-  useEffect(async () => {
-    console.log(location.state);
+  const CallDetails = async () => {
     const res = await exercise_detail(location.state.exNameList);
-    //  console.log("exercises ", this.props.location.state.repArr);
+    console.log("exercise array ", res)
+    console.log("exercise array ", location.state.exNameList)
+    // console.log("exercise array ",location.state.exercises)
     let yt_temp = [];
-    location.state.exercises.map((ex) => {
+    location.state.exercises.map((ex, index) => {
       if (ex.name == "YouTube") {
         let a = {
           title: ex.name,
+          name:ex.name,
           video_path: ex.youtube_link,
         };
         yt_temp.push(a);
       }
+      res.map(e => {
+        if (ex.ex_em_id == e.ex_em_id) {
+          ex.hold = e.hold_flag
+        }
+      })
     });
-    setExercises([...res, ...yt_temp]);
-    // location.state.exercises.map((item) => {
-    //   if (item.name == "YouTube") {
-    //     setExercises([...exercises, item]);
-    //   }
-    // });
+    // setExercises([...yt_temp,...res]);
+    let temp = []
+    console.log("exercise ",[...yt_temp, ...res])
+    location.state.exercises.map(ex => {
+      let te = [...yt_temp, ...res].find(e => e.title == ex.name)
+      console.log("exercise array1 ", te)
+      temp.push(te)
+    })
+    setExercises(temp)
+     console.log("exercise array ", temp)
+     console.log("exercise array ", res)
+     console.log("exercise array ", location.state.exercises)
+  }
+  useEffect( () => {
+    CallDetails()
   }, []);
 
   // componentWillUnmount(){
@@ -90,12 +106,12 @@ const ExerciseDetailsClass = () => {
     <div className="exercise-detail" id="exercise-detail">
       <h3 className="fw-bold mt-2 ms-2">
         <BackButton />
+        <Alert message="Please scroll down and review all the exercise materials before starting the exercise" type="info" showIcon closable />
       </h3>
       <button
         style={{ float: "right" }}
         className="skip-button"
         id="skip-button"
-        // disabled={location.state.status_flag}
         onClick={handleClick}
       >
         Skip
@@ -103,7 +119,7 @@ const ExerciseDetailsClass = () => {
       {exercises.length > 0 &&
         exercises.map((exercise, index) => (
           <>
-            {/* {exercise.title != "YouTube" ? ( */}
+            
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">
                   <div className="top-heading" id="top-heading">
@@ -130,7 +146,6 @@ const ExerciseDetailsClass = () => {
                       className="react-player"
                       url={exercise.video_path}
                       width="100%"
-                    //  height="auto"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">

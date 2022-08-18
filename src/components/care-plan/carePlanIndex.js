@@ -395,6 +395,49 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     reduxState.carePlanRedcucer.patient_code,
     reduxState.episodeReducer.patient_main_code,
   ]);
+  useEffect(async () => {
+    // const callJoints = async () => {
+      const romJoint = await GetJoint();
+      console.log("joints are ",romJoint)
+      let temp = romJoint.reverse();
+      let obj = {};
+      temp.filter((item) => {
+        if (
+          item.ex_jm_id !== 1 &&
+          item.ex_jm_id !== 2 &&
+          item.ex_jm_id !== 3 &&
+          item.ex_jm_id !== 4 &&
+          item.ex_jm_id !== 5
+        ) {
+          if (item.JointType == "Neck") {
+            let temp = {
+              joint: item.joint_name,
+              min: item.MinAngle,
+              max: item.MaxAngle,
+            };
+            obj["Cervical"] = temp;
+          } else {
+            console.log("joints are ",item)
+            let temp = {
+              joint: item.joint_name,
+              min: item.MinAngle,
+              max: item.MaxAngle,
+            };
+            obj[item.JointType] = temp;
+          }
+        }
+      });
+      console.log("joints are ",obj)
+      dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "romJoints",
+          value: obj,
+        },
+      });
+    // }
+    // callJoints()
+  }, []);
   useEffect(() => {
     dispatch({ type: "NOERROR" });
   }, []);
@@ -1183,7 +1226,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
               setCheckedList({ ...checkedList, search_query: e.target.value });
               console.log("search ", e.target.value);
             }}
-            onSearch={(e) => console.log("search ", e.target.value)}
+            onSearch={(e) =>  {
+              searchExercise(e);
+              setCheckedList({ ...checkedList, search_query: e });
+              console.log("search ", e);
+              }
+            }
           />
         </Col>
         <Col span={24}>

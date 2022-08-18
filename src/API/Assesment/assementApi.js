@@ -227,6 +227,7 @@ export const  AssesmentAPI = async (details,url, dispatch) => {
   // formdata.append('Knee',details.knee===undefined ?'':details.knee)
   // formdate.append('pose',details.poseture===undefined?'':details.poseture)
   // console.log("formdata ",formdata)
+  console.log("assesment data ",AssesmentDetails)
   const headers = {
     Accept: "application/json",
     "Content-type": "application/json",

@@ -704,7 +704,7 @@
 /* Style.css */
 body{
     min-height:100%;
-    display:grid;
+    /* display:grid; */
     grid-template-rows:1fr auto
 }
 body{
@@ -1002,7 +1002,7 @@ img.thumbborder{
 }
 @media(max-width:979px){
     body{
-        padding-top:20px
+        padding-top: 0px
     }
     .navbar-form,.navbar-search{
         margin-bottom:0

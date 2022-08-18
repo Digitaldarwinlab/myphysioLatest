@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import LineGraph from './LineGraph';
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
 import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardApi";
 import {
   fetchDashboardDetails,
@@ -9,13 +11,14 @@ import {
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
 import "./Dash.css";
-import { DateBox } from "devextreme-react";
 
 const Dashboard = (props) => {
   // console.log(props.value);
   const { beforeToday } = DateRangePicker;
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
+  const [option, setOption] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [showValue, setShowValue] = useState();
   const [summaryTimeSlots, setSummaryTimeSlots] = useState();
   const [summaryExerciseComplete, setSummaryExerciseComplete] = useState();
@@ -27,7 +30,12 @@ const Dashboard = (props) => {
   const [setscompleted, setSetscompleted] = useState();
   const [repsAlloted, setRepsAlloted] = useState();
   const [repscompleted, setRepscompleted] = useState();
-
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const [week, setWeek] = useState(moment());
   const [startDate, setstartDate] = useState(
     week.startOf("week").format("YYYY/MM/DD")
@@ -671,6 +679,7 @@ const Dashboard = (props) => {
       let time_slots = [];
       let exercise_complete = [];
       let pain_meter = [];
+      let pain_option =[]
       await summaryArray.forEach(async (e) => {
         let xvr = exDate.filter((x) => !summaryDates.includes(x));
         xvr.forEach(async (val) => {
@@ -684,7 +693,7 @@ const Dashboard = (props) => {
         summaryDates.forEach(async (val) => {
           // console.log(e['exercise'],val)
           if (summaryDates.indexOf(val) !== -1) {
-            if(e[0]===val){
+            if (e[0] === val) {
               // console.log(e)
               time_slots.push({
                 value: e["1"]["time_slots"],
@@ -693,7 +702,7 @@ const Dashboard = (props) => {
             }
           }
         });
-        let val = await uniqBy(time_slots, JSON.stringify)
+        let val = await uniqBy(time_slots, JSON.stringify);
         val = await val.sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         });
@@ -714,19 +723,19 @@ const Dashboard = (props) => {
         summaryDates.forEach(async (val) => {
           // console.log(e['exercise'],val)
           if (summaryDates.indexOf(val) !== -1) {
-            if(e[0]===val){
-            exercise_complete.push({
-              value: e["1"]["exercise_completed"],
-              date: val,
-              className:
-                e["1"]["exercise_completed"] === e["1"]["time_slots"]
-                  ? "completed"
-                  : "remaining",
-            });
-          }
+            if (e[0] === val) {
+              exercise_complete.push({
+                value: e["1"]["exercise_completed"],
+                date: val,
+                className:
+                  e["1"]["exercise_completed"] === e["1"]["time_slots"]
+                    ? "completed"
+                    : "remaining",
+              });
+            }
           }
         });
-        let val = await uniqBy(exercise_complete, JSON.stringify)
+        let val = await uniqBy(exercise_complete, JSON.stringify);
         val = await val.sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         });
@@ -741,41 +750,59 @@ const Dashboard = (props) => {
             date: val,
             className: "",
           });
+          pain_option.push({
+            x: new Date(val),
+            y: 0,
+          });
+
           // let a = await getData(val, "-", exDate);
           //  console.log(a)
         });
         summaryDates.forEach(async (val) => {
           // console.log(e['exercise'],val)
           if (summaryDates.indexOf(val) !== -1) {
-            if(e[0]===val){
-            if(e["1"]["pain_meter"].length > 0){
-              const sum = e["1"]["pain_meter"].reduce((a, b) => a + b, 0);
-              const avg = sum / e["1"]["pain_meter"].length || 0;
-              console.log(avg)
-              pain_meter.push({
-                value: avg,
-                date: val,
-                className:
-                  parseInt(avg) < 3
-                    ? "completed"
-                    : parseInt(avg) === 3 ?  "remaining" : "pending",
-              });
+            if (e[0] === val) {
+              if (e["1"]["pain_meter"].length > 0) {
+                const sum = e["1"]["pain_meter"].reduce((a, b) => a + b, 0);
+                const avg = sum / e["1"]["pain_meter"].length || 0;
+                pain_meter.push({
+                  value: avg,
+                  date: val,
+                  className:
+                    parseInt(avg) < 3
+                      ? "completed"
+                      : parseInt(avg) === 3
+                      ? "remaining"
+                      : "pending",
+                });
+                pain_option.push({
+                  x: new Date(val),
+                  y: avg,
+                });
+              } else {
+                pain_meter.push({
+                  value: "-",
+                  date: val,
+                  className: "",
+                });
+                pain_option.push({
+                  x: new Date(val),
+                  y: 0,
+                });
+              }
             }
-            else{
-              pain_meter.push({
-                value:'-',
-                date: val,
-                className:'',
-              });
-            }
-          }
           }
         });
-        let val = await uniqBy(pain_meter, JSON.stringify)
+        let val = await uniqBy(pain_meter, JSON.stringify);
         val = await val.sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         });
-        console.log(val)
+        let paingraph = await uniqBy(pain_option, JSON.stringify)
+        paingraph = await paingraph.sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date);
+        });
+        console.log(paingraph);
+        setOption(paingraph)
         setSummaryPainMeter(val);
       });
     }
@@ -838,40 +865,67 @@ const Dashboard = (props) => {
     <div className="otherDashboard">
       {value !== undefined ? (
         <>
+          <Modal
+            title="Pain Scale Graph"
+            visible={isModalVisible}
+            footer={null}
+            onCancel={handleCancel}
+            style={{ width: "100%", resize: "none" }}
+          >
+            <div>
+            <LineGraph value={option}/>
+            </div>
+          </Modal>
           <div
             style={{
               width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "20px",
             }}
           >
-            <div className="cus-cal">
-              <span className="icon-btn2" onClick={changeLeft}>
-                <CaretLeftOutlined />
-              </span>
-              <DateRangePicker
-                oneTap
-                showOneCalendar
-                style={{ border: "none" }}
-                value={weekValue}
-                hoverRange="week"
-                ranges={[]}
-                onChange={(value) => {
-                  setweekValue(value);
-                  setstartDate(
-                    moment(value[0]).startOf("week").format("YYYY/MM/DD")
-                  );
-                  setEndDate(
-                    moment(value[0]).endOf("week").format("YYYY/MM/DD")
-                  );
-                  setWeek(moment(value[1], "DD/MM/YYYY"));
-                }}
-              />
-              <span className="icon-btn2" onClick={changeRight}>
-                <CaretRightFilled />
-              </span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <div className="cus-cal">
+                <span className="icon-btn2" onClick={changeLeft}>
+                  <CaretLeftOutlined />
+                </span>
+                <DateRangePicker
+                  oneTap
+                  showOneCalendar
+                  style={{ border: "none" }}
+                  value={weekValue}
+                  hoverRange="week"
+                  ranges={[]}
+                  onChange={(value) => {
+                    setweekValue(value);
+                    setstartDate(
+                      moment(value[0]).startOf("week").format("YYYY/MM/DD")
+                    );
+                    setEndDate(
+                      moment(value[0]).endOf("week").format("YYYY/MM/DD")
+                    );
+                    setWeek(moment(value[1], "DD/MM/YYYY"));
+                  }}
+                />
+                <span className="icon-btn2" onClick={changeRight}>
+                  <CaretRightFilled />
+                </span>
+              </div>
             </div>
+            {value.length > 0 &&
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                marginBottom: "10px",
+              }}
+            >
+              <Button type="primary" onClick={showModal}>Pain Scale Report</Button>
+            </div>
+            }
           </div>
           {value.length > 0 ? (
             <div>
@@ -882,8 +936,14 @@ const Dashboard = (props) => {
                 <>
                   <thead>
                     <tr>
-                    <th style={{borderRight:'1px solid #2d7ecb'}} scope="col"></th>
-                      <th scope="col" style={{borderLeft:'1px solid #2d7ecb'}}></th>
+                      <th
+                        style={{ borderRight: "1px solid #2d7ecb" }}
+                        scope="col"
+                      ></th>
+                      <th
+                        scope="col"
+                        style={{ borderLeft: "1px solid #2d7ecb" }}
+                      ></th>
                       {showValue !== undefined && (
                         <>
                           {showValue.map((date) => (
@@ -897,8 +957,19 @@ const Dashboard = (props) => {
                   </thead>
                   <thead>
                     <tr>
-                    <th style={{borderRight:'1px solid #2d7ecb'}} scope="col">Summary</th>
-                      <th scope="col" style={{borderLeft:'1px solid #2d7ecb',borderRight:'1px solid #2d7ecb'}}></th>
+                      <th
+                        style={{ borderRight: "1px solid #2d7ecb" }}
+                        scope="col"
+                      >
+                        Summary
+                      </th>
+                      <th
+                        scope="col"
+                        style={{
+                          borderBottom: "1px solid #2d7ecb",
+                          borderRight: "1px solid #2d7ecb",
+                        }}
+                      ></th>
                       <th></th>
                       <th></th>
                       <th></th>
@@ -906,12 +977,17 @@ const Dashboard = (props) => {
                       <th></th>
                       <th></th>
                       <th></th>
-                    
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="text-center">
-                      <th></th>
+                      <th
+                        style={{
+                          borderBottom: "none",
+                          borderTop: "none",
+                          backgroundColor: "#ECECEC",
+                        }}
+                      ></th>
                       <td>Time Slots</td>
                       {summaryTimeSlots !== undefined && (
                         <>
@@ -922,8 +998,18 @@ const Dashboard = (props) => {
                       )}
                     </tr>
                     <tr className="text-center">
-                      <th></th>
-                      <td>Pain Scale</td>
+                      <th
+                        style={{
+                          borderBottom: "none",
+                          borderTop: "none",
+                          backgroundColor: "#ECECEC",
+                        }}
+                      ></th>
+                      <td>
+                        Pain Scale
+                        <hr />
+                        <span style={{ fontSize: "12px" }}>(Out of 5)</span>
+                      </td>
                       {summaryPainMeter !== undefined && (
                         <>
                           {summaryPainMeter.map((i) => (
@@ -937,7 +1023,13 @@ const Dashboard = (props) => {
                       )}
                     </tr>
                     <tr className="text-center">
-                      <th></th>
+                      <th
+                        style={{
+                          borderBottom: "none",
+                          borderTop: "none",
+                          backgroundColor: "#ECECEC",
+                        }}
+                      ></th>
                       <td>Time Slots Completed</td>
                       {summaryExerciseComplete !== undefined && (
                         <>
@@ -954,8 +1046,16 @@ const Dashboard = (props) => {
                   </tbody>
                   <thead>
                     <tr>
-                      <th style={{borderRight:'1px solid #2d7ecb'}} scope="col">Exercises</th>
-                      <th scope="col" style={{borderLeft:'1px solid #2d7ecb'}}></th>
+                      <th
+                        style={{ borderRight: "1px solid #2d7ecb" }}
+                        scope="col"
+                      >
+                        Exercises
+                      </th>
+                      <th
+                        scope="col"
+                        style={{ borderLeft: "1px solid #2d7ecb" }}
+                      ></th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                       <th scope="col"></th>

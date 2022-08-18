@@ -143,3 +143,46 @@ export const update_careplan = async (
     return [false, "Error 403: " + err.message];
   }
 };
+
+export const update_careplan_Nno_AI = async (
+  object,exerciseTime,id
+) => {
+
+  const json_data = {
+    id: id,
+    output_json: {},
+  };
+
+  if (typeof exerciseTime == "string") {
+    json_data.output_json[exerciseTime] = object;
+  } else {
+    json_data.output_json[JSON.parse(exerciseTime)] = object;
+  }
+
+const headers = {
+  Accept: "application/json",
+  "Content-type": "application/json",
+};
+  try {
+    const response = await fetch(
+      process.env.REACT_APP_API + "/update-care-plan-status/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(json_data),
+      }
+    );
+
+    const data = await response.json();
+    console.log('tempdata ',tempData)
+    console.log(data);
+    console.log(data, "Information");
+    if (response.status !== 200 && response.status !== 201) {
+      return [false, "Error " + response.status + response.statusText];
+    } else {
+      return [true, data];
+    }
+  } catch (err) {
+    return [false, "Error 403: " + err.message];
+  }
+};
