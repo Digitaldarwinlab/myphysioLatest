@@ -786,19 +786,21 @@ class AI extends Component {
         console.log("FINALLL!!!!");
         try {
           data = darwin.getAssesmentData();
-          console.log("front", data);
+          console.log("front", Object.values(data).length > 0);
           if (this.state.selectedOrientation == 1) {
             if (data !== undefined && data !== null) {
-              let TEMP = {};
-              TEMP["AROM"] = data[Object.keys(data)[0]];
-              console.log(TEMP);
-              this.props.FirstAssesment("Anterior_AI_Data", TEMP);
+              if (data["AROM"]) {
+                let TEMP = {};
+                TEMP["AROM"] = data[Object.keys(data)[0]];
+                console.log(TEMP);
+                this.props.FirstAssesment("Anterior_AI_Data", TEMP);
 
-              notification.success({
-                message: "Angles have been calculated",
-                placement: "bottomLeft",
-                duration: 2,
-              });
+                notification.success({
+                  message: "Angles have been calculated",
+                  placement: "bottomLeft",
+                  duration: 2,
+                });
+              }
             }
           }
           window.darwin.stop();
@@ -828,7 +830,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           })
-         
+
           window.darwin.setExcersiseParams({
             name: "Left",
             primaryKeypoint: 0,
@@ -851,15 +853,17 @@ class AI extends Component {
             window.darwin.stop();
             if (this.state.selectedOrientation == 2) {
               if (data !== undefined && data !== null) {
-                let TEMP = {};
-                TEMP["AROM"] = data[Object.keys(data)[0]];
-                console.log(TEMP);
-                this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
-                notification.success({
-                  message: "Angles have been calculated",
-                  placement: "bottomLeft",
-                  duration: 2,
-                });
+                if (data["AROM"]) {
+                  let TEMP = {};
+                  TEMP["AROM"] = data[Object.keys(data)[0]];
+                  console.log(TEMP);
+                  this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
+                  notification.success({
+                    message: "Angles have been calculated",
+                    placement: "bottomLeft",
+                    duration: 2,
+                  });
+                }
               }
             }
             window.darwin.stop();
@@ -888,7 +892,7 @@ class AI extends Component {
             totalReps: 3,
             totalSets: 2,
           })
-          
+
           window.darwin.setExcersiseParams({
             name: "Right",
             primaryKeypoint: 0,
@@ -912,15 +916,17 @@ class AI extends Component {
             console.log("right side ", data)
             if (this.state.selectedOrientation == 3) {
               if (data !== undefined && data !== null) {
-                let TEMP = {};
-                TEMP["AROM"] = data[Object.keys(data)[0]];
-                console.log(TEMP);
-                this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
-                notification.success({
-                  message: "Angles have been calculated",
-                  placement: "bottomLeft",
-                  duration: 2,
-                });
+                if (data["AROM"]) {
+                  let TEMP = {};
+                  TEMP["AROM"] = data[Object.keys(data)[0]];
+                  console.log(TEMP);
+                  this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
+                  notification.success({
+                    message: "Angles have been calculated",
+                    placement: "bottomLeft",
+                    duration: 2,
+                  });
+                }
               }
             }
             this.setState({ disabledLateralDrop: false })

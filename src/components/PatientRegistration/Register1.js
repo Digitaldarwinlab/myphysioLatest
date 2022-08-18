@@ -88,8 +88,8 @@ const Register1 = (props) => {
             value.length > 1
               ? value[0].toUpperCase() + value.slice(1, value.length)
               : value.length === 1
-              ? value.toUpperCase()
-              : "",
+                ? value.toUpperCase()
+                : "",
         },
       });
     } else {
@@ -188,6 +188,8 @@ const Register1 = (props) => {
             "Middle" + validation.checkNameValidation(data.MiddleName).error,
         },
       });
+    } else if (validation.checkMobNoValidation(data.MobileNo).error) {
+      dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
     } else {
       props.next();
     }
@@ -238,17 +240,17 @@ const Register1 = (props) => {
           md={8}
           sm={8}
           xs={8}
-       //   className="text-right"
+          //   className="text-right"
           justify="right"
         >
-            <Row justify="end">
-                
-          <Link to="/pateints" className="text-blue navlink " 
-          //id="navlink"
-          >
-            <i className="fa fa-users"></i> Patients
-          </Link>
-            </Row>
+          <Row justify="end">
+
+            <Link to="/pateints" className="text-blue navlink "
+            //id="navlink"
+            >
+              <i className="fa fa-users"></i> Patients
+            </Link>
+          </Row>
         </Col>
       </Row>
       <StepBar src={svg} />
@@ -355,7 +357,7 @@ const Register1 = (props) => {
                 className="input-field w-100"
                 value={startDateState}
                 onChange={handleChange}
-                // onBlur={handleBlur}
+              // onBlur={handleBlur}
               />
             </Col>
             <Col md={12} lg={3} sm={24} xs={24}>
@@ -381,7 +383,7 @@ const Register1 = (props) => {
                   </span>
                 }
                 name="Gender"
-                //rules={[{ required: true, message: `Please Select Gender.` }]}
+              //rules={[{ required: true, message: `Please Select Gender.` }]}
               >
                 <Select
                   placeholder="Gender"
@@ -404,7 +406,7 @@ const Register1 = (props) => {
                   </span>
                 }
                 name="bloodType"
-                //rules={[{ required: true, message: `Please Select Blood Type.` }]}
+              //rules={[{ required: true, message: `Please Select Blood Type.` }]}
               >
                 <Select
                   className="input-field w-100"
@@ -440,7 +442,7 @@ const Register1 = (props) => {
                 placeholder="Enter Patient Mobile Number"
                 required={true}
                 onChange={handleChange}
-                //  onBlur={handleBlur}
+                  onBlur={handleBlur}
                 defaultValue={state.BasicDetails.MobileNo}
               />
             </Col>
@@ -493,37 +495,37 @@ const Register1 = (props) => {
                     </Col>
                 </Row> */}
         <Row justify="center">
-            <Space size={"middle"}>
-          <Col span={2}>
-            {" "}
-            <Link to="/dashboard">
+          <Space size={"middle"}>
+            <Col span={2}>
+              {" "}
+              <Link to="/dashboard">
+                {" "}
+                <Button
+                //  className="me-2 "
+                //  style={{ borderRadius: '10px' }}
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </Col>
+            <Col span={2}>
               {" "}
               <Button
-              //  className="me-2 "
-              //  style={{ borderRadius: '10px' }}
+                //className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }}
+                onClick={handleReset}
               >
-                Cancel
+                Reset
               </Button>
-            </Link>
-          </Col>
-          <Col span={2}>
-            {" "}
-            <Button
-              //className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }}
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </Col>
-          <Col span={2}>
-            {" "}
-            <Button
-              //className="button1" id="bnid" style={{ color: "white" }}
-              htmlType="submit"
-            >
-              Next
-            </Button>
-          </Col>
+            </Col>
+            <Col span={2}>
+              {" "}
+              <Button
+                //className="button1" id="bnid" style={{ color: "white" }}
+                htmlType="submit"
+              >
+                Next
+              </Button>
+            </Col>
           </Space>
         </Row>
       </Form>

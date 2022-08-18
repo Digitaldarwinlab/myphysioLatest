@@ -56,7 +56,16 @@ const PhysioRegisteration1 = (props) => {
                 : "",
         },
       });
-    } else {
+    } else if(key == "mobile_no"){
+      dispatch({
+        type: PHYSIO_STATE_CHANGE,
+        payload: {
+          key,
+          value:value.replaceAll(/\s/g,'')
+          ,
+        },
+      });
+    }else {
       dispatch({
         type: PHYSIO_STATE_CHANGE,
         payload: {
@@ -136,7 +145,12 @@ const PhysioRegisteration1 = (props) => {
             "First " + validation.checkNameValidation(data.first_name).error,
         },
       });
-    } else {
+    } else if (validation.checkNameValidation(data.last_name).error) {
+      dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
+    } else if (validation.checkMobNoValidation(data.mobile_no).error) {
+      dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
+    }
+    else {
       props.next();
     }
     //   else if (validation.checkNameValidation(data.middle_name).error) {
@@ -277,7 +291,7 @@ const PhysioRegisteration1 = (props) => {
                 placeholder="Enter Physio Mobile Number"
                 required={true}
                 onChange={handleChange}
-                //  onBlur={handleBlur}
+                onBlur={handleBlur}
                 defaultValue={state.physioRegisterReducer.mobile_no}
               />
             </Col>

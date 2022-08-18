@@ -113,18 +113,18 @@ const PhysioRegisteration2 = (props) => {
     }
 
     const handleSubmit = (value) => {
-        // let data = state.physioRegisterReducer;
+        let data = state.physioRegisterReducer;
 
-        // if (validation.checkEmailValidation(data.email).error) {
-        //     dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
-        //     window.scrollTo({
-        //         top: 0,
-        //         behavior: 'smooth'
-        //     });
-        //         setTimeout(() => {
-        //         dispatch({ type: VALIDATION, payload: { error: "" } });
-        //     }, 10000);
-        // }
+        if (validation.checkEmailValidation(data.email).error) {
+            dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+                setTimeout(() => {
+                dispatch({ type: VALIDATION, payload: { error: "" } });
+            }, 10000);
+        }
         // else  if (validation.checkAddrValidation(data.Address_1).error) {
         //     // dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.email).error } });
         //     // window.scrollTo({
@@ -148,7 +148,8 @@ const PhysioRegisteration2 = (props) => {
         //        //     dispatch({ type: VALIDATION, payload: { error: "" } });
         //        // }, 10000);
         //        {/* aswin 10/14/2021 stop*/}
-        // }else if (validation.checkLandNoValidation(data.regd_no_1).error || validation.checkLandNoValidation(data.regd_no_2).error ) {
+        // }
+        // else if (validation.checkLandNoValidation(data.regd_no_1).error || validation.checkLandNoValidation(data.regd_no_2).error ) {
         //     if(validation.checkLandNoValidation(data.regd_no_1).error){
         //         dispatch({ type: VALIDATION, payload: { error: "Regd_No " + validation.checkLandNoValidation(data.regd_no_1).error } });
         //     }else if(validation.checkLandNoValidation(data.regd_no_2).error){
@@ -163,15 +164,15 @@ const PhysioRegisteration2 = (props) => {
         //         dispatch({ type: VALIDATION, payload: { error: "Expertise " + validation.checkNameValidation(data.expertise_3).error.slice(5) } });
         //     }
         // }
-        // else {
-        //     const checkError = state.Validation.error;
-        //     if (checkError) {
-        //         alert("please check all the fields")
-        //     }
-        //     else {
-        //         props.next();
-        //     }
-        // }
+        else {
+            const checkError = state.Validation.error;
+            if (checkError) {
+                alert("please check all the fields")
+            }
+            else {
+                props.next();
+            }
+        }
         props.next();
     }
     const handleReset = () => {
@@ -258,7 +259,7 @@ const PhysioRegisteration2 = (props) => {
                                 placeholder="Address 1"
                                 className="input-field"
                                 onChange={handleChange}
-                               // onBlur={handleBlur}
+                                onBlur={handleBlur}
                                required={true}
                                 defaultValue={state.physioRegisterReducer.Address_1}
                             />

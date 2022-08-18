@@ -116,8 +116,13 @@ const Register2 = (props) => {
     }
 
     const onFinish = (e) => {
-        props.next()
-        // let data = state.BasicDetails;
+        let data = state.BasicDetails;
+        if (validation.checkEmailValidation(data.Email).error) {
+            dispatch({ type: VALIDATION, payload: { error: validation.checkEmailValidation(data.Email).error } });
+        } else{
+            props.next()
+        }
+        
         // console.log('errror in addrssess')
         // console.log(validation.checkAddrValidation(data.Address))
         // if (validation.checkEmailValidation(data.Email).error) {

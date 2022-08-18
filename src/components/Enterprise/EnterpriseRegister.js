@@ -126,7 +126,7 @@ const EnterpriseRegister = () => {
             // let verifyEmail = apiValidation.checkEmailValid({type:"email",value:e.target.value});
             // if(!verifyEmail) dispatch({type:VALIDATION,payload:{error:"Email is already registered."}});
         }
-        else if (name === 'name') {
+        else if (name === 'org_name') {
             if (value) {
                 if (value.length < 4) {
                     error["error"] = "Name must contain atleast 4 characters.";
@@ -255,7 +255,7 @@ const EnterpriseRegister = () => {
                         <Col md={24} lg={12} sm={24} xs={24}>
                             {/* {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)} */}
                             <FormInput name="org_name" label={<span style={{ fontSize: '14px', fontWeight: '600' }}>{'Name'}</span>}
-                                value={state.clinicReg.name}
+                                value={state.clinicReg.org_name}
                                 placeholder="Name"
                                 onChange={handleChange}
                                 className="input-field"
