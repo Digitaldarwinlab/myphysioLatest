@@ -786,7 +786,8 @@ class AI extends Component {
         console.log("FINALLL!!!!");
         try {
           data = darwin.getAssesmentData();
-          console.log("front", Object.values(data).length > 0);
+          console.log("AROM DATA", data);
+          console.log("AROM DATA IS UNDEFINED", data["AROM"]);
           if (this.state.selectedOrientation == 1) {
             if (data !== undefined && data !== null) {
               if (data["AROM"]) {
@@ -817,7 +818,7 @@ class AI extends Component {
         if (!this.state.start_stop) {
           this.setState({ disabledLateralDrop: true })
           console.log({
-            name: "Left",
+            name: "AROM",
             primaryKeypoint: 0,
             angles: [...this.state.newJointCheckedLeft, Number(...this.state.LatLeftPriValue)],
             dir: 1,
@@ -832,7 +833,7 @@ class AI extends Component {
           })
 
           window.darwin.setExcersiseParams({
-            name: "Left",
+            name: "AROM",
             primaryKeypoint: 0,
             angles: [...this.state.newJointCheckedLeft, Number(...this.state.LatLeftPriValue)],
             dir: 1,
@@ -850,7 +851,8 @@ class AI extends Component {
           let data
           try {
             data = darwin.getAssesmentData();
-            window.darwin.stop();
+            console.log("AROM DATA", data);
+            console.log("AROM DATA IS UNDEFINED", data["AROM"]);
             if (this.state.selectedOrientation == 2) {
               if (data !== undefined && data !== null) {
                 if (data["AROM"]) {
@@ -879,7 +881,7 @@ class AI extends Component {
         if (!this.state.start_stop) {
           this.setState({ disabledLateralDrop: true })
           console.log({
-            name: "Right",
+            name: "AROM",
             primaryKeypoint: 0,
             angles: [...this.state.newJointCheckedRight, Number(...this.state.LatRightPriValue)],
             dir: 1,
@@ -894,7 +896,7 @@ class AI extends Component {
           })
 
           window.darwin.setExcersiseParams({
-            name: "Right",
+            name: "AROM",
             primaryKeypoint: 0,
             angles: [...this.state.newJointCheckedRight, Number(...this.state.LatRightPriValue)],
             dir: 1,
@@ -912,7 +914,8 @@ class AI extends Component {
           let data
           try {
             data = darwin.getAssesmentData();
-            window.darwin.stop();
+            console.log("AROM DATA", data);
+            console.log("AROM DATA IS UNDEFINED", data["AROM"]);
             console.log("right side ", data)
             if (this.state.selectedOrientation == 3) {
               if (data !== undefined && data !== null) {
