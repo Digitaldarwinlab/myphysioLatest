@@ -55,7 +55,7 @@ const EpisodeVisitDetails = () => {
         }, 10000);
         return false;
       }
-      if (res[0].end_date.length === 0) {
+      if (res[0]&&res[0].end_date&&res[0].end_date.length === 0) {
         return true;
       }
       // notification.warning({

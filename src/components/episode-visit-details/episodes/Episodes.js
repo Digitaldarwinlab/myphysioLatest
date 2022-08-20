@@ -235,7 +235,7 @@ const Episodes = ({ handleClick2 }) => {
                                     <p className=" p"> <b>Episode </b> {index + 1} :{episode.pp_ed_id} {episode.PP_Patient_Details.Patient_name}</p>
                                     <p className="p"><b>Episode Type </b> {episode.primary_complaint}</p>
                                   
-                                  <p className="p"><b>Refering Doctor Names  :</b> {JSON.parse(episode.treating_doc_details).Ref_Dr_Name}</p>
+                                  <p className="p"><b>Refering Doctor Names  :</b> {episode.treating_doc_details}</p>
                                    <p className="p"><b> Start Date </b>: {episode.start_date}</p>
                                     <p className="p"><b> Operative Types:</b> {episode.Operative_Types}</p>
                                     { episode.end_date ? <p><b>End Date : </b>  {episode.end_date} </p> : null}
