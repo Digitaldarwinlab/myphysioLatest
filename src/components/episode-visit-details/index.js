@@ -55,7 +55,7 @@ const EpisodeVisitDetails = () => {
         }, 10000);
         return false;
       }
-      if (res[0]&&res[0].end_date&&res[0].end_date.length === 0) {
+      if (res[0].end_date.length === 0) {
         return true;
       }
       // notification.warning({
@@ -141,6 +141,8 @@ const EpisodeVisitDetails = () => {
   const userInfo = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     localStorage.setItem("care-plan-cart", JSON.stringify([]));
+    localStorage.removeItem("AI_Data");
+    localStorage.removeItem("Posture_Data");
     async function getPatients() {
       let data = await getPatientList();
       if (state.patient_code) {

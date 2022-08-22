@@ -554,7 +554,7 @@ class PatientAI extends Component {
             : 20,
           primaryAngles: temp[i],
           ROMs: [this.state.selJoints[i], this.state.selJoints[i]],
-          hold: this.props.history.location.state.exercises[i].hold == 0 ? "min" : "max",
+          hold: this.props.history.location.state.exercises[i].hold == 0 ? "min" : this.props.history.location.state.exercises[i].hold == 1?'min':'none',
           angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           totalReps: parseInt(
             this.props.history.location.state.exercises[i].Rep["rep_count"]

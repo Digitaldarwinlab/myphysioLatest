@@ -751,8 +751,10 @@ const Assesment1 = ({ back, next }) => {
   // },
   // ]
 
-  const setAnteriorData = () => {
-    let data = state.FirstAssesment.Anterior_AI_Data;
+  const setAnteriorData = (data) => {
+    console.log("anterior ",data)
+    if(Object.keys(data).length>0){
+       // let data = state.FirstAssesment.Anterior_AI_Data;
     setRomVisibility("contents");
     let TEMP = {};
     TEMP["AROM"] = data[Object.keys(data)[0]];
@@ -771,10 +773,13 @@ const Assesment1 = ({ back, next }) => {
     if (tempData.length > 6) {
       setTableData2(tempData.slice(6, tempData.length));
     }
+    }
   };
 
-  const setLeftLateralData = () => {
-    let data = state.FirstAssesment.LeftLateral_AI_Data;
+  const setLeftLateralData = (data) => {
+    console.log("left ",data)
+    if(Object.keys(data).length>0){
+  //  let data = state.FirstAssesment.LeftLateral_AI_Data;
     setRomVisibilityM("inline");
     setRomVisibilityL("inline");
     let TEMP = {};
@@ -791,26 +796,30 @@ const Assesment1 = ({ back, next }) => {
       }
     );
     setLatL(tempData);
+    }
   };
 
-  const setRightLateralData = () => {
-    setRomVisibilityM("inline");
-    setRomVisibilityR("inline");
-    let data = state.FirstAssesment.RightLateral_AI_Data;
-    let TEMP = {};
-    TEMP["AROM"] = data[Object.keys(data)[0]];
-    console.log(TEMP);
-    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-      (item, index) => {
-        let t = {};
-        t["key"] = index;
-        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
-        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
-        return t;
-      }
-    );
-    setLatR(tempData);
+  const setRightLateralData = (data) => {
+    console.log("right ",data)
+    if(Object.keys(data).length>0){
+      setRomVisibilityM("inline");
+      setRomVisibilityR("inline");
+     // let data = state.FirstAssesment.RightLateral_AI_Data;
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
+        }
+      );
+      setLatR(tempData);
+    }
   };
   function checkDataReceived() {
     var romData = localStorage.getItem("AI_Data");
@@ -819,40 +828,41 @@ const Assesment1 = ({ back, next }) => {
       console.log("Arom data")
       var romdatajson = JSON.parse(romData);
       console.log(romdatajson.Anterior);
-      if (romdatajson.Anterior != undefined) {
-        state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'Anterior_AI_Data',
-        //     value:romdatajson.Anterior,
-        //   },
-        // });
-        setAnteriorData();
+      if (romdatajson.Anterior != undefined && romdatajson.Anterior !=='' &&Object.keys(romdatajson.Anterior)[0]!='0') {
+      //  state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key:'Anterior_AI_Data',
+            value:romdatajson.Anterior,
+          },
+        });
+        setAnteriorData(romdatajson.Anterior);
       }
-      if (romdatajson.leftLateral != undefined) {
-        state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'LeftLateral_AI_Data',
-        //     value:romdatajson.leftLateral,
-        //   },
-        // });
-        setLeftLateralData();
+      if (romdatajson.leftLateral != undefined && romdatajson.leftLateral !=='' &&Object.keys(romdatajson.leftLateral)[0]!='0') {
+        console.log()
+       // state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key:'LeftLateral_AI_Data',
+            value:romdatajson.leftLateral,
+          },
+        });
+        setLeftLateralData(romdatajson.leftLateral);
       }
-      if (romdatajson.rightLateral != undefined) {
-        state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'RightLateral_AI_Data',
-        //     value:romdatajson.rightLateral,
-        //   },
-        // });
-        setRightLateralData();
+      if (romdatajson.rightLateral != undefined && romdatajson.rightLateral !=='' &&Object.keys(romdatajson.rightLateral)[0]!='0') {
+       // state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key:'RightLateral_AI_Data',
+            value:romdatajson.rightLateral,
+          },
+        });
+        setRightLateralData(romdatajson.rightLateral);
       }
-      localStorage.setItem("AI_Data", "");
+      localStorage.removeItem("AI_Data");
     }
     if (postureData != "" && postureData != null) {
       console.log("Posture data")
@@ -882,7 +892,7 @@ const Assesment1 = ({ back, next }) => {
         },
       });
       setPosture(true);
-      localStorage.setItem("Posture_Data", "");
+      localStorage.removeItem("Posture_Data");
     } else {
       console.log(postureData, romData);
     }
@@ -2045,7 +2055,7 @@ const Assesment1 = ({ back, next }) => {
                                         <h2>Degree of Deviation</h2>
                                       </Col>
             </Row>
-            <Row gutter={[10, 10]} className="px-4 py-2">
+            {Object.keys(state.FirstAssesment.posture["Posterial_view"]).length>0&&<Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Anterior" bordered>
                   <Descriptions.Item label="Nasal Bridge">
@@ -2099,8 +2109,8 @@ const Assesment1 = ({ back, next }) => {
                 </Descriptions>
               </Col>
 
-            </Row>
-            <Row gutter={[10, 10]} className="px-4 py-2">
+            </Row>}
+            {Object.keys(state.FirstAssesment.posture["lateral_view"]).length>0&& <Row gutter={[10, 10]} className="px-4 py-2">
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions title="Lateral" bordered>
                   <Descriptions.Item label="Head deviation">
@@ -2146,7 +2156,7 @@ const Assesment1 = ({ back, next }) => {
                 </Descriptions>
               </Col>
 
-            </Row>
+            </Row>}
           </div>
         )}
         {state.FirstAssesment.pain_state && (

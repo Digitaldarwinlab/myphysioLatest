@@ -187,18 +187,21 @@ clientRTM.on("MessageFromPeer", async function (message, peerId) {
   else if (message.text == "getAnterior") {
     var peerID = $("#form-peerId").val();
     var data=darwin.getAssesmentData();
+    console.log("from main ",data)
     AI_Data.Anterior=data
   }
 
   else if (message.text == "getLeftLateral") {
     var peerID = $("#form-peerId").val();
     var data=darwin.getAssesmentData();
+    console.log("from main ",data)
     AI_Data.leftLateral=data
   }
 
   else if (message.text == "getRightLateral") {
     var peerID = $("#form-peerId").val();
     var data=darwin.getAssesmentData();
+    console.log("from main ",data)
     AI_Data.rightLateral=data
   }
 
