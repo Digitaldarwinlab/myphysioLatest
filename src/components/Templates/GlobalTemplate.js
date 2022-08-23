@@ -120,7 +120,88 @@ const GlobalTemplate = () => {
       });
     }
   }
-
+  const ModalPopUp = ({ ex }) => {
+    const [stateVisible ,setStateVisible] = useState(false)
+    return (
+      <>
+      <Card
+        className="px-1 py-1 ant-card-style"
+        // hoverable
+        title={
+          <Row justify="space-between">
+            <Col span={20}></Col>
+            <Col span={4}>
+              <Checkbox
+                checked={
+                  loadArr
+                    .map((item) => item.ex_em_id)
+                    .indexOf(ex.ex_em_id) !== -1
+                    ? true
+                    : false
+                }
+                onClick={() => UpdateEx(ex)}
+              />
+            </Col>
+          </Row>
+        }
+        cover={
+          ex.name == "YouTube" ? <ReactPlayer
+            controls={true}
+            className="react-player"
+            url={ex.youtube_link}
+            width="100%"
+            height={180}
+          /> :<>
+           <img
+            onClick={() => {
+              setStateVisible(true)
+              //console.log(`${process.env.REACT_APP_EXERCISE_URL}/${ex.video_url}`)
+            }}
+            alt="example"
+            className="px-2 py-3 w-100"
+            style={{ height: "180px", cursor: "pointer" }}
+            src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.image_url}`}
+          />
+          <Modal
+        footer={null}
+        visible={stateVisible}
+        title="Video"
+        // onOk={onOk}
+        onCancel={() => setStateVisible(false)}
+        centered
+      >
+        {ex.video_url ? (
+          <video controls  id='template_video_modal' autoplay="autoplay" loop width="100%">
+            <source
+              id="template_video_modal_video_source"
+              src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.video_url}`}
+              type="video/mp4"
+            />
+          </video>
+        ) : (
+          <p>No Video Present...</p>
+        )}
+      </Modal>
+          </>
+        }
+      >
+        {console.log("temp array ", ex)}
+        <Row>
+          <Col span={24}>
+            <Card.Meta title={<p>{ex.name}</p>} />
+          </Col>
+          <Col span={12}>
+            <b>Sets : {ex["Rep"].set} </b>{" "}
+          </Col>
+          <Col span={12}>
+            <b>Reps : {ex["Rep"].rep_count} </b>
+          </Col>
+        </Row>
+      </Card>
+      </>
+    )
+    
+  }
   useEffect(async () => {
     const res = await getTemplates();
     console.log("templates ", res);
@@ -247,58 +328,7 @@ const GlobalTemplate = () => {
                 {tempEx.map((ex) => (
                   <>
                     <Col lg={8} md={12} sm={12} xs={24}>
-                      <Card
-                        className="px-1 py-1 ant-card-style"
-                        // hoverable
-                        title={
-                          <Row justify="space-between">
-                            <Col span={20}></Col>
-                            <Col span={4}>
-                              <Checkbox
-                                checked={
-                                  loadArr
-                                    .map((item) => item.ex_em_id)
-                                    .indexOf(ex.ex_em_id) !== -1
-                                    ? true
-                                    : false
-                                }
-                                onClick={() => UpdateEx(ex)}
-                              />
-                            </Col>
-                          </Row>
-                        }
-                        cover={
-                          ex.name == "YouTube" ? <ReactPlayer
-                            controls={true}
-                            className="react-player"
-                            url={ex.youtube_link}
-                            width="100%"
-                            height={180}
-                          /> : <img
-                          onClick={()=>{
-                            setVisible(true)
-                            setVideo(ex.video_url)
-                          }}
-                            alt="example"
-                            className="px-2 py-3 w-100"
-                            style={{ height: "180px", cursor: "pointer" }}
-                            src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.image_url}`}
-                          />
-                        }
-                      >
-                        {console.log("temp array ", ex)}
-                        <Row>
-                          <Col span={24}>
-                            <Card.Meta title={<p>{ex.name}</p>} />
-                          </Col>
-                          <Col span={12}>
-                            <b>Sets : {ex["Rep"].set} </b>{" "}
-                          </Col>
-                          <Col span={12}>
-                            <b>Reps : {ex["Rep"].rep_count} </b>
-                          </Col>
-                        </Row>
-                      </Card>
+                      <ModalPopUp ex={ex} />
                     </Col>
                   </>
                 ))}
@@ -361,25 +391,6 @@ const GlobalTemplate = () => {
       {/* <Modal title="Load exercises" visible={visible} onOk={handleOk} onCancel={()=>setVisible(false)}>
         <p>Exercises will be added to cart</p>
       </Modal> */}
-      <Modal
-        footer={null}
-        visible={visible}
-        title="Video"
-        // onOk={onOk}
-         onCancel={()=>  setVisible(false)}
-        centered
-      >
-        {video ? (
-          <video controls autoplay="autoplay" loop width="100%">
-            <source
-              src={`${process.env.REACT_APP_EXERCISE_URL}/${video}`}
-              type="video/mp4"
-            />
-          </video>
-        ) : (
-          <p>No Video Present...</p>
-        )}
-      </Modal>
     </>
     // </div>
   );
