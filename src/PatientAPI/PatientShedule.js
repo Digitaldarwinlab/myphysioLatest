@@ -35,10 +35,11 @@ export const GetPatientCarePlan = async (episodeId, date) => {
   }
 };
 
-export const updatePainMeter = async (id, pain) => {
+export const updatePainMeter = async (id, pain,time) => {
   let body = {
     id: id,
     pain_meter: pain,
+    time_slot:time
   };
   console.log("pain meter ", body);
   const headers = {

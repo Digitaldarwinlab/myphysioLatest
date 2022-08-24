@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import LineGraph from './LineGraph';
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
+import { TbReportMedical } from "react-icons/tb";
 import { Button, Modal } from "antd";
 import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardApi";
 import {
@@ -752,32 +753,32 @@ const Dashboard = (props) => {
           });
           pain_option.push({
             x: new Date(val),
-            y: 0,
+            y: 1,
           });
 
-          // let a = await getData(val, "-", exDate);
-          //  console.log(a)
         });
         summaryDates.forEach(async (val) => {
           // console.log(e['exercise'],val)
           if (summaryDates.indexOf(val) !== -1) {
             if (e[0] === val) {
               if (e["1"]["pain_meter"].length > 0) {
-                const sum = e["1"]["pain_meter"].reduce((a, b) => a + b, 0);
+                const sum = e["1"]["pain_meter"].reduce((a, b) => parseInt(a) + parseInt(b), 0);
+                // console.log(sum)
                 const avg = sum / e["1"]["pain_meter"].length || 0;
+                // console.log(avg)
                 pain_meter.push({
-                  value: avg,
+                  value: avg.toFixed(),
                   date: val,
                   className:
-                    parseInt(avg) < 3
+                    parseInt(avg.toFixed()) < 4 
                       ? "completed"
-                      : parseInt(avg) === 3
+                      : parseInt(avg.toFixed()) > 4 || parseInt(avg.toFixed()) <  7 || parseInt(avg.toFixed()) === 4
                       ? "remaining"
                       : "pending",
                 });
                 pain_option.push({
                   x: new Date(val),
-                  y: avg,
+                  y: parseInt(avg.toFixed()),
                 });
               } else {
                 pain_meter.push({
@@ -787,7 +788,7 @@ const Dashboard = (props) => {
                 });
                 pain_option.push({
                   x: new Date(val),
-                  y: 0,
+                  y: 1,
                 });
               }
             }
@@ -799,7 +800,7 @@ const Dashboard = (props) => {
         });
         let paingraph = await uniqBy(pain_option, JSON.stringify)
         paingraph = await paingraph.sort(function (a, b) {
-          return new Date(a.date) - new Date(b.date);
+          return new Date(a.x) - new Date(b.x);
         });
         console.log(paingraph);
         setOption(paingraph)
@@ -921,9 +922,10 @@ const Dashboard = (props) => {
                 display: "flex",
                 justifyContent: "end",
                 marginBottom: "10px",
+                marginRight:'20px'
               }}
             >
-              <Button type="primary" onClick={showModal}>Pain Scale Report</Button>
+              <Button type="primary" onClick={showModal}>PainScale<TbReportMedical/></Button>
             </div>
             }
           </div>
@@ -1007,8 +1009,8 @@ const Dashboard = (props) => {
                       ></th>
                       <td>
                         Pain Scale
-                        <hr />
-                        <span style={{ fontSize: "12px" }}>(Out of 5)</span>
+                        <br />
+                        <span style={{ fontSize: "12px" }}>(Out of 10)</span>
                       </td>
                       {summaryPainMeter !== undefined && (
                         <>
@@ -1996,18 +1998,18 @@ const Dashboard = (props) => {
                                       <span
                                         className={
                                           parseInt(
-                                            exercise["date"]["exercise_alloted"]
+                                            exercise["value"]["exercise_alloted"]
                                           ) ===
                                           parseInt(
-                                            exercise["date"][
+                                            exercise["value"][
                                               "exercise_completed"
                                             ]
                                           )
                                             ? "completed"
-                                            : exercise["date"][
+                                            : exercise["value"][
                                                 "exercise_alloted"
                                               ] ===
-                                              exercise["date"][
+                                              exercise["value"][
                                                 "exercise_completed"
                                               ]
                                             ? "completed"
