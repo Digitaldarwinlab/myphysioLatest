@@ -5,15 +5,29 @@
   background-color: #2d7ecb;
   color: white;
 }
-
+.canvasjs-chart-credit{
+  display: none;
+}
+.graphBox{
+  padding: 10px;
+}
+.canvasjs-chart-toolbar button{
+  background-color: #fff !important;
+}
+.canvasjs-chart-toolbar button:hover{
+  background-color: #2d7ecb !important;
+}
 .table td,
 .table th {
   padding:1rem 0.75rem !important;
-  vertical-align: top;
+  vertical-align: middle !important;
   border-top: 1px solid #dee2e6;
   border-left: 2px solid #dee2e6;
   border-right: 2px solid #dee2e6;
   border-bottom: 2px solid #dee2e6;
+}
+.table tbody th {
+  vertical-align: top !important;
 }
 .icon-btn2 {
   cursor: pointer;
@@ -79,6 +93,11 @@
     width: 100% !important;
   }
 }
+@media only screen and (max-width: 650px) {
+  .graphBox{
+    padding: 0px;
+  }
+}
 .completed {
   padding: 10px 15px;
   background-color: #7ccb2d;
@@ -87,7 +106,7 @@
 }
 .pending{
   padding: 10px 15px;
-  background-color: #c8cb2d;
+  background-color: #dd5029;
   color: white;
   border-radius: 50%;
 }

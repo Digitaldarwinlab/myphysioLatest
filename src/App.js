@@ -215,6 +215,7 @@ const App = () => {
 						<PublicRoute exact path="/employee" component={EmployeeLogin} />
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
+
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
 							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />

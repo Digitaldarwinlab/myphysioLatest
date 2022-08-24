@@ -1,8 +1,9 @@
-import { Row, Col, Modal, Slider, Result } from "antd";
+import { Row, Col, Modal, Slider, Result, Alert } from "antd";
 import VideoScreen from "../shared/VideScreen";
 import BackButton from "../shared/BackButton";
 import { FaMedal, FaStopwatch } from "react-icons/fa";
 import AchievedResult from "../shared/AchievedResult";
+import PainMeter from "../PainMeter/PainMeter";
 import { Button } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -124,6 +125,7 @@ class PatientAI extends Component {
       video: "",
       visible: false,
       currentexercise: false,
+      description:'',
       rep_count: 0, //repition
       currenRep: 0,
       currenset: 0,
@@ -159,10 +161,10 @@ class PatientAI extends Component {
   }
 
   handleChange1 = async (key, value, id = 0) => {
-    this.props.FirstAssesment("PainMeter", value + 1);
-    this.props.FirstAssesment("pain", value + 1);
-    this.setState({ pain: value + 1 });
-    console.log("pain iss" + (value + 1));
+    this.props.FirstAssesment("PainMeter", value);
+    this.props.FirstAssesment("pain", value);
+    this.setState({ pain: value });
+    console.log("pain iss" + value);
   };
 
   updateCarePlan = async (
@@ -183,21 +185,28 @@ class PatientAI extends Component {
     );
   };
   // Pain Meter
-  PainMeter = () => {
+  Painmeter = () => {
     return (
       <div
         className="painmeter"
-        style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }}
+        style={{
+          width: "100%",
+          height: "fit-content",
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginBottom: "20px",
+        }}
       >
-        <Slider
+        {/* <Slider
           marks={marks1}
           min={0}
           max={5}
           step={2}
-          onChange={(value) => this.handleChange1("PainMeter", value)}
-          defaultValue={this.props.FirstAssesment.PainMeter}
+          onChange={(value) => setPain(value)}
+          defaultValue={0}
           style={{ width: "100%" }}
-        />
+        /> */}
+        <PainMeter handleChange={this.handleChange1} />
       </div>
     );
   };
@@ -269,6 +278,13 @@ class PatientAI extends Component {
           console.log("current getData setCount ", setCount);
           console.log("current getData id ", id);
           console.log("current getData counterCount ", counterCount);
+          if(!this.props.history.location.state.exercises[counterCount].hold){
+            console.log("current this exercise don't have hold")
+            this.setState({description:"This is a timer based exercise. Please follow the video"})
+          }else{
+            console.log("current this exercise have hold")
+            this.setState({description:""})
+          }
           //   console.log('current getData exercise id ',this.props.history.location.state.exercises[counterCount].ex_em_id)
           //  console.log('current getData exercise name ',this.props.history.location.state.exercises[counterCount].name)
           //   console.log('current getData exercise time ',this.props.history.location.state.exercises[counterCount].ChoosenTime)
@@ -311,8 +327,15 @@ class PatientAI extends Component {
               this.props.history.location.state.exercises[counterCount]
                 .video_url
             );
-            if (this.props.history.location.state.exercises[counterCount].name == "YouTube") {
-              this.setState({ video: this.props.history.location.state.exercises[counterCount].video_url })
+            if (
+              this.props.history.location.state.exercises[counterCount].name ==
+              "YouTube"
+            ) {
+              this.setState({
+                video:
+                  this.props.history.location.state.exercises[counterCount]
+                    .video_url,
+              });
             } else {
               var video = document.getElementById("exercise_video");
               var source = document.getElementById("video_source");
@@ -361,7 +384,11 @@ class PatientAI extends Component {
           playsInline
           style={{ display: "none" }}
         ></video>
-        <canvas id="output" className="output" style={{ height: "450px", width: '100%' }} />
+        <canvas
+          id="output"
+          className="output"
+          style={{ height: "450px", width: "100%" }}
+        />
         <canvas id="jcanvas" />
       </Col>
       //   <>
@@ -389,7 +416,8 @@ class PatientAI extends Component {
     );
     await updatePainMeter(
       this.props.history.location.state.exercises[0].pp_cp_id,
-      this.props.FirstAssesmentReducer.PainMeter
+      this.props.FirstAssesmentReducer.PainMeter,
+      this.props.history.location.state.exercises[counterCount - 1].ChoosenTime
     );
     window.darwin.stop();
     const video = document.getElementById("video");
@@ -455,7 +483,9 @@ class PatientAI extends Component {
       this.setState({
         currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name],
       });
-
+      if(!this.props.history.location.state.exercises[0].hold){
+        this.setState({description:"This is a timer based exercise. Please follow the video"})
+      }
       if (exercise && exercise.exercise) {
         console.log("QQQQQQQQQQ", exercise.exercise.Rom.joint);
         let { name, video_url, Rep, Rom } = exercise.exercise;
@@ -620,107 +650,131 @@ class PatientAI extends Component {
   render() {
     return (
       <div className="pat_main_div">
-        {this.props.patCurrentEpisode.pp_ed_id != 0 ? <>
-          <Row>
-            <Col lg={8} md={8} sm={8} xs={8}>
-              <h3 style={{ fontSize: '20px' }} className="fw-bold">
-                <i className="fas fa-arrow-left"
-                  style={{ cursor: "pointer" }}
-                  title="Go Back"
-                  onClick={() => {
-                    if (window.confirm("This will cancel your current therapy and take you back to the schedule page. Are you sure you want to abandon and go back?")) {
-                      this.props.history.push("/patient/schedule");
-                      window.location.reload();
-                    }
-                  }} role="button"></i>
-              </h3>
-            </Col>
-            <Col lg={8} md={8} sm={12} xs={12}>
-              <p className="fw-bold p">
-                Exercise Name: {this.state.exerciseName}
-              </p>
-            </Col>
-            <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
-              <p className="fw-bold p">
-                Patient Name: {userInfo.info.first_name + " "}{" "}
-                {userInfo.info.last_name}
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            {this.AiModelProps()}
+        {this.props.patCurrentEpisode.pp_ed_id != 0 ? (
+          <>
+            <Row>
+              <Col lg={8} md={8} sm={8} xs={8}>
+                <h3 style={{ fontSize: "20px" }} className="fw-bold">
+                  <i
+                    className="fas fa-arrow-left"
+                    style={{ cursor: "pointer" }}
+                    title="Go Back"
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "This will cancel your current therapy and take you back to the schedule page. Are you sure you want to abandon and go back?"
+                        )
+                      ) {
+                        this.props.history.push("/patient/schedule");
+                        window.location.reload();
+                      }
+                    }}
+                    role="button"
+                  ></i>
+                </h3>
+              </Col>
+              <Col lg={8} md={8} sm={12} xs={12}>
+                <p className="fw-bold p">
+                  Exercise Name: {this.state.exerciseName}
+                </p>
+              </Col>
+              <Col className="ex_detail_name" lg={8} md={8} sm={12} xs={12}>
+                <p className="fw-bold p">
+                  Patient Name: {userInfo.info.first_name + " "}{" "}
+                  {userInfo.info.last_name}
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              {this.AiModelProps()}
 
-            <Col lg={8} md={8} sm={24} xs={24}>
-              <Row className="pat_det_div">
+              <Col lg={8} md={8} sm={24} xs={24}>
+                <Row className="pat_det_div">
                 <Col lg={24} md={24} sm={24} xs={24}>
-                  {this.state.exerciseName == "YouTube" ? (
-                    <ReactPlayer
-                      playing={true}
-                      loop={true}
-                      controls={true}
-                      className="react-player"
-                      url={this.state.video}
-                      width="100%"
-                      height="auto"
-                    />
-                  ) : (
-                    <video
-                      autoPlay
-                      controls
-                      loop
-                      id="exercise_video"
-                      style={{ width: "97%", height: "100%" }}
-                      className="border"
-                    >
-                      <source
-                        id="video_source"
-                        src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
-                        type="video/mp4"
-                      />
-                    </video>
-                  )}
+                <p><b>{this.state.description.length>0&& <Alert message={this.state.description} type="info" showIcon />}</b></p>
                 </Col>
-              </Row>
-            </Col>
-            <Modal
-              visible={this.state.visible}
-              footer={null}
-              closable={false}
-              keyboard={false}
-            >
-              <h3 className="fw-bold text-center">Congratulation</h3>
-              <p className="p text-center mt-2">
-                You have successfully completed the session.
-              </p>
-              <h6 className="p text-center mt-2 mb-1">
-                What is your Pain Level after doing the exercises?
-              </h6>
-              {this.PainMeter()}
+                  <Col lg={24} md={24} sm={24} xs={24}>
+                    {this.state.exerciseName == "YouTube" ? (
+                      <ReactPlayer
+                        playing={true}
+                        loop={true}
+                        controls={true}
+                        className="react-player"
+                        url={this.state.video}
+                        width="100%"
+                        height="auto"
+                      />
+                    ) : (
+                      <video
+                        autoPlay
+                        controls
+                        loop
+                        id="exercise_video"
+                        style={{ width: "97%", height: "100%" }}
+                        className="border"
+                      >
+                        <source
+                          id="video_source"
+                          src={`${process.env.REACT_APP_EXERCISE_URL}/${this.state.video}`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    )}
+                  </Col>
+                </Row>
+              </Col>
+              <Modal
+                visible={this.state.visible}
+                footer={null}
+                closable={false}
+                keyboard={false}
+              >
+                <h3 className="fw-bold text-center">Congratulation</h3>
+                <p className="p text-center mt-2">
+                  You have successfully completed the session.
+                </p>
+                <h6 className="p text-center mt-2 mb-1">
+                  What is your Pain Level after doing the exercises?
+                </h6>
+                {this.Painmeter()}
 
-              {/* <div style={{ marginTop: 20 }}>
+                {/* <div style={{ marginTop: 20 }}>
              <h4 className="fw-bold">Notes-</h4>
              <p className="text-justify p"></p>
            </div> */}
-              <div className="text-end">
-                <Button className="okay" onClick={this.finish}>
-                  Okay
-                </Button>
-              </div>
+                <div className="text-end">
+                  <Button className="okay" onClick={this.finish}>
+                    Okay
+                  </Button>
+                </div>
+              </Modal>
+            </Row>
+          </>
+        ) : (
+          <div>
+            <Modal
+              className="painmodel"
+              headers={false}
+              footer={false}
+              title="Basic Modal"
+              visible={true}
+            >
+              <Result
+                status="warning"
+                title="No exercises found. Please select an exercise"
+                extra={
+                  <Button
+                    onClick={() => this.props.history.push("/patient/schedule")}
+                    type="primary"
+                    key="console"
+                  >
+                    Go To Schedule
+                  </Button>
+                }
+              />
             </Modal>
-          </Row>
-        </> : <div>
-          <Modal className="painmodel" headers={false} footer={false} title="Basic Modal" visible={true}>
-            <Result
-              status="warning"
-              title="No exercises found. Please select an exercise"
-              extra={
-                <Button onClick={() => this.props.history.push("/patient/schedule")} type="primary" key="console">
-                  Go To Schedule
-                </Button>
-              }
-            />
-          </Modal>
-        </div>}
+          </div>
+        )}
       </div>
     );
   }
@@ -738,7 +792,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 const mapStateToProps = (state) => ({
   FirstAssesmentReducer: state.FirstAssesment,
-  patCurrentEpisode: state.patCurrentEpisode
+  patCurrentEpisode: state.patCurrentEpisode,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientAI);
