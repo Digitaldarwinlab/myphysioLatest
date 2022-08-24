@@ -1312,6 +1312,9 @@ const AssessmentList = ({ assesmentClick }) => {
                                       <Col md={24} lg={24} sm={24} xs={24}>
                                         <h1>Degree of Deviation</h1>
                                       </Col>
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h2>Standing</h2>
+                                      </Col>
                                               {Object.keys(data.posture["Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
                                           {
@@ -1454,6 +1457,172 @@ const AssessmentList = ({ assesmentClick }) => {
                                           Object.keys(data.posture.lateral_view.checkbox).map(ob=>(
                                             <>
                                             {data.posture.lateral_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                          ))
+                                        }
+                                      </Descriptions>
+                                    </Row>
+                                  )}
+                                   {data.posture["sitting_Posterial_view"] && (
+                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <Descriptions title="">
+                                          <Descriptions.Item label="Notes ">
+                                            {Object.keys(data.posture).length >
+                                              0 && data.posture["Notes"]}
+                                          </Descriptions.Item>
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h2>Sitting</h2>
+                                      </Col>
+                                              {Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
+                                        <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                          {
+                                            <Descriptions.Item label="Nasal Bridge">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[0]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Shoulder levels(Acrimion)">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[1]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label=" Umbilicus">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[2]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Knees">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[3]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Ankle/Foot">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[4]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Line of Gravity">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[5]}
+                                            </Descriptions.Item>
+                                          }
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={6} sm={24} xs={24}>
+                                        <img
+                                          src={
+                                            data.posture["sitting_Posterial_view"]
+                                              .posterial_view_image
+                                          }
+                                        />
+                                      </Col>
+                                      <Descriptions title="">
+                                      {/* {data.posture&&data.posture.Posterial_view.checkbox&&data.posture[
+                                          "Posterial_view"
+                                        ].checkbox.map((ob) => (
+                                          <>
+                                            {ob[1] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob[0]}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                        ))} */}
+                                        {
+                                          Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                          ))
+                                        }
+                                      </Descriptions>
+                                      </>}
+                                    </Row>
+                                  )}
+                                   {Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
+                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                      <Col md={24} lg={18} sm={24} xs={24}>
+                                        <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                          <Descriptions.Item label="Head deviation">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[0]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Shoulder">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[1]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Hip/Pelvic Deviation">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[2]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Knees Deviation">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[3]}
+                                          </Descriptions.Item>
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={6} sm={24} xs={24}>
+                                        <img
+                                          src={
+                                            data.posture["Sitting_lateral_view"]
+                                              .posterial_view_image
+                                          }
+                                        />
+                                      </Col>
+                                      <Descriptions title="">
+                                      {
+                                          Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
                                                 <Badge color="#000000" />
                                                 {ob}
@@ -2543,6 +2712,192 @@ const AssessmentList = ({ assesmentClick }) => {
                                           Object.keys(data.posture.lateral_view.checkbox).map(ob=>(
                                             <>
                                             {data.posture.lateral_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                          ))
+                                        }
+                                      </Descriptions>
+                                    </Row>
+                                  )}
+                                </div>
+                            
+                            )}
+                             {data.posture &&
+                            (data.posture["sitting_Posterial_view"] ||
+                              data.posture["sitting_Posterial_view"]) && (
+                             
+                                <div className=" border mb-3 mt-3">
+                                  {/* <Row className="border">
+                                               <Col md={24} lg={24} sm={24} xs={24}>
+                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
+                                               </Col>
+                                             </Row> */}
+                                   {data.posture["sitting_Posterial_view"] && (
+                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <Descriptions title="">
+                                          <Descriptions.Item label="Notes ">
+                                            {Object.keys(data.posture).length >
+                                              0 && data.posture["Notes"]}
+                                          </Descriptions.Item>
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h1>Degree of Deviation</h1>
+                                      </Col>
+                                              {Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
+                                        <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                          {
+                                            <Descriptions.Item label="Nasal Bridge">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[0]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Shoulder levels(Acrimion)">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[1]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label=" Umbilicus">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[2]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Knees">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[3]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Ankle/Foot">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[4]}
+                                            </Descriptions.Item>
+                                          }
+                                          {
+                                            <Descriptions.Item label="Line of Gravity">
+                                              {Object.keys(data.posture).length >
+                                                0 &&
+                                                data.posture["sitting_Posterial_view"] &&
+                                                data.posture["sitting_Posterial_view"]
+                                                  .Angles[5]}
+                                            </Descriptions.Item>
+                                          }
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={6} sm={24} xs={24}>
+                                        <img
+                                          src={
+                                            data.posture["sitting_Posterial_view"]
+                                              .sitting_Posterial_view_image
+                                          }
+                                        />
+                                      </Col>
+                                      <Descriptions title="">
+                                      {/* {data.posture&&data.posture.sitting_Posterial_view.checkbox&&data.posture[
+                                          "sitting_Posterial_view"
+                                        ].checkbox.map((ob) => (
+                                          <>
+                                            {ob[1] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob[0]}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                        ))} */}
+                                        {
+                                          Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                          ))
+                                        }
+                                      </Descriptions>
+                                      </>}
+                                    </Row>
+                                  )}
+                                 {Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
+                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                      <Col md={24} lg={18} sm={24} xs={24}>
+                                        <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                          <Descriptions.Item label="Shoulder">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[0]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Hip">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[1]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Ankle">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[2]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Opposite Knee">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[3]}
+                                          </Descriptions.Item>
+                                          <Descriptions.Item label="Elbow">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Sitting_lateral_view"] &&
+                                              data.posture["Sitting_lateral_view"]
+                                                .Angles[4]}
+                                          </Descriptions.Item>
+                                        </Descriptions>
+                                      </Col>
+                                      <Col md={24} lg={6} sm={24} xs={24}>
+                                        <img
+                                          src={
+                                            data.posture["Sitting_lateral_view"]
+                                              .posterial_view_image
+                                          }
+                                        />
+                                      </Col>
+                                      <Descriptions title="">
+                                      {
+                                          Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob=>(
+                                            <>
+                                            {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
                                                 <Badge color="#000000" />
                                                 {ob}

@@ -2053,11 +2053,13 @@ const Assesment1 = ({ back, next }) => {
             <Row>
             <Col md={24} lg={24} sm={24} xs={24}>
                                         <h2>Degree of Deviation</h2>
+                                        <h3> <Badge color="#000000" />Standing</h3>
                                       </Col>
             </Row>
             {Object.keys(state.FirstAssesment.posture["Posterial_view"]).length>0&&<Row gutter={[10, 10]} className="px-4 py-2">
+            <Col span={24}><h5>Anterior</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions title="Anterior" bordered>
+                <Descriptions  bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[0]}
@@ -2111,8 +2113,9 @@ const Assesment1 = ({ back, next }) => {
 
             </Row>}
             {Object.keys(state.FirstAssesment.posture["lateral_view"]).length>0&& <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col span={24}><h5>Lateral</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions title="Lateral" bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Head deviation">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["lateral_view"].Angles[0]}
@@ -2144,6 +2147,119 @@ const Assesment1 = ({ back, next }) => {
                 <Descriptions title="">
                   {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => {
                     if (state.FirstAssesment.posture["lateral_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
+            <Row>
+            <Col md={24} lg={24} sm={24} xs={24}>
+                                        <h3>  <Badge color="#000000" />Sitting</h3>
+                                      </Col>
+            </Row>
+            {Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"]).length>0&&<Row gutter={[10, 10]} className="px-4 py-2">
+            <Col span={24}><h5>Anterior</h5></Col>
+              <Col md={24} lg={18} sm={24} xs={24}>
+                <Descriptions  bordered>
+                  <Descriptions.Item label="Nasal Bridge">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Shoulder levels(Acrimion)">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Umbilicus">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Knees">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[3]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Ankle/Foot">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[4]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Line of Gravity">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[5]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["sitting_Posterial_view"]
+                      .posterial_view_image
+                  }
+                />
+              </Col>
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["sitting_Posterial_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
+            {Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"]).length>0&& <Row gutter={[10, 10]} className="px-4 py-2">
+            <Col span={24}><h5>Lateral</h5></Col>
+              <Col md={24} lg={18} sm={24} xs={24}>
+                <Descriptions  bordered>
+                  <Descriptions.Item label="Shoulder">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Hip">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Ankle">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Opposite Knee">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[3]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Elbow">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[4]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["Sitting_lateral_view"]
+                      .posterial_view_image
+                  }
+                />
+              </Col>
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["Sitting_lateral_view"].checkbox[ob] == 1) {
                       return (
                         <Descriptions.Item label="">
                           <Badge color="#000000" />
