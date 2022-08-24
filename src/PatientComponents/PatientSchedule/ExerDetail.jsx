@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "antd";
 import React, { useEffect, useState } from "react";
+import PainMeter from "../PainMeter/PainMeter";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
 import AchievedResult from "../shared/AchievedResult";
@@ -32,7 +33,7 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 const ExerDetail = () => {
   const [exercises, setExercises] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [pain, setPain] = useState(0);
+  const [pain, setPain] = useState(1);
   const [comp, setComp] = useState([]);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -81,20 +82,20 @@ const ExerDetail = () => {
         yt_temp.push(a);
       }
     });
-   // console.log("exercises ", res);
-    let temp = []
-    location.state.exercises.map(ex => {
-      let te = [...yt_temp, ...res].find(e => {
-        if(e.title == ex.name){
-          console.log("exercise array1 ", ex)
-          let temp_E = e
-          temp_E['Rep'] = ex.Rep
-          return temp_E
+    // console.log("exercises ", res);
+    let temp = [];
+    location.state.exercises.map((ex) => {
+      let te = [...yt_temp, ...res].find((e) => {
+        if (e.title == ex.name) {
+          console.log("exercise array1 ", ex);
+          let temp_E = e;
+          temp_E["Rep"] = ex.Rep;
+          return temp_E;
         }
-      })
-     // console.log("exercise array1 ", te)
-      temp.push(te)
-    })
+      });
+      // console.log("exercise array1 ", te)
+      temp.push(te);
+    });
     console.log("exercises ", temp);
     setExercises([...res, ...yt_temp]);
   }, []);
@@ -106,11 +107,14 @@ const ExerDetail = () => {
     });
     let tempName = [];
     comp.map((item) => {
-      tempName.push({name:location.state.exercises[item].name,Rep:location.state.exercises[item].Rep});
+      tempName.push({
+        name: location.state.exercises[item].name,
+        Rep: location.state.exercises[item].Rep,
+      });
     });
-    console.log(comp)
-    console.log(tempName)
-    console.log(tempId)
+    console.log(comp);
+    console.log(tempName);
+    console.log(tempId);
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);
@@ -135,11 +139,11 @@ const ExerDetail = () => {
     let ch = {};
     tempName.map((item) => {
       ch[item.name] = {
-        set:item.Rep.set,
-        rep:item.Rep.rep_count
+        set: item.Rep.set,
+        rep: item.Rep.rep_count,
       };
     });
-    console.log(ch)
+    console.log(ch);
     //ch['output_json']=ch
     // if (typeof ChoosenTime == "string") {
     //   json_data.output_json[ChoosenTime] = object;
@@ -149,16 +153,21 @@ const ExerDetail = () => {
     // let tempData = {}
     // // tempData["output_json"] = JSON.parse(ChoosenTime)
     // tempData.output_json[ChoosenTime] = ch
-  //  tempData[ChoosenTime] = "output_json"
-  //   tempData['output_json']=ch
-  //   tempData['id']= location.state.exercises[0].pp_cp_id
-     await update_careplan_Nno_AI(ch,ChoosenTime,location.state.exercises[0].pp_cp_id);
+    //  tempData[ChoosenTime] = "output_json"
+    //   tempData['output_json']=ch
+    //   tempData['id']= location.state.exercises[0].pp_cp_id
+    await update_careplan_Nno_AI(
+      ch,
+      ChoosenTime,
+      location.state.exercises[0].pp_cp_id
+    );
+    console.log(ChoosenTime)
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
-    console.log("pain ",location.state.exercises[0].pp_cp_id, pain)
-    await updatePainMeter(location.state.exercises[0].pp_cp_id, pain);
+    console.log("pain ", location.state.exercises[0].pp_cp_id, pain);
+    await updatePainMeter(location.state.exercises[0].pp_cp_id, pain,ChoosenTime);
     window.location.href = "/patient/schedule";
     //window.location.reload();
   };
@@ -180,9 +189,9 @@ const ExerDetail = () => {
       },
     });
   };
-console.log("final ",exercises)
+  console.log("final ", exercises);
   return (
-    <div  className="exercise-detail" id="exercise-detail">
+    <div className="exercise-detail" id="exercise-detail">
       <h3 className="fw-bold mt-2 ms-2">
         <BackButton />
       </h3>
@@ -192,12 +201,20 @@ console.log("final ",exercises)
             <Row className="main-container p-1" id="main-container">
               <Col className="left-box m-1">
                 <div className="top-heading" id="top-heading">
-                  <h2 style={{fontSize:'20px'}} className="heading" id="heading">
+                  <h2
+                    style={{ fontSize: "20px" }}
+                    className="heading"
+                    id="heading"
+                  >
                     <b>{exercise.title}</b>
                   </h2>
 
                   {index == 0 && (
-                    <h3 style={{fontSize:'20px'}} className="subtext" id="subtext">
+                    <h3
+                      style={{ fontSize: "20px" }}
+                      className="subtext"
+                      id="subtext"
+                    >
                       <b style={{ color: "teal" }}>
                         {" "}
                         Find the Fun in Exercise and Track your Progress.......
@@ -214,7 +231,7 @@ console.log("final ",exercises)
                       className="react-player"
                       url={exercise.video_path}
                       width="100%"
-                    //  height="auto"
+                      //  height="auto"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">
@@ -266,19 +283,23 @@ console.log("final ",exercises)
                   </Descriptions>
                   <p></p>
                   <Descriptions
-                      column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                      title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
-                    >
-                      {exercise.instruction_array!== undefined &&
+                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                    title={
+                      <h3 style={{ fontSize: "20px" }}>
+                        Step By Step Instructions
+                      </h3>
+                    }
+                  >
+                    {exercise.instruction_array !== undefined && (
                       <>
-                      {exercise.instruction_array.map((i,index)=>
-                      <Descriptions.Item label={index+1}>
-                        <h5 style={{fontSize:'16px'}}>{i}</h5>
-                      </Descriptions.Item>
-                      )}
+                        {exercise.instruction_array.map((i, index) => (
+                          <Descriptions.Item label={index + 1}>
+                            <h5 style={{ fontSize: "16px" }}>{i}</h5>
+                          </Descriptions.Item>
+                        ))}
                       </>
-                      }
-                    </Descriptions>
+                    )}
+                  </Descriptions>
                   {/* <p>Set : {location.state.repArr[index].set}</p>
                       {"       "}
                       <p>
@@ -324,9 +345,9 @@ console.log("final ",exercises)
         </h6>
         <div
           className="painmeter"
-          style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }}
+          style={{ width: "100%",height:'fit-content', marginLeft: "auto", marginRight: "auto",marginBottom:'20px' }}
         >
-          <Slider
+          {/* <Slider
             marks={marks1}
             min={0}
             max={5}
@@ -334,7 +355,8 @@ console.log("final ",exercises)
             onChange={(value) => setPain(value)}
             defaultValue={0}
             style={{ width: "100%" }}
-          />
+          /> */}
+          <PainMeter setPain={setPain} />
         </div>
         <div className="text-end">
           <Button className="okay" onClick={finish}>

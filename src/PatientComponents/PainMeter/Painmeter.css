@@ -1,0 +1,281 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+/* Begin reset */
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+/* End reset */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  background-color: #f3f5f7;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  line-height: 1.4675;
+  color: #555;
+}
+h3 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #2b3535;
+  margin-bottom: 32px;
+}
+.wrapper {
+  margin: 50px auto 0 auto;
+  padding: 120px 20px 130px 20px;
+  max-width: 779px;
+  background: #fff;
+  box-shadow: 0 1px 3px 0 rgba(148, 164, 179, 0.2);
+  border-radius: 5px;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .wrapper {
+    padding: 120px 30px 130px 30px;
+  }
+}
+.pain-scale {
+  position: relative;
+  max-width: 450px;
+  left: 10%;
+  margin: 0 auto;
+}
+/* .pain-scale:before {
+  position: absolute;
+  content: "";
+  width: 1px;
+  height: 32px;
+  top: 25px;
+  /* left: 0; 
+  background-color: #dbe1e6;
+}
+.pain-scale:after {
+  position: absolute;
+  content: "";
+  width: 1px;
+  height: 32px;
+  top: 25px;
+  /* right: 0; 
+  background-color: #dbe1e6;
+} */
+.pain-scale__label {
+  display: inline-block;
+  position: relative;
+  width: 9%;
+  height: 2em;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: -2px;
+  z-index: 1;
+}
+.pain-scale__label--selected{
+    background-color: #2D7ECB;
+    color:white;
+    padding: 5px;
+}
+.pain-scale__level {
+  display: inline-block;
+  position: relative;
+  width: 9%;
+  height: 2em;
+  background: #e7ebee;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: -2px;
+  z-index: 1;
+}
+.pain-scale__level:hover .pain-scale__emoji {
+  visibility: visible;
+}
+.pain-scale__level.pain-scale__level--active-emoji {
+  width: 3em;
+}
+.pain-scale__level.pain-scale__level--active-emoji .pain-scale__emoji {
+  visibility: visible;
+}
+.pain-scale__level--1,
+.pain-scale__level--selected.pain-scale__level--1 {
+  /* background-color: #fcc419; */
+  background-color: #29ce58;
+}
+.pain-scale__level--1 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--1 .pain-scale__emoji {
+  background-color: #29ce58;
+}
+.pain-scale__level--active.pain-scale__level--2,
+.pain-scale__level--selected.pain-scale__level--2 {
+  /* background-color: #f8ae1d; */
+  background-color: #87d19c;
+}
+.pain-scale__level--active.pain-scale__level--2 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--2 .pain-scale__emoji {
+  background-color: #87d19c;
+}
+.pain-scale__level--active.pain-scale__level--3,
+.pain-scale__level--selected.pain-scale__level--3 {
+  /* background-color: #f5a01f; */
+  background-color: #b8e23f;
+}
+.pain-scale__level--active.pain-scale__level--3 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--3 .pain-scale__emoji {
+  background-color: #b8e23f;
+}
+.pain-scale__level--active.pain-scale__level--4,
+.pain-scale__level--selected.pain-scale__level--4 {
+  background-color: #f39122;
+}
+.pain-scale__level--active.pain-scale__level--4 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--4 .pain-scale__emoji {
+  background-color: #f39122;
+}
+.pain-scale__level--active.pain-scale__level--5,
+.pain-scale__level--selected.pain-scale__level--5 {
+  background-color: #f08224;
+}
+.pain-scale__level--active.pain-scale__level--5 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--5 .pain-scale__emoji {
+  background-color: #f08224;
+}
+.pain-scale__level--active.pain-scale__level--6,
+.pain-scale__level--selected.pain-scale__level--6 {
+  background-color: #ed7427;
+}
+.pain-scale__level--active.pain-scale__level--6 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--6 .pain-scale__emoji {
+  background-color: #ed7427;
+}
+.pain-scale__level--active.pain-scale__level--7,
+.pain-scale__level--selected.pain-scale__level--7 {
+  background-color: #ea6529;
+}
+.pain-scale__level--active.pain-scale__level--7 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--7 .pain-scale__emoji {
+  background-color: #ea6529;
+}
+.pain-scale__level--active.pain-scale__level--8,
+.pain-scale__level--selected.pain-scale__level--8 {
+  background-color: #e7562b;
+}
+.pain-scale__level--active.pain-scale__level--8 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--8 .pain-scale__emoji {
+  background-color: #e7562b;
+}
+.pain-scale__level--active.pain-scale__level--9,
+.pain-scale__level--selected.pain-scale__level--9 {
+  background-color: #e5482e;
+}
+.pain-scale__level--active.pain-scale__level--9 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--9 .pain-scale__emoji {
+  background-color: #e5482e;
+}
+.pain-scale__level--active.pain-scale__level--10,
+.pain-scale__level--selected.pain-scale__level--10 {
+  background-color: #e03131;
+}
+.pain-scale__level--active.pain-scale__level--10 .pain-scale__emoji,
+.pain-scale__level--selected.pain-scale__level--10 .pain-scale__emoji {
+  background-color: #e03131;
+}
+.pain-scale__level--blink {
+  animation: fade 0.2s ease;
+}
+.pain-scale__number {
+  display: block;
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  height: 32px;
+  padding-top: 5px;
+}
+.pain-scale__emoji {
+  visibility: hidden;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  margin: auto;
+  font-size: 1.8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background: #e8552b;
+  border: 2px solid white;
+  /* border-radius: 20%;
+	 */
+  color: white;
+  width: auto;
+  height: fit-content;
+}
+
+.legend {
+  position: relative;
+  max-width: 450px;
+  margin: 0 auto;
+}
+/* .legend::before {
+  position: absolute;
+  content: "Mild";
+  width: 1px;
+  height: 32px;
+  top: 25px;
+  left: 0px;
+  margin-left: -15px;
+}
+.legend::after {
+  position: absolute;
+  content: "Severe";
+  width: 1px;
+  height: 32px;
+  top: 25px;
+  right: 95px;
+} */
+/* .legend__beginning {
+	 position: absolute;
+	 /* left: 0; 
+	 top: 30px;
+}
+ @media (min-width: 768px) {
+	 .legend__beginning {
+		 transform: translatex(-50%);
+	}
+}
+ .legend__end {
+	 position: absolute;
+	 /* right: 0; 
+	 top: 30px;
+}
+ @media (min-width: 768px) {
+	 .legend__end {
+		 transform: translatex(50%);
+	}
+} */
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -234,6 +234,40 @@ export const fetchCarePlanEmp = async (eid) => {
   }
 };
 
+export const fetchSummaryDetails = async (patId,startDate,endDate) => {
+  const encodedData = {
+    id: patId,
+    start_date: startDate,
+    end_date: endDate,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(
+      process.env.REACT_APP_API + "/pain_meter_chart",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(encodedData),
+      }
+    );
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(response)
+    const responseData = await response.json();
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return responseData;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};
 export const fetchDashboardDetails = async (patId,startDate,endDate) => {
   const encodedData = {
     id: patId,
