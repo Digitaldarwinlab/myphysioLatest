@@ -400,16 +400,11 @@ class PatientAI extends Component {
     );
   };
   finish = async (id) => {
-    console.log(
-      "pain meter ",
-      this.props.history.location.state.exercises[0].pp_cp_id,
-      " ",
-      this.props.FirstAssesmentReducer.PainMeter
-    );
+    
     await updatePainMeter(
       this.props.history.location.state.exercises[0].pp_cp_id,
       this.props.FirstAssesmentReducer.PainMeter,
-      this.props.history.location.state.exercises[counterCount - 1].ChoosenTime
+      this.props.history.location.state.exercises[0].ChoosenTime
     );
     window.darwin.stop();
     const video = document.getElementById("video");
