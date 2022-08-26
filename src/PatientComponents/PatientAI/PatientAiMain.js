@@ -14,8 +14,8 @@ export default function PatientAiMain() {
                   }
                 if (window.confirm( "This will take you back to the schedule page. Are you sure you want to abandon and go back?")) {
                     console.log("exercise data cleared");
-                   // window.location.href = location.pathname
-                    history.location.reload()
+                    window.location.href = location.pathname
+                   // window.location.reload()
                     return true;
                 } else {
                     console.log("not cleared", location);
