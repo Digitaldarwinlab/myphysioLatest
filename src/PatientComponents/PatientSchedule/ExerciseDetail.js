@@ -28,31 +28,36 @@ const ExerciseDetailsClass = () => {
       if (ex.name == "YouTube") {
         let a = {
           title: ex.name,
-          name:ex.name,
+          name: ex.name,
           video_path: ex.youtube_link,
         };
         yt_temp.push(a);
       }
       res.map(e => {
         if (ex.ex_em_id == e.ex_em_id) {
-          ex.hold = e.hold_flag
+          console.log("check hold",e)
+          if (e.hold_flag) {
+            ex.hold = e.hold_flag
+          } else {
+            ex.hold = "none"
+          }
         }
       })
     });
     // setExercises([...yt_temp,...res]);
     let temp = []
-    console.log("exercise ",[...yt_temp, ...res])
+    console.log("exercise ", [...yt_temp, ...res])
     location.state.exercises.map(ex => {
       let te = [...yt_temp, ...res].find(e => e.title == ex.name)
       console.log("exercise array1 ", te)
       temp.push(te)
     })
     setExercises(temp)
-     console.log("exercise array ", temp)
-     console.log("exercise array ", res)
-     console.log("exercise array ", location.state.exercises)
+    console.log("exercise array ", temp)
+    console.log("exercise array ", res)
+    console.log("exercise array ", location.state.exercises)
   }
-  useEffect( () => {
+  useEffect(() => {
     CallDetails()
   }, []);
 
@@ -119,25 +124,25 @@ const ExerciseDetailsClass = () => {
       {exercises.length > 0 &&
         exercises.map((exercise, index) => (
           <>
-            
-              <Row className="main-container p-1" id="main-container">
-                <Col className="left-box m-1">
-                  <div className="top-heading" id="top-heading">
-                    <h2 style={{fontSize:'28px'}} className="heading" id="heading">
-                      <b>{exercise.title}</b>
-                    </h2>
 
-                    {index == 0 && (
-                      <h3 style={{fontSize:'20px'}} className="subtext" id="subtext">
-                        <b style={{ color: "teal" }}>
-                          {" "}
-                          Find the Fun in Exercise and Track your
-                          Progress.......
-                        </b>{" "}
-                      </h3>
-                    )}
-                  </div>
-                  <div className="video">
+            <Row className="main-container p-1" id="main-container">
+              <Col className="left-box m-1">
+                <div className="top-heading" id="top-heading">
+                  <h2 style={{ fontSize: '28px' }} className="heading" id="heading">
+                    <b>{exercise.title}</b>
+                  </h2>
+
+                  {index == 0 && (
+                    <h3 style={{ fontSize: '20px' }} className="subtext" id="subtext">
+                      <b style={{ color: "teal" }}>
+                        {" "}
+                        Find the Fun in Exercise and Track your
+                        Progress.......
+                      </b>{" "}
+                    </h3>
+                  )}
+                </div>
+                <div className="video">
                   {exercise.title == "YouTube" ? (
                     <ReactPlayer
                       playing={true}
@@ -156,41 +161,41 @@ const ExerciseDetailsClass = () => {
                     </video>
                   )}
                 </div>
-                </Col>
-                <Col className="right-box">
-                  <div className="instructions" id="instructions">
-                    <p></p>
-                    <Descriptions
-                      bordered
-                      column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
-                    >
-                      <Descriptions.Item label={<h5>Sets</h5>}>
-                        <h5>{location.state.repArr[index].set}</h5>
-                      </Descriptions.Item>
-                      <Descriptions.Item label={<h5>Reps</h5>}>
-                        <h5>{location.state.repArr[index].rep_count}</h5>
-                      </Descriptions.Item>
-                    </Descriptions>
-                    <p></p>
-                    <Descriptions
-                      column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                      title={<h3 style={{fontSize:'20px'}}>Step By Step Instructions</h3>}
-                    >
-                      {exercise.instruction_array!== undefined &&
+              </Col>
+              <Col className="right-box">
+                <div className="instructions" id="instructions">
+                  <p></p>
+                  <Descriptions
+                    bordered
+                    column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
+                  >
+                    <Descriptions.Item label={<h5>Sets</h5>}>
+                      <h5>{location.state.repArr[index].set}</h5>
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<h5>Reps</h5>}>
+                      <h5>{location.state.repArr[index].rep_count}</h5>
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <p></p>
+                  <Descriptions
+                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                    title={<h3 style={{ fontSize: '20px' }}>Step By Step Instructions</h3>}
+                  >
+                    {exercise.instruction_array !== undefined &&
                       <>
-                      {exercise.instruction_array.map((i,index)=>
-                      <Descriptions.Item label={index+1}>
-                        <h5 style={{fontSize:'16px'}}>{i}</h5>
-                      </Descriptions.Item>
-                      )}
+                        {exercise.instruction_array.map((i, index) =>
+                          <Descriptions.Item label={index + 1}>
+                            <h5 style={{ fontSize: '16px' }}>{i}</h5>
+                          </Descriptions.Item>
+                        )}
                       </>
-                      }
-                    </Descriptions>
-                  </div>
-                </Col>
-                <Divider />
-              </Row>
-            
+                    }
+                  </Descriptions>
+                </div>
+              </Col>
+              <Divider />
+            </Row>
+
             {/* : (
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">

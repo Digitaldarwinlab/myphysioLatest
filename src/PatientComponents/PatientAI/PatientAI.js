@@ -278,7 +278,8 @@ class PatientAI extends Component {
           console.log("current getData setCount ", setCount);
           console.log("current getData id ", id);
           console.log("current getData counterCount ", counterCount);
-          if(!this.props.history.location.state.exercises[counterCount].hold){
+          console.log("current getData counterCount ", this.props.history.location.state.exercises[counterCount]);
+          if(this.props.history.location.state.exercises[counterCount]&&this.props.history.location.state.exercises[counterCount].hold == 'none'){
             console.log("current this exercise don't have hold")
             this.setState({description:"This is a timer based exercise. Please follow the video"})
           }else{
@@ -408,6 +409,7 @@ class PatientAI extends Component {
     );
   };
   finish = async (id) => {
+    localStorage.setItem('painmeter_submit', true)
     console.log(
       "pain meter ",
       this.props.history.location.state.exercises[0].pp_cp_id,
@@ -417,7 +419,7 @@ class PatientAI extends Component {
     await updatePainMeter(
       this.props.history.location.state.exercises[0].pp_cp_id,
       this.props.FirstAssesmentReducer.PainMeter,
-      this.props.history.location.state.exercises[counterCount - 1].ChoosenTime
+      this.props.history.location.state.exercises[0].ChoosenTime
     );
     window.darwin.stop();
     const video = document.getElementById("video");
@@ -434,6 +436,7 @@ class PatientAI extends Component {
 
     //     state: { autorefresh: 1 }
     //   })
+    //window.location.href = "/patient/schedule"
     this.props.history.push("/patient/schedule");
     window.location.reload();
   };
@@ -465,7 +468,26 @@ class PatientAI extends Component {
   setstarttimer() {
     this.setState({ starttimer: false });
   }
-
+  componentWillUnmount() {
+    if (this.props.patCurrentEpisode.pp_ed_id != 0) {
+      const video = document.getElementById("video");
+      const mediaStream = video.srcObject;
+      try {
+        if(mediaStream){
+        const tracks = mediaStream.getTracks();
+          tracks[0].stop();
+          tracks.forEach((track) => track.stop());
+  
+          console.log("camera releasing....");
+          console.log(tracks);
+        }
+      } catch (err) {
+        console.log(mediaStream)
+        console.log("camera not releasing....");
+        console.log(err);
+      }
+    }
+  }
   componentDidMount() {
     if (this.props.patCurrentEpisode.pp_ed_id != 0) {
       console.log("props ", this.props);
@@ -483,7 +505,8 @@ class PatientAI extends Component {
       this.setState({
         currentexercise: [exercise.exercise.ex_em_id, exercise.exercise.name],
       });
-      if(!this.props.history.location.state.exercises[0].hold){
+      localStorage.removeItem('painmeter_submit')
+      if(this.props.history.location.state.exercises[0]&&this.props.history.location.state.exercises[0].hold == 'none'){
         this.setState({description:"This is a timer based exercise. Please follow the video"})
       }
       if (exercise && exercise.exercise) {
@@ -551,6 +574,7 @@ class PatientAI extends Component {
     }
   }
   componentDidUpdate() {
+    if (this.props.patCurrentEpisode.pp_ed_id != 0) {
     //Select primary angle based on joint
     //this.props.history.location.state.exercises.map()
     if (this.state.launch === "start") {
@@ -584,7 +608,7 @@ class PatientAI extends Component {
             : 20,
           primaryAngles: temp[i],
           ROMs: [this.state.selJoints[i], this.state.selJoints[i]],
-          hold: this.props.history.location.state.exercises[i].hold == 0 ? "min" : this.props.history.location.state.exercises[i].hold == 1?'min':'none',
+          hold: this.props.history.location.state.exercises[i].hold,
           angles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
           totalReps: parseInt(
             this.props.history.location.state.exercises[i].Rep["rep_count"]
@@ -645,6 +669,7 @@ class PatientAI extends Component {
       this.setState({ launch: "stop" });
     }
   }
+  }
   AiModelProps = this.AiModel.bind(this);
   // AiModelProps = this.AiModel.bind(this);
   render() {
@@ -660,14 +685,14 @@ class PatientAI extends Component {
                     style={{ cursor: "pointer" }}
                     title="Go Back"
                     onClick={() => {
-                      if (
-                        window.confirm(
-                          "This will cancel your current therapy and take you back to the schedule page. Are you sure you want to abandon and go back?"
-                        )
-                      ) {
-                        this.props.history.push("/patient/schedule");
-                        window.location.reload();
-                      }
+                      // if (
+                      //   window.confirm(
+                      //     "This will take you back to the schedule page. Are you sure you want to abandon and go back?"
+                      //   )
+                      // ) {
+                      // }
+                      this.props.history.push("/patient/schedule");
+                     // window.location.reload();
                     }}
                     role="button"
                   ></i>

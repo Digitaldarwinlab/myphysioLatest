@@ -99,6 +99,7 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import CareplanEnterprise from './components/care-plan-enterprise/carePlanIndex'
 // import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
  import Loading from "./components/UtilityComponents/Loading.js";
+import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
@@ -284,7 +285,7 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/dashboard" component={HomeDashboard} />
-							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
+							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAiMain} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
 							<PatientRoute exact path="/patient/exercises/brief" forceRefresh={true} component={ExerciseDetail} />

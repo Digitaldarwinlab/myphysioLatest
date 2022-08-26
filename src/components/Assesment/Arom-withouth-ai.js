@@ -23,11 +23,11 @@ let MinMax = {
       min:0,
       max:60
   } ,
-  "L Lateral Side Flex":{
+  "L Lumbar Side Flex":{
       min:0,
       max:30
   } ,
-  "R Lateral Side Flex":{
+  "R Lumbar Side Flex":{
       min:0,
       max:30
   } ,
@@ -99,8 +99,8 @@ const labels = [
   "R Elbow Flex",
   "L Cervical Side Flex",
   "R Cervical Side Flex",
-  "L Lateral Side Flex",
-  "R Lateral Side Flex",
+  "L Lumbar Side Flex",
+  "R Lumbar Side Flex",
   "L Hip Abd/Add",
   "R Hip Abd/Add",
 ];
@@ -131,8 +131,8 @@ const allNewJoints = {
   "R Knee Flex/Ext": "rightKnee",
   "L Cervical Side Flex": "leftNeck",
   "R Cervical Side Flex": "rightNeck",
-  "L Lateral Side Flex": "leftPelvic",
-  "R Lateral Side Flex": "rightPelvic",
+  "L Lumbar Side Flex": "leftPelvic",
+  "R Lumbar Side Flex": "rightPelvic",
   "L Wrist": "leftWrist",
   "R Wrist": "rightWrist",
   "L Ankle": "leftAnkle",

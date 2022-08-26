@@ -13,28 +13,28 @@ const columns = [
   {
     title: "Visit",
     dataIndex: "visit",
-    width:'15%',
+    width: '15%',
     fixed: 'left'
   },
   {
     title: "Date",
     dataIndex: "date",
-    width:'20%'
+    width: '20%'
   },
   {
     title: "Location",
     dataIndex: "Location",
-    width:'20%'
+    width: '20%'
   },
   {
     title: "Time",
     dataIndex: "time",
-    width:'20%'
+    width: '20%'
   },
   {
     title: "VideoCon Link",
     dataIndex: "conLink",
-    width:'20%',
+    width: '20%',
     render: (link) => (
       <a href={"/physio" + link} target="_blank" rel="noopener noreferrer">
         {link}
@@ -44,7 +44,7 @@ const columns = [
   {
     title: "Delete",
     dataIndex: "Delete",
-    width:'20%',
+    width: '20%',
     fixed: 'right',
   },
 ];
@@ -155,7 +155,7 @@ const Visits = ({ handleClick, patId }) => {
             conLink: val.video_link,
             Delete: (
               <Button
-               
+
                 type="primary"
                 danger
                 onClick={() => showDeleteConfirm(val)}
@@ -183,27 +183,27 @@ const Visits = ({ handleClick, patId }) => {
             <Button onClick={consultClick}>Consultation</Button>
           </Space>
         </Col>
-        <Col  className="pag_large mt-2" span={24}>
-          <Table
+        <Col className="pag_large mt-2" span={24}>
+          {visitsData.length > 0 ? <Table
             columns={columns}
-            pagination={{position: ['none', 'bottomCenter']}}
-            scroll={{x:500}}
+            pagination={{ position: ['none', 'bottomCenter'] }}
+            scroll={{ x: 500 }}
             dataSource={visitsData}
             bordered
             loading={loading}
             sticky
-          />
+          />:<Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
         </Col>
-        <Col style={{display:'none'}} className="pag_mob mt-2" span={24}>
-          <Table
-            pagination={{ size: "small" , position: ['none', 'bottomCenter']}}
+        <Col style={{ display: 'none' }} className="pag_mob mt-2" span={24}>
+          {visitsData.length>0?<Table
+            pagination={{ size: "small", position: ['none', 'bottomCenter'] }}
             columns={columns}
-            scroll={{x:500}}
+            scroll={{ x: 500 }}
             dataSource={visitsData}
             bordered
             loading={loading}
             sticky
-          />
+            />:<Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
         </Col>
       </Row>
     </div>

@@ -55,9 +55,10 @@ const EpisodeVisitDetails = () => {
         }, 10000);
         return false;
       }
-      if (res[0].end_date.length === 0) {
-        return true;
-      }
+        if (res[0].end_date.length === 0) {
+          return true;
+        }
+      
       // notification.warning({
       //     message: "Patient don't have an open episode",
       //     placement: 'topRight',
@@ -263,7 +264,7 @@ const EpisodeVisitDetails = () => {
   const handleClick = async () => {
     const res = await checkEpisodeId();
     if (res === true) {
-      return history.push({
+       history.push({
         pathname: "/appointments",
         state: {
           patient: [{ name: state.patient_name, code: state.patient_code }],

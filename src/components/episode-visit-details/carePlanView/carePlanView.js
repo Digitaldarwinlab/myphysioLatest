@@ -34,7 +34,7 @@ const CarePlanView = (props) => {
             const resdata = await CarePlan(props.eid)
             setLoading(false);
             
-            console.log('data is coming res',resdata)
+            resdata.reverse()
             // console.log("data is coming ",data)
 
             setCarePlanData(resdata);
