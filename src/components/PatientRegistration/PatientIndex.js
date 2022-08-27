@@ -12,7 +12,6 @@ const PatientIndex = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const state = useSelector(state => state);
-    console.log('statee')
     console.log(state.BasicDetails)
     React.useEffect(() => {
         const unblock = history.block((location, action) => {
@@ -45,8 +44,6 @@ const PatientIndex = () => {
     const ChangeCurrentIndexToBack = () => {
         setCurrentIndex(currentIndex - 1);
     }
-
-    console.log('heyyy')
 
 
     if (currentIndex === 0) {

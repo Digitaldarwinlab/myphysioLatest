@@ -3,6 +3,7 @@
 }
 import React, { useState, useEffect } from "react";
 import { get_prescription } from "../../../API/Prescription/PresriptionApi";
+import moment from "moment";
 import { Button, Row, Col, Pagination } from "antd";
 import { ImPlus } from "react-icons/im";
 import { useHistory } from "react-router-dom";
@@ -170,7 +171,7 @@ const Prescreptions = ({ prescriptionClick }) => {
                       <div className="border p-1 m-2">
                         <Row className="" justify="space-between">
                           <Col>
-                            <h5 className="fw-bold">Date : {data.date} </h5>
+                            <h5 className="fw-bold">Date : {moment(data.date).format('DD-MM-YYYY')} </h5>
                           </Col>
                         </Row>
                         <Row>
