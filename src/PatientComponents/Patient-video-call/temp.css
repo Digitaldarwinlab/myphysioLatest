@@ -1,0 +1,25 @@
+.holder  {
+    position: relative !important;
+    display: flex;
+    padding: 0 !important;
+    height: 100%;
+}
+
+.patient-video-call-main{
+    margin:10px 10px 10px 10px !important;    
+}
+
+.holder video {
+    position: relative !important;
+    display: block;
+    transform: rotateY(180deg);
+    object-fit: cover;
+}
+.holder-local{
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.holder-remote1{
+    border-radius: 10px !important;
+}

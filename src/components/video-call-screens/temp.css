@@ -1,0 +1,33 @@
+.holder  {
+    position: relative !important;
+    display: flex;
+    padding: 0 !important;
+}
+
+.holder video {
+    position: relative !important;
+    display: block;
+    transform: rotateY(180deg);
+    object-fit: cover;
+}
+.holder-local{
+    width: 100%;
+    overflow: hidden;
+}
+
+.holder-remote{
+    position: absolute !important;
+    width: 150px;
+    height: 150px;
+    z-index: 100;
+    background-color: antiquewhite;
+}
+
+@media only screen and (max-width: 650px) {
+    .video-call-main-container{
+        margin: 5px !important;
+    }
+    .video_con_bttn{
+        border-radius: 20px !important ;
+    }
+  }

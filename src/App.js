@@ -100,6 +100,8 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
  import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
+import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
+import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
@@ -216,6 +218,10 @@ const App = () => {
 						<PublicRoute exact path="/employee" component={EmployeeLogin} />
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
+							{/* PhysioVideoCall */}
+
+							<PrivateRoute exact path="/physiocall"  component={()=><PhysioVideoCall Setsidebarshow={Setsidebarshow}  />}  />
+							<PatientRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} />
 
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
