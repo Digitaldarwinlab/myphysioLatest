@@ -35,6 +35,8 @@ const Logout = lazy(() => import('./components/userAuth/Logout.js'));
 import PatientRoute from './components/PrivateRoute/PatientRoute';
 const PatientDashboard = lazy(() => import('./PatientComponents/patientDashboard'));
 const PatientSchedule = lazy(() => import('./PatientComponents/PatientSchedule/PatSchedule'));
+const PatientVisit = lazy(() => import('./PatientComponents/Visits/PatientVisit'));
+const PatientPrescription = lazy(() => import('./PatientComponents/Prescription/PatientPrescription'));
 const ResetPassword = lazy(() => import('./components/userAuth/ResetPassword'));
 const PatientAI = lazy(() => import('./PatientComponents/PatientAI/PatientAI'));
 const PatientProfile = lazy(() => import('./PatientComponents/PatientProfile/PatientProfile'));
@@ -194,7 +196,7 @@ const App = () => {
 				<Suspense fallback={<Loading />}>
 				{isAuthenticated() && (<Navigationbar getCurrentPath={getCurrentPath} SideNavbarCollpased={SideNavbarCollpased} isSideNavbarCollpased={isSideNavbarCollpased} />)}
 				<div className="padT-0">
-					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && (
+					{(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio" || getUserData() === "patient")) && (
 						<div className={`${isSideNavbarCollpased ? '' : 'col-md-2'} sideNavbar position-fixed`}
 							style={{ width: isSideNavbarCollpased ? "90px" : "" }}>
 							{
@@ -209,7 +211,7 @@ const App = () => {
 							}
 						</div>)}
 					<div className={
-						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio")) && sidebarshow
+						(isAuthenticated() && (getUserData() === "admin" || getUserData() === "physio" || getUserData() === "HeadPhysio" || getUserData() === "patient")) && sidebarshow
 							? `${isSideNavbarCollpased ? 'col-md-10 col-lg-11 offset-1' : 'col-md-9 col-lg-10 offset-2'} px-1 main-content white-backgorund` : "MainConatiner"}>
 						<Switch>
 						<PublicRoute exact path="/employee" component={EmployeeLogin} />
@@ -283,6 +285,8 @@ const App = () => {
 							<EnterpriseRoute exact path="/patient/enterprise/post-assesment" component={PostAssesment} />
 							<EnterpriseRoute exact path="/patient/enterprise/schedule" component={EnterpriseSchedule} />
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
+							<PatientRoute exact path="/patient/prescription" component={PatientPrescription} />
+							<PatientRoute exact path="/patient/visits" component={PatientVisit} />
 							<PatientRoute exact path="/patient/dashboard" component={HomeDashboard} />
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
 							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
@@ -295,7 +299,7 @@ const App = () => {
 							{/* <Route exact path="/video-call/:channel" component={VideoCallIndex}/> */}
 							<Route exact path="/physio:channel"
 								render={(props) => <VideoCallIndex Setsidebarshow={Setsidebarshow} {...props} />} />
-							<Route exact path="/patient:channel" component={PatientVideoCallIndex} />
+							<Route exact path="/patient:channel" Setsidebarshow={Setsidebarshow} component={PatientVideoCallIndex} />
 
 							<Route exact path="*" component={Error404} />
 						</Switch>

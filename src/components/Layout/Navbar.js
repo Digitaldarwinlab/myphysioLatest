@@ -211,6 +211,31 @@ const Navigationbar = (props) => {
                 )}
               </Menu.Item>
             }
+            {userInfo.role === "patient" &&
+              <Menu.Item
+                key="1"
+                className="ant-menu-item-selected"
+                style={{ backgroundColor: "transparent", color: "white" }}
+                onClick={() => {
+                  props.SideNavbarCollpased();
+                }}
+              >
+                {/* aswin 10/27/2021 stop */}
+                {props.isSideNavbarCollpased ? (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                ) : (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                )}
+              </Menu.Item>
+            }
           </Menu>
         ) : null}
 
