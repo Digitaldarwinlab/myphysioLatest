@@ -1,8 +1,10 @@
 import { Col, Row, Space } from 'antd';
-import React, { useEffect, useState ,useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
 import Draggable from 'react-draggable';
+import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
+import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 // props.Setsidebarshow(false)
 const options = {
   appId: '17c1247f37f643beb8977d90572b283e',
@@ -15,12 +17,15 @@ const PhysioVideoCall = (props) => {
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
-  const [uid, setUid] = useState(Math.floor(Math.random()*10));
+  const [uid, setUid] = useState(Math.floor(Math.random() * 10));
+  const [audio, setAudio] = useState(true)
+  const [video, setVideo] = useState(true)
+  const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(999);
   const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
-  const [channel ,setChannel] = useState('demo')
-  const [token ,setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
+  const [channel, setChannel] = useState('demo')
+  const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
   useEffect(() => {
     props.Setsidebarshow(false)
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -85,6 +90,7 @@ const PhysioVideoCall = (props) => {
       //const localPlayerContainer = document.getElementById('local');
 
       _localVideoTrack.play('local');
+      setJoined(true)
       console.log('publish success!!');
     } catch (e) {
       console.log('error ============', e);
@@ -96,6 +102,7 @@ const PhysioVideoCall = (props) => {
     localVideoTrack.close();
 
     await client.leave();
+    setJoined(false)
   }
 
   async function handleShareScreen() {
@@ -115,16 +122,42 @@ const PhysioVideoCall = (props) => {
     screenClient.publish(screenTrack);
     screenTrack.play('screen');
   }
+  const startAudio = async () => {
+    const temp = await AgoraRTC.createMicrophoneAudioTrack();
+    setLocalAudioTrack(temp)
+    client.publish(temp)
+    setAudio(true)
+  }
+  const stopAudio = async () => {
+    localAudioTrack.close()
+    client.unpublish(localAudioTrack)
+    setAudio(false)
+  }
+  const startVideo = async () => {
+    const temp = await AgoraRTC.createCameraVideoTrack()
+    setLocalVideoTrack(temp)
+    client.publish(temp)
+    temp.play("local")
+    setVideo(true)
+  }
+  const stopVideo = async () => {
+    localVideoTrack.close()
+    client.unpublish(localVideoTrack)
+    setVideo(false)
+  }
   return (
     <React.Fragment>
       <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
-        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-          <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
-            <Col className='holder' style={{position:'relative',display:'flex'}}>
+      <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+          {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
+          <Row gutter={[16, 16]} >
+            <Col className='holder' span={12} style={{ position: 'relative', display: 'grid' }}>
               <div id="local" className='holder-local' ></div>
-              <Draggable ref={nodeRef} scale={2}> 
-              <div ref={nodeRef} id="remote" className='holder-remote' ></div>
-              </Draggable> 
+            </Col>
+            <Col className='holder' span={12} style={{ position: 'relative', display: 'grid' }}>
+              {/* <Draggable ref={nodeRef} scale={2}>  */}
+              <div ref={nodeRef} id="remote" className='holder-local' ></div>
+              {/* </Draggable>  */}
             </Col>
             <Col className="sticky_button_grp " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
@@ -133,8 +166,10 @@ const PhysioVideoCall = (props) => {
                   id="mic-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={audio ? stopAudio : startAudio}
                 >
-                  <i id="v_mic-icon" class="fas fa-microphone"></i>
+                  {audio ? <BsMic /> : <BsMicMuteFill />}
+                  {/* <i id="v_mic-icon" class="fas fa-microphone"></i> */}
                 </button>
 
 
@@ -142,21 +177,32 @@ const PhysioVideoCall = (props) => {
                   id="video-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={video ? stopVideo : startVideo}
                 >
-                  <i id="video-icon" class="fas fa-video"></i>
+                  {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
+                  {/* <i id="video-icon" class="fas fa-video"></i> */}
                 </button>
 
-
-                <button
+                {joined ? <button
+                  id="exit-btn"
                   type="button"
+                  className="btn video_con_bttn btn-block btn-red btn-lg"
+                  onClick={handleLeave}
+                >
+                  <BiPhoneOff />
+                  {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
+                </button> : <button
+                  type="button"
+                  onClick={handleJoin}
                   id="screen-share-btn"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                 >
-                  <i id="screen-share-icon" class="fas fa-desktop"></i>
-                </button>
+                  {/* <i id="screen-share-icon" class="fas fa-phone-slash"></i> */}
+                  join
+                </button>}
 
 
-                <button
+                {/* <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
@@ -183,7 +229,7 @@ const PhysioVideoCall = (props) => {
                 // onClick={AImodelStop}
                 >
                   <i class="fa fa-stop" aria-hidden="true"></i>
-                </button>
+                </button> */}
 
               </Space>
             </Col>

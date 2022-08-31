@@ -221,8 +221,8 @@ const App = () => {
 							{/* PhysioVideoCall */}
 
 							<PrivateRoute exact path="/physiocall"  component={()=><PhysioVideoCall Setsidebarshow={Setsidebarshow}  />}  />
-							<PatientRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} />
-
+							{/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
+							<Route exact path="/patientcall" component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />}/>
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
 							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
