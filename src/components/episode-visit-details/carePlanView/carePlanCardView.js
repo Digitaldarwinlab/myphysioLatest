@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CarePlanCard from "./../../care-plan/care-plan-card/Card";
-import imageToBase64 from "image-to-base64/browser";
+import { CarePlanPdf } from "../../../API/episode-visit-details/episode-visit-api";
 // import { encode } from "js-base64";
 import { Row, Col, Checkbox, Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -10,6 +10,7 @@ import TimePickerComp from "./../../care-plan/care-plan-allocate-plan/TimePicker
 
 export default function CarePlanCardView({ data, carePlanView, handleChange }) {
   const [value, setValue] = useState(data);
+  const [blobValue, setblobValue] = useState('');
   useEffect(() => {
     setValue(data);
     const toDataURL = (url) =>
@@ -26,12 +27,13 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
         );
         let main = [];
     async function htmlMapping() {
+      
       let exerciseData = data.exercise_details;
         await exerciseData.forEach(async (data, index) => {
           let image = await toDataURL(
             process.env.REACT_APP_EXERCISE_URL + "/" + data.image_url
           );
-        //   console.log(image);
+          console.log(process.env.REACT_APP_EXERCISE_URL +  "/" + "usr/share/nginx/html/imgs/t1_png/Squats.png");
           let inst;
           inst =
             (await data.instruction_array) !== undefined
@@ -55,7 +57,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
                   ${data.name}</span
                 >
                 <img
-                  src='${image}'
+                  src='${process.env.REACT_APP_EXERCISE_URL +  '/' + 'usr/share/nginx/html/imgs/t1_png/Squats.png'}'
                   alt=""
                   width="200"
                   height="110"
@@ -96,7 +98,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
                     style="margin-top: -8px;"
                     height="40"
                   />
-                    PhysioAI
+                   <a style="position:absolute;top:15px"> PhysioAI </a>
                 </div>
               </div>
               <table style="width: 90%;margin: auto; height: fit-content;margin-top: 30px;">
@@ -105,13 +107,26 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
             </div>
           </body>
         </html>`;
-      console.log(html);
+      return html;
     }
     htmlMapping();
-    setTimeout(() => {
-        htmlmap()
+    setTimeout(async() => {
+       let htmlBody = await htmlmap()
+       console.log(htmlBody)
+       let pdf =await CarePlanPdf(htmlBody)
+       setblobValue(pdf)
+
     }, 3000);
   }, [value]);
+  const pdfDownload =()=>{
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = blobValue;
+    a.download = "CarePlan.pdf";
+    a.click();
+    window.URL.revokeObjectURL(blobValue);
+  }
 
   return (
     <>
@@ -150,6 +165,8 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
             <DownloadOutlined style={{ position: "relative", top: "-4px" }} />
           }
           size={"large"}
+          onClick={pdfDownload}
+          disabled={blobValue ? false : true}
         >
           CarePlan
         </Button>
