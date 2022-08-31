@@ -15,11 +15,11 @@ let MinMax = {
     min:0,
     max:60
 } ,
-  "L Cervical Side Flex":{
+  "L Cervical Flex/Ext":{
       min:0,
       max:60
   } ,
-  "R Cervical Side Flex":{
+  "R Cervical Flex/Ext":{
       min:0,
       max:60
   } ,
@@ -47,19 +47,19 @@ let MinMax = {
       min:0,
       max:180
   } ,
-  "L Elbow Flex":{
+  "L Elbow Flex/Ext":{
       min:0,
       max:150
   } ,
-  "R Elbow Flex":{
+  "R Elbow Flex/Ext":{
       min:0,
       max:150
   } ,
-  "L Hip Fwd Flex":{
+  "L Hip Flex/Ext":{
       min:0,
       max:180
   } ,
-  "R Hip Fwd Flex":{
+  "R Hip Flex/Ext":{
       min:0,
       max:180
   } ,
@@ -71,23 +71,23 @@ let MinMax = {
       min:0,
       max:120
   } ,
-  "L Wrist":{
+  "L Wrist Flex/Ext":{
       min:0,
       max:90
   } ,
-  "R Wrist":{
+  "R  Flex/Ext":{
       min:0,
       max:90
   } ,
-  "L Ankle":{
+  "L Ankle Dorsi/Planter Flex":{
       min:0,
       max:45
   } ,
-  "R Ankle":{
+  "R Ankle Dorsi/Planter Flex":{
       min:0,
       max:45
   } ,
-  "Cervical Fwd Flex":{
+  "Cervical Flex/Ext":{
       min:0,
       max:45
   } ,
