@@ -29,7 +29,7 @@ import { getEpisode } from "../../API/Episode/EpisodeApi";
 import { fetchDashboardDetails } from "../../API/episode-visit-details/episode-visit-api";
 import Error from "../UtilityComponents/ErrorHandler";
 import { VALIDATION } from "../../contextStore/actions/authAction";
-import { STATECHANGE } from "../../contextStore/actions/Assesment";
+import { ASSESMENT_CLEARSTATE, STATECHANGE } from "../../contextStore/actions/Assesment";
 import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -144,6 +144,7 @@ const EpisodeVisitDetails = () => {
     localStorage.setItem("care-plan-cart", JSON.stringify([]));
     localStorage.removeItem("AI_Data");
     localStorage.removeItem("Posture_Data");
+    dispatch({ type: ASSESMENT_CLEARSTATE });
     async function getPatients() {
       let data = await getPatientList();
       if (state.patient_code) {
