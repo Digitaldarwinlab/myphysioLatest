@@ -1,0 +1,50 @@
+.holder  {
+    position: relative !important;
+    display: flex;
+    padding: 0 !important;
+    height: 480px !important;
+    background-color: antiquewhite; 
+}
+
+.holder video {
+    position: relative !important;
+    display: block;
+    transform: rotateY(180deg);
+    object-fit: cover;
+}
+.holder-local{
+    width: 100%;
+    /* padding-left: 5px ; */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#user_name{
+    position: absolute;
+    z-index: 1000;
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.end-btn-big{
+    background: red !important;
+    /* color: red !important; */
+}
+
+.holder-remote{
+    position: absolute !important;
+    width: 150px;
+    height: 150px;
+    z-index: 100;
+    /* background-color: antiquewhite; */
+}
+
+@media only screen and (max-width: 650px) {
+    .video-call-main-container{
+        margin: 5px !important;
+    }
+    .video_con_bttn{
+        border-radius: 20px !important ;
+    }
+  }

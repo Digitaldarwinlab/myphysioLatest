@@ -100,6 +100,8 @@ const ExerDetail = lazy(() => import("./PatientComponents/PatientSchedule/ExerDe
 // import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
  import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
+import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
+import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
@@ -216,7 +218,11 @@ const App = () => {
 						<PublicRoute exact path="/employee" component={EmployeeLogin} />
 							<PublicRoute exact path="/change-password" component={Signup} />
 							<PublicRoute exact path="/" component={Login} />
+							{/* PhysioVideoCall */}
 
+							<PrivateRoute exact path="/physio:channel"  component={()=><PhysioVideoCall Setsidebarshow={Setsidebarshow}  />}  />
+							{/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
+							<Route exact path="/patient:channel" component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />}/>
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
 							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
@@ -294,9 +300,9 @@ const App = () => {
 							<PatientRoute exact path='/patient/update' component={PatientIndex} />
 							<PatientRoute exact path='/patient/Temp' component={Tempdashboard} />
 							{/* <Route exact path="/video-call/:channel" component={VideoCallIndex}/> */}
-							<Route exact path="/physio:channel"
+							{/* <Route exact path="/physio:channel"
 								render={(props) => <VideoCallIndex Setsidebarshow={Setsidebarshow} {...props} />} />
-							<Route exact path="/patient:channel" component={PatientVideoCallIndex} />
+							<Route exact path="/patient:channel" component={PatientVideoCallIndex} /> */}
 
 							<Route exact path="*" component={Error404} />
 						</Switch>
