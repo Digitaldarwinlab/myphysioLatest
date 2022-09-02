@@ -3,17 +3,64 @@ import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
 import Draggable from 'react-draggable';
+import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 // props.Setsidebarshow(false)
 const options = {
-  appId: '17c1247f37f643beb8977d90572b283e',
+  appId: '616487fe8ede4785aa8f7e322efdbe7d',
   channel: 'test',
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
 };
 
+const useClient = createClient(options.appId);
+const useChannel = createChannel('abc')
+
 const PhysioVideoCall = (props) => {
+  const rtmClient = useClient();
+  const testChannel = useChannel(rtmClient)
+  
+  let login = async () => {
+    console.log('ConnectionStateChanged')
+    await rtmClient.login({ uid: "1234" })
+    console.log('ConnectionStateChanged')
+    await testChannel.join()
+    console.log('ConnectionStateChanged')
+    rtmClient.on('ConnectionStateChanged', async (state, reason) => {
+      console.log('ConnectionStateChanged1', state, reason)
+    })
+    console.log('ConnectionStateChanged')
+    testChannel.on('ChannelMessage', (msg, uid) => {
+      console.log("message received in peer**** " ,msg)
+      // setTexts((previous) => {
+      //   return [...previous, { msg, uid }]
+      // })
+      console.log("rtm client msg received")
+    })
+    testChannel.on('MemberJoined', (memberId) => {
+      console.log('New Member: ', memberId)
+    })
+    //setLoggedIn(true)
+  }
+
+  let logout = async () => {
+    await testChannel.leave()
+    await rtmClient.logout()
+    testChannel.removeAllListeners()
+    rtmClient.removeAllListeners()
+    setLoggedIn(false)
+  }
+
+  const sendMsg = async (text) => {
+    let message = rtmClient.createMessage({ text, messageType: 'TEXT' })
+    await testChannel.sendMessage(message)
+    // setTexts((previous) => {
+    //   return [...previous, { msg: { text }, uid }]
+    // })
+    // setTextInput('')
+  }
+
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
@@ -26,8 +73,9 @@ const PhysioVideoCall = (props) => {
   const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
   const [channel, setChannel] = useState('demo')
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
-  useEffect(() => {
+  useEffect(async () => {
     props.Setsidebarshow(false)
+    await login()
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
     setClient(_client);
     console.log('client================', _client);
@@ -63,6 +111,15 @@ const PhysioVideoCall = (props) => {
     }
   }, []);
 
+  const startAI = async () => {
+    console.log("start")
+    sendMsg("AI start")
+
+  }
+  const stopAI = async () => {
+    console.log("stop")
+    sendMsg("AI stop")
+  }
   async function handleJoin() {
     try {
       console.log('client', client);
@@ -148,7 +205,7 @@ const PhysioVideoCall = (props) => {
   return (
     <React.Fragment>
       <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
-      <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} >
             <Col className='holder' span={12} style={{ position: 'relative', display: 'grid' }}>
@@ -202,11 +259,11 @@ const PhysioVideoCall = (props) => {
                 </button>}
 
 
-                {/* <button
+                <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
-                  onClick={handleLeave}
+                  onClick={startAI}
                 >
                   <i id="exit-icon" class="fas fa-phone-slash"></i>
                 </button>
@@ -216,13 +273,13 @@ const PhysioVideoCall = (props) => {
                   id="magic-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
-                 onClick={handleJoin}
-                >join
+                  onClick={stopAI}
+                >
                   <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
                 </button>
 
 
-                <button
+                {/* <button
                   id="stop-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"

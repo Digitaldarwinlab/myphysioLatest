@@ -2,17 +2,59 @@ import { Col, Row, Space } from 'antd';
 import React, { useEffect, useState ,useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
+import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhoneOff } from 'react-icons/bi';
 
 const options = {
-  appId: '17c1247f37f643beb8977d90572b283e',
+  appId: '616487fe8ede4785aa8f7e322efdbe7d',
   channel: 'test',
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
 };
+const useClient = createClient(options.appId);
+const useChannel = createChannel("abc")
 
 const PatientVideoCall = (props) => {
+  const rtmClient = useClient();
+  const testChannel = useChannel(rtmClient)
+  
+  let login = async () => {
+    await rtmClient.login({ uid:'123' })
+    await testChannel.join()
+    rtmClient.on('ConnectionStateChanged', async (state, reason) => {
+      console.log('ConnectionStateChanged', state, reason)
+    })
+    testChannel.on('ChannelMessage', (msg, uid) => {
+      console.log("message received in peer**** " ,msg)
+      // setTexts((previous) => {
+      //   return [...previous, { msg, uid }]
+      // })
+    })
+    console.log("rtm client msg received")
+    testChannel.on('MemberJoined', (memberId) => {
+      console.log('New Member: ', memberId)
+    })
+   // setLoggedIn(true)
+  }
+
+  let logout = async () => {
+    await testChannel.leave()
+    await rtmClient.logout()
+    testChannel.removeAllListeners()
+    rtmClient.removeAllListeners()
+    setLoggedIn(false)
+  }
+
+  const sendMsg = async (text) => {
+    let message = rtmClient.createMessage({ text, messageType: 'TEXT' })
+    await testChannel.sendMessage(message)
+    setTexts((previous) => {
+      return [...previous, { msg: { text }, uid }]
+    })
+    setTextInput('')
+  }
+
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
@@ -25,8 +67,9 @@ const PatientVideoCall = (props) => {
   const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
   const [channel ,setChannel] = useState('demo')
   const [token ,setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIAD8ig3d9ExWFhwv1mySzHryeSXjpNVvv8CO1p8Udp/pQqDfQtaQ1sJlEAAJmBoBQLkLYwEAAQDQdQpj')
-  useEffect(() => {
+  useEffect(async() => {
     props.Setsidebarshow(false)
+    await login()
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
     setClient(_client);
     console.log('client================', _client);
