@@ -121,7 +121,11 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
               <div style="width: 100%; height: 50px; background-color: #2d7ecb">
                 <div style="display: flex; padding: 15px 8px;color: white; font-size: 18px;">
                   <img
-                    src="https://dev.physioai.care/static/media/newlogo1.0afac6259a524a790505.png"
+                    src= '${
+                      process.env.REACT_APP_EXERCISE_URL +
+                      "/" +
+                      "images/t1_png/newlogo.png"
+                    }'
                     alt="Logo"
                     width="40"
                     style="margin-top: -8px;"
