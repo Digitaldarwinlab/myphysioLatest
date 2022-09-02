@@ -12,8 +12,8 @@ import {
   GetCalanderDataApi,
 } from "../../PatientAPI/PatientDashboardApi";
 import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
-import "./Calendar.css";
-import "./patNew.css";
+import "../PatientSchedule/Calendar.css";
+import "../PatientSchedule/patNew.css";
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
@@ -64,7 +64,7 @@ const btnStyle = {
   fontSize: "1rem",
 };
 const { Meta } = Card;
-const PatCalendar = ({ onChangeVideoUrl }) => {
+const PatientCareplan = ({ onChangeVideoUrl }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [pres, setPres] = useState([]);
@@ -295,8 +295,8 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       });
       setTimes(times);
       setExercises(commonTime[times[selectedTime][0]]);
-      if (commonTime[times[0][0]].length > 0)
-        onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
+    //   if (commonTime[times[0][0]].length > 0)
+        // onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
     }
     console.log("times ", data);
     let tempStatus = [];
@@ -314,7 +314,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     setUpdate(true);
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
-    onChangeVideoUrl(data[0].exercise_details[0].video_url);
+    // onChangeVideoUrl(data[0].exercise_details[0].video_url);
     setMappedTimeToExercises({});
     times.map((item) => {
       let temp = careplanIdArray;
@@ -341,49 +341,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     return current && current < moment(yesterday, "YYYY-MM-DD");
   };
 
-  const onSelectedDay = async (val, idx) => {
-    activeArr.map((data, index) => {
-      if (index === idx) {
-        activeArr[index] = true;
-      } else {
-        activeArr[index] = false;
-      }
-    });
-
-    console.log("after converting ", convert(val));
-    SetcustomisedDate(convert(val));
-
-    setLoading(true);
-    setExercises([]);
-    setTimes([]);
-
-    let result = await GetPatientCarePlan(currentEpissode, convert(val));
-    console.log("careplans ", result);
-    setLoading(false);
-    if (result[0]) {
-      try {
-        let data = result[1];
-        if (data.length !== 0) {
-          if (data.length == 1) {
-            UpdateCarePlanStateData(data);
-          } else {
-            combineTwoCarePlan(data);
-          }
-        } else {
-          onChangeVideoUrl("");
-        }
-      } catch (err) {
-        console.log(err);
-        onChangeVideoUrl("");
-      }
-    }
-    var isDisabled = checkDisablitiy(val);
-    // setButtonDisabled(isDisabled);
-    setSelectedDate(val);
-  };
 
   const onSelectedDay1 = async (val, episodeId) => {
-    //   console.log(val)
+      console.log(episodeId)
     console.log("before converting ", val);
     SetcustomisedDate(convert(val));
     setLoading(true);
@@ -413,11 +373,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
             combineTwoCarePlan(data);
           }
         } else {
-          onChangeVideoUrl("");
+        //   onChangeVideoUrl("");
         }
       } catch (err) {
         console.log(err);
-        onChangeVideoUrl("");
       }
     }
     var isDisabled = checkDisablitiy(val);
@@ -434,51 +393,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     // console.log(allvisits)
   }, []);
   // console.log(allvisits)
-  useEffect(() => {
-    if (allvisits.length > 0) {
-      const sortVisits = allvisits.filter((data) => {
-        const datetypof = typeof data.appointment_detail.startDate;
-        const date =
-          datetypof == "number"
-            ? new Date(data.appointment_detail.startDate)
-                .toISOString()
-                .substring(0, 10)
-            : data.appointment_detail.startDate.toString().substring(0, 10);
-        //  console.log( 'date is')
-        //  console.log(date)
-        if (date == customisedDate) {
-          return data;
-        }
-      });
-      SetsortedVisits(sortVisits);
-    }
+ 
 
-    //    console.log('on selectin1 : '+customisedDate)
-  }, [customisedDate]);
-
-  useEffect(() => {
-    {
-      const sortVisits = allvisits.filter((data) => {
-        //    console.log(data)
-        const datetypof = typeof data.appointment_detail.startDate;
-        const date =
-          datetypof == "number"
-            ? new Date(data.appointment_detail.startDate)
-                .toISOString()
-                .substring(0, 10)
-            : data.appointment_detail.startDate.toString().substring(0, 10);
-
-        if (date == customisedDate) {
-          return data;
-        }
-      });
-      SetsortedVisits(sortVisits);
-    }
-  }, [allvisits]);
   //UseEffect
-  //  console.log('sorted')
-  // console.log(sortedVisits)
-  const setPrescription = (data) => {};
   useEffect(() => {
     async function getPlan() {
       setLoading(true);
@@ -553,42 +470,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         return "Saturday";
     }
   };
-
-  const dayShort = (d) => {
-    switch (d) {
-      case 0:
-        return "Jan";
-      case 1:
-        return "Feb";
-      case 2:
-        return "Mar";
-      case 3:
-        return "Apr";
-      case 4:
-        return "May";
-      case 5:
-        return "Jun";
-      case 6:
-        return "Jul";
-      case 7:
-        return "Aug";
-      case 8:
-        return "Sept";
-      case 9:
-        return "Oct";
-      case 10:
-        return "Nov";
-      case 11:
-        return "Dec";
-    }
-  };
-
-  //console.log(selectedDate ? new Date(selectedDate).toISOString().substring(0, 10) : new Date().toISOString().substring(0, 10) +'Selecteeddd dayyy')
-  //  console.log(currentEpissode)
-  // console.log('exercises')
-  // console.log(exercises)
-  //TimeSlot Buttons
-
   const TimeSlots = (times) => {
     console.log("get times", selectedTime);
     return (
@@ -707,7 +588,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     let repArr = exercises.map((exercise) => exercise.Rep);
     //  console.log('final exercise status ',exercise_status)
     //  console.log('final exercise status1 ',exercise_status1)
-    onChangeVideoUrl(exercise.video_url);
+    // onChangeVideoUrl(exercise.video_url);
     if (!status_flag) {
       history.push({
         pathname: "/patient/exercises/brief",
@@ -732,8 +613,6 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       });
     }
   };
-
-  const checkStatuc = (ex) => {};
 
   //Exercise Card
   const ExerciseCard = (exercise) => {
@@ -782,200 +661,11 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       // </div>
     );
   };
-  const CalStrip = (data) => {
-    let val = data.dayName.substr(0, 3);
-    return (
-      <li>
-        <p>{val}</p>
-        <p>{data.displayDay}</p>
-      </li>
-    );
-  };
+ 
 
-  const CalStripActive = (data) => {
-    let val = data.dayName.substr(0, 3);
-    return (
-      <li class="active">
-        <p>{val}</p>
-        <p>{data.displayDay}</p>
-      </li>
-    );
-  };
-  const Prescriptions = () => {
-    console.log("new Pres ", pres);
-    return (
-      <>
-        <div className="prescription-row">
-          <span className="presription-col">
-            <b>Prescription Detail ({convert(new Date())}) </b>
-          </span>
-        </div>
-        {state.current_pres && Object.keys(state.current_pres).length > 0 && (
-          <div className="p-2  border visit-card-2" id="visit-card-2">
-            <div className="presription-row">
-              <b>Medication Details </b> <br />
-              {state.current_pres.medication_detail.map((m) => (
-                <>
-                  <div className="upper-visit-row">
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>Medicine :</b> {m.medicine_name}{" "}
-                    </span>
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>No of Medications :</b> {m.no_of_medications}{" "}
-                    </span>
-                  </div>
-                  <div className="upper-visit-row">
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>Instructions :</b> {m.instruction}{" "}
-                    </span>
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>Notes :</b> {m.instruction}{" "}
-                    </span>
-                  </div>
-                </>
-              ))}
-              <b>Lab </b> <br />
-              {state.current_pres.lab_tests.map((m) => (
-                <>
-                  <div className="upper-visit-row">
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>Path :</b> {m.path_lab_test}{" "}
-                    </span>
-                    <span className="visit-col" span={10}>
-                      {" "}
-                      <b>Radiology :</b> {m.radio_lab_test}{" "}
-                    </span>
-                  </div>
-                </>
-              ))}
-            </div>
-          </div>
-        )}
-      </>
-    );
-  };
-
+  
   var date = new Date();
 
-  var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-  const Visits = (data) => {
-    console.log("get visits ", data);
-    var datetypof;
-    var date;
-    if (data) {
-      datetypof = typeof data.appointment_detail.startDate;
-      date =
-        datetypof == "number"
-          ? new Date(data.appointment_detail.startDate)
-              .toISOString()
-              .substring(0, 10)
-          : data.appointment_detail.startDate.toString().substring(0, 10);
-      var timeString = data.appointment_detail.start_time;
-    }
-    console.log("get visits");
-    try {
-      console.log("get visits try");
-      return (
-        <div className="p-2  visit-card-1" id="visit-card-1">
-          <p
-            className="w-100 text-start mb-2"
-            style={{
-              textAlign: "left",
-              fontSize: "20px",
-              position: "relative",
-              left: "10px",
-            }}
-          >
-            <b>Visit Details</b>
-          </p>
-          <div className="upper-visit-row">
-            <span className="visit-col" span={10}>
-              {" "}
-              <b>Time :</b> {data ? timeString + " " : "Not Available"}{" "}
-            </span>
-            <span className="visit-col" span={10}>
-              {" "}
-              <b>Visit Duration :</b>{" "}
-              {data ? data.appointment_detail.duration : "No Visit today"}{" "}
-            </span>
-          </div>
-          <div className="upper-visit-row">
-            <span className="visit-col" span={12}>
-              <b>Visit Type : </b> {data ? data.visit_type : "No Visit today"}
-            </span>
-            <span className="visit-col" span={12}>
-              {/* aswin 10/24/2021 start */}
-              <b>Location : </b> {data ? data.location : "No Location"}
-              {/* aswin 10/24/2021 stop */}
-            </span>
-          </div>
-
-          <div className="video-conference-detail">
-            <span className="video-col">
-              <b> Video Conference Detail</b> :
-              {data.video_link ? (
-                <a
-                  href={"/patient" + data.video_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {data.video_link.length > 0
-                    ? data.video_link
-                    : "Not Available"}
-                </a>
-              ) : (
-                "Not Available"
-              )}
-            </span>
-          </div>
-        </div>
-      );
-    } catch (err) {
-      console.log("get visits", err);
-      return (
-        <div className="p-2  visit-card-1" id="visit-card-1">
-          <p
-            className="w-100 text-start"
-            style={{
-              textAlign: "left",
-              fontSize: "24px",
-              position: "relative",
-              left: "10px",
-            }}
-          >
-            <b>Visit Details</b>
-          </p>
-          <div className="upper-visit-row">
-            <span className="visit-col" span={10}>
-              {" "}
-              <b>Today's Visit :</b> {"error in Data"}{" "}
-            </span>
-            <span className="visit-col" span={10}>
-              {" "}
-              <b>Visit Timing :</b> {"error in Data"}
-            </span>
-          </div>
-          <div className="upper-visit-row">
-            <span className="visit-col" span={12}>
-              <b>Visit Type : </b> {"error in Data"}
-            </span>
-          </div>
-
-          <div className="video-conference-detail">
-            <span className="video-col">
-              <b> Video Conference Detail</b>
-            </span>
-          </div>
-        </div>
-      );
-    }
-  };
 
   const checkStatus = () => {
     console.log("status checking...");
@@ -1056,86 +746,16 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   }, [chosenTime]);
   return (
     <>
-      <center>
-        <Row justify="center">
-          <h2 style={{ position: "absolute", margin: "-10px" }}>
-            {selectedMonth} - {selectedYear}
-          </h2>
-        </Row>
-        <Row justify="center">
-          <Col md={16} lg={16} sm={24} xs={24}>
-            <DatePicker
-              getSelectedDay={(e) => {
-                onSelectedDay(convert(e));
-                console.log("datepicker ", dayShort(e.getMonth()));
-                setSelectedMonth(dayShort(e.getMonth()));
-                setSelectedYear(e.getFullYear());
-              }}
-              labelFormat={"MMMM"}
-              color={"#374e8c"}
-              //   color={"#2d7ecb"}
-              //   onClick={(e)=>console.log(e)}
-            />
-          </Col>
-          {/* <div class="calenderView">
-            <div class="monthName">
-              <h2>{selectedMonth} - {selectedYear}</h2>
-            </div>
-            <div class="pervsBTN">Prves</div>
-            <ul class="daysName">
-            {calendarData.length > 0
-            ? calendarData.map((data,index) => {
-                
-
-             
-                
-               return (
-   
-              
-     <a onClick={() => {onSelectedDay(data.date,index)
-      console.log("plz check data",data);
-     setSelectedMonth(data.displayMonth) 
-     setSelectedYear(data.displayYear)}}
-    
-     >
-     {activeArr[index] ? CalStripActive(data) : CalStrip(data)}
-     
-              </a>       
-           )
-              })
-            : Visits(false)}
-
-              <li></li>
-            </ul>
-            <div class="nextBTN">next</div>
-          </div> */}
-        </Row>
-      </center>
       {loading && (
         <div style={{ marginLeft: "40%", marginRight: "40%", marginTop: 50 }}>
           <Spin tip="Loading..." size="large"></Spin>
         </div>
       )}
-      <div className="conten" id="content">
-        <Col className="exercises-cards">
-          <Row className="p-2 main-card">
-            <ol>
-              {sortedVisits.length > 0
-                ? sortedVisits.map((data) => {
-                    console.log("get data ", data);
-                    return Visits(data);
-                  })
-                : Visits(false)}
-            </ol>
-          </Row>
-          <Row className="p-2 main-card">{Prescriptions()}</Row>
-        </Col>
-        <Col className="exercises-cards">
+      <div className="conten" >
           {times.length !== 0 && TimeSlots(times)}
           {exercises.length !== 0 ? (
             <>
               {exercises.map((ex, index) => {
-                console.log("ex inside ", ex);
                 return (
                   <>
                     <div
@@ -1169,6 +789,27 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                   </Button>
                 </div>
               )}
+              {exercises.length > 0 && (
+                <div className="p-2 start_now_div_large">
+                  <Button
+                    className={`status-button-${
+                      customisedDate !== convert(new Date())
+                        ? "yes"
+                        : exstatCheck
+                    } p-2`}
+                    disabled={
+                      exstatCheck === "yes" ||
+                      customisedDate !== convert(new Date())
+                        ? true
+                        : false
+                    }
+                    style={{ float: "right" }}
+                    onClick={() => handleClick(exercises)}
+                  >
+                    Start Now
+                  </Button>
+                </div>
+              )}
             </>
           ) : (
             !loading && (
@@ -1177,27 +818,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
               </p>
             )
           )}
-        </Col>
+        
       </div>
-      {exercises.length > 0 && (
-        <div className="p-2 start_now_div_large">
-          <Button
-            className={`status-button-${
-              customisedDate !== convert(new Date()) ? "yes" : exstatCheck
-            } p-2`}
-            disabled={
-              exstatCheck === "yes" || customisedDate !== convert(new Date())
-                ? true
-                : false
-            }
-            style={{ float: "right" }}
-            onClick={() => handleClick(exercises)}
-          >
-            Start Now
-          </Button>
-        </div>
-      )}
     </>
   );
 };
-export default PatCalendar;
+export default PatientCareplan;

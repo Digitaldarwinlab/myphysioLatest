@@ -535,19 +535,7 @@ getCurrentPath
       style={{ height: "92vh", fontSize: "1.08rem", overflow: "auto" }}
       mode="inline"
     >
-      {userInfo.role === "patient" && (
-        <Menu.Item
-          title="Visit"
-          icon={<AiFillCalendar className="iconClass1" />}
-          style={{ backgroundColor:'fff' }}
-          className="text-decoration-none"
-        >
-          <Link to="/patient/visits" style={{ color: "black" }}>
-            Visits
-          </Link>
-        </Menu.Item>
-      )}
-      {userInfo.role === "patient" && (
+       {userInfo.role === "patient" && (
         <Menu.Item
           title="Dashboard"
           icon={<i className="fas fa-user iconClass1"></i>}
@@ -560,12 +548,36 @@ getCurrentPath
       )}
       {userInfo.role === "patient" && (
         <Menu.Item
+          title="Visit"
+          icon={<AiFillCalendar className="iconClass1" />}
+          style={{ backgroundColor:'fff' }}
+          className="text-decoration-none"
+        >
+          <Link to="/patient/visits" style={{ color: "black" }}>
+            Visits
+          </Link>
+        </Menu.Item>
+      )}
+     
+      {userInfo.role === "patient" && (
+        <Menu.Item
           title="Prescription"
           icon={<i className="fas fa-notes-medical iconClass1"></i>}
           className="text-decoration-none"
         >
           <Link to="/patient/prescription" style={{ color: "black"}}>
           Prescription
+          </Link>
+        </Menu.Item>
+      )}
+      {userInfo.role === "patient" && (
+        <Menu.Item
+          title="Careplan"
+          icon={<FaMicroscope className="iconClass1" />}
+          className="text-decoration-none"
+        >
+          <Link to="/patient/careplan" style={{ color: "black"}}>
+          Careplan
           </Link>
         </Menu.Item>
       )}

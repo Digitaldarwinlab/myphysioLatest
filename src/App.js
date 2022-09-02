@@ -21,6 +21,7 @@ import EpisodeVisitDetails from './components/episode-visit-details';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import PublicRoute from './components/PrivateRoute/PublicRoute';
 const Careplan = lazy(() => import('./components/care-plan/carePlanIndex'));
+const PatientCareplan = lazy(() => import('./PatientComponents/Careplan/PatientCareplan'));
 const CareplanEnterprise = lazy(() => import('./components/care-plan-enterprise/carePlanIndex'));
 import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
 //const Loading = lazy(() => import("./components/UtilityComponents/Loading.js"));
@@ -287,10 +288,11 @@ const App = () => {
 							<PatientRoute exact path="/patient/schedule" component={PatientSchedule} />
 							<PatientRoute exact path="/patient/prescription" component={PatientPrescription} />
 							<PatientRoute exact path="/patient/visits" component={PatientVisit} />
-							<PatientRoute exact path="/patient/dashboard" component={HomeDashboard} />
+							{/* <PatientRoute exact path="/patient/dashboard" component={HomeDashboard} /> */}
 							<PatientRoute exact path="/patient/ai" forceRefresh={true} component={PatientAI} />
-							<PatientRoute exact path="/patient/profile" component={PatientProfile} />
+							<PatientRoute exact path="/patient/dashboard" component={PatientProfile} />
 							<PatientRoute exact path="/patient/exercises" component={ListOfExercises} />
+							<PatientRoute exact path="/patient/careplan" component={PatientCareplan} />
 							<PatientRoute exact path="/patient/exercises/brief" forceRefresh={true} component={ExerciseDetail} />
 							<PatientRoute exact path="/patient/exercises/manual" forceRefresh={true} component={ExerDetail} />
 							<PatientRoute exact path='/patient/progress' component={PatientProgress} />

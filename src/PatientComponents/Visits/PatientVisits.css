@@ -1,0 +1,16 @@
+#visitCard{
+    width: 60%;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    background-color: rgb(211, 222, 255);
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 7px 3px 7px 0px rgba(0, 0, 0, 0.034);
+    -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+    -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before{
+    width: 0px !important;
+}

@@ -5089,7 +5089,7 @@ background-color: white;
     #content {
       display: flex;
       flex-direction: column-reverse;
-      width: 100%;
+      width: 70%;
       text-align: center;
     }
     #visit-card-1 {

@@ -85,6 +85,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
       });
     }
     async function htmlmap() {
+      console.log(state.episodeReducer.patient_code)
       const res = await getEpisode(state.episodeReducer.patient_code);
       console.log(res)
       const patient = await Patient_profile(state.episodeReducer.patient_code);
