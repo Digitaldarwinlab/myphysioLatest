@@ -9,15 +9,33 @@
     margin:10px 10px 10px 10px !important;    
 }
 
+.end-btn-big{
+    background: red !important;
+    /* color: red !important; */
+}
+
 .holder video {
     position: relative !important;
     display: block;
     transform: rotateY(180deg);
     object-fit: cover;
 }
+
+#user_name{
+    position: absolute;
+    z-index: 1000;
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.agora_video_player{
+    object-fit: contain !important;
+}
+
 .holder-local{
     width: 100%;
-    padding-left: 5px ;
+    /* padding-left: 5px ; */
     overflow: hidden;
     border-radius: 10px;
 }

@@ -14,9 +14,22 @@
 }
 .holder-local{
     width: 100%;
-    padding-left: 5px ;
+    /* padding-left: 5px ; */
     overflow: hidden;
     border-radius: 10px;
+}
+
+#user_name{
+    position: absolute;
+    z-index: 1000;
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.end-btn-big{
+    background: red !important;
+    /* color: red !important; */
 }
 
 .holder-remote{

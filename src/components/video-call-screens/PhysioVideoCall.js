@@ -1,4 +1,4 @@
-import { Col, Row, Space } from 'antd';
+import { Button, Col, Form, Input, Modal, Row, Space } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
@@ -6,6 +6,7 @@ import Draggable from 'react-draggable';
 import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
+import { useLocation, useParams } from 'react-router-dom';
 // props.Setsidebarshow(false)
 const options = {
   appId: '616487fe8ede4785aa8f7e322efdbe7d',
@@ -20,7 +21,7 @@ const useChannel = createChannel('abc')
 const PhysioVideoCall = (props) => {
   const rtmClient = useClient();
   const testChannel = useChannel(rtmClient)
-  
+
   let login = async () => {
     console.log('ConnectionStateChanged')
     await rtmClient.login({ uid: "1234" })
@@ -32,7 +33,7 @@ const PhysioVideoCall = (props) => {
     })
     console.log('ConnectionStateChanged')
     testChannel.on('ChannelMessage', (msg, uid) => {
-      console.log("message received in peer**** " ,msg)
+      console.log("message received in peer**** ", msg)
       // setTexts((previous) => {
       //   return [...previous, { msg, uid }]
       // })
@@ -60,7 +61,7 @@ const PhysioVideoCall = (props) => {
     // })
     // setTextInput('')
   }
-
+  const [modalVisible, setModalVisible] = useState(true);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
@@ -72,10 +73,17 @@ const PhysioVideoCall = (props) => {
   const [screenId, setScreenId] = useState(999);
   const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
   const [channel, setChannel] = useState('demo')
+  const [loading ,setLoading] = useState(undefined)
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
-  useEffect(async () => {
+  const location = useParams()
+  useEffect(() => {
     props.Setsidebarshow(false)
-    await login()
+    
+    console.log("location ", location)
+    const arr = location.channel.split("_")
+    setChannel(arr[0])
+    setUid(arr[1])
+
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
     setClient(_client);
     console.log('client================', _client);
@@ -91,6 +99,7 @@ const PhysioVideoCall = (props) => {
             const remoteVideoTrack = user.videoTrack;
             //const remotePlayerContainer = document.getElementById('remote');
             remoteVideoTrack.play('remote');
+            // document.getElementById('user_name').innerHTML = user.uid
           }
 
           if (mediaType === 'audio') {
@@ -121,8 +130,11 @@ const PhysioVideoCall = (props) => {
     sendMsg("AI stop")
   }
   async function handleJoin() {
+    console.log('channel ', channel)
+    console.log('channel ', uid)
     try {
       console.log('client', client);
+      setLoading(true)
       const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channel}/subscriber/uid/${uid}`);
       const data = await res.json();
       var NewToken = data.rtcToken
@@ -136,18 +148,19 @@ const PhysioVideoCall = (props) => {
       // create a local audio track
       const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       setLocalAudioTrack(_localAudioTrack);
-
       // create a local video track
       const _localVideoTrack = await AgoraRTC.createCameraVideoTrack();
       setLocalVideoTrack(_localVideoTrack);
-
       // publish local audio and video tracks to the RTC channel
       await client.publish([_localAudioTrack, _localVideoTrack]);
 
       //const localPlayerContainer = document.getElementById('local');
 
       _localVideoTrack.play('local');
+      setModalVisible(false)
+      setLoading(false)
       setJoined(true)
+      document.getElementById('user_name').innerHTML = uid
       console.log('publish success!!');
     } catch (e) {
       console.log('error ============', e);
@@ -155,11 +168,14 @@ const PhysioVideoCall = (props) => {
   }
 
   async function handleLeave() {
-    localAudioTrack.close();
-    localVideoTrack.close();
-
-    await client.leave();
-    setJoined(false)
+    if(window.confirm("Are you sure you want to leave")){
+      localAudioTrack.close();
+      localVideoTrack.close();
+  
+      await client.leave();
+      setJoined(false)
+      window.top.close()
+    }
   }
 
   async function handleShareScreen() {
@@ -204,14 +220,54 @@ const PhysioVideoCall = (props) => {
   }
   return (
     <React.Fragment>
+      <Modal
+        title="Join Channel"
+        style={{
+          top: 20,
+        }}
+        visible={modalVisible}
+        onOk={() => {
+          handleJoin()
+          setModalVisible(false)
+        }}
+        onCancel={() => {
+          setModalVisible(false)
+          window.top.close()
+        }}
+        footer={[
+          <div class=" d-flex justify-content-center">
+            <Button disabled={loading} loading={loading} id="join-channel" size="large" type="text" onClick={handleJoin}>
+              Join Channel
+            </Button>
+          </div>
+        ]}
+      >
+        <label for="form-channel">Channel</label>
+        <input type="text"
+          id="form-channel"
+          class="form-control"
+          value={channel}
+          disabled
+        />
+        <label for="form-uid">UID</label>
+        <input
+          type="number"
+          id="form-uid"
+          class="form-control"
+          value={uid}
+          // data-decimals="0"
+          disabled
+        />
+      </Modal>
       <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
-        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+        <Col span={24}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
-          <Row gutter={[16, 16]} >
-            <Col className='holder' span={12} style={{ position: 'relative', display: 'grid' }}>
+          <Row  gutter={[16, 16]}>
+            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+              <p id='user_name'></p>
               <div id="local" className='holder-local' ></div>
             </Col>
-            <Col className='holder' span={12} style={{ position: 'relative', display: 'grid' }}>
+            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
               <div ref={nodeRef} id="remote" className='holder-local' ></div>
               {/* </Draggable>  */}
@@ -222,7 +278,7 @@ const PhysioVideoCall = (props) => {
                 <button
                   id="mic-btn"
                   type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  className={`btn ${!audio?`end-btn-big`:``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={audio ? stopAudio : startAudio}
                 >
                   {audio ? <BsMic /> : <BsMicMuteFill />}
@@ -233,32 +289,34 @@ const PhysioVideoCall = (props) => {
                 <button
                   id="video-btn"
                   type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  className={`btn ${!video?`end-btn-big`:``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={video ? stopVideo : startVideo}
                 >
                   {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
                   {/* <i id="video-icon" class="fas fa-video"></i> */}
                 </button>
 
-                {joined ? <button
+                <button
                   id="exit-btn"
                   type="button"
-                  className="btn video_con_bttn btn-block btn-red btn-lg"
+                  style={{backgroundColor:'red'}}
+                  className="btn end-btn-big video_con_bttn btn-block btn-danger btn-lg"
                   onClick={handleLeave}
                 >
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
-                </button> : <button
+                </button> 
+                {/* <button
                   type="button"
-                  onClick={handleJoin}
+                  // onClick={handleJoin}
                   id="screen-share-btn"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                 >
-                  {/* <i id="screen-share-icon" class="fas fa-phone-slash"></i> */}
+                  <i id="screen-share-icon" class="fas fa-phone-slash"></i>
                   join
-                </button>}
+                </button> */}
 
-
+{/* 
                 <button
                   id="exit-btn"
                   type="button"
@@ -276,7 +334,7 @@ const PhysioVideoCall = (props) => {
                   onClick={stopAI}
                 >
                   <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
-                </button>
+                </button> */}
 
 
                 {/* <button
