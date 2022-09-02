@@ -547,6 +547,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       return {
         ex_em_id: val.ex_em_id,
         name: val.title ? val.title : "Exercise",
+        instruction_array: val.instruction_array ? val.instruction_array : [],
         Rep: {
           set: 1,
           rep_count: 10,
@@ -660,6 +661,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -705,6 +707,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -917,6 +920,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -989,6 +993,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -1086,6 +1091,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       (it) => it.ex_em_id == id
     );
     if (test) {
+      console.log(test)
       let temp = reduxState.carePlanRedcucer.exercises_cart.filter(
         (it) => it.ex_em_id !== id
       );
@@ -1162,6 +1168,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       return {
         ex_em_id: val.ex_em_id,
         name: val.title ? val.title : val.name,
+        instruction_array: val.instruction_array ? val.instruction_array : [],
         Rep: {
           set: 1,
           rep_count: 10,

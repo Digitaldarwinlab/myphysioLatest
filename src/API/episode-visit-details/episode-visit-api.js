@@ -234,7 +234,7 @@ export const fetchCarePlanEmp = async (eid) => {
   }
 };
 
-export const fetchSummaryDetails = async (patId,startDate,endDate) => {
+export const fetchSummaryDetails = async (patId, startDate, endDate) => {
   const encodedData = {
     id: patId,
     start_date: startDate,
@@ -268,7 +268,7 @@ export const fetchSummaryDetails = async (patId,startDate,endDate) => {
     return [];
   }
 };
-export const fetchDashboardDetails = async (patId,startDate,endDate) => {
+export const fetchDashboardDetails = async (patId, startDate, endDate) => {
   const encodedData = {
     id: patId,
     start_date: startDate,
@@ -297,6 +297,37 @@ export const fetchDashboardDetails = async (patId,startDate,endDate) => {
       throw new Error("Error: " + response.status + response.statusText);
     }
     return responseData;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};
+
+export const CarePlanPdf = async (html) => {
+  const encodedData = {
+    payload: html,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(process.env.REACT_APP_API + "/html_to_pdf/", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(encodedData),
+    });
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(await response.blob())
+    const responseData = await response.blob();
+    const url = window.URL.createObjectURL(responseData);
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return url;
   } catch (err) {
     // console.log(err, "Error in Fetching Patient Visits");
     return [];
