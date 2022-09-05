@@ -8,36 +8,34 @@ import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } fro
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 // props.Setsidebarshow(false)
+export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
+//7aca4bce40d0476fb3aafde5f88e3de9
+export const useChannel = createChannel('abc')
 const options = {
   appId: '616487fe8ede4785aa8f7e322efdbe7d',
   channel: 'test',
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
 };
+//0cd715df538845e5906569a182ac0448
 
-const useClient = createClient(options.appId);
-const useChannel = createChannel('abc')
 
 const PhysioVideoCall = (props) => {
-  const rtmClient = useClient();
-  const testChannel = useChannel(rtmClient)
-
+  const [uid1 ,setUid1] =useState(Math.floor(Math.random() * 1100))
+  const RTMClient = useClient();
+  const testChannel = useChannel(RTMClient)
+  
   let login = async () => {
-    console.log('ConnectionStateChanged')
-    await rtmClient.login({ uid: "1234" })
-    console.log('ConnectionStateChanged')
+    await RTMClient.login({ uid: `${uid1}` })
     await testChannel.join()
-    console.log('ConnectionStateChanged')
-    rtmClient.on('ConnectionStateChanged', async (state, reason) => {
+    RTMClient.on('ConnectionStateChanged', async (state, reason) => {
       console.log('ConnectionStateChanged1', state, reason)
     })
-    console.log('ConnectionStateChanged')
     testChannel.on('ChannelMessage', (msg, uid) => {
       console.log("message received in peer**** ", msg)
       // setTexts((previous) => {
       //   return [...previous, { msg, uid }]
       // })
-      console.log("rtm client msg received")
     })
     testChannel.on('MemberJoined', (memberId) => {
       console.log('New Member: ', memberId)
@@ -45,16 +43,16 @@ const PhysioVideoCall = (props) => {
     //setLoggedIn(true)
   }
 
-  let logout = async () => {
-    await testChannel.leave()
-    await rtmClient.logout()
-    testChannel.removeAllListeners()
-    rtmClient.removeAllListeners()
-    setLoggedIn(false)
-  }
+  // let logout = async () => {
+  //   await testChannel.leave()
+  //   await rtmClient.logout()
+  //   testChannel.removeAllListeners()
+  //   rtmClient.removeAllListeners()
+  //   setLoggedIn(false)
+  // }
 
   const sendMsg = async (text) => {
-    let message = rtmClient.createMessage({ text, messageType: 'TEXT' })
+    let message = RTMClient.createMessage({ text, messageType: 'TEXT' })
     await testChannel.sendMessage(message)
     // setTexts((previous) => {
     //   return [...previous, { msg: { text }, uid }]
@@ -93,7 +91,7 @@ const PhysioVideoCall = (props) => {
         if (user.uid !== screenId) {
           // subscribe to the remote user
           await _client.subscribe(user, mediaType);
-          console.log('subscribe successfull!');
+          console.log('subscribe successfull! ',user);
 
           if (mediaType === 'video') {
             const remoteVideoTrack = user.videoTrack;
@@ -127,9 +125,10 @@ const PhysioVideoCall = (props) => {
   }
   const stopAI = async () => {
     console.log("stop")
-    sendMsg("AI stop")
+    sendMsg("start")
   }
   async function handleJoin() {
+    login()
     console.log('channel ', channel)
     console.log('channel ', uid)
     try {
@@ -162,6 +161,7 @@ const PhysioVideoCall = (props) => {
       setJoined(true)
       document.getElementById('user_name').innerHTML = uid
       console.log('publish success!!');
+      // login()
     } catch (e) {
       console.log('error ============', e);
     }
@@ -306,6 +306,24 @@ const PhysioVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button> 
+                <button
+                  id="exit-btn"
+                  type="button"
+                  className="btn video_con_bttn btn-block btn-red btn-lg"
+                  onClick={startAI}
+                >
+                  <i id="exit-icon" class="fas fa-phone-slash"></i>
+                </button>
+
+
+                <button
+                  id="magic-btn"
+                  type="button"
+                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={stopAI}
+                >
+                  <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
+                </button>
                 {/* <button
                   type="button"
                   // onClick={handleJoin}

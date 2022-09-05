@@ -13,7 +13,7 @@ const options = {
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
 };
-const useClient = createClient(options.appId);
+const useClient = createClient('7aca4bce40d0476fb3aafde5f88e3de9');
 const useChannel = createChannel("abc")
 
 const PatientVideoCall = (props) => {
@@ -24,13 +24,64 @@ const PatientVideoCall = (props) => {
   const location = useParams()
 
   let login = async () => {
-    await rtmClient.login({ uid: '123' })
+    await rtmClient.login({ uid: `${Math.floor(Math.random() * 10875)}` })
     await testChannel.join()
     rtmClient.on('ConnectionStateChanged', async (state, reason) => {
       console.log('ConnectionStateChanged', state, reason)
     })
     testChannel.on('ChannelMessage', (msg, uid) => {
       console.log("message received in peer**** ", msg)
+      if (msg.text == "AI start") {
+        let videoElem = document.getElementById('local').querySelector('video')
+        console.log("video elem ", videoElem)
+        let canvas = document.getElementById('scanvas')
+        let {width ,height} = videoElem.getBoundingClientRect()
+        //document.getElementById('local').appendChild(canvas)
+        canvas.style.width = '100%'
+        // canvas.style.height = height
+        //  canvas.style = videoElem.style
+        const options = {
+          video: videoElem,
+          videoWidth: width,
+          // videoHeight: height,
+          canvas: canvas,
+          supervised: true,
+          showAngles: true,
+        };
+        // const options = {
+        //     video,
+        //     videoWidth: 550,
+        //     videoHeight: 420,//window.innerHeight-20,
+        //     canvas,
+        //     // loadingEleId: 'loading',
+        //     // mainEleId: 'main',
+        //     supervised: true,
+        //     showAngles: true,
+        // };
+        // this.innerHTML2();
+        console.log(options)
+        window.darwin.initializeModel(options);
+        window.darwin.launchModel();
+        window.darwin.stop();
+      }
+      if (msg.text == "start") {
+        window.darwin.restart();
+        window.darwin.setExcersiseParams({
+          name: "AROM",
+          primaryKeypoint: 0,
+          angles: [6, 7],
+          dir: 1,
+          minAmp: 30,
+          primaryAngles: [6, 7],
+          ROMs: [
+            [30, 160],
+            [30, 160],
+          ],
+          totalReps: 3,
+          totalSets: 2,
+        });
+      }
+
       // setTexts((previous) => {
       //   return [...previous, { msg, uid }]
       // })
@@ -88,7 +139,7 @@ const PatientVideoCall = (props) => {
         if (user.uid !== screenId) {
           // subscribe to the remote user
           await _client.subscribe(user, mediaType);
-          console.log('subscribe successfull!');
+          console.log('subscribe successfull! ', user);
 
           if (mediaType === 'video') {
             const remoteVideoTrack = user.videoTrack;
@@ -115,9 +166,17 @@ const PatientVideoCall = (props) => {
     }
   }, []);
 
+  const startAI = async () => {
+    console.log("start")
+    // login()
+    // sendMsg("AI start")
+
+  }
+
   async function handleJoin() {
     console.log('channel ', channel)
     console.log('channel ', uid)
+    login()
     try {
       console.log('client', client);
       setLoading(true)
@@ -298,6 +357,7 @@ const PatientVideoCall = (props) => {
             <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               <p id='user_name'></p>
               <div id="local" className='holder-local' ></div>
+              <canvas style={{ position: "absolute"}} id="scanvas"></canvas>
             </Col>
             <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
@@ -337,6 +397,14 @@ const PatientVideoCall = (props) => {
                 >
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
+                </button>
+                <button
+                  id="exit-btn"
+                  type="button"
+                  className="btn video_con_bttn btn-block btn-red btn-lg"
+                  onClick={startAI}
+                >
+                  <i id="exit-icon" class="fas fa-phone-slash"></i>
                 </button>
                 {/*
 
