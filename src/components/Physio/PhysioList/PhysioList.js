@@ -290,7 +290,12 @@ console.log(data);
         visible={passwordmodal}
         footer={null}
         closable
-        onCancel={() => Setpasswordmodal(false)}
+        onCancel={() => {
+            Setpasswordmodal(false)
+            setNewPassword('')
+            form.resetFields();
+            setConfirmPassword('')
+          }}
         title="Set New Password"
         centered
 

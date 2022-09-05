@@ -70,7 +70,7 @@ const checkNameValidation = (value) => {
     // else if (!value || value.length < 4)
     //     error["error"] = "Name must contain atleast 4 characters.";
      if (!validName.test(value)) {
-        error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
+        error["error"] = "Name must not contain any Special Symbol or Numbers. (Ex: @,:,;,},0-9 etc.)"
     }
 } 
     }
