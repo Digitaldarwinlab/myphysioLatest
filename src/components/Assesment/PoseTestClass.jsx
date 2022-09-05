@@ -1,14 +1,20 @@
-import { Alert, Button, Col, Input, Modal, Result, Row } from "antd";
+import { Alert, Button, Col, Input, Modal, Result, Row, Radio } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import bodyImage from "../.././assets/lateral.webp";
 import side_img from "../.././assets/sideways-vector.webp";
+import bodySideImage from "../.././assets/Front_Sit.webp";
+import side_sit_img from "../.././assets/Side_Sit.webp";
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import Tabs from "./Tabs";
- import './PoseTestClass.css';
+import './PoseTestClass.css';
+import { AiOutlineDoubleRight } from "react-icons/ai";
+import Tab1 from "./Tab1";
 let screenshot = [];
 let frontChecks = {};
 let sideChecks = {};
+let frontSitChecks = {};
+let sideSitChecks = {};
 let side = [
   "Flexed Knee",
   "Hyper Extended Knee",
@@ -24,16 +30,36 @@ let front = [
   "Squinting / cross eyed patella",
   "Grosshoppers eyed platella",
 ];
+let sideSit = [
+  "Flexed Knee",
+  "Hyper Extended Knee",
+  "Excessive Anterior Pelvic",
+  "Forward Head",
+  "Lordosis",
+  "Kyphosis",
+];
+
+let frontSit = [
+  "Genu Valgum",
+  "Genu Varum",
+  "Squinting / cross eyed patella",
+  "Grosshoppers eyed platella",
+];
 class PoseTestClass extends Component {
   constructor(props) {
     super(props);
     this.state = {
       url1: bodyImage,
       url2: side_img,
+      url3: bodySideImage,
+      url4: side_sit_img,
       frontAngles: [0, 0, 0, 0, 0],
       sideAngles: [0, 0, 0, 0],
+      frontSitAngles: [0, 0, 0, 0, 0],
+      sideSitAngles: [0, 0, 0, 0 ,0],      
       notes: "",
-      orientation: 1
+      orientation: 1,
+      type: true
     };
   }
   GoBack = () => {
@@ -61,6 +87,14 @@ class PoseTestClass extends Component {
   };
   setSideAngles = (value) => {
     this.state.sideAngles = value
+  };
+  setSitFrontAngles = (value) => {
+    //this.state.frontSitAngles = value
+    this.setState({frontSitAngles:value})
+  };
+  setSitSideAngles = (value) => {
+    //this.state.sideSitAngles = value
+    this.setState({sideSitAngles:value})
   };
   captureFront = async () => {
     window.scrollTo(0, 0);
@@ -99,6 +133,45 @@ class PoseTestClass extends Component {
     out.appendChild(img);
     console.log(screenshot);
   };
+  captureSitFront = async () => {
+    window.scrollTo(0, 0);
+    const out = document.getElementById("scr_out_sit1");
+    console.log(out)
+    const canvas = await html2canvas(document.getElementById("output"));
+    //html2canvas(document.getElementById("output")).then(function (canvas) {
+    screenshot.push(canvas.toDataURL("image/jpeg", 0.9));
+    var extra_canvas = document.createElement("canvas");
+    extra_canvas.setAttribute("width", 180);
+    extra_canvas.setAttribute("height", 180);
+    var ctx = extra_canvas.getContext("2d");
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
+    var dataURL = extra_canvas.toDataURL();
+    var img = document.createElement("img");
+    // this.state.url1 = dataURL
+    this.setState({ url3: dataURL })
+    img.src = dataURL;
+    out.appendChild(img);
+    console.log(screenshot);
+  };
+  captureSitSide = async () => {
+    window.scrollTo(0, 0);
+    const out = document.getElementById("scr_out_sit2");
+    console.log(out)
+    const canvas = await html2canvas(document.getElementById("output"));
+    screenshot.push(canvas.toDataURL("image/jpeg", 0.9));
+    var extra_canvas = document.createElement("canvas");
+    extra_canvas.setAttribute("width", 180);
+    extra_canvas.setAttribute("height", 180);
+    var ctx = extra_canvas.getContext("2d");
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
+    var dataURL = extra_canvas.toDataURL();
+    var img = document.createElement("img");
+    //this.state.url2 = dataURL
+    this.setState({ url4: dataURL })
+    img.src = dataURL;
+    out.appendChild(img);
+    console.log(screenshot);
+  };
 
   onChangeFront = (value) => {
     console.log("front ", value);
@@ -123,6 +196,30 @@ class PoseTestClass extends Component {
       }
     });
     this.props.FirstAssesment("sideChecks", sideChecks);
+  };
+  onChangeSitSide = (value) => {
+    console.log("side ", value);
+    this.props.FirstAssesment("SideSitCheck", value);
+    sideSit.map((a) => {
+      if (value.includes(a)) {
+        sideSitChecks[a] = 1;
+      } else {
+        sideSitChecks[a] = 0;
+      }
+    });
+    this.props.FirstAssesment("sideSitChecks", sideChecks);
+  };
+  onChangeSitFront = (value) => {
+    console.log("front ", value);
+    this.props.FirstAssesment("FrontSitCheck", value);
+    frontSit.map((a) => {
+      if (value.includes(a)) {
+        frontSitChecks[a] = 1;
+      } else {
+        frontSitChecks[a] = 0;
+      }
+    });
+    this.props.FirstAssesment("frontSitChecks", frontChecks);
   };
   releaseCamera = () => {
     const video = document.getElementById('video');
@@ -159,6 +256,16 @@ class PoseTestClass extends Component {
         posterial_view_image: this.state.url2,
         Angles: this.state.sideAngles,
         checkbox: this.props.FirstAssesmentReducer.sideChecks,
+      },
+      sitting_Posterial_view: {
+        posterial_view_image: this.state.url3,
+        Angles: this.state.frontSitAngles,
+        checkbox: this.props.FirstAssesmentReducer.frontSitChecks,
+      },
+      Sitting_lateral_view: {
+        posterial_view_image: this.state.url4,
+        Angles: this.state.sideSitAngles,
+        checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
       },
       Notes: this.state.notes,
     };
@@ -278,7 +385,7 @@ class PoseTestClass extends Component {
           </Row>
           <Row>
             <Col span={24}>
-            <Alert message="The angle of deviation is calculated from Left to Right" type="info" showIcon closable />
+              <Alert message="The angle of deviation is calculated from Left to Right" type="info" showIcon closable />
             </Col>
           </Row>
           <Row className="pose_mobile_view_row_video_screen">
@@ -298,7 +405,20 @@ class PoseTestClass extends Component {
               </Col>
             </Col>
             <Col className="border px-2 py-2 " md={12} lg={12} sm={24} xs={12}>
-              <Tabs
+              {/* <Col span={10}>
+                <Button type="text">Standing Posture</Button>
+              </Col>
+              <Col span={10}>
+                <AiOutlineDoubleRight />
+              </Col> */}
+              <Radio.Group onChange={() => {
+                console.log("change ,",this.state.type)
+                this.setState({ type: !this.state.type })
+              }} defaultValue="a" size="large">
+                <Radio.Button  style={{ width: '100px' }} value="a">Standing   </Radio.Button>
+                <Radio.Button  style={{ width: '100px' }} value="b">Sitting  </Radio.Button>
+              </Radio.Group>
+              {this.state.type ? <Tabs
                 url1={this.state.url1}
                 url2={this.state.url2}
                 frontAngles={this.state.frontAngles}
@@ -310,7 +430,19 @@ class PoseTestClass extends Component {
                 onChangeSide={this.onChangeSide}
                 onChangeFront={this.onChangeFront}
                 setOrientation={this.setOrientation}
-              />
+              /> : <Tab1
+                url1={this.state.url3}
+                url2={this.state.url4}
+                frontAngles={this.state.frontSitAngles}
+                sideAngles={this.state.sideSitAngles}
+                setFrontAngles={this.setSitFrontAngles}
+                setSideAngles={this.setSitSideAngles}
+                captureFront={this.captureSitFront}
+                captureSide={this.captureSitSide}
+                onChangeSide={this.onChangeSitSide}
+                onChangeFront={this.onChangeSitFront}
+                setOrientation={this.setOrientation}
+              />}
             </Col>
           </Row>
           <Row style={{ paddingBottom: "15px" }}>
