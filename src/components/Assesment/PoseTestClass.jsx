@@ -143,7 +143,7 @@ class PoseTestClass extends Component {
     }
   }
   handleSubmit = () => {
-    this.releaseCamera()
+    
     console.log('posture submitting...')
     console.log("posture checkbox1 ", this.props.FirstAssesmentReducer.frontChecks)
     console.log("posture checkbox2 ", this.props.FirstAssesmentReducer.sideChecks)
@@ -163,6 +163,7 @@ class PoseTestClass extends Component {
       Notes: this.state.notes,
     };
     if (window.confirm("Posture data will be saved")) {
+      this.releaseCamera()
       this.props.FirstAssesment("posture", posture);
       this.props.history.push("/assessment/1")
     }

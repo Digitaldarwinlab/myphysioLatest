@@ -87,11 +87,11 @@ const InvoiceForm = ({
                 <span style={{ display: "flex", justifyContent: "end" }}>
                   <span style={{marginTop:'10px'}}>Date:&nbsp;</span>
                   <div style={{ width: "150px", textAlign: "left" }}>
-                    <DatePicker  disabledDate={disabledDate} placeholder="Start Date" onChange={(value) => {setStartDate(value)}} format="DD MMMM YYYY" />
+                    <DatePicker  placeholder="Start Date" onChange={(value) => {setStartDate(value)}} format="DD MMMM YYYY" />
                   </div>
                   <span style={{marginTop:'10px'}}><BiArrowFromLeft/></span>
                   <div style={{ width: "150px", textAlign: "left" }}>
-                    <DatePicker disabledDate={disabledDate} placeholder="End Date" onChange={(value) => {setEndDate(value)}} format="DD MMMM YYYY" />
+                    <DatePicker placeholder="End Date" onChange={(value) => {setEndDate(value)}} format="DD MMMM YYYY" />
                   </div>
                 </span>
               </div>

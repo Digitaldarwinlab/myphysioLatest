@@ -452,10 +452,10 @@ const Register3 = (props) => {
                   <Row justify="center">
                   <Space size={"middle"}> 
                      <Col span={2}><Button className="my-3  me-3" style={{borderRadius:'10px'}} onClick={Back}>Back</Button></Col>
-                     <Col span={2}><Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B",borderRadius:'10px'}}  onClick={reset}>
+                     <Col span={2}><Button htmlType="reset" className=" my-3 me-3" style={{backgroundColor:"#1BBC9B"}}  onClick={reset}>
                         {state.BasicDetails.pp_patm_id ? "Cancel" : "Reset"}
                     </Button></Col>
-                     <Col span={2}><Button htmlType="submit" className="me-3 my-3 btncolor"   onClick={showModal}>
+                     <Col span={2}><Button htmlType="submit" className="me-3 my-3"   onClick={showModal}>
                         {state.BasicDetails.pp_patm_id ? "Update" : "Submit"}
                     </Button></Col>
                     </Space>

@@ -290,7 +290,12 @@ console.log(data);
         visible={passwordmodal}
         footer={null}
         closable
-        onCancel={() => Setpasswordmodal(false)}
+        onCancel={() => {
+            Setpasswordmodal(false)
+            setNewPassword('')
+            form.resetFields();
+            setConfirmPassword('')
+          }}
         title="Set New Password"
         centered
 
@@ -452,10 +457,10 @@ console.log(data);
                     <div style={{ minHeight: "20px" }}></div>
                     <Row>
         <Col className="pag_large" md={24} sm={24} xs={24}>
-          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8}} bordered columns={columns} dataSource={physios} />
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8, position: ["none", "bottomCenter"]}} bordered columns={columns} dataSource={physios} />
         </Col>
         <Col style={{display:'none'}} className="pag_mob" md={24} sm={24} xs={24}>
-          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8,size: "small" }} bordered columns={columns} dataSource={physios} />
+          <Table locale={locale} scroll={{ x: 500 }} pagination={{ pageSize: 8,size: "small", position: ["none", "bottomCenter"] }} bordered columns={columns} dataSource={physios} />
         </Col>
       </Row>
             {ShowPhysioInfo()}

@@ -8,3 +8,7 @@
  .template_badge_text{
   font-weight: 10px;
  } 
+
+ .ant-card-meta-title{
+  white-space: break-spaces !important;
+ }

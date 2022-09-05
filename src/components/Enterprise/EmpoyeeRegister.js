@@ -806,7 +806,7 @@ const EmployeeRegister = (props) => {
             <Col span={2}> <Button type="primary"  
                     // className="my-3  me-2 btncolor"  
                      htmlType="submit">Next</Button></Col> */}
-                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 btncolor" >
+                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 " >
                         {state.BasicDetails.pp_em_id ? "Update" : "Submit"}
                     </Button></Col>
                 </Row>

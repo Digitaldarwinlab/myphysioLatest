@@ -237,7 +237,7 @@ const PhysioRegisteration3 = (props) => {
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}
                 </Button> */}
                 {/* aswin 10/15/2021 end */}
-                <Button onClick={showModal} className=" me-3 btncolor" >
+                <Button onClick={showModal} className=" me-3 " >
                     {state.physioRegisterReducer.id ? "Update" : "Submit"}
                 </Button>
                 <Modal title="Confirm All Details?" visible={isModalVisible} onOk={handleSubmit} onCancel={handleCancel}>

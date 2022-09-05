@@ -38,7 +38,7 @@ const checkAddrValidation = (value) => {
 }
 
 const checkNameValidation = (value) => {
-    const validName = new RegExp('^[a-zA-Z0-9_]{2,20}$');
+    const validName = new RegExp('^[a-zA-Z]{2,20}$');
     let error = {};
 
     if(value)
@@ -47,7 +47,7 @@ const checkNameValidation = (value) => {
     {
         
     
-    console.log('matching name',value)
+    console.log('matching name',validName.test(value))
     var matches = /^[A-Za-z]+$/;
     
     // console.log('matchesss' + matches)
@@ -70,7 +70,7 @@ const checkNameValidation = (value) => {
     // else if (!value || value.length < 4)
     //     error["error"] = "Name must contain atleast 4 characters.";
      if (!validName.test(value)) {
-        error["error"] = "Name must not contain any Special Symbol. (Ex: @,:,;,},{ etc.)"
+        error["error"] = "Name must not contain any Special Symbol or Numbers. (Ex: @,:,;,},0-9 etc.)"
     }
 } 
     }

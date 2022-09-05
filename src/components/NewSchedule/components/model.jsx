@@ -271,9 +271,9 @@ async function adminId(id){
 
     dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
   };
-
   const handleOk = () => {
     removeVisitClick() 
+    setShow(false)
     dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
     console.log(data);
     setIsVisible(false);
@@ -338,7 +338,7 @@ async function adminId(id){
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
-              start_time: reducerData.date._d.toISOString().slice(11, 19),
+              start_time: data.date._d.toISOString().slice(11, 19),
               duration: data.duration,
             },
             location: data.location,
@@ -359,11 +359,11 @@ async function adminId(id){
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
-              start_time: reducerData.date._d.toISOString().slice(11, 19),
+              start_time: data.date._d.toISOString().slice(11, 19),
               duration: data.duration,
             },
             location: data.location,
-            isRepeat: 0,
+            isRepeat: '',
             created_by: userId,
           };
           console.log(reducerData.date._d.toISOString().slice(11, 19));
@@ -417,7 +417,7 @@ async function adminId(id){
       notes: reducerData.notes,
       status: reducerData.status,
       location: reducerData.location,
-      isRepeat: reducerData.isRepeat ? 1 : 0,
+      isRepeat: reducerData.isRepeat ? 1 : '',
       video_link: data.location === "Video-confrence" ? data.link : "" ,
       repeat: "weekly",
       days: reducerData.days,
@@ -735,7 +735,7 @@ async function adminId(id){
                 <Switch
                   checkedChildren="on"
                   unCheckedChildren="off"
-                  checked={reducerData.isRepeat}
+                  checked={show}
                   onChange={() => {
                     setShow(!show);
                     dispatch({
@@ -749,24 +749,10 @@ async function adminId(id){
             </Row>
 
             <br />
-            {/* <Row>
-                <Col span={24}>
-                  <Switch checkedChildren="on" unCheckedChildren="off"
-                  checked={reducerData.isRepeat}
-                    onChange={() => {
-                      setShow(!show)
-                    dispatch({type:'IS_REPEAT',payload:{isRepeat:!reducerData.isRepeat}})
-                    }} />
-                  <span style={{ paddingLeft: 8, }}>Repeat</span>
-
-                </Col>
-              </Row> */}
-            {/* repeat  */}
-            {reducerData.isRepeat && (
+            {show && (
               <Row>
                 <p> Recurrence Rule</p>
                 <Col span={24}>
-                  {/* Repeat */}
 
                   {repeat === "Weekly" && (
                     <div className="repeatFun">
