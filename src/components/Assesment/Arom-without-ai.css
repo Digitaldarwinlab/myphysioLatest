@@ -1,0 +1,24 @@
+.ant-table-tbody > tr > td:first-child{
+    width:45% !important;
+}
+
+@media only screen and (max-width: 650px) {
+    .ant-collapse-content > .ant-collapse-content-box{
+        padding: 0 !important;
+    }
+    .ant-table-tbody > tr > td:first-child{
+        width:45% !important;
+    }
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td{
+        padding: 0 !important;
+    }
+    .ant-input-number{
+        width: 100% !important;
+    }
+    .delete_arom_btn{
+        min-width: 0 !important;
+    }
+    .ant-input-number-input{
+        padding: 0 !important;
+    }
+}
