@@ -39,7 +39,27 @@
     z-index: 100;
     /* background-color: antiquewhite; */
 }
-
+.holder-remote{
+    position: absolute;
+    right: 0.5 rem;
+    top:0.5rem;
+    width:150px;
+    height:150px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 15px;
+    background: #efefef;
+    display: flow-root;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+}
+@media only screen and (max-width: 767px) {
+    .holder-remote{
+        width:100px;
+        height:100px;
+    }
+}
 @media only screen and (max-width: 650px) {
     .video-call-main-container{
         margin: 5px !important;
@@ -48,3 +68,5 @@
         border-radius: 20px !important ;
     }
   }
+
+ 

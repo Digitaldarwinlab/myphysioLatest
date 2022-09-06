@@ -39,6 +39,24 @@
     overflow: hidden;
     border-radius: 10px;
 }
-.holder-remote1{
-    border-radius: 10px !important;
+.holder-remote{
+    position: absolute;
+    right: 0.5 rem;
+    top:0.5rem;
+    width:150px;
+    height:150px;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 15px;
+    background: #efefef;
+    display: flow-root;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+}
+@media only screen and (max-width:650px) {
+    .holder-remote{
+        width:100px;
+        height:100px;
+    }
 }

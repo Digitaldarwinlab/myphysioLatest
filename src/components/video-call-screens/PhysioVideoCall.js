@@ -12,7 +12,7 @@ export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 //7aca4bce40d0476fb3aafde5f88e3de9
 export const useChannel = createChannel('abc')
 const options = {
-  appId: '616487fe8ede4785aa8f7e322efdbe7d',
+  appId: '7aca4bce40d0476fb3aafde5f88e3de9',
   channel: 'test',
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
@@ -21,10 +21,10 @@ const options = {
 
 
 const PhysioVideoCall = (props) => {
-  const [uid1 ,setUid1] =useState(Math.floor(Math.random() * 1100))
+  const [uid1, setUid1] = useState(Math.floor(Math.random() * 1100))
   const RTMClient = useClient();
   const testChannel = useChannel(RTMClient)
-  
+
   let login = async () => {
     await RTMClient.login({ uid: `${uid1}` })
     await testChannel.join()
@@ -69,14 +69,14 @@ const PhysioVideoCall = (props) => {
   const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(999);
-  const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
+  const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
-  const [loading ,setLoading] = useState(undefined)
+  const [loading, setLoading] = useState(undefined)
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
   const location = useParams()
   useEffect(() => {
     props.Setsidebarshow(false)
-    
+
     console.log("location ", location)
     const arr = location.channel.split("_")
     setChannel(arr[0])
@@ -91,7 +91,7 @@ const PhysioVideoCall = (props) => {
         if (user.uid !== screenId) {
           // subscribe to the remote user
           await _client.subscribe(user, mediaType);
-          console.log('subscribe successfull! ',user);
+          console.log('subscribe successfull! ', user);
 
           if (mediaType === 'video') {
             const remoteVideoTrack = user.videoTrack;
@@ -168,10 +168,10 @@ const PhysioVideoCall = (props) => {
   }
 
   async function handleLeave() {
-    if(window.confirm("Are you sure you want to leave")){
+    if (window.confirm("Are you sure you want to leave")) {
       localAudioTrack.close();
       localVideoTrack.close();
-  
+
       await client.leave();
       setJoined(false)
       window.top.close()
@@ -262,23 +262,24 @@ const PhysioVideoCall = (props) => {
       <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
         <Col span={24}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
-          <Row  gutter={[16, 16]}>
-            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+          <Row gutter={[16, 16]}>
+            <Col className='holder' xs={24} sm={24} md={12} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               <p id='user_name'></p>
-              <div id="local" className='holder-local' ></div>
+              <div id="remote" className='holder-local' ></div>
+              <Draggable bounds="parent" ref={nodeRef} scale={2}>
+                <div ref={nodeRef}  id="local" className='holder-remote' ></div>
+              </Draggable>
             </Col>
-            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
-              {/* <Draggable ref={nodeRef} scale={2}>  */}
-              <div ref={nodeRef} id="remote" className='holder-local' ></div>
-              {/* </Draggable>  */}
-            </Col>
+            {/* <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+            </Col> */}
+
             <Col className="sticky_button_grp " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
 
                 <button
                   id="mic-btn"
                   type="button"
-                  className={`btn ${!audio?`end-btn-big`:``} video_con_bttn btn-block btn-dark btn-lg`}
+                  className={`btn ${!audio ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={audio ? stopAudio : startAudio}
                 >
                   {audio ? <BsMic /> : <BsMicMuteFill />}
@@ -289,7 +290,7 @@ const PhysioVideoCall = (props) => {
                 <button
                   id="video-btn"
                   type="button"
-                  className={`btn ${!video?`end-btn-big`:``} video_con_bttn btn-block btn-dark btn-lg`}
+                  className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={video ? stopVideo : startVideo}
                 >
                   {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
@@ -299,13 +300,13 @@ const PhysioVideoCall = (props) => {
                 <button
                   id="exit-btn"
                   type="button"
-                  style={{backgroundColor:'red'}}
+                  style={{ backgroundColor: 'red' }}
                   className="btn end-btn-big video_con_bttn btn-block btn-danger btn-lg"
                   onClick={handleLeave}
                 >
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
-                </button> 
+                </button>
                 <button
                   id="exit-btn"
                   type="button"
@@ -334,7 +335,7 @@ const PhysioVideoCall = (props) => {
                   join
                 </button> */}
 
-{/* 
+                {/* 
                 <button
                   id="exit-btn"
                   type="button"

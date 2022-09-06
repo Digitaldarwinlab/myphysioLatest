@@ -8,6 +8,7 @@ import { render } from "react-dom";
 import "antd/dist/antd.css";
 import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import Error from "../UtilityComponents/ErrorHandler";
+import './Arom-without-ai.css'
 const { Option } = Select;
 const { Panel } = Collapse;
 let MinMax = {
@@ -635,7 +636,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow1(record.id)} type="link">
+          <Button className="delete_arom_btn" onClick={() => deleteRow1(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>
@@ -699,7 +700,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow2(record.id)} type="link">
+          <Button  className="delete_arom_btn" onClick={() => deleteRow2(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>
@@ -763,7 +764,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow3(record.id)} type="link">
+          <Button  className="delete_arom_btn" onClick={() => deleteRow3(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>

@@ -6,9 +6,10 @@ import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
+import Draggable from 'react-draggable';
 
 const options = {
-  appId: '616487fe8ede4785aa8f7e322efdbe7d',
+  appId: '7aca4bce40d0476fb3aafde5f88e3de9',
   channel: 'test',
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
@@ -119,7 +120,7 @@ const PatientVideoCall = (props) => {
   const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(999);
-  const [appId, setAppID] = useState('616487fe8ede4785aa8f7e322efdbe7d')
+  const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIAD8ig3d9ExWFhwv1mySzHryeSXjpNVvv8CO1p8Udp/pQqDfQtaQ1sJlEAAJmBoBQLkLYwEAAQDQdQpj')
   useEffect(async () => {
@@ -354,16 +355,20 @@ const PatientVideoCall = (props) => {
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
-            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
-              <p id='user_name'></p>
-              <div id="local" className='holder-local' ></div>
-              <canvas style={{ position: "absolute"}} id="scanvas"></canvas>
-            </Col>
-            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+          <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
-              <div ref={nodeRef} id="remote" className='holder-local'></div>
+              <div id="remote" className='holder-local'></div>
+              <Draggable bounds="parent" ref={nodeRef} scale={2}>
+                <div ref={nodeRef}  id="local" className='holder-remote' ></div>
+              </Draggable>
               {/* </Draggable>  */}
             </Col>
+          
+            {/* <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+              <p id='user_name'></p>
+              <div id="local" className='holder-remote' ></div>
+              <canvas style={{ position: "absolute"}} id="scanvas"></canvas>
+            </Col> */}
             <Col className="sticky_button_grp " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
                 <button
