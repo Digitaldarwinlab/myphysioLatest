@@ -9,6 +9,10 @@
     margin:10px 10px 10px 10px !important;    
 }
 
+#local div:first-child{
+    border-radius: 5px !important;
+}
+
 .end-btn-big{
     background: red !important;
     /* color: red !important; */
@@ -29,34 +33,50 @@
     font-weight: 900;
 }
 
-.agora_video_player{
+.holder-local .agora_video_player{
     object-fit: contain !important;
 }
 
 .holder-local{
     width: 100%;
     /* padding-left: 5px ; */
+    border: 3px solid white;
+    height: 85vh;
     overflow: hidden;
     border-radius: 10px;
 }
-.holder-remote{
-    position: absolute;
-    right: 0.5 rem;
-    top:0.5rem;
-    width:150px;
-    height:150px;
-    overflow: hidden;
-    border: 3px solid #fff;
-    border-radius: 15px;
-    background: #efefef;
-    display: flow-root;
-    justify-content: center;
-    align-items: center;
-    font-style: italic;
+#local{
+    padding: 0 !important;
+}
+.holder-remote1{
+    height: 85vh;
+    border: 3px solid white;
+    border-radius: 15px !important;
+}
+.holder-remote1 .agora_video_player{
+    object-fit: contain !important;
 }
 @media only screen and (max-width:650px) {
-    .holder-remote{
+    /* .holder-remote{
         width:100px;
         height:100px;
+    } */
+    .holder-remote1 .agora_video_player{
+        object-fit: cover !important;
+    }
+    .holder-remote1{
+        position: absolute !important;
+        left: 0.5rem !important;
+        top:0.5rem !important;
+        width:100px !important;
+        height:100px !important;
+        overflow: hidden !important;
+        border: 3px solid #fff !important;
+        border-radius: 15px !important;
+        background: #ccf1f9 !important;
+        display: flow-root !important;
+        justify-content: center !important ;
+        align-items: center !important;
+        font-style: italic !important;
     }
 }

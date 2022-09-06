@@ -7,6 +7,7 @@ import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
+import { MdSecurityUpdateWarning } from 'react-icons/md';
 // props.Setsidebarshow(false)
 export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 //7aca4bce40d0476fb3aafde5f88e3de9
@@ -72,8 +73,12 @@ const PhysioVideoCall = (props) => {
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
   const [loading, setLoading] = useState(undefined)
+  const [drag ,setDrag] = useState(false)
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
   const location = useParams()
+  // useEffect(()=>{
+  //   setDrag()
+  // },[])
   useEffect(() => {
     props.Setsidebarshow(false)
 
@@ -159,7 +164,7 @@ const PhysioVideoCall = (props) => {
       setModalVisible(false)
       setLoading(false)
       setJoined(true)
-      document.getElementById('user_name').innerHTML = uid
+      // document.getElementById('user_name').innerHTML = uid
       console.log('publish success!!');
       // login()
     } catch (e) {
@@ -264,16 +269,16 @@ const PhysioVideoCall = (props) => {
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]}>
             <Col className='holder' xs={24} sm={24} md={12} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
-              <p id='user_name'></p>
+              {/* <p id='user_name'></p> */}
               <div id="remote" className='holder-local' ></div>
-              <Draggable bounds="parent" ref={nodeRef} scale={2}>
+              <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef}  id="local" className='holder-remote' ></div>
               </Draggable>
             </Col>
             {/* <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
             </Col> */}
 
-            <Col className="sticky_button_grp " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
+            <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
 
                 <button
@@ -307,24 +312,24 @@ const PhysioVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
-                <button
+                {/* <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
                   onClick={startAI}
                 >
                   <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button>
+                </button> */}
 
 
-                <button
+                {/* <button
                   id="magic-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                   onClick={stopAI}
                 >
                   <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
-                </button>
+                </button> */}
                 {/* <button
                   type="button"
                   // onClick={handleJoin}

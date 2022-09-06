@@ -22,8 +22,13 @@ const PatientVideoCall = (props) => {
   const testChannel = useChannel(rtmClient)
   const [modalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(undefined)
+  const [drag ,setDrag] = useState(false)
   const location = useParams()
-
+  useEffect(()=>{
+    if(window.screen.width<650){
+      setDrag(true)
+    }
+  },[window.screen])
   let login = async () => {
     await rtmClient.login({ uid: `${Math.floor(Math.random() * 10875)}` })
     await testChannel.join()
@@ -351,25 +356,22 @@ const PatientVideoCall = (props) => {
           disabled
         />
       </Modal>
-      <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
+      <Row gutter={[16, 16]} className="video-call-main-container" justifyContent="center" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
           <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
               <div id="remote" className='holder-local'></div>
-              <Draggable bounds="parent" ref={nodeRef} scale={2}>
-                <div ref={nodeRef}  id="local" className='holder-remote' ></div>
-              </Draggable>
-              {/* </Draggable>  */}
+              {/* <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
+                <Col id="local" className='holder-remote1' xs={24} sm={24} md={12} lg={12} xl={12}>
+            </Col>
+              </Draggable> */}
             </Col>
           
-            {/* <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
-              <p id='user_name'></p>
-              <div id="local" className='holder-remote' ></div>
-              <canvas style={{ position: "absolute"}} id="scanvas"></canvas>
-            </Col> */}
-            <Col className="sticky_button_grp " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
+            <Col id="local" className='holder-remote1' xs={24} sm={24} md={12} lg={12} xl={12}>
+            </Col>
+            <Col className="sticky_button_grp footer" span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
                 <button
                   id="mic-btn"
@@ -403,14 +405,14 @@ const PatientVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
-                <button
+                {/* <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
                   onClick={startAI}
                 >
                   <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button>
+                </button> */}
                 {/*
 
 
