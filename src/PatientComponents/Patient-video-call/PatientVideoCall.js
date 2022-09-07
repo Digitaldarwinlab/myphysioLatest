@@ -182,7 +182,7 @@ const PatientVideoCall = (props) => {
   async function handleJoin() {
     console.log('channel ', channel)
     console.log('channel ', uid)
-    login()
+    // login()
     try {
       console.log('client', client);
       setLoading(true)

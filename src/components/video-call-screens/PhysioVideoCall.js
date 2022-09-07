@@ -133,7 +133,7 @@ const PhysioVideoCall = (props) => {
     sendMsg("start")
   }
   async function handleJoin() {
-    login()
+    // login()
     console.log('channel ', channel)
     console.log('channel ', uid)
     try {

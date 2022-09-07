@@ -1291,7 +1291,9 @@ const AssessmentList = ({ assesmentClick }) => {
                             )}
                           {data.posture &&
                             (data.posture["Posterial_view"] ||
-                              data.posture["lateral_view"]) && (
+                              data.posture["lateral_view"] || data.posture["sitting_Posterial_view"]
+                              ||data.posture["Sitting_lateral_view"]
+                              ) && (
                               <Panel header="Posture Analysis" key="6">
                                 <div className=" border mb-3 mt-3">
                                   {/* <Row className="border">
@@ -1382,18 +1384,6 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                      {/* {data.posture&&data.posture.Posterial_view.checkbox&&data.posture[
-                                          "Posterial_view"
-                                        ].checkbox.map((ob) => (
-                                          <>
-                                            {ob[1] == 1 && (
-                                              <Descriptions.Item label="">
-                                                <Badge color="#000000" />
-                                                {ob[0]}
-                                              </Descriptions.Item>
-                                            )}
-                                          </>
-                                        ))} */}
                                         {
                                           Object.keys(data.posture.Posterial_view.checkbox).map(ob=>(
                                             <>
@@ -1410,7 +1400,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </>}
                                     </Row>
                                   )}
-                                  {Object.keys(data.posture["lateral_view"]).length>0 && (
+                                  {data.posture.lateral_view&&Object.keys(data.posture["lateral_view"]).length>0 && (
                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                       <Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
@@ -1481,7 +1471,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       <Col md={24} lg={24} sm={24} xs={24}>
                                         <h2>Sitting</h2>
                                       </Col>
-                                              {Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
+                                              {data.posture.sitting_Posterial_view&&Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
                                           {
                                             <Descriptions.Item label="Nasal Bridge">
@@ -1576,7 +1566,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </>}
                                     </Row>
                                   )}
-                                   {Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
+                                   {data.posture.Sitting_lateral_view&&Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                       <Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
@@ -2548,8 +2538,10 @@ const AssessmentList = ({ assesmentClick }) => {
                             
                             )}
                           {data.posture &&
-                            (data.posture["Posterial_view"] ||
-                              data.posture["lateral_view"]) && (
+                                (data.posture["Posterial_view"] ||
+                                data.posture["lateral_view"] || data.posture["sitting_Posterial_view"]
+                                ||data.posture["Sitting_lateral_view"]
+                                ) && (
                              
                                 <div className=" border mb-3 mt-3">
                                   {/* <Row className="border">
@@ -2665,7 +2657,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </>}
                                     </Row>
                                   )}
-                                 {Object.keys(data.posture["lateral_view"]).length>0 && (
+                                 {data.posture.lateral_view&&Object.keys(data.posture["lateral_view"]).length>0 && (
                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                       <Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
@@ -2728,7 +2720,7 @@ const AssessmentList = ({ assesmentClick }) => {
                             )}
                              {data.posture &&
                             (data.posture["sitting_Posterial_view"] ||
-                              data.posture["sitting_Posterial_view"]) && (
+                              data.posture["Sitting_lateral_view"]) && (
                              
                                 <div className=" border mb-3 mt-3">
                                   {/* <Row className="border">
@@ -2749,7 +2741,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       <Col md={24} lg={24} sm={24} xs={24}>
                                         <h1>Degree of Deviation</h1>
                                       </Col>
-                                              {Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
+                                              {data.posture.sitting_Posterial_view&&Object.keys(data.posture["sitting_Posterial_view"]).length>0&&<><Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
                                           {
                                             <Descriptions.Item label="Nasal Bridge">
@@ -2844,7 +2836,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </>}
                                     </Row>
                                   )}
-                                 {Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
+                                 {data.posture.Sitting_lateral_view&&Object.keys(data.posture["Sitting_lateral_view"]).length>0 && (
                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                       <Col md={24} lg={18} sm={24} xs={24}>
                                         <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
