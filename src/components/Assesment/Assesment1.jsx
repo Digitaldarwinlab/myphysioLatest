@@ -235,22 +235,22 @@ const Assesment1 = ({ back, next }) => {
           dispatch({
             type: STATECHANGE,
             payload: {
-              key:"Anterior_AI_Data",
-              value:"",
+              key: "Anterior_AI_Data",
+              value: "",
             },
           });
           dispatch({
             type: STATECHANGE,
             payload: {
-              key:"LeftLateral_AI_Data",
-              value:"",
+              key: "LeftLateral_AI_Data",
+              value: "",
             },
           });
           dispatch({
             type: STATECHANGE,
             payload: {
-              key:"RightLateral_AI_Data",
-              value:"",
+              key: "RightLateral_AI_Data",
+              value: "",
             },
           });
           localStorage.removeItem("Posture_Data");
@@ -541,7 +541,7 @@ const Assesment1 = ({ back, next }) => {
   const [QuestionVisibility, setQuestionVisibility] = useState("block");
 
   const [posture, setPosture] = useState(false);
-  const  [submitLoading,setSubmitLoading] = useState(false)
+  const [submitLoading, setSubmitLoading] = useState(false)
   const [RomVisibility, setRomVisibility] = useState("none");
   const [RomVisibilityM, setRomVisibilityM] = useState("none");
   const [RomVisibilityL, setRomVisibilityL] = useState("none");
@@ -752,59 +752,59 @@ const Assesment1 = ({ back, next }) => {
   // ]
 
   const setAnteriorData = (data) => {
-    console.log("anterior ",data)
-    if(Object.keys(data).length>0){
-       // let data = state.FirstAssesment.Anterior_AI_Data;
-    setRomVisibility("contents");
-    let TEMP = {};
-    TEMP["AROM"] = data[Object.keys(data)[0]];
-    console.log(TEMP);
-    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-      (item, index) => {
-        let t = {};
-        t["key"] = index;
-        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
-        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
-        return t;
+    console.log("anterior ", data)
+    if (Object.keys(data).length > 0) {
+      // let data = state.FirstAssesment.Anterior_AI_Data;
+      setRomVisibility("contents");
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
+        }
+      );
+      setTableData1(tempData.slice(0, 6));
+      if (tempData.length > 6) {
+        setTableData2(tempData.slice(6, tempData.length));
       }
-    );
-    setTableData1(tempData.slice(0, 6));
-    if (tempData.length > 6) {
-      setTableData2(tempData.slice(6, tempData.length));
-    }
     }
   };
 
   const setLeftLateralData = (data) => {
-    console.log("left ",data)
-    if(Object.keys(data).length>0){
-  //  let data = state.FirstAssesment.LeftLateral_AI_Data;
-    setRomVisibilityM("inline");
-    setRomVisibilityL("inline");
-    let TEMP = {};
-    TEMP["AROM"] = data[Object.keys(data)[0]];
-    console.log(TEMP);
-    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-      (item, index) => {
-        let t = {};
-        t["key"] = index;
-        t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
-        t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
-        t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
-        return t;
-      }
-    );
-    setLatL(tempData);
+    console.log("left ", data)
+    if (Object.keys(data).length > 0) {
+      //  let data = state.FirstAssesment.LeftLateral_AI_Data;
+      setRomVisibilityM("inline");
+      setRomVisibilityL("inline");
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
+        }
+      );
+      setLatL(tempData);
     }
   };
 
   const setRightLateralData = (data) => {
-    console.log("right ",data)
-    if(Object.keys(data).length>0){
+    console.log("right ", data)
+    if (Object.keys(data).length > 0) {
       setRomVisibilityM("inline");
       setRomVisibilityR("inline");
-     // let data = state.FirstAssesment.RightLateral_AI_Data;
+      // let data = state.FirstAssesment.RightLateral_AI_Data;
       let TEMP = {};
       TEMP["AROM"] = data[Object.keys(data)[0]];
       console.log(TEMP);
@@ -828,36 +828,36 @@ const Assesment1 = ({ back, next }) => {
       console.log("Arom data")
       var romdatajson = JSON.parse(romData);
       console.log(romdatajson.Anterior);
-      if (romdatajson.Anterior != undefined && romdatajson.Anterior !=='' &&Object.keys(romdatajson.Anterior)[0]!='0') {
-      //  state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
+      if (romdatajson.Anterior != undefined && romdatajson.Anterior !== '' && Object.keys(romdatajson.Anterior)[0] != '0') {
+        //  state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
         dispatch({
           type: STATECHANGE,
           payload: {
-            key:'Anterior_AI_Data',
-            value:romdatajson.Anterior,
+            key: 'Anterior_AI_Data',
+            value: romdatajson.Anterior,
           },
         });
         setAnteriorData(romdatajson.Anterior);
       }
-      if (romdatajson.leftLateral != undefined && romdatajson.leftLateral !=='' &&Object.keys(romdatajson.leftLateral)[0]!='0') {
+      if (romdatajson.leftLateral != undefined && romdatajson.leftLateral !== '' && Object.keys(romdatajson.leftLateral)[0] != '0') {
         console.log()
-       // state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
+        // state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
         dispatch({
           type: STATECHANGE,
           payload: {
-            key:'LeftLateral_AI_Data',
-            value:romdatajson.leftLateral,
+            key: 'LeftLateral_AI_Data',
+            value: romdatajson.leftLateral,
           },
         });
         setLeftLateralData(romdatajson.leftLateral);
       }
-      if (romdatajson.rightLateral != undefined && romdatajson.rightLateral !=='' &&Object.keys(romdatajson.rightLateral)[0]!='0') {
-       // state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
+      if (romdatajson.rightLateral != undefined && romdatajson.rightLateral !== '' && Object.keys(romdatajson.rightLateral)[0] != '0') {
+        // state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
         dispatch({
           type: STATECHANGE,
           payload: {
-            key:'RightLateral_AI_Data',
-            value:romdatajson.rightLateral,
+            key: 'RightLateral_AI_Data',
+            value: romdatajson.rightLateral,
           },
         });
         setRightLateralData(romdatajson.rightLateral);
@@ -1419,7 +1419,7 @@ const Assesment1 = ({ back, next }) => {
             duration: 2,
           });
         }
-      }else{
+      } else {
         setSubmitLoading(false)
       }
       // aswin 11/13/2021 stop
@@ -2051,15 +2051,15 @@ const Assesment1 = ({ back, next }) => {
               </Col>
             </Row>
             <Row>
-            <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h2>Degree of Deviation</h2>
-                                        <h3> <Badge color="#000000" />Standing</h3>
-                                      </Col>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h2>Degree of Deviation</h2>
+                {(state.FirstAssesment.posture.Posterial_view || state.FirstAssesment.posture.lateral_view) && <h3> <Badge color="#000000" />Standing</h3>}
+              </Col>
             </Row>
-            {Object.keys(state.FirstAssesment.posture["Posterial_view"]).length>0&&<Row gutter={[10, 10]} className="px-4 py-2">
-            <Col span={24}><h5>Anterior</h5></Col>
+            {state.FirstAssesment.posture.Posterial_view && Object.keys(state.FirstAssesment.posture["Posterial_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Anterior</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions  bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[0]}
@@ -2112,8 +2112,8 @@ const Assesment1 = ({ back, next }) => {
               </Col>
 
             </Row>}
-            {Object.keys(state.FirstAssesment.posture["lateral_view"]).length>0&& <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col span={24}><h5>Lateral</h5></Col>
+            {state.FirstAssesment.posture.lateral_view && Object.keys(state.FirstAssesment.posture["lateral_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Lateral</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
                 <Descriptions bordered>
                   <Descriptions.Item label="Head deviation">
@@ -2160,15 +2160,15 @@ const Assesment1 = ({ back, next }) => {
               </Col>
 
             </Row>}
-            <Row>
-            <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h3>  <Badge color="#000000" />Sitting</h3>
-                                      </Col>
-            </Row>
-            {Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"]).length>0&&<Row gutter={[10, 10]} className="px-4 py-2">
-            <Col span={24}><h5>Anterior</h5></Col>
+            {(state.FirstAssesment.posture.sitting_Posterial_view || state.FirstAssesment.posture.Sitting_lateral_view) && <Row>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h3>  <Badge color="#000000" />Sitting</h3>
+              </Col>
+            </Row>}
+            {state.FirstAssesment.posture.sitting_Posterial_view && Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Anterior</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions  bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["sitting_Posterial_view"].Angles[0]}
@@ -2221,10 +2221,10 @@ const Assesment1 = ({ back, next }) => {
               </Col>
 
             </Row>}
-            {Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"]).length>0&& <Row gutter={[10, 10]} className="px-4 py-2">
-            <Col span={24}><h5>Lateral</h5></Col>
+            {state.FirstAssesment.posture.Sitting_lateral_view && Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Lateral</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions  bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Shoulder">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Sitting_lateral_view"].Angles[0]}
@@ -2279,14 +2279,14 @@ const Assesment1 = ({ back, next }) => {
           <div className="  mb-3 mt-3">
             <Row gutter={[10, 10]}>
               <Col md={24} lg={24} sm={24} xs={24}>
-              {/* <Row className="border1">
+                {/* <Row className="border1">
             <Col md={24} lg={24} sm={24} xs={24}>
               <h4 className="p-2">Pain Assessment</h4>
             </Col>
           </Row> */}
-                <Descriptions  title={ <Col className="border1" md={24} lg={24} sm={24} xs={24}>
-              <h4 className="p-2">Pain Assessment</h4>
-            </Col>} bordered>
+                <Descriptions title={<Col className="border1" md={24} lg={24} sm={24} xs={24}>
+                  <h4 className="p-2">Pain Assessment</h4>
+                </Col>} bordered>
                   <Descriptions.Item label="Nature Of Pain">
                     {state.FirstAssesment.nature_of_pain_here}
                   </Descriptions.Item>
@@ -2768,7 +2768,7 @@ const Assesment1 = ({ back, next }) => {
           </Row>
 
           <Row style={{ display: RomVisibilityM }}>
-            <Col md={24} lg={24} sm={24} xs={24}  className="border1">
+            <Col md={24} lg={24} sm={24} xs={24} className="border1">
               <h4 className="p-2">Lateral ROM Assesment</h4>
             </Col>
           </Row>
@@ -2878,12 +2878,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.pain1 ? (
               <Button
-              className="btn-new-check btn-Assesment"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2898,13 +2898,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
-              className="btn-Assesment"
+                className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
@@ -2933,8 +2933,8 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px',
-                    borderRadius:'5px !important'
+                  width: '138px',
+                  borderRadius: '5px !important'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2951,13 +2951,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
-               className="btn-Assesment"
+                className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
@@ -2987,7 +2987,7 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 className="btn-new-check btn-Assesment"
@@ -3005,12 +3005,12 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
-              className="btn-Assesment"
+                className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
@@ -3036,14 +3036,14 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.quest ? (
               <Button
-              className="btn-new-check btn-Assesment"
+                className="btn-new-check btn-Assesment"
                 disabled={state.FirstAssesment.quest}
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -3061,14 +3061,14 @@ const Assesment1 = ({ back, next }) => {
               ></Button>
             ) : (
               <Button
-              className="btn-Assesment"
+                className="btn-Assesment"
                 type="text"
                 disabled={state.FirstAssesment.quest}
                 style={{
                   backgroundColor: state.FirstAssesment.quest
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 onClick={() => {
                   console.log(
@@ -3095,12 +3095,12 @@ const Assesment1 = ({ back, next }) => {
           >
             {state.FirstAssesment.special ? (
               <Button
-              className="btn-new-check btn-Assesment"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -3116,13 +3116,13 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
-              className="btn-Assesment"
+                className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.special
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
@@ -3151,7 +3151,7 @@ const Assesment1 = ({ back, next }) => {
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check btn-Assesment"
@@ -3169,12 +3169,12 @@ const Assesment1 = ({ back, next }) => {
               </Button>
             ) : (
               <Button
-              className="btn-Assesment"
+                className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
-                    width:'138px'
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
                 type="text"
@@ -3255,9 +3255,9 @@ const Assesment1 = ({ back, next }) => {
                 }
         </Col>
      </Row> */}
-        {submitLoading&&<Loading  />}
+      {submitLoading && <Loading />}
 
-        {/* <ClipLoader color={"#ffffff"} loading={submitLoading}  size={150} /> */}
+      {/* <ClipLoader color={"#ffffff"} loading={submitLoading}  size={150} /> */}
       <div className="text-center m-3">
         <Button
           htmlType="submit"

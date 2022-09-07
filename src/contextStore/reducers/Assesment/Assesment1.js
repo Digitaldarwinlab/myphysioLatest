@@ -32,6 +32,8 @@ const FirstAssesmentIniState ={
     Arom_M:false,
     Arom_Ai:false,
     checkState:false,
+    sideSitChecks:{},
+    frontSitChecks:{},
     // gaurav
     chiefCom:"",
     occupation:"",

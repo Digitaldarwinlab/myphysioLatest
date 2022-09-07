@@ -207,7 +207,8 @@ class PoseTestClass extends Component {
         sideSitChecks[a] = 0;
       }
     });
-    this.props.FirstAssesment("sideSitChecks", sideChecks);
+    console.log("side ", sideSitChecks);
+    this.props.FirstAssesment("sideSitChecks", sideSitChecks);
   };
   onChangeSitFront = (value) => {
     console.log("front ", value);
@@ -219,7 +220,8 @@ class PoseTestClass extends Component {
         frontSitChecks[a] = 0;
       }
     });
-    this.props.FirstAssesment("frontSitChecks", frontChecks);
+    console.log("side ", frontSitChecks);
+    this.props.FirstAssesment("frontSitChecks", frontSitChecks);
   };
   releaseCamera = () => {
     const video = document.getElementById('video');
@@ -245,7 +247,7 @@ class PoseTestClass extends Component {
     console.log("posture checkbox1 ", this.props.FirstAssesmentReducer.frontChecks)
     console.log("posture checkbox2 ", this.props.FirstAssesmentReducer.sideChecks)
     sessionStorage.setItem("posesubmit", true);
-    let posture = {
+    console.log('posture ',{
       posture_test_date: new Date().toLocaleDateString("en-GB"),
       Posterial_view: {
         posterial_view_image: this.state.url1,
@@ -268,7 +270,66 @@ class PoseTestClass extends Component {
         checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
       },
       Notes: this.state.notes,
+    })
+    let posture = {
+      posture_test_date: new Date().toLocaleDateString("en-GB"),
+      // Posterial_view: {
+      //   posterial_view_image: this.state.url1,
+      //   Angles: this.state.frontAngles,
+      //   checkbox: this.props.FirstAssesmentReducer.frontChecks,
+      // },
+      // lateral_view: {
+      //   posterial_view_image: this.state.url2,
+      //   Angles: this.state.sideAngles,
+      //   checkbox: this.props.FirstAssesmentReducer.sideChecks,
+      // },
+      // sitting_Posterial_view: {
+      //   posterial_view_image: this.state.url3,
+      //   Angles: this.state.frontSitAngles,
+      //   checkbox: this.props.FirstAssesmentReducer.frontSitChecks,
+      // },
+      // Sitting_lateral_view: {
+      //   posterial_view_image: this.state.url4,
+      //   Angles: this.state.sideSitAngles,
+      //   checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
+      // },
+      Notes: this.state.notes,
     };
+    if(this.state.url1!=bodyImage){
+      let post = {
+        posterial_view_image: this.state.url1,
+        Angles: this.state.frontAngles,
+        checkbox: this.props.FirstAssesmentReducer.frontChecks,
+      }
+      posture['Posterial_view'] = post
+    }
+    if(this.state.url2!=side_img){
+      let post = {
+        posterial_view_image: this.state.url2,
+        Angles: this.state.sideAngles,
+        checkbox: this.props.FirstAssesmentReducer.sideChecks,
+      }
+      posture['lateral_view'] = post
+    }
+    if(this.state.url3!=bodySideImage){
+      let post = {
+        posterial_view_image: this.state.url3,
+        Angles: this.state.frontSitAngles,
+        checkbox: this.props.FirstAssesmentReducer.frontSitChecks,
+      }
+      posture['sitting_Posterial_view'] = post
+    }
+    if(this.state.url4!=side_sit_img){
+      let post = {
+        posterial_view_image: this.state.url4,
+        Angles: this.state.sideSitAngles,
+        checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
+      }
+      posture['Sitting_lateral_view'] = post
+    }
+    if(this.state.url1==bodyImage&&this.state.url2==side_img&&this.state.url3==bodySideImage&&this.state.url4==side_sit_img){
+      posture={}
+    }
     if (window.confirm("Posture data will be saved")) {
       this.releaseCamera()
       this.props.FirstAssesment("posture", posture);
