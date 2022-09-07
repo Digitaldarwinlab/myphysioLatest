@@ -2,7 +2,8 @@ import { Button, Col, Modal, Row, Space } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
-import { createChannel, createClient, RtmMessage } from 'agora-rtm-react'
+import AgoraRTM from 'agora-rtm-sdk'
+
 import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
@@ -14,21 +15,25 @@ const options = {
   token:
     '00617c1247f37f643beb8977d90572b283eIADpqs/npdMNdy8f//tf2nchNLvy9fAl1d6ErujTdvcxqAx+f9gAAAAAEACpCW2Ywm6iYQEAAQDBbqJh',
 };
-const useClient = createClient('7aca4bce40d0476fb3aafde5f88e3de9');
-const useChannel = createChannel("abc")
+// const useClient = createClient('7aca4bce40d0476fb3aafde5f88e3de9');
+// const useChannel = createChannel("abc")
+let RTMClient = AgoraRTM.createInstance(options.appId)
 
 const PatientVideoCall = (props) => {
-  const rtmClient = useClient();
-  const testChannel = useChannel(rtmClient)
+  // const rtmClient = useClient();
+  // const testChannel = useChannel(rtmClient)
+  let AiCanvas = ''
+  let TempStream = {}
   const [modalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(undefined)
-  const [drag ,setDrag] = useState(false)
+  const [drag, setDrag] = useState(false)
+  const [RTMChannel, setRTMChannel] = useState('')
   const location = useParams()
-  useEffect(()=>{
-    if(window.screen.width<650){
+  useEffect(() => {
+    if (window.screen.width < 650) {
       setDrag(true)
     }
-  },[window.screen])
+  }, [window.screen])
   let login = async () => {
     await rtmClient.login({ uid: `${Math.floor(Math.random() * 10875)}` })
     await testChannel.join()
@@ -41,7 +46,7 @@ const PatientVideoCall = (props) => {
         let videoElem = document.getElementById('local').querySelector('video')
         console.log("video elem ", videoElem)
         let canvas = document.getElementById('scanvas')
-        let {width ,height} = videoElem.getBoundingClientRect()
+        let { width, height } = videoElem.getBoundingClientRect()
         //document.getElementById('local').appendChild(canvas)
         canvas.style.width = '100%'
         // canvas.style.height = height
@@ -54,17 +59,6 @@ const PatientVideoCall = (props) => {
           supervised: true,
           showAngles: true,
         };
-        // const options = {
-        //     video,
-        //     videoWidth: 550,
-        //     videoHeight: 420,//window.innerHeight-20,
-        //     canvas,
-        //     // loadingEleId: 'loading',
-        //     // mainEleId: 'main',
-        //     supervised: true,
-        //     showAngles: true,
-        // };
-        // this.innerHTML2();
         console.log(options)
         window.darwin.initializeModel(options);
         window.darwin.launchModel();
@@ -108,12 +102,7 @@ const PatientVideoCall = (props) => {
   }
 
   const sendMsg = async (text) => {
-    let message = rtmClient.createMessage({ text, messageType: 'TEXT' })
-    await testChannel.sendMessage(message)
-    setTexts((previous) => {
-      return [...previous, { msg: { text }, uid }]
-    })
-    setTextInput('')
+    RTMChannel.sendMessage({ text, type: 'text' })
   }
 
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
@@ -135,7 +124,10 @@ const PatientVideoCall = (props) => {
     const arr = location.channel.split("_")
     setChannel(arr[0])
     setUid(arr[2])
-
+    const connect = async () => {
+      await RTMClient.login({ uid: String(arr[2]), token: null })
+    }
+    connect()
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
     setClient(_client);
     console.log('client================', _client);
@@ -175,14 +167,80 @@ const PatientVideoCall = (props) => {
   const startAI = async () => {
     console.log("start")
     // login()
-    // sendMsg("AI start")
+    sendMsg("AI start")
 
+  }
+
+  const joinChannel = async () => {
+    const _rtmChannel = RTMClient.createChannel(channel)
+    await _rtmChannel.join();
+    setRTMChannel(_rtmChannel)
+    _rtmChannel.on("ChannelMessage", (msg, peerId) => {
+      console.log("message from peer*** ", msg)
+      if (msg.text == "AI start") {
+        let videoElem = document.getElementById('local').querySelector('video')
+        AiCanvas = videoElem
+        console.log("video elem ", videoElem)
+        let canvas = document.getElementById('scanvas')
+        let { width, height } = videoElem.getBoundingClientRect()
+        // //document.getElementById('local').appendChild(canvas)
+        // // canvas.style.width = '100%'
+        // // canvas.style.height = height
+        //  canvas.style = videoElem.style
+        const options = {
+          video: videoElem,
+          // videoWidth: width,
+          // videoHeight: height,
+          canvas: canvas,
+          supervised: true,
+          showAngles: true,
+        };
+        console.log(options)
+        window.darwin.initializeModel(options);
+        window.darwin.launchModel();
+        window.darwin.stop();
+        // TempStream.addTrack(tracks[0]);
+
+      }
+      if (msg.text == "start") {
+        window.darwin.restart();
+        window.darwin.setExcersiseParams({
+          name: "AROM",
+          primaryKeypoint: 0,
+          angles: [6, 7],
+          dir: 1,
+          minAmp: 30,
+          primaryAngles: [6, 7],
+          ROMs: [
+            [30, 160],
+            [30, 160],
+          ],
+          totalReps: 3,
+          totalSets: 2,
+        });
+        // console.log("stream check ", videoElem)
+        let streamC
+        streamC = AiCanvas.captureStream(60);
+        //videoElem
+        console.log("stream check ", streamC)
+        let tracks = streamC.getVideoTracks()[0];
+        console.log("stream check ", tracks)
+        localVideoTrack.close()
+        client.unpublish(localVideoTrack)
+        let r = AgoraRTC.createCustomVideoTrack({
+          mediaStreamTrack: streamC.getVideoTracks()[0],
+        });
+        console.log("stream check ", r)
+        client.publish(r)
+        // setLocalVideoTrack()
+      }
+    })
   }
 
   async function handleJoin() {
     console.log('channel ', channel)
     console.log('channel ', uid)
-    login()
+    joinChannel()
     try {
       console.log('client', client);
       setLoading(true)
@@ -204,6 +262,7 @@ const PatientVideoCall = (props) => {
       // create a local video track
       const _localVideoTrack = await AgoraRTC.createCameraVideoTrack();
       setLocalVideoTrack(_localVideoTrack);
+      TempStream = _localVideoTrack
       // publish local audio and video tracks to the RTC channel
       await client.publish([_localAudioTrack, _localVideoTrack]);
 
@@ -360,7 +419,7 @@ const PatientVideoCall = (props) => {
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
-          <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
               <div id="remote" className='holder-local'></div>
               {/* <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
@@ -368,9 +427,9 @@ const PatientVideoCall = (props) => {
             </Col>
               </Draggable> */}
             </Col>
-          
             <Col id="local" className='holder-remote1' xs={24} sm={24} md={12} lg={12} xl={12}>
             </Col>
+            <canvas style={{ position: "absolute" }} id="scanvas"></canvas>
             <Col className="sticky_button_grp footer" span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
                 <button
@@ -405,14 +464,14 @@ const PatientVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
-                {/* <button
+                <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
                   onClick={startAI}
                 >
                   <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button> */}
+                </button>
                 {/*
 
 
