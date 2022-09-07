@@ -179,10 +179,10 @@ const PatientVideoCall = (props) => {
       console.log("message from peer*** ", msg)
       if (msg.text == "AI start") {
         let videoElem = document.getElementById('local').querySelector('video')
-        AiCanvas = videoElem
         console.log("video elem ", videoElem)
         let canvas = document.getElementById('scanvas')
         let { width, height } = videoElem.getBoundingClientRect()
+        AiCanvas = canvas
         // //document.getElementById('local').appendChild(canvas)
         // // canvas.style.width = '100%'
         // // canvas.style.height = height
@@ -225,7 +225,7 @@ const PatientVideoCall = (props) => {
         console.log("stream check ", streamC)
         let tracks = streamC.getVideoTracks()[0];
         console.log("stream check ", tracks)
-        localVideoTrack.close()
+       // localVideoTrack.close()
         client.unpublish(localVideoTrack)
         let r = AgoraRTC.createCustomVideoTrack({
           mediaStreamTrack: streamC.getVideoTracks()[0],
