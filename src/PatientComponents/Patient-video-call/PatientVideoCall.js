@@ -182,11 +182,14 @@ const PatientVideoCall = (props) => {
         console.log("video elem ", videoElem)
         let canvas = document.getElementById('scanvas')
         let { width, height } = videoElem.getBoundingClientRect()
+        console.log("width and height ", width," ",height)
         AiCanvas = canvas
-        // //document.getElementById('local').appendChild(canvas)
-        // // canvas.style.width = '100%'
-        // // canvas.style.height = height
-        //  canvas.style = videoElem.style
+        // document.getElementById('local').innerHTML = canvas
+        // canvas.style.width = width
+        // canvas.style.height = height
+        // canvas.style.position = 'absolute'
+        // console.log("width and height ", canvas.style.width ," ",canvas.style.height)
+        // canvas.style = videoElem.style
         const options = {
           video: videoElem,
           // videoWidth: width,
@@ -194,6 +197,7 @@ const PatientVideoCall = (props) => {
           canvas: canvas,
           supervised: true,
           showAngles: true,
+          drawLine: false,
         };
         console.log(options)
         window.darwin.initializeModel(options);
@@ -207,10 +211,10 @@ const PatientVideoCall = (props) => {
         window.darwin.setExcersiseParams({
           name: "AROM",
           primaryKeypoint: 0,
-          angles: [6, 7],
+          angles: [12, 13],
           dir: 1,
           minAmp: 30,
-          primaryAngles: [6, 7],
+          primaryAngles: [12, 13],
           ROMs: [
             [30, 160],
             [30, 160],
@@ -220,16 +224,16 @@ const PatientVideoCall = (props) => {
         });
         // console.log("stream check ", videoElem)
         let streamC
-        streamC = AiCanvas.captureStream(60);
+        streamC = AiCanvas.captureStream(15);
         //videoElem
         console.log("stream check ", streamC)
         let tracks = streamC.getVideoTracks()[0];
         console.log("stream check ", tracks)
        // localVideoTrack.close()
-        client.unpublish(localVideoTrack)
         let r = AgoraRTC.createCustomVideoTrack({
           mediaStreamTrack: streamC.getVideoTracks()[0],
         });
+        client.unpublish(localVideoTrack)
         console.log("stream check ", r)
         client.publish(r)
         // setLocalVideoTrack()
