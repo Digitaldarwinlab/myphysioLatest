@@ -9,6 +9,7 @@ import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdSecurityUpdateWarning } from 'react-icons/md';
 import { RtmClient } from 'agora-rtm-react';
+import AROM from './AROM';
 // props.Setsidebarshow(false)
 // export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 // //7aca4bce40d0476fb3aafde5f88e3de9
@@ -56,7 +57,7 @@ const PhysioVideoCall = (props) => {
   // }
 
   const sendMsg = async (text) => {
-    RTMChannel.sendMessage({ text, type: 'text' })
+    RTMChannel.sendMessage({ text, messageType: 'RAW' ,description:'test' })
   }
   const [modalVisible, setModalVisible] = useState(true);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
@@ -64,7 +65,7 @@ const PhysioVideoCall = (props) => {
   const [client, setClient] = useState(null);
 
   const [RTMChannel, setRTMChannel] = useState('')
-
+  const [startAss, setStartAss] = useState(false)
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
   const [audio, setAudio] = useState(true)
   const [video, setVideo] = useState(true)
@@ -129,6 +130,7 @@ const PhysioVideoCall = (props) => {
   const startAI = async () => {
     console.log("start")
     sendMsg("AI start")
+    setStartAss(true)
 
   }
   const stopAI = async () => {
@@ -138,8 +140,28 @@ const PhysioVideoCall = (props) => {
   const joinChannel = async () => {
     const _rtmChannel = RTMClient.createChannel(channel)
     await _rtmChannel.join();
-    _rtmChannel.on("ChannelMessage", (messge, peerId) => {
-      console.log("message from peer*** ",messge)
+    _rtmChannel.on("ChannelMessage", async(msg, peerId) => {
+      console.log("message from peer*** ", msg)
+      if (msg.fileName === 'AI_Data.json') {
+        const blob = await RTMClient.downloadMedia(msg.mediaId)
+        const reader = new FileReader();
+        reader.addEventListener('loadend', (e) => {
+          AI_Data = JSON.parse(e.srcElement.result)
+          console.log("AI_Data",JSON.stringify(AI_Data))
+          // if(AI_Data!=""){
+          //   console.log("AI data from patient side to physio:" , {AI_Data})   
+          //   localStorage.setItem("AI_Data",JSON.stringify(AI_Data));  
+          //   alert("Data Successfully Received!")
+          // }
+          // else{
+          // alert("Data Not Received")
+          // }
+         });
+          reader.readAsText(blob)
+      }
+      // if(msg.text=="arom_data"){
+
+      // }
     })
     setRTMChannel(_rtmChannel)
   }
@@ -280,15 +302,16 @@ const PhysioVideoCall = (props) => {
         <Col span={24}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]}>
-            <Col className='holder' xs={24} sm={24} md={12} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
+            <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
-              <div id="remote" className='holder-local' ></div>
+              <div id="remote" className='holder-local holder-local-p' ></div>
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef} id="local" className='holder-remote' ></div>
               </Draggable>
             </Col>
-            {/* <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
-            </Col> */}
+            <Col className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+              {startAss ? <AROM /> : <Button className='start-assessment-btn' onClick={startAI} style={{ borderRadius: '10px' }}>Start Assessment</Button>}
+            </Col>
 
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
@@ -324,14 +347,6 @@ const PhysioVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
-                <button
-                  id="exit-btn"
-                  type="button"
-                  className="btn video_con_bttn btn-block btn-red btn-lg"
-                  onClick={startAI}
-                >
-                  <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button>
 
 
                 <button
@@ -342,15 +357,15 @@ const PhysioVideoCall = (props) => {
                 >
                   <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
                 </button>
-                {/* <button
+                <button
                   type="button"
-                  // onClick={handleJoin}
+                  onClick={()=>sendMsg("stop")}
                   id="screen-share-btn"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                 >
                   <i id="screen-share-icon" class="fas fa-phone-slash"></i>
-                  join
-                </button> */}
+                  stop
+                </button>
 
                 {/* 
                 <button

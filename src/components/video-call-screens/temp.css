@@ -38,13 +38,15 @@
     color: white;
     text-align: center;
 }
-
+.start-assessment-btn{
+    border-radius: 10px !important;
+}
 .end-btn-big {
     background: red !important;
     /* color: red !important; */
 }
 
-#remote {
+.holder-local-p {
     transform: rotateY(180deg) !important;
 }
 
@@ -53,7 +55,7 @@
     width: 150px;
     height: 150px;
     z-index: 100;
-    /* background-color: antiquewhite; */
+    background-color: black
 }
 
 .holder-remote {
@@ -84,5 +86,10 @@
     .holder-remote {
         width: 100px;
         height: 100px;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .video-call-main-container {
+        margin: 10px !important;
     }
 }
