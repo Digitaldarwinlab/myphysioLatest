@@ -212,6 +212,9 @@
   #dashboardvisitCard {
     width: 80%;
   }
+  .dashboardchannelButton {
+    width: 65%;
+  }
   .dashboardcolRight {
     float: none;
     display: block;
@@ -224,6 +227,9 @@
   .dashboardcolRight {
     float: none;
     display: block;
+  }
+  .dashboardchannelButton {
+    width: 45%;
   }
 }
 .card {
@@ -292,7 +298,7 @@
     display: block;
   }
   .dashboardchannelButton {
-    width: 70%;
+    width: 72%;
     float: right;
   }
 }
