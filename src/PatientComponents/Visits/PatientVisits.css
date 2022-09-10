@@ -33,6 +33,10 @@
 .colRight {
   float: right;
 }
+.visit-col{
+  font-size: 15px;
+  margin-bottom: 10px;
+}
 .channelButton {
   width: 25%;
   margin-top: 10px;

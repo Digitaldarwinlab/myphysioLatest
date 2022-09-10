@@ -6,7 +6,7 @@ import { GetPatientCurrentEpisode } from "../../PatientAPI/PatientDashboardApi";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
 
 const PatientPrescription = () => {
-  const [allvisits, Setvisits] = useState([]);
+  const [allprescriptions, Setprescriptions] = useState([]);
   useEffect(async () => {
     const pepisode = await GetPatientCurrentEpisode();
     let data;
@@ -14,34 +14,57 @@ const PatientPrescription = () => {
       data = await get_prescription(pepisode[1][0].pp_ed_id);
     }
     console.log(data);
-    Setvisits(data);
+    Setprescriptions(data);
   }, []);
   return (
     <>
-      {allvisits.map((i) => (
-        <div className="p-2" id="visitCard">
+      {allprescriptions.map((i) => (
+        <div className="p-2" id="presCard">
           {i && Object.keys(i).length > 0 && (
-            <div className="p-2 " id="">
+            <div className="p-2 " id="prescriptionBox">
               <div className="presription-row">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <h5 className="p fw-bold text-center">
+                    {moment(i.date).format("DD-MMM-YY dddd")}
+                  </h5>
+                </div>
                 <b>Medication Details </b> <br />
                 {i.medication_detail.map((m) => (
                   <>
-                    <div className="upper-visit-row">
-                      <span className="visit-col" span={10}>
+                    <div className="upper-pres-row">
+                      <span className="pres-col" span={10}>
                         {" "}
                         <b>Medicine :</b> {m.medicine_name}{" "}
                       </span>
-                      <span className="visit-col" style={{float:'right'}} span={10}>
+                      <span
+                        className="pres-col"
+                        style={{ float: "right" }}
+                        span={10}
+                      >
                         {" "}
                         <b>No of Medications :</b> {m.no_of_medications}{" "}
                       </span>
                     </div>
-                    <div className="upper-visit-row" style={{marginBottom:'20px'}}>
-                      <span className="visit-col" span={10}>
+                    <div
+                      className="upper-pres-row"
+                      style={{ marginBottom: "20px" }}
+                    >
+                      <span className="pres-col" span={10}>
                         {" "}
                         <b>Instructions :</b> {m.instruction}{" "}
                       </span>
-                      <span className="visit-col" style={{float:'right'}} span={10}>
+                      <span
+                        className="pres-col"
+                        style={{ float: "right" }}
+                        span={10}
+                      >
                         {" "}
                         <b>Notes :</b> {m.instruction}{" "}
                       </span>
@@ -51,18 +74,29 @@ const PatientPrescription = () => {
                 <b>Lab </b> <br />
                 {i.lab_tests.map((m) => (
                   <>
-                    <div className="upper-visit-row">
-                      <span className="visit-col" span={10}>
+                    <div className="upper-prescription-row">
+                      <span className="prescription-col" span={10}>
                         {" "}
                         <b>Path :</b> {m.path_lab_test}{" "}
                       </span>
-                      <span className="visit-col" style={{float:'right'}} span={10}>
+                      <span
+                        className="prescription-col"
+                        style={{ float: "right" }}
+                        span={10}
+                      >
                         {" "}
                         <b>Radiology :</b> {m.radio_lab_test}{" "}
                       </span>
                     </div>
                   </>
                 ))}
+
+                <div className="upper-prescription-row" style={{marginTop:'15px'}}>
+                  <span className="prescription-col" span={10}>
+                    {" "}
+                    <b>Notes :</b> {i.notes}{" "}
+                  </span>
+                </div>
               </div>
             </div>
           )}

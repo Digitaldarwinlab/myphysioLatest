@@ -2,6 +2,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 const CircularBar = (props) => { 
+    console.log(props.score)
     return (
         <div>
             <CircularProgressbar 
@@ -18,8 +19,9 @@ const CircularBar = (props) => {
                     },
                     background:{fill:"#E6E6FA"}
                 }}
+                strokeWidth={13}
                 value={props.precentage}
-                text={props.score}
+                text={`${props.score}/${props.total}`}
             />
         </div>
     )

@@ -638,11 +638,12 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                   setSelectedTime(index);
                   SetchoosenTime(time);
                   console.log("choosen time ", time);
+                  console.log("time slot ", mappedTimeToExercises,times[index][0]);
                   if (times[index][0] in mappedTimeToExercises) {
                     setExercises(mappedTimeToExercises[times[index][0]]);
-                    console.log("time slot ", mappedTimeToExercises);
                   } else {
                     //pass
+                    console.log('else')
                   }
                 }}
                 className="time-button "

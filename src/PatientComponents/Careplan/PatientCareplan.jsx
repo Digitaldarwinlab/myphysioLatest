@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-// import DatePicker from "react-horizontal-datepicker";
-import "react-horizontal-strip-datepicker/dist/ReactHorizontalDatePicker.css";
+import ConfettiExplosion from "react-confetti-explosion";
 import { Button, Spin } from "antd";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
 import moment from "moment";
-import { Row, Col, Card } from "antd";
+import { BiCheck } from "react-icons/bi";
+import { MdPendingActions } from "react-icons/md";
+import { Row, Col, Card, Carousel, Empty } from "antd";
 import {
   GetPatientCurrentEpisode,
   GetCalanderDataApi,
@@ -14,11 +15,8 @@ import {
 import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
 import "../PatientSchedule/Calendar.css";
 import "../PatientSchedule/patNew.css";
-import DatePicker from "react-horizontal-datepicker";
-import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
-import { get_prescription } from "../../API/Prescription/PresriptionApi";
-import yt from "../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
+import "./PatientCareplan.css";
 //TimeColors
 const activeArr = [
   true,
@@ -69,8 +67,11 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
   const dispatch = useDispatch();
   const [pres, setPres] = useState([]);
   const state = useSelector((state) => state.patCurrentEpisode);
-  const [exstatCheck, setExStatCheck] = useState("yes");
   const [selectedDate, setSelectedDate] = useState("");
+  const [exstatCheck, setExStatCheck] = useState("yes");
+  const [startStatus, setstartStatus] = useState(false);
+  const [startStatus1, setstartStatus1] = useState(JSON.parse(sessionStorage.getItem('status')));
+
   const [exercises, setExercises] = useState([]);
   const [times, setTimes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -80,8 +81,6 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
   const [mappedTimeToExercises, setMappedTimeToExercises] = useState({});
   const [currentEpissode, Setcurrentepisode] = useState(0);
   const [calendarData, SetcalendarData] = useState(0);
-  const [allvisits, Setvisits] = useState([]);
-  const [choosencareplan, Setchoosencareplan] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toDateString().slice(4, 7)
   );
@@ -293,10 +292,16 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
       times = times.map((time, index) => {
         return [time];
       });
+
       setTimes(times);
+      // times.forEach(function(name){
+      //   if(array.name == name ){
+      //     console.log(the result)
+      // }
+      // })
       setExercises(commonTime[times[selectedTime][0]]);
-    //   if (commonTime[times[0][0]].length > 0)
-        // onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
+      //   if (commonTime[times[0][0]].length > 0)
+      // onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
     }
     console.log("times ", data);
     let tempStatus = [];
@@ -304,6 +309,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
       tempStatus.push(d.time_slot);
     });
     checkExerciseStatus1(times[0], tempStatus);
+    console.log(tempStatus);
     setExerciseStatus1(tempStatus);
     console.log("times ", tempStatus);
     // console.log(commonTime);
@@ -329,8 +335,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
   useEffect(() => {
     let key = Object.keys(mappedTimeToExercises);
     //console.log(mappedTimeToExercises[key[0]])
-    // console.log()
-    SetchoosenTime(JSON.stringify(key[selectedTime]));
+    // SetchoosenTime(JSON.stringify(key[selectedTime]));
     console.log("selected time ", selectedTime);
     console.log("selected choosen time1 ", chosenTime);
     console.log("selected ", key);
@@ -341,19 +346,39 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
     return current && current < moment(yesterday, "YYYY-MM-DD");
   };
 
-
   const onSelectedDay1 = async (val, episodeId) => {
-      console.log(episodeId)
+    console.log(episodeId);
     console.log("before converting ", val);
     SetcustomisedDate(convert(val));
     setLoading(true);
     setExercises([]);
     setTimes([]);
+    let a = [];
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
     if (result[1].length > 0) {
-      console.log("yes");
+      console.log(result[1][0].exercise_status);
       setExerciseStatus(result[1][0].exercise_status);
+      result[1][0].time_slot.forEach((i, index) => {
+        Object.values(result[1][0].exercise_status[i]).indexOf("completed") <
+          0 && a.push([i, index]);
+        if (a.length > 0) {
+          console.log(a[0][0]);
+          setSelectedTime(a[0][1]);
+          SetchoosenTime(a[0][0]);
+          setstartStatus(true);
+          sessionStorage.setItem('status',true)
+          if (result[1][0].time_slot[index][0] in mappedTimeToExercises) {
+            setExercises(
+              mappedTimeToExercises[result[1][0].time_slot[index][0]]
+            );
+            console.log("time slot ", mappedTimeToExercises);
+          }
+        } else {
+          setstartStatus(false);
+          sessionStorage.setItem('status',true)
+        }
+      });
       console.log("get yes patient careplan ", result[1][0].exercise_status);
     } else {
       console.log("no");
@@ -373,7 +398,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
             combineTwoCarePlan(data);
           }
         } else {
-        //   onChangeVideoUrl("");
+          //   onChangeVideoUrl("");
         }
       } catch (err) {
         console.log(err);
@@ -384,16 +409,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
   };
   //Update Care Plan State
 
-  useEffect(async () => {
-    let userId = JSON.parse(localStorage.getItem("userId"));
-    const patientVisits = await fetchVisits(userId);
-
-    Setvisits(patientVisits);
-
-    // console.log(allvisits)
-  }, []);
   // console.log(allvisits)
- 
 
   //UseEffect
   useEffect(() => {
@@ -410,14 +426,14 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
             value: pepisode[1][0].pp_ed_id,
           },
         });
-        const data = await get_prescription(pepisode[1][0].pp_ed_id);
-        console.log("prescription ", data);
-        dispatch({
-          type: "PRESCRIPTION_CHANGE",
-          payload: {
-            value: data,
-          },
-        });
+        // const data = await get_prescription(pepisode[1][0].pp_ed_id);
+        // console.log("prescription ", data);
+        // dispatch({
+        //   type: "PRESCRIPTION_CHANGE",
+        //   payload: {
+        //     value: data,
+        //   },
+        // });
         onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
         //  console.log('on select k neeche')
       }
@@ -470,71 +486,65 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
         return "Saturday";
     }
   };
+
   const TimeSlots = (times) => {
-    console.log("get times", selectedTime);
     return (
-      <div
-        className="p-2  border   text-start exercise-card"
-        id="exercise-card"
-      >
+      <div className="p-2 text-start mb-4 mt-2">
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "flex-start",
+            justifyContent: "center",
+            marginBottom: "10px",
           }}
         >
-          <h5 className="p fw-bold">
+          <h3 className=" fw-bold text-center mainDate">
             {selectedDate
               ? day(new Date(selectedDate).getDay())
               : day(new Date().getDay())}
-          </h5>
-          <h5 className="p fw-bold ms-2">
-            {selectedDate ? customisedDate : customisedDate}
-          </h5>
+          </h3>
+          <h3 className=" fw-bold ms-2 mainDate">
+            {selectedDate
+              ? moment(customisedDate).format("DD-MMM-YYYY")
+              : moment(customisedDate).format("DD-MMM-YYYY")}
+          </h3>
         </div>
-        <div
-          className="time-slot-buttons"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          {times.map((time, index) => {
-            return (
-              <Button
-                key={index}
-                disabled={buttonDisabled}
-                style={
-                  buttonDisabled
-                    ? {
-                        ...btnStyle,
-                        ...{
-                          cursor: buttonDisabled ? "not-allowed" : "pointer",
-                          backgroundColor: buttonDisabled ? "gray" : "#00022e",
-                        },
-                      }
-                    : selectedTime === index
-                    ? selectedStyle
-                    : UnselectedStyle
-                }
-                onClick={() => {
-                  setSelectedTime(index);
-                  SetchoosenTime(time);
-                  console.log("choosen time ", time);
-                  if (times[index][0] in mappedTimeToExercises) {
-                    setExercises(mappedTimeToExercises[times[index][0]]);
-                    console.log("time slot ", mappedTimeToExercises);
-                  } else {
-                    //pass
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <ol class="ProgressBar">
+            {times.map((time, index) => {
+              console.log(time, exercise_status[time]);
+              let tempStat =
+                Object.values(exercise_status[time]).indexOf("completed") >= 0
+                  ? false
+                  : true;
+
+              return (
+                <li
+                  className={
+                    tempStat
+                      ? "ProgressBar-step is-current"
+                      : "ProgressBar-step is-complete"
                   }
-                }}
-                className="time-button "
-                // className={selectedTime === index
-                //   && "selectedStyle"
-                // }
-              >
-                {time}
-              </Button>
-            );
-          })}
+                >
+                  <span className="ProgressBar-icon">
+                    {tempStat ? (
+                      <MdPendingActions
+                        size={20}
+                        style={{ color: "white", marginBottom: "5px" }}
+                      />
+                    ) : (
+                      <BiCheck
+                        size={20}
+                        style={{ color: "white", marginBottom: "5px" }}
+                      />
+                    )}
+                  </span>
+
+                  <span className="ProgressBar-stepLabel">{time}</span>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     );
@@ -557,19 +567,19 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
     };
     if (combine) {
       if (chosenTime === undefined) {
+        console.log(true);
         // exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
         mapExer(careplanIdArray[selectedTime].time);
       } else {
         // exercise["ChoosenTime"] = exactTime[0]
+        console.log(false);
         mapExer(exactTime[0]);
       }
     } else {
       if (exactTime !== 0) {
-        // exercise["ChoosenTime"] = exactTime
-        mapExer(exactTime);
+        exercise["ChoosenTime"] = chosenTime;
       } else {
-        //  exercise["ChoosenTime"] = times[0]
-        mapExer(times[0]);
+        mapExer(chosenTime);
       }
     }
 
@@ -577,7 +587,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
     exercises.map((ex) => {
       exArr.push(ex.name);
     });
-    console.log("exercise is ", exercise);
+    console.log(chosenTime);
     exercise["ChoosenTime"] = chosenTime
       ? chosenTime
       : Object.keys(mappedTimeToExercises)[0]
@@ -586,9 +596,6 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
     exercise["careplanId"] = exercise.pp_cp_id;
     console.log("final exercises are ", exercises);
     let repArr = exercises.map((exercise) => exercise.Rep);
-    //  console.log('final exercise status ',exercise_status)
-    //  console.log('final exercise status1 ',exercise_status1)
-    // onChangeVideoUrl(exercise.video_url);
     if (!status_flag) {
       history.push({
         pathname: "/patient/exercises/brief",
@@ -625,22 +632,31 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
               controls={true}
               className="react-player"
               url={exercise.youtube_link}
-              width="100%"
+              style={{margin:'auto'}}
+              width={250}
               height={120}
             />
           ) : (
             <img
               src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
               alt={`image_${exercise.ex_em_id}`}
-              width="100%"
-              height={120}
+              width={250}
+              height={300}
+              style={{margin:'auto',width:'100%'}}
             />
           )
         }
       >
         <Meta
           description={
-            <p style={{ color: "#000000" }}>
+            <p
+              style={{
+                color: "#000000",
+                marginBottom: "50px",
+                fontSize: "22px",
+                fontWeight: "bolder",
+              }}
+            >
               {exercise.name ? exercise.name : ""}
             </p>
           }
@@ -661,11 +677,8 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
       // </div>
     );
   };
- 
 
-  
   var date = new Date();
-
 
   const checkStatus = () => {
     console.log("status checking...");
@@ -751,75 +764,76 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
           <Spin tip="Loading..." size="large"></Spin>
         </div>
       )}
-      <div className="conten" >
-          {times.length !== 0 && TimeSlots(times)}
-          {exercises.length !== 0 ? (
-            <>
+
+      {exercises.length !== 0 ? (
+        <div className="careplanBox">
+          {times.length > 0 && TimeSlots(times)}
+          {!startStatus  && (
+            <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
+            <ConfettiExplosion
+              force={0.6}
+              duration={5000}
+              particleCount={200}
+              floorHeight={1600}
+              floorWidth={1600}
+            />
+            </div>
+          )}
+          {!startStatus && (
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "10px",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <div class="checkmark-circle">
+                <div class="background"></div>
+                <div class="checkmark draw"></div>
+              </div>
+              <h2>Congratulations!</h2>
+              <p>You have completed your careplan for today. Well done!</p>
+            </div>
+          )}
+          <div
+            className="border px-2 py-2 me-2 mt-2 exercise-card2"
+            id="exercise-card2"
+          >
+            <Carousel autoplay>
               {exercises.map((ex, index) => {
-                return (
-                  <>
-                    <div
-                      key={index}
-                      className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
-                      id="exercise-card2"
-                    >
-                      {ExerciseCard(ex)}
-                    </div>
-                  </>
-                );
+                return <div>{ExerciseCard(ex)}</div>;
               })}
-              {exercises.length > 0 && (
-                <div style={{ display: "none" }} className="p-2 start_now_div">
+            </Carousel>
+          </div>
+
+          {exercises.length > 0 && (
+            <>
+              {startStatus && (
+                <div className="p-2  start_now_div_large">
                   <Button
-                    className={`status-button-${
-                      customisedDate !== convert(new Date())
-                        ? "yes"
-                        : exstatCheck
-                    } p-2`}
-                    disabled={
-                      exstatCheck === "yes" ||
-                      customisedDate !== convert(new Date())
-                        ? true
-                        : false
-                    }
+                  className="startButton"
                     style={{ float: "right" }}
                     onClick={() => handleClick(exercises)}
-                  >
-                    Start Now
-                  </Button>
-                </div>
-              )}
-              {exercises.length > 0 && (
-                <div className="p-2 start_now_div_large">
-                  <Button
-                    className={`status-button-${
-                      customisedDate !== convert(new Date())
-                        ? "yes"
-                        : exstatCheck
-                    } p-2`}
-                    disabled={
-                      exstatCheck === "yes" ||
-                      customisedDate !== convert(new Date())
-                        ? true
-                        : false
-                    }
-                    style={{ float: "right" }}
-                    onClick={() => handleClick(exercises)}
+                    size={"large"}
                   >
                     Start Now
                   </Button>
                 </div>
               )}
             </>
-          ) : (
-            !loading && (
-              <p className="text-center p border nothing-present">
-                <b> No Plan For Today</b>{" "}
-              </p>
-            )
           )}
-        
-      </div>
+        </div>
+      ) : (
+        !loading && (
+          <div className="">
+            <Empty
+              description="No Careplan Available"
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
+          </div>
+        )
+      )}
     </>
   );
 };

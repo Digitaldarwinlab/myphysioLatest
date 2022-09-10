@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { Radio, Button, Tooltip } from "antd";
+import { Radio, Button, Tooltip, Empty } from "antd";
+import DoctorImg from './../../assets/doctor.webp'
 import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../API/Episode/EpisodeApi";
 import { GetPatientCurrentEpisode } from "../../PatientAPI/PatientDashboardApi";
@@ -17,15 +18,12 @@ const PatientVisit = () => {
     if (patientVisits.length > 0) res = await GetPatientCurrentEpisode();
     console.log(res[1][0]);
     let name =
-      res[1][0]["treating_doctor_detail"][0]["middle_name"] !== ""
+      res[1][0]["treating_doctor_detail"][0]["first_name"] !== undefined ||
+      res[1][0]["treating_doctor_detail"][0]["last_name"] !== undefined
         ? res[1][0]["treating_doctor_detail"][0]["first_name"] +
           " " +
-          res[1][0]["treating_doctor_detail"][0]["middle_name"] +
-          " " +
           res[1][0]["treating_doctor_detail"][0]["last_name"]
-        : res[1][0]["treating_doctor_detail"][0]["first_name"] +
-          " " +
-          res[1][0]["treating_doctor_detail"][0]["last_name"];
+        : "N/A";
     console.log(name);
     SetDoctor(name);
     const sortVisits = patientVisits.filter((data) => {
@@ -55,10 +53,13 @@ const PatientVisit = () => {
         return data;
       }
     });
-    othersortVisits = othersortVisits.sort(function(a,b){
+    othersortVisits = othersortVisits.sort(function (a, b) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
-      return new Date(a.appointment_detail.startDate) - new Date(b.appointment_detail.startDate);
+      return (
+        new Date(a.appointment_detail.startDate) -
+        new Date(b.appointment_detail.startDate)
+      );
     });
     Setvisits(visitShow === "a" ? sortVisits : othersortVisits);
   }, [visitShow]);
@@ -83,149 +84,161 @@ const PatientVisit = () => {
           Upcoming
         </Radio.Button>
       </Radio.Group>
-      {allvisits.map((i) => (
+      {allvisits.length > 0 ? (
         <>
-          {visitShow === "a" ? (
-            <div className="p-2" id="visitCard">
-              <img
-                src="https://cdn.pixabay.com/photo/2017/03/14/03/20/woman-2141808__340.jpg"
-                className="visitImage"
-                alt=""
-              />
-              <div className="visitDetails">
-                <p className="w-100 text-start doctorName">
-                  <b>Dr. {doctor}</b>
-                </p>
-                <div>
-                  <span className="visit-col" span={10}>
-                    {" "}
-                    <b>Time:</b> {i.appointment_detail.start_time}
-                  </span>
-                  <span className="visit-col colRight" span={10}>
-                    {" "}
-                    <b>Duration:</b> {i.appointment_detail.duration}{" "}
-                  </span>
-                </div>
-                <div>
-                  <span className="visit-col" span={12}>
-                    <b>Type:</b> {i.visit_type}
-                  </span>
-                  <span className="visit-col colRight" span={12}>
-                    <b>Location:</b> {i.location}
-                  </span>
-                </div>
-                {i.video_link !== "" && (
-                  <div
-                    className="video-conference-detail"
-                    style={{ float: "right" }}
-                  >
-                    <span className="video-col">
-                      {visitShow === "a" ? (
-                        <Button
-                          className="channelButton"
-                          type="primary"
-                          href={i.video_link}
-                          shape={"round"}
-                          target="_blank"
-                        >
-                          Join Channel
-                        </Button>
-                      ) : (
-                        <Tooltip title="You can only join on the same date">
-                          <Button
-                            className="channelButton"
-                            type="primary"
-                            href={i.video_link}
-                            shape={"round"}
-                            target="_blank"
-                            disabled
-                          >
-                            Join Channel
-                          </Button>
-                        </Tooltip>
-                      )}
-                      {/* <b> Video Conference Detail:</b>{" "}
+          {allvisits.map((i) => (
+            <>
+              {visitShow === "a" ? (
+                <div className="p-2" id="visitCard">
+                  <img
+                    src={DoctorImg}
+                    className="visitImage"
+                    alt=""
+                  />
+                  <div className="visitDetails">
+                    <p className="w-100 text-start doctorName">
+                      <b>Dr. {doctor}</b>
+                    </p>
+                    <div>
+                      <span className="visitCol" span={10}>
+                        {" "}
+                        <b>Time:</b> {i.appointment_detail.start_time}
+                      </span>
+                      <span className="visitCol colRight" span={10}>
+                        {" "}
+                        <b>Duration:</b> {i.appointment_detail.duration}{" "}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="visitCol" span={12}>
+                        <b>Type:</b> {i.visit_type}
+                      </span>
+                      <span className="visitCol colRight" span={12}>
+                        <b>Location:</b> {i.location}
+                      </span>
+                    </div>
+                    {i.video_link !== "" && (
+                      <div
+                        className="video-conference-detail"
+                        style={{ float: "right" }}
+                      >
+                        <span className="video-col">
+                          {visitShow === "a" ? (
+                            <Button
+                              className="channelButton"
+                              type="primary"
+                              href={i.video_link}
+                              shape={"round"}
+                              target="_blank"
+                            >
+                              Join Channel
+                            </Button>
+                          ) : (
+                            <Tooltip title="You can only join on the same date">
+                              <Button
+                                className="channelButton"
+                                type="primary"
+                                href={i.video_link}
+                                shape={"round"}
+                                target="_blank"
+                                disabled
+                              >
+                                Join Channel
+                              </Button>
+                            </Tooltip>
+                          )}
+                          {/* <b> Video Conference Detail:</b>{" "}
                   <a href={i.video_link}>{i.video_link}</a> */}
-                    </span>
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="p-2" id="visitCard">
-              <img
-                src="https://cdn.pixabay.com/photo/2017/03/14/03/20/woman-2141808__340.jpg"
-                className="visitImage"
-                alt=""
-              />
-              <div className="visitDetails">
-                <p className="w-100 text-start doctorName">
-                  <b>Dr. {doctor}</b>
-                </p>
-                <div>
-                  <span className="visit-col" span={10}>
-                    {" "}
-                    <b>Date:</b> {moment(i.appointment_detail.startDate).format('DD MMM YYYY')}
-                  </span>
-                  <span className="visit-col colRight" span={10}>
-                    {" "}
-                    <b>Time:</b> {i.appointment_detail.start_time}
-                  </span>
                 </div>
-                <div>
-                <span className="visit-col " span={10}>
-                    {" "}
-                    <b>Duration:</b> {i.appointment_detail.duration}{" "}
-                  </span>
-                  <span className="visit-col colRight" span={12}>
-                    <b>Type:</b> {i.visit_type}
-                  </span>
-                </div>
-                <div>
-                  <span className="visit-col" span={12}>
-                    <b>Location:</b> {i.location}
-                  </span>
-                </div>
-                {i.video_link !== "" && (
-                  <div
-                    className="video-conference-detail"
-                    style={{ float: "right" }}
-                  >
-                    <span className="video-col">
-                      {visitShow === "a" ? (
-                        <Button
-                          className="channelButton"
-                          type="primary"
-                          href={i.video_link}
-                          shape={"round"}
-                          target="_blank"
-                        >
-                          Join Channel
-                        </Button>
-                      ) : (
-                        <Tooltip title="You can only join on the same date">
-                          <Button
-                            className="disablechannelButton"
-                            type="primary"
-                            href={i.video_link}
-                            shape={"round"}
-                            target="_blank"
-                            disabled
-                          >
-                            Join Channel
-                          </Button>
-                        </Tooltip>
-                      )}
-                      {/* <b> Video Conference Detail:</b>{" "}
+              ) : (
+                <div className="p-2" id="visitCard">
+                  <img
+                    src={DoctorImg}
+                    className="visitImage"
+                    alt=""
+                  />
+                  <div className="visitDetails">
+                    <p className="w-100 text-start doctorName">
+                      <b>Dr. {doctor}</b>
+                    </p>
+                    <div>
+                      <span className="visitCol" span={10}>
+                        {" "}
+                        <b>Date:</b>{" "}
+                        {moment(i.appointment_detail.startDate).format(
+                          "DD MMM YYYY"
+                        )}
+                      </span>
+                      <span className="visitCol colRight" span={10}>
+                        {" "}
+                        <b>Time:</b> {i.appointment_detail.start_time}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="visitCol " span={10}>
+                        {" "}
+                        <b>Duration:</b> {i.appointment_detail.duration}{" "}
+                      </span>
+                      <span className="visitCol colRight" span={12}>
+                        <b>Type:</b> {i.visit_type}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="visitCol" span={12}>
+                        <b>Location:</b> {i.location}
+                      </span>
+                    </div>
+                    {i.video_link !== "" && (
+                      <div
+                        className="video-conference-detail"
+                        style={{ float: "right" }}
+                      >
+                        <span className="video-col">
+                          {visitShow === "a" ? (
+                            <Button
+                              className="channelButton"
+                              type="primary"
+                              href={i.video_link}
+                              shape={"round"}
+                              target="_blank"
+                            >
+                              Join Channel
+                            </Button>
+                          ) : (
+                            <Tooltip title="You can only join on the same date">
+                              <Button
+                                className="disablechannelButton"
+                                type="primary"
+                                href={i.video_link}
+                                shape={"round"}
+                                target="_blank"
+                                disabled
+                              >
+                                Join Channel
+                              </Button>
+                            </Tooltip>
+                          )}
+                          {/* <b> Video Conference Detail:</b>{" "}
                   <a href={i.video_link}>{i.video_link}</a> */}
-                    </span>
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            </div>
-          )}
+                </div>
+              )}
+            </>
+          ))}
         </>
-      ))}
+      ) : (
+        <Empty
+          description="No Visits Available"
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      )}
     </>
   );
 };

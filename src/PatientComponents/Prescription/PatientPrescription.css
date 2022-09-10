@@ -1,12 +1,24 @@
-#visitCard{
+#presCard{
     width: 60%;
-    display: block;
-    margin: auto;
-    margin-top: 20px;
-    background-color: rgb(238, 241, 250);
-    border-radius: 10px;
-    padding: 10px 10px 10px 10px;
-    box-shadow: 7px 3px 7px 0px rgba(0, 0, 0, 0.034);
-    -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
-    -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
+  display: flex;
+  /* flex-direction: column; */
+  margin: auto;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 5px 10px 18px #888888;
+  -webkit-box-shadow: 5px 10px 18px #888888;
+  -moz-box-shadow: 5px 10px 18px #888888;
+}
+@media only screen and (max-width: 600px) {
+  #presCard {
+      width: 100%;
+    }
+}
+#prescriptionBox{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
 }

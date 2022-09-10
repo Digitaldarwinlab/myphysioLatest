@@ -130,7 +130,7 @@ const Navigationbar = (props) => {
   const [visState, setVisState] = useState(false);
   return (
     <>
-      <nav className="navbar navbar-expand-lg sticky-top navigationBar" >
+      <nav className="navbar navbar-expand-lg  navigationBar" >
         <Dropdown
           overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
           className="navbar-toggler"
@@ -215,7 +215,7 @@ const Navigationbar = (props) => {
               <Menu.Item
                 key="1"
                 className="ant-menu-item-selected"
-                style={{ backgroundColor: "transparent", color: "white" }}
+                style={{  color: "white" }}
                 onClick={() => {
                   props.SideNavbarCollpased();
                 }}

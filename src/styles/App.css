@@ -1478,8 +1478,8 @@ i.fas.fa-user-plus {
     margin-bottom: 20px;
   }
   .ant-col {
-    max-width: 98% !important;
-    width: 98% !important;
+    max-width: 100% !important;
+    width: 100% !important;
     /* margin-left: 1%; */
   }
   .main-card {
@@ -1670,7 +1670,8 @@ div#right-box .detail-row b {
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #ebf2f9 !important;
+  background-color: #2d7ecb !important;
+  color: white !important;
   height: 50px !important;
   line-height: 50px !important;
   margin-top: 0px !important;
