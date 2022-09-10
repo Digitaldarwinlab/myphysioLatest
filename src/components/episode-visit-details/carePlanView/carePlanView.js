@@ -95,13 +95,11 @@ const handleEdit = (data) => {
    // setChangeView(true);
   // setCarePlanViewState(false)
   let temp = []
-  console.log(data.exercise_details)
     data.exercise_details.map(item=>{
         temp.push(item.ex_em_id)
         dispatch({type:CARE_PLAN_ADD_TO_CART,payload:item})
     })
     localStorage.setItem("care-plan-cart", JSON.stringify(temp));
-    console.log("care-plan-cart ",data)
     let count_time_slots = data.time_slot.map(item=>item[0])
     console.log(count_time_slots)
     //status_flag

@@ -31,15 +31,7 @@
   }
 
   #exercise-card2 {
-    position: relative;
-    left: 11%;
-    margin-bottom: 20px;
-    justify-content: center;
-    background-color: #fff;
-    width: 800px;
-
-    font-size: 24px;
-    text-align: center;
+    margin-left: 0;
   }
 }
 
@@ -138,8 +130,8 @@
 .exercise-card2 {
   position: relative;
   text-align: center;
-  width: 33%;
-  float: left;
+  width: 60%;
+ margin-left: 20%;
   /* box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034); */

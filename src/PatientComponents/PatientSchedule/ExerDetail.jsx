@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   Tooltip,
+  Radio
 } from "antd";
 import React, { useEffect, useState } from "react";
 import PainMeter from "../PainMeter/PainMeter";
@@ -99,7 +100,7 @@ const ExerDetail = () => {
     console.log("exercises ", temp);
     setExercises([...res, ...yt_temp]);
   }, []);
-
+  console.log(location.state.exercises[0])
   const finish = async () => {
     let tempId = [];
     comp.map((item) => {
@@ -125,6 +126,7 @@ const ExerDetail = () => {
     //   time_slot: location.state.exercises[0].ChoosenTime,
     //   exercise: temp,
     // });
+    
     let ChoosenTime = location.state.exercises[0].ChoosenTime;
     const date = new Date();
     let pp_cp_id = location.state.exercises[0].pp_cp_id;
@@ -168,8 +170,7 @@ const ExerDetail = () => {
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
     console.log("pain ", location.state.exercises[0].pp_cp_id, pain);
     await updatePainMeter(location.state.exercises[0].pp_cp_id, pain,ChoosenTime);
-    window.location.href = "/patient/schedule";
-    //window.location.reload();
+    window.location.href = "/patient/careplan";
   };
 
   const upDel = (index) => {

@@ -104,7 +104,7 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
-        {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" && (
+        {/* {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" && (
           <Menu.Item key="2" style={{ borderTop: "0px solid black" }}>
             <Link
               to="/patient/profile"
@@ -113,12 +113,12 @@ const Navigationbar = (props) => {
               My Profile
             </Link>
           </Menu.Item>
-        )}
-        {userInfo.role == "patient" && <Menu.Item key="2" style={{}}>
+        )} */}
+        {/* {userInfo.role == "patient" && <Menu.Item key="2" style={{}}>
           <Link to="/patient/dashboard" className="text-secondary text-decoration-none">
             Dashboard
           </Link>
-        </Menu.Item>}
+        </Menu.Item>} */}
         <Menu.Item key="3" style={{}}>
           <Link to="/logout" className="text-secondary text-decoration-none">
             LogOut
@@ -130,7 +130,7 @@ const Navigationbar = (props) => {
   const [visState, setVisState] = useState(false);
   return (
     <>
-      <nav className="navbar navbar-expand-lg sticky-top navigationBar" >
+      <nav className="navbar navbar-expand-lg  navigationBar" >
         <Dropdown
           overlay={<SideDrawer visState={visState} setVisState={setVisState} />}
           className="navbar-toggler"
@@ -211,6 +211,31 @@ const Navigationbar = (props) => {
                 )}
               </Menu.Item>
             }
+            {userInfo.role === "patient" &&
+              <Menu.Item
+                key="1"
+                className="ant-menu-item-selected"
+                style={{  color: "white" }}
+                onClick={() => {
+                  props.SideNavbarCollpased();
+                }}
+              >
+                {/* aswin 10/27/2021 stop */}
+                {props.isSideNavbarCollpased ? (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                ) : (
+                  <GiHamburgerMenu
+                    className="ham_one"
+                    style={{ marginTop: "5px" }}
+                    size={25}
+                  />
+                )}
+              </Menu.Item>
+            }
           </Menu>
         ) : null}
 
@@ -249,11 +274,11 @@ const Navigationbar = (props) => {
                 </a>
               </Dropdown>
               {"  "}
-              <Link to={userInfo.role === 'enterprise_patient' || userInfo.role === 'employee' ? "/patient/enterprise/schedule" : "/patient/schedule"}>
+              {/* <Link to={userInfo.role === 'enterprise_patient' || userInfo.role === 'employee' ? "/patient/enterprise/schedule" : "/patient/schedule"}>
                 <h4 className="text-white me-3 ">
                   <GoCalendar /> Schedule
                 </h4>
-              </Link>
+              </Link> */}
             </Space>
           ) : (
             <Dropdown
@@ -301,11 +326,13 @@ const Navigationbar = (props) => {
               >
                 <CgProfile
                   style={{
-                    margin: "auto 10px 0px",
+                    margin: "auto",
                     fontSize: "26px",
-                    marginTop: "0px",
+                    marginBottom: "3px",
+                    marginRight:'1px',
+                    marginLeft:'10px'
                   }}
-                />{" "}
+                />
                 Hello {userInfo.info.first_name.slice(0, 1).toUpperCase() + userInfo.info.first_name.slice(1, userInfo.info.first_name.length).toLowerCase()}
               </a>
             </Dropdown>
