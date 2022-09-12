@@ -104,6 +104,16 @@ const Navigationbar = (props) => {
             </Link>
           </Menu.Item>
         )}
+        {userInfo.role === "admin" && (
+          <Menu.Item key="0" style={{ borderTop: "0px solid black" }}>
+            <Link
+              to="/roleManagement"
+              className="text-secondary text-decoration-none"
+            >
+             Role Management
+            </Link>
+          </Menu.Item>
+        )}
         {userInfo.role !== "admin" && userInfo.role !== "physio" && userInfo.role !== "HeadPhysio" && (
           <Menu.Item key="2" style={{ borderTop: "0px solid black" }}>
             <Link

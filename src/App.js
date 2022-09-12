@@ -2,6 +2,8 @@ import React, { useState, lazy,Suspense,useEffect } from "react";
  import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Login from "./components/userAuth/Login.js";
 // import Signup from "./components/userAuth/Signup.js";
+import Roles from "./components/Role Management/Roles";
+import RolesRegisteration from "./components/Role Management/AddRoles/RolesRegisteration";
 const Login = lazy(() => import('./components/userAuth/Login.js'));
 const Signup = lazy(() => import('./components/userAuth/Signup.js'));
 const Assesment1 = lazy(() => import('./components/Assesment/Assesment1'));
@@ -218,6 +220,8 @@ const App = () => {
 
 							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
 							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
+							<PrivateRoute exact path="/roleManagement" component={Roles} />
+							<PrivateRoute exact path="/roles/add" component={RolesRegisteration} />
 							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
 							<PrivateRoute exact path="/pateints/new" component={PatientIndex} />
 							<PrivateRoute exact path="/pateints/update" component={PatientIndex} />
