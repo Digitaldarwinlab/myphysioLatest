@@ -9,6 +9,7 @@ function Tab1({
   url1,
   url2,
   videoCon,
+  videoConf,
   frontAngles,
   sideAngles,
   setFrontAngles,
@@ -17,7 +18,8 @@ function Tab1({
   captureSide,
   onChangeFront,
   onChangeSide,
-  setOrientation
+  setOrientation,
+  videoCallPosture
 }) {
   const [toggleState, setToggleState] = useState(1);
   const [anterior, setAnterior] = useState();
@@ -50,13 +52,17 @@ function Tab1({
                       <Switch
                         checked={checked1}
                         onChange={() => {
-                          if(!checked1){
-                            console.log('forward')
-                            darwin.restart()
-                            darwin.selectOrientation(1);
-                          }else{
-                            console.log('backward')
-                            darwin.stop()
+                          if (videoConf) {
+                            videoCallPosture()
+                          } else {
+                            if (!checked1) {
+                              console.log('forward')
+                              darwin.restart()
+                              darwin.selectOrientation(1);
+                            } else {
+                              console.log('backward')
+                              darwin.stop()
+                            }
                           }
                           setChecked1(!checked1);
                         }}
@@ -67,13 +73,11 @@ function Tab1({
                       <Button
                         disabled={videoCon?false:!checked1}
                         onClick={async () => {
-                          if(videoCon){
-                            var peerID = $("#form-peerId").val();
-                            await sendMessage("stopPosture1",peerID)
-                            captureFront();
-                            
+                          if (videoConf) {
+                            captureFront('anterior-sitting');
+                            setChecked1(false);
                           }
-                          else{
+                          else {
                             darwin.screenShot();
                             captureFront();
                             setChecked1(false);
@@ -89,7 +93,7 @@ function Tab1({
                             ]);
                             console.log('backward')
                             darwin.stop()
-                        }
+                          }
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
@@ -118,13 +122,17 @@ function Tab1({
                       <Switch
                         checked={checked2}
                         onChange={() => {
-                          if(!checked2){
-                            darwin.restart()
-                            darwin.selectOrientation(2)
-                            console.log('forward')
-                          }else{
-                            darwin.stop()
-                            console.log('backward')
+                          if (videoConf) {
+                            videoCallPosture()
+                          } else {
+                            if (!checked2) {
+                              darwin.restart()
+                              darwin.selectOrientation(3)
+                              console.log('forward')
+                            } else {
+                              darwin.stop()
+                              console.log('backward')
+                            }
                           }
                           setChecked2(!checked2);
                         }}
@@ -135,12 +143,11 @@ function Tab1({
                       <Button
                         disabled={videoCon?false:!checked2}
                         onClick={async () => {
-                          if(videoCon){
-                            var peerID = $("#form-peerId").val();
-                            await sendMessage("stopPosture2",peerID)
-                            captureSide();
+                          if (videoConf) {
+                            captureFront('lateral-sitting');
+                            setChecked2(false);
                           }
-                          else{
+                          else {
                             darwin.screenShot();
                             captureSide();
                             setChecked2(false);
@@ -149,8 +156,8 @@ function Tab1({
                             setSideAngles([res[0].angle,res[1].angle, res[2].angle, res[3].angle]);
                             console.log('backward')
                             darwin.stop()
-                        }
-                          
+                          }
+      
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
@@ -173,8 +180,8 @@ function Tab1({
           </span>
           <span
             style={{ width: "460px", padding: "0px 0 0 0", height: "35px" }}
-            className={toggleState === 2 ? "tabss active-tabss" : "tabss"}
-            onClick={() => toggleTab(2)}
+            className={toggleState === 3 ? "tabss active-tabss" : "tabss"}
+            onClick={() => toggleTab(3)}
           >
             <div className="fw-bold ant-tabss-btn">Lateral</div>
           </span>
@@ -299,13 +306,17 @@ function Tab1({
                       <Switch
                         checked={checked1}
                         onChange={() => {
-                          if(!checked1){
-                            console.log('forward')
-                            darwin.restart()
-                            darwin.selectOrientation(1);
-                          }else{
-                            console.log('backward')
-                            darwin.stop()
+                          if (videoConf) {
+                            videoCallPosture()
+                          } else {
+                            if (!checked1) {
+                              console.log('forward')
+                              darwin.restart()
+                              darwin.selectOrientation(1);
+                            } else {
+                              console.log('backward')
+                              darwin.stop()
+                            }
                           }
                           setChecked1(!checked1);
                         }}
@@ -316,12 +327,11 @@ function Tab1({
                       <Button
                         disabled={videoCon?false:!checked1}
                         onClick={async () => {
-                          if(videoCon){
-                            var peerID = $("#form-peerId").val();
-                            sendMessage("stopPosture1",peerID)
-                            captureFront();
+                          if (videoConf) {
+                            captureFront('anterior-sitting');
+                            setChecked1(false);
                           }
-                          else{
+                          else {
                             darwin.screenShot();
                             captureFront();
                             setChecked1(false);
@@ -337,7 +347,7 @@ function Tab1({
                             ]);
                             console.log('backward')
                             darwin.stop()
-                        }
+                          }
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}
@@ -351,7 +361,7 @@ function Tab1({
           </Row>
         </div>
         <div
-          className={toggleState === 2 ? "contentt  active-contentt" : "contentt"}
+          className={toggleState === 3 ? "contentt  active-contentt" : "contentt"}
         >
           <table style={{ marginLeft: "5px" }}>
             <tr>
@@ -466,13 +476,17 @@ function Tab1({
                       <Switch
                         checked={checked2}
                         onChange={() => {
-                          if(!checked2){
-                            darwin.restart()
-                            darwin.selectOrientation(3)
-                            console.log('forward')
-                          }else{
-                            darwin.stop()
-                            console.log('backward')
+                          if (videoConf) {
+                            videoCallPosture()
+                          } else {
+                            if (!checked2) {
+                              darwin.restart()
+                              darwin.selectOrientation(3)
+                              console.log('forward')
+                            } else {
+                              darwin.stop()
+                              console.log('backward')
+                            }
                           }
                           setChecked2(!checked2);
                         }}
@@ -483,21 +497,20 @@ function Tab1({
                       <Button
                         disabled={videoCon?false:!checked2}
                         onClick={async () => {
-                          if(videoCon){
-                            var peerID = $("#form-peerId").val();
-                            await sendMessage("stopPosture2",peerID)
-                            captureSide();
+                          if (videoConf) {
+                            captureFront('lateral-sitting');
+                            setChecked2(false);
                           }
-                          else{
+                          else {
                             darwin.screenShot();
                             captureSide();
                             setChecked2(false);
                             const res = await darwin.showAngles();
                             console.log("show side angles ", res);
-                            setSideAngles([res[0].angle,res[1].angle, res[2].angle, res[3].angle ,res[4].angle]);
+                            setSideAngles([res[0].angle, res[1].angle, res[2].angle, res[3].angle]);
                             console.log('backward')
                             darwin.stop()
-                        }
+                          }
                         }}
                         style={{ border: "none" ,backgroundColor:'#2d7ecb'}}
                         icon={<CameraFilled />}

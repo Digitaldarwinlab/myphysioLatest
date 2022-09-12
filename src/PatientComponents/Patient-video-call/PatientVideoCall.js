@@ -37,7 +37,7 @@ const PatientVideoCall = (props) => {
   // }, [window.screen])
 
   const sendMsg = async (text) => {
-    console.log('text ',text)
+    console.log('text ', text)
     RTMChannel.sendMessage({ text, type: 'text' })
   }
   async function sendFileMessage1(file_name, peerId, blob) {
@@ -45,13 +45,13 @@ const PatientVideoCall = (props) => {
       messageType: 'FILE',
       fileName: file_name,
       description: 'send file'
-      })
-      RTMChannel.sendMessageToPeer(mediaMessage, peerId)
+    })
+    RTMChannel.sendMessageToPeer(mediaMessage, peerId)
   }
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
-  const [peerId ,setPeerId] = useState('')
+  const [peerId, setPeerId] = useState('')
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
   const [audio, setAudio] = useState(true)
   const [video, setVideo] = useState(true)
@@ -62,6 +62,20 @@ const PatientVideoCall = (props) => {
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIAD8ig3d9ExWFhwv1mySzHryeSXjpNVvv8CO1p8Udp/pQqDfQtaQ1sJlEAAJmBoBQLkLYwEAAQDQdQpj')
+  const connect = async (ar) => {
+    await RTMClient.login({ uid: String(ar), token: null })
+  }
+  async function capture() {
+    window.scrollTo(0, 0)
+    const canvas = await html2canvas(document.getElementById("scanvas"))
+    var extra_canvas = document.createElement("canvas");
+    extra_canvas.setAttribute('width', 180);
+    extra_canvas.setAttribute('height', 180);
+    var ctx = extra_canvas.getContext('2d');
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 180, 180);
+    var dataURL = extra_canvas.toDataURL();
+    return (dataURL)
+  }
   useEffect(async () => {
     props.Setsidebarshow(false)
     // await login()
@@ -70,10 +84,7 @@ const PatientVideoCall = (props) => {
     setChannel(arr[0])
     setUid(arr[2])
     setPeerId(String(arr[1]))
-    const connect = async () => {
-      await RTMClient.login({ uid: String(arr[2]), token: null })
-    }
-    connect()
+    connect(arr[2])
     const _client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
     setClient(_client);
     console.log('client================', _client);
@@ -120,10 +131,59 @@ const PatientVideoCall = (props) => {
   const joinChannel = async () => {
     const _rtmChannel = RTMClient.createChannel(channel)
     await _rtmChannel.join();
-    _rtmChannel.on("ChannelMessage", async(msg, peerId) => {
+    _rtmChannel.on("ChannelMessage", async (msg, peerId) => {
+      let obj = JSON.parse(msg.text)
       console.log("message from peer*** ", msg)
-      if (msg.text == "AI start") {
-        let videoElem = document.getElementById('local').querySelector('video')
+      if (obj.type == "initiate-arom") {
+        try {
+          let videoElem = document.getElementById('local').querySelector('video')
+          console.log("video elem ", videoElem)
+          let canvas = document.getElementById('scanvas')
+          let { width, height } = videoElem.getBoundingClientRect()
+          console.log("width and height ", width, " ", height)
+          AiCanvas = canvas
+          const options = {
+            video: videoElem,
+            // videoWidth: width,
+            // videoHeight: height,
+            canvas: canvas,
+            supervised: true,
+            showAngles: true,
+            drawLine: false,
+          };
+          console.log(options)
+          window.darwin.initializeModel(options);
+          window.darwin.launchModel();
+          window.darwin.stop();
+          // TempStream.addTrack(tracks[0]);
+          //change_view
+          setChangeView('change_view')
+          document.getElementById('local').style.display = 'none'
+          document.getElementsByClassName('holder')[0].style.zIndex = 10
+          document.getElementsByClassName('holder')[0].style.position = 'static'
+          //document.getElementById('scanvas').style.removeProperty('display')
+          setTimeout(() => {
+            let obj1 = {
+              type: "stop-loading"
+            }
+            //sendMsg(JSON.stringify(obj))
+            _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+          }, 1000)
+        } catch (error) {
+          console.log(error)
+          setTimeout(() => {
+            let obj1 = {
+              type: "stop-loading"
+            }
+            //sendMsg(JSON.stringify(obj))
+            _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+          }, 1000)
+        }
+
+      }
+      if (obj.type == "initiate-posture") {
+        try {
+          let videoElem = document.getElementById('local').querySelector('video')
         console.log("video elem ", videoElem)
         let canvas = document.getElementById('scanvas')
         let { width, height } = videoElem.getBoundingClientRect()
@@ -136,7 +196,7 @@ const PatientVideoCall = (props) => {
           canvas: canvas,
           supervised: true,
           showAngles: true,
-          drawLine: false,
+          drawLine: true,
         };
         console.log(options)
         window.darwin.initializeModel(options);
@@ -149,31 +209,51 @@ const PatientVideoCall = (props) => {
         document.getElementsByClassName('holder')[0].style.zIndex = 10
         document.getElementsByClassName('holder')[0].style.position = 'static'
         //document.getElementById('scanvas').style.removeProperty('display')
-
+        setTimeout(() => {
+          let obj1 = {
+            type: "stop-loading"
+          }
+          //sendMsg(JSON.stringify(obj))
+          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        }, 1000)
+        } catch (error) {
+          setTimeout(() => {
+            let obj1 = {
+              type: "stop-loading"
+            }
+            //sendMsg(JSON.stringify(obj))
+            _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+          }, 1000)
+        }
       }
-      if(msg.text == 'stop'){
+      // if(obj.type == "anterior"){
+      //   window.darwin.restart();
+      //   window.darwin.setExcersiseParams(obj.data);
+      // }
+      if (obj.type == 'change-joints') {
+        console.log("message from peer*** ", obj.data)
+        window.darwin.setExcersiseParams({
+          angles: obj.data,
+        });
+      }
+      if (obj.type == 'get-arom') {
+        // connect(uid)
         let data = window.darwin.getAssesmentData()
         console.log('stop call data ', data)
         const res = await AddVideoConfData(data)
-        sendMsg("arom_data")
+        let obj1 = {
+          type: "get-arom",
+          data_id: res.image_id,
+          side:obj.side
+        }
+        //sendMsg(JSON.stringify(obj))
+        _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        // startAI()
         window.darwin.stop()
       }
-      if (msg.text == "start") {
+      if (obj.type == "anterior") {
         window.darwin.restart();
-        window.darwin.setExcersiseParams({
-          name: "AROM",
-          primaryKeypoint: 0,
-          angles: [12, 13],
-          dir: 1,
-          minAmp: 30,
-          primaryAngles: [12, 13],
-          ROMs: [
-            [30, 160],
-            [30, 160],
-          ],
-          totalReps: 3,
-          totalSets: 2,
-        });
+        window.darwin.setExcersiseParams(obj.data);
         // console.log("stream check ", videoElem)
         let streamC
         streamC = AiCanvas.captureStream(15);
@@ -189,6 +269,41 @@ const PatientVideoCall = (props) => {
         console.log("stream check ", r)
         client.publish(r)
         // setLocalVideoTrack()
+      }
+      if (obj.type == "posture") {
+        window.darwin.restart();
+        window.darwin.selectOrientation(obj.side);
+        // console.log("stream check ", videoElem)
+        let streamC
+        streamC = AiCanvas.captureStream(15);
+        //videoElem
+        console.log("stream check ", streamC)
+        let tracks = streamC.getVideoTracks()[0];
+        console.log("stream check ", tracks)
+        // localVideoTrack.close()
+        let r = AgoraRTC.createCustomVideoTrack({
+          mediaStreamTrack: streamC.getVideoTracks()[0],
+        });
+        client.unpublish(localVideoTrack)
+        console.log("stream check ", r)
+        client.publish(r)
+        // setLocalVideoTrack()
+      }
+      if (obj.type == "snapshot") {
+        darwin.screenShot();
+        let image = await capture()
+        const data = await window.darwin.showAngles();
+        const res = await AddVideoConfData(data, image)
+        const obj1 = {
+          type: "snapshot",
+          data_id: res.image_id,
+          side: obj.side
+        }
+        console.log("Video conferance ",obj1)
+        //sendMsg(JSON.stringify(obj))
+        _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        // startAI()
+        window.darwin.stop()
       }
     })
     setRTMChannel(_rtmChannel)
@@ -229,7 +344,7 @@ const PatientVideoCall = (props) => {
       setModalVisible(false)
       setLoading(false)
       setJoined(true)
-      document.getElementById('user_name').innerHTML = uid
+      // document.getElementById('user_name').innerHTML = uid
       console.log('publish success!!');
     } catch (e) {
       console.log('error ============', e);
@@ -378,7 +493,7 @@ const PatientVideoCall = (props) => {
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
             <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
-              <Draggable disabled={drag}  ref={nodeRef} scale={2}>
+              <Draggable disabled={drag} ref={nodeRef} scale={2}>
                 <div id="remote" className={`holder-local ${changeView}`}></div>
               </Draggable>
             </Col>
@@ -421,14 +536,14 @@ const PatientVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
-                <button
+                {/* <button
                   id="exit-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-red btn-lg"
                   onClick={startAI}
                 >
                   <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button>
+                </button> */}
                 {/*
 
 

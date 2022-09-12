@@ -352,12 +352,12 @@ class PoseTestClass extends Component {
       //  supervised: false,
       //showAngles: false,
       drawLine: true,
-      ROMPanel: {
-        canvas: jcanvas,
-        width: 150,
-        height: 150,
-        radius: 70,
-      },
+      // ROMPanel: {
+      //   canvas: jcanvas,
+      //   width: 150,
+      //   height: 150,
+      //   radius: 70,
+      // },
     };
     window.darwin.initializeModel(options);
     // startModel();
