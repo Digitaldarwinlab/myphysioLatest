@@ -1653,7 +1653,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               pagination={false}
                                               columns={columns}
                                               dataSource={
-                                                data.AI_data && data.AI_data != null
+                                                data.AI_data && data.AI_data != null && Object.keys(data.AI_data).length>0
                                                   ? Object.keys(
                                                     data.AI_data[
                                                     Object.keys(data.AI_data)[0]
@@ -1728,8 +1728,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                       pagination={false}
                                                       columns={columns}
                                                       dataSource={
-                                                        data.LeftLateral_AI_Data !=
-                                                          null
+                                                        data.LeftLateral_AI_Data&&Object.keys(data.LeftLateral_AI_Data).length>0
                                                           ? Object.keys(
                                                             data
                                                               .LeftLateral_AI_Data[
@@ -1783,8 +1782,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         pagination={false}
                                                         columns={columns}
                                                         dataSource={
-                                                          data.RightLateral_AI_Data !=
-                                                            null
+                                                          data.RightLateral_AI_Data &&Object.keys(data.RightLateral_AI_Data)
                                                             ? Object.keys(
                                                               data
                                                                 .RightLateral_AI_Data[
@@ -2915,7 +2913,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                 <div className=" border mb-3 mt-3">
                                   <div className=" border mb-3 mt-3">
                                     <Row gutter={[10, 10]}>
-                                      {data.AI_data != null && (
+                                      {data.AI_data != null &&Object.keys(data.AI_data).length>0 && (
                                         <>
                                           <Row className="border">
                                             <Col md={24} lg={24} sm={24} xs={24}>
@@ -2930,7 +2928,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               pagination={false}
                                               columns={columns}
                                               dataSource={
-                                                data.AI_data && data.AI_data != null
+                                                data.AI_data && data.AI_data != null &&Object.keys(data.AI_data).length>0
                                                   ? Object.keys(
                                                     data.AI_data[
                                                     Object.keys(data.AI_data)[0]
@@ -3006,7 +3004,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                       columns={columns}
                                                       dataSource={
                                                         data.LeftLateral_AI_Data !=
-                                                          null
+                                                          null &&Object.keys(data.LeftLateral_AI_Data).length>0
                                                           ? Object.keys(
                                                             data
                                                               .LeftLateral_AI_Data[
@@ -3061,7 +3059,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         columns={columns}
                                                         dataSource={
                                                           data.RightLateral_AI_Data !=
-                                                            null
+                                                            null && Object.keys(data.RightLateral_AI_Data).length>0
                                                             ? Object.keys(
                                                               data
                                                                 .RightLateral_AI_Data[

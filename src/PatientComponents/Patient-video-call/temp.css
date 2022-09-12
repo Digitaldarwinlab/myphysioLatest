@@ -37,6 +37,22 @@
     object-fit: contain !important;
 }
 
+.change_view{
+    position: absolute !important;
+    left: 0.5rem !important;
+    top:0.5rem !important;
+    width:100px !important;
+    height:100px !important;
+    overflow: hidden !important;
+    border: 3px solid #fff !important;
+    border-radius: 15px !important;
+    background: #3d4041 !important;
+    display: flow-root !important;
+    justify-content: center !important ;
+    align-items: center !important;
+    font-style: italic !important;
+}
+
 .holder-local{
     width: 100%;
     /* padding-left: 5px ; */
@@ -73,7 +89,7 @@
         overflow: hidden !important;
         border: 3px solid #fff !important;
         border-radius: 15px !important;
-        background: #ccf1f9 !important;
+        background: #3d4041 !important;
         display: flow-root !important;
         justify-content: center !important ;
         align-items: center !important;
