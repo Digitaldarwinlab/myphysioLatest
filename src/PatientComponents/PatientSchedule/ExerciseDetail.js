@@ -24,38 +24,58 @@ const ExerciseDetailsClass = () => {
     console.log("exercise array ", location.state.exNameList)
     // console.log("exercise array ",location.state.exercises)
     let yt_temp = [];
-    location.state.exercises.map((ex, index) => {
-      if (ex.name == "YouTube") {
-        let a = {
-          title: ex.name,
-          name: ex.name,
-          video_path: ex.youtube_link,
-        };
-        yt_temp.push(a);
-      }
-      res.map(e => {
-        if (ex.ex_em_id == e.ex_em_id) {
-          console.log("check hold",e)
-          if (e.hold_flag) {
-            ex.hold = e.hold_flag
-          } else {
-            ex.hold = "none"
-          }
+    let tempar = location.state.exercises
+    res.map(a=>{
+      for(let i=0;i<tempar.length;i++){
+        if(a.title==tempar[i].title){
+          tempar[i]['instruction_array'] = a.instruction_array
         }
-      })
-    });
-    // setExercises([...yt_temp,...res]);
-    let temp = []
-    console.log("exercise ", [...yt_temp, ...res])
-    location.state.exercises.map(ex => {
-      let te = [...yt_temp, ...res].find(e => e.title == ex.name)
-      console.log("exercise array1 ", te)
-      temp.push(te)
+        if (a.hold_flag) {
+          tempar[i].hold = a.hold_flag
+        } else {
+          tempar[i].hold = "none"
+        }
+      }
     })
-    setExercises(temp)
-    console.log("exercise array ", temp)
-    console.log("exercise array ", res)
-    console.log("exercise array ", location.state.exercises)
+    for(let i=0;i<tempar.length;i++){
+      tempar[i]['title'] = tempar[i].title || tempar[i].name
+    }
+    // 
+    
+    console.log('modified ',tempar)
+    setExercises(tempar)
+    // location.state.exercises.map((ex, index) => {
+    //   if (ex.name == "YouTube") {
+    //     let a = {
+    //       title: ex.name,
+    //       name: ex.name,
+    //       video_path: ex.youtube_link,
+    //     };
+    //     yt_temp.push(a);
+    //   }
+    //   res.map(e => {
+    //     if (ex.ex_em_id == e.ex_em_id) {
+    //       console.log("check hold",e)
+    //       if (e.hold_flag) {
+    //         ex.hold = e.hold_flag
+    //       } else {
+    //         ex.hold = "none"
+    //       }
+    //     }
+    //   })
+    // });
+    // setExercises([...yt_temp,...res]);
+  //   let temp = []
+  //   console.log("exercise ", [...yt_temp, ...res])
+  //   location.state.exercises.map(ex => {
+  //     let te = [...yt_temp, ...res].find(e => e.title == ex.name)
+  //     console.log("exercise array1 ", te)
+  //     temp.push(te)
+  //   })
+  //  // setExercises(temp)
+  //   console.log("exercise array ", temp)
+  //   console.log("exercise array ", res)
+  //   console.log("exercise array ", location.state.exercises)
   }
   useEffect(() => {
     CallDetails()
@@ -149,13 +169,13 @@ const ExerciseDetailsClass = () => {
                       loop={true}
                       controls={true}
                       className="react-player"
-                      url={exercise.video_path}
+                      url={exercise.youtube_link}
                       width="100%"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">
                       <source
-                        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`}
+                        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_url}`}
                         type="video/mp4"
                       />
                     </video>
