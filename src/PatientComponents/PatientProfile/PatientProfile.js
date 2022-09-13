@@ -1443,7 +1443,7 @@ const PatientProfile = () => {
                             <Button
                               className="dashboardchannelButton"
                               type="primary"
-                              href={allvisits[0].video_link}
+                              href={"/patient" +allvisits[0].video_link}
                               shape={"round"}
                               target="_blank"
                             >
@@ -1454,7 +1454,7 @@ const PatientProfile = () => {
                               <Button
                                 className="dashboardchannelButton"
                                 type="primary"
-                                href={allvisits[0].video_link}
+                                href={"/patient" +allvisits[0].video_link}
                                 shape={"round"}
                                 target="_blank"
                                 disabled
