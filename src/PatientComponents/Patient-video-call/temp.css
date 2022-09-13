@@ -24,7 +24,9 @@
     transform: rotateY(180deg);
     object-fit: cover;
 }
-
+.remote{
+    transform: rotateY(180deg);
+}
 #user_name{
     position: absolute;
     z-index: 1000;

@@ -57,7 +57,7 @@ const PatientVideoCall = (props) => {
   const [video, setVideo] = useState(true)
   const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
-  const [screenId, setScreenId] = useState(999);
+  const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [changeView, setChangeView] = useState('')
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')

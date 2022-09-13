@@ -14,7 +14,7 @@ import side_img from "../../assets/sideways-vector.webp";
 import bodySideImage from "../../assets/Front_Sit.webp";
 import side_sit_img from "../../assets/Side_Sit.webp";
 import AROM from './AROM';
-import { GetVideoConfData } from '../../API/VideoConf/videoconf';
+import { GetToken, GetVideoConfData } from '../../API/VideoConf/videoconf';
 import Tabs from '../Assesment/Tabs';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import Loader from './Loader';
@@ -142,7 +142,7 @@ const PhysioVideoCall = (props) => {
   const [video, setVideo] = useState(true)
   const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
-  const [screenId, setScreenId] = useState(999);
+  const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
   const [loading, setLoading] = useState(undefined)
@@ -478,9 +478,7 @@ const PhysioVideoCall = (props) => {
     try {
       console.log('client', client);
       setLoading(true)
-      const res = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channel}/subscriber/uid/${uid}`);
-      const data = await res.json();
-      var NewToken = data.rtcToken
+      var NewToken = await GetToken(channel ,uid)
       await client.join(
         appId,
         channel,
@@ -523,20 +521,24 @@ const PhysioVideoCall = (props) => {
   }
 
   async function handleShareScreen() {
-    const screenClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-    const screenId = await screenClient.join(
-      options.appId,
-      options.channel,
-      options.token,
-      screenId
-    );
-
+    // var NewToken = await GetToken(channel ,uid)
+    // const screenClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+    // const screenId = await screenClient.join(
+    //   appId,
+    //   channel,
+    //    null,
+    //   uid+"-screen" || null
+    // );
+     // console.log("screen ++++++++++++ ",screenId)
     const screenTrack = await AgoraRTC.createScreenVideoTrack({
       encoderConfig: '1080p_1',
       optimizationMode: 'detail',
     });
     console.log('screenTrack=======================', screenTrack);
-    screenClient.publish(screenTrack);
+    client.unpublish(localVideoTrack)
+    client.publish(screenTrack);
+    document.getElementById('remote').style.display = 'none'
+    document.getElementById('screen').style.display = 'block'
     screenTrack.play('screen');
   }
   const startAudio = async () => {
@@ -628,6 +630,8 @@ const PhysioVideoCall = (props) => {
             <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
               <div id="remote" style={{ backgroundColor: 'black' }} className='holder-local holder-local-p' ></div>
+              <div id="screen" style={{ backgroundColor: 'black', display:'none' }} className='holder-local holder-local-p' ></div>
+
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef} id="local" className='holder-remote' ></div>
               </Draggable>
@@ -759,7 +763,14 @@ const PhysioVideoCall = (props) => {
                   {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
                   {/* <i id="video-icon" class="fas fa-video"></i> */}
                 </button>
-
+                <button
+                  id="magic-btn"
+                  type="button"
+                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={handleShareScreen}
+                >
+                  <i id="magic-icon" class="fa fa-desktop" aria-hidden="true"></i>
+                </button>
                 <button
                   id="exit-btn"
                   type="button"
@@ -772,14 +783,6 @@ const PhysioVideoCall = (props) => {
                 </button>
 
 
-                {/* <button
-                  id="magic-btn"
-                  type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
-                  onClick={stopAI}
-                >
-                  <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
-                </button> */}
                 <button
                   type="button"
                   onClick={saveVideoConfData}

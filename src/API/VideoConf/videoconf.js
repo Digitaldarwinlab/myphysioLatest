@@ -23,6 +23,25 @@ export const AddVideoConfData = async (data, image = "") => {
     }
 };
 
+export const GetToken= async (channel ,uid) => {
+    try {
+        const headers = {
+            Accept: "application/json",
+            "Content-type": "application/json",
+        };
+        const response = await fetch(`${process.env.REACT_APP_EXERCISE_URL}/rtc/${channel}/subscriber/uid/${uid}`, {
+            method: "GET",
+        });
+
+        const data = await response.json();
+        var NewToken = data.rtcToken
+        return NewToken
+    } catch (err) {
+        console.log(err);
+        return {}
+    }
+}
+
 export const GetVideoConfData = async (id) => {
     try {
         const headers = {
