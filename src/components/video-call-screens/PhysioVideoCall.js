@@ -107,7 +107,7 @@ const PhysioVideoCall = (props) => {
   const sendMsg = async (text) => {
     RTMChannel.sendMessage({ text, type: 'text' })
   }
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVideoConfVisible, setModalVisible] = useState(true);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [disable, setDisable] = useState(true)
@@ -152,7 +152,7 @@ const PhysioVideoCall = (props) => {
   //   setDrag()
   // },[])
   useEffect(() => {
-    props.Setsidebarshow(false)
+    props.Setsidebarshow(true)
     console.log("location ", location)
     const arr = location.channel.split("_")
     setChannel(arr[0])
@@ -587,7 +587,7 @@ const PhysioVideoCall = (props) => {
         style={{
           top: 20,
         }}
-        visible={modalVisible}
+        visible={modalVideoConfVisible}
         onOk={() => {
           handleJoin()
           setModalVisible(false)
@@ -595,6 +595,7 @@ const PhysioVideoCall = (props) => {
         onCancel={() => {
           setModalVisible(false)
           window.top.close()
+          console.log("modal")
         }}
         footer={[
           <div class=" d-flex justify-content-center">

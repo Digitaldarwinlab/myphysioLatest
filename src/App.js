@@ -686,23 +686,9 @@ const App = () => {
                   path="/patient/Temp"
                   component={Tempdashboard}
                 />
-                {/* <Route exact path="/video-call/:channel" component={VideoCallIndex}/> */}
-                <Route
-                  exact
-                  path="/physio:channel"
-                  render={(props) => (
-                    <VideoCallIndex
-                      Setsidebarshow={Setsidebarshow}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/patient:channel"
-                  Setsidebarshow={Setsidebarshow}
-                  component={PatientVideoCallIndex}
-                />
+              <PrivateRoute exact path="/physio:channel"  component={()=><PhysioVideoCall Setsidebarshow={setIsSideNavbarCollapsed}  />}  />
+							{/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
+							<Route exact path="/patient:channel" component={()=><PatientVideoCall Setsidebarshow={setIsSideNavbarCollapsed}  />}/>
 
                 <Route exact path="*" component={Error404} />
               </Switch>

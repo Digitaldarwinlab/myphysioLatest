@@ -77,7 +77,7 @@ const PatientVideoCall = (props) => {
     return (dataURL)
   }
   useEffect(async () => {
-    props.Setsidebarshow(false)
+    props.Setsidebarshow(true)
     // await login()
     console.log("location ", location)
     const arr = location.channel.split("_")
