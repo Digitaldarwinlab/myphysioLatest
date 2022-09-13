@@ -336,12 +336,8 @@ const App = () => {
                 sidebarshow
                   ? `${
                       isSideNavbarCollpased
-                        ? "col-md-10 col-lg-11 offset-1"
-                        : window.innerWidth < 1400 && window.innerWidth > 1200
-                        ? "col-md-8 col-lg-9 offset-2 "
-                        : window.innerWidth < 1200 && window.innerWidth > 900
-                        ? "col-md-8 col-lg-8 offset-2 "
-                        : "col-md-8 col-lg-10 offset-2 "
+                        && "col-md-10 col-lg-11 offset-1"
+                        
                     } px-1 main-content white-backgorund`
                   : "MainConatiner"
               }

@@ -32,8 +32,8 @@ var angle = []
 //   { value: 11, label: "leftPelvic" },
 // ]
 const labels = [
-  "L Shoulder Abd/Add",
-  "R Shoulder Abd/Add",
+  "L Shoulder Flex/Ext",
+  "R Shoulder Flex/Ext",
   "L Elbow Flex/Ext",
   "R Elbow Flex/Ext",
   "L Hip Flex/Ext",

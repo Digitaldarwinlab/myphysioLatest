@@ -100,7 +100,9 @@
   justify-content: space-around;
   flex-direction: row;
 }
-
+.react-player {
+  width: 100% !important;
+}
 #cancel {
   border-radius: 10px !important;
   background-color: rgb(218, 99, 99);
