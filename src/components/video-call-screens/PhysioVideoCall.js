@@ -123,6 +123,7 @@ const PhysioVideoCall = (props) => {
   const [sideSitAngles, setSideSitAngles] = useState([0, 0, 0, 0, 0])
   const [freeze, setFreeze] = useState(false)
   const [postureType ,setPostureType] = useState(false)
+  const [postureTypeValue ,setPostureTypeValue] = useState("standing")
 
   const [anterior, setAnterior] = useState({})
   const [lateralLeft, setLateralLeft] = useState({})
@@ -148,11 +149,9 @@ const PhysioVideoCall = (props) => {
   const [drag, setDrag] = useState(false)
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
   const location = useParams()
-  // useEffect(()=>{
-  //   setDrag()
-  // },[])
   useEffect(() => {
-    props.Setsidebarshow(true)
+    props.Setsidebarshow(false)
+    props.SideNavbarCollpased(true)
     console.log("location ", location)
     const arr = location.channel.split("_")
     setChannel(arr[0])
@@ -676,11 +675,13 @@ const PhysioVideoCall = (props) => {
                 {view == "AROM" ? <AROM setFreeze={setFreeze} sendMsg={sendMsg} /> :
                   <>
                     <Row justify="space-between">
-                      <Radio.Group style={{fontWeight:'900'}} onChange={() => {
+                      <Radio.Group style={{fontWeight:'900'}}  onChange={(e) => {
                         setPostureType(!postureType)
-                      }} defaultValue="a" size="large">
-                        <Radio style={{ width: '100px' }} value="a">Standing   </Radio>
-                        <Radio style={{ width: '100px' }} value="b">Sitting  </Radio>
+                        setPostureTypeValue(e.target.value)
+                        setOrientation(1)
+                      }} defaultValue={postureTypeValue} size="large">
+                        <Radio style={{ width: '100px' }} value="standing">Standing   </Radio>
+                        <Radio style={{ width: '100px' }} value="sitting">Sitting  </Radio>
                       </Radio.Group>
                     </Row>
                     {postureType?
@@ -728,6 +729,7 @@ const PhysioVideoCall = (props) => {
                 <br/>
                 <Col span={24}>
                 <h5>Note: </h5>
+                <h5>Please move to Assessment Page for saving the reports</h5>
                 <h5>Please save the informations before leaving the page</h5>
                 <h5>You can only start taking Assesments when the patient joins</h5>
                 </Col>

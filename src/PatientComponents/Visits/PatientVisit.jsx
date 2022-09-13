@@ -127,7 +127,7 @@ const PatientVisit = () => {
                             <Button
                               className="channelButton"
                               type="primary"
-                              href={i.video_link}
+                              href={"/patient" +i.video_link}
                               shape={"round"}
                               target="_blank"
                             >
@@ -138,7 +138,7 @@ const PatientVisit = () => {
                               <Button
                                 className="channelButton"
                                 type="primary"
-                                href={i.video_link}
+                                href={"/patient" +i.video_link}
                                 shape={"round"}
                                 target="_blank"
                                 disabled

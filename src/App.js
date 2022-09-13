@@ -261,9 +261,6 @@ const App = () => {
         "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js",
         "https://mozilla.github.io/pdf.js/build/pdf.js",
         "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js",
-        "index.js",
-        "ui.js",
-        "agora-interface.js",
         "https://kit.fontawesome.com/1ee1e3b82c.js",
       ];
       a.map((i) => {
@@ -686,9 +683,9 @@ const App = () => {
                   path="/patient/Temp"
                   component={Tempdashboard}
                 />
-              <PrivateRoute exact path="/physio:channel"  component={()=><PhysioVideoCall Setsidebarshow={setIsSideNavbarCollapsed}  />}  />
+              <PrivateRoute exact path="/physio:channel"  component={()=><PhysioVideoCall SideNavbarCollpased={setIsSideNavbarCollapsed} Setsidebarshow={Setsidebarshow}  />}  />
 							{/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
-							<Route exact path="/patient:channel" component={()=><PatientVideoCall Setsidebarshow={setIsSideNavbarCollapsed}  />}/>
+							<Route exact path="/patient:channel" component={()=><PatientVideoCall SideNavbarCollpased={setIsSideNavbarCollapsed} Setsidebarshow={Setsidebarshow} />}/>
 
                 <Route exact path="*" component={Error404} />
               </Switch>
