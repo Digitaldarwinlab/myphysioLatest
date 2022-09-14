@@ -14,6 +14,7 @@ import organizationReducer from "./organization-reducer";
 import Calender from "./newVisit/calender";
 import month from "./newVisit/month";
 import weekReducer from './newVisit/weekReducer'
+import { RoleReg } from "./role-reducer.js";
 import dayReducer from "./newVisit/dayReducer";
 
 export const rootReducer = combineReducers({
@@ -25,6 +26,7 @@ export const rootReducer = combineReducers({
     physioRegisterReducer: physioRegisterReducer,
     episodeReducer: episodeReducer,
     clinicReg: clinicReg,
+    RoleReg:RoleReg,
     labsAndMedicRedu: labsAndMedicRedu,
     FirstAssesment: FirstAssesment,
     PateintConsentReducer: PateintConsentReducer,
