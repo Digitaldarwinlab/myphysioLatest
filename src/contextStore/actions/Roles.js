@@ -1,0 +1,2 @@
+export const ADD_ROLE_CLEAR_STATE = "ADD_ROLE_CLEAR_STATE"
+export const ADD_ROLE = "ADD_ROLE"
