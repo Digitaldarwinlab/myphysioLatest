@@ -8,7 +8,7 @@
 .left-box{
     display: flex;
     flex-direction: column;
-    width:60%;
+    width:58%;
 }
 
 .top-heading{
@@ -25,11 +25,20 @@
     margin-top: 5px;
 }
 .right-box{
-    width: 30%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
+
+@media only screen and (max-width: 1200px) {
+    .left-box{
+        width:52%;
+    }
+    .right-box{
+        width: 45%;
+    }
+  }
 .status-box{
     margin-top: 20px;
     display:flex;
