@@ -12,6 +12,7 @@ import {
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
 import "./Dash.css";
+import ReactPlayer from "react-player";
 
 const Dashboard = (props) => {
   // console.log(props.value);
@@ -1092,16 +1093,27 @@ const Dashboard = (props) => {
                                 </span>
                                 {exerciseValue.map((image) =>
                                   image["exercise"] === exercise["exercise"] ? (
-                                    // <></>
-                                    // {exercise["exercise"]==="Youtube"}
-                                    <img
-                                      src={
-                                        process.env.REACT_APP_EXERCISE_URL +
-                                        "/" +
-                                        image["value"][0]["image_url"]
-                                      }
-                                      alt=""
-                                    />
+                                    <>
+                                      {image["value"][0]["image_url"] === "" ? (
+                                        <ReactPlayer
+                                          controls={true}
+                                          className="react-player"
+                                          url={image["value"][0].youtube_link}
+                                          style={{ margin: "auto" }}
+                                          width={280}
+                                          height={250}
+                                        />
+                                      ) : (
+                                        <img
+                                          src={
+                                            process.env.REACT_APP_EXERCISE_URL +
+                                            "/" +
+                                            image["value"][0]["image_url"]
+                                          }
+                                          alt=""
+                                        />
+                                      )}
+                                    </>
                                   ) : (
                                     ""
                                   )
