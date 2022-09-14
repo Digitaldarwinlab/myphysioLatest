@@ -327,9 +327,10 @@ const PatientProfile = () => {
         let val2 = await val.filter(function (a) {
           return a['value'] !== 0 ;
         });
-        // console.log(val2);
+        console.log(val2);
+        let valLength =  val2.length === 0 ? 1 :  val2.length
         let value = {
-          painScale: parseInt((painScalesum / val2.length).toFixed()),
+          painScale: parseInt((painScalesum / valLength).toFixed()),
           total: 10,
           className:
             painScalesum < 4
