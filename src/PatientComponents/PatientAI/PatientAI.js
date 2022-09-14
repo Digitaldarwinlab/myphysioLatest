@@ -437,7 +437,7 @@ class PatientAI extends Component {
     //     state: { autorefresh: 1 }
     //   })
     //window.location.href = "/patient/schedule"
-    this.props.history.push("/patient/schedule");
+    this.props.history.push("/patient/dashboard");
     window.location.reload();
   };
   //Green Channel
@@ -691,7 +691,7 @@ class PatientAI extends Component {
                       //   )
                       // ) {
                       // }
-                      this.props.history.push("/patient/schedule");
+                      this.props.history.push("/patient/dashboard");
                      // window.location.reload();
                     }}
                     role="button"
@@ -789,7 +789,7 @@ class PatientAI extends Component {
                 title="No exercises found. Please select an exercise"
                 extra={
                   <Button
-                    onClick={() => this.props.history.push("/patient/schedule")}
+                    onClick={() => this.props.history.push("/patient/dashboard")}
                     type="primary"
                     key="console"
                   >

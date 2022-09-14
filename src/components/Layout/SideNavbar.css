@@ -27,6 +27,12 @@
     width: 100%;
     min-width: 100%;
   }
+  #header .patientSidebar{
+    height: 100vh;
+  }
+  #header .otherSidebar{
+    height: fit-content;
+  }
   #header .pro-sidebar.collapsed {
     width: 80px;
     min-width: 80px;

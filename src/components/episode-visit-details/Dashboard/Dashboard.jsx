@@ -1092,6 +1092,8 @@ const Dashboard = (props) => {
                                 </span>
                                 {exerciseValue.map((image) =>
                                   image["exercise"] === exercise["exercise"] ? (
+                                    // <></>
+                                    // {exercise["exercise"]==="Youtube"}
                                     <img
                                       src={
                                         process.env.REACT_APP_EXERCISE_URL +

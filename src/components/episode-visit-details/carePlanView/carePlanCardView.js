@@ -69,9 +69,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
                 />
                 <span style="font-weight: 400; font-size:15px;margin-left: 60px;width:140px; padding:5px;border:1px solid black"> 
                 <span style="border-right:1px solid black;padding-right:5px;">Sets</span>
-                <span >${
-                  data.Rep["set"]
-                }</span>
+                <span >${data.Rep["set"]}</span>
               </span>
                 <span style="font-weight: 400; font-size:15px;width:140px; padding:5px;border:1px solid black"> 
                 <span style="border-right:1px solid black;padding-right:5px;">Reps</span>
@@ -85,21 +83,24 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
       });
     }
     async function htmlmap() {
-      console.log(state.episodeReducer.patient_code)
+      console.log(state.episodeReducer.patient_code);
       const res = await getEpisode(state.episodeReducer.patient_code);
-      console.log(res)
+      console.log(res);
       const patient = await Patient_profile(state.episodeReducer.patient_code);
-      const clinic = await getClinicDetails(res[0]['treating_doctor_detail'][0]['clinic']);
+
+      const clinic =  res[0]["treating_doctor_detail"].length > 0 && await getClinicDetails(res[0]["treating_doctor_detail"][0]["clinic"]);
       let name =
-        res[0]["treating_doctor_detail"][0]["middle_name"] !== ""
-          ? res[0]["treating_doctor_detail"][0]["first_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["middle_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["last_name"]
-          : res[0]["treating_doctor_detail"][0]["first_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["last_name"];
+        res[0]["treating_doctor_detail"][0] !== undefined 
+          ? res[0]["treating_doctor_detail"][0]["middle_name"] !== ""
+            ? res[0]["treating_doctor_detail"][0]["first_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["middle_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["last_name"]
+            : res[0]["treating_doctor_detail"][0]["first_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["last_name"]
+          : "";
       console.log(clinic);
       let html = `<!DOCTYPE html>
         <html lang="en" style="margin: 0; padding: 0; box-sizing: border-box">
@@ -138,12 +139,12 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
               <div style="width: 100%; height: 30px;margin-top: 10px;display: flex;">
       <div style="display: flex;font-size: 14px;margin-top: 10px;">
       <div style="float:left;"> 
-       <span style="margin-top: 16px;">Clinic:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">${clinic.name}</span> 
+       <span style="margin-top: 16px;">Clinic:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">${
+         clinic.name
+       }</span> 
        </div>
        <div style="float:right;"> 
-       <span style="margin-top: 16px;">Treating Doctor:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">Dr. ${
-         name
-       }</span> 
+       <span style="margin-top: 16px;">Treating Doctor:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">Dr. ${name}</span> 
        </div>
        </div>
     </div>
@@ -155,7 +156,9 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
        }</span> 
        </div>
        <div style="float:right;"> 
-       <span style="margin-top: 16px;">Patient ID:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">${patient.patient_code}</span> 
+       <span style="margin-top: 16px;">Patient ID:</span>&nbsp;<span style="font-weight: bolder;margin-top: 14px;font-size:16px">${
+         patient.patient_code
+       }</span> 
        </div>
        </div>
     </div>

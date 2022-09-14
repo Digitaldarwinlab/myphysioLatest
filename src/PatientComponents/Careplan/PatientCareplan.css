@@ -35,6 +35,9 @@
 .startButton{
     border-radius: 10px !important;
 }
+.react-player {
+    width: 100% !important;
+}
 .ProgressBar-step:before, .ProgressBar-step:after {
     content: "";
     height: 0.5em;

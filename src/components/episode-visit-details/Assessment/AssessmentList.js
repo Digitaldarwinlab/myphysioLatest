@@ -31,8 +31,8 @@ import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 
 export const tableLabels = {
-  leftShoulder: "L Shoulder Abd/Add",
-  rightShoulder: "R Shoulder Abd/Add",
+  leftShoulder: "L Shoulder Flex/Ext",
+  rightShoulder: "R Shoulder Flex/Ext",
   leftElbow: "L Elbow Flex/Ext",
   rightElbow: "R Elbow Flex/Ext",
   leftHipAdductionAbduction: "L Hip Abd/Add",

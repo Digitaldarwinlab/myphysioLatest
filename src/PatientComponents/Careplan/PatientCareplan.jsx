@@ -630,11 +630,11 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
           exercise.name == "YouTube" ? (
             <ReactPlayer
               controls={true}
-              className="react-player"
+              className="react-player "
               url={exercise.youtube_link}
               style={{margin:'auto'}}
               width={250}
-              height={120}
+              height={300}
             />
           ) : (
             <img

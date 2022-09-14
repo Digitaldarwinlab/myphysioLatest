@@ -43,8 +43,8 @@ const { Meta } = Card;
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const { Option } = Select;
 const labels = [
-  "L Shoulder Abd/Add",
-  "R Shoulder Abd/Add",
+  "L Shoulder Flex/Ext",
+  "R Shoulder Flex/Ext",
   "L Elbow Flex/Ext",
   "R Elbow Flex/Ext",
   "L Hip Flex/Ext",
@@ -143,8 +143,8 @@ let JointNew3 = {
 }
 
 const allNewJoints = [
-  { value: 0, label: "L Shoulder Abd/Add" },
-  { value: 1, label: "R Shoulder Abd/Add" },
+  { value: 0, label: "L Shoulder Flex/Ext" },
+  { value: 1, label: "R Shoulder Flex/Ext" },
   { value: 2, label: "L Elbow Flex/Ext" },
   { value: 3, label: "R Elbow Flex/Ext" },
   { value: 4, label: "L Hip Flex/Ext" },
@@ -164,8 +164,8 @@ const allNewJoints = [
   { value: 18, label: "Cervical Flex/Ext" },
 ];
 const joints = [
-  { value: 0, label: "L Shoulder Abd/Add" },
-  { value: 1, label: "R Shoulder Abd/Add" },
+  { value: 0, label: "L Shoulder Flex/Ext" },
+  { value: 1, label: "R Shoulder Flex/Ext" },
   { value: 2, label: "L Elbow Flex/Ext" },
   { value: 3, label: "R Elbow Flex/Ext" },
   { value: 8, label: "L Cervical Side flex" },
@@ -176,7 +176,7 @@ const joints = [
   { value: 17, label: "R Hip Abd/Add" },
 ];
 const leftJoints = [
-  { value: 0, label: "L Shoulder Abd/Add" },
+  { value: 0, label: "L Shoulder Flex/Ext" },
   { value: 4, label: "L Hip Flex/Ext" },
   { value: 6, label: "L Knee Flex/Ext" },
   { value: 12, label: "L Wrist Flex/Ext" },
@@ -185,7 +185,7 @@ const leftJoints = [
 ];
 
 const rightJoints = [
-  { value: 1, label: "R Shoulder Abd/Add" },
+  { value: 1, label: "R Shoulder Flex/Ext" },
   { value: 5, label: "R Hip Flex/Ext" },
   { value: 7, label: "R Knee Flex/Ext" },
   { value: 13, label: "R Wrist Flex/Ext" },

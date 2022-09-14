@@ -659,7 +659,7 @@ const SideNavBar = ({
     //     Invoice()}
     // </Menu>
     <div id="header">
-      <ProSidebar collapsed={isSideNavbarCollpased}>
+      <ProSidebar className={userInfo.role == "patient" ? 'patientSidebar' : "otherSidebar"} collapsed={isSideNavbarCollpased}>
         <SidebarContent>
           <Menu iconShape="square">
             {userInfo.role === "patient" && (

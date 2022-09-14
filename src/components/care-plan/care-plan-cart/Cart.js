@@ -210,7 +210,7 @@ export default function Cart({
                         ref={provider.innerRef}
                       >
                         <div key={item.ex_em_id}>
-                          <Row style={{ width: "700px", marginLeft: "20px" }}>
+                          <Row style={{ marginLeft: "20px" }}>
                             <Col className="">
                               <i className="fas fa-running iconClass3"></i>
                             </Col>

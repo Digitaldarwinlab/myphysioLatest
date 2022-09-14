@@ -224,8 +224,9 @@ const PatientProfile = () => {
         let xvr = exDate.filter((x) => !summaryDates.includes(x));
         xvr.forEach(async (val) => {
           time_slots.push({
-            value: 0,
-            date: val,
+            time_slots: 0,
+            exercise_complete: 0,
+            date: val
           });
           // let a = await getData(val, "-", exDate);
           //  console.log(a)
@@ -243,12 +244,15 @@ const PatientProfile = () => {
             }
           }
         });
+        console.log(time_slots)
         let val = await uniqBy(time_slots, JSON.stringify);
         val = await val.sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         });
+        
         let time = val.map((str) => str.time_slots);
         let complete = val.map((str) => str.exercise_complete);
+        console.log(time,complete)
         const timeSlotsum = time.reduce((a, b) => parseInt(a) + parseInt(b), 0);
         const exercisecompletesum = complete.reduce(
           (a, b) => parseInt(a) + parseInt(b),
@@ -259,6 +263,7 @@ const PatientProfile = () => {
           exercise_complete: exercisecompletesum,
           className: timeSlotsum === exercisecompletesum ? "green" : "#F6BE00",
         };
+        console.log(value)
         settimeSlotWeekly(value);
       });
       await summaryArray.forEach(async (e) => {
@@ -319,8 +324,12 @@ const PatientProfile = () => {
           (a, b) => parseInt(a) + parseInt(b),
           0
         );
+        let val2 = await val.filter(function (a) {
+          return a['value'] !== 0 ;
+        });
+        // console.log(val2);
         let value = {
-          painScale: parseInt((painScalesum / 7).toFixed()),
+          painScale: parseInt((painScalesum / val2.length).toFixed()),
           total: 10,
           className:
             painScalesum < 4
@@ -1159,7 +1168,7 @@ const PatientProfile = () => {
               url={exercise.youtube_link}
               style={{ margin: "auto" }}
               width={250}
-              height={120}
+              height={300}
             />
           ) : (
             <img
