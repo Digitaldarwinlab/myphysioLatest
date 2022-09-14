@@ -212,16 +212,6 @@ export default function Cart({
                         <div key={item.ex_em_id}>
                           <Row style={{ marginLeft: "20px" }}>
                             <Col className="">
-                              <i className="fas fa-running iconClass3"></i>
-                            </Col>
-                            <Col
-                              lg={6}
-                              style={{
-                                position: "relative",
-                                marginLeft: "10px",
-                              }}
-                            >
-                              {item.name}
                               {item.name == "YouTube" ? (
                                 <AiOutlineMinusCircle
                                   onClick={() => {
@@ -229,7 +219,6 @@ export default function Cart({
                                   }}
                                   className="iconClass3"
                                   style={{
-                                    marginLeft: "10px",
                                     color: "#fa5f7f",
                                   }}
                                 />
@@ -240,11 +229,21 @@ export default function Cart({
                                   }}
                                   className="iconClass3"
                                   style={{
-                                    marginLeft: "10px",
                                     color: "#fa5f7f",
                                   }}
                                 />
                               )}
+                            </Col>
+                            <Col
+                              lg={6}
+                              style={{
+                                position: "relative",
+                                marginLeft: "10px",
+                              }}
+                            >
+                              
+                        
+                              {item.name}
                             </Col>
                           </Row>
                           <hr />
@@ -278,13 +277,6 @@ export default function Cart({
             {state.carePlanRedcucer.edit_flag ? "Edit" : "Allocate"} Plan
           </Button>
 
-          <Button
-            className="ant-btn-cart me-1"
-            style={{ marginLeft: "8px" }}
-            onClick={AddVideoRom}
-          >
-            Start Video Assessment
-          </Button>
         </div>
       )}
     </React.Fragment>
