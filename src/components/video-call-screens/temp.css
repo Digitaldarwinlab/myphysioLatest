@@ -45,7 +45,9 @@
     overflow: hidden;
     /* border-radius: 10px; */
 }
-
+#assessment-tab{
+    background: white;
+}
 #user_name {
     position: absolute;
     z-index: 1000;

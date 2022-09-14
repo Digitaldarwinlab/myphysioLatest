@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Space } from 'antd';
+import { Button, Col, Modal, notification, Row, Space } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
@@ -59,6 +59,8 @@ const PatientVideoCall = (props) => {
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [changeView, setChangeView] = useState('')
+  const [cvsslg, setCVSSLG] = useState(12)
+  const [changeViewOnscreenShare, setChangeViewOnscreenShare] = useState('')
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIAD8ig3d9ExWFhwv1mySzHryeSXjpNVvv8CO1p8Udp/pQqDfQtaQ1sJlEAAJmBoBQLkLYwEAAQDQdQpj')
@@ -163,6 +165,7 @@ const PatientVideoCall = (props) => {
           document.getElementsByClassName('holder')[0].style.zIndex = 10
           document.getElementsByClassName('holder')[0].style.position = 'static'
           //document.getElementById('scanvas').style.removeProperty('display')
+          document.getElementById('scanvas').style.display = 'block'
           setTimeout(() => {
             let obj1 = {
               type: "stop-loading"
@@ -209,6 +212,7 @@ const PatientVideoCall = (props) => {
         document.getElementById('local').style.display = 'none'
         document.getElementsByClassName('holder')[0].style.zIndex = 10
         document.getElementsByClassName('holder')[0].style.position = 'static'
+        document.getElementById('scanvas').style.display = 'block'
         //document.getElementById('scanvas').style.removeProperty('display')
         setTimeout(() => {
           let obj1 = {
@@ -305,6 +309,36 @@ const PatientVideoCall = (props) => {
         _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
         // startAI()
         window.darwin.stop()
+      }
+      if(obj.type == "started-screen-share"){
+        setChangeViewOnscreenShare('change_view')
+        document.getElementById('remote').classList.add('rotate-screen-180')
+        document.getElementById('local').classList.add('remote-width')
+        notification.success({
+          message: "Physio started screen sharing",
+          placement: "bottomLeft",
+          duration: 2,
+      });
+        //remote-width{
+        setCVSSLG(24)
+      }
+      if(obj.type == "stopped-screen-share"){
+        setChangeViewOnscreenShare('')
+        document.getElementById('remote').classList.remove('rotate-screen-180')
+        document.getElementById('local').classList.remove('remote-width')
+        notification.success({
+          message: "Physio stopped screen sharing",
+          placement: "bottomLeft",
+          duration: 2,
+      });
+        setCVSSLG(12)
+      }
+      if(obj.type=='stop-assessment'){
+        setChangeView('')
+        window.darwin.stop()
+        document.getElementById('local').style.display = 'block'
+        document.getElementById('local').getElementsByTagName('video')[0].style.display="block"
+        document.getElementById('scanvas').style.display = 'none'
       }
     })
     setRTMChannel(_rtmChannel)
@@ -492,13 +526,13 @@ const PatientVideoCall = (props) => {
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
-            <Col className='holder' xs={24} sm={24} md={12} lg={12} xl={12} style={{ position: 'relative', display: 'grid' }}>
+            <Col className='holder' xs={24} sm={24} md={cvsslg} lg={cvsslg} xl={cvsslg} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
-              <Draggable disabled={drag} ref={nodeRef} scale={2}>
+              <Draggable disabled={drag} ref={nodeRef} scale={5}>
                 <div id="remote" className={`holder-local ${changeView}`}></div>
               </Draggable>
             </Col>
-            <Col id="local" className={`holder-remote1`} xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Col id="local" className={`holder-remote1 ${changeViewOnscreenShare}`} xs={24} sm={24} md={12} lg={12} xl={12}>
             </Col>
             <canvas style={{ position: "absolute", height: "100%" }} id="scanvas"></canvas>
             {/* <div style={{height:'480px'}}>

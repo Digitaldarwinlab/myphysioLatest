@@ -17,7 +17,9 @@
     background: red !important;
     /* color: red !important; */
 }
-
+.rotate-screen-180{
+    transform: rotateY(180deg) !important;
+}
 .holder video {
     position: relative !important;
     display: block;
@@ -74,6 +76,11 @@
 .holder-remote1 .agora_video_player{
     object-fit: contain !important;
 }
+
+    .remote-width{
+        width:200px !important;
+        height:200px !important; 
+    }
 @media only screen and (max-width:650px) {
     /* .holder-remote{
         width:100px;

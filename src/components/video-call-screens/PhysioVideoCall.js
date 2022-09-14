@@ -4,7 +4,7 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
 import Draggable from 'react-draggable';
 import AgoraRTM from 'agora-rtm-sdk'
-import { BsCameraVideoFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
+import { BsCameraVideoFill, BsFillArrowUpCircleFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdSecurityUpdateWarning } from 'react-icons/md';
@@ -16,7 +16,7 @@ import side_sit_img from "../../assets/Side_Sit.webp";
 import AROM from './AROM';
 import { GetToken, GetVideoConfData } from '../../API/VideoConf/videoconf';
 import Tabs from '../Assesment/Tabs';
-import { AiOutlineDoubleRight } from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiOutlineDoubleRight } from 'react-icons/ai';
 import Loader from './Loader';
 import { useDispatch } from 'react-redux';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
@@ -122,9 +122,9 @@ const PhysioVideoCall = (props) => {
   const [frontSitAngles, setFrontSitAngles] = useState([0, 0, 0, 0, 0])
   const [sideSitAngles, setSideSitAngles] = useState([0, 0, 0, 0, 0])
   const [freeze, setFreeze] = useState(false)
-  const [postureType ,setPostureType] = useState(false)
-  const [postureTypeValue ,setPostureTypeValue] = useState("standing")
-
+  const [postureType, setPostureType] = useState(false)
+  const [postureTypeValue, setPostureTypeValue] = useState("standing")
+  const [screenClientTrack, setScreenClientTrack] = useState('')
   const [anterior, setAnterior] = useState({})
   const [lateralLeft, setLateralLeft] = useState({})
   const [lateralRight, setLateralRight] = useState({})
@@ -133,6 +133,7 @@ const PhysioVideoCall = (props) => {
   const [sitFrontPosture, setSitFrontPosture] = useState([])
   const [sitSidePosture, setSitSidePosture] = useState([])
 
+  const [screenshare, setScreenShare] = useState(false)
   const [orientation, setOrientation] = useState(1)
   const [RTMChannel, setRTMChannel] = useState('')
   const [view, setView] = useState('AROM')
@@ -142,6 +143,7 @@ const PhysioVideoCall = (props) => {
   const [video, setVideo] = useState(true)
   const [joined, setJoined] = useState(false)
   const nodeRef = useRef(null)
+  const nodeRef1 = useRef(null)
   const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
@@ -409,9 +411,9 @@ const PhysioVideoCall = (props) => {
     if (window.confirm("Saving Assessment")) {
       let posture = {
         posture_test_date: new Date().toLocaleDateString("en-GB"),
-       // Notes: this.state.notes,
+        // Notes: this.state.notes,
       };
-      if(url1!=bodyImage){
+      if (url1 != bodyImage) {
         let post = {
           posterial_view_image: url1,
           Angles: frontAngles,
@@ -419,7 +421,7 @@ const PhysioVideoCall = (props) => {
         }
         posture['Posterial_view'] = post
       }
-      if(url2!=side_img){
+      if (url2 != side_img) {
         let post = {
           posterial_view_image: url2,
           Angles: sideAngles,
@@ -427,7 +429,7 @@ const PhysioVideoCall = (props) => {
         }
         posture['lateral_view'] = post
       }
-      if(url3!=bodySideImage){
+      if (url3 != bodySideImage) {
         let post = {
           posterial_view_image: url3,
           Angles: frontSitAngles,
@@ -435,7 +437,7 @@ const PhysioVideoCall = (props) => {
         }
         posture['sitting_Posterial_view'] = post
       }
-      if(url4!=side_sit_img){
+      if (url4 != side_sit_img) {
         let post = {
           posterial_view_image: url4,
           Angles: sideSitAngles,
@@ -443,27 +445,27 @@ const PhysioVideoCall = (props) => {
         }
         posture['Sitting_lateral_view'] = post
       }
-      if(url1==bodyImage&&url2==side_img&&url3==bodySideImage&&url4==side_sit_img){
-        posture={}
+      if (url1 == bodyImage && url2 == side_img && url3 == bodySideImage && url4 == side_sit_img) {
+        posture = {}
       }
       console.log("Posture ", posture)
-      if(Object.keys(posture).length>0){
+      if (Object.keys(posture).length > 0) {
         localStorage.setItem("Posture_Data", JSON.stringify(posture));
       }
       let arom = {}
-      if(Object.keys(anterior).length>0){
+      if (Object.keys(anterior).length > 0) {
         arom['Anterior'] = anterior
-      }else{
+      } else {
         arom['Anterior'] = ''
       }
-      if(Object.keys(lateralLeft).length>0){
+      if (Object.keys(lateralLeft).length > 0) {
         arom['leftLateral'] = lateralLeft
-      }else{
+      } else {
         arom['leftLateral'] = ''
       }
-      if(Object.keys(lateralRight).length>0){
+      if (Object.keys(lateralRight).length > 0) {
         arom['rightLateral'] = lateralRight
-      }else{
+      } else {
         arom['rightLateral'] = ''
       }
       console.log("AROM ", arom)
@@ -478,7 +480,7 @@ const PhysioVideoCall = (props) => {
     try {
       console.log('client', client);
       setLoading(true)
-      var NewToken = await GetToken(channel ,uid)
+      var NewToken = await GetToken(channel, uid)
       await client.join(
         appId,
         channel,
@@ -529,7 +531,7 @@ const PhysioVideoCall = (props) => {
     //    null,
     //   uid+"-screen" || null
     // );
-     // console.log("screen ++++++++++++ ",screenId)
+    // console.log("screen ++++++++++++ ",screenId)
     const screenTrack = await AgoraRTC.createScreenVideoTrack({
       encoderConfig: '1080p_1',
       optimizationMode: 'detail',
@@ -537,9 +539,42 @@ const PhysioVideoCall = (props) => {
     console.log('screenTrack=======================', screenTrack);
     client.unpublish(localVideoTrack)
     client.publish(screenTrack);
+    setScreenShare(true)
     document.getElementById('remote').style.display = 'none'
     document.getElementById('screen').style.display = 'block'
     screenTrack.play('screen');
+    setScreenClientTrack(screenTrack)
+    let obj = {
+      type: 'started-screen-share',
+    }
+    sendMsg(JSON.stringify(obj))
+    screenTrack.on('track-ended', () => {
+      console.log("screen sharing stopped")
+      screenTrack.close()
+      client.unpublish(screenTrack)
+      document.getElementById('remote').style.display = 'block'
+      document.getElementById('screen').style.display = 'none'
+      client.publish(localVideoTrack)
+      setScreenShare(false)
+      let obj = {
+        type: 'stopped-screen-share',
+      }
+      sendMsg(JSON.stringify(obj))
+      //stopped-screen-share
+    })
+  }
+  const stopScreenShare = async () => {
+    //stopped-screen-share
+    screenClientTrack.close()
+    client.unpublish(screenClientTrack)
+    document.getElementById('remote').style.display = 'block'
+    document.getElementById('screen').style.display = 'none'
+    client.publish(localVideoTrack)
+    setScreenShare(false)
+    let obj = {
+      type: 'stopped-screen-share',
+    }
+    sendMsg(JSON.stringify(obj))
   }
   const startAudio = async () => {
     const temp = await AgoraRTC.createMicrophoneAudioTrack();
@@ -630,13 +665,15 @@ const PhysioVideoCall = (props) => {
             <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
               <div id="remote" style={{ backgroundColor: 'black' }} className='holder-local holder-local-p' ></div>
-              <div id="screen" style={{ backgroundColor: 'black', display:'none' }} className='holder-local holder-local-p' ></div>
+              <div id="screen" style={{ backgroundColor: 'black', display: 'none' }} className='holder-local holder-local-p' ></div>
 
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef} id="local" className='holder-remote' ></div>
               </Draggable>
             </Col>
-            <Col className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+            {/* <Draggable axis="y" handle='button' ref={nodeRef1} scale={2}> */}
+            <Col id="assessment-tab" className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+              {/*  */}
               {startAss ? <Col span={24}>
                 <Row justify="space-between">
                   <Col span={12}>
@@ -671,7 +708,16 @@ const PhysioVideoCall = (props) => {
                       setLoader(true)
                     }}>
                       <AiOutlineDoubleRight size={35} /> <span style={{ margin: '6px' }}>{view == "AROM" ? "Posture" : "AROM"}</span>
-                    </Button>
+                    </Button>{"     "}
+                      <Tooltip title="Close Assessment">
+                        <AiOutlineCloseCircle onClick={()=>{
+                          let obj ={
+                            type:'stop-assessment'
+                          }
+                          sendMsg(JSON.stringify(obj))
+                          setStartAss(false)
+                        }} style={{ marginLeft: '25px', color: 'red' }} size={25} />
+                      </Tooltip>
                     </Row>
 
                   </Col>
@@ -679,7 +725,7 @@ const PhysioVideoCall = (props) => {
                 {view == "AROM" ? <AROM setFreeze={setFreeze} sendMsg={sendMsg} /> :
                   <>
                     <Row justify="space-between">
-                      <Radio.Group style={{fontWeight:'900'}}  onChange={(e) => {
+                      <Radio.Group style={{ fontWeight: '900' }} onChange={(e) => {
                         setPostureType(!postureType)
                         setPostureTypeValue(e.target.value)
                         setOrientation(1)
@@ -688,57 +734,53 @@ const PhysioVideoCall = (props) => {
                         <Radio style={{ width: '100px' }} value="sitting">Sitting  </Radio>
                       </Radio.Group>
                     </Row>
-                    {postureType?
-                   <Tab1
-                    url1={url3}
-                    url2={url4}
-                    videoConf={true}
-                    sendMsg={sendMsg}
-                    videoCallPosture={videoCallPosture}
-                    frontAngles={frontSitAngles}
-                    sideAngles={sideSitAngles}
-                    setFrontAngles={setFrontSitAngles}
-                    setSideAngles={setSideSitAngles}
-                    captureFront={captureFront}
-                    onChangeSide={onChangeSitSide}
-                    onChangeFront={onChangeSitFront}
-                    setOrientation={setOrientation}
-                  />:
-                  <Tabs
-                  url1={url1}
-                  url2={url2}
-                  videoConf={true}
-                  sendMsg={sendMsg}
-                  videoCallPosture={videoCallPosture}
-                  frontAngles={frontAngles}
-                  sideAngles={sideAngles}
-                  setFrontAngles={setFrontAngles}
-                  setSideAngles={setSideAngles}
-                  captureFront={captureFront}
-                  onChangeSide={onChangeSide}
-                  onChangeFront={onChangeFront}
-                  setOrientation={setOrientation}
-                />
-                  }
+                    {postureType ?
+                      <Tab1
+                        url1={url3}
+                        url2={url4}
+                        videoConf={true}
+                        sendMsg={sendMsg}
+                        videoCallPosture={videoCallPosture}
+                        frontAngles={frontSitAngles}
+                        sideAngles={sideSitAngles}
+                        setFrontAngles={setFrontSitAngles}
+                        setSideAngles={setSideSitAngles}
+                        captureFront={captureFront}
+                        onChangeSide={onChangeSitSide}
+                        onChangeFront={onChangeSitFront}
+                        setOrientation={setOrientation}
+                      /> :
+                      <Tabs
+                        url1={url1}
+                        url2={url2}
+                        videoConf={true}
+                        sendMsg={sendMsg}
+                        videoCallPosture={videoCallPosture}
+                        frontAngles={frontAngles}
+                        sideAngles={sideAngles}
+                        setFrontAngles={setFrontAngles}
+                        setSideAngles={setSideAngles}
+                        captureFront={captureFront}
+                        onChangeSide={onChangeSide}
+                        onChangeFront={onChangeFront}
+                        setOrientation={setOrientation}
+                      />
+                    }
                   </>
                 }
               </Col> : <Row justify="center">
-                {/* <Col span={24}>
-                
-                </Col>
+                <Space><Tooltip title={disable ? "Patient not joined" : "AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={startAI} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
+                  <Tooltip title={disable ? "Patient not joined" : "Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={startPosture} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
+                <br />
                 <Col span={24}>
-                </Col> */}
-                <Space><Tooltip title={disable?"Patient not joined":"AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={startAI} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
-                <Tooltip title={disable?"Patient not joined":"Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={startPosture} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
-                <br/>
-                <Col span={24}>
-                <h5>Note: </h5>
-                <h5>Please move to Assessment Page for saving the reports</h5>
-                <h5>Please save the informations before leaving the page</h5>
-                <h5>You can only start taking Assesments when the patient joins</h5>
+                  <h5>Note: </h5>
+                  <h5>Please move to Assessment Page for saving the reports</h5>
+                  <h5>Please save the informations before leaving the page</h5>
+                  <h5>You can only start taking Assesments when the patient joins</h5>
                 </Col>
-                </Row>}
+              </Row>}
             </Col>
+            {/* </Draggable> */}
             {loader && <Loader />}
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
@@ -750,7 +792,6 @@ const PhysioVideoCall = (props) => {
                   onClick={audio ? stopAudio : startAudio}
                 >
                   {audio ? <BsMic /> : <BsMicMuteFill />}
-                  {/* <i id="v_mic-icon" class="fas fa-microphone"></i> */}
                 </button>
 
 
@@ -761,15 +802,14 @@ const PhysioVideoCall = (props) => {
                   onClick={video ? stopVideo : startVideo}
                 >
                   {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
-                  {/* <i id="video-icon" class="fas fa-video"></i> */}
                 </button>
                 <button
                   id="magic-btn"
                   type="button"
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
-                  onClick={handleShareScreen}
+                  onClick={screenshare ? stopScreenShare : handleShareScreen}
                 >
-                  <i id="magic-icon" class="fa fa-desktop" aria-hidden="true"></i>
+                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
                 </button>
                 <button
                   id="exit-btn"
@@ -779,7 +819,6 @@ const PhysioVideoCall = (props) => {
                   onClick={handleLeave}
                 >
                   <BiPhoneOff />
-                  {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
 
 
@@ -791,36 +830,6 @@ const PhysioVideoCall = (props) => {
                 >
                   save
                 </button>
-
-                {/* 
-                <button
-                  id="exit-btn"
-                  type="button"
-                  className="btn video_con_bttn btn-block btn-red btn-lg"
-                  onClick={startAI}
-                >
-                  <i id="exit-icon" class="fas fa-phone-slash"></i>
-                </button>
-
-
-                <button
-                  id="magic-btn"
-                  type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
-                  onClick={stopAI}
-                >
-                  <i id="magic-icon" class="fa fa-play" aria-hidden="true"></i>
-                </button> */}
-
-
-                {/* <button
-                  id="stop-btn"
-                  type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
-                // onClick={AImodelStop}
-                >
-                  <i class="fa fa-stop" aria-hidden="true"></i>
-                </button> */}
 
               </Space>
             </Col>
