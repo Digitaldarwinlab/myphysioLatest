@@ -9,6 +9,8 @@ import { BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 import Draggable from 'react-draggable';
 import { AddVideoConfData } from '../../API/VideoConf/videoconf';
+import { FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { GoMute, GoUnmute } from 'react-icons/go';
 
 const options = {
   appId: '7aca4bce40d0476fb3aafde5f88e3de9',
@@ -48,14 +50,22 @@ const PatientVideoCall = (props) => {
     })
     RTMChannel.sendMessageToPeer(mediaMessage, peerId)
   }
+  const [screenshare, setScreenShare] = useState(false)
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [client, setClient] = useState(null);
+  const [screenClientTrack, setScreenClientTrack] = useState('')
   const [peerId, setPeerId] = useState('')
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
   const [audio, setAudio] = useState(true)
   const [video, setVideo] = useState(true)
-  const [joined, setJoined] = useState(false)
+  const [NoUserIcon, setNoUserIcon] = useState(70)
+  const [physioJoined, setPhysioJoined] = useState(false)
+  const [patientJoined, setPatientJoined] = useState(false)
+  const [patientAudio, setPatientAudio] = useState(false)
+  const [patientVideo, setPatientVideo] = useState(false)
+  const [physioAudio, setPhysioAudio] = useState(true)
+  const [physioVideo, setPhysioVideo] = useState(true)
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [changeView, setChangeView] = useState('')
@@ -78,6 +88,14 @@ const PatientVideoCall = (props) => {
     var dataURL = extra_canvas.toDataURL();
     return (dataURL)
   }
+  useEffect(() => {
+    if (screen.width < 770) {
+      setNoUserIcon(35)
+    } else {
+      setNoUserIcon(70)
+    }
+  }, [screen.width])
+
   useEffect(async () => {
     props.Setsidebarshow(false)
     props.SideNavbarCollpased(true)
@@ -103,23 +121,42 @@ const PatientVideoCall = (props) => {
             const remoteVideoTrack = user.videoTrack;
             //const remotePlayerContainer = document.getElementById('remote');
             remoteVideoTrack.play('remote');
+            setPhysioVideo(true)
             // document.getElementById('user_name').innerHTML = user.uid
           }
 
           if (mediaType === 'audio') {
             const remoteAudioTrack = user.audioTrack;
             remoteAudioTrack.play();
+            setPhysioAudio(true)
           }
         }
       });
 
       _client.on('user-joined', (user) => {
-        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join');
         console.log(user.uid);
+        document.getElementById('physio-mic-video').style.display = 'flex'
+        //patient-mic
+        //document.getElementsByClassName('patient-mic')[0].style.display = 'flex'
+        document.getElementById('no-physio-view').style.display = 'none'
+        setPhysioJoined(true)
       });
+      _client.on('user-left', (user) => {
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu leave');
+        console.log(user.uid);
+        document.getElementById('physio-mic-video').style.display = 'none'
+      });
+      _client.on('user-unpublished', function (user ,mediaType) {
+        console.log(`mediaType ${user}`);
+        if (mediaType === 'video') {
+          setPhysioVideo(false)
+          //document.getElementById('no-user-view').style.removeProperty('display')
+        }
 
-      _client.on('user-unpublished', function (user) {
-        console.log(`User unpublished ${user.uid}`);
+        if (mediaType === 'audio') {
+          setPhysioAudio(false)
+        }
       });
     }
   }, []);
@@ -188,39 +225,39 @@ const PatientVideoCall = (props) => {
       if (obj.type == "initiate-posture") {
         try {
           let videoElem = document.getElementById('local').querySelector('video')
-        console.log("video elem ", videoElem)
-        let canvas = document.getElementById('scanvas')
-        let { width, height } = videoElem.getBoundingClientRect()
-        console.log("width and height ", width, " ", height)
-        AiCanvas = canvas
-        const options = {
-          video: videoElem,
-          // videoWidth: width,
-          // videoHeight: height,
-          canvas: canvas,
-          supervised: true,
-          showAngles: true,
-          drawLine: true,
-        };
-        console.log(options)
-        window.darwin.initializeModel(options);
-        window.darwin.launchModel();
-        window.darwin.stop();
-        // TempStream.addTrack(tracks[0]);
-        //change_view
-        setChangeView('change_view')
-        document.getElementById('local').style.display = 'none'
-        document.getElementsByClassName('holder')[0].style.zIndex = 10
-        document.getElementsByClassName('holder')[0].style.position = 'static'
-        document.getElementById('scanvas').style.display = 'block'
-        //document.getElementById('scanvas').style.removeProperty('display')
-        setTimeout(() => {
-          let obj1 = {
-            type: "stop-loading"
-          }
-          //sendMsg(JSON.stringify(obj))
-          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
-        }, 1000)
+          console.log("video elem ", videoElem)
+          let canvas = document.getElementById('scanvas')
+          let { width, height } = videoElem.getBoundingClientRect()
+          console.log("width and height ", width, " ", height)
+          AiCanvas = canvas
+          const options = {
+            video: videoElem,
+            // videoWidth: width,
+            // videoHeight: height,
+            canvas: canvas,
+            supervised: true,
+            showAngles: true,
+            drawLine: true,
+          };
+          console.log(options)
+          window.darwin.initializeModel(options);
+          window.darwin.launchModel();
+          window.darwin.stop();
+          // TempStream.addTrack(tracks[0]);
+          //change_view
+          setChangeView('change_view')
+          document.getElementById('local').style.display = 'none'
+          document.getElementsByClassName('holder')[0].style.zIndex = 10
+          document.getElementsByClassName('holder')[0].style.position = 'static'
+          document.getElementById('scanvas').style.display = 'block'
+          //document.getElementById('scanvas').style.removeProperty('display')
+          setTimeout(() => {
+            let obj1 = {
+              type: "stop-loading"
+            }
+            //sendMsg(JSON.stringify(obj))
+            _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+          }, 1000)
         } catch (error) {
           setTimeout(() => {
             let obj1 = {
@@ -249,7 +286,7 @@ const PatientVideoCall = (props) => {
         let obj1 = {
           type: "get-arom",
           data_id: res.image_id,
-          side:obj.side
+          side: obj.side
         }
         //sendMsg(JSON.stringify(obj))
         _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
@@ -304,13 +341,13 @@ const PatientVideoCall = (props) => {
           data_id: res.image_id,
           side: obj.side
         }
-        console.log("Video conferance ",obj1)
+        console.log("Video conferance ", obj1)
         //sendMsg(JSON.stringify(obj))
         _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
         // startAI()
         window.darwin.stop()
       }
-      if(obj.type == "started-screen-share"){
+      if (obj.type == "started-screen-share") {
         setChangeViewOnscreenShare('change_view')
         document.getElementById('remote').classList.add('rotate-screen-180')
         document.getElementById('local').classList.add('remote-width')
@@ -318,11 +355,11 @@ const PatientVideoCall = (props) => {
           message: "Physio started screen sharing",
           placement: "bottomLeft",
           duration: 2,
-      });
+        });
         //remote-width{
         setCVSSLG(24)
       }
-      if(obj.type == "stopped-screen-share"){
+      if (obj.type == "stopped-screen-share") {
         setChangeViewOnscreenShare('')
         document.getElementById('remote').classList.remove('rotate-screen-180')
         document.getElementById('local').classList.remove('remote-width')
@@ -330,14 +367,14 @@ const PatientVideoCall = (props) => {
           message: "Physio stopped screen sharing",
           placement: "bottomLeft",
           duration: 2,
-      });
+        });
         setCVSSLG(12)
       }
-      if(obj.type=='stop-assessment'){
+      if (obj.type == 'stop-assessment') {
         setChangeView('')
         window.darwin.stop()
         document.getElementById('local').style.display = 'block'
-        document.getElementById('local').getElementsByTagName('video')[0].style.display="block"
+        document.getElementById('local').getElementsByTagName('video')[0].style.display = "block"
         document.getElementById('scanvas').style.display = 'none'
       }
     })
@@ -376,9 +413,14 @@ const PatientVideoCall = (props) => {
       //const localPlayerContainer = document.getElementById('local');
 
       _localVideoTrack.play('local');
+      console.log('user joined ', _localVideoTrack)
+      console.log('user joined ', _localVideoTrack._ID)
+      document.getElementById("agora-video-player-" + _localVideoTrack._ID).style.borderRadius = '15px'
       setModalVisible(false)
       setLoading(false)
-      setJoined(true)
+      document.getElementById('no-user-view').style.display = 'none'
+      document.getElementsByClassName('patient-mic-video')[0].style.display = 'flex'
+      setPatientJoined(true)
       // document.getElementById('user_name').innerHTML = uid
       console.log('publish success!!');
     } catch (e) {
@@ -392,27 +434,65 @@ const PatientVideoCall = (props) => {
       localVideoTrack.close();
 
       await client.leave();
-      setJoined(false)
+      setPatientJoined(false)
       window.top.close()
     }
   }
 
   async function handleShareScreen() {
-    const screenClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-    const screenId = await screenClient.join(
-      options.appId,
-      options.channel,
-      options.token,
-      screenId
-    );
-
+    // var NewToken = await GetToken(channel ,uid)
+    // const screenClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+    // const screenId = await screenClient.join(
+    //   appId,
+    //   channel,
+    //    null,
+    //   uid+"-screen" || null
+    // );
+    // console.log("screen ++++++++++++ ",screenId)
     const screenTrack = await AgoraRTC.createScreenVideoTrack({
       encoderConfig: '1080p_1',
       optimizationMode: 'detail',
     });
     console.log('screenTrack=======================', screenTrack);
-    screenClient.publish(screenTrack);
+    client.unpublish(localVideoTrack)
+    client.publish(screenTrack);
+    setScreenShare(true)
+    document.getElementById('local').style.display = 'none'
+    document.getElementById('screen').style.display = 'block'
     screenTrack.play('screen');
+    setScreenClientTrack(screenTrack)
+    let obj = {
+      type: 'started-screen-share',
+    }
+    sendMsg(JSON.stringify(obj))
+    screenTrack.on('track-ended', () => {
+      console.log("screen sharing stopped")
+      screenTrack.close()
+      client.unpublish(screenTrack)
+      document.getElementById('local').style.display = 'block'
+      document.getElementById('screen').style.display = 'none'
+      client.publish(localVideoTrack)
+      setScreenShare(false)
+      let obj = {
+        type: 'stopped-screen-share',
+      }
+      sendMsg(JSON.stringify(obj))
+      //stopped-screen-share
+    })
+    setCVSSLG(12)
+  }
+  const stopScreenShare = async () => {
+    //stopped-screen-share
+    screenClientTrack.close()
+    client.unpublish(screenClientTrack)
+    document.getElementById('remote').style.display = 'block'
+    document.getElementById('screen').style.display = 'none'
+    client.publish(localVideoTrack)
+    setScreenShare(false)
+    let obj = {
+      type: 'stopped-screen-share',
+    }
+    sendMsg(JSON.stringify(obj))
   }
   const startAudio = async () => {
     const temp = await AgoraRTC.createMicrophoneAudioTrack();
@@ -428,12 +508,14 @@ const PatientVideoCall = (props) => {
   const startVideo = async () => {
     const temp = await AgoraRTC.createCameraVideoTrack()
     setLocalVideoTrack(temp)
+    document.getElementById('no-user-view').style.display = 'none'
     client.publish(temp)
     temp.play("local")
     setVideo(true)
   }
   const stopVideo = async () => {
     localVideoTrack.close()
+    document.getElementById('no-user-view').style.removeProperty('display')
     client.unpublish(localVideoTrack)
     setVideo(false)
   }
@@ -526,13 +608,22 @@ const PatientVideoCall = (props) => {
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
+            <Col id="local" style={{ backgroundColor: 'black', borderRadius: '15px' }} className={`holder-remote1 ${changeViewOnscreenShare}`} xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div id="no-user-view"><p className='no-patient-icon'>{patientJoined ? <FaUserAlt size={NoUserIcon} /> : <FaUserAltSlash size={NoUserIcon} />}</p></div>
+              <p className='patient-mic-video'>{audio ? <GoUnmute size={20} /> :
+                <GoMute style={{ color: 'red' }} size={20} />}{"   "}{video ? <FaVideo size={20} /> :
+                  <FaVideoSlash style={{ color: 'red' }} size={20} />}</p>
+            </Col>
             <Col className='holder' xs={24} sm={24} md={cvsslg} lg={cvsslg} xl={cvsslg} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
-              <Draggable disabled={drag} ref={nodeRef} scale={5}>
-                <div id="remote" className={`holder-local ${changeView}`}></div>
+              <Draggable disabled={drag} ref={nodeRef} scale={2}>
+                <div id="remote" className={`holder-local ${changeView}`}><div id="no-physio-view">
+                  <p className='no-patient-icon'>{physioJoined && <FaUserAlt size={NoUserIcon} />}</p></div>
+                  <p id='physio-mic-video'>{physioAudio ? <GoUnmute size={20} /> :
+                    <GoMute style={{ color: 'red' }} size={20} />}{"   "}{physioVideo ? <FaVideo size={20} /> :
+                      <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
               </Draggable>
-            </Col>
-            <Col id="local" className={`holder-remote1 ${changeViewOnscreenShare}`} xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div id="screen" style={{ backgroundColor: 'black', display: 'none' }} className='holder-local holder-local-p' ></div>
             </Col>
             <canvas style={{ position: "absolute", height: "100%" }} id="scanvas"></canvas>
             {/* <div style={{height:'480px'}}>
@@ -560,7 +651,14 @@ const PatientVideoCall = (props) => {
                   {/* <i id="video-icon" class="fas fa-video"></i> */}
                 </button>
 
-
+                <button
+                  id="magic-btn"
+                  type="button"
+                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={screenshare ? stopScreenShare : handleShareScreen}
+                >
+                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
+                </button>
                 <button
                   id="exit-btn"
                   type="button"

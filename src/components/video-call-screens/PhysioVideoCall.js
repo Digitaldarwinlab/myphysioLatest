@@ -1,10 +1,10 @@
-import { Button, Col, Form, Input, Modal, Radio, Row, Space, Tooltip } from 'antd';
+import { Button, Col, Form, Input, Modal, notification, Radio, Row, Space, Tooltip } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
 import Draggable from 'react-draggable';
 import AgoraRTM from 'agora-rtm-sdk'
-import { BsCameraVideoFill, BsFillArrowUpCircleFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
+import { BsCameraVideo, BsCameraVideoFill, BsCameraVideoOff, BsFillArrowUpCircleFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdSecurityUpdateWarning } from 'react-icons/md';
@@ -22,6 +22,9 @@ import { useDispatch } from 'react-redux';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
 import { useSelector } from 'react-redux';
 import Tab1 from '../Assesment/Tab1';
+import { IoVolumeMute } from 'react-icons/io5';
+import { GoMute, GoUnmute } from 'react-icons/go';
+import { FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 // props.Setsidebarshow(false)
 // export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 // //7aca4bce40d0476fb3aafde5f88e3de9
@@ -111,6 +114,7 @@ const PhysioVideoCall = (props) => {
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [disable, setDisable] = useState(true)
+  const [disabledButtons, setDisabledButtons] = useState(false)
   const [loader, setLoader] = useState(false)
   const [client, setClient] = useState(null);
   const [url1, setUrl1] = useState(bodyImage)
@@ -132,7 +136,10 @@ const PhysioVideoCall = (props) => {
   const [sidePosture, setSidePosture] = useState([])
   const [sitFrontPosture, setSitFrontPosture] = useState([])
   const [sitSidePosture, setSitSidePosture] = useState([])
-
+  const [physioJoined, setPhysioJoined] = useState(false)
+  const [patientJoined, setPatientJoined] = useState(false)
+  const [patientAudio, setPatientAudio] = useState(false)
+  const [patientVideo, setPatientVideo] = useState(false)
   const [screenshare, setScreenShare] = useState(false)
   const [orientation, setOrientation] = useState(1)
   const [RTMChannel, setRTMChannel] = useState('')
@@ -177,24 +184,50 @@ const PhysioVideoCall = (props) => {
             const remoteVideoTrack = user.videoTrack;
             //const remotePlayerContainer = document.getElementById('remote');
             remoteVideoTrack.play('remote');
+            document.getElementById('no-user-view').style.display = 'none'
+            setPatientVideo(true)
             // document.getElementById('user_name').innerHTML = user.uid
           }
 
           if (mediaType === 'audio') {
             const remoteAudioTrack = user.audioTrack;
             remoteAudioTrack.play();
+            setPatientAudio(true)
           }
         }
       });
 
       _client.on('user-joined', (user) => {
-        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join');
         console.log(user.uid);
+        //patient-mic
+        document.getElementsByClassName('patient-mic')[0].style.display = 'flex'
+        document.getElementById('no-user-view').style.display = 'none'
+        //no-user-view
         setDisable(false)
+        setPatientJoined(true)
+      });
+      _client.on('volume-indicator',(evt)=>{
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu volume ',evt);
+      })
+      _client.on('user-left', (user) => {
+        setPatientJoined(false)
+        document.getElementsByClassName('patient-mic')[0].style.display = 'none'
+        document.getElementById('no-user-view').style.removeProperty('display')
+        console.log(user.uid);
       });
 
-      _client.on('user-unpublished', function (user) {
-        console.log(`User unpublished ${user.uid}`);
+      _client.on('user-unpublished', function (user, mediaType) {
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu leave');
+        console.log(`User unpublished ${user}`);
+        if (mediaType === 'video') {
+          setPatientVideo(false)
+          document.getElementById('no-user-view').style.removeProperty('display')
+        }
+
+        if (mediaType === 'audio') {
+          setPatientAudio(false)
+        }
       });
     }
   }, []);
@@ -404,6 +437,20 @@ const PhysioVideoCall = (props) => {
       if (obj.type == "stop-loading") {
         setLoader(false)
       }
+      if (obj.type == "started-screen-share") {
+        notification.success({
+          message: "Patient started screen sharing",
+          placement: "bottomLeft",
+          duration: 2,
+        });
+      }
+      if (obj.type == "stopped-screen-share") {
+        notification.success({
+          message: "Patient stopped screen sharing",
+          placement: "bottomLeft",
+          duration: 2,
+        });
+      }
     })
     setRTMChannel(_rtmChannel)
   }
@@ -500,6 +547,11 @@ const PhysioVideoCall = (props) => {
       //const localPlayerContainer = document.getElementById('local');
 
       _localVideoTrack.play('local');
+      setPhysioJoined(true)
+      document.getElementById('no-physio-icon').style.display = 'none'
+      document.getElementsByClassName('physio-mic')[0].style.display = 'flex'
+      document.getElementsByClassName('physio-video')[0].style.display = 'flex'
+      //physio-video
       setModalVisible(false)
       setLoading(false)
       setJoined(true)
@@ -591,12 +643,14 @@ const PhysioVideoCall = (props) => {
     const temp = await AgoraRTC.createCameraVideoTrack()
     setLocalVideoTrack(temp)
     client.publish(temp)
+    document.getElementById('no-physio-icon').style.display = 'none'
     temp.play("local")
     setVideo(true)
   }
   const stopVideo = async () => {
     localVideoTrack.close()
     client.unpublish(localVideoTrack)
+    document.getElementById('no-physio-icon').style.removeProperty('display')
     setVideo(false)
   }
   const captureFront = (side) => {
@@ -664,11 +718,20 @@ const PhysioVideoCall = (props) => {
           <Row>
             <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
-              <div id="remote" style={{ backgroundColor: 'black' }} className='holder-local holder-local-p' ></div>
-              <div id="screen" style={{ backgroundColor: 'black', display: 'none' }} className='holder-local holder-local-p' ></div>
+              <div id="remote" style={{ backgroundColor: '#2a2c2d' }} className='holder-local holder-local-p' >
+              <div id="no-user-view"><p className='no-user-icon'>{patientJoined?<FaUserAlt size={70} />:<FaUserAltSlash size={70} />}</p></div>
+              <p className='patient-mic'>{patientAudio?<GoUnmute size={25} /> : 
+              <GoMute style={{ color: 'red' }} size={25} />}{"   "}{patientVideo?<FaVideo size={25} /> : 
+              <FaVideoSlash style={{ color: 'red' }} size={25} />}</p></div>
+              <div id="screen" style={{ backgroundColor: '#2a2c2d', display: 'none' }} className='holder-local holder-local-p' >
+
+              </div>
 
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
-                <div ref={nodeRef} id="local" className='holder-remote' ></div>
+                <div ref={nodeRef} id="local" className='holder-remote' ><div id="no-physio-icon">
+                  <p className='no-physio-icon'>{physioJoined?<FaUserAlt size={35} />
+                :<FaUserAltSlash size={25} />}</p></div><p className='physio-mic'>{audio ? <GoUnmute size={20} /> : <GoMute style={{ color: 'red' }} size={20} />}</p>
+                <p className='physio-video'>{video ? <FaVideo size={20} /> : <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
               </Draggable>
             </Col>
             {/* <Draggable axis="y" handle='button' ref={nodeRef1} scale={2}> */}
@@ -709,10 +772,11 @@ const PhysioVideoCall = (props) => {
                     }}>
                       <AiOutlineDoubleRight size={35} /> <span style={{ margin: '6px' }}>{view == "AROM" ? "Posture" : "AROM"}</span>
                     </Button>{"     "}
-                      <Tooltip title="Close Assessment">
-                        <AiOutlineCloseCircle onClick={()=>{
-                          let obj ={
-                            type:'stop-assessment'
+                      <Tooltip title={freeze?"Assessment is running please stop it":'Close Assessment'}>
+                        <AiOutlineCloseCircle onClick={() => {
+                          if(freeze) return
+                          let obj = {
+                            type: 'stop-assessment'
                           }
                           sendMsg(JSON.stringify(obj))
                           setStartAss(false)
@@ -784,7 +848,7 @@ const PhysioVideoCall = (props) => {
             {loader && <Loader />}
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
-
+                <Tooltip title={`Turn ${audio?`off`:`on`} Microphone`}>
                 <button
                   id="mic-btn"
                   type="button"
@@ -792,9 +856,9 @@ const PhysioVideoCall = (props) => {
                   onClick={audio ? stopAudio : startAudio}
                 >
                   {audio ? <BsMic /> : <BsMicMuteFill />}
-                </button>
+                </button></Tooltip>
 
-
+                <Tooltip title={`Turn ${video?`off`:`on`} Video`}>
                 <button
                   id="video-btn"
                   type="button"
@@ -802,15 +866,25 @@ const PhysioVideoCall = (props) => {
                   onClick={video ? stopVideo : startVideo}
                 >
                   {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
-                </button>
-                <button
+                </button></Tooltip>
+                
+               {freeze? <Tooltip title={`Assessment is running can't share screen `}> <button
                   id="magic-btn"
                   type="button"
+                  disabled={freeze}
+                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                >
+                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
+                </button></Tooltip>: <Tooltip title={`Turn ${screenshare?`off`:`on`} Screen Share`}><button
+                  id="magic-btn"
+                  type="button"
+                  disabled={freeze}
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                   onClick={screenshare ? stopScreenShare : handleShareScreen}
                 >
                   <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
-                </button>
+                </button></Tooltip>}
+                <Tooltip title={`Leave Meeting`}>
                 <button
                   id="exit-btn"
                   type="button"
@@ -819,9 +893,9 @@ const PhysioVideoCall = (props) => {
                   onClick={handleLeave}
                 >
                   <BiPhoneOff />
-                </button>
+                </button></Tooltip>
 
-
+                <Tooltip title={`Save Assessment Data`}>
                 <button
                   type="button"
                   onClick={saveVideoConfData}
@@ -829,7 +903,7 @@ const PhysioVideoCall = (props) => {
                   className="btn video-conf-save-btn video_con_bttn btn-block btn-dark btn-lg"
                 >
                   save
-                </button>
+                </button></Tooltip>
 
               </Space>
             </Col>
