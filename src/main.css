@@ -1125,7 +1125,7 @@ ol {
 .exercises-cards p {
   width: 100%;
   margin: 0px;
-}
+}>
 button.ant-modal-close .ant-modal-close-x {
   line-height: 35px;
   color: #fff;
@@ -1247,7 +1247,7 @@ body .ant-checkbox-checked::after {
 .ant-pagination-prev:hover .ant-pagination-item-link,
 .ant-pagination-next:hover .ant-pagination-item-link {
   border-color: #fff !important ;
-  color: #fff !important ;
+  color: #1bbc9b !important ;
 }
 .ant-pagination-prev button,
 .ant-pagination-next button {

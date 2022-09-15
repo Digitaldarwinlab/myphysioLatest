@@ -28,19 +28,27 @@ const RolesRegisteration = () => {
   }
   const handleSubmit = async () => {
     if (routeName !== "" && routesdata.length > 0) {
-      let data = {
-        Role_value: routeName,
+      let data = location.pathname === "/roles/update" ?
+      {
+        Role_value: roleState.data.Role_value,
         route_access: routesdata,
-      };
+        updated_role_value : routeName
+      }
+      :
+      {
+        Role_value: roleState.data.Role_value,
+        route_access: routesdata,
+      }
       let a =
         location.pathname === "/roles/update"
           ? await UpdateRolesApi(data)
           : await AddRolesApi(data);
-      if (a !== []) {
+          console.log(a)
+      if (a.length>0) {
         setalertVal("");
         window.location.href = "/roleManagement";
       } else {
-        setalertVal("Role name Already exist");
+        setalertVal("Error Occured!!");
       }
       //   window.location.href = "/roleManagement";
     } else if (routeName === "") {

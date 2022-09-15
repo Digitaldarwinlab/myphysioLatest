@@ -247,6 +247,15 @@ const SideDrawer = ({ visState, setVisState }) => {
             </SubMenu>
           </SubMenu>
           <Menu.Item
+            onClick={() => {
+              history.push("/roleManagement");
+              setVisState(false);
+            }}
+            key="81"
+          >
+            Role Management
+          </Menu.Item>
+          <Menu.Item
             icon={<AiOutlineLogout className="iconClass2" />}
             onClick={() => {
               history.push("/logout");
