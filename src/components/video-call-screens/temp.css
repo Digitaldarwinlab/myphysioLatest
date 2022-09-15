@@ -48,6 +48,29 @@
 #assessment-tab{
     background: white;
 }
+.assessment-tab-overlay {
+    position: absolute; 
+    bottom: 0; 
+    background: rgb(0, 0, 0 ,0);
+    background: rgba(0, 0, 0, 0); /* Black see-through */
+    color: black; 
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: black; 
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+  }
+  .assessment-tab-overlay-button{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+  }
 #user_name {
     position: absolute;
     z-index: 1000;
@@ -59,6 +82,7 @@
 .footer {
     position: fixed;
     left: 0;
+    z-index: 10;
     bottom: 0;
     width: 100%;
     /* background-color: red; */

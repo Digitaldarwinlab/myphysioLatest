@@ -144,6 +144,7 @@ const PhysioVideoCall = (props) => {
   const [screenshare, setScreenShare] = useState(false)
   const [orientation, setOrientation] = useState(1)
   const [RTMChannel, setRTMChannel] = useState('')
+  const [modelInitialized ,setModelInitialized] = useState(false)
   const [view, setView] = useState('AROM')
   const [startAss, setStartAss] = useState(false)
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
@@ -201,6 +202,17 @@ const PhysioVideoCall = (props) => {
       _client.on('user-joined', (user) => {
         console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join');
         console.log(user.uid);
+        if(modelInitialized){
+          alert('Initialize AI')
+          notification.open({
+            message: 'Initialize AI',
+            description:
+              'Please initialize AI once again',
+            onClick: () => {
+              console.log('Notification Clicked!');
+            },
+          });
+        }
         //patient-mic
         document.getElementsByClassName('patient-mic')[0].style.display = 'flex'
         document.getElementById('no-user-view').style.display = 'none'
@@ -208,8 +220,8 @@ const PhysioVideoCall = (props) => {
         setDisable(false)
         setPatientJoined(true)
       });
-      _client.on('volume-indicator',(evt)=>{
-        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu volume ',evt);
+      _client.on('volume-indicator', (evt) => {
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu volume ', evt);
       })
       _client.on('user-left', (user) => {
         setPatientJoined(false)
@@ -339,6 +351,7 @@ const PhysioVideoCall = (props) => {
     //  this.props.FirstAssesment("frontSitChecks", frontSitChecks);
   };
   const startAI = async () => {
+    setModelInitialized(true)
     console.log("start")
     let obj = {
       type: 'initiate-arom'
@@ -349,6 +362,7 @@ const PhysioVideoCall = (props) => {
 
   }
   const startPosture = async () => {
+    setModelInitialized(true)
     setView('Posture')
     console.log("startPosture")
     let obj = {
@@ -698,7 +712,7 @@ const PhysioVideoCall = (props) => {
           handleJoin()
           setModalVisible(false)
         }}
-        closeIcon={<GrClose onClick={()=>{
+        closeIcon={<GrClose onClick={() => {
           setModalVisible(false)
           window.top.close()
         }} />}
@@ -737,22 +751,27 @@ const PhysioVideoCall = (props) => {
             <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
               <div id="remote" style={{ backgroundColor: '#2a2c2d' }} className='holder-local holder-local-p' >
-              <div id="no-user-view"><p className='no-user-icon'>{patientJoined?<FaUserAlt size={70} />:<FaUserAltSlash size={70} />}</p></div>
-              <p className='patient-mic'>{patientAudio?<GoUnmute size={25} /> : 
-              <GoMute style={{ color: 'red' }} size={25} />}{"   "}{patientVideo?<FaVideo size={25} /> : 
-              <FaVideoSlash style={{ color: 'red' }} size={25} />}</p></div>
+                <div id="no-user-view"><p className='no-user-icon'>{patientJoined ? <FaUserAlt size={70} /> : <FaUserAltSlash size={70} />}</p></div>
+                <p className='patient-mic'>{patientAudio ? <GoUnmute size={25} /> :
+                  <GoMute style={{ color: 'red' }} size={25} />}{"   "}{patientVideo ? <FaVideo size={25} /> :
+                    <FaVideoSlash style={{ color: 'red' }} size={25} />}</p></div>
               <div id="screen" style={{ backgroundColor: '#2a2c2d', display: 'none' }} className='holder-local holder-local-p' >
 
               </div>
 
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef} id="local" className='holder-remote' ><div id="no-physio-icon">
-                  <p className='no-physio-icon'>{physioJoined?<FaUserAlt size={35} />
-                :<FaUserAltSlash size={25} />}</p></div><p className='physio-mic'>{audio ? <GoUnmute size={20} /> : <GoMute style={{ color: 'red' }} size={20} />}</p>
-                <p className='physio-video'>{video ? <FaVideo size={20} /> : <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
+                  <p className='no-physio-icon'>{physioJoined ? <FaUserAlt size={35} />
+                    : <FaUserAltSlash size={25} />}</p></div><p className='physio-mic'>{audio ? <GoUnmute size={20} /> : <GoMute style={{ color: 'red' }} size={20} />}</p>
+                  <p className='physio-video'>{video ? <FaVideo size={20} /> : <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
               </Draggable>
             </Col>
             {/* <Draggable axis="y" handle='button' ref={nodeRef1} scale={2}> */}
+            <Col id="assessment-tab" style={{display:'none'}} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+              <Row justify="space-around" align="middle">
+                <Button>Intialize AI</Button>
+              </Row>
+            </Col>
             <Col id="assessment-tab" className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
               {/*  */}
               {startAss ? <Col span={24}>
@@ -790,14 +809,15 @@ const PhysioVideoCall = (props) => {
                     }}>
                       <AiOutlineDoubleRight size={35} /> <span style={{ margin: '6px' }}>{view == "AROM" ? "Posture" : "AROM"}</span>
                     </Button>{"     "}
-                      <Tooltip title={freeze?"Assessment is running please stop it":'Close Assessment'}>
+                      <Tooltip title={freeze ? "Assessment is running please stop it" : 'Close Assessment'}>
                         <AiOutlineCloseCircle onClick={() => {
-                          if(freeze) return
+                          if (freeze) return
                           let obj = {
                             type: 'stop-assessment'
                           }
                           sendMsg(JSON.stringify(obj))
                           setStartAss(false)
+                          setModelInitialized(false)
                         }} style={{ marginLeft: '25px', color: 'red' }} size={25} />
                       </Tooltip>
                     </Row>
@@ -856,7 +876,6 @@ const PhysioVideoCall = (props) => {
                 <br />
                 <Col span={24}>
                   <h5>Note: </h5>
-                  <h5>Please move to Assessment Page for saving the reports</h5>
                   <h5>Please save the informations before leaving the page</h5>
                   <h5>You can only start taking Assesments when the patient joins</h5>
                 </Col>
@@ -866,34 +885,34 @@ const PhysioVideoCall = (props) => {
             {loader && <Loader />}
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
-                <Tooltip title={`Turn ${audio?`off`:`on`} Microphone`}>
-                <button
-                  id="mic-btn"
-                  type="button"
-                  className={`btn ${!audio ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
-                  onClick={audio ? stopAudio : startAudio}
-                >
-                  {audio ? <BsMic /> : <BsMicMuteFill />}
-                </button></Tooltip>
+                <Tooltip title={`Turn ${audio ? `off` : `on`} Microphone`}>
+                  <button
+                    id="mic-btn"
+                    type="button"
+                    className={`btn ${!audio ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                    onClick={audio ? stopAudio : startAudio}
+                  >
+                    {audio ? <BsMic /> : <BsMicMuteFill />}
+                  </button></Tooltip>
 
-                <Tooltip title={`Turn ${video?`off`:`on`} Video`}>
-                <button
-                  id="video-btn"
-                  type="button"
-                  className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
-                  onClick={video ? stopVideo : startVideo}
-                >
-                  {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
-                </button></Tooltip>
-                
-               {freeze? <Tooltip title={`Assessment is running can't share screen `}> <button
+                <Tooltip title={`Turn ${video ? `off` : `on`} Video`}>
+                  <button
+                    id="video-btn"
+                    type="button"
+                    className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                    onClick={video ? stopVideo : startVideo}
+                  >
+                    {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
+                  </button></Tooltip>
+
+                {freeze ? <Tooltip title={`Assessment is running can't share screen `}> <button
                   id="magic-btn"
                   type="button"
                   disabled={freeze}
                   className="btn video_con_bttn btn-block btn-dark btn-lg"
                 >
                   <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
-                </button></Tooltip>: <Tooltip title={`Turn ${screenshare?`off`:`on`} Screen Share`}><button
+                </button></Tooltip> : <Tooltip title={`Turn ${screenshare ? `off` : `on`} Screen Share`}><button
                   id="magic-btn"
                   type="button"
                   disabled={freeze}
@@ -903,25 +922,25 @@ const PhysioVideoCall = (props) => {
                   <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
                 </button></Tooltip>}
                 <Tooltip title={`Leave Meeting`}>
-                <button
-                  id="exit-btn"
-                  type="button"
-                  style={{ backgroundColor: 'red' }}
-                  className="btn end-btn-big video_con_bttn btn-block btn-danger btn-lg"
-                  onClick={handleLeave}
-                >
-                  <BiPhoneOff />
-                </button></Tooltip>
+                  <button
+                    id="exit-btn"
+                    type="button"
+                    style={{ backgroundColor: 'red' }}
+                    className="btn end-btn-big video_con_bttn btn-block btn-danger btn-lg"
+                    onClick={handleLeave}
+                  >
+                    <BiPhoneOff />
+                  </button></Tooltip>
 
                 <Tooltip title={`Save Assessment Data`}>
-                <button
-                  type="button"
-                  onClick={saveVideoConfData}
-                  id="video-conf-save-btn"
-                  className="btn video-conf-save-btn video_con_bttn btn-block btn-dark btn-lg"
-                >
-                  save
-                </button></Tooltip>
+                  <button
+                    type="button"
+                    onClick={saveVideoConfData}
+                    id="video-conf-save-btn"
+                    className="btn video-conf-save-btn video_con_bttn btn-block btn-dark btn-lg"
+                  >
+                    save
+                  </button></Tooltip>
 
               </Space>
             </Col>
