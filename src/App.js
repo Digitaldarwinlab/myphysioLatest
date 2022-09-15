@@ -188,7 +188,7 @@ const ExerDetail = lazy(() =>
 // import Careplan from './components/care-plan/carePlanIndex';
 // import CareplanEnterprise from './components/care-plan-enterprise/carePlanIndex'
 // import { isAuthenticated, getUserData } from './API/userAuth/userAuth';
- import Loading from "./components/UtilityComponents/Loading.js";
+import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
 import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
@@ -307,9 +307,8 @@ const App = () => {
                 getUserData() === "HeadPhysio" ||
                 getUserData() === "patient") && (
                 <div
-                  className={`${
-                    isSideNavbarCollpased ? "" : "col-md-2"
-                  } sideNavbar`}
+                  className={`${isSideNavbarCollpased ? "" : "col-md-2"
+                    } sideNavbar`}
                   style={{
                     width: isSideNavbarCollpased ? "120px" : "",
                     position: "relative",
@@ -328,24 +327,21 @@ const App = () => {
             <div
               className={
                 isAuthenticated() &&
-                (getUserData() === "admin" ||
-                  getUserData() === "physio" ||
-                  getUserData() === "HeadPhysio" ||
-                  getUserData() === "patient") &&
-                sidebarshow
-                  ? `${
-                      isSideNavbarCollpased
-                        && "col-md-10 col-lg-11 offset-1"
-                        
-                    } px-1 main-content white-backgorund`
+                  (getUserData() === "admin" ||
+                    getUserData() === "physio" ||
+                    getUserData() === "HeadPhysio" ||
+                    getUserData() === "patient") &&
+                  sidebarshow
+                  ? `${isSideNavbarCollpased && "col-md-10 col-lg-11 offset-1"
+                  } px-1 main-content white-backgorund`
                   : "MainConatiner"
               }
               style={{
                 marginLeft: isSideNavbarCollpased
                   ? ""
                   : isAuthenticated()
-                  ? "280px"
-                  : "",
+                    ? "280px"
+                    : "",
               }}
             >
               <Switch>
@@ -708,9 +704,27 @@ const App = () => {
                   path="/patient/Temp"
                   component={Tempdashboard}
                 />
-              <PrivateRoute exact path="/physio:channel"  component={()=><PhysioVideoCall SideNavbarCollpased={setIsSideNavbarCollapsed} Setsidebarshow={Setsidebarshow}  />}  />
-							{/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
-							<Route exact path="/patient:channel" component={()=><PatientVideoCall SideNavbarCollpased={setIsSideNavbarCollapsed} Setsidebarshow={Setsidebarshow} />}/>
+                <PrivateRoute
+                  exact
+                  path="/physio:channel"
+                  component={() => (
+                    <PhysioVideoCall
+                      SideNavbarCollpased={setIsSideNavbarCollapsed}
+                      Setsidebarshow={Setsidebarshow}
+                    />
+                  )}
+                />
+                {/* <PublicRoute exact path='/patientcall' component={()=><PatientVideoCall Setsidebarshow={Setsidebarshow}  />} /> */}
+                <Route
+                  exact
+                  path="/patient:channel"
+                  component={() => (
+                    <PatientVideoCall
+                      SideNavbarCollpased={setIsSideNavbarCollapsed}
+                      Setsidebarshow={Setsidebarshow}
+                    />
+                  )}
+                />
 
                 <Route exact path="*" component={Error404} />
               </Switch>
