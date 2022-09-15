@@ -31,6 +31,28 @@ import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 
 export const tableLabels = {
+  leftShoulder: "L Shoulder Abd/Add",
+  rightShoulder: "R Shoulder Abd/Add",
+  leftElbow: "L Elbow Flex/Ext",
+  rightElbow: "R Elbow Flex/Ext",
+  leftHipAdductionAbduction: "L Hip Abd/Add",
+  rightHipAdductionAbduction: "R Hip Abd/Add",
+  leftKnee: "L Knee Flex/Ext",
+  rightKnee: "R Knee Flex/Ext",
+  leftNeck: "L Cervical Side flex",
+  rightNeck: "R Cervical Side Flex",
+  leftPelvic: "L Lumbar Side Flex",
+  rightPelvic: "R Lumbar Side Flex",
+  leftWrist: "L Wrist Flex/Ext",
+  rightWrist: "R Wrist Flex/Ext",
+  leftAnkle: "L Ankle Dorsi/Planter Flex",
+  rightAnkle: "R Ankle Dorsi/Planter Flex",
+  leftHip: "L Hip Flex/Ext",
+  rightHip: "R Hip Flex/Ext",
+  cervicalForwardFlexion: "Cervical Flex/Ext",
+};
+
+export const tableLabelLateral = {
   leftShoulder: "L Shoulder Flex/Ext",
   rightShoulder: "R Shoulder Flex/Ext",
   leftElbow: "L Elbow Flex/Ext",
@@ -51,7 +73,6 @@ export const tableLabels = {
   rightHip: "R Hip Flex/Ext",
   cervicalForwardFlexion: "Cervical Flex/Ext",
 };
-
 const { Panel } = Collapse;
 const AssessmentList = ({ assesmentClick }) => {
   {
@@ -1740,8 +1761,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                             let t = {};
                                                             t["key"] = index;
                                                             t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
+                                                              tableLabelLateral[item]
+                                                                ? tableLabelLateral[item]
                                                                 : "Not Available";
                                                             t["min"] = Math.round(
                                                               data
@@ -1794,8 +1815,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                               let t = {};
                                                               t["key"] = index;
                                                               t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
+                                                                tableLabelLateral[item]
+                                                                  ? tableLabelLateral[item]
                                                                   : "Not Available";
                                                               t["min"] = Math.round(
                                                                 data
@@ -3016,8 +3037,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                             let t = {};
                                                             t["key"] = index;
                                                             t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
+                                                              tableLabelLateral[item]
+                                                                ? tableLabelLateral[item]
                                                                 : "Not Available";
                                                             t["min"] = Math.round(
                                                               data
@@ -3071,8 +3092,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                               let t = {};
                                                               t["key"] = index;
                                                               t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
+                                                                tableLabelLateral[item]
+                                                                  ? tableLabelLateral[item]
                                                                   : "Not Available";
                                                               t["min"] = Math.round(
                                                                 data

@@ -74,31 +74,43 @@ const ExerDetail = () => {
     const res = await exercise_detail(location.state.exNameList);
     console.log("exercises ", location.state.exercises);
     let yt_temp = [];
-    location.state.exercises.map((ex) => {
-      if (ex.name == "YouTube") {
-        let a = {
-          title: ex.name,
-          video_path: ex.youtube_link,
-        };
-        yt_temp.push(a);
+    let tempExercise = location.state.exercises
+    res.map((ex) => {
+      for(let i =0;i<tempExercise.length;i++){
+        if(ex.ex_em_id==tempExercise[i].ex_em_id){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['instruction_array'] = ex.instruction_array
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
+        if(tempExercise[i].ex_em_id==262){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
       }
     });
-    // console.log("exercises ", res);
-    let temp = [];
-    location.state.exercises.map((ex) => {
-      let te = [...yt_temp, ...res].find((e) => {
-        if (e.title == ex.name) {
-          console.log("exercise array1 ", ex);
-          let temp_E = e;
-          temp_E["Rep"] = ex.Rep;
-          return temp_E;
-        }
-      });
-      // console.log("exercise array1 ", te)
-      temp.push(te);
-    });
-    console.log("exercises ", temp);
-    setExercises([...res, ...yt_temp]);
+    tempExercise.map((ex,idx)=>{
+      ex['Rep'] = location.state.repArr[idx]
+    })
+    console.log("exercises ", tempExercise);
+    setExercises(tempExercise)
+    // console.log("exercises ", re
+
+    // location.state.exercises.map((ex) => {
+    //   let te = [...yt_temp, ...res].find((e) => {
+    //     if (e.title == ex.name) {
+    //       console.log("exercise array1 ", ex);
+    //       let temp_E = e;
+    //       temp_E["Rep"] = ex.Rep;
+    //       return temp_E;
+    //     }
+    //   });
+    //   // console.log("exercise array1 ", te)
+    //   temp.push(te);
+    // });
+    // console.log("  ", temp);
+    // setExercises([...res, ...yt_temp]);
   }, []);
   console.log(location.state.exercises[0])
   const finish = async () => {
@@ -113,9 +125,9 @@ const ExerDetail = () => {
         Rep: location.state.exercises[item].Rep,
       });
     });
-    console.log(comp);
-    console.log(tempName);
-    console.log(tempId);
+    console.log("exercises ",comp);
+    console.log("exercises ",tempName);
+    console.log("exercises ",tempId);
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);

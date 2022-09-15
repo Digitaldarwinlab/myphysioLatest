@@ -37,8 +37,8 @@ let JointNew2 = {
     cervicalForwardFlexion: [18, 18]
 }
 const joints = [
-    { value: 0, label: "L Shoulder Flex/Ext" },
-    { value: 1, label: "R Shoulder Flex/Ext" },
+    { value: 0, label: "L Shoulder Abd/Add" },
+    { value: 1, label: "R Shoulder Abd/Add" },
     { value: 2, label: "L Elbow Flex/Ext" },
     { value: 3, label: "R Elbow Flex/Ext" },
     { value: 8, label: "L Cervical Side flex" },
@@ -840,8 +840,8 @@ class AROM extends Component {
                                                 this.changeSide(e.target.value)
                                             }}
                                         >
-                                            <Radio value={"left"}>left</Radio>
-                                            <Radio value={"right"}>right</Radio>
+                                            <Radio value={"left"}>Left</Radio>
+                                            <Radio value={"right"}>Right</Radio>
                                         </Radio.Group>
                                         <br />
                                         <br />

@@ -660,7 +660,7 @@ const App = () => {
                   exact
                   path="/patient/ai"
                   forceRefresh={true}
-                  component={PatientAI}
+                  component={PatientAiMain}
                 />
                 <PatientRoute
                   exact

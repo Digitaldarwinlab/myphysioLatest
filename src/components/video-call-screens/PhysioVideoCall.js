@@ -25,6 +25,7 @@ import Tab1 from '../Assesment/Tab1';
 import { IoVolumeMute } from 'react-icons/io5';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import { FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { GrClose } from 'react-icons/gr';
 // props.Setsidebarshow(false)
 // export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 // //7aca4bce40d0476fb3aafde5f88e3de9
@@ -599,6 +600,11 @@ const PhysioVideoCall = (props) => {
     let obj = {
       type: 'started-screen-share',
     }
+    notification.success({
+      message: "You started screen sharing",
+      placement: "bottomLeft",
+      duration: 2,
+    });
     sendMsg(JSON.stringify(obj))
     screenTrack.on('track-ended', () => {
       console.log("screen sharing stopped")
@@ -607,6 +613,11 @@ const PhysioVideoCall = (props) => {
       document.getElementById('remote').style.display = 'block'
       document.getElementById('screen').style.display = 'none'
       client.publish(localVideoTrack)
+      notification.success({
+        message: "You stopped screen sharing",
+        placement: "bottomLeft",
+        duration: 2,
+      });
       setScreenShare(false)
       let obj = {
         type: 'stopped-screen-share',
@@ -623,6 +634,11 @@ const PhysioVideoCall = (props) => {
     document.getElementById('screen').style.display = 'none'
     client.publish(localVideoTrack)
     setScreenShare(false)
+    notification.success({
+      message: "You stopped screen sharing",
+      placement: "bottomLeft",
+      duration: 2,
+    });
     let obj = {
       type: 'stopped-screen-share',
     }
@@ -682,9 +698,11 @@ const PhysioVideoCall = (props) => {
           handleJoin()
           setModalVisible(false)
         }}
-        onCancel={() => {
+        closeIcon={<GrClose onClick={()=>{
           setModalVisible(false)
           window.top.close()
+        }} />}
+        onCancel={() => {
           console.log("modal")
         }}
         footer={[

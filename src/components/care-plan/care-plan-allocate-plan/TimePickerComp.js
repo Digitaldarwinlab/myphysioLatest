@@ -15,7 +15,7 @@ const TimePickerComp = (props) => {
             {props.showWatch ? (
                 <>
                     <Col lg={3} md={6} sm={8} xs={12} className="mb-4" key={props.index}>
-                        <h5 className="border text-center">
+                        <h5 className="text-center">
                             <span className="px-1" style={styleOftime}>{props.state.timeSlots[props.index]}</span>
                             <BsClock title="Click To Change Time" className="pt-1 iconClass3" onClick={() => setShowModal(true)} />
                         </h5>

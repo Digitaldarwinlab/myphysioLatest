@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import { AddVideoConfData } from '../../API/VideoConf/videoconf';
 import { FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { GoMute, GoUnmute } from 'react-icons/go';
+import { GrClose } from 'react-icons/gr';
 
 const options = {
   appId: '7aca4bce40d0476fb3aafde5f88e3de9',
@@ -122,6 +123,7 @@ const PatientVideoCall = (props) => {
             //const remotePlayerContainer = document.getElementById('remote');
             remoteVideoTrack.play('remote');
             setPhysioVideo(true)
+            document.getElementById('no-physio-view').style.display = 'none'
             // document.getElementById('user_name').innerHTML = user.uid
           }
 
@@ -151,7 +153,8 @@ const PatientVideoCall = (props) => {
         console.log(`mediaType ${user}`);
         if (mediaType === 'video') {
           setPhysioVideo(false)
-          //document.getElementById('no-user-view').style.removeProperty('display')
+          document.getElementById('remote').style.background = 'black'
+          document.getElementById('no-physio-view').style.display = 'block'
         }
 
         if (mediaType === 'audio') {
@@ -457,37 +460,58 @@ const PatientVideoCall = (props) => {
     client.unpublish(localVideoTrack)
     client.publish(screenTrack);
     setScreenShare(true)
-    document.getElementById('local').style.display = 'none'
+    document.getElementById('remote').style.display = 'none'
+    //document.getElementById('local').classList.add('display-none')
     document.getElementById('screen').style.display = 'block'
     screenTrack.play('screen');
     setScreenClientTrack(screenTrack)
     let obj = {
       type: 'started-screen-share',
     }
+    setChangeViewOnscreenShare('change_view')
+    notification.success({
+      message: "You started screen sharing",
+      placement: "bottomLeft",
+      duration: 2,
+    });
     sendMsg(JSON.stringify(obj))
     screenTrack.on('track-ended', () => {
       console.log("screen sharing stopped")
       screenTrack.close()
       client.unpublish(screenTrack)
-      document.getElementById('local').style.display = 'block'
+      document.getElementById('remote').style.display = 'block'
+     // document.getElementById('local').classList.remove('display-none')
       document.getElementById('screen').style.display = 'none'
       client.publish(localVideoTrack)
       setScreenShare(false)
+      setChangeViewOnscreenShare('')
       let obj = {
         type: 'stopped-screen-share',
       }
+      notification.success({
+        message: "You stopped screen sharing",
+        placement: "bottomLeft",
+        duration: 2,
+      });
       sendMsg(JSON.stringify(obj))
-      //stopped-screen-share
+      setCVSSLG(12)
     })
-    setCVSSLG(12)
+    setCVSSLG(24)
   }
   const stopScreenShare = async () => {
     //stopped-screen-share
+    setCVSSLG(12)
     screenClientTrack.close()
+    setChangeViewOnscreenShare('change_view')
     client.unpublish(screenClientTrack)
     document.getElementById('remote').style.display = 'block'
     document.getElementById('screen').style.display = 'none'
     client.publish(localVideoTrack)
+    notification.success({
+      message: "You stopped screen sharing",
+      placement: "bottomLeft",
+      duration: 2,
+    });
     setScreenShare(false)
     let obj = {
       type: 'stopped-screen-share',
@@ -575,9 +599,12 @@ const PatientVideoCall = (props) => {
           handleJoin()
           setModalVisible(false)
         }}
-        onCancel={() => {
+        closeIcon={<GrClose onClick={()=>{
           setModalVisible(false)
           window.top.close()
+        }} />}
+        onCancel={() => {
+          console.log("modal")
         }}
         footer={[
           <div class=" d-flex justify-content-center">

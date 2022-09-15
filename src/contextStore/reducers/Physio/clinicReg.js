@@ -44,7 +44,7 @@ export const clinicReg = (state = clinicInitialState,action)=>{
             return {
                 ...state,
                 isLoading:false,
-                success:"Registered SuccessFully."
+                success:action.payload.value
             }
             case "CLINIC_REGISTER_FAILURE":
             return {

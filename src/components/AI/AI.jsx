@@ -164,8 +164,8 @@ const allNewJoints = [
   { value: 18, label: "Cervical Flex/Ext" },
 ];
 const joints = [
-  { value: 0, label: "L Shoulder Flex/Ext" },
-  { value: 1, label: "R Shoulder Flex/Ext" },
+  { value: 0, label: "L Shoulder Abd/Add" },
+  { value: 1, label: "R Shoulder Abd/Add" },
   { value: 2, label: "L Elbow Flex/Ext" },
   { value: 3, label: "R Elbow Flex/Ext" },
   { value: 8, label: "L Cervical Side flex" },
@@ -1699,8 +1699,8 @@ class AI extends Component {
                                 this.changeSide(e.target.value)
                               }}
                             >
-                              <Radio value={"left"}>left</Radio>
-                              <Radio value={"right"}>right</Radio>
+                              <Radio value={"left"}>Left</Radio>
+                              <Radio value={"right"}>Right</Radio>
                             </Radio.Group>
                             <br />
                             <br />

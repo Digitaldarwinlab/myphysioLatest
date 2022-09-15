@@ -339,10 +339,12 @@ const PhysioClinic = () => {
 
   const handleUpdate = async () => {
     let res = await clinicUpdateApi(state.clinicReg, dispatch);
-    if (res) {
-      window.location.href = "/clinic-list";
-    }
-    executeScroll()
+    setTimeout(() => {
+      if (res) {
+        window.location.href = "/clinic-list";
+      }
+      executeScroll()
+    }, 500);
   };
 
   const handleNameAndWebsite = (htmlfor, title, type, place, value) => {
@@ -655,7 +657,7 @@ const PhysioClinic = () => {
                   </span>
                 }
                 className="input-field"
-                //defaultValue={dateState}
+                value={dateState}
                 placeholder="Estb date"
                 onChange={handleChange}
                 //   onBlur = {handleBlur}

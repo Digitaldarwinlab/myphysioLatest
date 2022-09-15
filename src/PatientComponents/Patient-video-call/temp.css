@@ -145,6 +145,10 @@
 }
 #local{
     padding: 0 !important;
+    z-index: 1;
+}
+.display-none{
+    display: none !important;
 }
 .holder-remote1{
     height: 85vh;

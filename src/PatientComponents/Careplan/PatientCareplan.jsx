@@ -391,7 +391,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
         let data = result[1];
         if (data.length !== 0) {
           if (data.length == 1) {
-            console.log("get update");
+            console.log("get update ",data);
             UpdateCarePlanStateData(data);
           } else {
             console.log("get combine");
@@ -595,7 +595,12 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
       : times[selectedTime];
     exercise["careplanId"] = exercise.pp_cp_id;
     console.log("final exercises are ", exercises);
-    let repArr = exercises.map((exercise) => exercise.Rep);
+    let repArr = []
+    exercises.map((exercise) => {
+      repArr.push(exercise.Rep)
+      console.log("final exercises are ", exercise.Rep);
+    });
+    console.log("final exercises are ", repArr);
     if (!status_flag) {
       history.push({
         pathname: "/patient/exercises/brief",

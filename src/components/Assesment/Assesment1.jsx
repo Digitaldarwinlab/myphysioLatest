@@ -86,7 +86,7 @@ import backcalvesB from "./../../assets/Crops/13.D-Calves.webp";
 import background from "./../../assets/Crops/00.-Blank-Figures.webp";
 import MobBackground from "./../../assets/Crops//mobilebg.webp";
 import { useRef } from "react";
-import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
+import { tableLabelLateral, tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
 import Loading from "../UtilityComponents/Loading";
 import { SpinnerCircularSplit } from 'spinners-react';
 
@@ -789,7 +789,7 @@ const Assesment1 = ({ back, next }) => {
         (item, index) => {
           let t = {};
           t["key"] = index;
-          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["angles"] = tableLabelLateral[item] ? tableLabelLateral[item] : "Not Available";
           t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
           t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
           return t;
@@ -812,7 +812,7 @@ const Assesment1 = ({ back, next }) => {
         (item, index) => {
           let t = {};
           t["key"] = index;
-          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["angles"] = tableLabelLateral[item] ? tableLabelLateral[item] : "Not Available";
           t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
           t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
           return t;
@@ -1001,8 +1001,8 @@ const Assesment1 = ({ back, next }) => {
             (item, index) => {
               let t = {};
               t["key"] = index;
-              t["angles"] = tableLabels[item]
-                ? tableLabels[item]
+              t["angles"] = tableLabelLateral[item]
+                ? tableLabelLateral[item]
                 : "Not Available";
               t["min"] = Math.round(
                 data[Object.keys(data)[0]]["angles"][item].min
@@ -1036,8 +1036,8 @@ const Assesment1 = ({ back, next }) => {
             (item, index) => {
               let t = {};
               t["key"] = index;
-              t["angles"] = tableLabels[item]
-                ? tableLabels[item]
+              t["angles"] = tableLabelLateral[item]
+                ? tableLabelLateral[item]
                 : "Not Available";
               t["min"] = Math.round(
                 data[Object.keys(data)[0]]["angles"][item].min
@@ -1602,6 +1602,9 @@ const Assesment1 = ({ back, next }) => {
             <Switch
               checkedChildren="On"
               unCheckedChildren="Off"
+              checked={ localStorage.getItem("OnAssessmentScreen") == "true"
+              ? true
+              : false}
               value={
                 localStorage.getItem("OnAssessmentScreen") == "true"
                   ? true
