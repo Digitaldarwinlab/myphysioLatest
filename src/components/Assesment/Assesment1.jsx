@@ -1319,7 +1319,13 @@ const Assesment1 = ({ back, next }) => {
   }
 
   const videoConChecked = (checked) => {
-    localStorage.setItem("OnAssessmentScreen", checked);
+    // console.log(typeof localStorage.getItem("OnAssessmentScreen"))
+    // console.log(typeof checked)
+    if(localStorage.getItem("OnAssessmentScreen")=="true"){
+      localStorage.setItem("OnAssessmentScreen", 'false');
+    }else{
+      localStorage.setItem("OnAssessmentScreen", 'true');
+    }
     if (checked) {
       notification.success({
         message: "Please move to the video con screen and start assesment!",
@@ -1602,14 +1608,14 @@ const Assesment1 = ({ back, next }) => {
             <Switch
               checkedChildren="On"
               unCheckedChildren="Off"
-              checked={ localStorage.getItem("OnAssessmentScreen") == "true"
-              ? true
-              : false}
-              value={
-                localStorage.getItem("OnAssessmentScreen") == "true"
-                  ? true
-                  : false
-              }
+              // checked={ localStorage.getItem("OnAssessmentScreen") == "true"
+              // ? true
+              // : false}
+              // value={
+              //   localStorage.getItem("OnAssessmentScreen") == "true"
+              //     ? true
+              //     : false
+              // }
               onChange={videoConChecked}
             />
           </Col>

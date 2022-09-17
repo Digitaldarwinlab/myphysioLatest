@@ -36,11 +36,16 @@
     font-size: 25px;
     font-weight: 900;
 }
-
-.holder-local .agora_video_player{
-    object-fit: contain !important;
+@media only screen and (min-width:650px) {
+    .holder-local .agora_video_player{
+        object-fit: contain !important;
+    }
 }
-
+#scanvas{
+    width: 100%;
+    border: 2px solid;
+    display: none;
+}
 .change_view{
     position: absolute !important;
     left: 0.5rem !important;
@@ -145,11 +150,12 @@
 }
 #local{
     padding: 0 !important;
-    z-index: 1;
+    z-index: 20;
 }
 .display-none{
     display: none !important;
 }
+
 .holder-remote1{
     height: 85vh;
     border: 3px solid white;
@@ -170,6 +176,13 @@
     } */
     .holder-remote1 .agora_video_player{
         object-fit: cover !important;
+    }
+    .display-none-sm{
+        visibility: hidden !important;
+    }
+    .change_view{
+        width:100px !important;
+        height:100px !important;
     }
     .holder-remote1{
         position: absolute !important;

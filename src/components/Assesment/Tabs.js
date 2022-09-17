@@ -56,7 +56,16 @@ function Tabs({
                   checked={checked1}
                   onChange={() => {
                     if (videoConf) {
-                      videoCallPosture()
+                      if(!checked1){
+                        videoCallPosture()
+                        console.log('forward')
+                      }else{
+                        let obj = {
+                          type: 'darwin.stop',
+                        }
+                        sendMsg(JSON.stringify(obj))
+                        console.log('backward')
+                      }
                     } else {
                       if (!checked1) {
                         console.log('forward')
@@ -126,7 +135,16 @@ function Tabs({
                   checked={checked2}
                   onChange={() => {
                     if (videoConf) {
-                      videoCallPosture()
+                      if(!checked2){
+                        videoCallPosture()
+                        console.log('forward')
+                      }else{
+                        let obj = {
+                          type: 'darwin.stop',
+                        }
+                        sendMsg(JSON.stringify(obj))
+                        console.log('backward')
+                      }
                     } else {
                       if (!checked2) {
                         darwin.restart()
@@ -310,7 +328,16 @@ function Tabs({
                       checked={checked1}
                       onChange={() => {
                         if (videoConf) {
-                          videoCallPosture()
+                          if(!checked1){
+                            videoCallPosture()
+                            console.log('forward')
+                          }else{
+                            let obj = {
+                              type: 'darwin.stop',
+                            }
+                            sendMsg(JSON.stringify(obj))
+                            console.log('backward')
+                          }
                         } else {
                           if (!checked1) {
                             console.log('forward')
@@ -471,7 +498,16 @@ function Tabs({
                       checked={checked2}
                       onChange={() => {
                         if (videoConf) {
-                          videoCallPosture()
+                          if(!checked2){
+                            videoCallPosture()
+                            console.log('forward')
+                          }else{
+                            let obj = {
+                              type: 'darwin.stop',
+                            }
+                            sendMsg(JSON.stringify(obj))
+                            console.log('backward')
+                          }
                         } else {
                           if (!checked2) {
                             darwin.restart()

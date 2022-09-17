@@ -1,4 +1,4 @@
-import { Button, Col, Modal, notification, Row, Space } from 'antd';
+import { Button, Col, Modal, notification, Row, Space, Tooltip } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
@@ -30,11 +30,11 @@ const PatientVideoCall = (props) => {
   let TempStream = {}
   const [modalVisible, setModalVisible] = useState(true);
   const [loading, setLoading] = useState(undefined)
-  const [drag, setDrag] = useState(false)
+  const [drag, setDrag] = useState(true)
   const [RTMChannel, setRTMChannel] = useState('')
   const location = useParams()
   // useEffect(() => {
-  //   if (window.screen.width < 650) {
+  //   if (window.screen.width < 770) {
   //     setDrag(true)
   //   }
   // }, [window.screen])
@@ -60,13 +60,14 @@ const PatientVideoCall = (props) => {
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
   const [audio, setAudio] = useState(true)
   const [video, setVideo] = useState(true)
+  const [isAssessmentStarted ,setIsAssessmentStarted] = useState(false)
   const [NoUserIcon, setNoUserIcon] = useState(70)
   const [physioJoined, setPhysioJoined] = useState(false)
   const [patientJoined, setPatientJoined] = useState(false)
   const [patientAudio, setPatientAudio] = useState(false)
   const [patientVideo, setPatientVideo] = useState(false)
-  const [physioAudio, setPhysioAudio] = useState(true)
-  const [physioVideo, setPhysioVideo] = useState(true)
+  const [physioAudio, setPhysioAudio] = useState(false)
+  const [physioVideo, setPhysioVideo] = useState(false)
   const nodeRef = useRef(null)
   const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [changeView, setChangeView] = useState('')
@@ -137,6 +138,11 @@ const PatientVideoCall = (props) => {
 
       _client.on('user-joined', (user) => {
         console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join');
+        notification.success({
+          message: "Physio joined meeting",
+          placement: "bottomLeft",
+          duration: 2,
+        });
         console.log(user.uid);
         document.getElementById('physio-mic-video').style.display = 'flex'
         //patient-mic
@@ -147,6 +153,13 @@ const PatientVideoCall = (props) => {
       _client.on('user-left', (user) => {
         console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu leave');
         console.log(user.uid);
+        notification.success({
+          message: "Physio left meeting",
+          placement: "bottomLeft",
+          duration: 2,
+        });
+        //no-physio-icon
+        setPhysioJoined(false)
         document.getElementById('physio-mic-video').style.display = 'none'
       });
       _client.on('user-unpublished', function (user ,mediaType) {
@@ -179,7 +192,12 @@ const PatientVideoCall = (props) => {
       console.log("message from peer*** ", msg)
       if (obj.type == "initiate-arom") {
         try {
+          setDrag(false)
+          setCVSSLG(24)
           let videoElem = document.getElementById('local').querySelector('video')
+          console.log('initiate posture ',document.getElementsByClassName('holder-local')[0])
+          document.getElementsByClassName('holder-local')[0].classList.add('remote-on-screenshare')
+          document.getElementById('local').classList.add('display-none-sm')
           console.log("video elem ", videoElem)
           let canvas = document.getElementById('scanvas')
           let { width, height } = videoElem.getBoundingClientRect()
@@ -198,6 +216,7 @@ const PatientVideoCall = (props) => {
           window.darwin.initializeModel(options);
           window.darwin.launchModel();
           window.darwin.stop();
+          setIsAssessmentStarted(true)
           // TempStream.addTrack(tracks[0]);
           //change_view
           setChangeView('change_view')
@@ -227,7 +246,11 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "initiate-posture") {
         try {
+          setDrag(false)
+          setCVSSLG(24)
           let videoElem = document.getElementById('local').querySelector('video')
+          document.getElementsByClassName('holder-local')[0].classList.add('remote-on-screenshare')
+          document.getElementById('local').classList.add('display-none-sm')
           console.log("video elem ", videoElem)
           let canvas = document.getElementById('scanvas')
           let { width, height } = videoElem.getBoundingClientRect()
@@ -246,6 +269,7 @@ const PatientVideoCall = (props) => {
           window.darwin.initializeModel(options);
           window.darwin.launchModel();
           window.darwin.stop();
+          setIsAssessmentStarted(true)
           // TempStream.addTrack(tracks[0]);
           //change_view
           setChangeView('change_view')
@@ -373,9 +397,18 @@ const PatientVideoCall = (props) => {
         });
         setCVSSLG(12)
       }
+      if(obj.type == 'darwin.stop'){
+        window.darwin.stop()
+      }
       if (obj.type == 'stop-assessment') {
         setChangeView('')
         window.darwin.stop()
+        setCVSSLG(12)
+        setIsAssessmentStarted(false)
+        setDrag(true)
+        document.getElementById('local').classList.remove('display-none-sm')
+        // if(screen.width<769){
+        // }
         document.getElementById('local').style.display = 'block'
         document.getElementById('local').getElementsByTagName('video')[0].style.display = "block"
         document.getElementById('scanvas').style.display = 'none'
@@ -644,8 +677,8 @@ const PatientVideoCall = (props) => {
             <Col className='holder' xs={24} sm={24} md={cvsslg} lg={cvsslg} xl={cvsslg} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
               <Draggable disabled={drag} ref={nodeRef} scale={2}>
-                <div id="remote" className={`holder-local ${changeView}`}><div id="no-physio-view">
-                  <p className='no-patient-icon'>{physioJoined && <FaUserAlt size={NoUserIcon} />}</p></div>
+                <div id="remote" className={`holder-local patient ${changeView}`}><div id="no-physio-view">
+                  <p className='no-physio-icon'>{physioJoined ? <FaUserAlt size={NoUserIcon} /> : <FaUserAltSlash size={NoUserIcon} />}</p></div>
                   <p id='physio-mic-video'>{physioAudio ? <GoUnmute size={20} /> :
                     <GoMute style={{ color: 'red' }} size={20} />}{"   "}{physioVideo ? <FaVideo size={20} /> :
                       <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
@@ -657,6 +690,7 @@ const PatientVideoCall = (props) => {
             </div> */}
             <Col className="sticky_button_grp footer" span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
+              <Tooltip title={`Turn ${audio ? `off` : `on`} Microphone`}>
                 <button
                   id="mic-btn"
                   type="button"
@@ -666,26 +700,69 @@ const PatientVideoCall = (props) => {
                   {audio ? <BsMic /> : <BsMicMuteFill />}
                   {/* <i id="v_mic-icon" class="fas fa-microphone"></i> */}
                 </button>
-
-
+                </Tooltip>
+               {/* { isAssessmentStarted?<Tooltip title={`Assessment is running can't perform action `}>
+               <button
+                  disabled={isAssessmentStarted}
+                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                >
+                  {video?<i id="video-icon" class="fas fa-video"></i>:<i id="video-icon" class="fas fa-video-slash"></i>}
+                </button>
+                </Tooltip>:<Tooltip title={`Turn ${video ? `off` : `on`} Video`}>
                 <button
                   id="video-btn"
                   type="button"
                   className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={video ? stopVideo : startVideo}
                 >
-                  {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
-                  {/* <i id="video-icon" class="fas fa-video"></i> */}
+                  {video?<i id="video-icon" class="fas fa-video"></i>:<i id="video-icon" class="fas fa-video-slash"></i>}
                 </button>
-
+                </Tooltip>} */}
+                {isAssessmentStarted?<button
+                  id="magic-btn"
+                  type="button"
+                  disabled={isAssessmentStarted}
+                  className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                >
+                    <i id="video-icon" class={`fas fa-${video?`video`:`video-slash`}`}></i>
+                </button>:
+                <Tooltip title={isAssessmentStarted?`Assessment is running can't perform action `:`Turn ${video ? `off` : `on`} Video`}>
                 <button
                   id="magic-btn"
                   type="button"
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={video ? stopVideo : startVideo}
+                  disabled={isAssessmentStarted}
+                  className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                >
+                   <i id="video-icon" class={`fas fa-${video?`video`:`video-slash`}`}></i>
+                </button>
+                {/* <button
+                  id="video-btn"
+                  type="button"
+                  disabled={isAssessmentStarted}
+                  className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                  onClick={video ? stopVideo : startVideo}
+                >
+                  <i id="video-icon" class={`fas fa-${video?`video`:`video-slash`}`}></i>
+                </button> */}
+                </Tooltip>}
+                {isAssessmentStarted ? <Tooltip title={`Assessment is running can't share screen `}> <button
+                  id="magic-btn"
+                  type="button"
+                  disabled={isAssessmentStarted}
+                  className={`btn ${!screenshare ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
+                >
+                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
+                </button></Tooltip> : <Tooltip title={`Turn ${screenshare ? `off` : `on`} Screen Share`}><button
+                  id="magic-btn"
+                  type="button"
+                  disabled={isAssessmentStarted}
+                  className={`btn ${screenshare ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={screenshare ? stopScreenShare : handleShareScreen}
                 >
                   <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
-                </button>
+                </button></Tooltip>}
+                <Tooltip title={`Leave Meeting`}>
                 <button
                   id="exit-btn"
                   type="button"
@@ -696,6 +773,7 @@ const PatientVideoCall = (props) => {
                   <BiPhoneOff />
                   {/* <i id="exit-icon" class="fas fa-phone-slash"></i> */}
                 </button>
+                </Tooltip>
                 {/* <button
                   id="exit-btn"
                   type="button"

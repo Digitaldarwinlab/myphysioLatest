@@ -51,19 +51,18 @@ let front = [
   "Grosshoppers eyed platella",
 ];
 let sideSit = [
-  "Flexed Knee",
-  "Hyper Extended Knee",
-  "Excessive Anterior Pelvic",
-  "Forward Head",
-  "Lordosis",
-  "Kyphosis",
+  "Forward Head Posture",
+  "Forwaer Slouch Posture",
+  "Kyphotic Spine",
+  "Lordotic Spine / Hollow Back",
 ];
 
 let frontSit = [
-  "Genu Valgum",
-  "Genu Varum",
-  "Squinting / cross eyed patella",
-  "Grosshoppers eyed platella",
+  "Head Shift/Tilt",
+  "Uneven Shoulder Levels",
+  "Pelvic Drop / Upshift",
+  "Right Leaning",
+  "Left Leaning"
 ];
 
 const options = {
@@ -144,7 +143,7 @@ const PhysioVideoCall = (props) => {
   const [screenshare, setScreenShare] = useState(false)
   const [orientation, setOrientation] = useState(1)
   const [RTMChannel, setRTMChannel] = useState('')
-  const [modelInitialized ,setModelInitialized] = useState(false)
+  const [modelInitialized, setModelInitialized] = useState(false)
   const [view, setView] = useState('AROM')
   const [startAss, setStartAss] = useState(false)
   const [uid, setUid] = useState(Math.floor(Math.random() * 10));
@@ -161,6 +160,7 @@ const PhysioVideoCall = (props) => {
   const [token, setToken] = useState('006616487fe8ede4785aa8f7e322efdbe7dIACXlFkKlBl2babpuoJ9mX1iNNW5edDwpoQFUZxwRSG/CaDfQtbSY0iIEAC5hioDqbMLYwEAAQA5cApj')
   const location = useParams()
   useEffect(() => {
+    localStorage.removeItem('ModelInitialized')
     props.Setsidebarshow(false)
     props.SideNavbarCollpased(true)
     console.log("location ", location)
@@ -200,10 +200,15 @@ const PhysioVideoCall = (props) => {
       });
 
       _client.on('user-joined', (user) => {
-        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join');
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join ', user);
+        notification.success({
+          message: "Patient joined meeting",
+          placement: "bottomLeft",
+          duration: 2,
+        });
+        console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu join ', localStorage.getItem('ModelInitialized'));
         console.log(user.uid);
-        if(modelInitialized){
-          alert('Initialize AI')
+        if (localStorage.getItem('ModelInitialized')) {
           notification.open({
             message: 'Initialize AI',
             description:
@@ -213,6 +218,7 @@ const PhysioVideoCall = (props) => {
             },
           });
         }
+        setStartAss(false)
         //patient-mic
         document.getElementsByClassName('patient-mic')[0].style.display = 'flex'
         document.getElementById('no-user-view').style.display = 'none'
@@ -225,6 +231,13 @@ const PhysioVideoCall = (props) => {
       })
       _client.on('user-left', (user) => {
         setPatientJoined(false)
+        setDisable(true)
+        setStartAss(false)
+        notification.success({
+          message: "Patient left meeting",
+          placement: "bottomLeft",
+          duration: 2,
+        });
         document.getElementsByClassName('patient-mic')[0].style.display = 'none'
         document.getElementById('no-user-view').style.removeProperty('display')
         console.log(user.uid);
@@ -351,7 +364,9 @@ const PhysioVideoCall = (props) => {
     //  this.props.FirstAssesment("frontSitChecks", frontSitChecks);
   };
   const startAI = async () => {
-    setModelInitialized(true)
+    localStorage.setItem("ModelInitialized", "true")
+    // document.getElementById('remote').getElementsByTagName('video')[0].classList.remove('agora_video_player')
+    // document.getElementById('remote').getElementsByTagName('video')[0].classList.add('fit-assessment-screen')
     console.log("start")
     let obj = {
       type: 'initiate-arom'
@@ -362,7 +377,9 @@ const PhysioVideoCall = (props) => {
 
   }
   const startPosture = async () => {
-    setModelInitialized(true)
+    localStorage.setItem("ModelInitialized", "true")
+    // document.getElementById('remote').getElementsByTagName('video')[0].classList.remove('agora_video_player')
+    // document.getElementById('remote').getElementsByTagName('video')[0].classList.add('fit-assessment-screen')
     setView('Posture')
     console.log("startPosture")
     let obj = {
@@ -744,13 +761,13 @@ const PhysioVideoCall = (props) => {
           disabled
         />
       </Modal>
-      <Row gutter={[16, 16]} className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '40px' }}>
+      <Row className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '40px' }}>
         <Col span={24}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row>
             <Col className='holder' xs={24} sm={24} md={14} lg={16} xl={16} style={{ position: 'relative', display: 'grid' }}>
               {/* <p id='user_name'></p> */}
-              <div id="remote" style={{ backgroundColor: '#2a2c2d' }} className='holder-local holder-local-p' >
+              <div id="remote" style={{ backgroundColor: '#2a2c2d' }} className='physio-page holder-local holder-local-p' >
                 <div id="no-user-view"><p className='no-user-icon'>{patientJoined ? <FaUserAlt size={70} /> : <FaUserAltSlash size={70} />}</p></div>
                 <p className='patient-mic'>{patientAudio ? <GoUnmute size={25} /> :
                   <GoMute style={{ color: 'red' }} size={25} />}{"   "}{patientVideo ? <FaVideo size={25} /> :
@@ -767,12 +784,12 @@ const PhysioVideoCall = (props) => {
               </Draggable>
             </Col>
             {/* <Draggable axis="y" handle='button' ref={nodeRef1} scale={2}> */}
-            <Col id="assessment-tab" style={{display:'none'}} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+            <Col id="assessment-tab" style={{ display: 'none' }} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
               <Row justify="space-around" align="middle">
                 <Button>Intialize AI</Button>
               </Row>
             </Col>
-            <Col id="assessment-tab" className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+            <Col id="assessment-tab" style={{paddingBottom:'40px'}} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
               {/*  */}
               {startAss ? <Col span={24}>
                 <Row justify="space-between">
@@ -814,6 +831,10 @@ const PhysioVideoCall = (props) => {
                           if (freeze) return
                           let obj = {
                             type: 'stop-assessment'
+                          }
+                          if(screen.width<769){
+                            document.getElementById('remote').getElementsByTagName('video')[0].classList.remove('fit-assessment-screen')
+                            document.getElementById('remote').getElementsByTagName('video')[0].classList.add('agora_video_player')
                           }
                           sendMsg(JSON.stringify(obj))
                           setStartAss(false)

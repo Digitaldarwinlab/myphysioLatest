@@ -8,6 +8,7 @@ import { CameraFilled } from "@ant-design/icons";
 function Tab1({
   url1,
   url2,
+  sendMsg,
   videoCon,
   videoConf,
   frontAngles,
@@ -53,7 +54,17 @@ function Tab1({
                         checked={checked1}
                         onChange={() => {
                           if (videoConf) {
-                            videoCallPosture()
+                            if(!checked1){
+                              videoCallPosture()
+                              console.log('forward')
+                            }else{
+                              //darwin.stop
+                              let obj = {
+                                type: 'darwin.stop',
+                              }
+                              sendMsg(JSON.stringify(obj))
+                              console.log('backward')
+                            }
                           } else {
                             if (!checked1) {
                               console.log('forward')
@@ -123,7 +134,16 @@ function Tab1({
                         checked={checked2}
                         onChange={() => {
                           if (videoConf) {
-                            videoCallPosture()
+                            if(!checked2){
+                              videoCallPosture()
+                              console.log('forward')
+                            }else{
+                              let obj = {
+                                type: 'darwin.stop',
+                              }
+                              sendMsg(JSON.stringify(obj))
+                              console.log('backward')
+                            }
                           } else {
                             if (!checked2) {
                               darwin.restart()
@@ -267,19 +287,24 @@ function Tab1({
                 >
                   <Row>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Genu Valgum">Genu Valgum</Checkbox>
+                      <Checkbox value="Head Shift/Tilt">Head Shift/Tilt</Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Genu Varum">Genu Varum</Checkbox>
+                      <Checkbox value="Uneven Shoulder Levels">Uneven Shoulder Levels</Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Squinting / cross eyed patella">
-                        Squinting / cross eyed patella
+                      <Checkbox value="Pelvic Drop / Upshift">
+                        Pelvic Drop / Upshift
                       </Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Grosshoppers eyed platella">
-                        Grosshoppers eyed platella
+                      <Checkbox value="Right Leaning">
+                      Right Leaning
+                      </Checkbox>
+                    </Col>
+                    <Col span={24} style={{ lineHeight: "200%" }}>
+                      <Checkbox value="Left Leaning">
+                      Left Leaning
                       </Checkbox>
                     </Col>
                   </Row>
@@ -307,7 +332,16 @@ function Tab1({
                         checked={checked1}
                         onChange={() => {
                           if (videoConf) {
-                            videoCallPosture()
+                            if(!checked1){
+                              videoCallPosture()
+                              console.log('forward')
+                            }else{
+                              let obj = {
+                                type: 'darwin.stop',
+                              }
+                              sendMsg(JSON.stringify(obj))
+                              console.log('backward')
+                            }
                           } else {
                             if (!checked1) {
                               console.log('forward')
@@ -432,26 +466,20 @@ function Tab1({
                 >
                   <Row>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Flexed Knee">Flexed Knee</Checkbox>
+                      <Checkbox value="Forward Head Posture">Forward Head Posture</Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Hyper Extended Knee">
-                        Hyper Extended Knee
+                      <Checkbox value="Forwaer Slouch Posture">
+                        Forwaer Slouch Posture
                       </Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Excessive Anterior Pelvic">
-                        Excessive Anterior Pelvic
+                      <Checkbox value="Kyphotic Spine">
+                        Kyphotic Spine
                       </Checkbox>
                     </Col>
                     <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Forward Head">Forward Head</Checkbox>
-                    </Col>
-                    <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Lordosis">Lordosis</Checkbox>
-                    </Col>
-                    <Col span={24} style={{ lineHeight: "200%" }}>
-                      <Checkbox value="Kyphosis">Kyphosis</Checkbox>
+                      <Checkbox value="Lordotic Spine / Hollow Back">Lordotic Spine / Hollow Back</Checkbox>
                     </Col>
                   </Row>
                 </Checkbox.Group>
@@ -477,7 +505,16 @@ function Tab1({
                         checked={checked2}
                         onChange={() => {
                           if (videoConf) {
-                            videoCallPosture()
+                            if(!checked2){
+                              videoCallPosture()
+                              console.log('forward')
+                            }else{
+                              let obj = {
+                                type: 'darwin.stop',
+                              }
+                              sendMsg(JSON.stringify(obj))
+                              console.log('backward')
+                            }
                           } else {
                             if (!checked2) {
                               darwin.restart()

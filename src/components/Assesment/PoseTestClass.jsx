@@ -31,19 +31,18 @@ let front = [
   "Grosshoppers eyed platella",
 ];
 let sideSit = [
-  "Flexed Knee",
-  "Hyper Extended Knee",
-  "Excessive Anterior Pelvic",
-  "Forward Head",
-  "Lordosis",
-  "Kyphosis",
+  "Forward Head Posture",
+  "Forwaer Slouch Posture",
+  "Kyphotic Spine",
+  "Lordotic Spine / Hollow Back",
 ];
 
 let frontSit = [
-  "Genu Valgum",
-  "Genu Varum",
-  "Squinting / cross eyed patella",
-  "Grosshoppers eyed platella",
+  "Head Shift/Tilt",
+  "Uneven Shoulder Levels",
+  "Pelvic Drop / Upshift",
+  "Right Leaning",
+  "Left Leaning"
 ];
 class PoseTestClass extends Component {
   constructor(props) {
