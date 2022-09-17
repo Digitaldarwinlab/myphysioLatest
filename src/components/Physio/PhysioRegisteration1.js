@@ -5,11 +5,21 @@ import { VALIDATION } from "../../contextStore/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import svg from "./../../assets/step1.webp";
-import { Switch } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { Switch } from "antd";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 import StepBar from "./../UtilityComponents/StepBar";
 import validation from "./../Validation/authValidation/authValidation";
-import { Typography, Select, Row, Button, Col, Form, Checkbox, Space } from "antd";
+import {
+  Typography,
+  Select,
+  Row,
+  Button,
+  Col,
+  Form,
+  Checkbox,
+  Space,
+} from "antd";
 import FormInput from "./../UI/antInputs/FormInput";
 import { getPhysioList } from "../../API/Physio/PhysioRegister";
 import { FaSearch } from "react-icons/fa";
@@ -22,6 +32,15 @@ import { doctor_type } from "./PhysioConstants";
 const { Title } = Typography;
 const { Option } = Select;
 const PhysioRegisteration1 = (props) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Registration");
+      console.log(data);
+      setDropdownValue(data.Registration);
+    }
+    getData();
+  }, []);
   const history = useHistory();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -52,20 +71,19 @@ const PhysioRegisteration1 = (props) => {
             value.length > 1
               ? value[0].toUpperCase() + value.slice(1, value.length)
               : value.length === 1
-                ? value.toUpperCase()
-                : "",
+              ? value.toUpperCase()
+              : "",
         },
       });
-    } else if(key == "mobile_no"){
+    } else if (key == "mobile_no") {
       dispatch({
         type: PHYSIO_STATE_CHANGE,
         payload: {
           key,
-          value:value.replaceAll(/\s/g,'')
-          ,
+          value: value.replaceAll(/\s/g, ""),
         },
       });
-    }else {
+    } else {
       dispatch({
         type: PHYSIO_STATE_CHANGE,
         payload: {
@@ -146,11 +164,21 @@ const PhysioRegisteration1 = (props) => {
         },
       });
     } else if (validation.checkNameValidation(data.last_name).error) {
-      dispatch({ type: VALIDATION, payload: { error: "Last " + validation.checkNameValidation(data.last_name).error } });
+      dispatch({
+        type: VALIDATION,
+        payload: {
+          error: "Last " + validation.checkNameValidation(data.last_name).error,
+        },
+      });
     } else if (validation.checkMobNoValidation(data.mobile_no).error) {
-      dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.mobile_no).error } });
-    }
-    else {
+      dispatch({
+        type: VALIDATION,
+        payload: {
+          error:
+            "Mobile " + validation.checkMobNoValidation(data.mobile_no).error,
+        },
+      });
+    } else {
       props.next();
     }
     //   else if (validation.checkNameValidation(data.middle_name).error) {
@@ -311,10 +339,16 @@ const PhysioRegisteration1 = (props) => {
                   suffixIcon={<FaSearch />}
                   placeHolder="Search to Select Clinic"
                   onChange={(value) => handleChange("clinic", value)}
-                  value={state.physioRegisterReducer.clinic ? state.physioRegisterReducer.clinic : undefined}
+                  value={
+                    state.physioRegisterReducer.clinic
+                      ? state.physioRegisterReducer.clinic
+                      : undefined
+                  }
                   defaultValue={state.physioRegisterReducer.clinic}
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {state.clinicReg.clinics.map((clinic) => (
@@ -326,12 +360,16 @@ const PhysioRegisteration1 = (props) => {
               </Form.Item>
             </Col>
             <Col md={24} lg={8} sm={24} xs={24}>
-
               <span style={{ fontSize: "14px", fontWeight: "600" }}>
                 {"Role"}
               </span>{" "}
               <br />
-              <Checkbox checked={state.physioRegisterReducer.isHeadPhysio} onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}>Head Physio</Checkbox>
+              <Checkbox
+                checked={state.physioRegisterReducer.isHeadPhysio}
+                onChange={(e) => handleChange("isHeadPhysio", e.target.checked)}
+              >
+                Head Physio
+              </Checkbox>
             </Col>
           </Row>
           <Row gutter={[20, 20]} style={{ marginBottom: "15px" }}>
@@ -384,18 +422,24 @@ const PhysioRegisteration1 = (props) => {
                   </span>
                 }
                 name="Doctor_type"
-              //  rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
+                //  rules={[{ required: true, message: `Please Mention Doctor Type Field` }]}
               >
-                <Select
-                  placeholder="Doctor Type"
-                  onChange={(value) => {
-                    handleChange("Doctor_type", value);
-                  }}
-                  value={state.physioRegisterReducer.Doctor_type}
-                //  defaultValue={state.physioRegisterReducer.Doctor_type}
-                >
-                  {doctor_type.map((item, index) => <Option key={item} value={index + 1}>{item}</Option>)}
-                </Select>
+                {dropdownValue.DoctorType !== undefined && (
+                  <Select
+                    placeholder="Doctor Type"
+                    onChange={(value) => {
+                      handleChange("Doctor_type", value);
+                    }}
+                    value={state.physioRegisterReducer.Doctor_type}
+                    //  defaultValue={state.physioRegisterReducer.Doctor_type}
+                  >
+                    {dropdownValue.DoctorType.map((item, index) => (
+                      <Option key={item} value={index + 1}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
               </Form.Item>
             </Col>
             <Col md={24} lg={12} sm={24} xs={24}>
@@ -406,7 +450,7 @@ const PhysioRegisteration1 = (props) => {
                   </span>
                 }
                 name="gender"
-              //  rules={[{ required: true, message: `Please Select Gender.` }]}
+                //  rules={[{ required: true, message: `Please Select Gender.` }]}
               >
                 <Select
                   placeholder="Gender"
@@ -425,28 +469,38 @@ const PhysioRegisteration1 = (props) => {
         </div>
 
         <Row justify="center">
-          <Space size={'middle'}>
-            <Col span={2}> <Link to="/dashboard">
+          <Space size={"middle"}>
+            <Col span={2}>
+              {" "}
+              <Link to="/dashboard">
+                <Button
+                //className="me-2"
+                //style={{ borderRadius: "1px", backgroundColor:'#2d7ecb' }}
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </Col>
+            <Col span={2}>
+              {" "}
               <Button
-              //className="me-2" 
-              //style={{ borderRadius: "1px", backgroundColor:'#2d7ecb' }}
+                // className="me-2  "
+                // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+                onClick={handleReset}
               >
-                Cancel
+                Reset
               </Button>
-            </Link></Col>
-            <Col span={2}> <Button
-              // className="me-2  "
-              // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
-              onClick={handleReset}
-            >
-              Reset
-            </Button></Col>
-            <Col span={2}> <Button
-              // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
-              //className="me-2 btncolor" 
-              htmlType="submit">
-              Next
-            </Button></Col>
+            </Col>
+            <Col span={2}>
+              {" "}
+              <Button
+                // style={{ borderRadius: "10px", backgroundColor:'#2d7ecb' }}
+                //className="me-2 btncolor"
+                htmlType="submit"
+              >
+                Next
+              </Button>
+            </Col>
           </Space>
         </Row>
         {/* <Row

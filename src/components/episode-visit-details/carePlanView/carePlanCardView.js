@@ -111,7 +111,14 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
                       height="110"
                       style="margin-left: 40px"
                     />
-                   
+                    <span style="font-weight: 400; font-size:15px;margin-left: 60px;width:140px; padding:5px;border:1px solid black"> 
+                    <span style="border-right:1px solid black;padding-right:5px;">Sets</span>
+                    <span >${data.Rep["set"]}</span>
+                  </span>
+                    <span style="font-weight: 400; font-size:15px;width:140px; padding:5px;border:1px solid black"> 
+                    <span style="border-right:1px solid black;padding-right:5px;">Reps</span>
+                    <span >${data.Rep["rep_count"]}</span>
+                  </span>
                   </td>
                 <td style="border-bottom: 1px solid black;"><ul style="font-size: 15.5px;list-style-type: number;">
                 <div></div>

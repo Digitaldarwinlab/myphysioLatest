@@ -885,6 +885,7 @@ const Dashboard = (props) => {
           <div
             style={{
               width: "100%",
+              overflow:'scroll'
             }}
           >
             <div
@@ -942,6 +943,7 @@ const Dashboard = (props) => {
               <table
                 className="table table-striped table-hover tableclass"
                 id="table"
+                style={{overflow:'auto'}}
               >
                 <>
                   <thead>
