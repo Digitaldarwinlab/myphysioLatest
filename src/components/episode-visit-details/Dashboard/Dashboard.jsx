@@ -8,6 +8,7 @@ import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardAp
 import {
   fetchDashboardDetails,
   fetchSummaryDetails,
+  fetchAromDetails
 } from "../../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
@@ -127,6 +128,8 @@ const Dashboard = (props) => {
     let exDate;
     let summaryArray = [];
     let summaryDates = [];
+    let aromArray = [];
+    let aromDates = [];
     function nameChange() {
       let date = moment(startDate).subtract(1, "day").format("DD");
       let date2 = moment(startDate).format("YYYY-MM-DD");
@@ -812,9 +815,28 @@ const Dashboard = (props) => {
         setSummaryPainMeter(val);
       });
     }
+    async function AromData(){
+      const data = props.patient
+        ? await GetPatientCurrentEpisode()
+        : await getEpisode(props.patientId);
+      let der = (await props.patient)
+        ? data[1].length > 0 && data[1][0].pp_ed_id
+        : data[0].pp_ed_id;
+      let response = await fetchAromDetails(221, startDate, endDate);
+      console.log(response)
+      let objLength = Object.keys(response).length;
+      for (let i = 0; i < objLength; i++) {
+        const [dateVal, valueVal] = Object.entries(response)[i];
+        aromArray.push([dateVal, valueVal]);
+        aromDates.push(dateVal);
+      }
+      console.log(aromArray,aromDates)
+
+    }
     if (props.patientId || props.patient) {
       data();
       summary();
+      AromData();
     }
   }, [startDate, endDate]);
 
