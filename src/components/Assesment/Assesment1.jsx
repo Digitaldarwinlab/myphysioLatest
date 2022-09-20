@@ -1317,14 +1317,16 @@ const Assesment1 = ({ back, next }) => {
       content: "Please Select a Patient",
     });
   }
-
+  const [videoBtn ,setVideoBtn] = useState(localStorage.getItem("OnAssessmentScreen")=="true"?true:false)
   const videoConChecked = (checked) => {
     // console.log(typeof localStorage.getItem("OnAssessmentScreen"))
     // console.log(typeof checked)
     if(localStorage.getItem("OnAssessmentScreen")=="true"){
       localStorage.setItem("OnAssessmentScreen", 'false');
+      setVideoBtn(false)
     }else{
       localStorage.setItem("OnAssessmentScreen", 'true');
+      setVideoBtn(true)
     }
     if (checked) {
       notification.success({
@@ -1608,7 +1610,7 @@ const Assesment1 = ({ back, next }) => {
             <Switch
               checkedChildren="On"
               unCheckedChildren="Off"
-              // checked={ localStorage.getItem("OnAssessmentScreen") == "true"
+               checked={videoBtn}
               // ? true
               // : false}
               // value={

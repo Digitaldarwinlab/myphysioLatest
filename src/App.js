@@ -249,6 +249,7 @@ const App = () => {
   const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
   const [sidebarshow, Setsidebarshow] = useState(true);
   const [routesPath, setRoutesPath] = useState(path);
+  const [navbar ,setNavbar] = useState(true)
   function getCurrentPath(curPath) {
     setRoutesPath(curPath);
   }
@@ -284,6 +285,7 @@ const App = () => {
         document.head.appendChild(link);
       });
     }
+   console.log("location isssssssss",window.location) 
   }, []);
 
   // 	if (process.env.REACT_APP_STAGE === 'PROD')

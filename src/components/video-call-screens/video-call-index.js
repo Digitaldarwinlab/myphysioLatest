@@ -836,6 +836,16 @@ const VideoCallIndex = (props) => {
                 >
                   <i class="fa fa-stop" aria-hidden="true"></i>
                 </button>
+                <button
+                  id="stop-btn"
+                  type="button"
+                  class="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={()=>{
+                    setDrawerOpen(true)
+                  }}
+                >
+                  <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+                </button>
 
               </Space>
             </Col>

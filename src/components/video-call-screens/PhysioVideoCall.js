@@ -1,10 +1,11 @@
-import { Button, Col, Form, Input, Modal, notification, Radio, Row, Space, Tooltip } from 'antd';
+import { Button, Col, Drawer, Form, Input, Modal, notification, Radio, Row, Space, Tooltip } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
+import 'antd/dist/antd.css'
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import './temp.css'
 import Draggable from 'react-draggable';
 import AgoraRTM from 'agora-rtm-sdk'
-import { BsCameraVideo, BsCameraVideoFill, BsCameraVideoOff, BsFillArrowUpCircleFill, BsFillCameraVideoOffFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
+import { BsCameraVideo, BsCameraVideoFill, BsCameraVideoOff, BsFillArrowUpCircleFill, BsFillCameraVideoOffFill, BsFillMicFill, BsMic, BsMicMuteFill } from 'react-icons/bs';
 import { BiPhone, BiPhoneOff } from 'react-icons/bi';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdSecurityUpdateWarning } from 'react-icons/md';
@@ -24,8 +25,9 @@ import { useSelector } from 'react-redux';
 import Tab1 from '../Assesment/Tab1';
 import { IoVolumeMute } from 'react-icons/io5';
 import { GoMute, GoUnmute } from 'react-icons/go';
-import { FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import { FaDesktop, FaRegWindowClose, FaUserAlt, FaUserAltSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { GrClose } from 'react-icons/gr';
+import { IoMdCloseCircle } from 'react-icons/io';
 // props.Setsidebarshow(false)
 // export const useClient = createClient('616487fe8ede4785aa8f7e322efdbe7d');
 // //7aca4bce40d0476fb3aafde5f88e3de9
@@ -110,6 +112,15 @@ const PhysioVideoCall = (props) => {
   const sendMsg = async (text) => {
     RTMChannel.sendMessage({ text, type: 'text' })
   }
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [userIconSize, setUserIconSize] = useState(70)
+  useEffect(() => {
+    if (screen.width < 650) {
+      setUserIconSize(15)
+    } else {
+      setUserIconSize(20)
+    }
+  }, [screen.width])
   const [modalVideoConfVisible, setModalVisible] = useState(true);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
@@ -252,6 +263,7 @@ const PhysioVideoCall = (props) => {
         }
 
         if (mediaType === 'audio') {
+          console.log('unpublished audio ', user, mediaType)
           setPatientAudio(false)
         }
       });
@@ -630,6 +642,7 @@ const PhysioVideoCall = (props) => {
     setScreenClientTrack(screenTrack)
     let obj = {
       type: 'started-screen-share',
+      screen_:startAss
     }
     notification.success({
       message: "You started screen sharing",
@@ -652,6 +665,7 @@ const PhysioVideoCall = (props) => {
       setScreenShare(false)
       let obj = {
         type: 'stopped-screen-share',
+        screen_:startAss
       }
       sendMsg(JSON.stringify(obj))
       //stopped-screen-share
@@ -672,6 +686,7 @@ const PhysioVideoCall = (props) => {
     });
     let obj = {
       type: 'stopped-screen-share',
+      screen_:startAss
     }
     sendMsg(JSON.stringify(obj))
   }
@@ -737,14 +752,26 @@ const PhysioVideoCall = (props) => {
           console.log("modal")
         }}
         footer={[
-          <div class=" d-flex justify-content-center">
+          <Row justify='center'>
             <Button disabled={loading} loading={loading} id="join-channel" size="large" type="text" onClick={handleJoin}>
               Join Channel
             </Button>
-          </div>
+          </Row>
         ]}
       >
-        <label for="form-channel">Channel</label>
+        <Form layout='vertical'>
+
+          <Form.Item label="Channel">
+            <Input value={channel} style={{ color: 'black' }}
+              disabled placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="UID">
+            <Input id="form-uid"
+              value={uid} style={{ color: 'black' }}
+              disabled placeholder="input placeholder" />
+          </Form.Item>
+        </Form>
+        {/* <label for="form-channel">Channel</label>
         <input type="text"
           id="form-channel"
           class="form-control"
@@ -759,9 +786,9 @@ const PhysioVideoCall = (props) => {
           value={uid}
           // data-decimals="0"
           disabled
-        />
+        /> */}
       </Modal>
-      <Row className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '40px' }}>
+      <Row className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20vh' }}>
         <Col span={24}>
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
           <Row>
@@ -769,9 +796,9 @@ const PhysioVideoCall = (props) => {
               {/* <p id='user_name'></p> */}
               <div id="remote" style={{ backgroundColor: '#2a2c2d' }} className='physio-page holder-local holder-local-p' >
                 <div id="no-user-view"><p className='no-user-icon'>{patientJoined ? <FaUserAlt size={70} /> : <FaUserAltSlash size={70} />}</p></div>
-                <p className='patient-mic'>{patientAudio ? <GoUnmute size={25} /> :
-                  <GoMute style={{ color: 'red' }} size={25} />}{"   "}{patientVideo ? <FaVideo size={25} /> :
-                    <FaVideoSlash style={{ color: 'red' }} size={25} />}</p></div>
+                <p className='patient-mic'>{patientAudio ? <GoUnmute size={userIconSize} /> :
+                  <GoMute style={{ color: 'red' }} size={userIconSize} />}{"   "}{patientVideo ? <FaVideo size={userIconSize} /> :
+                    <FaVideoSlash style={{ color: 'red' }} size={userIconSize} />}</p></div>
               <div id="screen" style={{ backgroundColor: '#2a2c2d', display: 'none' }} className='holder-local holder-local-p' >
 
               </div>
@@ -779,17 +806,13 @@ const PhysioVideoCall = (props) => {
               <Draggable disabled={drag} bounds="parent" ref={nodeRef} scale={2}>
                 <div ref={nodeRef} id="local" className='holder-remote' ><div id="no-physio-icon">
                   <p className='no-physio-icon'>{physioJoined ? <FaUserAlt size={35} />
-                    : <FaUserAltSlash size={25} />}</p></div><p className='physio-mic'>{audio ? <GoUnmute size={20} /> : <GoMute style={{ color: 'red' }} size={20} />}</p>
-                  <p className='physio-video'>{video ? <FaVideo size={20} /> : <FaVideoSlash style={{ color: 'red' }} size={20} />}</p></div>
+                    : <FaUserAltSlash size={userIconSize} />}</p></div><p className='physio-mic'>{audio ? <GoUnmute size={userIconSize} /> : <GoMute style={{ color: 'red' }} size={userIconSize} />}</p>
+                  <p className='physio-video'>{video ? <FaVideo size={userIconSize} /> : <FaVideoSlash style={{ color: 'red' }} size={userIconSize} />}</p></div>
               </Draggable>
             </Col>
             {/* <Draggable axis="y" handle='button' ref={nodeRef1} scale={2}> */}
-            <Col id="assessment-tab" style={{ display: 'none' }} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
-              <Row justify="space-around" align="middle">
-                <Button>Intialize AI</Button>
-              </Row>
-            </Col>
-            <Col id="assessment-tab" style={{paddingBottom:'40px'}} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
+
+            <Col id="assessment-tab" style={{ paddingBottom: '40px' }} className='containerr' xs={24} sm={24} md={10} lg={8} xl={8} >
               {/*  */}
               {startAss ? <Col span={24}>
                 <Row justify="space-between">
@@ -832,7 +855,7 @@ const PhysioVideoCall = (props) => {
                           let obj = {
                             type: 'stop-assessment'
                           }
-                          if(screen.width<769){
+                          if (screen.width < 769) {
                             document.getElementById('remote').getElementsByTagName('video')[0].classList.remove('fit-assessment-screen')
                             document.getElementById('remote').getElementsByTagName('video')[0].classList.add('agora_video_player')
                           }
@@ -892,9 +915,32 @@ const PhysioVideoCall = (props) => {
                   </>
                 }
               </Col> : <Row justify="center">
-                <Space><Tooltip title={disable ? "Patient not joined" : "AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={startAI} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
-                  <Tooltip title={disable ? "Patient not joined" : "Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={startPosture} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
-                <br />
+              <Col span={24}>
+                <h4>Assessment Tab</h4>
+                </Col>
+                <Col span={24}>
+                <Space><Tooltip title={disable ? "Patient not joined" : "AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
+                  if (localStorage.getItem('OnAssessmentScreen') == "false") {
+                    return notification.error({
+                      message: "Please turn on video conferance on Assesment page",
+                      placement: "bottomLeft",
+                      duration: 2,
+                    });
+                  }
+                  startAI()
+                }} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
+                  <Tooltip title={disable ? "Patient not joined" : "Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
+                    if (localStorage.getItem('OnAssessmentScreen') == "false") {
+                      return notification.error({
+                        message: "Please turn on video conferance on Assesment page",
+                        placement: "bottomLeft",
+                        duration: 2,
+                      });
+                    }
+                    startPosture()
+                  }} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
+
+                </Col>
                 <Col span={24}>
                   <h5>Note: </h5>
                   <h5>Please save the informations before leaving the page</h5>
@@ -902,6 +948,7 @@ const PhysioVideoCall = (props) => {
                 </Col>
               </Row>}
             </Col>
+            {/* assessment-tab-mobile */}
             {/* </Draggable> */}
             {loader && <Loader />}
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
@@ -913,7 +960,7 @@ const PhysioVideoCall = (props) => {
                     className={`btn ${!audio ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                     onClick={audio ? stopAudio : startAudio}
                   >
-                    {audio ? <BsMic /> : <BsMicMuteFill />}
+                    {audio ? <BsMic size={18} /> : <BsMicMuteFill size={18} />}
                   </button></Tooltip>
 
                 <Tooltip title={`Turn ${video ? `off` : `on`} Video`}>
@@ -923,24 +970,26 @@ const PhysioVideoCall = (props) => {
                     className={`btn ${!video ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                     onClick={video ? stopVideo : startVideo}
                   >
-                    {video ? <BsCameraVideoFill /> : <BsFillCameraVideoOffFill />}
+                    {video ? <BsCameraVideoFill size={18} /> : <BsFillCameraVideoOffFill size={18} />}
                   </button></Tooltip>
 
                 {freeze ? <Tooltip title={`Assessment is running can't share screen `}> <button
                   id="magic-btn"
                   type="button"
                   disabled={freeze}
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  className={`btn ${screenshare ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                 >
-                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
+                  {screenshare ? <FaRegWindowClose size={18} /> : <FaDesktop size={18} />}
+                  {/* <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i> */}
                 </button></Tooltip> : <Tooltip title={`Turn ${screenshare ? `off` : `on`} Screen Share`}><button
                   id="magic-btn"
                   type="button"
                   disabled={freeze}
-                  className="btn video_con_bttn btn-block btn-dark btn-lg"
+                  className={`btn ${screenshare ? `end-btn-big` : ``} video_con_bttn btn-block btn-dark btn-lg`}
                   onClick={screenshare ? stopScreenShare : handleShareScreen}
                 >
-                  <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i>
+                  {screenshare ? <FaRegWindowClose size={18} /> : <FaDesktop size={18} />}
+                  {/* <i id="magic-icon" class={`fa fa-${screenshare ? 'window-close' : 'desktop'}`} aria-hidden="true"></i> */}
                 </button></Tooltip>}
                 <Tooltip title={`Leave Meeting`}>
                   <button
@@ -960,9 +1009,8 @@ const PhysioVideoCall = (props) => {
                     id="video-conf-save-btn"
                     className="btn video-conf-save-btn video_con_bttn btn-block btn-dark btn-lg"
                   >
-                    save
+                    Save
                   </button></Tooltip>
-
               </Space>
             </Col>
           </Row>

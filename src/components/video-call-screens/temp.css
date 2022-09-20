@@ -5,8 +5,10 @@
     .fit-assessment-screen{
         object-fit: unset !important;
     }
-    .assessment-tab {
+    #assessment-tab {
         padding-bottom: 55px;
+        margin-top: 90vh;
+        position: absolute;
     }
     .holder-local .agora_video_player{
         object-fit: unset !important;
@@ -16,11 +18,16 @@
     }
 
     .holder-remote {
-        width: 100px;
-        height: 100px;
+        width: 100px !important;
+        height: 100px !important;
+    }
+    .footer{
+        margin-bottom: 10px;
     }
 }
-
+.display-none{
+    display: none !important;
+}
 .holder {
     position: relative !important;
     display: flex;
@@ -252,7 +259,7 @@
     margin: 0;
 }
 
-@media only screen and (max-width: 770px) {
+@media only screen and (max-width: 767px) {
     .video-call-main-container {
         margin: 0px !important;
     }
