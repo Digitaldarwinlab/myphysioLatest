@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
+import moment, { min } from "moment";
 import LineGraph from "./LineGraph";
+import MultiLineGraph from "./MultiLineGraph";
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
 import { TbReportMedical } from "react-icons/tb";
 import { Button, Modal } from "antd";
@@ -8,12 +9,13 @@ import { GetPatientCurrentEpisode } from "../../../PatientAPI/PatientDashboardAp
 import {
   fetchDashboardDetails,
   fetchSummaryDetails,
-  fetchAromDetails
+  fetchAromDetails,
 } from "../../../API/episode-visit-details/episode-visit-api";
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
 import "./Dash.css";
 import ReactPlayer from "react-player";
+import { ConstantLine } from "devextreme-react/chart";
 
 const Dashboard = (props) => {
   // console.log(props.value);
@@ -21,7 +23,9 @@ const Dashboard = (props) => {
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
   const [option, setOption] = useState();
+  const [multioption, setMultiOption] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [showValue, setShowValue] = useState();
   const [summaryTimeSlots, setSummaryTimeSlots] = useState();
   const [summaryExerciseComplete, setSummaryExerciseComplete] = useState();
@@ -36,8 +40,14 @@ const Dashboard = (props) => {
   const showModal = () => {
     setIsModalVisible(true);
   };
+  const showModal2 = () => {
+    setIsModalVisible2(true);
+  };
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+  const handleCancel2 = () => {
+    setIsModalVisible2(false);
   };
   const [week, setWeek] = useState(moment());
   const [startDate, setstartDate] = useState(
@@ -815,23 +825,52 @@ const Dashboard = (props) => {
         setSummaryPainMeter(val);
       });
     }
-    async function AromData(){
+    async function AromData() {
       const data = props.patient
         ? await GetPatientCurrentEpisode()
         : await getEpisode(props.patientId);
       let der = (await props.patient)
         ? data[1].length > 0 && data[1][0].pp_ed_id
         : data[0].pp_ed_id;
-      let response = await fetchAromDetails(221, startDate, endDate);
-      console.log(response)
-      let objLength = Object.keys(response).length;
-      for (let i = 0; i < objLength; i++) {
-        const [dateVal, valueVal] = Object.entries(response)[i];
-        aromArray.push([dateVal, valueVal]);
-        aromDates.push(dateVal);
+      let datearomArray = [];
+      let mainArray = [];
+      let response = await fetchAromDetails(221, "2021-08-04", "2022-08-19");
+      // let response = await fetchAromDetails(der, startDate, endDate);
+      if (Object.keys(response).length) {
+        if (
+          response.primary_joints.length > 0 &&
+          Object.keys(response.result).length
+        ) {
+          response.primary_joints.forEach((i) => {
+            // const [dateVal] = Object.keys(response.result[i]);
+            // datearomArray.push(dateVal);
+            let a =[]
+            exDate.forEach((date, index) => {
+              if (
+                Object.prototype.hasOwnProperty.call(response.result[i], date)
+              ) {
+                // console.log(response.result[i][date])
+                a.push(
+                  {
+                    x: response.result[i][date]["max"],
+                    y: response.result[i][date]["min"],
+                    label: date,
+                  });
+              } else {
+                a.push({ x: 0, y: 0, label: date });
+              }
+            });
+            mainArray.push({
+              type: "spline",
+              showInLegend: true,
+              name: i,
+              dataPoints: a
+          })
+          });
+    setMultiOption(mainArray)
+          
+        }
       }
-      console.log(aromArray,aromDates)
-
     }
     if (props.patientId || props.patient) {
       data();
@@ -894,6 +933,17 @@ const Dashboard = (props) => {
       {value !== undefined ? (
         <>
           <Modal
+            title="Arom Graph"
+            visible={isModalVisible2}
+            footer={null}
+            onCancel={handleCancel2}
+            style={{ width: "100%", resize: "none" }}
+          >
+            <div>
+              <MultiLineGraph value={multioption} />
+            </div>
+          </Modal>
+          <Modal
             title="Pain Scale Graph"
             visible={isModalVisible}
             footer={null}
@@ -907,7 +957,7 @@ const Dashboard = (props) => {
           <div
             style={{
               width: "100%",
-              overflow:'scroll'
+              overflow: "scroll",
             }}
           >
             <div
@@ -953,6 +1003,10 @@ const Dashboard = (props) => {
                   marginRight: "20px",
                 }}
               >
+                <Button type="primary" style={{marginRight:'5px'}} onClick={showModal2}>
+                  Arom
+                  <TbReportMedical />
+                </Button>
                 <Button type="primary" onClick={showModal}>
                   PainScale
                   <TbReportMedical />
@@ -965,7 +1019,7 @@ const Dashboard = (props) => {
               <table
                 className="table table-striped table-hover tableclass"
                 id="table"
-                style={{overflow:'auto'}}
+                style={{ overflow: "auto" }}
               >
                 <>
                   <thead>
