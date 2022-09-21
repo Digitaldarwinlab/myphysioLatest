@@ -23,7 +23,9 @@ const Dashboard = (props) => {
   const [value, setValue] = useState();
   const [exerciseValue, setExerciseValue] = useState();
   const [option, setOption] = useState();
-  const [multioption, setMultiOption] = useState();
+  const [multiMaxoption, setMultiMaxOption] = useState();
+  const [multiMinoption, setMultiMinOption] = useState();
+  const [multiJointoption, setMultiJointOption] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [showValue, setShowValue] = useState();
@@ -833,7 +835,8 @@ const Dashboard = (props) => {
         ? data[1].length > 0 && data[1][0].pp_ed_id
         : data[0].pp_ed_id;
       let datearomArray = [];
-      let mainArray = [];
+      let maxArray = [];
+      let minArray = [];
       let response = await fetchAromDetails(221, "2021-08-04", "2022-08-19");
       // let response = await fetchAromDetails(der, startDate, endDate);
       if (Object.keys(response).length) {
@@ -844,31 +847,47 @@ const Dashboard = (props) => {
           response.primary_joints.forEach((i) => {
             // const [dateVal] = Object.keys(response.result[i]);
             // datearomArray.push(dateVal);
-            let a =[]
+            let a = [];
+            let b = [];
             exDate.forEach((date, index) => {
               if (
                 Object.prototype.hasOwnProperty.call(response.result[i], date)
               ) {
                 // console.log(response.result[i][date])
-                a.push(
-                  {
-                    x: response.result[i][date]["max"],
-                    y: response.result[i][date]["min"],
-                    label: date,
-                  });
+                a.push({
+                  x: date,
+                  y: response.result[i][date]["max"],
+                });
+                b.push({
+                  x: date,
+                  y: response.result[i][date]["min"],
+                });
               } else {
-                a.push({ x: 0, y: 0, label: date });
+                a.push({ x: date, y: 0 });
+                b.push({ x: date, y: 0 });
               }
             });
-            mainArray.push({
+            maxArray.push({
               type: "spline",
               showInLegend: true,
-              name: i,
-              dataPoints: a
-          })
+              jointName: i,
+              name: "Max",
+              xValueFormatString: "MMM YYYY",
+              dataPoints: a,
+            });
+            minArray.push({
+              type: "spline",
+              showInLegend: true,
+              jointName: i,
+              axisYType: "secondary",
+              xValueFormatString: "MMM YYYY",
+              name: "Min",
+              dataPoints: b,
+            });
           });
-    setMultiOption(mainArray)
-          
+          let arr = maxArray.concat(minArray)
+          setMultiMaxOption(arr);
+          setMultiJointOption(response.primary_joints)
         }
       }
     }
@@ -940,7 +959,9 @@ const Dashboard = (props) => {
             style={{ width: "100%", resize: "none" }}
           >
             <div>
-              <MultiLineGraph value={multioption} />
+              <MultiLineGraph  mainValue={multiMaxoption}    Jointvalue={multiJointoption}/>
+              
+
             </div>
           </Modal>
           <Modal
@@ -1003,7 +1024,11 @@ const Dashboard = (props) => {
                   marginRight: "20px",
                 }}
               >
-                <Button type="primary" style={{marginRight:'5px'}} onClick={showModal2}>
+                <Button
+                  type="primary"
+                  style={{ marginRight: "5px" }}
+                  onClick={showModal2}
+                >
                   Arom
                   <TbReportMedical />
                 </Button>
