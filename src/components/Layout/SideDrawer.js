@@ -258,7 +258,7 @@ const SideDrawer = ({ visState, setVisState }) => {
           </Menu.Item>
         </Menu>}
         {userInfo.role == "patient" && <Menu>
-          <Menu.Item
+          {/* <Menu.Item
             icon={<GoCalendar className="iconClass2" />}
             onClick={() => {
               history.push("/patient/schedule");
@@ -267,8 +267,46 @@ const SideDrawer = ({ visState, setVisState }) => {
             key="91"
           >
             Schedule
+          </Menu.Item> */}
+          <Menu.Item
+            icon={<AiFillDashboard className="iconClass2" />}
+            onClick={() => {
+              history.push("/patient/dashboard");
+              setVisState(false);
+            }}
+            key="10117"
+          >
+            Dashboard
           </Menu.Item>
-          <SubMenu icon={<FaLanguage className="iconClass2" />} mode="inline" title="Language">
+           <Menu.Item
+          title="Visit"
+          icon={<AiFillCalendar className="iconClass1" />}
+          style={{ backgroundColor:'fff' }}
+          className="text-decoration-none"
+        >
+          <Link to="/patient/visits" style={{ color: "black" }}>
+            Visits
+          </Link>
+        </Menu.Item>
+        <Menu.Item
+          title="Prescription"
+          icon={<i className="fas fa-notes-medical iconClass1"></i>}
+          className="text-decoration-none"
+        >
+          <Link to="/patient/prescription" style={{ color: "black"}}>
+          Prescription
+          </Link>
+        </Menu.Item>
+        <Menu.Item
+          title="Careplan"
+          icon={<FaMicroscope className="iconClass1" />}
+          className="text-decoration-none"
+        >
+          <Link to="/patient/careplan" style={{ color: "black"}}>
+          Careplan
+          </Link>
+        </Menu.Item>
+          <Menu.SubMenu icon={<FaLanguage className="iconClass2" />} mode="inline" title="Language">
             <Menu.Item onClick={() => {
               darwin.selectLang("en-US")
               setVisState(false);
@@ -287,18 +325,9 @@ const SideDrawer = ({ visState, setVisState }) => {
             }} key="3">
               Arabic
             </Menu.Item>
-          </SubMenu>
-          <Menu.Item
-            icon={<AiFillDashboard className="iconClass2" />}
-            onClick={() => {
-              history.push("/patient/dashboard");
-              setVisState(false);
-            }}
-            key="10117"
-          >
-            Dashboard
-          </Menu.Item>
-          <Menu.Item
+          </Menu.SubMenu>
+          
+          {/* <Menu.Item
             icon={<IoMdPerson className="iconClass2" />}
             onClick={() => {
               history.push("/patient/profile");
@@ -307,7 +336,7 @@ const SideDrawer = ({ visState, setVisState }) => {
             key="101"
           >
             Account
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item
             icon={<AiOutlineLogout className="iconClass2" />}
             onClick={() => {

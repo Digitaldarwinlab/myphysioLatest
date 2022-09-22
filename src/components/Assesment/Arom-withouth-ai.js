@@ -41,13 +41,13 @@ let MinMax = {
       max:45
   } ,
   "L Shoulder Abd/Add":{
-      min:0,
-      max:180
-  } ,
+    min:0,
+    max:180
+} ,
   "R Shoulder Abd/Add":{
-      min:0,
-      max:180
-  } ,
+    min:0,
+    max:180
+} ,
   "L Shoulder Flex/Ext":{
     min:0,
     max:180
@@ -114,7 +114,7 @@ const labels = [
   "R Hip Abd/Add",
 ];
 const labelsL = [
-  "L Shoulder Abd/Add",
+  "L Shoulder Flex/Ext",
   "L Hip Flex/Ext",
   "L Knee Flex/Ext",
   "L Wrist Flex/Ext",
@@ -122,7 +122,7 @@ const labelsL = [
   "Cervical Flex/Ext"
 ];
 const labelsR = [
-  "R Shoulder Abd/Add",
+  "R Shoulder Flex/Ext",
   "R Hip Flex/Ext",
   "R Knee Flex/Ext",
   "R Wrist Flex/Ext",
@@ -132,6 +132,8 @@ const labelsR = [
 const allNewJoints = {
   "L Shoulder Abd/Add": "leftShoulder",
   "R Shoulder Abd/Add": "rightShoulder",
+  "L Shoulder Flex/Ext": "leftShoulder",
+  "R Shoulder Flex/Ext": "rightShoulder",
   "L Elbow Flex/Ext": "leftElbow",
   "R Elbow Flex/Ext": "rightElbow",
   "L Hip Flex/Ext": "leftHip",

@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   Tooltip,
+  Radio
 } from "antd";
 import React, { useEffect, useState } from "react";
 import PainMeter from "../PainMeter/PainMeter";
@@ -74,6 +75,7 @@ const ExerDetail = () => {
     console.log("exercise array ", location.state.exNameList)
     // console.log("exercise array ",location.state.exercises)
     let yt_temp = [];
+<<<<<<< HEAD
     let tempar = location.state.exercises
     res.map(a=>{
       for(let i=0;i<tempar.length;i++){
@@ -130,7 +132,47 @@ const ExerDetail = () => {
   useEffect(() => {
     CallDetails()
   }, []);
+=======
+    let tempExercise = location.state.exercises
+    res.map((ex) => {
+      for(let i =0;i<tempExercise.length;i++){
+        if(ex.ex_em_id==tempExercise[i].ex_em_id){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['instruction_array'] = ex.instruction_array
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
+        if(tempExercise[i].ex_em_id==262){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
+      }
+    });
+    tempExercise.map((ex,idx)=>{
+      ex['Rep'] = location.state.repArr[idx]
+    })
+    console.log("exercises ", tempExercise);
+    setExercises(tempExercise)
+    // console.log("exercises ", re
+>>>>>>> ui-dev1
 
+    // location.state.exercises.map((ex) => {
+    //   let te = [...yt_temp, ...res].find((e) => {
+    //     if (e.title == ex.name) {
+    //       console.log("exercise array1 ", ex);
+    //       let temp_E = e;
+    //       temp_E["Rep"] = ex.Rep;
+    //       return temp_E;
+    //     }
+    //   });
+    //   // console.log("exercise array1 ", te)
+    //   temp.push(te);
+    // });
+    // console.log("  ", temp);
+    // setExercises([...res, ...yt_temp]);
+  }, []);
+  console.log(location.state.exercises[0])
   const finish = async () => {
     let tempId = [];
     comp.map((item) => {
@@ -143,9 +185,9 @@ const ExerDetail = () => {
         Rep: location.state.exercises[item].Rep,
       });
     });
-    console.log(comp);
-    console.log(tempName);
-    console.log(tempId);
+    console.log("exercises ",comp);
+    console.log("exercises ",tempName);
+    console.log("exercises ",tempId);
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);
@@ -156,6 +198,7 @@ const ExerDetail = () => {
     //   time_slot: location.state.exercises[0].ChoosenTime,
     //   exercise: temp,
     // });
+    
     let ChoosenTime = location.state.exercises[0].ChoosenTime;
     const date = new Date();
     let pp_cp_id = location.state.exercises[0].pp_cp_id;
@@ -199,8 +242,7 @@ const ExerDetail = () => {
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
     console.log("pain ", location.state.exercises[0].pp_cp_id, pain);
     await updatePainMeter(location.state.exercises[0].pp_cp_id, pain,ChoosenTime);
-    window.location.href = "/patient/schedule";
-    //window.location.reload();
+    window.location.href = "/patient/careplan";
   };
 
   const upDel = (index) => {

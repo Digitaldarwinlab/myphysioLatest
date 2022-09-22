@@ -52,6 +52,27 @@ export const tableLabels = {
   cervicalForwardFlexion: "Cervical Flex/Ext",
 };
 
+export const tableLabelLateral = {
+  leftShoulder: "L Shoulder Flex/Ext",
+  rightShoulder: "R Shoulder Flex/Ext",
+  leftElbow: "L Elbow Flex/Ext",
+  rightElbow: "R Elbow Flex/Ext",
+  leftHipAdductionAbduction: "L Hip Abd/Add",
+  rightHipAdductionAbduction: "R Hip Abd/Add",
+  leftKnee: "L Knee Flex/Ext",
+  rightKnee: "R Knee Flex/Ext",
+  leftNeck: "L Cervical Side flex",
+  rightNeck: "R Cervical Side Flex",
+  leftPelvic: "L Lumbar Side Flex",
+  rightPelvic: "R Lumbar Side Flex",
+  leftWrist: "L Wrist Flex/Ext",
+  rightWrist: "R Wrist Flex/Ext",
+  leftAnkle: "L Ankle Dorsi/Planter Flex",
+  rightAnkle: "R Ankle Dorsi/Planter Flex",
+  leftHip: "L Hip Flex/Ext",
+  rightHip: "R Hip Flex/Ext",
+  cervicalForwardFlexion: "Cervical Flex/Ext",
+};
 const { Panel } = Collapse;
 const AssessmentList = ({ assesmentClick }) => {
   {
@@ -1653,7 +1674,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               pagination={false}
                                               columns={columns}
                                               dataSource={
-                                                data.AI_data && data.AI_data != null
+                                                data.AI_data && data.AI_data != null && Object.keys(data.AI_data).length>0
                                                   ? Object.keys(
                                                     data.AI_data[
                                                     Object.keys(data.AI_data)[0]
@@ -1728,8 +1749,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                       pagination={false}
                                                       columns={columns}
                                                       dataSource={
-                                                        data.LeftLateral_AI_Data !=
-                                                          null
+                                                        data.LeftLateral_AI_Data&&Object.keys(data.LeftLateral_AI_Data).length>0
                                                           ? Object.keys(
                                                             data
                                                               .LeftLateral_AI_Data[
@@ -1741,8 +1761,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                             let t = {};
                                                             t["key"] = index;
                                                             t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
+                                                              tableLabelLateral[item]
+                                                                ? tableLabelLateral[item]
                                                                 : "Not Available";
                                                             t["min"] = Math.round(
                                                               data
@@ -1783,8 +1803,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         pagination={false}
                                                         columns={columns}
                                                         dataSource={
-                                                          data.RightLateral_AI_Data !=
-                                                            null
+                                                          data.RightLateral_AI_Data &&Object.keys(data.RightLateral_AI_Data)
                                                             ? Object.keys(
                                                               data
                                                                 .RightLateral_AI_Data[
@@ -1796,8 +1815,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                               let t = {};
                                                               t["key"] = index;
                                                               t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
+                                                                tableLabelLateral[item]
+                                                                  ? tableLabelLateral[item]
                                                                   : "Not Available";
                                                               t["min"] = Math.round(
                                                                 data
@@ -2915,7 +2934,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                 <div className=" border mb-3 mt-3">
                                   <div className=" border mb-3 mt-3">
                                     <Row gutter={[10, 10]}>
-                                      {data.AI_data != null && (
+                                      {data.AI_data != null &&Object.keys(data.AI_data).length>0 && (
                                         <>
                                           <Row className="border">
                                             <Col md={24} lg={24} sm={24} xs={24}>
@@ -2930,7 +2949,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                               pagination={false}
                                               columns={columns}
                                               dataSource={
-                                                data.AI_data && data.AI_data != null
+                                                data.AI_data && data.AI_data != null &&Object.keys(data.AI_data).length>0
                                                   ? Object.keys(
                                                     data.AI_data[
                                                     Object.keys(data.AI_data)[0]
@@ -3006,7 +3025,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                       columns={columns}
                                                       dataSource={
                                                         data.LeftLateral_AI_Data !=
-                                                          null
+                                                          null &&Object.keys(data.LeftLateral_AI_Data).length>0
                                                           ? Object.keys(
                                                             data
                                                               .LeftLateral_AI_Data[
@@ -3018,8 +3037,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                             let t = {};
                                                             t["key"] = index;
                                                             t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
+                                                              tableLabelLateral[item]
+                                                                ? tableLabelLateral[item]
                                                                 : "Not Available";
                                                             t["min"] = Math.round(
                                                               data
@@ -3061,7 +3080,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                         columns={columns}
                                                         dataSource={
                                                           data.RightLateral_AI_Data !=
-                                                            null
+                                                            null && Object.keys(data.RightLateral_AI_Data).length>0
                                                             ? Object.keys(
                                                               data
                                                                 .RightLateral_AI_Data[
@@ -3073,8 +3092,8 @@ const AssessmentList = ({ assesmentClick }) => {
                                                               let t = {};
                                                               t["key"] = index;
                                                               t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
+                                                                tableLabelLateral[item]
+                                                                  ? tableLabelLateral[item]
                                                                   : "Not Available";
                                                               t["min"] = Math.round(
                                                                 data

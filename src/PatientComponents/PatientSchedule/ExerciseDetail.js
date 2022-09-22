@@ -20,62 +20,61 @@ const ExerciseDetailsClass = () => {
   const history = useHistory();
   const CallDetails = async () => {
     const res = await exercise_detail(location.state.exNameList);
-    console.log("exercise array ", res)
-    console.log("exercise array ", location.state.exNameList)
+    console.log("Unique ", res)
+    console.log("Unique ", location.state.exercises)
     // console.log("exercise array ",location.state.exercises)
     let yt_temp = [];
-    let tempar = location.state.exercises
-    res.map(a=>{
-      for(let i=0;i<tempar.length;i++){
-        if(a.title==tempar[i].title){
-          tempar[i]['instruction_array'] = a.instruction_array
+    let tempExercise = location.state.exercises
+    res.map(ex=>{
+      for(let i =0;i<tempExercise.length;i++){
+        if(ex.ex_em_id==tempExercise[i].ex_em_id){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['instruction_array'] = ex.instruction_array
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
         }
-        if (a.hold_flag) {
-          tempar[i].hold = a.hold_flag
-        } else {
-          tempar[i].hold = "none"
+        if(tempExercise[i].ex_em_id==262){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
         }
       }
     })
-    for(let i=0;i<tempar.length;i++){
-      tempar[i]['title'] = tempar[i].title || tempar[i].name
-    }
-    // 
-    
-    console.log('modified ',tempar)
-    setExercises(tempar)
-    // location.state.exercises.map((ex, index) => {
-    //   if (ex.name == "YouTube") {
-    //     let a = {
-    //       title: ex.name,
-    //       name: ex.name,
-    //       video_path: ex.youtube_link,
-    //     };
-    //     yt_temp.push(a);
-    //   }
-    //   res.map(e => {
-    //     if (ex.ex_em_id == e.ex_em_id) {
-    //       console.log("check hold",e)
-    //       if (e.hold_flag) {
-    //         ex.hold = e.hold_flag
-    //       } else {
-    //         ex.hold = "none"
-    //       }
-    //     }
-    //   })
-    // });
-    // setExercises([...yt_temp,...res]);
-  //   let temp = []
-  //   console.log("exercise ", [...yt_temp, ...res])
-  //   location.state.exercises.map(ex => {
-  //     let te = [...yt_temp, ...res].find(e => e.title == ex.name)
-  //     console.log("exercise array1 ", te)
-  //     temp.push(te)
-  //   })
-  //  // setExercises(temp)
-  //   console.log("exercise array ", temp)
-  //   console.log("exercise array ", res)
-  //   console.log("exercise array ", location.state.exercises)
+    console.log("Unique ",tempExercise)
+    setExercises(tempExercise);
+    location.state.exercises.map((ex, index) => {
+      if (ex.ex_em_id == 262) {
+        let a = {
+          title: ex.name,
+          name: ex.name,
+          video_path: ex.youtube_link,
+          hold : "none"
+        };
+        yt_temp.push(a);
+      }
+      res.map(e => {
+        if (ex.ex_em_id == e.ex_em_id) {
+          console.log("check hold",e)
+          if (e.hold_flag) {
+            ex.hold = e.hold_flag
+          } else {
+            ex.hold = "none"
+          }
+        }else if(ex.ex_em_id===262){
+          ex.hold = "none"
+        }
+      })
+    });
+    // // setExercises([...yt_temp,...res]);
+    // let temp = []
+    // console.log("exercise ", [...yt_temp, ...res])
+    // location.state.exercises.map(ex => {
+    //   let te = [...yt_temp, ...res].find(e => e.title == ex.name)
+    //   console.log("exercise array1 ", te)
+    //   temp.push(te)
+    // })
+    // setExercises(temp)
+    console.log("exercise array ", temp)
+    console.log("exercise array ", res)
+    console.log("exercise array ", location.state.exercises)
   }
   useEffect(() => {
     CallDetails()

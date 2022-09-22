@@ -43,6 +43,7 @@ const EpisodeVisitDetails = () => {
   const episodeDetail = useSelector((state) => state);
   const history = useHistory();
   const checkEpisodeId = async () => {
+  
     if (episodeDetail.episodeReducer.patient_code) {
       const res = await getEpisode(episodeDetail.episodeReducer.patient_code);
       if (res.length === 0) {

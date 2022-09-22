@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import logoImg from "./../../assets/newlogo1.webp";
+import logoImg1 from "./../../assets/newlogo1.png";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import './logo.css'
 export default function MyPhysioLogo(props) {

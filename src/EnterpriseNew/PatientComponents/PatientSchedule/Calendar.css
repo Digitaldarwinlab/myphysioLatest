@@ -2,7 +2,7 @@
   #content {
     display: flex;
     flex-direction: column-reverse;
-    width: 100%;
+    width: 70%;
     text-align: center;
   }
   #visit-card-1 {
@@ -140,8 +140,8 @@
 .exercise-card2 {
   position: relative;
   text-align: center;
-  width: 33%;
-  float: left;
+  width: 80%;
+  margin: auto;
   /* box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -webkit-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034);
   -moz-box-shadow: 5px 3px 5px 0px rgba(0, 0, 0, 0.034); */

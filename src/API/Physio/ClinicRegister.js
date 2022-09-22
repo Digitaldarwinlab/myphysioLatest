@@ -110,7 +110,18 @@ export const clinicUpdateApi = async (details, dispatch) => {
     );
     const responseData = await response.json();
     const data = Decode(responseData);
+    console.log("clinic data ",data)
   // dispatch({ type: VALIDATION, payload: "etrrrpo tests"});
+  
+  if(!data.error){
+    dispatch({
+      type: CLINIC_REGISTER_SUCCESS,
+      payload: {
+        value: data.message
+      },
+    });
+    return true
+  }
     if(Object.keys(data).length>0){
       dispatch({ type: CLINIC_REGISTER_FAILED });
       Object.keys(data).map(item=>{

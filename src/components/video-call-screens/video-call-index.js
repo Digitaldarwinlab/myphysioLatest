@@ -32,8 +32,8 @@ var angle = []
 //   { value: 11, label: "leftPelvic" },
 // ]
 const labels = [
-  "L Shoulder Abd/Add",
-  "R Shoulder Abd/Add",
+  "L Shoulder Flex/Ext",
+  "R Shoulder Flex/Ext",
   "L Elbow Flex/Ext",
   "R Elbow Flex/Ext",
   "L Hip Flex/Ext",
@@ -835,6 +835,16 @@ const VideoCallIndex = (props) => {
                   onClick={AImodelStop}
                 >
                   <i class="fa fa-stop" aria-hidden="true"></i>
+                </button>
+                <button
+                  id="stop-btn"
+                  type="button"
+                  class="btn video_con_bttn btn-block btn-dark btn-lg"
+                  onClick={()=>{
+                    setDrawerOpen(true)
+                  }}
+                >
+                  <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
                 </button>
 
               </Space>

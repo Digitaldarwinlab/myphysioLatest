@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import LineGraph from './LineGraph';
+import LineGraph from "./LineGraph";
 import { CaretRightFilled, CaretLeftOutlined } from "@ant-design/icons";
 import { TbReportMedical } from "react-icons/tb";
 import { Button, Modal } from "antd";
@@ -12,6 +12,7 @@ import {
 import { getEpisode } from "../../../API/Episode/EpisodeApi";
 import { DateRangePicker } from "rsuite";
 import "./Dash.css";
+import ReactPlayer from "react-player";
 
 const Dashboard = (props) => {
   // console.log(props.value);
@@ -680,7 +681,7 @@ const Dashboard = (props) => {
       let time_slots = [];
       let exercise_complete = [];
       let pain_meter = [];
-      let pain_option =[]
+      let pain_option = [];
       await summaryArray.forEach(async (e) => {
         let xvr = exDate.filter((x) => !summaryDates.includes(x));
         xvr.forEach(async (val) => {
@@ -755,14 +756,16 @@ const Dashboard = (props) => {
             x: new Date(val),
             y: 1,
           });
-
         });
         summaryDates.forEach(async (val) => {
           // console.log(e['exercise'],val)
           if (summaryDates.indexOf(val) !== -1) {
             if (e[0] === val) {
               if (e["1"]["pain_meter"].length > 0) {
-                const sum = e["1"]["pain_meter"].reduce((a, b) => parseInt(a) + parseInt(b), 0);
+                const sum = e["1"]["pain_meter"].reduce(
+                  (a, b) => parseInt(a) + parseInt(b),
+                  0
+                );
                 // console.log(sum)
                 const avg = sum / e["1"]["pain_meter"].length || 0;
                 // console.log(avg)
@@ -770,9 +773,11 @@ const Dashboard = (props) => {
                   value: avg.toFixed(),
                   date: val,
                   className:
-                    parseInt(avg.toFixed()) < 4 
+                    parseInt(avg.toFixed()) < 4
                       ? "completed"
-                      : parseInt(avg.toFixed()) > 4 || parseInt(avg.toFixed()) <  7 || parseInt(avg.toFixed()) === 4
+                      : parseInt(avg.toFixed()) > 4 ||
+                        parseInt(avg.toFixed()) < 7 ||
+                        parseInt(avg.toFixed()) === 4
                       ? "remaining"
                       : "pending",
                 });
@@ -798,12 +803,12 @@ const Dashboard = (props) => {
         val = await val.sort(function (a, b) {
           return new Date(a.date) - new Date(b.date);
         });
-        let paingraph = await uniqBy(pain_option, JSON.stringify)
+        let paingraph = await uniqBy(pain_option, JSON.stringify);
         paingraph = await paingraph.sort(function (a, b) {
           return new Date(a.x) - new Date(b.x);
         });
         console.log(paingraph);
-        setOption(paingraph)
+        setOption(paingraph);
         setSummaryPainMeter(val);
       });
     }
@@ -874,7 +879,7 @@ const Dashboard = (props) => {
             style={{ width: "100%", resize: "none" }}
           >
             <div>
-            <LineGraph value={option}/>
+              <LineGraph value={option} />
             </div>
           </Modal>
           <div
@@ -916,18 +921,21 @@ const Dashboard = (props) => {
                 </span>
               </div>
             </div>
-            {value.length > 0 &&
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                marginBottom: "10px",
-                marginRight:'20px'
-              }}
-            >
-              <Button type="primary" onClick={showModal}>PainScale<TbReportMedical /></Button>
-            </div>
-            }
+            {value.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  marginBottom: "10px",
+                  marginRight: "20px",
+                }}
+              >
+                <Button type="primary" onClick={showModal}>
+                  PainScale
+                  <TbReportMedical />
+                </Button>
+              </div>
+            )}
           </div>
           {value.length > 0 ? (
             <div>
@@ -1085,14 +1093,27 @@ const Dashboard = (props) => {
                                 </span>
                                 {exerciseValue.map((image) =>
                                   image["exercise"] === exercise["exercise"] ? (
-                                    <img
-                                      src={
-                                        process.env.REACT_APP_EXERCISE_URL +
-                                        "/" +
-                                        image["value"][0]["image_url"]
-                                      }
-                                      alt=""
-                                    />
+                                    <>
+                                      {image["value"][0]["image_url"] === "" ? (
+                                        <ReactPlayer
+                                          controls={true}
+                                          className="react-player"
+                                          url={image["value"][0].youtube_link}
+                                          style={{ margin: "auto" }}
+                                          width={280}
+                                          height={250}
+                                        />
+                                      ) : (
+                                        <img
+                                          src={
+                                            process.env.REACT_APP_EXERCISE_URL +
+                                            "/" +
+                                            image["value"][0]["image_url"]
+                                          }
+                                          alt=""
+                                        />
+                                      )}
+                                    </>
                                   ) : (
                                     ""
                                   )
@@ -1998,7 +2019,9 @@ const Dashboard = (props) => {
                                       <span
                                         className={
                                           parseInt(
-                                            exercise["value"]["exercise_alloted"]
+                                            exercise["value"][
+                                              "exercise_alloted"
+                                            ]
                                           ) ===
                                           parseInt(
                                             exercise["value"][

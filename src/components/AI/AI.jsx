@@ -38,21 +38,22 @@ import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList"
 import { GetJoint } from "../../API/care-plan/care-plan-api";
 import { CARE_PLAN_STATE_CHANGE } from "../../contextStore/actions/care-plan-action";
 import { getUserData } from "../../API/userAuth/userAuth";
+import Loader from "../video-call-screens/Loader";
 // import {Video} from "../../styles/ScreenDesign/ypga.jpg"
 const { Meta } = Card;
 const indices1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const { Option } = Select;
 const labels = [
-  "L Shoulder Abd/Add",
-  "R Shoulder Abd/Add",
+  "L Shoulder Flex/Ext",
+  "R Shoulder Flex/Ext",
   "L Elbow Flex/Ext",
   "R Elbow Flex/Ext",
   "L Hip Flex/Ext",
   "R Hip Flex/Ext",
   "L Knee Flex/Ext",
   "R Knee Flex/Ext",
-  "L Cervical Side flex", 
-  "R Cervical Side Flex", 
+  "L Cervical Side flex",
+  "R Cervical Side Flex",
   "L Lumbar Side Flex",
   "R Lumbar Side Flex",
   "L Wrist Flex/Ext",
@@ -143,8 +144,8 @@ let JointNew3 = {
 }
 
 const allNewJoints = [
-  { value: 0, label: "L Shoulder Abd/Add" },
-  { value: 1, label: "R Shoulder Abd/Add" },
+  { value: 0, label: "L Shoulder Flex/Ext" },
+  { value: 1, label: "R Shoulder Flex/Ext" },
   { value: 2, label: "L Elbow Flex/Ext" },
   { value: 3, label: "R Elbow Flex/Ext" },
   { value: 4, label: "L Hip Flex/Ext" },
@@ -176,7 +177,7 @@ const joints = [
   { value: 17, label: "R Hip Abd/Add" },
 ];
 const leftJoints = [
-  { value: 0, label: "L Shoulder Abd/Add" },
+  { value: 0, label: "L Shoulder Flex/Ext" },
   { value: 4, label: "L Hip Flex/Ext" },
   { value: 6, label: "L Knee Flex/Ext" },
   { value: 12, label: "L Wrist Flex/Ext" },
@@ -185,7 +186,7 @@ const leftJoints = [
 ];
 
 const rightJoints = [
-  { value: 1, label: "R Shoulder Abd/Add" },
+  { value: 1, label: "R Shoulder Flex/Ext" },
   { value: 5, label: "R Hip Flex/Ext" },
   { value: 7, label: "R Knee Flex/Ext" },
   { value: 13, label: "R Wrist Flex/Ext" },
@@ -233,6 +234,7 @@ class AI extends Component {
       visible: "hidden",
       data: [],
       patienId: "56",
+      loadState:false,
       exerciseId: this.props.history.location.exerciseId,
       arrayIndex: 0,
       //primaryExercise: this.props.history.location.state.exercisePrimary,
@@ -742,7 +744,10 @@ class AI extends Component {
     this.setState({ start_stop: !this.state.start_stop });
     if (this.state.toggleState == 1) {
       if (!this.state.start_stop) {
-        this.setState({ disabledAnteriorDrop: true })
+        this.setState({loadState:true})
+        setTimeout(() => {
+          console.log('100 ms')
+          this.setState({ disabledAnteriorDrop: true })
         console.log({
           name: "AROM",
           primaryKeypoint: 0,
@@ -772,6 +777,7 @@ class AI extends Component {
           totalReps: 3,
           totalSets: 2,
         });
+        }, 100);
         //   window.darwin.setExcersiseParams({
         //     angles: this.state.newJointChecked,
         //   });
@@ -817,6 +823,7 @@ class AI extends Component {
       if (this.state.latSide == "left") {
         if (!this.state.start_stop) {
           this.setState({ disabledLateralDrop: true })
+          setTimeout(() => {
           console.log({
             name: "AROM",
             primaryKeypoint: 0,
@@ -847,6 +854,7 @@ class AI extends Component {
             totalSets: 2,
           });
           window.darwin.restart();
+          },100)
         } else {
           let data
           try {
@@ -880,6 +888,7 @@ class AI extends Component {
       if (this.state.latSide == "right") {
         if (!this.state.start_stop) {
           this.setState({ disabledLateralDrop: true })
+          setTimeout(() => {
           console.log({
             name: "AROM",
             primaryKeypoint: 0,
@@ -910,6 +919,7 @@ class AI extends Component {
             totalSets: 2,
           });
           window.darwin.restart();
+        }, 100);
         } else {
           let data
           try {
@@ -1190,6 +1200,39 @@ class AI extends Component {
     // this.setState({newJointChecked:[]})
     //newJointChecked
   }
+  AiModel = () => {
+    try {
+      window.darwin.loaderCallback((id) => {
+        console.log("status ", id);
+        this.setState({loadState:id})
+      })
+    } catch (err) {
+      console.log(err);
+      this.AiModel();
+    }
+
+    return <Col
+      id="New_Ai_vid"
+      className="arom_vid"
+      md={14}
+      lg={14}
+      sm={24}
+      xs={24}
+    >
+      <video
+        id="video"
+        className="video"
+        playsInline
+        style={{ display: "none" }}
+      ></video>
+      <canvas
+        id="output"
+        className="output"
+        style={{ height: "450px" }}
+      />
+    </Col>
+  }
+  AiModelProps = this.AiModel.bind(this);
   render() {
     window.addEventListener("beforeunload", () => { // the method that will be used for both add and remove event
       e.preventDefault();
@@ -1210,7 +1253,8 @@ class AI extends Component {
             gutter={[16, 16]}
             className="arom_container checkbox-group-AROM"
           >
-            <Col
+            {this.state.loadState&&<Loader />}
+            {/* <Col
               id="New_Ai_vid"
               className="arom_vid"
               md={14}
@@ -1229,7 +1273,8 @@ class AI extends Component {
                 className="output"
                 style={{ height: "450px" }}
               />
-            </Col>
+            </Col> */}
+             {this.AiModelProps()}
             <Card
               className="arom_button_grp2"
               style={{ display: "none" }}
@@ -1699,8 +1744,8 @@ class AI extends Component {
                                 this.changeSide(e.target.value)
                               }}
                             >
-                              <Radio value={"left"}>left</Radio>
-                              <Radio value={"right"}>right</Radio>
+                              <Radio value={"left"}>Left</Radio>
+                              <Radio value={"right"}>Right</Radio>
                             </Radio.Group>
                             <br />
                             <br />

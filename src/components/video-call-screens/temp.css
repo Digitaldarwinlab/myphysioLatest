@@ -1,4 +1,34 @@
-.holder  {
+@media only screen and (max-width: 650px) {
+    .video-call-main-container {
+        margin: 0px !important;
+    }
+    .fit-assessment-screen{
+        object-fit: unset !important;
+    }
+    #assessment-tab {
+        padding-bottom: 55px;
+        margin-top: 90vh;
+        position: absolute;
+    }
+    .holder-local .agora_video_player{
+        object-fit: unset !important;
+    }
+    .video_con_bttn {
+        border-radius: 20px !important;
+    }
+
+    .holder-remote {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    .footer{
+        margin-bottom: 10px;
+    }
+}
+.display-none{
+    display: none !important;
+}
+.holder {
     position: relative !important;
     display: flex;
     padding: 0 !important;
@@ -6,13 +36,45 @@
     /* background-color: antiquewhite;  */
 }
 
+.class-btn {
+    font-weight: 900;
+    font-size: 25px;
+}
+
+/* #overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+  } */
 .holder video {
     position: relative !important;
     display: block;
     transform: rotateY(180deg);
     object-fit: cover;
 }
-.holder-local{
+
+.video-conf-save-btn {
+    background-color: #2d7ecb !important;
+}
+
+.video-conf-next-btn {
+    padding: 0 !important;
+    border-radius: 5px !important;
+}
+
+.video-call-main-container {
+    margin-bottom: 40px !important;
+}
+
+.holder-local {
     width: 100%;
     /* padding-left: 5px ; */
     height: 85vh;
@@ -20,7 +82,37 @@
     /* border-radius: 10px; */
 }
 
-#user_name{
+#assessment-tab {
+    background: white;
+}
+
+.assessment-tab-overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
+    /* Black see-through */
+    color: black;
+    width: 100%;
+    transition: .5s ease;
+    opacity: 0;
+    color: black;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.assessment-tab-overlay-button {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    color: white;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+#user_name {
     position: absolute;
     z-index: 1000;
     color: white;
@@ -31,52 +123,144 @@
 .footer {
     position: fixed;
     left: 0;
+    z-index: 20;
     bottom: 0;
     width: 100%;
     /* background-color: red; */
     color: white;
     text-align: center;
- }
+}
 
-.end-btn-big{
+.start-assessment-btn {
+    border-radius: 10px !important;
+}
+
+.end-btn-big {
     background: red !important;
     /* color: red !important; */
 }
 
-.holder-remote{
+.holder-local-p {
+    transform: rotateY(180deg) !important;
+}
+
+.no-user-icon {
+    transform: rotateY(180deg) !important;
+    font-size: 50px;
+    color: white;
+    z-index: 1;
+}
+
+.holder-remote {
     position: absolute !important;
     width: 150px;
     height: 150px;
     z-index: 100;
-    /* background-color: antiquewhite; */
+    background-color: black
 }
-.holder-remote{
+
+.holder-remote {
     position: absolute;
-    right: 0.5rem;
-    top:0.5rem;
-    width:150px;
-    height:150px;
+    /* right: 0.5rem; */
+    top: 0.5rem;
+    width: 150px;
+    height: 150px;
     overflow: hidden;
     border: 3px solid #fff;
     border-radius: 15px;
-    background: #ccf1f9;
+    background: #3d4041;
     display: flow-root;
     justify-content: center;
     align-items: center;
     font-style: italic;
 }
 
-@media only screen and (max-width: 650px) {
-    .video-call-main-container{
-        margin: 5px !important;
-    }
-    .video_con_bttn{
-        border-radius: 20px !important ;
-    }
-    .holder-remote{
-        width:100px;
-        height:100px;
-    }
+/* .overlay1 {
+    position: absolute; 
+    bottom: 0; 
+    background: rgb(0, 0, 0 ,0);
+    background: rgba(0, 0, 0, 0); 
+    color: black; 
+    width: 100%;
+    transition: .5s ease;
+    opacity:0;
+    color: black; 
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
   }
+   */
+#no-user-view {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
 
- 
+#no-physio-icon {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.patient-mic {
+    display: none;
+    transform: rotateY(180deg);
+    color: white;
+    align-items: center;
+    column-gap: 1rem;
+    background-color: #1f1f1f8e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+    z-index: 20;
+    font-size: 18px;
+    margin: 0;
+}
+
+.physio-mic {
+    display: none;
+    color: white;
+    align-items: center;
+    column-gap: 1rem;
+    background-color: #1f1f1f8e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    z-index: 20;
+    font-size: 18px;
+    margin: 0;
+}
+
+.physio-video {
+    display: none;
+    color: white;
+    align-items: center;
+    column-gap: 1rem;
+    background-color: #1f1f1f8e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+    z-index: 20;
+    font-size: 18px;
+    margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    .video-call-main-container {
+        margin: 0px !important;
+    }
+}

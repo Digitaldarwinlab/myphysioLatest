@@ -148,7 +148,7 @@ export const update_careplan = async (
 export const update_careplan_Nno_AI = async (
   object,exerciseTime,id
 ) => {
-
+console.log(exerciseTime)
   const json_data = {
     id: id,
     output_json: {},

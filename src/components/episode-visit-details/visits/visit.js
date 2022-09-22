@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Table, Button, Space } from "antd";
+import { Row, Col, Table, Button, Space, Popconfirm, Tooltip } from "antd";
 import { fetchVisits } from "../../../API/episode-visit-details/episode-visit-api";
 import AddButton from "./../AddButton";
 import { useSelector } from "react-redux";
@@ -9,48 +9,72 @@ import { delete_visit } from "../../../API/Visit/visitApi";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { AiFillDelete } from "react-icons/ai";
-const columns = [
-  {
-    title: "Visit",
-    dataIndex: "visit",
-    width: '15%',
-    fixed: 'left'
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    width: '20%'
-  },
-  {
-    title: "Location",
-    dataIndex: "Location",
-    width: '20%'
-  },
-  {
-    title: "Time",
-    dataIndex: "time",
-    width: '20%'
-  },
-  {
-    title: "VideoCon Link",
-    dataIndex: "conLink",
-    width: '20%',
-    render: (link) => (
-      <a href={"/physio" + link} target="_blank" rel="noopener noreferrer">
-        {link}
-      </a>
-    ),
-  },
-  {
-    title: "Delete",
-    dataIndex: "Delete",
-    width: '20%',
-    fixed: 'right',
-  },
-];
+
 
 const Visits = ({ handleClick, patId }) => {
   const history = useHistory();
+  function convert() {
+    var date = new Date(),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+    console.log([date.getFullYear(), mnth, day].join("-"));
+
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+  const columns = [
+    {
+      title: "Visit",
+      dataIndex: "visit",
+      width: '15%',
+      fixed: 'left'
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: '20%'
+    },
+    {
+      title: "Location",
+      dataIndex: "Location",
+      width: '20%'
+    },
+    {
+      title: "Time",
+      dataIndex: "time",
+      width: '20%'
+    },
+    {
+      title: "VideoCon Link",
+      dataIndex: "conLink",
+      width: '20%',
+      render: (link, record) => (
+        <>
+          {record.date==convert()? <Popconfirm
+            title="Please select conference type"
+            //  onCancel={cancel}
+            okText={<span onClick={() => {
+              history.push("/assessment/1")
+              localStorage.setItem("OnAssessmentScreen", 'true')
+              window.open(`${process.env.REACT_APP_EXERCISE_URL}/physio${link}`)
+            }}>Assessment</span>}
+            cancelText={<span onClick={() => window.open(`${process.env.REACT_APP_EXERCISE_URL}/physio${link}`)}>Normal</span>}
+          >
+            <a href={"/physio" + link} target="_blank" rel="noopener noreferrer">
+              {link}
+            </a>
+          </Popconfirm> : <Tooltip title="Link can only access on the visit date"><p >
+            {link}
+          </p></Tooltip>}
+        </>
+      ),
+    },
+    {
+      title: "Delete",
+      dataIndex: "Delete",
+      width: '20%',
+      fixed: 'right',
+    },
+  ];
   const [visitsData, setVisitData] = useState([]);
   const { confirm } = Modal;
   const [loading, setLoading] = useState(false);
@@ -192,10 +216,10 @@ const Visits = ({ handleClick, patId }) => {
             bordered
             loading={loading}
             sticky
-          />:<Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
+          /> : <Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
         </Col>
         <Col style={{ display: 'none' }} className="pag_mob mt-2" span={24}>
-          {visitsData.length>0?<Table
+          {visitsData.length > 0 ? <Table
             pagination={{ size: "small", position: ['none', 'bottomCenter'] }}
             columns={columns}
             scroll={{ x: 500 }}
@@ -203,7 +227,7 @@ const Visits = ({ handleClick, patId }) => {
             bordered
             loading={loading}
             sticky
-            />:<Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
+          /> : <Col span={24} className="px-3"> <p className="fw-bold">No Visit Present..</p></Col>}
         </Col>
       </Row>
     </div>

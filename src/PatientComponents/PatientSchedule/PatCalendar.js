@@ -6,24 +6,33 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetPatientCarePlan } from "./../../PatientAPI/PatientShedule";
 import moment from "moment";
-import { Row, Col ,Card} from "antd";
+import { Row, Col, Card } from "antd";
 import {
   GetPatientCurrentEpisode,
   GetCalanderDataApi,
 } from "../../PatientAPI/PatientDashboardApi";
 import { fetchVisits } from "../../API/episode-visit-details/episode-visit-api";
 import "./Calendar.css";
-import './patNew.css'
+import "./patNew.css";
 import DatePicker from "react-horizontal-datepicker";
 import CarePlanView from "../../components/episode-visit-details/carePlanView/carePlanView";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
-import yt from '../../assets/YouTube.webp'
+import yt from "../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
 //TimeColors
 const activeArr = [
-  true,false,false,false,false,
-  false,false,false,false,false,
-  false]
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+];
 const timeColors = [
   "#17BD9C",
   "#00294C",
@@ -46,8 +55,8 @@ const UnselectedStyle = {
 };
 //button Style
 const checkBtnStyle = {
-  backgroundColor: `'red'!important`
-}
+  backgroundColor: `'red'!important`,
+};
 const btnStyle = {
   color: "white",
   border: "none",
@@ -56,26 +65,29 @@ const btnStyle = {
 };
 const { Meta } = Card;
 const PatCalendar = ({ onChangeVideoUrl }) => {
-
   const history = useHistory();
-  const dispatch = useDispatch()
-  const [pres, setPres] = useState([])
+  const dispatch = useDispatch();
+  const [pres, setPres] = useState([]);
   const state = useSelector((state) => state.patCurrentEpisode);
-  const [exstatCheck, setExStatCheck] = useState('yes')
+  const [exstatCheck, setExStatCheck] = useState("yes");
   const [selectedDate, setSelectedDate] = useState("");
   const [exercises, setExercises] = useState([]);
   const [times, setTimes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedTime, setSelectedTime] = useState(0);
   const [buttonDisabled, setButtonDisabled] = useState(false); // button Disability
-  //const [activeCalVal, setState] = useState(true); 
+  //const [activeCalVal, setState] = useState(true);
   const [mappedTimeToExercises, setMappedTimeToExercises] = useState({});
   const [currentEpissode, Setcurrentepisode] = useState(0);
   const [calendarData, SetcalendarData] = useState(0);
   const [allvisits, Setvisits] = useState([]);
   const [choosencareplan, Setchoosencareplan] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toDateString().slice(4,7));
-  const [selectedYear, setSelectedYear] = useState(new Date().toDateString().slice(-4))
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toDateString().slice(4, 7)
+  );
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().toDateString().slice(-4)
+  );
   const [status_flag, setStatusFlag] = useState(false);
   const [customisedDate, SetcustomisedDate] = useState(
     new Date().toISOString().substring(0, 10)
@@ -84,116 +96,116 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   const [todaysdate, Settodaysdate] = useState(new Date());
   const [chosenTime, SetchoosenTime] = useState(0);
   const [careplanIdArray, SetcareplanIdArray] = useState([]);
-  const [update, setUpdate] = useState(false)
-  const [combine, setCombine] = useState(false)
-  const [exercise_status, setExerciseStatus] = useState({})
-  const [exercise_status1, setExerciseStatus1] = useState([])
-  const checkExerciseStatus =(b,obj) =>{
-  //   let test = {
-  //     "10:00 am": {
-  //         "Squat": "planned",
-  //         "Push Ups": "planned"
-  //     },
-  //     "01:00 pm": {
-  //         "Squat": "completed",
-  //         "Push Ups": "completed"
-  //     },
-  //     "04:00 pm": {
-  //         "Squat": "planned",
-  //         "Push Ups": "planned"
-  //     }
-  // }
-    console.log('exercise_status ',obj)
-    console.log('exercise_status ',b)
-   Object.entries(obj).map(d=>{
-     if(d[0]===b){
-       console.log("plz chacek ",d[1])
-       let temp = Object.values(d[1])
-       if(temp.includes('completed')){
-        console.log('status not completed')
-        setExStatCheck('yes')
-       }else{
-        console.log('status completed')
-        setExStatCheck('no')
-       }
+  const [update, setUpdate] = useState(false);
+  const [combine, setCombine] = useState(false);
+  const [exercise_status, setExerciseStatus] = useState({});
+  const [exercise_status1, setExerciseStatus1] = useState([]);
+  const checkExerciseStatus = (b, obj) => {
+    //   let test = {
+    //     "10:00 am": {
+    //         "Squat": "planned",
+    //         "Push Ups": "planned"
+    //     },
+    //     "01:00 pm": {
+    //         "Squat": "completed",
+    //         "Push Ups": "completed"
+    //     },
+    //     "04:00 pm": {
+    //         "Squat": "planned",
+    //         "Push Ups": "planned"
+    //     }
+    // }
+    console.log("exercise_status ", obj);
+    console.log("exercise_status ", b);
+    Object.entries(obj).map((d) => {
+      if (d[0] === b) {
+        console.log("plz chacek ", d[1]);
+        let temp = Object.values(d[1]);
+        if (temp.includes("completed")) {
+          console.log("status not completed");
+          setExStatCheck("yes");
+        } else {
+          console.log("status completed");
+          setExStatCheck("no");
+        }
         //  Object.values(d[1]).map(p=>{
         //      if(p==="planned"){
         //          console.log('status not completed')
         //          setExStatCheck('no')
         //      }
         //  })
-     }
- })
-  }
-  const checkExerciseStatus1 = async (b,temp) =>{
-    if(Array.isArray(b)){
-      b=b[0]
+      }
+    });
+  };
+  const checkExerciseStatus1 = async (b, temp) => {
+    if (Array.isArray(b)) {
+      b = b[0];
     }
- 
-    console.log('making exercise_status ',temp)
-    console.log('making exercise_status ',b)
-    console.log('making 1')
-    let tempStat = true
-    for(let i= 0;i<temp.length;i++){
-      Object.entries(temp[i]).map(d=>{
-        if(d[0]===b){
-          console.log("plz chacek ",d[1])
-          let temp1 = Object.values(d[1])
-          if(temp1.includes('completed')){
-           tempStat = false
-           console.log('making 2 true ',i)
-          }else{
-              console.log('status completed captured')
+
+    console.log("making exercise_status ", temp);
+    console.log("making exercise_status ", b);
+    console.log("making 1");
+    let tempStat = true;
+    for (let i = 0; i < temp.length; i++) {
+      Object.entries(temp[i]).map((d) => {
+        if (d[0] === b) {
+          console.log("plz chacek ", d[1]);
+          let temp1 = Object.values(d[1]);
+          if (temp1.includes("completed")) {
+            tempStat = false;
+            console.log("making 2 true ", i);
+          } else {
+            console.log("status completed captured");
           }
         }
-      })
+      });
     }
-    console.log('making 3 ')
-  //  const checkTemp = () =>{
-  //    return new Promise((resolve,reject)=>{
-  //     temp.map(d1=>{
-  //       Object.entries(d1).map(d=>{
-  //         if(d[0]===b[0]){
-  //           console.log("plz chacek ",d[1])
-  //           let temp = Object.values(d[1])
-  //           if(temp.includes('planned')){
-  //           resolve(true)
-  //           }else{
-  //               console.log('status completed captured')
-  //           }
-  //         }
-  //       })
-  //     })
-  //    })
-  //  }
-  // const tempStat = await checkTemp()
-  console.log('exercise_status ',tempStat)
+    console.log("making 3 ");
+    //  const checkTemp = () =>{
+    //    return new Promise((resolve,reject)=>{
+    //     temp.map(d1=>{
+    //       Object.entries(d1).map(d=>{
+    //         if(d[0]===b[0]){
+    //           console.log("plz chacek ",d[1])
+    //           let temp = Object.values(d[1])
+    //           if(temp.includes('planned')){
+    //           resolve(true)
+    //           }else{
+    //               console.log('status completed captured')
+    //           }
+    //         }
+    //       })
+    //     })
+    //    })
+    //  }
+    // const tempStat = await checkTemp()
+    console.log("exercise_status ", tempStat);
 
-  if(tempStat){
-    setExStatCheck('no')
-    console.log('making 4')
-      console.log('status not completed')
-  }else{
-    setExStatCheck('yes')
-    console.log('making 5')
-    console.log('status completed')
-  }
-  }
+    if (tempStat) {
+      setExStatCheck("no");
+      console.log("making 4");
+      console.log("status not completed");
+    } else {
+      setExStatCheck("yes");
+      console.log("making 5");
+      console.log("status completed");
+    }
+  };
   //  console.log('date is : ' + todaysdate.getDate())
   function convert(str) {
-    console.log(str)
+    console.log(str);
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
-      console.log([date.getFullYear(), mnth, day].join("-"))
+    console.log([date.getFullYear(), mnth, day].join("-"));
 
     return [date.getFullYear(), mnth, day].join("-");
   }
 
   const combineTwoCarePlan = (data) => {
     //  console.log('data iss')
-    setStatusFlag(data[0].status_flag==2?false:true)
-    setCombine(true)
+    setStatusFlag(data[0].status_flag == 2 ? false : true);
+    setCombine(true);
     let commonTime = {};
     let checkTimeToMapExercise = {};
 
@@ -239,7 +251,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           //  console.log(data[k].time_slot[i][0])
         } else {
           console.log("loop 4 s");
-          console.log( 
+          console.log(
             data[k].pp_cp_id + " : time_slot is : " + data[k].time_slot[i]
           );
           let temparray = careplanIdArray;
@@ -270,7 +282,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     }
     //  console.log('COmmontTINe')
     let times = Object.keys(commonTime);
-    console.log("times ",times)
+    console.log("times ", times);
     //   console.log(commonTime)
 
     times = times.sort(
@@ -286,20 +298,20 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       if (commonTime[times[0][0]].length > 0)
         onChangeVideoUrl(commonTime[times[0][0]][0].video_url);
     }
-    console.log('times ',data)
-    let tempStatus = []
-    data.map(d=>{
-      tempStatus.push(d.time_slot)
-    })
-    checkExerciseStatus1(times[0],tempStatus)
-    setExerciseStatus1(tempStatus)
-    console.log("times ",tempStatus)
+    console.log("times ", data);
+    let tempStatus = [];
+    data.map((d) => {
+      tempStatus.push(d.time_slot);
+    });
+    checkExerciseStatus1(times[0], tempStatus);
+    setExerciseStatus1(tempStatus);
+    console.log("times ", tempStatus);
     // console.log(commonTime);
   };
   const UpdateCarePlanStateData = (data) => {
-    console.log("careplan ",data)
-    setStatusFlag(data[0].status_flag==2?false:true)
-    setUpdate(true)
+    console.log("careplan ", data);
+    setStatusFlag(data[0].status_flag == 2 ? false : true);
+    setUpdate(true);
     setTimes(data[0].time_slot);
     setExercises(data[0].exercise_details);
     onChangeVideoUrl(data[0].exercise_details[0].video_url);
@@ -308,49 +320,45 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       let temp = careplanIdArray;
       temp.push({ time: item, careplanId: data[0].pp_cp_id });
     });
-    checkExerciseStatus(data[0].time_slot[0],data[0].exercise_status)
+    checkExerciseStatus(data[0].time_slot[0], data[0].exercise_status);
   };
 
   console.log("id array iss");
   console.log(careplanIdArray[selectedTime]);
-  const [exactTime, setExactTime] = useState()
+  const [exactTime, setExactTime] = useState();
   useEffect(() => {
-    
     let key = Object.keys(mappedTimeToExercises);
     //console.log(mappedTimeToExercises[key[0]])
     // console.log()
     SetchoosenTime(JSON.stringify(key[selectedTime]));
-      console.log("selected time ",selectedTime)
-      console.log("selected choosen time1 ",chosenTime)
-      console.log("selected ",key)
-      setExactTime(chosenTime)
+    console.log("selected time ", selectedTime);
+    console.log("selected choosen time1 ", chosenTime);
+    console.log("selected ", key);
+    setExactTime(chosenTime);
   }, [selectedTime]);
   const checkDisablitiy = (current) => {
     let yesterday = new Date(new Date().valueOf() - 1000 * 60 * 60 * 24);
     return current && current < moment(yesterday, "YYYY-MM-DD");
   };
 
-  const onSelectedDay = async (val,idx) => {
- 
-   activeArr.map((data,index) => {
-     if (index===idx) {
-      activeArr[index] = true;
-     }
-     else {
-      activeArr[index] = false;
-     }
-    
-   })
+  const onSelectedDay = async (val, idx) => {
+    activeArr.map((data, index) => {
+      if (index === idx) {
+        activeArr[index] = true;
+      } else {
+        activeArr[index] = false;
+      }
+    });
 
-   console.log('before converting ',val)
+    console.log("after converting ", convert(val));
     SetcustomisedDate(convert(val));
 
     setLoading(true);
     setExercises([]);
     setTimes([]);
-  
+
     let result = await GetPatientCarePlan(currentEpissode, convert(val));
-    console.log("careplans ",result)
+    console.log("careplans ", result);
     setLoading(false);
     if (result[0]) {
       try {
@@ -370,27 +378,27 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       }
     }
     var isDisabled = checkDisablitiy(val);
-   // setButtonDisabled(isDisabled);
+    // setButtonDisabled(isDisabled);
     setSelectedDate(val);
   };
 
   const onSelectedDay1 = async (val, episodeId) => {
     //   console.log(val)
-    console.log('before converting ',val)
+    console.log("before converting ", val);
     SetcustomisedDate(convert(val));
     setLoading(true);
     setExercises([]);
     setTimes([]);
     //    console.log('on selecting : ' + convert(val))
     let result = await GetPatientCarePlan(episodeId, convert(val));
-    if(result[1].length>0){
-      console.log('yes')
-      setExerciseStatus(result[1][0].exercise_status)
-      console.log("get yes patient careplan ",result[1][0].exercise_status);
-    }else{
-      console.log('no')
-      setExerciseStatus({})
-      console.log("get yes no patient careplan ",{});
+    if (result[1].length > 0) {
+      console.log("yes");
+      setExerciseStatus(result[1][0].exercise_status);
+      console.log("get yes patient careplan ", result[1][0].exercise_status);
+    } else {
+      console.log("no");
+      setExerciseStatus({});
+      console.log("get yes no patient careplan ", {});
     }
     setLoading(false);
     if (result[0]) {
@@ -398,10 +406,10 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         let data = result[1];
         if (data.length !== 0) {
           if (data.length == 1) {
-            console.log("get update")
+            console.log("get update");
             UpdateCarePlanStateData(data);
           } else {
-            console.log("get combine")
+            console.log("get combine");
             combineTwoCarePlan(data);
           }
         } else {
@@ -413,8 +421,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       }
     }
     var isDisabled = checkDisablitiy(val);
-    setButtonDisabled(isDisabled),
-    setSelectedDate(val);
+    setButtonDisabled(isDisabled), setSelectedDate(val);
   };
   //Update Care Plan State
 
@@ -471,9 +478,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //UseEffect
   //  console.log('sorted')
   // console.log(sortedVisits)
-  const setPrescription = (data) => {
-   
-  }
+  const setPrescription = (data) => {};
   useEffect(() => {
     async function getPlan() {
       setLoading(true);
@@ -483,19 +488,19 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         Setcurrentepisode(pepisode[1][0].pp_ed_id);
         //  console.log(currentEpissode)
         dispatch({
-          type:'changeEpisodeId',
+          type: "changeEpisodeId",
           payload: {
-            value:pepisode[1][0].pp_ed_id
-        }
-        })
-        const data = await get_prescription(pepisode[1][0].pp_ed_id)
-        console.log("prescription ",data)
+            value: pepisode[1][0].pp_ed_id,
+          },
+        });
+        const data = await get_prescription(pepisode[1][0].pp_ed_id);
+        console.log("prescription ", data);
         dispatch({
-          type:'PRESCRIPTION_CHANGE',
+          type: "PRESCRIPTION_CHANGE",
           payload: {
-            value:data
-        }
-        })
+            value: data,
+          },
+        });
         onSelectedDay1(new Date(), pepisode[1][0].pp_ed_id);
         //  console.log('on select k neeche')
       }
@@ -511,7 +516,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     async function getCalanderData() {
       setLoading(true);
       const calData = await GetCalanderDataApi();
-      
+
       console.log(JSON.stringify(calData));
       SetcalendarData(calData);
 
@@ -577,7 +582,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
         return "Dec";
     }
   };
-  
+
   //console.log(selectedDate ? new Date(selectedDate).toISOString().substring(0, 10) : new Date().toISOString().substring(0, 10) +'Selecteeddd dayyy')
   //  console.log(currentEpissode)
   // console.log('exercises')
@@ -585,7 +590,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
   //TimeSlot Buttons
 
   const TimeSlots = (times) => {
-    console.log("get times",selectedTime)
+    console.log("get times", selectedTime);
     return (
       <div
         className="p-2  border   text-start exercise-card"
@@ -631,19 +636,20 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                 }
                 onClick={() => {
                   setSelectedTime(index);
-                  SetchoosenTime(time)
-                  console.log('choosen time ',time)
+                  SetchoosenTime(time);
+                  console.log("choosen time ", time);
+                  console.log("time slot ", mappedTimeToExercises,times[index][0]);
                   if (times[index][0] in mappedTimeToExercises) {
                     setExercises(mappedTimeToExercises[times[index][0]]);
-                    console.log("time slot ",mappedTimeToExercises)
                   } else {
                     //pass
+                    console.log('else')
                   }
                 }}
                 className="time-button "
-              // className={selectedTime === index
-              //   && "selectedStyle"
-              // }
+                // className={selectedTime === index
+                //   && "selectedStyle"
+                // }
               >
                 {time}
               </Button>
@@ -656,115 +662,121 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
 
   //Cotinue button Click
   const handleClick = (exercise) => {
-    console.log("selected choosen time ",chosenTime)
-    console.log("selected Exact time ",exactTime)
-    console.log("selected careplanidarray ",careplanIdArray[selectedTime])
-    console.log('selected time slots ',times)
-    console.log('selected exercises ',exercises)
-    const mapExer=(time)=>{
-      exercises.map(ex=>{
-        ex['ChoosenTime'] = time
-        if(ex.name=="YouTube"){
-          ex.video_url = ex.youtube_link
+    console.log("selected choosen time ", chosenTime);
+    console.log("selected Exact time ", exactTime);
+    console.log("selected careplanidarray ", careplanIdArray[selectedTime]);
+    console.log("selected time slots ", times);
+    console.log("selected exercises ", exercises);
+    const mapExer = (time) => {
+      exercises.map((ex) => {
+        ex["ChoosenTime"] = time;
+        if (ex.name == "YouTube") {
+          ex.video_url = ex.youtube_link;
         }
-      })
+      });
+    };
+    if (combine) {
+      if (chosenTime === undefined) {
+        // exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
+        mapExer(careplanIdArray[selectedTime].time);
+      } else {
+        // exercise["ChoosenTime"] = exactTime[0]
+        mapExer(exactTime[0]);
+      }
+    } else {
+      if (exactTime !== 0) {
+        // exercise["ChoosenTime"] = exactTime
+        mapExer(exactTime);
+      } else {
+        //  exercise["ChoosenTime"] = times[0]
+        mapExer(times[0]);
+      }
     }
-    if(combine){
-    if(chosenTime===undefined){
-     // exercise["ChoosenTime"] = careplanIdArray[selectedTime].time
-     mapExer(careplanIdArray[selectedTime].time)
-    }else{
-     // exercise["ChoosenTime"] = exactTime[0]
-     mapExer(exactTime[0])
-    }
-   }else{
-     if(exactTime!==0){
-     // exercise["ChoosenTime"] = exactTime
-     mapExer(exactTime)
-     }else{
-    //  exercise["ChoosenTime"] = times[0]
-    mapExer(times[0])
-     }
-   }
-    
-    const exArr = []
-    exercises.map(ex=>{
-      exArr.push(ex.name)
-    })
-   console.log("exercise is ",exercise)
+
+    const exArr = [];
+    exercises.map((ex) => {
+      exArr.push(ex.name);
+    });
+    console.log("exercise is ", exercise);
     exercise["ChoosenTime"] = chosenTime
       ? chosenTime
       : Object.keys(mappedTimeToExercises)[0]
       ? Object.keys(mappedTimeToExercises)[0]
       : times[selectedTime];
-   exercise["careplanId"] = exercise.pp_cp_id;
-   console.log('final exercises are ',exercises)
-   let repArr = exercises.map(exercise=>exercise.Rep)
-  //  console.log('final exercise status ',exercise_status)
-  //  console.log('final exercise status1 ',exercise_status1)
+    exercise["careplanId"] = exercise.pp_cp_id;
+    console.log("final exercises are ", exercises);
+    let repArr = exercises.map((exercise) => exercise.Rep);
+    //  console.log('final exercise status ',exercise_status)
+    //  console.log('final exercise status1 ',exercise_status1)
     onChangeVideoUrl(exercise.video_url);
-    if(!status_flag){
+    if (!status_flag) {
       history.push({
         pathname: "/patient/exercises/brief",
         state: {
-          exercise:exercises[0],
+          exercise: exercises[0],
           exercises,
-          exNameList:exArr,
+          exNameList: exArr,
           status_flag,
-          repArr
+          repArr,
         },
       });
-    }else{
+    } else {
       history.push({
         pathname: "/patient/exercises/manual",
         state: {
-          exercise:exercises[0],
+          exercise: exercises[0],
           exercises,
-          exNameList:exArr,
+          exNameList: exArr,
           status_flag,
-          repArr
+          repArr,
         },
       });
     }
   };
 
-  const checkStatuc=(ex)=>{
-    
-  }
+  const checkStatuc = (ex) => {};
 
   //Exercise Card
   const ExerciseCard = (exercise) => {
-    console.log("card showing ",exercise)
+    console.log("card showing ", exercise);
     return (
       <Card
-      cover={
-        exercise.name=="YouTube"?<ReactPlayer
-        controls={true}
-        className="react-player"
-        url={exercise.youtube_link}
-        width="100%"
-      height={120}
-      />:<img
-      src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
-      alt={`image_${exercise.ex_em_id}`}
-      width="100%"
-      height={120}
-    />
-    }
+        cover={
+          exercise.name == "YouTube" ? (
+            <ReactPlayer
+              controls={true}
+              className="react-player"
+              url={exercise.youtube_link}
+              width="100%"
+              height={120}
+            />
+          ) : (
+            <img
+              src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
+              alt={`image_${exercise.ex_em_id}`}
+              width="100%"
+              height={120}
+            />
+          )
+        }
       >
-       <Meta
-           description={<p style={{ color: "#000000" }}>{exercise.name ? exercise.name : ""}</p>}
-         //  description={exercise.name ? exercise.name : ""}
-       />
+        <Meta
+          description={
+            <p style={{ color: "#000000" }}>
+              {exercise.name ? exercise.name : ""}
+            </p>
+          }
+          //  description={exercise.name ? exercise.name : ""}
+        />
       </Card>
       // <div className="main-exercise-card" id="main-exercise-card">
-        // <img
-        //   src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
-        //   alt={`image_${exercise.ex_em_id}`}
-        //   width={120}
-        //   height={120}
-        //   style={{ borderRadius: 60 }}
-        // />
+      // <img
+      //   src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.image_url}`}
+      //   alt={`image_${exercise.ex_em_id}`}
+      //   width={120}
+      //   height={120}
+      //   style={{ borderRadius: 60 }}
+      // />
       //   <div className="ms-0 main-exercise-card" id="main-exercise-card">
       //     <h4 className="fw-bol">{exercise.name ? exercise.name : ""}</h4>
       //   </div>
@@ -772,103 +784,89 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
     );
   };
   const CalStrip = (data) => {
-
-    let val=data.dayName.substr(0, 3);
+    let val = data.dayName.substr(0, 3);
     return (
-    
-        <li >
-          <p>{val}</p>
-          <p>{data.displayDay}</p>
-        </li>
-     
+      <li>
+        <p>{val}</p>
+        <p>{data.displayDay}</p>
+      </li>
     );
   };
 
   const CalStripActive = (data) => {
- 
- let val=data.dayName.substr(0, 3);
+    let val = data.dayName.substr(0, 3);
     return (
-     
-        <li class="active">
-          <p>{val}</p>
-          <p>{data.displayDay}</p>
-        </li>
-   
+      <li class="active">
+        <p>{val}</p>
+        <p>{data.displayDay}</p>
+      </li>
     );
   };
   const Prescriptions = () => {
-    console.log("new Pres ",pres)
+    console.log("new Pres ", pres);
     return (
-     <>
+      <>
         <div className="prescription-row">
-         <span className="presription-col">
-           <b>Prescription Detail ({convert(new Date())}) </b>  
-         </span>
-       </div>
-     {state.current_pres&&
-      Object.keys(state.current_pres).length>0 && <div className="p-2  border visit-card-2" id="visit-card-2">
-       <div className="presription-row">
-             <b>Medication Details </b> <br/>
-             {
-               state.current_pres.medication_detail.map(m=>(
-                 <>
-                <div className="upper-visit-row">
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>Medicine :</b> {m.medicine_name}{" "}
-                </span>
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>No of Medications :</b> {m.no_of_medications}{" "}
-                </span>
-              </div>
-              <div className="upper-visit-row">
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>Instructions :</b> {m.instruction}{" "}
-                </span>
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>Notes  :</b> {m.instruction}{" "}
-                </span>
-              </div>
-              </>
-               ))
-             }
-             <b>Lab </b> <br/>
-             {
-               state.current_pres.lab_tests.map(m=>(
-                 <>
-                <div className="upper-visit-row">
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>Path :</b> {m.path_lab_test}{" "}
-                </span>
-                <span className="visit-col" span={10}>
-                  {" "}
-                  <b>Radiology :</b> {m.radio_lab_test}{" "}
-                </span>
-              </div>
-              </>
-               ))
-             }
-         </div>
-      </div>
-    
-     }
-     </>
+          <span className="presription-col">
+            <b>Prescription Detail ({convert(new Date())}) </b>
+          </span>
+        </div>
+        {state.current_pres && Object.keys(state.current_pres).length > 0 && (
+          <div className="p-2  border visit-card-2" id="visit-card-2">
+            <div className="presription-row">
+              <b>Medication Details </b> <br />
+              {state.current_pres.medication_detail.map((m) => (
+                <>
+                  <div className="upper-visit-row">
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>Medicine :</b> {m.medicine_name}{" "}
+                    </span>
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>No of Medications :</b> {m.no_of_medications}{" "}
+                    </span>
+                  </div>
+                  <div className="upper-visit-row">
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>Instructions :</b> {m.instruction}{" "}
+                    </span>
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>Notes :</b> {m.instruction}{" "}
+                    </span>
+                  </div>
+                </>
+              ))}
+              <b>Lab </b> <br />
+              {state.current_pres.lab_tests.map((m) => (
+                <>
+                  <div className="upper-visit-row">
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>Path :</b> {m.path_lab_test}{" "}
+                    </span>
+                    <span className="visit-col" span={10}>
+                      {" "}
+                      <b>Radiology :</b> {m.radio_lab_test}{" "}
+                    </span>
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
     );
   };
-
-
-  
 
   var date = new Date();
 
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
   const Visits = (data) => {
-    console.log("get visits ",data)
+    console.log("get visits ", data);
     var datetypof;
     var date;
     if (data) {
@@ -881,9 +879,9 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           : data.appointment_detail.startDate.toString().substring(0, 10);
       var timeString = data.appointment_detail.start_time;
     }
-    console.log("get visits")
+    console.log("get visits");
     try {
-      console.log("get visits try")
+      console.log("get visits try");
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p
@@ -922,19 +920,25 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
           <div className="video-conference-detail">
             <span className="video-col">
               <b> Video Conference Detail</b> :
-             {data.video_link? <a
-                href={"/patient" + data.video_link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {data.video_link.length>0?data.video_link:"Not Available"}
-              </a>:"Not Available"}
+              {data.video_link ? (
+                <a
+                  href={"/patient" + data.video_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {data.video_link.length > 0
+                    ? data.video_link
+                    : "Not Available"}
+                </a>
+              ) : (
+                "Not Available"
+              )}
             </span>
           </div>
         </div>
       );
     } catch (err) {
-      console.log("get visits",err)
+      console.log("get visits", err);
       return (
         <div className="p-2  visit-card-1" id="visit-card-1">
           <p
@@ -973,91 +977,107 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
       );
     }
   };
-  
-  const checkStatus=()=>{
-    console.log('status checking...')
-    if(combine){
-    if(chosenTime===undefined){
-      console.log('status combine checking 1',careplanIdArray[selectedTime].time)
-   //  mapExer(careplanIdArray[selectedTime].time)
-     checkExerciseStatus(careplanIdArray[selectedTime].time,exercise_status)
-    }else{
-      console.log('status combine checking 2',exactTime[0])
-   //  mapExer(exactTime[0])
-     checkExerciseStatus(exactTime[0],exercise_status)
+
+  const checkStatus = () => {
+    console.log("status checking...");
+    if (combine) {
+      if (chosenTime === undefined) {
+        console.log(
+          "status combine checking 1",
+          careplanIdArray[selectedTime].time
+        );
+        //  mapExer(careplanIdArray[selectedTime].time)
+        checkExerciseStatus(
+          careplanIdArray[selectedTime].time,
+          exercise_status
+        );
+      } else {
+        console.log("status combine checking 2", exactTime[0]);
+        //  mapExer(exactTime[0])
+        checkExerciseStatus(exactTime[0], exercise_status);
+      }
+    } else {
+      if (exactTime !== 0) {
+        console.log("status not combine checking 1", exactTime);
+        // mapExer(exactTime)
+        checkExerciseStatus(exactTime, exercise_status);
+      } else {
+        console.log("status not combine checking 2", times[0]);
+        // mapExer(times[0])
+        checkExerciseStatus(times[0], exercise_status);
+      }
     }
-   }else{
-     if(exactTime!==0){
-      console.log('status not combine checking 1',exactTime)
-    // mapExer(exactTime)
-     checkExerciseStatus(exactTime,exercise_status)
-     }else{
-      console.log('status not combine checking 2',times[0])
-   // mapExer(times[0])
-    checkExerciseStatus(times[0],exercise_status)
-     }
-   }
-  }
-  const checkStatus1=()=>{
-    console.log('status checking1...')
-    console.log('status checking1... ',exercise_status1)
-    if(combine){
-    if(chosenTime===undefined){
-      console.log('status combine checking 1',careplanIdArray[selectedTime].time)
-   //  mapExer(careplanIdArray[selectedTime].time)
-     checkExerciseStatus1(careplanIdArray[selectedTime].time,exercise_status1)
-    }else if(exactTime[0]===undefined){
-      console.log('conflict..',exactTime)
-      console.log('conflict.. combine checking 1',careplanIdArray[selectedTime].time)
+  };
+  const checkStatus1 = () => {
+    console.log("status checking1...");
+    console.log("status checking1... ", exercise_status1);
+    if (combine) {
+      if (chosenTime === undefined) {
+        console.log(
+          "status combine checking 1",
+          careplanIdArray[selectedTime].time
+        );
+        //  mapExer(careplanIdArray[selectedTime].time)
+        checkExerciseStatus1(
+          careplanIdArray[selectedTime].time,
+          exercise_status1
+        );
+      } else if (exactTime[0] === undefined) {
+        console.log("conflict..", exactTime);
+        console.log(
+          "conflict.. combine checking 1",
+          careplanIdArray[selectedTime].time
+        );
+      } else {
+        console.log("status combine checking 2", exactTime[0]);
+        //  mapExer(exactTime[0])
+        checkExerciseStatus1(exactTime[0], exercise_status1);
+      }
+    } else {
+      if (exactTime !== 0) {
+        console.log("status not combine checking 1", exactTime);
+        // mapExer(exactTime)
+        // checkExerciseStatus(exactTime,exercise_status)
+      } else {
+        console.log("status not combine checking 2", times[0]);
+        // mapExer(times[0])
+        //  checkExerciseStatus(times[0],exercise_status)
+      }
     }
-    else{
-      console.log('status combine checking 2',exactTime[0])
-   //  mapExer(exactTime[0])
-     checkExerciseStatus1(exactTime[0],exercise_status1)
+  };
+  useEffect(() => {
+    if (exercises.length > 0 && update) {
+      console.log("status checking if");
+      checkStatus();
     }
-   }else{
-     if(exactTime!==0){
-      console.log('status not combine checking 1',exactTime)
-    // mapExer(exactTime)
-    // checkExerciseStatus(exactTime,exercise_status)
-     }else{
-      console.log('status not combine checking 2',times[0])
-   // mapExer(times[0])
-  //  checkExerciseStatus(times[0],exercise_status)
-     }
-   }
-  }
-useEffect(() => {
-  if(exercises.length>0&&update){
-    console.log('status checking if')
-    checkStatus()
-  }
-  if(exercises.length>0&&combine){
-    console.log('status checking else')
-    checkStatus1()
-  }
-}, [chosenTime]);
+    if (exercises.length > 0 && combine) {
+      console.log("status checking else");
+      checkStatus1();
+    }
+  }, [chosenTime]);
   return (
     <>
       <center>
-      <Row justify="center">
-        <h2 style={{position:'absolute',margin:'-10px'}}>{selectedMonth} - {selectedYear}</h2>
-      </Row>  
         <Row justify="center">
-         <Col md={16} lg={16} sm={24} xs={24}>
-        <DatePicker
-       getSelectedDay={(e)=>{
-        onSelectedDay(convert(e))
-        console.log('datepicker ',dayShort(e.getMonth()))
-        setSelectedMonth(dayShort(e.getMonth()))
-        setSelectedYear(e.getFullYear())
-      }}
-       labelFormat={"MMMM"}
-       color={"#374e8c"}
-     //   color={"#2d7ecb"}
-     //   onClick={(e)=>console.log(e)}
-      />
-        </Col>
+          <h2 style={{ position: "absolute", margin: "-10px" }}>
+            {selectedMonth} - {selectedYear}
+          </h2>
+        </Row>
+        <Row justify="center">
+          <Col md={16} lg={16} sm={24} xs={24}>
+            <DatePicker
+              getSelectedDay={(e) => {
+                onSelectedDay(convert(e));
+                console.log("datepicker ", dayShort(e.getMonth()));
+                setSelectedMonth(dayShort(e.getMonth()));
+                setSelectedYear(e.getFullYear());
+              }}
+              labelFormat={"MMMM"}
+              color={"#374e8c"}
+              //   color={"#2d7ecb"}
+              //   onClick={(e)=>console.log(e)}
+            />
+          </Col>
           {/* <div class="calenderView">
             <div class="monthName">
               <h2>{selectedMonth} - {selectedYear}</h2>
@@ -1090,7 +1110,6 @@ useEffect(() => {
             </ul>
             <div class="nextBTN">next</div>
           </div> */}
-
         </Row>
       </center>
       {loading && (
@@ -1104,7 +1123,7 @@ useEffect(() => {
             <ol>
               {sortedVisits.length > 0
                 ? sortedVisits.map((data) => {
-                     console.log("get data ",data)
+                    console.log("get data ", data);
                     return Visits(data);
                   })
                 : Visits(false)}
@@ -1113,36 +1132,72 @@ useEffect(() => {
           <Row className="p-2 main-card">{Prescriptions()}</Row>
         </Col>
         <Col className="exercises-cards">
-          {times.length !== 0 && TimeSlots(times)}        
-          {exercises.length !== 0
-            ?<>{exercises.map((ex, index) => {
-              console.log("ex inside ",ex)
+          {times.length !== 0 && TimeSlots(times)}
+          {exercises.length !== 0 ? (
+            <>
+              {exercises.map((ex, index) => {
+                console.log("ex inside ", ex);
                 return (
                   <>
-                  <div
-                    key={index}
-                    className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
-                    id="exercise-card2"
-                  >
-                     {ExerciseCard(ex)}
-                  </div>
+                    <div
+                      key={index}
+                      className="border px-2 py-2 ms-2 me-2 mt-2 exercise-card2"
+                      id="exercise-card2"
+                    >
+                      {ExerciseCard(ex)}
+                    </div>
                   </>
                 );
               })}
-              {exercises.length>0&&<div style={{display:'none'}} className="p-2 start_now_div"><Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck} p-2` }
-       disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
-       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button></div>}
-              </>
-            : !loading && (
-                <p className="text-center p border nothing-present">
-                  <b> No Plan For Today</b>{" "}
-                </p>
+              {exercises.length > 0 && (
+                <div style={{ display: "none" }} className="p-2 start_now_div">
+                  <Button
+                    className={`status-button-${
+                      customisedDate !== convert(new Date())
+                        ? "yes"
+                        : exstatCheck
+                    } p-2`}
+                    disabled={
+                      exstatCheck === "yes" ||
+                      customisedDate !== convert(new Date())
+                        ? true
+                        : false
+                    }
+                    style={{ float: "right" }}
+                    onClick={() => handleClick(exercises)}
+                  >
+                    Start Now
+                  </Button>
+                </div>
               )}
+            </>
+          ) : (
+            !loading && (
+              <p className="text-center p border nothing-present">
+                <b> No Plan For Today</b>{" "}
+              </p>
+            )
+          )}
         </Col>
       </div>
-      {exercises.length>0&&<div className="p-2 start_now_div_large"><Button className={`status-button-${customisedDate !== convert(new Date())?'yes':exstatCheck} p-2` }
-       disabled={exstatCheck==='yes'||customisedDate !== convert(new Date())?true:false} 
-       style={{float:'right'}} onClick={() => handleClick(exercises)} >Start Now</Button></div>}
+      {exercises.length > 0 && (
+        <div className="p-2 start_now_div_large">
+          <Button
+            className={`status-button-${
+              customisedDate !== convert(new Date()) ? "yes" : exstatCheck
+            } p-2`}
+            disabled={
+              exstatCheck === "yes" || customisedDate !== convert(new Date())
+                ? true
+                : false
+            }
+            style={{ float: "right" }}
+            onClick={() => handleClick(exercises)}
+          >
+            Start Now
+          </Button>
+        </div>
+      )}
     </>
   );
 };

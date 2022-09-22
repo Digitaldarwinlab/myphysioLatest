@@ -39,66 +39,112 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
                 return `<li> ${instruction}</li>`;
               })
             : [];
-        main.push(`<tr >
-            <td style="border-bottom: 1px solid black;"><span style="font-weight: bolder; font-size:22px"
-              ><div style="padding: 10px 50px;display: flex;flex-direction: column;">
-                <span style="font-weight: bolder; font-size:18px"
-                  ><span
-                    style="
-                      padding: 5px 12px;
-                      background-color: #2d7ecb;
-                      color: white;
-                      border-radius: 50%;
-                    "
-                    >${index + 1}</span
+        if (data.ex_em_id !== 262 && data.instruction_array.length > 0) {
+          main.push(`<tr >
+              <td style="border-bottom: 1px solid black;"><span style="font-weight: bolder; font-size:22px"
+                ><div style="padding: 10px 50px;display: flex;flex-direction: column;">
+                  <span style="font-weight: bolder; font-size:18px"
+                    ><span
+                      style="
+                        padding: 5px 12px;
+                        background-color: #2d7ecb;
+                        color: white;
+                        border-radius: 50%;
+                      "
+                      >${index + 1}</span
+                    >
+                    ${data.name}</span
                   >
-                  ${data.name}</span
-                >
-                <img
-                  src='${
-                    process.env.REACT_APP_EXERCISE_URL +
-                    "/" +
-                    data.image_url
-                      .replaceAll("t1", "t1_png")
-                      .replaceAll("webp", "png")
-                  }'
-                  alt=""
-                  width="200"
-                  height="110"
-                  style="margin-left: 40px"
-                />
-                <span style="font-weight: 400; font-size:15px;margin-left: 60px;width:140px; padding:5px;border:1px solid black"> 
-                <span style="border-right:1px solid black;padding-right:5px;">Sets</span>
-                <span >${data.Rep["set"]}</span>
-              </span>
-                <span style="font-weight: 400; font-size:15px;width:140px; padding:5px;border:1px solid black"> 
-                <span style="border-right:1px solid black;padding-right:5px;">Reps</span>
-                <span >${data.Rep["rep_count"]}</span>
-              </span>
-              </td>
-            <td style="border-bottom: 1px solid black;"><ul style="font-size: 15.5px;list-style-type: number;">
-            ${inst.join("")}
-          </ul></td>
-          </tr>`);
+                  <img
+                    src='${
+                      process.env.REACT_APP_EXERCISE_URL +
+                      "/" +
+                      data.image_url
+                        .replaceAll("t1", "t1_png")
+                        .replaceAll("webp", "png")
+                    }'
+                    alt=""
+                    width="200"
+                    height="110"
+                    style="margin-left: 40px"
+                  />
+                  <span style="font-weight: 400; font-size:15px;margin-left: 60px;width:140px; padding:5px;border:1px solid black"> 
+                  <span style="border-right:1px solid black;padding-right:5px;">Sets</span>
+                  <span >${data.Rep["set"]}</span>
+                </span>
+                  <span style="font-weight: 400; font-size:15px;width:140px; padding:5px;border:1px solid black"> 
+                  <span style="border-right:1px solid black;padding-right:5px;">Reps</span>
+                  <span >${data.Rep["rep_count"]}</span>
+                </span>
+                </td>
+              <td style="border-bottom: 1px solid black;"><ul style="font-size: 15.5px;list-style-type: number;">
+              ${inst.join("")}
+            </ul></td>
+            </tr>`);
+        } else {
+          let defaultImg = data.image_url !== ""
+            ? process.env.REACT_APP_EXERCISE_URL +
+              "/" +
+              data.image_url
+                .replaceAll("t1", "t1_png")
+                .replaceAll("webp", "png")
+            : "https://protkd.com/wp-content/uploads/2017/04/default-image.jpg";
+          main.push(`<tr >
+                <td style="border-bottom: 1px solid black;"><span style="font-weight: bolder; font-size:22px"
+                  ><div style="padding: 10px 50px;display: flex;flex-direction: column;">
+                    <span style="font-weight: bolder; font-size:18px"
+                      ><span
+                        style="
+                          padding: 5px 12px;
+                          background-color: #2d7ecb;
+                          color: white;
+                          border-radius: 50%;
+                        "
+                        >${index + 1}</span
+                      >
+                      ${data.name}</span
+                    >
+                    <img
+                      src='${defaultImg}'
+                      alt=""
+                      width="200"
+                      height="110"
+                      style="margin-left: 40px"
+                    />
+                   
+                  </td>
+                <td style="border-bottom: 1px solid black;"><ul style="font-size: 15.5px;list-style-type: number;">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </ul></td>
+              </tr>`);
+        }
       });
     }
     async function htmlmap() {
+      console.log(state.episodeReducer.patient_code);
       const res = await getEpisode(state.episodeReducer.patient_code);
       console.log(res);
       const patient = await Patient_profile(state.episodeReducer.patient_code);
-      const clinic = await getClinicDetails(
-        res[0]["treating_doctor_detail"][0]["clinic"]
-      );
+
+      const clinic =
+        res[0]["treating_doctor_detail"].length > 0 &&
+        (await getClinicDetails(res[0]["treating_doctor_detail"][0]["clinic"]));
       let name =
-        res[0]["treating_doctor_detail"][0]["middle_name"] !== ""
-          ? res[0]["treating_doctor_detail"][0]["first_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["middle_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["last_name"]
-          : res[0]["treating_doctor_detail"][0]["first_name"] +
-            " " +
-            res[0]["treating_doctor_detail"][0]["last_name"];
+        res[0]["treating_doctor_detail"][0] !== undefined
+          ? res[0]["treating_doctor_detail"][0]["middle_name"] !== ""
+            ? res[0]["treating_doctor_detail"][0]["first_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["middle_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["last_name"]
+            : res[0]["treating_doctor_detail"][0]["first_name"] +
+              " " +
+              res[0]["treating_doctor_detail"][0]["last_name"]
+          : "";
       console.log(clinic);
       let html = `<!DOCTYPE html>
         <html lang="en" style="margin: 0; padding: 0; box-sizing: border-box">
@@ -177,7 +223,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
     </div>
 
     <hr/>
-              <table style="width: 100%;margin: auto; height: fit-content;margin-top: 10px;">
+              <table style="width: 100%;margin: auto; height: fit-content;margin-top: 30px;">
               ${main.join("")}
               </table>
             </div>
@@ -188,6 +234,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
     htmlMapping();
     setTimeout(async () => {
       let htmlBody = await htmlmap();
+      console.log(htmlBody);
       let pdf = await CarePlanPdf(htmlBody);
       setblobValue(pdf);
     }, 1000);
