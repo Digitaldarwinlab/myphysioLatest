@@ -168,13 +168,13 @@ const ExerciseDetailsClass = () => {
                       loop={true}
                       controls={true}
                       className="react-player"
-                      url={exercise.youtube_link}
+                      url={exercise.video_path}
                       width="100%"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">
                       <source
-                        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_url}`}
+                        src={`${process.env.REACT_APP_EXERCISE_URL}/${exercise.video_path}`}
                         type="video/mp4"
                       />
                     </video>
