@@ -121,6 +121,7 @@ const PhysioVideoCall = (props) => {
       setUserIconSize(20)
     }
   }, [screen.width])
+  const [msgState ,setMsgState] = useState(false)
   const [modalVideoConfVisible, setModalVisible] = useState(true);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
@@ -438,15 +439,39 @@ const PhysioVideoCall = (props) => {
         if (obj.side == "arom-front") {
           console.log("AROM anterior ", res.message[0].AI_Data)
           setAnterior(res.message[0].AI_Data)
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+        });
         }
         if (obj.side == "arom-left") {
           console.log("AROM anterior ", res.message[0].AI_Data)
           setLateralLeft(res.message[0].AI_Data)
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+        });
         }
         if (obj.side == "arom-right") {
           console.log("AROM anterior ", res.message[0].AI_Data)
           setLateralRight(res.message[0].AI_Data)
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+        });
         }
+      }
+      if(obj.type == 'start-loading'){
+        if(obj.count){
+          setTimeout(() => {
+            setLoader(false)
+          }, obj.count);
+        }
+        setLoader(true)
+        // setMsgState(true)
       }
       if (obj.type == "snapshot") {
         let res = await GetVideoConfData(obj.data_id)
@@ -950,7 +975,8 @@ const PhysioVideoCall = (props) => {
             </Col>
             {/* assessment-tab-mobile */}
             {/* </Draggable> */}
-            {loader && <Loader />}
+            {loader && <Loader loading={msgState} />}
+
             <Col className="sticky_button_grp footer " span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
                 <Tooltip title={`Turn ${audio ? `off` : `on`} Microphone`}>

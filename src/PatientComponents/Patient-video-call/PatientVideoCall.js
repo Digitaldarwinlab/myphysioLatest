@@ -51,10 +51,11 @@ const PatientVideoCall = (props) => {
     })
     RTMChannel.sendMessageToPeer(mediaMessage, peerId)
   }
-  const [loadState ,setLoadState] = useState(false)
+  const [loadState, setLoadState] = useState(false)
   const [screenshare, setScreenShare] = useState(false)
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
+  const [startCount, setStartCount] = useState(1)
   const [client, setClient] = useState(null);
   const [screenClientTrack, setScreenClientTrack] = useState('')
   const [peerId, setPeerId] = useState('')
@@ -323,7 +324,21 @@ const PatientVideoCall = (props) => {
         window.darwin.stop()
       }
       if (obj.type == "anterior") {
+        console.log('cccccccc ', localStorage.getItem('startCount'))
         window.darwin.restart();
+        if (localStorage.getItem('startCount') == 1) {
+          let obj1 = {
+            type: "start-loading",
+            count: 9000
+          }
+          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        } else {
+          let obj1 = {
+            type: "start-loading",
+            count: 2000
+          }
+          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        }
         window.darwin.setExcersiseParams(obj.data);
         // console.log("stream check ", videoElem)
         let streamC
@@ -339,13 +354,42 @@ const PatientVideoCall = (props) => {
         client.unpublish(localVideoTrack)
         console.log("stream check ", r)
         //client.publish(r)
-        const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        setLocalAudioTrack(_localAudioTrack);
-        await client.publish([_localAudioTrack, r]);
+        if (localStorage.getItem('audio')=="true") {
+          const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+          setLocalAudioTrack(_localAudioTrack);
+          await client.publish([_localAudioTrack, r]);
+        }else{
+          await client.publish(r);
+        }
+        if (localStorage.getItem('startCount')) {
+          localStorage.setItem('startCount', 1 + Number(localStorage.getItem('startCount')))
+        } else {
+          localStorage.setItem('startCount', 1)
+        }
+        // setTimeout(() => {
+        //   let obj1 = {
+        //     type: "stop-loading"
+        //   }
+        //   //sendMsg(JSON.stringify(obj))
+        //   _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        // }, 2000)
         // setLocalVideoTrack()
       }
       if (obj.type == "posture") {
         window.darwin.restart();
+        if (localStorage.getItem('startCount') == 1) {
+          let obj1 = {
+            type: "start-loading",
+            count: 6000
+          }
+          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        } else {
+          let obj1 = {
+            type: "start-loading",
+            count: 2000
+          }
+          _rtmChannel.sendMessage({ text: JSON.stringify(obj1), type: 'TEXT' })
+        }
         window.darwin.selectOrientation(obj.side);
         // console.log("stream check ", videoElem)
         let streamC
@@ -361,9 +405,18 @@ const PatientVideoCall = (props) => {
         client.unpublish(localVideoTrack)
         console.log("stream check ", r)
         //client.publish(r)
-        const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        setLocalAudioTrack(_localAudioTrack);
-        await client.publish([_localAudioTrack, r]);
+        if (localStorage.getItem('audio')=="true") {
+          const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+          setLocalAudioTrack(_localAudioTrack);
+          await client.publish([_localAudioTrack, r]);
+        }else{
+          await client.publish(r);
+        }
+        if (localStorage.getItem('startCount')) {
+          localStorage.setItem('startCount', 1 + Number(localStorage.getItem('startCount')))
+        } else {
+          localStorage.setItem('startCount', 1)
+        }
         // setLocalVideoTrack()
       }
       if (obj.type == "snapshot") {
@@ -384,12 +437,12 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "started-screen-share") {
         setChangeViewOnscreenShare('change_view')
-        if(obj.screen_){
-         setChangeView('')
+        if (obj.screen_) {
+          setChangeView('')
           console.log("started-screen-share ai is on")
           document.getElementById('scanvas').style.display = 'none'
         }
-       // console.log('display property ',document.getElementById('scanvas').style)
+        // console.log('display property ',document.getElementById('scanvas').style)
         //physio-mic-video
         //document.getElementById('physio-mic-video').style.display = 'none'
         document.getElementById('remote').classList.add('rotate-screen-180')
@@ -404,11 +457,11 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "stopped-screen-share") {
         setChangeViewOnscreenShare('')
-        if(obj.screen_){
+        if (obj.screen_) {
           setChangeView('change_view')
           document.getElementById('scanvas').style.display = 'flex'
         }
-       // document.getElementById('scanvas').style.display='flex'
+        // document.getElementById('scanvas').style.display='flex'
         //physio-mic-video
         document.getElementById('physio-mic-video').style.display = 'block'
         document.getElementById('remote').classList.remove('rotate-screen-180')
@@ -443,6 +496,7 @@ const PatientVideoCall = (props) => {
   async function handleJoin() {
     console.log('channel ', channel)
     console.log('channel ', uid)
+    localStorage.setItem('startCount', 1)
     joinChannel()
     try {
       console.log('client', client);
@@ -461,7 +515,7 @@ const PatientVideoCall = (props) => {
       // create a local audio track
       const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       setLocalAudioTrack(_localAudioTrack);
-
+      localStorage.setItem('audio',true)
       // create a local video track
       const _localVideoTrack = await AgoraRTC.createCameraVideoTrack();
       setLocalVideoTrack(_localVideoTrack);
@@ -575,12 +629,14 @@ const PatientVideoCall = (props) => {
     sendMsg(JSON.stringify(obj))
   }
   const startAudio = async () => {
+    localStorage.setItem('audio',true)
     const temp = await AgoraRTC.createMicrophoneAudioTrack();
     setLocalAudioTrack(temp)
     client.publish(temp)
     setAudio(true)
   }
   const stopAudio = async () => {
+    localStorage.setItem('audio',false)
     localAudioTrack.close()
     client.unpublish(localAudioTrack)
     setAudio(false)

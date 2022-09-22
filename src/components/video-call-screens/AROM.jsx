@@ -14,6 +14,7 @@ import { GetJoint } from '../../API/care-plan/care-plan-api';
 import { connect } from 'react-redux';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
 import { CARE_PLAN_STATE_CHANGE } from '../../contextStore/actions/care-plan-action';
+import Loader from './Loader';
 let JointNew1 = {
     leftShoulder: [0, 1],
     leftElbow: [2, 3],
@@ -94,7 +95,8 @@ class AROM extends Component {
             LatLeftPriValue: [],
             LatRightPri: [],
             LatRightPriValue: [],
-            start_stop: false
+            start_stop: false,
+            disSel:false
         }
     }
     callJoints = async () => {
@@ -216,11 +218,11 @@ class AROM extends Component {
                 //                 TEMP["AROM"] = data[Object.keys(data)[0]];
                 //                 console.log(TEMP);
                 //                 this.props.FirstAssesment("Anterior_AI_Data", TEMP);
-                                notification.success({
-                                    message: "Angles have been calculated",
-                                    placement: "bottomLeft",
-                                    duration: 2,
-                                });
+                                // notification.success({
+                                //     message: "Angles have been calculated",
+                                //     placement: "bottomLeft",
+                                //     duration: 2,
+                                // });
                 //             }
                 //         }
                 //     }
@@ -305,11 +307,11 @@ class AROM extends Component {
                     //                 TEMP["AROM"] = data[Object.keys(data)[0]];
                     //                 console.log(TEMP);
                     //                 this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
-                                    notification.success({
-                                        message: "Angles have been calculated",
-                                        placement: "bottomLeft",
-                                        duration: 2,
-                                    });
+                                    // notification.success({
+                                    //     message: "Angles have been calculated",
+                                    //     placement: "bottomLeft",
+                                    //     duration: 2,
+                                    // });
                     //             }
                     //         }
                     //     }
@@ -394,11 +396,11 @@ class AROM extends Component {
                     //                 TEMP["AROM"] = data[Object.keys(data)[0]];
                     //                 console.log(TEMP);
                     //                 this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
-                                    notification.success({
-                                        message: "Angles have been calculated",
-                                        placement: "bottomLeft",
-                                        duration: 2,
-                                    });
+                                    // notification.success({
+                                    //     message: "Angles have been calculated",
+                                    //     placement: "bottomLeft",
+                                    //     duration: 2,
+                                    // });
                     //             }
                     //         }
                     //     }
@@ -514,30 +516,66 @@ class AROM extends Component {
     componentDidMount() {
         this.callJoints()
     }
+    reset = () => {
+        this.callJoints()
+        this.setState({toggleState:1})
+        this.setState({disabledLateralDrop:false})
+        this.setState({disabledButton: true})
+        this.setState({angles: []})
+        this.setState({disabledAnteriorDrop: false})
+        this.setState({SWITCH: false})
+        this.setState({newJoint: joints})
+        this.setState({romJoints: []})
+        this.setState({newJointChecked: []})
+        this.setState({lateralJoints: leftJoints})
+        this.setState({lateralJointsR: rightJoints})
+        this.setState({latSide: "left"})
+        this.setState({OrgAntPrimary: []})
+        this.setState({OrgLatLeftPrimary: []})
+        this.setState({OrgLatRightPrimary: []})
+        this.setState({primary_joints: []})
+        this.setState({newJointCheckedLeft: []})
+        this.setState({newJointCheckedRight: []})
+        this.setState({AntPri: []})
+        this.setState({AntPriValue: []})
+        this.setState({LatLeftPri: []})
+        this.setState({LatLeftPriValue: []})
+        this.setState({LatRightPri: []})
+        this.setState({LatRightPriValue: []})
+        this.setState({start_stop: false})
+        let obj = {
+            type:'darwin.stop'
+        }
+        this.props.sendMsg(JSON.stringify(obj))
+        this.props.setFreeze(false)
+        document.getElementsByClassName('ant-select-selection-item')[0].innerHTML = 'select'
+        document.getElementsByClassName('ant-select-selection-item')[1].innerHTML = 'select'
+        console.log(obj)
+    }
     render() {
         return (
             <Row>
                 <Card
                     style={{ marginTop: 5, borderRadius: 10, width: "100%" }}
-                    actions={[
-                        <Button
-                            className="mx-2 screenshot_btn"
-                            style={{ border: "none" }}
-                            icon={<CameraFilled />}
-                        //onClick={this.capture}
-                        >
-                            Screenshots
-                        </Button>,
-                        // <Button
-                        //     // disabled={this.state.SWITCH}
-                        //     className="mx-2"
-                        //     style={{ border: "none" }}
-                        //     icon={<CaretLeftFilled />}
-                        // // onClick={this.back}
-                        // >
-                        //     Backs
-                        // </Button>,
-                    ]}
+                    // actions={[
+                    //     <Button
+                    //         className="mx-2 screenshot_btn"
+                    //         style={{ border: "none" }}
+                    //         icon={<CameraFilled />}
+                    //     //onClick={this.capture}
+                    //     >
+                    //         Screenshots
+                    //     </Button>,
+                    //     // <Button
+                    //     //     // disabled={this.state.SWITCH}
+                    //     //     className="mx-2"
+                    //     //     style={{ border: "none" }}
+                    //     //     icon={<CaretLeftFilled />}
+                    //     // // onClick={this.back}
+                    //     // >
+                    //     //     Backs
+                    //     // </Button>,
+                    // ]}
                 >
                     <Row
                         className="arom_button_grp"
@@ -561,7 +599,7 @@ class AROM extends Component {
                             <Button
                                 style={{ border: "none" }}
                                 icon={<RollbackOutlined />}
-                            // onClick={this.reset}
+                                onClick={this.reset}
                             >
                                 Reset
                             </Button>
