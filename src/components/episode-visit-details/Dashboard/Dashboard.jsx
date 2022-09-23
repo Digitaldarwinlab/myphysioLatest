@@ -24,7 +24,7 @@ const Dashboard = (props) => {
   const [exerciseValue, setExerciseValue] = useState();
   const [option, setOption] = useState();
   const [multiMaxoption, setMultiMaxOption] = useState();
-  const [multiMinoption, setMultiMinOption] = useState();
+  const [multishow, setMultiShow] = useState(false);
   const [multiJointoption, setMultiJointOption] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
@@ -837,13 +837,14 @@ const Dashboard = (props) => {
       let datearomArray = [];
       let maxArray = [];
       let minArray = [];
-      let response = await fetchAromDetails(221, "2021-08-04", "2022-08-19");
-      // let response = await fetchAromDetails(der, startDate, endDate);
+      // let response = await fetchAromDetails(221, "2021-08-04", "2022-08-19");
+      let response = await fetchAromDetails(der, startDate, endDate);
       if (Object.keys(response).length) {
         if (
           response.primary_joints.length > 0 &&
           Object.keys(response.result).length
         ) {
+          setMultiShow(true);
           response.primary_joints.forEach((i) => {
             // const [dateVal] = Object.keys(response.result[i]);
             // datearomArray.push(dateVal);
@@ -855,16 +856,16 @@ const Dashboard = (props) => {
               ) {
                 // console.log(response.result[i][date])
                 a.push({
-                  x: date,
+                  x: new Date(date),
                   y: response.result[i][date]["max"],
                 });
                 b.push({
-                  x: date,
+                  x: new Date(date),
                   y: response.result[i][date]["min"],
                 });
               } else {
-                a.push({ x: date, y: 0 });
-                b.push({ x: date, y: 0 });
+                a.push({ x: new Date(date), y: 0 });
+                b.push({ x: new Date(date), y: 0 });
               }
             });
             maxArray.push({
@@ -872,7 +873,7 @@ const Dashboard = (props) => {
               showInLegend: true,
               jointName: i,
               name: "Max",
-              xValueFormatString: "MMM YYYY",
+              xValueFormatString: "MMM",
               dataPoints: a,
             });
             minArray.push({
@@ -880,14 +881,14 @@ const Dashboard = (props) => {
               showInLegend: true,
               jointName: i,
               axisYType: "secondary",
-              xValueFormatString: "MMM YYYY",
+              xValueFormatString: "MMM",
               name: "Min",
               dataPoints: b,
             });
           });
-          let arr = maxArray.concat(minArray)
+          let arr = maxArray.concat(minArray);
           setMultiMaxOption(arr);
-          setMultiJointOption(response.primary_joints)
+          setMultiJointOption(response.primary_joints);
         }
       }
     }
@@ -959,9 +960,10 @@ const Dashboard = (props) => {
             style={{ width: "100%", resize: "none" }}
           >
             <div>
-              <MultiLineGraph  mainValue={multiMaxoption}    Jointvalue={multiJointoption}/>
-              
-
+              <MultiLineGraph
+                mainValue={multiMaxoption}
+                Jointvalue={multiJointoption}
+              />
             </div>
           </Modal>
           <Modal
@@ -1024,14 +1026,16 @@ const Dashboard = (props) => {
                   marginRight: "20px",
                 }}
               >
-                <Button
-                  type="primary"
-                  style={{ marginRight: "5px" }}
-                  onClick={showModal2}
-                >
-                  Arom
-                  <TbReportMedical />
-                </Button>
+                {multishow && (
+                  <Button
+                    type="primary"
+                    style={{ marginRight: "5px" }}
+                    onClick={showModal2}
+                  >
+                    Arom
+                    <TbReportMedical />
+                  </Button>
+                )}
                 <Button type="primary" onClick={showModal}>
                   PainScale
                   <TbReportMedical />
