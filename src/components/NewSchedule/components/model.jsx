@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 
 //moment.js
 // import moment from "moment";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
+import { DropdownApi } from "../../../API/Dropdown/Dropdown";
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
@@ -34,10 +35,19 @@ import { ImPlus } from "react-icons/im";
 
 const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const episodeState = useSelector((state) => state.episodeReducer);
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("visit");
+      console.log(data);
+      setDropdownValue(data.visit);
+    }
+    getData();
+  }, []);
   console.log(episodeState);
   // moment.tz.add("Asia/Calcutta|HMT BURT IST IST|-5R.k -6u -5u -6u|01232|-18LFR.k 1unn.k HB0 7zX0");
   // moment.tz.link("Asia/Calcutta|Asia/Kolkata");
-  moment.tz.setDefault("Asia/Kolkata")
+  moment.tz.setDefault("Asia/Kolkata");
   const days = useMemo(() => {
     return [
       "sunday",
@@ -80,63 +90,62 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   });
 
   console.log(activeDays);
-async function adminId(id){
-  
-  try {
-    const headers = {
-      Accept: "application/json",
-      "Content-type": "application/json",
-    };
-    // const encodedData = Encode();
-    const response = await fetch(
-      process.env.REACT_APP_API + "/auth_detail/",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({ id: id }),
-      }
-    );
-    const data = await response.json();
-    
-    return data;
-    // return data;
-  } catch (err) {
-    // console.log(err, "Error in Fetching Patient Care Plan");
-    return [];
+  async function adminId(id) {
+    try {
+      const headers = {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      };
+      // const encodedData = Encode();
+      const response = await fetch(
+        process.env.REACT_APP_API + "/auth_detail/",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({ id: id }),
+        }
+      );
+      const data = await response.json();
+
+      return data;
+      // return data;
+    } catch (err) {
+      // console.log(err, "Error in Fetching Patient Care Plan");
+      return [];
+    }
   }
-}
   if (data.date._d) {
     console.log(data.date._d.toISOString().slice(11, 19));
     console.log(data.date.toISOString());
   }
-  async function videoLink2(e){
+  async function videoLink2(e) {
     let channel = "";
-      const user_id = localStorage.getItem("userId");
-      // setEpisode(response)
-      var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-      const physioDetails = await getPhysio(user_id);
-      if (physioDetails != "") {
-        const physio_id = physioDetails[0].uid;
-        channel += physio_id + "-";
-      } else {
-        let id = await adminId(user_id)
-        channel += id['uid'] + "-";
+    const user_id = localStorage.getItem("userId");
+    // setEpisode(response)
+    var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const physioDetails = await getPhysio(user_id);
+    if (physioDetails != "") {
+      const physio_id = physioDetails[0].uid;
+      channel += physio_id + "-";
+    } else {
+      let id = await adminId(user_id);
+      channel += id["uid"] + "-";
+    }
+    const patient_id = episodeState.patient_main_code;
+    channel += patient_id + "-";
+    for (var i = 0; i < 7; i++) {
+      if (i == 6) {
+        channel += "_";
+        channel += user_id;
+        channel += "_";
+        channel += e.pp_ed_id;
+        break;
       }
-      const patient_id = episodeState.patient_main_code;
-      channel += patient_id + "-";
-      for (var i = 0; i < 7; i++) {
-        if (i == 6) {
-          channel += "_";
-          channel += user_id;
-          channel += "_";
-          channel += e.pp_ed_id;
-          break;
-        }
-        channel += characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
-      }
-      return channel
+      channel += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return channel;
   }
 
   useEffect(async () => {
@@ -151,8 +160,8 @@ async function adminId(id){
         const physio_id = physioDetails[0].uid;
         channel += physio_id + "-";
       } else {
-        let id = await adminId(user_id)
-        channel += id['uid'] + "-";
+        let id = await adminId(user_id);
+        channel += id["uid"] + "-";
       }
       const patient_id = episodeState.patient_main_code;
       channel += patient_id + "-";
@@ -257,7 +266,7 @@ async function adminId(id){
 
     dispatch({
       type: "VISIT_DATE",
-      payload: { date: reducerData.date},
+      payload: { date: reducerData.date },
     });
 
     dispatch({
@@ -272,8 +281,8 @@ async function adminId(id){
     dispatch({ type: "CREATED_BY", payload: { created_by: "" } });
   };
   const handleOk = () => {
-    removeVisitClick() 
-    setShow(false)
+    removeVisitClick();
+    setShow(false);
     dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
     console.log(data);
     setIsVisible(false);
@@ -282,7 +291,7 @@ async function adminId(id){
   const handleChange = (value, name) => {
     dispatch({ type: "EPISODE_ID", payload: { episode: data.episode } });
     if (name === "location") {
-      if (value === "Video-confrence") {
+      if (value === "Video-conference") {
         setAddVideo(true);
       } else {
         setAddVideo(false);
@@ -292,7 +301,7 @@ async function adminId(id){
       dispatch({ type: "VISIT_TYPE", payload: { [name]: value } });
     }
     if (name == "date") {
-      console.log(value)
+      console.log(value);
       dispatch({ type: "VISIT_DATE", payload: { [name]: value } });
     }
     if (name == "duration") {
@@ -326,7 +335,7 @@ async function adminId(id){
         setAlert(false);
         setAlertMessage("");
         const userId = JSON.parse(localStorage.getItem("userId"));
-        console.log(reducerData.date._d.toISOString().slice(11, 19))
+        console.log(reducerData.date._d.toISOString().slice(11, 19));
         let payload;
         if (show) {
           payload = {
@@ -334,7 +343,7 @@ async function adminId(id){
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.location === "Video-confrence" ? data.link : "",
+            video_link: data.location === "Video-conference" ? data.link : "",
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -355,7 +364,7 @@ async function adminId(id){
             visit_type: data.visitType,
             notes: data.notes,
             status: data.status,
-            video_link: data.location === "Video-confrence" ? data.link : "",
+            video_link: data.location === "Video-conference" ? data.link : "",
             appointment_detail: {
               patient: data.patient,
               startDate: data.date._d.toISOString(),
@@ -363,7 +372,7 @@ async function adminId(id){
               duration: data.duration,
             },
             location: data.location,
-            isRepeat: '',
+            isRepeat: "",
             created_by: userId,
           };
           console.log(reducerData.date._d.toISOString().slice(11, 19));
@@ -417,8 +426,8 @@ async function adminId(id){
       notes: reducerData.notes,
       status: reducerData.status,
       location: reducerData.location,
-      isRepeat: reducerData.isRepeat ? 1 : '',
-      video_link: data.location === "Video-confrence" ? data.link : "" ,
+      isRepeat: reducerData.isRepeat ? 1 : "",
+      video_link: data.location === "Video-conference" ? data.link : "",
       repeat: "weekly",
       days: reducerData.days,
       occurence: reducerData.occurence || reducerData.visit_number || 1,
@@ -495,7 +504,7 @@ async function adminId(id){
       };
     }
   }
-  
+
   //model style
   const divStyle = {
     //  overflowY: 'scroll',
@@ -594,7 +603,13 @@ async function adminId(id){
                 { !reducerData.patient && <div style={{ width: '83%' }}><PatientSearch /></div>} */}
                 <Row>
                   <div className="patient_search">
-                    <PatientSearch value={window.location.href.split('/').pop() === 'appointments' ? data.patient : reducerData.patient} />
+                    <PatientSearch
+                      value={
+                        window.location.href.split("/").pop() === "appointments"
+                          ? data.patient
+                          : reducerData.patient
+                      }
+                    />
                   </div>
                 </Row>
               </Col>
@@ -603,7 +618,19 @@ async function adminId(id){
                   {" "}
                   Visit Type <span className="colreq">*</span>
                 </label>
-                <Select
+                {dropdownValue.visit_type !== undefined && (
+                  <Select
+                  className="modalInputs"
+                  placeholder="Visit Type"
+                  value={reducerData.visitType}
+                  onChange={(value) => handleChange(value, "visitType")}
+                  >
+                    {dropdownValue.visit_type.map((i) => (
+                      <Option value={i}>{i}</Option>
+                    ))}
+                  </Select>
+                )}
+                {/* <Select
                   className="modalInputs"
                   placeholder="Visit Type"
                   value={reducerData.visitType}
@@ -615,7 +642,7 @@ async function adminId(id){
                   <Option value="Routine">Routine</Option>
                   <Option value="Walk-in">Walk in</Option>
                   <Option value="Other">Other</Option>
-                </Select>
+                </Select> */}
               </Col>
             </Row>
 
@@ -664,29 +691,38 @@ async function adminId(id){
                   {" "}
                   Duration <span className="colreq">*</span>
                 </label>
-
-                <Select
-                  className="modalInputs"
-                  placeholder="Duration"
-                  value={reducerData.duration}
-                  onChange={(value) => handleChange(value, "duration")}
-                >
-                  <Option value="15 minutes">15 minutes</Option>
-                  <Option value="30 minutes">30 minutes</Option>
-                  <Option value="45 minutes">45 minutes</Option>
-                  <Option value="1 hour">1 hour</Option>
-                  <Option value="75 minutes">75 minutes</Option>
-                  <Option value="90 minutes">90 minutes</Option>
-                  <Option value="105 minutes">105 minutes</Option>
-                  <Option value="2 hours">2 hour</Option>
-                </Select>
+                {dropdownValue.Duration !== undefined && (
+                  <Select
+                    className="modalInputs"
+                    placeholder="Duration"
+                    value={reducerData.duration}
+                    onChange={(value) => handleChange(value, "duration")}
+                  >
+                    {dropdownValue.Duration.map((i) => (
+                      <Option value={i}>{i}</Option>
+                    ))}
+                  </Select>
+                )}
               </Col>
               <Col span={12}>
                 <label className="lab">
                   {" "}
                   Status <span className="colreq">*</span>
                 </label>
-                <Select
+                {dropdownValue.status !== undefined && (
+                  <Select
+                  className="modalInputs"
+                  placeholder="Status"
+                  value={reducerData.status}
+                  onChange={(value) => handleChange(value, "status")}
+                  >
+                    {dropdownValue.status.map((i) => (
+                      <Option value={i}>{i}</Option>
+                    ))}
+                  </Select>
+                )}
+
+                {/* <Select
                   className="modalInputs"
                   placeholder="Status"
                   value={reducerData.status}
@@ -697,7 +733,7 @@ async function adminId(id){
                   <Option value="Trauma">Trauma</Option>
                   <Option value="Corporate">Corporate</Option>
                   <Option value="Wellness">Wellness</Option>
-                </Select>
+                </Select> */}
               </Col>
             </Row>
 
@@ -707,22 +743,24 @@ async function adminId(id){
                   {" "}
                   Location <span className="colreq">*</span>
                 </label>
-                <Select
+                {dropdownValue.location !== undefined && (
+                  <Select
                   className="modalInputs"
                   placeholder="Location"
                   value={reducerData.location}
                   onChange={(value) => handleChange(value, "location")}
-                >
-                  <Option value="Clinic">Clinic</Option>
-                  <Option value="Home">Home</Option>
-                  <Option value="Video-confrence">Video Conference</Option>
-                </Select>
+                  >
+                    {dropdownValue.location.map((i) => (
+                      <Option value={i}>{i}</Option>
+                    ))}
+                  </Select>
+                )}
               </Col>
               {addVideo && (
                 <Col span={12} style={{ marginTop: "5px" }}>
-                  <label className="lab"> Add Video Confrences</label>
+                  <label className="lab"> Add Video Conference</label>
                   <Input
-                    value={data.link }
+                    value={data.link}
                     placeholder="https://drive.in/.."
                     className="modalInputs"
                     onChange={(e) => handleChange(e.target.value, "link")}
@@ -753,7 +791,6 @@ async function adminId(id){
               <Row>
                 <p> Recurrence Rule</p>
                 <Col span={24}>
-
                   {repeat === "Weekly" && (
                     <div className="repeatFun">
                       <p style={{ fontWeight: "700" }}>

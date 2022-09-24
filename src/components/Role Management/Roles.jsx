@@ -29,14 +29,14 @@ const Roles = () => {
         Apis_using: totalApi,
       };
       let a = await AddRoutesApi(data);
-      if (a !== []) {
+      if (a.length>0) {
         setalertError("");
         setalertVal(false);
         setIsModalOpen(false);
         window.location.reload();
       } else {
         setalertVal(true);
-        setalertError("Route Name already exist");
+        setalertError("Error Occured!!");
       }
     } else {
       setalertVal(true);

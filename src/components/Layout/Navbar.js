@@ -94,7 +94,7 @@ const Navigationbar = (props) => {
   const LogoutMenu = () => {
     return (
       <Menu className="dropDownMenu UserDropDown">
-        {userInfo.role === "admin" && (
+        {/* {userInfo.role === "admin" && (
           <Menu.Item key="1" style={{ borderTop: "0px solid black" }}>
             <Link
               to="#Myprofile"
@@ -103,7 +103,7 @@ const Navigationbar = (props) => {
               My Profile
             </Link>
           </Menu.Item>
-        )}
+        )} */}
         {userInfo.role === "admin" && (
           <Menu.Item key="0" style={{ borderTop: "0px solid black" }}>
             <Link

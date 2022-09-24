@@ -3,6 +3,7 @@ import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { AiFillMedicineBox } from "react-icons/ai";
 import ClipLoader from "react-spinners/ClipLoader";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 import {
   Select,
   Row,
@@ -168,6 +169,15 @@ darwin.addProgressListener((setCount, repCount) => {
 */
 
 const Assesment1 = ({ back, next }) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Assesment");
+      console.log(data)
+      setDropdownValue(data.Assesment)
+    }
+    getData();
+  }, []);
   const assesmentRef = useRef(null);
   const state = useSelector((state) => state);
   const [form] = Form.useForm();
@@ -1660,6 +1670,7 @@ const Assesment1 = ({ back, next }) => {
                       style={{ paddingLeft: "0px" }}
                     >
                       <h4>Occupation</h4>
+                      {dropdownValue.Occupation !== undefined &&
                       <select
                         className="form-select w-100"
                         name={"occupation" + index}
@@ -1675,13 +1686,15 @@ const Assesment1 = ({ back, next }) => {
                         }
                       >
                         <option selected></option>
-                        <option value="Desk Job">Desk Job</option>
+                        {dropdownValue.Occupation.map(i=><option value={i}>{i}</option>)}
+                        {/* <option value="Desk Job">Desk Job</option>
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
                         <option value="Home Maker">Home Maker</option>
                         <option value="Retired">Retired</option>
-                        <option value="Sports">Sports</option>
+                        <option value="Sports">Sports</option> */}
                       </select>
+                      }
                     </Col>
                     {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}

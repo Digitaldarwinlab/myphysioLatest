@@ -12,6 +12,7 @@ import FormDate from "../UI/antInputs/FormDate";
 import { Typography, Select, Row, Col, Button, Form, Space } from "antd";
 import moment from "moment";
 import "../../styles/Layout/Heading.css";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -23,6 +24,15 @@ export const calculate = (dt2, dt1) => {
 };
 
 const Register1 = (props) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Registration");
+      console.log(data);
+      setDropdownValue(data.Registration);
+    }
+    getData();
+  }, []);
   const [startDateState, setStartDateState] = useState("");
 
   const [NewAge, setNewAge] = useState("");
@@ -385,7 +395,22 @@ const Register1 = (props) => {
                 name="Gender"
               //rules={[{ required: true, message: `Please Select Gender.` }]}
               >
-                <Select
+                {dropdownValue.Gender !== undefined && (
+                  <Select
+                  placeholder="Gender"
+                  className="input-field w-100"
+                  onChange={(value) => handleChange("Gender", value)}
+                  value={state.BasicDetails.Gender}
+                  defaultValue={state.BasicDetails.Gender}
+                  >
+                    {dropdownValue.Gender.map((item, index) => (
+                      <Option key={item} value={index + 1}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                {/* <Select
                   placeholder="Gender"
                   className="input-field w-100"
                   onChange={(value) => handleChange("Gender", value)}
@@ -395,7 +420,7 @@ const Register1 = (props) => {
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
                   <Option value="Other">Other</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
             <Col md={12} lg={8} sm={24} xs={24}>
@@ -408,7 +433,22 @@ const Register1 = (props) => {
                 name="bloodType"
               //rules={[{ required: true, message: `Please Select Blood Type.` }]}
               >
-                <Select
+                {dropdownValue['Blood Type'] !== undefined && (
+                  <Select
+                  className="input-field w-100"
+                  placeholder="Select Blood Type"
+                  onChange={(value) => handleChange("bloodType", value)}
+                  value={state.BasicDetails.bloodType}
+                  defaultValue={state.BasicDetails.bloodType}
+                  >
+                    {dropdownValue['Blood Type'].map((item, index) => (
+                      <Option key={item} value={index + 1}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                {/* <Select
                   className="input-field w-100"
                   placeholder="Select Blood Type"
                   onChange={(value) => handleChange("bloodType", value)}
@@ -423,7 +463,7 @@ const Register1 = (props) => {
                   <Option value="AB">AB-</Option>
                   <Option value="O+">O+</Option>
                   <Option value="O-">O-</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>

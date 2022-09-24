@@ -342,7 +342,7 @@ const App = () => {
                 marginLeft: isSideNavbarCollpased
                   ? ""
                   : isAuthenticated()
-                    ? "280px"
+                    ? "250px"
                     : "",
               }}
             >

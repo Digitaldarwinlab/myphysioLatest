@@ -91,6 +91,7 @@
   .tableclass {
     display: block;
     width: 100% !important;
+    overflow-x: auto;
   }
 }
 @media only screen and (max-width: 650px) {

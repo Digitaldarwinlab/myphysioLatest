@@ -815,7 +815,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
           {exercises.length > 0 && (
             <>
               {startStatus && (
-                <div className="p-2  start_now_div_large">
+                <div className="p-2 ">
                   <Button
                   className="startButton"
                     style={{ float: "right" }}

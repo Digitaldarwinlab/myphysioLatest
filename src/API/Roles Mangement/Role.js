@@ -55,7 +55,7 @@ export const AddRoutesApi = async (data) => {
       // console.log(await response.blob())
       const responseData = await response.json()
       if (response.status === 200 || response.status === 201)
-      return  responseData;
+      return  [responseData];
     } catch (err) {
       // console.log(err, "Error in Fetching Patient Visits");
       return [];
@@ -101,7 +101,7 @@ export const AddRoutesApi = async (data) => {
       // console.log(await response.blob())
       const responseData = await response.json()
       if (response.status === 200 || response.status === 201)
-      return  responseData;
+      return  [responseData];
     } catch (err) {
       // console.log(err, "Error in Fetching Patient Visits");
       return [];
@@ -123,7 +123,7 @@ export const AddRoutesApi = async (data) => {
       // console.log(patId)
       // console.log(await response.blob())
       const responseData = await response.json()
-      return  responseData;
+      return  [responseData];
     } catch (err) {
       // console.log(err, "Error in Fetching Patient Visits");
       return [];
