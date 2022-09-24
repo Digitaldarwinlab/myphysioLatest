@@ -1,4 +1,4 @@
-import { Button, Col, Drawer, Form, Input, Modal, notification, Radio, Row, Space, Tooltip } from 'antd';
+import { Button, Col, Drawer, Form, Input, Modal, notification, Popconfirm, Radio, Row, Space, Tag, Tooltip } from 'antd';
 import React, { useEffect, useState, useRef } from 'react'
 import 'antd/dist/antd.css'
 import AgoraRTC from 'agora-rtc-sdk-ng';
@@ -17,7 +17,7 @@ import side_sit_img from "../../assets/Side_Sit.webp";
 import AROM from './AROM';
 import { GetToken, GetVideoConfData } from '../../API/VideoConf/videoconf';
 import Tabs from '../Assesment/Tabs';
-import { AiOutlineCloseCircle, AiOutlineDoubleRight } from 'react-icons/ai';
+import { AiOutlineClear, AiOutlineCloseCircle, AiOutlineDoubleRight } from 'react-icons/ai';
 import Loader from './Loader';
 import { useDispatch } from 'react-redux';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
@@ -107,6 +107,15 @@ const PhysioVideoCall = (props) => {
   //   rtmClient.removeAllListeners()
   //   setLoggedIn(false)
   // }
+  let TempLabels = {
+    Anterior: 'Anterior',
+    leftLateral: 'Lateral-Left',
+    rightLateral: 'Lateral-Right',
+    Posterial_view: 'Anterior Standing',
+    lateral_view: 'Lateral Standing',
+    sitting_Posterial_view: 'Anterior Sitting',
+    Sitting_lateral_view: 'Lateral Sitting'
+  }
   const dispatch = useDispatch();
   const state = useSelector(state => state);
   const sendMsg = async (text) => {
@@ -115,14 +124,25 @@ const PhysioVideoCall = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [userIconSize, setUserIconSize] = useState(70)
   useEffect(() => {
+    localStorage.removeItem("AI_Data")
+    localStorage.removeItem("AI_Data_temp")
+    localStorage.removeItem("Posture_Data")
+    localStorage.removeItem("Posture_Data_temp")
+  }, [])
+
+  useEffect(() => {
     if (screen.width < 650) {
       setUserIconSize(15)
     } else {
       setUserIconSize(20)
     }
   }, [screen.width])
-  const [msgState ,setMsgState] = useState(false)
+
+  const [TempPosture, setTempPosture] = useState([])
+  const [TempAROM, setTempAROM] = useState([])
+  const [msgState, setMsgState] = useState(false)
   const [modalVideoConfVisible, setModalVisible] = useState(true);
+  const [modalSaveDataVisible, setModalSaveDataVisible] = useState(false);
   const [localAudioTrack, setLocalAudioTrack] = useState(null);
   const [localVideoTrack, setLocalVideoTrack] = useState(null);
   const [disable, setDisable] = useState(true)
@@ -270,6 +290,69 @@ const PhysioVideoCall = (props) => {
       });
     }
   }, []);
+  const ResetData = () => {
+    setLoader(true)
+    setUrl1(bodyImage)
+    setUrl2(side_img)
+    setUrl3(bodySideImage)
+    setUrl4(side_sit_img)
+    setAnterior({})
+    setLateralLeft({})
+    setLateralRight({})
+    setFrontAngles([0, 0, 0, 0, 0])
+    setSideAngles([0, 0, 0, 0])
+    setFrontSitAngles([0, 0, 0, 0, 0])
+    setSideSitAngles([0, 0, 0, 0, 0])
+    setTempPosture([])
+    setTempAROM([])
+    setFreeze(false)
+    setOrientation(1)
+    setView('Posture')
+    localStorage.removeItem("AI_Data")
+    localStorage.removeItem("AI_Data_temp")
+    localStorage.removeItem("Posture_Data")
+    localStorage.removeItem("Posture_Data_temp")
+    setTimeout(() => {
+      setView('AROM')
+    }, 50);
+    //Posture
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "frontChecks",
+        value: {},
+      },
+    });
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "sideChecks",
+        value: {},
+      },
+    });
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "sideSitChecks",
+        value: {},
+      },
+    });
+    dispatch({
+      type: STATECHANGE,
+      payload: {
+        key: "frontSitChecks",
+        value: {},
+      },
+    });
+    setTimeout(() => {
+      setLoader(false)
+      notification.success({
+        message: "Data cleaned",
+        placement: "bottomLeft",
+        duration: 2,
+      });
+    }, 1000);
+  }
   const onChangeFront = (value) => {
     console.log("front ", value);
     dispatch({
@@ -443,7 +526,7 @@ const PhysioVideoCall = (props) => {
             message: "Angles have been calculated",
             placement: "bottomLeft",
             duration: 2,
-        });
+          });
         }
         if (obj.side == "arom-left") {
           console.log("AROM anterior ", res.message[0].AI_Data)
@@ -452,7 +535,7 @@ const PhysioVideoCall = (props) => {
             message: "Angles have been calculated",
             placement: "bottomLeft",
             duration: 2,
-        });
+          });
         }
         if (obj.side == "arom-right") {
           console.log("AROM anterior ", res.message[0].AI_Data)
@@ -461,11 +544,11 @@ const PhysioVideoCall = (props) => {
             message: "Angles have been calculated",
             placement: "bottomLeft",
             duration: 2,
-        });
+          });
         }
       }
-      if(obj.type == 'start-loading'){
-        if(obj.count){
+      if (obj.type == 'start-loading') {
+        if (obj.count) {
           setTimeout(() => {
             setLoader(false)
           }, obj.count);
@@ -524,69 +607,76 @@ const PhysioVideoCall = (props) => {
     setRTMChannel(_rtmChannel)
   }
   const saveVideoConfData = () => {
-    if (window.confirm("Saving Assessment")) {
-      let posture = {
-        posture_test_date: new Date().toLocaleDateString("en-GB"),
-        // Notes: this.state.notes,
-      };
-      if (url1 != bodyImage) {
-        let post = {
-          posterial_view_image: url1,
-          Angles: frontAngles,
-          checkbox: state.FirstAssesment.frontChecks,
-        }
-        posture['Posterial_view'] = post
+    // if (window.confirm("Saving Assessment")) {
+    let posture = {
+      posture_test_date: new Date().toLocaleDateString("en-GB"),
+    };
+    if (url1 != bodyImage) {
+      let post = {
+        posterial_view_image: url1,
+        Angles: frontAngles,
+        checkbox: state.FirstAssesment.frontChecks,
       }
-      if (url2 != side_img) {
-        let post = {
-          posterial_view_image: url2,
-          Angles: sideAngles,
-          checkbox: state.FirstAssesment.sideChecks,
-        }
-        posture['lateral_view'] = post
-      }
-      if (url3 != bodySideImage) {
-        let post = {
-          posterial_view_image: url3,
-          Angles: frontSitAngles,
-          checkbox: state.FirstAssesment.frontSitChecks,
-        }
-        posture['sitting_Posterial_view'] = post
-      }
-      if (url4 != side_sit_img) {
-        let post = {
-          posterial_view_image: url4,
-          Angles: sideSitAngles,
-          checkbox: state.FirstAssesment.sideSitChecks,
-        }
-        posture['Sitting_lateral_view'] = post
-      }
-      if (url1 == bodyImage && url2 == side_img && url3 == bodySideImage && url4 == side_sit_img) {
-        posture = {}
-      }
-      console.log("Posture ", posture)
-      if (Object.keys(posture).length > 0) {
-        localStorage.setItem("Posture_Data", JSON.stringify(posture));
-      }
-      let arom = {}
-      if (Object.keys(anterior).length > 0) {
-        arom['Anterior'] = anterior
-      } else {
-        arom['Anterior'] = ''
-      }
-      if (Object.keys(lateralLeft).length > 0) {
-        arom['leftLateral'] = lateralLeft
-      } else {
-        arom['leftLateral'] = ''
-      }
-      if (Object.keys(lateralRight).length > 0) {
-        arom['rightLateral'] = lateralRight
-      } else {
-        arom['rightLateral'] = ''
-      }
-      console.log("AROM ", arom)
-      localStorage.setItem("AI_Data", JSON.stringify(arom));
+      posture['Posterial_view'] = post
     }
+    if (url2 != side_img) {
+      let post = {
+        posterial_view_image: url2,
+        Angles: sideAngles,
+        checkbox: state.FirstAssesment.sideChecks,
+      }
+      posture['lateral_view'] = post
+    }
+    if (url3 != bodySideImage) {
+      let post = {
+        posterial_view_image: url3,
+        Angles: frontSitAngles,
+        checkbox: state.FirstAssesment.frontSitChecks,
+      }
+      posture['sitting_Posterial_view'] = post
+    }
+    if (url4 != side_sit_img) {
+      let post = {
+        posterial_view_image: url4,
+        Angles: sideSitAngles,
+        checkbox: state.FirstAssesment.sideSitChecks,
+      }
+      posture['Sitting_lateral_view'] = post
+    }
+    if (url1 == bodyImage && url2 == side_img && url3 == bodySideImage && url4 == side_sit_img) {
+      posture = {}
+    }
+    console.log("Posture ", posture)
+    if (Object.keys(posture).length > 0) {
+      localStorage.setItem("Posture_Data_temp", JSON.stringify(posture));
+    }
+    let arom = {}
+    if (Object.keys(anterior).length > 0) {
+      arom['Anterior'] = anterior
+    } else {
+      arom['Anterior'] = ''
+    }
+    if (Object.keys(lateralLeft).length > 0) {
+      arom['leftLateral'] = lateralLeft
+    } else {
+      arom['leftLateral'] = ''
+    }
+    if (Object.keys(lateralRight).length > 0) {
+      arom['rightLateral'] = lateralRight
+    } else {
+      arom['rightLateral'] = ''
+    }
+    if (arom['Anterior'] == '' && arom['leftLateral'] == '' && arom['rightLateral'] == '' ) {
+      arom = {}
+    }
+    console.log("AROM ", arom)
+    setTimeout(() => {
+      setTempAROM(Object.keys(arom).filter(e => e != ''))
+      setTempPosture(Object.keys(posture).filter(e => e != 'posture_test_date'))
+      localStorage.setItem("AI_Data_temp", JSON.stringify(arom));
+      setModalSaveDataVisible(true)
+    }, 100);
+    // }
   }
   async function handleJoin() {
 
@@ -667,7 +757,7 @@ const PhysioVideoCall = (props) => {
     setScreenClientTrack(screenTrack)
     let obj = {
       type: 'started-screen-share',
-      screen_:startAss
+      screen_: startAss
     }
     notification.success({
       message: "You started screen sharing",
@@ -690,7 +780,7 @@ const PhysioVideoCall = (props) => {
       setScreenShare(false)
       let obj = {
         type: 'stopped-screen-share',
-        screen_:startAss
+        screen_: startAss
       }
       sendMsg(JSON.stringify(obj))
       //stopped-screen-share
@@ -711,7 +801,7 @@ const PhysioVideoCall = (props) => {
     });
     let obj = {
       type: 'stopped-screen-share',
-      screen_:startAss
+      screen_: startAss
     }
     sendMsg(JSON.stringify(obj))
   }
@@ -812,6 +902,95 @@ const PhysioVideoCall = (props) => {
           // data-decimals="0"
           disabled
         /> */}
+      </Modal>
+      <Modal
+        title="Please confirm the informations"
+        style={{
+          top: 20,
+        }}
+        visible={modalSaveDataVisible}
+        onOk={() => {
+          setModalSaveDataVisible(false)
+        }}
+        closeIcon={<GrClose onClick={() => {
+          setModalSaveDataVisible(false)
+        }} />}
+        onCancel={() => {
+          console.log("modal")
+        }}
+        footer={[
+          <Row justify='center'>
+            <Button disabled={TempAROM.length == 0 && TempPosture.length == 0} size="large" type="text" onClick={() => {
+              let arom = JSON.parse(localStorage.getItem("AI_Data_temp"));
+              let posture = JSON.parse(localStorage.getItem("Posture_Data_temp"));
+              console.log(TempAROM)
+              console.log(TempPosture)
+              Object.keys(arom).map(ch => {
+                console.log(ch)
+                console.log(TempAROM.includes(ch))
+                if (!TempAROM.includes(ch)) {
+                  arom[ch] = ""
+                }
+              })
+              console.log(arom)
+              localStorage.removeItem("AI_Data")
+              localStorage.setItem("AI_Data", JSON.stringify(arom))
+              Object.keys(posture).map(p => {
+                if (!TempPosture.includes(p)) {
+                  delete posture[p]
+                }
+              })
+              console.log(posture)
+              posture["posture_test_date"] = new Date().toLocaleDateString("en-GB")
+              localStorage.removeItem("Posture_Data")
+              localStorage.setItem("Posture_Data", JSON.stringify(posture))
+              setModalSaveDataVisible(false)
+            }}>
+              Save Assessment
+            </Button>
+          </Row>
+        ]}
+      >
+        <Row>
+          <Col span={24}><b>AROM</b></Col>
+          <Col span={24}>
+            {/* {Object.keys(TempAROM) && Object.keys(TempAROM).map(e => TempAROM[e] != '' &&
+              <Space style={{ backgroundColor: 'whitesmoke' }}><span>{e}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
+                let temp = TempAROM
+                for (let i = 0; i < Object.keys(temp).length; i++) {
+                  console.log(e)
+                  console.log(temp[e])
+                  if (e == Object.keys(temp)[i]) {
+                    console.log(temp[i])
+                    temp[e] = ''
+                  }
+                }
+                console.log(temp)
+                setTempAROM(temp)
+              }} /></Space>)} */}
+            {TempAROM.length>0?TempAROM.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
+              setTempAROM(TempAROM.filter(a => a != e))
+            }} /></Space>{"    "}</>):'No Data'}
+          </Col>
+          <Col span={24}><b>Posture</b></Col>
+          <Col span={24}>
+            {/* {Object.keys(TempPosture) && Object.keys(TempPosture).map(e => e != 'posture_test_date' && 
+            <Space style={{ backgroundColor: 'whitesmoke' }}><span>{e}</span><GrClose style={{ cursor: 'pointer' }} onClick={()=>{
+              let temp = TempPosture
+              Object.keys(temp).map((a)=>{
+                console.log(a)
+                console.log(temp[a])
+                if (e == a) {
+                  delete temp[e]
+                }
+              })
+              setTempPosture(temp)
+            }}/></Space>)} */}
+            {TempPosture.length>0?TempPosture.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
+              setTempPosture(TempPosture.filter(a => a != e))
+            }} /></Space>{"    "}</>):'No Data'}
+          </Col>
+        </Row>
       </Modal>
       <Row className="video-call-main-container" style={{ margin: '20px', marginTop: '20px', marginBottom: '20vh' }}>
         <Col span={24}>
@@ -940,21 +1119,11 @@ const PhysioVideoCall = (props) => {
                   </>
                 }
               </Col> : <Row justify="center">
-              <Col span={24}>
-                <h4>Assessment Tab</h4>
+                <Col span={24}>
+                  <h4>Assessment Tab</h4>
                 </Col>
                 <Col span={24}>
-                <Space><Tooltip title={disable ? "Patient not joined" : "AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
-                  if (localStorage.getItem('OnAssessmentScreen') == "false") {
-                    return notification.error({
-                      message: "Please turn on video conferance on Assesment page",
-                      placement: "bottomLeft",
-                      duration: 2,
-                    });
-                  }
-                  startAI()
-                }} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
-                  <Tooltip title={disable ? "Patient not joined" : "Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
+                  <Space><Tooltip title={disable ? "Patient not joined" : "AROM"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
                     if (localStorage.getItem('OnAssessmentScreen') == "false") {
                       return notification.error({
                         message: "Please turn on video conferance on Assesment page",
@@ -962,8 +1131,18 @@ const PhysioVideoCall = (props) => {
                         duration: 2,
                       });
                     }
-                    startPosture()
-                  }} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
+                    startAI()
+                  }} style={{ borderRadius: '10px' }}>AROM</Button></Tooltip>
+                    <Tooltip title={disable ? "Patient not joined" : "Posture"}> <Button disabled={disable} className='start-assessment-btn' onClick={() => {
+                      if (localStorage.getItem('OnAssessmentScreen') == "false") {
+                        return notification.error({
+                          message: "Please turn on video conferance on Assesment page",
+                          placement: "bottomLeft",
+                          duration: 2,
+                        });
+                      }
+                      startPosture()
+                    }} style={{ borderRadius: '10px' }}>Posture</Button></Tooltip></Space>
 
                 </Col>
                 <Col span={24}>
@@ -1037,6 +1216,19 @@ const PhysioVideoCall = (props) => {
                   >
                     Save
                   </button></Tooltip>
+                <Popconfirm
+                  title="Do you want to clean-up current Assessment data?"
+                  okText={<span onClick={ResetData}>YES</span>}
+                  cancelText={"NO"}
+                >
+                  <button
+                    type="button"
+                    id="video-conf-save-btn"
+                    className="btn  video_con_bttn btn-block btn-danger btn-lg"
+                  >
+                    <AiOutlineClear />
+                  </button>
+                </Popconfirm>
               </Space>
             </Col>
           </Row>
