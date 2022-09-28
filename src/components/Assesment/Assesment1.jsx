@@ -2911,11 +2911,12 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    OnAssesmentPage();
-                  } else {
+                  // if (localStorage.getItem("OnAssessmentScreen") == "true") {
                     goPain();
-                  }
+                  //   OnAssesmentPage();
+                  // } else {
+                  //   goPain();
+                  // }
                 }}
               >
                 Pain Assessment
@@ -2932,11 +2933,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    OnAssesmentPage();
-                  } else {
-                    goPain();
-                  }
+                  goPain();
                 }}
               >
                 Pain Assessment
@@ -2963,12 +2960,7 @@ const Assesment1 = ({ back, next }) => {
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/PoseTest");
-                  }
+                  history.push("/assesment/PoseTest");
                 }}
               >
                 Posture Test
@@ -2986,12 +2978,7 @@ const Assesment1 = ({ back, next }) => {
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/PoseTest");
-                  }
+                  history.push("/assesment/PoseTest");
                 }}
               >
                 Posture Test
@@ -3016,12 +3003,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAssAi}
                 className="btn-new-check btn-Assesment"
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    RomAI();
-                  }
+                  RomAI();
                 }}
                 id="rom"
               >
@@ -3039,12 +3021,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    RomAI();
-                  }
+                  RomAI();
                 }}
                 id="rom"
               >
@@ -3070,16 +3047,7 @@ const Assesment1 = ({ back, next }) => {
                   width: '138px'
                 }}
                 onClick={() => {
-                  console.log(
-                    "OnAssessmentScreen ",
-                    localStorage.getItem("OnAssessmentScreen")
-                  );
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Questions();
-                  }
+                  Questions();
                 }}
                 id="question"
               ></Button>
@@ -3095,16 +3063,7 @@ const Assesment1 = ({ back, next }) => {
                   width: '138px'
                 }}
                 onClick={() => {
-                  console.log(
-                    "OnAssessmentScreen ",
-                    localStorage.getItem("OnAssessmentScreen")
-                  );
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Questions();
-                  }
+                  Questions();
                 }}
                 id="question"
               ></Button>
@@ -3128,12 +3087,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/SpecialTest");
-                  }
+                  history.push("/assesment/SpecialTest");
                 }}
               >
                 Special Test
@@ -3150,12 +3104,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 disabled={state.FirstAssesment.special}
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    history.push("/assesment/SpecialTest");
-                  }
+                  history.push("/assesment/SpecialTest");
                 }}
               >
                 Special Test
@@ -3180,12 +3129,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 className="btn-new-check btn-Assesment"
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Rom();
-                  }
+                  Rom();
                 }}
                 id="rom_manual"
               >
@@ -3203,12 +3147,7 @@ const Assesment1 = ({ back, next }) => {
                 disabled={state.FirstAssesment.romAss}
                 type="text"
                 onClick={() => {
-                  if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    console.log("OnAssessmentScreen inside");
-                    OnAssesmentPage();
-                  } else {
-                    Rom();
-                  }
+                  Rom();
                 }}
                 id="rom_manual"
               >
