@@ -514,7 +514,7 @@ const PatientCareplan = ({ onChangeVideoUrl }) => {
             {times.map((time, index) => {
               console.log(time, exercise_status[time]);
               let tempStat =
-                Object.values(exercise_status[time]).indexOf("completed") >= 0
+              exercise_status[time]&&Object.values(exercise_status[time]).indexOf("completed") >= 0
                   ? false
                   : true;
 
