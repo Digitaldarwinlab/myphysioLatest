@@ -67,7 +67,7 @@
     "start:development": "env-cmd -f .env.development react-scripts --max_old_space_size=8192 start",
     "start:production": "env-cmd -f .env.production react-scripts --max_old_space_size=4096 start ",
     "build": "node ./update-build.js && react-scripts --max_old_space_size=4096 build && react-compress && gzipper compress --verbose ./build ",
-    "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build ",
+    "build:testing": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.testing react-scripts --max_old_space_size=4096  build && react-compress && gzipper compress --verbose ./build  ",
     "build:staging": "set 'GENERATE_SOURCEMAP=false' && node ./update-build.js && env-cmd -f .env.staging react-scripts --max_old_space_size=4096  build ",
     "build:development": "node ./update-build.js &&  set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.development react-scripts --max_old_space_size=8192 build && react-compress && gzipper compress --verbose ./build ",
     "build:production": "node ./update-build.js && set \"GENERATE_SOURCEMAP=false\" && env-cmd -f .env.production  react-scripts --max_old_space_size=4096 build  && react-compress && gzipper compress --verbose ./build",
@@ -114,5 +114,5 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2"
   },
-  "buildDate": 1663994147612
+  "buildDate": 1664448834104
 }
