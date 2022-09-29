@@ -170,7 +170,10 @@ const EmployeeDashborad = lazy(() =>
 const ExerDetail = lazy(() =>
   import("./PatientComponents/PatientSchedule/ExerDetail.jsx")
 );
-
+const Assessment2 = lazy(() =>
+  import("./components/Assesment/Assessment2")
+);
+//./components/Assesment/Assessment2
 // import Assesment1 from "./components/Assesment/Assesment1";
 // import Assesment2 from "./components/Assesment/AddQuestions";
 // import SideNavBar from './components/Layout/SideNavBar';
@@ -192,6 +195,7 @@ import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
 import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
+// import Assessment2 from "./components/Assesment/Assessment2";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
@@ -246,7 +250,7 @@ import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVide
 
 const App = () => {
   const path = window.location.pathname;
-  const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
+  const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(true);
   const [sidebarshow, Setsidebarshow] = useState(true);
   const [routesPath, setRoutesPath] = useState(path);
   const [navbar ,setNavbar] = useState(true)
@@ -334,8 +338,8 @@ const App = () => {
                     getUserData() === "HeadPhysio" ||
                     getUserData() === "patient") &&
                   sidebarshow
-                  ? `${isSideNavbarCollpased && "col-md-10 col-lg-11 offset-1"
-                  } px-1 main-content white-backgorund`
+                  ? `${isSideNavbarCollpased && " col-lg-11 offset-1"
+                  } px-1 white-backgorund`
                   : "MainConatiner"
               }
               style={{
@@ -512,6 +516,11 @@ const App = () => {
                   exact
                   path="/assessment/1"
                   component={Assesment1}
+                />
+                  <PrivateRoute
+                  exact
+                  path="/assessment/new"
+                  component={Assessment2}
                 />
                 <PrivateRoute
                   exact
