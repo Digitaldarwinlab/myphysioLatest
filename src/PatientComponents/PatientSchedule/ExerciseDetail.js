@@ -72,7 +72,6 @@ const ExerciseDetailsClass = () => {
     //   temp.push(te)
     // })
     // setExercises(temp)
-    console.log("exercise array ", temp)
     console.log("exercise array ", res)
     console.log("exercise array ", location.state.exercises)
   }
