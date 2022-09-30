@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import Signup from "./components/userAuth/Signup.js";
 import Roles from "./components/Role Management/Roles";
 import RolesRegisteration from "./components/Role Management/AddRoles/RolesRegisteration";
-const Login = lazy(() => import("./components/userAuth/Login.js"));
-const Signup = lazy(() => import("./components/userAuth/Signup.js"));
-const Assesment1 = lazy(() => import("./components/Assesment/Assesment1"));
-const Assesment2 = lazy(() => import("./components/Assesment/AddQuestions"));
-import SideNavBar from "./components/Layout/SideNavBar";
+const Login = lazy(() => import('./components/userAuth/Login.js'));
+const Signup = lazy(() => import('./components/userAuth/Signup.js'));
+const Assesment1 = lazy(() => import('./components/Assesment/Assesment1'));
+const Assesment2 = lazy(() => import('./components/Assesment/AddQuestions'));
+import SideNavBar from './components/Layout/SideNavBar';
 import Navigationbar from "./components/Layout/Navbar";
 const Appointments = lazy(() =>
   import("./components/Scheduling/Appointments.js")
@@ -192,7 +192,6 @@ import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
 import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
-import AddRoutes from "./components/Role Management/AddRoutes/AddRoutes";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";
@@ -244,14 +243,12 @@ import AddRoutes from "./components/Role Management/AddRoutes/AddRoutes";
 // import EmployeeLogin from "./components/userAuth/EmployeeLogin.js";
 // import EmployeeDashborad from "./components/Enterprise/EmployeeDashboard.js";
 // import ExerDetail from "./PatientComponents/PatientSchedule/ExerDetail.jsx";
-import { GetRoutesList, GetRolesList } from "./API/Roles Mangement/Role";
 
 const App = () => {
   const path = window.location.pathname;
   const [isSideNavbarCollpased, setIsSideNavbarCollapsed] = useState(false);
   const [sidebarshow, Setsidebarshow] = useState(true);
   const [routesPath, setRoutesPath] = useState(path);
-  const [routeMapping, setRouteMapping] = useState([]);
   function getCurrentPath(curPath) {
     setRoutesPath(curPath);
   }
@@ -286,22 +283,6 @@ const App = () => {
         link.setAttribute("rel", "stylesheet");
         document.head.appendChild(link);
       });
-      const addRoutes = async () => {
-        let roles = await GetRolesList();
-        let routes = await GetRoutesList();
-        let a = []
-        roles.Roles.map(
-          (i) =>
-            i === getUserData() &&
-            roles.data[i].map((v) => {
-              routes.routes[v] !== undefined &&
-              a.push({ path: v, component: routes.routes[v].Context_url });
-            })
-        );
-        console.log(a)
-        setRouteMapping(a)
-      };
-      addRoutes()
     }
   }, []);
 
@@ -326,9 +307,8 @@ const App = () => {
                 getUserData() === "HeadPhysio" ||
                 getUserData() === "patient") && (
                 <div
-                  className={`${
-                    isSideNavbarCollpased ? "" : "col-md-2"
-                  } sideNavbar`}
+                  className={`${isSideNavbarCollpased ? "" : "col-md-2"
+                    } sideNavbar`}
                   style={{
                     width: isSideNavbarCollpased ? "120px" : "",
                     position: "relative",
@@ -347,22 +327,21 @@ const App = () => {
             <div
               className={
                 isAuthenticated() &&
-                (getUserData() === "admin" ||
-                  getUserData() === "physio" ||
-                  getUserData() === "HeadPhysio" ||
-                  getUserData() === "patient") &&
-                sidebarshow
-                  ? `${
-                      isSideNavbarCollpased && "col-md-10 col-lg-11 offset-1"
-                    } px-1 main-content white-backgorund`
+                  (getUserData() === "admin" ||
+                    getUserData() === "physio" ||
+                    getUserData() === "HeadPhysio" ||
+                    getUserData() === "patient") &&
+                  sidebarshow
+                  ? `${isSideNavbarCollpased && "col-md-10 col-lg-11 offset-1"
+                  } px-1 main-content white-backgorund`
                   : "MainConatiner"
               }
               style={{
                 marginLeft: isSideNavbarCollpased
                   ? ""
                   : isAuthenticated()
-                  ? "250px"
-                  : "",
+                    ? "250px"
+                    : "",
               }}
             >
               <Switch>
@@ -385,11 +364,346 @@ const App = () => {
                   path="/enterprise/dashboard"
                   component={EmployeeDashborad}
                 />
+                <PrivateRoute
+                  exact
+                  path="/pateints/new"
+                  component={PatientIndex}
+                />
+                <PrivateRoute
+                  exact
+                  path="/pateints/update"
+                  component={PatientIndex}
+                />
+                <PrivateRoute exact path="/pateints" component={patients} />
+                <PrivateRoute
+                  exact
+                  path="/physio/register"
+                  component={PhysioIndex}
+                />
+                <PrivateRoute
+                  exact
+                  path="/physio/update"
+                  component={PhysioIndex}
+                />
+                <PrivateRoute
+                  exact
+                  path="/clinic/register"
+                  component={PhysioClinic}
+                />
+                <PrivateRoute
+                  exact
+                  path="/clinic/update"
+                  component={PhysioClinic}
+                />
+                <PrivateRoute
+                  exact
+                  path="/clinic/view"
+                  component={ViewClinic}
+                />
+                <PrivateRoute
+                  exact
+                  path="/clinic-list"
+                  component={ClinicList}
+                />
+                <PrivateRoute
+                  exact
+                  path="/physio/list"
+                  component={PhysioList}
+                />
+                <PrivateRoute exact path="/invoice" component={Invoice} />
+                {/* <PrivateRoute exact path="/appointments" component={() => <Appointments />} /> */}
+                <PrivateRoute
+                  exact
+                  path="/appointments"
+                  component={() => <Appointment />}
+                />
+                <PrivateRoute
+                  exact
+                  path="/appointments/new1"
+                  component={() => <Appointments />}
+                />
+                <PrivateRoute
+                  exact
+                  path="/appointments/new"
+                  component={() => <Appointment />}
+                />
+                {/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
+                <PrivateRoute
+                  exact
+                  path="/enterprise/organization-register"
+                  component={EnterpriseRegister}
+                />
+                <PrivateRoute
+                  exact
+                  path="/enterprise/organization/update"
+                  component={EnterpriseRegister}
+                />
+                <PrivateRoute
+                  exact
+                  path="/enterprise/employee-register"
+                  component={EmployeeRegister}
+                />
+                <PrivateRoute
+                  exact
+                  path="/enterprise/employee-list"
+                  component={EmployeeList}
+                />
+                <PrivateRoute
+                  exact
+                  path="/enterprise/employee/update"
+                  component={EmployeeRegister}
+                />
 
+							<PublicRoute exact path="/password_reset/:token" component={ResetPassword} />
+							<PrivateRoute exact path="/dashboard" component={EpisodeVisitDetails} />
+							<PrivateRoute exact path="/roleManagement" component={Roles} />
+							<PrivateRoute exact path="/roles/add" component={RolesRegisteration} />
+							<PrivateRoute exact path="/roles/update" component={RolesRegisteration} />
+							<PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
+							<PrivateRoute exact path="/pateints/new" component={PatientIndex} />
+							<PrivateRoute exact path="/pateints/update" component={PatientIndex} />
+							<PrivateRoute exact path="/pateints" component={patients} />
+							<PrivateRoute exact path="/physio/register" component={PhysioIndex} />
+							<PrivateRoute exact path="/physio/update" component={PhysioIndex} />
+							<PrivateRoute exact path="/clinic/register" component={PhysioClinic} />
+							<PrivateRoute exact path="/clinic/update" component={PhysioClinic} />
+							<PrivateRoute exact path="/clinic/view" component={ViewClinic} />
+							<PrivateRoute exact path="/clinic-list" component={ClinicList} />
+							<PrivateRoute exact path="/physio/list" component={PhysioList} />
+							<PrivateRoute exact path="/invoice" component={Invoice} />
+							{/* <PrivateRoute exact path="/appointments" component={() => <Appointments />} /> */}
+							<PrivateRoute exact path="/appointments" component={() => <Appointment />} />
+							<PrivateRoute exact path="/appointments/new1" component={() => <Appointments />} />
+							<PrivateRoute exact path="/appointments/new" component={() => <Appointment />} />
+							{/* <PrivateRoute exact path="/enterprise-register" component={EnterpriseRegister} /> */}
+							<PrivateRoute exact path="/enterprise/organization-register" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/organization/update" component={EnterpriseRegister} />
+							<PrivateRoute exact path="/enterprise/employee-register" component={EmployeeRegister} />
+							<PrivateRoute exact path="/enterprise/employee-list" component={EmployeeList} />
+							<PrivateRoute exact path="/enterprise/employee/update" component={EmployeeRegister} />
+							
+							<PrivateRoute exact path="/enterprise/organization-list" component={organizationList} />
+							
+							<PrivateRoute exact path="/add-episode" component={AddEpisode} />
+							<PrivateRoute exact path="/episode" component={EpisodeVisitDetails} />
+
+                <PrivateRoute
+                  exact
+                  path="/add-episode"
+                  component={AddEpisode}
+                />
+                <PrivateRoute
+                  exact
+                  path="/episode"
+                  component={EpisodeVisitDetails}
+                />
+
+                <PrivateRoute
+                  exact
+                  path="/visit"
+                  component={EpisodeVisitDetails}
+                />
+
+                <PrivateRoute exact path="/notes" component={Prescription} />
+
+                <PrivateRoute
+                  exact
+                  path="/assessment/1"
+                  component={Assesment1}
+                />
+                <PrivateRoute
+                  exact
+                  path="/assesment/Questions"
+                  component={Assesment2}
+                />
+                <PrivateRoute
+                  exact
+                  path="/assesment/PainAssessment"
+                  component={PainAssessment}
+                />
+                <PrivateRoute
+                  exact
+                  path="/assesment/SpecialTest"
+                  component={SpecialTest}
+                />
+                <PrivateRoute
+                  exact
+                  path="/assesment/PoseTest"
+                  component={PostTestClass}
+                />
+                <PrivateRoute exact path="/assessment/AI" component={AI} />
+                <PrivateRoute
+                  exact
+                  path="/assessment/AROM"
+                  component={AromWithouthAi}
+                />
+
+                <PrivateRoute
+                  exact
+                  path="/ActiveSearch"
+                  component={ActiveSearch}
+                />
+
+                <PrivateRoute
+                  exact
+                  path="/setting"
+                  component={EpisodeVisitDetails}
+                />
+
+                <PrivateRoute exact path="/care-plan" component={Careplan} />
+                <PrivateRoute
+                  exact
+                  path="/enterprise/care-plan"
+                  component={CareplanEnterprise}
+                />
+                <PrivateRoute
+                  exact
+                  path="/patient/consent-form"
+                  component={PatientConsuntForm}
+                />
                 <Route exact path="/logout" component={Logout} />
                 {/* <PatientRoute exact path="/patient/dashboard" component={PatientDashboard} /> */}
                 {/* <PatientRoute exact path="/patient/enterprise/dashboard" component={EnterprisePatient}  /> */}
-
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/dashboard"
+                  component={EnterprisePatient}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/dashboard/1"
+                  component={EnterprisePatient1}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/dashboard/2"
+                  component={EnterprisePatient2}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/dashboard/3"
+                  component={EnterprisePatient3}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/muscle-selection"
+                  component={Body}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/quiz"
+                  component={Quiz}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/form"
+                  component={ConsultForm}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/qa"
+                  component={Qa}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/exercises/brief"
+                  forceRefresh={true}
+                  component={EnterpriseExerciseDetail}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/ai"
+                  forceRefresh={true}
+                  component={EnterpriseAI}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/form"
+                  component={ConsultForm}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/PoseTest"
+                  component={Pose}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/post-assesment"
+                  component={PostAssesment}
+                />
+                <EnterpriseRoute
+                  exact
+                  path="/patient/enterprise/schedule"
+                  component={EnterpriseSchedule}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/schedule"
+                  component={PatientSchedule}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/prescription"
+                  component={PatientPrescription}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/visits"
+                  component={PatientVisit}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/dashboard2"
+                  component={HomeDashboard}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/ai"
+                  forceRefresh={true}
+                  component={PatientAI}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/dashboard"
+                  component={PatientProfile}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/exercises"
+                  component={ListOfExercises}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/careplan"
+                  component={PatientCareplan}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/exercises/brief"
+                  forceRefresh={true}
+                  component={ExerciseDetail}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/exercises/manual"
+                  forceRefresh={true}
+                  component={ExerDetail}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/progress"
+                  component={PatientProgress}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/update"
+                  component={PatientIndex}
+                />
+                <PatientRoute
+                  exact
+                  path="/patient/Temp"
+                  component={Tempdashboard}
+                />
                 <PrivateRoute
                   exact
                   path="/physio:channel"
@@ -411,9 +725,8 @@ const App = () => {
                     />
                   )}
                 />
-                <Route exact path="*" component={Error404} />
-                {routeMapping.length>0 && routeMapping.map(i=> <Route exact path={i.path} component={i.component.replaceAll('"','')} />)}
 
+                <Route exact path="*" component={Error404} />
               </Switch>
             </div>
           </div>
