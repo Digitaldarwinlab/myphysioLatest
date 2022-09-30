@@ -16,20 +16,22 @@
 }
 
 .div-border-1x {
-    border-radius: 5px !important;
+    border-radius: 5px ;
 }
 .div-border-1x div{
-    border-radius: 5px !important;
+    border-radius: 5px ;
 }
 .h1-1x {
     color: #4E4949;
     font-weight: 400;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 24.2px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0.5rem 0px 0rem 0px;
 }
-
+.assesment-list-icons-1x{
+    width: 45%;
+}
 .assesment-list-wrap-1x {
     margin: 0.5rem 0px 0.5rem 0px;
     width: 100%;
@@ -57,7 +59,6 @@
 
 .patient-details-1x span {
     padding: 5px !important;
-    font-size: 15px;
     font-weight: 500;
 }
 
@@ -78,18 +79,20 @@
 
 .h3-font-1x{
     color: #4E4949;
+    font-size: 13px;
 }
 
 .assesment-list-item-1x {
     background-color: rgb(255, 255, 255);
     padding: 1rem;
     margin: 0.5rem 0 0.5rem 0;
-    height: 8rem;
+    height: 7rem;
     cursor: pointer;
 
   }
   .assesment-list-item-1x:hover{
     border: 1px solid #0A7BE7 !important;
+    color: #0A7BE7;
   }
   .assesment-list-1x {
     max-width: 1200px;
@@ -113,6 +116,10 @@
         cursor: pointer;
     
       } */
+      .assesment-list-icons-1x{
+        margin: 0  !important;
+        width: 35%;
+    }
       .assesment-list-1x :first-child {
         margin-top:0.5rem !important
       }
@@ -120,7 +127,8 @@
         margin-top:0.5rem !important
       }
       .assesment-list-item-1x {
-        margin:0 !important
+        margin:0 !important;
+        padding:0 !important
       }
       .assesment-list-1x{
         margin-top:0 !important
@@ -133,7 +141,7 @@
   
   /* Screen larger than 900px? 7 columns */
   @media (min-width: 900px) {
-    .assesment-list-1x { grid-template-columns: repeat(7, 1fr); }
+    .assesment-list-1x { grid-template-columns: repeat(7, 1fr); grid-gap: 1rem; }
   }
 
 .h3-1x {
