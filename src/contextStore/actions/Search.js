@@ -1,0 +1,2 @@
+export const ADD_SEARCH_CLEAR_STATE = "ADD_SEARCH_CLEAR_STATE"
+export const ADD_SEARCH = "ADD_SEARCH"

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 // import { Menu } from "antd";
 import { FaColumns, FaUserMd } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import logoImg from "../../assets/logo.webp";
 import {
   ProSidebar,
   Menu,
   MenuItem,
   SidebarFooter,
+  SidebarHeader,
   SubMenu,
   SidebarContent,
 } from "react-pro-sidebar";
@@ -14,12 +16,7 @@ import { useLocation } from "react-router-dom";
 
 //import icons from react icons
 import { FaList, FaRegHeart } from "react-icons/fa";
-import {
-  FiHome,
-  FiLogOut,
-  FiArrowLeftCircle,
-  FiArrowRightCircle,
-} from "react-icons/fi";
+import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import { RiPencilLine } from "react-icons/ri";
 import { BiCog } from "react-icons/bi";
 
@@ -38,6 +35,7 @@ import { FaFileInvoiceDollar } from "react-icons/fa";
 
 const SideNavBar = ({
   isSideNavbarCollpased,
+  setIsSideNavbarCollapsed,
   SideNavbarCollpased,
   pathName,
   getCurrentPath,
@@ -117,7 +115,7 @@ const SideNavBar = ({
         //     ? "active text-decoration-none"
         //     : "text-decoration-none"
         // }
-        
+
         onClick={() => handleClick("patients")}
         icon={<i className="fas fa-user "></i>}
         title="Patients"
@@ -267,7 +265,6 @@ const SideNavBar = ({
     return (
       <SubMenu
         key="link46"
-        
         // className={
         //   pathName.includes("clinic")
         //     ? "active text-decoration-none"
@@ -446,7 +443,7 @@ const SideNavBar = ({
         //     ? "active text-decoration-none"
         //     : "text-decoration-none"
         // }
-        
+
         onClick={() => handleClick("episode")}
         icon={<FaPills className="" />}
         title="Episode"
@@ -477,7 +474,6 @@ const SideNavBar = ({
         // }
         onClick={() => handleClick("carePlan")}
         icon={<FaMicroscope className="" />}
-        
         title="Care Plan"
       >
         <MenuItem
@@ -659,7 +655,50 @@ const SideNavBar = ({
     //     Invoice()}
     // </Menu>
     <div id="header">
-      <ProSidebar className={userInfo.role == "patient" ? 'patientSidebar' : "otherSidebar"} collapsed={isSideNavbarCollpased}>
+      <ProSidebar
+        className={
+          userInfo.role == "patient" ? "patientSidebar" : "otherSidebar"
+        }
+        collapsed={isSideNavbarCollpased}
+      >
+        <SidebarHeader>
+          <div className="logotext" style={{ marginTop: "8px" }}>
+          <Link
+            to={
+              userInfo.role === "physio" ||
+              userInfo.role === "admin" ||
+              userInfo.role === "HeadPhysio"
+                ? "/dashboard"
+                : userInfo.role === "enterprise_patient" ||
+                  userInfo.role === "employee"
+                ? "/patient/enterprise/dashboard"
+                : "/patient/dashboard"
+            }
+            className="text-decoration-none"
+          >
+            <img
+              src={logoImg}
+              width={isSideNavbarCollpased ? 40 : 36}
+              height={isSideNavbarCollpased ? 45 : 40}
+              style={{ marginRight: "4px" }}
+            />
+            {isSideNavbarCollpased ? "" : "PhysioAI"}
+          </Link>
+          </div>
+          <div
+            className="closemenu"
+            onClick={() => {
+              setIsSideNavbarCollapsed(!isSideNavbarCollpased);
+            }}
+          >
+            {/* changing menu collapse icon on click */}
+            {isSideNavbarCollpased ? (
+              <FiArrowRightCircle />
+            ) : (
+              <FiArrowLeftCircle />
+            )}
+          </div>
+        </SidebarHeader>
         <SidebarContent>
           <Menu iconShape="square">
             {userInfo.role === "patient" && (

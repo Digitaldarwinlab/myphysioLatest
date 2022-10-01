@@ -305,14 +305,8 @@ const App = () => {
     <React.Fragment>
       <Router>
         <Suspense fallback={<Loading />}>
-          {isAuthenticated() && (
-            <Navigationbar
-              getCurrentPath={getCurrentPath}
-              SideNavbarCollpased={SideNavbarCollpased}
-              isSideNavbarCollpased={isSideNavbarCollpased}
-            />
-          )}
           <div className="padT-0">
+          
             {isAuthenticated() &&
               (getUserData() === "admin" ||
                 getUserData() === "physio" ||
@@ -330,6 +324,7 @@ const App = () => {
                     <SideNavBar
                       SideNavbarCollpased={SideNavbarCollpased}
                       isSideNavbarCollpased={isSideNavbarCollpased}
+                      setIsSideNavbarCollapsed={setIsSideNavbarCollapsed}
                       pathName={routesPath}
                       getCurrentPath={getCurrentPath}
                     />
@@ -352,10 +347,17 @@ const App = () => {
                 marginLeft: isSideNavbarCollpased
                   ? ""
                   : isAuthenticated()
-                    ? "250px"
+                    ? "224px"
                     : "",
               }}
             >
+              {isAuthenticated() && (
+            <Navigationbar
+              getCurrentPath={getCurrentPath}
+              SideNavbarCollpased={SideNavbarCollpased}
+              isSideNavbarCollpased={isSideNavbarCollpased}
+            />
+          )}
               <Switch>
                 <PublicRoute exact path="/employee" component={EmployeeLogin} />
                 <PublicRoute exact path="/change-password" component={Signup} />

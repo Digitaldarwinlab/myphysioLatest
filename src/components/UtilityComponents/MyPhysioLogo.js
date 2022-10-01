@@ -24,7 +24,7 @@ export default function MyPhysioLogo(props) {
         <> 
          <div className={"logo" + props.page=='login' ? 'initial-login' : props.page=='dashboard' ? 'initial-dashboard' : null}  >
             <LazyLoadImage width={250} height={250}  src={logoImg} alt="logo"  className={props.page=='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null}  id={props.page==='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null}   />
-            <div id="PhysioAi" style={style} className={`${props.text} fw-bold text-white`} >PHYSIOAI</div>
+            <div id="PhysioAi" style={style} className={`${props.text} fw-bold text-dark`} >PHYSIOAI</div>
             </div> 
         </>
     )
