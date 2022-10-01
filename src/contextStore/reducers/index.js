@@ -5,6 +5,7 @@ import { episodeReducer, PateintConsentReducer } from "./Episode/addEpisode.js";
 import { combineReducers } from "redux";
 import { clinicReg } from './Physio/clinicReg';
 import { labsAndMedicRedu } from './Episode/addLabsMedication';
+import { SearchReg } from "./search-reducer.js";
 import { FirstAssesment } from "./Assesment/Assesment1"
 import { carePlanRedcucer } from './care-plan/care-plan-reducer';
 import { patCurrentEpisode } from './PatientSchedule/PateintSchedule';
@@ -27,6 +28,7 @@ export const rootReducer = combineReducers({
     episodeReducer: episodeReducer,
     clinicReg: clinicReg,
     RoleReg:RoleReg,
+    SearchReg:SearchReg,
     labsAndMedicRedu: labsAndMedicRedu,
     FirstAssesment: FirstAssesment,
     PateintConsentReducer: PateintConsentReducer,

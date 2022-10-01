@@ -5,3 +5,11 @@
     background-color: #2D7ECB;
     color : white;
 }
+.searchBox-x1{
+    width: 30%;
+    margin-top: 8px;
+}
+.activeSearchInput-x1{
+    width: 100%;
+    border-radius: 20px !important;
+}

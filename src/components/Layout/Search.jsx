@@ -48,13 +48,14 @@ const { Search } = Input;
 
 const SearchPatient = () => {
   const { Title } = Typography;
+  const searchState = useSelector((state) => state.SearchReg);
   const [newLoading, setNewLoading] = useState(false);
   const [scroll, setScroll] = useState(0);
   let locale = {
     emptyText: "No Patients Found",
   };
   const [columns, setColumn] = useState([]);
-  const [patientData, setPatientData] = useState([]);
+  const [patientData, setPatientData] = useState(searchState.data);
   const [searchvalue, Setsearchvalue] = useState("");
   const state = useSelector((state) => state.basicDetailsInitialState);
   const dispatch = useDispatch();
@@ -82,6 +83,9 @@ const SearchPatient = () => {
     maxIndex: 0,
     pageSize: 10,
   });
+  useEffect(() => {
+    setPatientData(searchState.data);
+  }, [searchState.data]);
   const [form] = Form.useForm();
   const [buttondisable, Setbuttondiable] = useState(false);
   useEffect(async () => {
