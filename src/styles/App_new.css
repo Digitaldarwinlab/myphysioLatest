@@ -1,0 +1,20 @@
+.main-container-1x {
+    padding: 0.5rem 0 0 0;
+}
+
+.div-border-1x {
+    border-radius: 5px;
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    .main-container-1x {
+        padding: 0.5rem 0 0 1rem;
+    }
+}
+
+
+@media only screen and (max-width: 767px) {
+    .main-container-1x {
+        padding: 0 !important;
+    }
+}
