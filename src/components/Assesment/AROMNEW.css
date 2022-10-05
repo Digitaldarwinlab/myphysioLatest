@@ -1,6 +1,8 @@
 .arom-joints-list-wrapper-1x {
     height: 90vh;
-    width: 10vw;
+    width: 100%;
+    background-color: #F9F9FC;
+    overflow-y: scroll;
     border: 1px solid #0A7BE7 !important;
 }
 
@@ -19,10 +21,11 @@
 }
 
 .arom-joints-list-wrapper-1x div {
-    width: auto;
+    width: 60%;
     height: 4rem;
     margin: 10px;
-    border: 1px solid #0A7BE7 !important;
+    border: 5px solid #e7b300;
+    cursor: pointer;
     /* background-color: #F9F9FC !important; */
 }
 
@@ -32,61 +35,239 @@
 }
 
 .arom-btn-grp-wrapper {
-    margin:0 10px 0 10px;
-    background-color: #F9F9FC !important;
+    margin: 0 10px 0 10px;
+    background-color: #f0f0f8 !important;
+}
+.primary-selected{
+    background-color: #c4dbf0;
+    border-radius: 10px;
 }
 
+.primary-selected p{
+    font-size: 20px;
+    font-weight: 600;
+}
 
-.arom-btn-grp{
+p{
+    font-size: 20px;   
+}
+
+.arom-btn-grp {
     display: flex;
     justify-content: space-around;
-    padding:10px 0px 10px 0px !important;
+    padding: 10px 0px 10px 0px !important;
 }
+
 .arom-btn-grp .ant-btn {
     width: 3rem !important;
     height: 3rem !important;
     padding: 0 !important;
     background-color: #fff !important;
     border: 1px solid #0A7BE7 !important;
-    border-radius:10px !important;
+    border-radius: 10px !important;
 }
 
 
 .arom-btn-grp .ant-btn:hover {
     background-color: white !important;
     border: 2px solid #0A7BE7 !important;
-    border-radius:10px ;
+    border-radius: 10px;
     box-shadow: 2px #0A7BE7 !important;
 }
 
-.arom-analytics-tab-wrapper-1x{
+.arom-analytics-tab-wrapper-1x {
     margin: 10px;
-    background-color: #F9F9FC !important;
-    height:78vh !important;
+    background-color: #F9F9FC;
+    height: 75vh !important;
     display: grid;
-   
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); */
     overflow-y: scroll;
 }
-
-.arom-analytics-tab-wrapper-1x div{
+.borderRed{
+    border: 5px solid rgb(6, 117, 33) !important;
+}
+.borderGrey{
+    border: 5px solid rgb(171, 165, 165) !important;
+    cursor: no-drop !important;
+}
+.arom-analytics-tab-item-1x {
     margin: 0.5rem;
     grid-gap: 1rem;
     background-color: white !important;
     height: 8rem !important;
 }
-.arom-analytics-tab-wrapper-1x div:hover{
+
+.arom-analytics-tab-item-1x:hover {
     border: 1px solid #0A7BE7 !important;
 }
-.arom-analytics-tab-wrapper-1x div:first-child{
+
+.arom-analytics-tab-item-1x:first-child {
     margin: 0.5rem;
 }
-.arom-analytics-tab-wrapper-1x div:nth-child(2){
+
+.arom-analytics-tab-item-1x:nth-child(2) {
     margin: 0.5rem;
 }
-/* .assesment-list-1x {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-gap: 1rem;
-} */
+
+.arom-btn-grp button {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 2rem !important;
+    background-color: #fff !important;
+}
+.current-value{
+    font-size: 14px !important;
+}
+
+.arom-btn-grp button:focus {
+    border: 1px solid #0A7BE7 !important;
+}
+
+.arom-btn-grp button:hover {
+    border: 1px solid #0A7BE7 !important;
+}
+
+.arom-analytics-tab-wrapper-onmobile-1x {
+    display: none;
+}
+
+.arom-btn-grp-wrapper-mobile-1x {
+    display: none;
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    .arom-joints-list-wrapper-1x div {
+        height: 4rem;
+        margin: 4px;
+        border: 1px solid #0A7BE7 !important;
+        font-size: 14px;
+    }
+
+    .main-container-1x {
+        padding: 0 !important;
+    }
+
+    .arom-analytics-tab-wrapper-1x div:first-child {
+        margin: 0.2rem;
+    }
+
+    .arom-analytics-tab-wrapper-1x div:nth-child(2) {
+        margin: 0.2rem;
+    }
+
+    .arom-analytics-tab-wrapper-1x div {
+        margin: 0.2rem;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+    .arom-analytics-tab-wrapper-1x {
+        display: none;
+    }
+
+    .arom-controls-1x {
+        display: none;
+    }
+
+    .arom-joints-list-wrapper-container-1x {
+        display: none;
+    }
+
+    .arom-analytics-tab-wrapper-onmobile-1x {
+        display: flex !important;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-1x {
+        display: grid !important;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-1x div {
+        margin: 0.5rem;
+        background-color: white !important;
+        height: 8rem !important;
+        width: 8rem !important;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-container-1x {
+        margin: 5px;
+        height: 100px;
+        border: 2px solid #341C09;
+        white-space: nowrap;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-item-1x {
+        border: 1px solid #0A7BE7 !important;
+        background-color: white !important;
+        width: 120px;
+    }
+
+    /* Flex */
+    .arom-analytics-tab-wrapper-motion-onmobile-flex-1x {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: auto;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x {
+        flex: 0 0 auto;
+    }
+
+    .arom-analytics-tab-wrapper-onmobile-1x .item:first-child {
+        margin-left: auto;
+    }
+
+    .arom-analytics-tab-wrapper-onmobile-1x .item:last-child {
+        margin-right: auto;
+    }
+
+    .arom-btn-grp-wrapper-mobile-1x {
+        display: grid !important;
+        position: absolute;
+    }
+
+    .arom-btn-grp-mobile-1x button {
+        width: 3rem;
+        height: 3rem;
+        margin: 0.5rem;
+        border-radius: 20px !important;
+        background-color: #fff !important;
+    }
+
+    .arom-btn-grp-mobile-1x button:focus {
+        border: 1px solid #0A7BE7 !important;
+    }
+
+    .arom-btn-grp-mobile-1x button:hover {
+        border: 1px solid #0A7BE7 !important;
+    }
+
+    .item {
+        font-size: 1.3rem;
+        border: 1px solid #0A7BE7 !important;
+        background-color: #F9F9FC !important;
+        padding: 0.3rem 0.3rem;
+        margin: 0.2rem;
+        border-radius: 5px;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .arom-analytics-tab-wrapper-onmobile-1x::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .arom-analytics-tab-wrapper-motion-onmobile-container-1x::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .arom-canvas-1x {
+        height: 82vh;
+    }
+}
