@@ -28,10 +28,12 @@
     cursor: pointer;
     /* background-color: #F9F9FC !important; */
 }
-
+.anterior div{
+    width: 83% !important;
+    height: 5rem !important; 
+}
 .arom-canvas-1x {
     height: 90vh;
-    background-color: aqua;
 }
 
 .arom-btn-grp-wrapper {
@@ -49,7 +51,7 @@
 }
 
 p{
-    font-size: 20px;   
+    font-size: 15px;   
 }
 
 .arom-btn-grp {

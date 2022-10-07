@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 // import Login from "./components/userAuth/Login.js";
 // import Signup from "./components/userAuth/Signup.js";
 import Roles from "./components/Role Management/Roles";
@@ -162,7 +162,9 @@ const AromWithouthAi = lazy(() =>
 const AROMNEW = lazy(() =>
   import("./components/Assesment/AROMNEW.jsx")
 );
-//./components/Assesment/AROMNEW
+const AromClass = lazy(() =>
+  import("./components/Assesment/AromClass.jsx")
+);
 const Appointment = lazy(() =>
   import("./components/NewSchedule/Appointment.js")
 );
@@ -260,6 +262,7 @@ const App = () => {
   const [sidebarshow, Setsidebarshow] = useState(true);
   const [routesPath, setRoutesPath] = useState(path);
   const [navbar, setNavbar] = useState(true)
+  const history = useHistory()
   function getCurrentPath(curPath) {
     setRoutesPath(curPath);
   }
@@ -561,6 +564,11 @@ const App = () => {
                   path="/assessment/arom/ai"
                   component={() => <AROMNEW SideNavbarCollpased={setIsSideNavbarCollapsed}
                     Setsidebarshow={Setsidebarshow} />}
+                />
+                <PrivateRoute
+                  exact
+                  path="/assessment/arom/1"
+                  component={() => <AromClass newhistory={history} Setsidebarshow={Setsidebarshow}/> }
                 />
 
                 <PrivateRoute

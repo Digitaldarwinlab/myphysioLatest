@@ -283,7 +283,7 @@ const EpisodeVisitDetails = () => {
     const res = await checkEpisodeId();
     if (res === true) {
       history.push({
-        pathname: "/assessment/1",
+        pathname: "/assessment/new",
         state: {
           patient: [{ code: state.patient_code }],
         },

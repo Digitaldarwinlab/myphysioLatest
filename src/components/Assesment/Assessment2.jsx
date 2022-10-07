@@ -13,10 +13,12 @@ import scaleindex from "../.././assets/scaleindex.webp";
 import specialtest from "../.././assets/specialtest.webp";
 import './Assesment2.css'
 import Body from './Body/Body';
+import { useHistory } from 'react-router-dom';
 const { Text } = Typography
 const Assessment2 = () => {
     const screenShotRef = useRef(null);
     const executeScroll = () => screenShotRef.current.scrollIntoView();
+    const history = useHistory()
     return (
         <Row justify='space-between' className='main-container-1x'>
             {/* <FaClipboardList size={35} /> */}
@@ -46,7 +48,7 @@ const Assessment2 = () => {
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={standingman} /><br/>Physical</center></div>
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={pain} /><br/>Pain</center></div>
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={posture} /><br/>Posture</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={aromai} /><br/>AROM</center></div>
+                    <div class="assesment-list-item-1x" onClick={()=>history.push('/assessment/arom/1')}> <center> <img className='assesment-list-icons-1x' src={aromai} /><br/>AROM</center></div>
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={specialtest} /><br/>Scale & index</center></div>
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={scaleindex} /><br/>Special Test</center></div>
                     <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={arom} /><br/>Manual AROM</center></div>
