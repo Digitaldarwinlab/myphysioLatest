@@ -27,7 +27,7 @@ const Assessment2 = () => {
                 <Col span={12} >Assesment/Consultation</Col>
             </Col> */}
             {/* <Col span={24}><IoArrowBack size={35} /> </Col> */}
-            <Col sm={10} md={12} lg={10} className='h1-1x'> <FaClipboardList style={{marginBottom:'10px' }} size={25} /><span >Assesment/Consultation</span></Col>
+            <Col sm={10} md={12} lg={10} className='h1-1x'> <FaClipboardList style={{ marginBottom: '10px' }} size={25} /><span >Assesment/Consultation</span></Col>
             <Col sm={6} md={12} lg={12} ><Button className="create-patient-btn-1x bg-theme-1x btn-1x"><img className='icons-1x' src={create} /><span className="only-icons-sm-1x">Create Patient</span></Button></Col>
             <Col span={24}>
                 <div className='patient-details-1x h3-font-1x bg-theme-1x div-border-1x'>
@@ -45,17 +45,17 @@ const Assessment2 = () => {
                     </Row>
                 </div> */}
                 <div class="assesment-list-1x h3-font-1x div-border-1x">
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={standingman} /><br/>Physical</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={pain} /><br/>Pain</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={posture} /><br/>Posture</center></div>
-                    <div class="assesment-list-item-1x" onClick={()=>history.push('/assessment/arom/1')}> <center> <img className='assesment-list-icons-1x' src={aromai} /><br/>AROM</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={specialtest} /><br/>Scale & index</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={scaleindex} /><br/>Special Test</center></div>
-                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={arom} /><br/>Manual AROM</center></div>
+                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={standingman} /><br />Physical</center></div>
+                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={pain} /><br />Pain</center></div>
+                    <div class="assesment-list-item-1x" onClick={() => history.push('/assessment/posture/1')}> <center> <img className='assesment-list-icons-1x' src={posture} /><br />Posture</center></div>
+                    <div class="assesment-list-item-1x" onClick={() => history.push('/assessment/arom/1')}> <center> <img className='assesment-list-icons-1x' src={aromai} /><br />AROM</center></div>
+                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={specialtest} /><br />Scale & index</center></div>
+                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={scaleindex} /><br />Special Test</center></div>
+                    <div class="assesment-list-item-1x"> <center> <img className='assesment-list-icons-1x' src={arom} /><br />Manual AROM</center></div>
                 </div>
             </Col>
             <Col span={24} className="bg-theme-1x div-border-1x">
-                <Body executeScroll={executeScroll} screenShotRef={screenShotRef} /> 
+                <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
             </Col>
         </Row>
     )

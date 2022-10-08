@@ -247,14 +247,14 @@ const RemoveCookie = (key) => {
 export const admin_password_reset_ep=async(detail)=>{
     // console.log(detail)
     const newdata={
-        id:detail.userid,
         uid:detail.temp_uid,
         new_password:detail.new_password
     }
     // console.log(newdata)
     const headers = {
         "Accept": 'application/json',
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        "jwt-tok":JSON.parse(localStorage.getItem('jwt'))
     }
     
     try {

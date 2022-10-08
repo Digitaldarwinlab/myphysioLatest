@@ -165,6 +165,10 @@ const AROMNEW = lazy(() =>
 const AromClass = lazy(() =>
   import("./components/Assesment/AromClass.jsx")
 );
+//"./components/Assesment/Posture"
+const PostureClass = lazy(() =>
+  import("./components/Assesment/Posture")
+);
 const Appointment = lazy(() =>
   import("./components/NewSchedule/Appointment.js")
 );
@@ -201,7 +205,7 @@ const Assessment2 = lazy(() =>
 import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
-import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall";
+import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall"
 // import AROMNEW from "./components/Assesment/AROMNEW";
 // import Assessment2 from "./components/Assesment/Assessment2";
 // import "./styles/App.css";
@@ -569,6 +573,11 @@ const App = () => {
                   exact
                   path="/assessment/arom/1"
                   component={() => <AromClass newhistory={history} Setsidebarshow={Setsidebarshow}/> }
+                />
+                  <PrivateRoute
+                  exact
+                  path="/assessment/posture/1"
+                  component={() => <PostureClass Setsidebarshow={Setsidebarshow}/> }
                 />
 
                 <PrivateRoute
