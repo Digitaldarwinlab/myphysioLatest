@@ -170,6 +170,7 @@ const EmployeeDashborad = lazy(() =>
 const ExerDetail = lazy(() =>
   import("./PatientComponents/PatientSchedule/ExerDetail.jsx")
 );
+import extra from "./extra";
 
 // import Assesment1 from "./components/Assesment/Assesment1";
 // import Assesment2 from "./components/Assesment/AddQuestions";
@@ -360,6 +361,11 @@ const App = () => {
                   exact
                   path="/dashboard"
                   component={EpisodeVisitDetails}
+                />
+                <PrivateRoute
+                  exact
+                  path="/extra"
+                  component={extra}
                 />
                 <PrivateRoute
                   exact
