@@ -95,6 +95,7 @@
         </svg>
       </div>
     </div>
+    
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -124,5 +125,15 @@
       src="https://kit.fontawesome.com/1ee1e3b82c.js"
       crossorigin="anonymous"
     ></script>  -->
+    <script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker
+						.register('./serviceWorker.js')
+						.then((reg) => console.log('Success: ', reg.scope))
+						.catch((err) => console.log('Failure: ', err));
+				});
+			}
+		</script>
   </body>
 </html>

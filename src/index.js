@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import store from "./contextStore/store";
 import 'antd/dist/antd.css';
 import  'rsuite/dist/rsuite.min.css';
+// import * as serviceWorker from './service_worker';
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/js/bootstrap.js";
 
@@ -16,4 +17,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
- 
