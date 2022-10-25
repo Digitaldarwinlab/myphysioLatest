@@ -92,27 +92,19 @@ const AddQuestions = ({ back, next }) => {
 
           <Col md={12} lg={12} sm={24} xs={24}>
             <Form.Item label="Scales & Index" name="Episode" required="true">
-                  {dropdownValue.ScalesandIndex !== undefined && (
-                    <Select
-                    placeholder="Select" className="" onChange={handleChange}
-                    >
-                      {dropdownValue.ScalesandIndex.map(
-                        (item) => (
-                          <Option key={item} value={item}>
-                            {item}
-                          </Option>
-                        )
-                      )}
-                    </Select>
+              {dropdownValue.ScalesandIndex !== undefined && (
+                <Select
+                  placeholder="Select" className="" onChange={handleChange}
+                >
+                  {dropdownValue.ScalesandIndex.map(
+                    (item) => (
+                      <Option key={item} value={item}>
+                        {item}
+                      </Option>
+                    )
                   )}
-               
-            
- {/* <Select placeholder="Select" className="" onChange={handleChange}>
-                {templateName.map((data) => (
-                  <Option value={data}>{data}</Option>
-                ))}
-              </Select>
-              */}
+                </Select>
+              )}
             </Form.Item>
           </Col>
         </Row>

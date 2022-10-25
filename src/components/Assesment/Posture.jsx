@@ -8,7 +8,9 @@ import SIL from "../.././assets/Side_Sit.webp";
 import camera from "../.././assets/camera.webp"
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 import Loader from "../video-call-screens/Loader";
+import html2canvas from "html2canvas";
 import './Posture.css'
+import BackSave from "./components/BackSave";
 let frontChecks = {};
 let sideChecks = {};
 let frontSitChecks = {};
@@ -101,10 +103,27 @@ class Posture extends Component {
     };
     componentWillUnmount() {
         this.props.Setsidebarshow(true)
+        if (this.props.carePlanReducer.patient_main_code.length != 0) {
+            const video = document.getElementById("video");
+            const mediaStream = video.srcObject;
+            try {
+                const tracks = mediaStream.getTracks();
+                tracks[0].stop();
+                tracks.forEach((track) => track.stop());
+
+                console.log("camera releasing....");
+                console.log(tracks);
+            } catch (err) {
+                console.log(mediaStream)
+                console.log("camera not releasing....");
+                console.log(err);
+            }
+        }
     }
     componentDidMount() {
         this.props.Setsidebarshow(false)
         this.setModelCanvas()
+        console.log('state ',this.state)
     }
     onChangeFront = (value) => {
         console.log("front ", value);
@@ -156,6 +175,73 @@ class Posture extends Component {
         console.log("side ", frontSitChecks);
         this.props.FirstAssesment("frontSitChecks", frontSitChecks);
     };
+    releaseCamera = () => {
+        const video = document.getElementById('video');
+    
+    
+        const mediaStream = video.srcObject;
+        try {
+          const tracks = mediaStream.getTracks();
+          tracks[0].stop();
+          tracks.forEach(track => track.stop())
+    
+          console.log('camera releasing....')
+          console.log(tracks)
+        }
+        catch (err) {
+          console.log('camera not releasing....')
+          console.log(err)
+        }
+      }
+    handleSubmit = () => {
+        let posture = {
+            posture_test_date: new Date().toLocaleDateString("en-GB"),
+            Notes: this.state.notes,
+        };
+        if (this.state.standing.anterior.img != STA) {
+            let post = {
+                posterial_view_image: this.state.standing.anterior.img,
+                Angles: [this.state.standing.anterior.angles[0].angle,this.state.standing.anterior.angles[1].angle,this.state.standing.anterior.angles[2].angle,this.state.standing.anterior.angles[3].angle,this.state.standing.anterior.angles[4].angle
+            ,this.state.standing.anterior.angles[5].angle],
+                checkbox: this.props.FirstAssesmentReducer.frontChecks,
+            }
+            posture['Posterial_view'] = post
+        }
+        if (this.state.standing.lateral.img != STL) {
+            let post = {
+                posterial_view_image: this.state.standing.lateral.img,
+                Angles: [this.state.standing.lateral.angles[0].angle,this.state.standing.lateral.angles[1].angle,this.state.standing.lateral.angles[2].angle,this.state.standing.lateral.angles[3].angle],
+                checkbox: this.props.FirstAssesmentReducer.sideChecks,
+            }
+            posture['lateral_view'] = post
+        }
+        if (this.state.sitting.anterior.img != SIA) {
+            let post = {
+                posterial_view_image: this.state.sitting.anterior.img,
+                Angles: [this.state.sitting.anterior.angles[0].angle,this.state.sitting.anterior.angles[1].angle,this.state.sitting.anterior.angles[2].angle,this.state.sitting.anterior.angles[3].angle,this.state.sitting.anterior.angles[4].angle
+            ,this.state.sitting.anterior.angles[5].angle],
+                checkbox: this.props.FirstAssesmentReducer.frontSitChecks,
+            }
+            posture['sitting_Posterial_view'] = post
+        }
+        if (this.state.sitting.lateral.img != SIL) {
+            let post = {
+                posterial_view_image: this.state.sitting.lateral.img,
+                Angles: [this.state.sitting.lateral.angles[0].angle,this.state.sitting.lateral.angles[1].angle,this.state.sitting.lateral.angles[2].angle,this.state.sitting.lateral.angles[3].angle,this.state.sitting.lateral.angles[4].angle],
+                checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
+            }
+            posture['Sitting_lateral_view'] = post
+        }
+        if (this.state.standing.anterior.img == STA && this.state.standing.lateral.img == STL && this.state.sitting.anterior.img == SIA && this.state.sitting.lateral.img == SIL) {
+            posture = {}
+        }
+        if (window.confirm("Posture data will be saved")) {
+            this.releaseCamera()
+            this.props.FirstAssesment("posture", posture);
+            this.props.history.push("/assessment/1")
+        }
+        console.log("posture ", posture);
+    };
     render() {
         return (
             <Row justify='space-between' >
@@ -180,9 +266,11 @@ class Posture extends Component {
                                 window.darwin.stop()
                                 this.setState({ isAIStart: false })
                             }
-                        }} className={this.state.isAIStart ? 'Stop' : 'Start'}>{this.state.isAIStart ? 'Stop' : 'Start'}</Button> <Button
+                        }} className={this.state.isAIStart ? 'Stop' : 'Start'}>{this.state.isAIStart ? 'Stop' : 'Start'}</Button> 
+                        <Button
                             disabled={!this.state.isAIStart}
                             onClick={async () => {
+                                console.log('state1 ',this.state)
                                 if (this.state.mode == "Standing") {
                                     if (this.state.pose_standing == 'Anterior') {
                                         this.setState({ loader: true })
@@ -207,6 +295,7 @@ class Posture extends Component {
                                         }))
                                         darwin.stop()
                                         this.setState({ loader: false })
+                                        this.setState({ isAIStart: false })
                                     }
                                     if (this.state.pose_standing == 'Lateral') {
                                         this.setState({ loader: true })
@@ -231,10 +320,12 @@ class Posture extends Component {
                                         }))
                                         darwin.stop()
                                         this.setState({ loader: false })
+                                        this.setState({ isAIStart: false })
                                     }
                                 }
                                 if (this.state.mode == "Sitting") {
-                                    if (this.state.pose_standing == 'Anterior') {
+                                    console.log(this.state.pose_sitting)
+                                    if (this.state.pose_sitting == 'Anterior') {
                                         this.setState({ loader: true })
                                         darwin.screenShot();
                                         window.scrollTo(0, 0);
@@ -257,8 +348,9 @@ class Posture extends Component {
                                         }))
                                         darwin.stop()
                                         this.setState({ loader: false })
+                                        this.setState({ isAIStart: false })
                                     }
-                                    if (this.state.pose_standing == 'Lateral') {
+                                    if (this.state.pose_sitting == 'Lateral') {
                                         this.setState({ loader: true })
                                         darwin.screenShot();
                                         window.scrollTo(0, 0);
@@ -281,6 +373,7 @@ class Posture extends Component {
                                         }))
                                         darwin.stop()
                                         this.setState({ loader: false })
+                                        this.setState({ isAIStart: false })
                                     }
                                 }
                             }}
@@ -301,12 +394,13 @@ class Posture extends Component {
                             </div>
                             <div onClick={() => {
                                 this.setState({ mode: 'Sitting' })
-                                if (this.state.pose_sitting == "Anterior") {
-                                    this.setState({ orientation: 1 })
-                                }
                                 if (this.state.pose_sitting == "Lateral") {
                                     this.setState({ orientation: 3 })
                                 }
+                                if (this.state.pose_sitting == "Anterior") {
+                                    this.setState({ orientation: 1 })
+                                }
+                                console.log('state1 ',this.state)
                             }} className={this.state.mode == "Sitting" ? `active-posture-tab posture-pose-tab-item` : `posture-pose-tab-item`}>
                                 Sitting
                             </div>
@@ -523,11 +617,12 @@ class Posture extends Component {
                         </Col>
                     </>}</>}
                     <Col className="posture-notes-tab" span={24}>
-                        <Input.TextArea placeholder="Notes"></Input.TextArea>
+                        <Input.TextArea value={this.state.notes} onChange={(e)=>this.setState({notes:e.target.value})} placeholder="Notes"></Input.TextArea>
                     </Col>
-                    <Col className="posture-notes-tab" span={24}>
-                        <Space className="posture-save"><Button>Back</Button>  <Button>Save</Button></Space>
-                    </Col>
+                    <BackSave submit={this.handleSubmit}/>
+                    {/* <Col className="posture-notes-tab" span={24}>
+                        <Space className="posture-save"><Button onClick={() => this.props.history.push("/assessment/1")}>Back</Button>  <Button onClick={this.handleSubmit}>Save</Button></Space>
+                    </Col> */}
                 </Col>
             </Row >
         )

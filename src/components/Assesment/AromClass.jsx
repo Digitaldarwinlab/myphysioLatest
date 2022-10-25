@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { useMemo } from 'react';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
 import { CARE_PLAN_STATE_CHANGE } from '../../contextStore/actions/care-plan-action';
+import BackSave from './components/BackSave';
 const { Option } = Select
 
 const anteriorAngles = {
@@ -205,7 +206,7 @@ class AromClass extends Component {
         angles: angles,
         dir: 1,
         minAmp: 30,
-        primaryAngles: leftAngles[this.state.selectedPrimary].angles[0].name[1],
+        primaryAngles: [...leftAngles[this.state.selectedPrimary].angles[0].name[1],...leftAngles[this.state.selectedPrimary].angles[0].name[1]],
         ROMs: [
           [30, 160],
           [30, 160],
@@ -231,7 +232,7 @@ class AromClass extends Component {
         angles: angles,
         dir: 1,
         minAmp: 30,
-        primaryAngles: rightAngles[this.state.selectedPrimary].angles[0].name[1],
+        primaryAngles: [...rightAngles[this.state.selectedPrimary].angles[0].name[1],...rightAngles[this.state.selectedPrimary].angles[0].name[1]],
         ROMs: [
           [30, 160],
           [30, 160],
@@ -244,6 +245,57 @@ class AromClass extends Component {
     }
   }
   stopAi = () => {
+    if (this.state.value == "Anterior") {
+      let data = darwin.getAssesmentData();
+      if (data !== undefined && data !== null) {
+        if (data["AROM"]) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          this.props.FirstAssesment("Anterior_AI_Data", TEMP);
+          this.props.FirstAssesment("aromSubmit", true);
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
+        }
+      }
+    } else if (this.state.value == "Left") {
+      let data = darwin.getAssesmentData();
+      if (data !== undefined && data !== null) {
+        if (data["AROM"]) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          this.props.FirstAssesment("LeftLateral_AI_Data", TEMP);
+          this.props.FirstAssesment("aromSubmit", true);
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
+        }
+      }
+
+    } else if (this.state.value == 'Right') {
+      let data = darwin.getAssesmentData();
+      if (data !== undefined && data !== null) {
+        if (data["AROM"]) {
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          this.props.FirstAssesment("RightLateral_AI_Data", TEMP);
+          this.props.FirstAssesment("aromSubmit", true);
+          notification.success({
+            message: "Angles have been calculated",
+            placement: "bottomLeft",
+            duration: 2,
+          });
+        }
+      }
+
+    }
     window.darwin.stop();
     this.setState({ aiStart: false })
   }
@@ -988,6 +1040,7 @@ class AromClass extends Component {
                 <Radio disabled={this.state.aiStart} value={'Left'}>Left</Radio>
                 <Radio disabled={this.state.aiStart} value={'Right'}>Right</Radio>
               </Space>
+              <BackSave submitDisplay={'none'} />
             </Radio.Group>
             {/* {graphs.map(e => <div className='arom-analytics-tab-item-1x'> <ReactSpeedometer
            needleTransitionDuration={1000}

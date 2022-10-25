@@ -212,7 +212,7 @@ const AromWithouthAi = () => {
   const [checkState1 ,setCheckState1] = useState(true)
   const [checkState2 ,setCheckState2] = useState(true)
   const [checkState3 ,setCheckState3] = useState(true)
-  const [visible ,setVisible] = useState(false)
+  const [visible ,setVisible] = useState(true)
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const history = useHistory();
@@ -415,7 +415,6 @@ const AromWithouthAi = () => {
   };
   useEffect(() => {
     // Set totals on initial render
-    setVisible(true)
     const newData = [...tableData1];
     for (let index = 0; index < tableData1.length; index++) {
       setTotal(newData, index);

@@ -74,6 +74,8 @@ const PatientVideoCall = (props) => {
   const [screenId, setScreenId] = useState(Math.floor(Math.random() * 100));
   const [changeView, setChangeView] = useState('')
   const [cvsslg, setCVSSLG] = useState(12)
+  const [cvssmd, setCVSSMD] = useState(12)
+  const [size, setSize] = useState([24, 24, 8, 8, 8])
   const [changeViewOnscreenShare, setChangeViewOnscreenShare] = useState('')
   const [appId, setAppID] = useState('7aca4bce40d0476fb3aafde5f88e3de9')
   const [channel, setChannel] = useState('demo')
@@ -195,8 +197,8 @@ const PatientVideoCall = (props) => {
       console.log("message from peer*** ", msg)
       if (obj.type == "initiate-arom") {
         try {
-          setDrag(false)
-          setCVSSLG(24)
+          // setDrag(false)
+          setCVSSLG(8)
           let videoElem = document.getElementById('local').querySelector('video')
           console.log('initiate posture ', document.getElementsByClassName('holder-local')[0])
           document.getElementsByClassName('holder-local')[0].classList.add('remote-on-screenshare')
@@ -220,9 +222,13 @@ const PatientVideoCall = (props) => {
           window.darwin.launchModel();
           window.darwin.stop();
           setIsAssessmentStarted(true)
+          sessionStorage.setItem('setIsAssessmentStarted',"started")
           // TempStream.addTrack(tracks[0]);
           //change_view
-          setChangeView('change_view')
+          if (screen.width < 770) {
+            setChangeView('change_view')
+            setDrag(false)
+          }
           document.getElementById('local').style.display = 'none'
           document.getElementsByClassName('holder')[0].style.zIndex = 10
           document.getElementsByClassName('holder')[0].style.position = 'static'
@@ -249,8 +255,7 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "initiate-posture") {
         try {
-          setDrag(false)
-          setCVSSLG(24)
+          setCVSSLG(8)
           let videoElem = document.getElementById('local').querySelector('video')
           document.getElementsByClassName('holder-local')[0].classList.add('remote-on-screenshare')
           document.getElementById('local').classList.add('display-none-sm')
@@ -273,9 +278,13 @@ const PatientVideoCall = (props) => {
           window.darwin.launchModel();
           window.darwin.stop();
           setIsAssessmentStarted(true)
+          sessionStorage.setItem('setIsAssessmentStarted',"started")
           // TempStream.addTrack(tracks[0]);
           //change_view
-          setChangeView('change_view')
+          if (screen.width < 770) {
+            setChangeView('change_view')
+            setDrag(false)
+          }
           document.getElementById('local').style.display = 'none'
           document.getElementsByClassName('holder')[0].style.zIndex = 10
           document.getElementsByClassName('holder')[0].style.position = 'static'
@@ -354,11 +363,11 @@ const PatientVideoCall = (props) => {
         client.unpublish(localVideoTrack)
         console.log("stream check ", r)
         //client.publish(r)
-        if (localStorage.getItem('audio')=="true") {
+        if (localStorage.getItem('audio') == "true") {
           const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
           setLocalAudioTrack(_localAudioTrack);
           await client.publish([_localAudioTrack, r]);
-        }else{
+        } else {
           await client.publish(r);
         }
         if (localStorage.getItem('startCount')) {
@@ -405,11 +414,11 @@ const PatientVideoCall = (props) => {
         client.unpublish(localVideoTrack)
         console.log("stream check ", r)
         //client.publish(r)
-        if (localStorage.getItem('audio')=="true") {
+        if (localStorage.getItem('audio') == "true") {
           const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
           setLocalAudioTrack(_localAudioTrack);
           await client.publish([_localAudioTrack, r]);
-        }else{
+        } else {
           await client.publish(r);
         }
         if (localStorage.getItem('startCount')) {
@@ -437,6 +446,7 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "started-screen-share") {
         setChangeViewOnscreenShare('change_view')
+        setDrag(false)
         if (obj.screen_) {
           setChangeView('')
           console.log("started-screen-share ai is on")
@@ -457,8 +467,11 @@ const PatientVideoCall = (props) => {
       }
       if (obj.type == "stopped-screen-share") {
         setChangeViewOnscreenShare('')
+        setDrag(true)
         if (obj.screen_) {
-          setChangeView('change_view')
+          if (screen.width < 770) {
+            setChangeView('change_view')
+          }
           document.getElementById('scanvas').style.display = 'flex'
         }
         // document.getElementById('scanvas').style.display='flex'
@@ -471,7 +484,11 @@ const PatientVideoCall = (props) => {
           placement: "bottomLeft",
           duration: 2,
         });
-        setCVSSLG(12)
+        if(sessionStorage.getItem('setIsAssessmentStarted')=='started'){
+          setCVSSLG(8)
+        }else{
+          setCVSSLG(12)
+        }
       }
       if (obj.type == 'darwin.stop') {
         window.darwin.stop()
@@ -481,6 +498,7 @@ const PatientVideoCall = (props) => {
         window.darwin.stop()
         setCVSSLG(12)
         setIsAssessmentStarted(false)
+        sessionStorage.setItem('setIsAssessmentStarted',"stoped")
         setDrag(true)
         document.getElementById('local').classList.remove('display-none-sm')
         // if(screen.width<769){
@@ -515,7 +533,7 @@ const PatientVideoCall = (props) => {
       // create a local audio track
       const _localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       setLocalAudioTrack(_localAudioTrack);
-      localStorage.setItem('audio',true)
+      localStorage.setItem('audio', true)
       // create a local video track
       const _localVideoTrack = await AgoraRTC.createCameraVideoTrack();
       setLocalVideoTrack(_localVideoTrack);
@@ -629,14 +647,14 @@ const PatientVideoCall = (props) => {
     sendMsg(JSON.stringify(obj))
   }
   const startAudio = async () => {
-    localStorage.setItem('audio',true)
+    localStorage.setItem('audio', true)
     const temp = await AgoraRTC.createMicrophoneAudioTrack();
     setLocalAudioTrack(temp)
     client.publish(temp)
     setAudio(true)
   }
   const stopAudio = async () => {
-    localStorage.setItem('audio',false)
+    localStorage.setItem('audio', false)
     localAudioTrack.close()
     client.unpublish(localAudioTrack)
     setAudio(false)
@@ -755,16 +773,17 @@ const PatientVideoCall = (props) => {
           disabled
         /> */}
       </Modal>
-      <Row gutter={[16, 16]} className="video-call-main-container" justifyContent="center" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
+      <Row gutter={[16, 16]} className="video-call-main-container" justify="center" style={{ margin: '20px', marginTop: '20px', marginBottom: '20px' }}>
         <Col span={24} >
           {/* <Col xs={24} sm={24} md={16} lg={16} xl={16}> */}
-          <Row gutter={[16, 16]} style={{ justifyContent: 'center' }}>
+          <Row gutter={[16, 16]} justify="left">
             <Col id="local" style={{ backgroundColor: 'black', borderRadius: '15px' }} className={`holder-remote1 ${changeViewOnscreenShare}`} xs={24} sm={24} md={12} lg={12} xl={12}>
               <div id="no-user-view"><p className='no-patient-icon'>{patientJoined ? <FaUserAlt size={NoUserIcon} /> : <FaUserAltSlash size={NoUserIcon} />}</p></div>
               <p className='patient-mic-video'>{audio ? <GoUnmute size={20} /> :
                 <GoMute style={{ color: 'red' }} size={20} />}{"   "}{video ? <FaVideo size={20} /> :
                   <FaVideoSlash style={{ color: 'red' }} size={20} />}</p>
             </Col>
+
             <Col className='holder' xs={24} sm={24} md={cvsslg} lg={cvsslg} xl={cvsslg} style={{ position: 'relative', display: 'grid' }}>
               {/* <Draggable ref={nodeRef} scale={2}>  */}
               <Draggable disabled={drag} ref={nodeRef} scale={2}>
@@ -776,9 +795,10 @@ const PatientVideoCall = (props) => {
               </Draggable>
               <div id="screen" style={{ backgroundColor: 'black', display: 'none' }} className='holder-local holder-local-p' ></div>
             </Col>
-            <canvas style={{ position: "absolute", height: "100%" }} id="scanvas"></canvas>
-            {/* <div style={{height:'480px'}}>
-            </div> */}
+
+            <Col id="scanvasrow" style={{ height: "84vh", right: '0' }} xs={24} sm={24} md={24} lg={16} xl={16}>
+              <canvas id="scanvas"></canvas>
+            </Col>
             <Col className="sticky_button_grp footer" span={24} style={{ justifyContent: 'center', display: 'flex' }}>
               <Space size="small">
                 <Tooltip title={`Turn ${audio ? `off` : `on`} Microphone`}>

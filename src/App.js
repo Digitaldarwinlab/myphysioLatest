@@ -7,7 +7,7 @@ import RolesRegisteration from "./components/Role Management/AddRoles/RolesRegis
 const Login = lazy(() => import('./components/userAuth/Login.js'));
 const Signup = lazy(() => import('./components/userAuth/Signup.js'));
 const Assesment1 = lazy(() => import('./components/Assesment/Assesment1'));
-const Assesment2 = lazy(() => import('./components/Assesment/AddQuestions'));
+const Scale = lazy(() => import('./components/Assesment/Scale'));
 import SideNavBar from './components/Layout/SideNavBar';
 import Navigationbar from "./components/Layout/Navbar";
 const Appointments = lazy(() =>
@@ -93,11 +93,11 @@ const PatientProgress = lazy(() =>
 const Tempdashboard = lazy(() =>
   import("./PatientComponents/Tempdashboard.js")
 );
-const PainAssessment = lazy(() =>
-  import("./components/Assesment/PainAssessment.jsx")
+const Pain = lazy(() =>
+  import("./components/Assesment/Pain")
 );
-const SpecialTest = lazy(() =>
-  import("./components/Assesment/SpecialTest.jsx")
+const Special = lazy(() =>
+  import("./components/Assesment/Special.jsx")
 );
 const Invoice = lazy(() => import("./components/Invoice/Invoice"));
 
@@ -156,19 +156,26 @@ const ViewClinic = lazy(() =>
 const ClinicList = lazy(() =>
   import("./components/Physio/ClinicRegister/ClinicList.js")
 );
-const AromWithouthAi = lazy(() =>
-  import("./components/Assesment/Arom-withouth-ai.js")
+const AROM = lazy(() =>
+  import("./components/Assesment/AROM.jsx")
 );
 const AROMNEW = lazy(() =>
   import("./components/Assesment/AROMNEW.jsx")
 );
-const AromClass = lazy(() =>
-  import("./components/Assesment/AromClass.jsx")
+const AROMMain = lazy(() =>
+  import("./components/Assesment/AROMMain.jsx")
 );
 //"./components/Assesment/Posture"
 const PostureClass = lazy(() =>
   import("./components/Assesment/Posture")
 );
+const PostureMain = lazy(() =>
+  import("./components/Assesment/PostureMain")
+);
+const Physical = lazy(() =>
+  import("./components/Assesment/Physical")
+);
+
 const Appointment = lazy(() =>
   import("./components/NewSchedule/Appointment.js")
 );
@@ -206,6 +213,9 @@ import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
 import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall"
+// import Pain from "./components/Assesment/Pain";
+// import Physical from "./components/Assesment/Physical";
+// import PostureMain from "./components/Assesment/PostureMain";
 // import AROMNEW from "./components/Assesment/AROMNEW";
 // import Assessment2 from "./components/Assesment/Assessment2";
 // import "./styles/App.css";
@@ -313,7 +323,7 @@ const App = () => {
       <Router>
         <Suspense fallback={<Loading />}>
           <div className="padT-0">
-          
+
             {isAuthenticated() &&
               (getUserData() === "admin" ||
                 getUserData() === "physio" ||
@@ -359,12 +369,12 @@ const App = () => {
               }}
             >
               {isAuthenticated() && (
-            <Navigationbar
-              getCurrentPath={getCurrentPath}
-              SideNavbarCollpased={SideNavbarCollpased}
-              isSideNavbarCollpased={isSideNavbarCollpased}
-            />
-          )}
+                <Navigationbar
+                  getCurrentPath={getCurrentPath}
+                  SideNavbarCollpased={SideNavbarCollpased}
+                  isSideNavbarCollpased={isSideNavbarCollpased}
+                />
+              )}
               <Switch>
                 <PublicRoute exact path="/employee" component={EmployeeLogin} />
                 <PublicRoute exact path="/change-password" component={Signup} />
@@ -530,27 +540,27 @@ const App = () => {
                 <PrivateRoute
                   exact
                   path="/assessment/1"
-                  component={Assesment1}
-                />
-                <PrivateRoute
-                  exact
-                  path="/assessment/new"
                   component={Assessment2}
                 />
                 <PrivateRoute
                   exact
+                  path="/assessment/physical"
+                  component={Physical}
+                />
+                <PrivateRoute
+                  exact
                   path="/assesment/Questions"
-                  component={Assesment2}
+                  component={Scale}
                 />
                 <PrivateRoute
                   exact
                   path="/assesment/PainAssessment"
-                  component={PainAssessment}
+                  component={Pain}
                 />
                 <PrivateRoute
                   exact
                   path="/assesment/SpecialTest"
-                  component={SpecialTest}
+                  component={Special}
                 />
                 <PrivateRoute
                   exact
@@ -561,7 +571,7 @@ const App = () => {
                 <PrivateRoute
                   exact
                   path="/assessment/AROM"
-                  component={AromWithouthAi}
+                  component={AROM}
                 />
                 <PrivateRoute
                   exact
@@ -572,12 +582,12 @@ const App = () => {
                 <PrivateRoute
                   exact
                   path="/assessment/arom/1"
-                  component={() => <AromClass newhistory={history} Setsidebarshow={Setsidebarshow}/> }
+                  component={() => <AROMMain newhistory={history} Setsidebarshow={Setsidebarshow} />}
                 />
-                  <PrivateRoute
+                <PrivateRoute
                   exact
                   path="/assessment/posture/1"
-                  component={() => <PostureClass Setsidebarshow={Setsidebarshow}/> }
+                  component={() => <PostureMain Setsidebarshow={Setsidebarshow} />}
                 />
 
                 <PrivateRoute

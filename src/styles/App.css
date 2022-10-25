@@ -17,6 +17,44 @@ body {
   opacity: 0.6;
   pointer-events: none !important;
 }
+.h2-p-1x{
+  padding: 20px;
+}
+.h3-p-1x{
+  padding: 5px;
+}
+.h1-1x {
+  color: #000000;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 24.2px;
+  font-size: 1.5rem;
+  margin: 0.5rem 0px 0rem 0px;
+}
+.h2-1x {
+  color: #000000;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 24.2px;
+  font-size: 1.2rem;
+  margin: 0.5rem 0px 0rem 0px;
+}
+.h3-1x {
+  color: #4E4949;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 24.2px;
+  font-size: 1.1rem;
+  margin: 0.5rem 0px 0rem 0px;
+}
+.h4-1x {
+  color: #4E4949;
+  font-weight: 400;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 24.2px;
+  font-size: 1rem;
+  margin: 0.5rem 0px 0rem 0px;
+}
 @media only screen and (max-width: 650px){
 .pag_mob {
     display: contents !important;
@@ -1052,7 +1090,7 @@ button.userAuthbtn {
   color: #fff;
 }
 nav.navbar.navigationBar {
-  background: #fff;
+  background: #f9f9fc;
   margin: 0px !important;
   padding: 0px !important;
   margin-top: 5px !important;
@@ -1613,8 +1651,6 @@ form#control-hooks {
 .AssesmentConsultation,
 .CarePlan {
   background: #fff;
-  margin-top: 20px;
-  padding: 20px !important;
   position: relative;
 }
 .EpisodeDate:first-child {

@@ -7,6 +7,7 @@ import {
 import fetch from "isomorphic-fetch";
 import Cookies from 'js-cookie';
 import { Encode,Decode } from "../../Encode/hashing.js";
+import axios  from 'axios'
 //@signup 
 //@param user Info
 //@return- signup success Message.
@@ -258,27 +259,31 @@ export const admin_password_reset_ep=async(detail)=>{
     }
     
     try {
-        const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(newdata)
-        });
+        const abc = await axios.post(process.env.REACT_APP_API + "/emp_password_reset/",newdata,{
+            headers: headers
+          })
+          console.log(abc)
+        // const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
+        //     method: "POST",
+        //     headers: headers,
+        //     body: JSON.stringify(newdata)
+        // });
         
-        const data = await response.json();
+        // const data = await response.json();
        
-        // console.log(data)
-        if (response.status !== 200 && response.status !== 201) {
+        // // console.log(data)
+        // if (response.status !== 200 && response.status !== 201) {
             
-            if (data && data.detail) {
+        //     if (data && data.detail) {
                 
-                return [false, "Error " + response.status + response.statusText];
-            } else {
-                return [false, "Error " + response.status + response.statusText];
-            }
-        } else if (data && data.message) {
-            // console.log('true returning')
-            return [true];
-        }
+        //         return [false, "Error " + response.status + response.statusText];
+        //     } else {
+        //         return [false, "Error " + response.status + response.statusText];
+        //     }
+        // } else if (data && data.message) {
+        //     // console.log('true returning')
+        //     return [true];
+        // }
         return [false, "Error " + response.status + response.statusText];
     } catch (err) {
         return [false, err.message];

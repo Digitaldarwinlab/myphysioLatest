@@ -4,11 +4,18 @@
     margin-top: 10px;
     z-index: 2000000;
     border-radius: 10px;
+    width: 22rem;
     overflow-y: scroll;
-background-color: #fff;
+    position: absolute;
+background-color: #eaeaf7;
 }
 
-
+@media only screen and (max-width: 767px) {
+  .searchBox{
+    width: 65%;
+    margin: 0px;
+  }
+}
 ::-webkit-scrollbar {
     width: 5px;
   }

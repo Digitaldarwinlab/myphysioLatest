@@ -272,26 +272,6 @@ class PoseTestClass extends Component {
     })
     let posture = {
       posture_test_date: new Date().toLocaleDateString("en-GB"),
-      // Posterial_view: {
-      //   posterial_view_image: this.state.url1,
-      //   Angles: this.state.frontAngles,
-      //   checkbox: this.props.FirstAssesmentReducer.frontChecks,
-      // },
-      // lateral_view: {
-      //   posterial_view_image: this.state.url2,
-      //   Angles: this.state.sideAngles,
-      //   checkbox: this.props.FirstAssesmentReducer.sideChecks,
-      // },
-      // sitting_Posterial_view: {
-      //   posterial_view_image: this.state.url3,
-      //   Angles: this.state.frontSitAngles,
-      //   checkbox: this.props.FirstAssesmentReducer.frontSitChecks,
-      // },
-      // Sitting_lateral_view: {
-      //   posterial_view_image: this.state.url4,
-      //   Angles: this.state.sideSitAngles,
-      //   checkbox: this.props.FirstAssesmentReducer.sideSitChecks,
-      // },
       Notes: this.state.notes,
     };
     if(this.state.url1!=bodyImage){

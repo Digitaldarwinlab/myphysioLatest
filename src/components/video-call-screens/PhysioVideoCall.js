@@ -666,7 +666,7 @@ const PhysioVideoCall = (props) => {
     } else {
       arom['rightLateral'] = ''
     }
-    if (arom['Anterior'] == '' && arom['leftLateral'] == '' && arom['rightLateral'] == '' ) {
+    if (arom['Anterior'] == '' && arom['leftLateral'] == '' && arom['rightLateral'] == '') {
       arom = {}
     }
     console.log("AROM ", arom)
@@ -925,25 +925,29 @@ const PhysioVideoCall = (props) => {
               let posture = JSON.parse(localStorage.getItem("Posture_Data_temp"));
               console.log(TempAROM)
               console.log(TempPosture)
-              Object.keys(arom).map(ch => {
-                console.log(ch)
-                console.log(TempAROM.includes(ch))
-                if (!TempAROM.includes(ch)) {
-                  arom[ch] = ""
-                }
-              })
-              console.log(arom)
-              localStorage.removeItem("AI_Data")
-              localStorage.setItem("AI_Data", JSON.stringify(arom))
-              Object.keys(posture).map(p => {
-                if (!TempPosture.includes(p)) {
-                  delete posture[p]
-                }
-              })
-              console.log(posture)
-              posture["posture_test_date"] = new Date().toLocaleDateString("en-GB")
-              localStorage.removeItem("Posture_Data")
-              localStorage.setItem("Posture_Data", JSON.stringify(posture))
+              if (arom) {
+                Object.keys(arom).map(ch => {
+                  console.log(ch)
+                  console.log(TempAROM.includes(ch))
+                  if (!TempAROM.includes(ch)) {
+                    arom[ch] = ""
+                  }
+                })
+                console.log(arom)
+                localStorage.removeItem("AI_Data")
+                localStorage.setItem("AI_Data", JSON.stringify(arom))
+              }
+              if (posture) {
+                Object.keys(posture).map(p => {
+                  if (!TempPosture.includes(p)) {
+                    delete posture[p]
+                  }
+                })
+                console.log(posture)
+                posture["posture_test_date"] = new Date().toLocaleDateString("en-GB")
+                localStorage.removeItem("Posture_Data")
+                localStorage.setItem("Posture_Data", JSON.stringify(posture))
+              }
               setModalSaveDataVisible(false)
             }}>
               Save Assessment
@@ -968,9 +972,9 @@ const PhysioVideoCall = (props) => {
                 console.log(temp)
                 setTempAROM(temp)
               }} /></Space>)} */}
-            {TempAROM.length>0?TempAROM.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
+            {TempAROM.length > 0 ? TempAROM.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
               setTempAROM(TempAROM.filter(a => a != e))
-            }} /></Space>{"    "}</>):'No Data'}
+            }} /></Space>{"    "}</>) : 'No Data'}
           </Col>
           <Col span={24}><b>Posture</b></Col>
           <Col span={24}>
@@ -986,9 +990,9 @@ const PhysioVideoCall = (props) => {
               })
               setTempPosture(temp)
             }}/></Space>)} */}
-            {TempPosture.length>0?TempPosture.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
+            {TempPosture.length > 0 ? TempPosture.map(e => <><Space style={{ backgroundColor: 'whitesmoke' }}><span>{TempLabels[e]}</span><GrClose style={{ cursor: 'pointer' }} onClick={() => {
               setTempPosture(TempPosture.filter(a => a != e))
-            }} /></Space>{"    "}</>):'No Data'}
+            }} /></Space>{"    "}</>) : 'No Data'}
           </Col>
         </Row>
       </Modal>

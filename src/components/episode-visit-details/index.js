@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ActiveSearch from "../../components/UtilityComponents/ActiveSearch";
 import { useHistory } from "react-router-dom";
 import Patient from "./Patient-Details/Patient-Detail";
+import arrow from '../../assets/arrow.webp'
 import {
   getPatientList,
   Patient_profile,
@@ -34,6 +35,7 @@ import { EPISODE_STATECHANGE } from "../../contextStore/actions/episode";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import Invoice from "./Invoice/Invoice";
+import H1 from "../Assesment/components/H1";
 //import  checkEpisodeId  from "./checkEpisodeId";
 const { TabPane } = Tabs;
 const pp = "asas";
@@ -283,7 +285,7 @@ const EpisodeVisitDetails = () => {
     const res = await checkEpisodeId();
     if (res === true) {
       history.push({
-        pathname: "/assessment/new",
+        pathname: "/assessment/1",
         state: {
           patient: [{ code: state.patient_code }],
         },
@@ -315,7 +317,8 @@ const EpisodeVisitDetails = () => {
       <React.Fragment>
         <div style={{ minHeight: "20px" }}></div>
         <Row>
-          <Col lg={18} md={14} sm={14} xs={24}>
+        <H1 image={arrow} title={'Dashboard'} />
+          {/* <Col lg={18} md={14} sm={14} xs={24}>
             <h3 style={{ fontSize: "20px" }} className="fw-bold page-heading">
               <i
                 className="fas fa-arrow-left"
@@ -328,14 +331,14 @@ const EpisodeVisitDetails = () => {
               ></i>
               <b className="fw-bold"> Patient</b>
             </h3>
-          </Col>
-          <Col lg={6} md={10} sm={10} xs={24}>
+          </Col> */}
+          {/* <Col lg={6} md={10} sm={10} xs={24}>
             <ActiveSearch
               carePlan={false}
               updatePatientState={updatePatientState}
               prescreption={false}
             />
-          </Col>
+          </Col> */}
         </Row>
       </React.Fragment>
     );
@@ -497,7 +500,7 @@ const EpisodeVisitDetails = () => {
       ref={episodeRef}
     >
       {Header()}
-      <div className="rest">
+      <div style={{margin:'5px'}} className="rest">
         {/* aswin 11/15/2021 start */}
         {episodeDetail.Validation.episode_check === "failed" && (
           <Error error={episodeDetail.Validation.msg} />

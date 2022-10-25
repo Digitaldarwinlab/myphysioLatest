@@ -25,6 +25,9 @@ const FirstAssesmentIniState ={
     joint2score:20,
     ScareFile:[],
     TraumaFile:"",
+    physicalSubmit:false,
+    postureSubmit:false,
+    specialSubmit:false,
     // aswin 10/24/2021 start
     Type:"First",
     // aswin 10/24/2021 stop

@@ -485,7 +485,6 @@ const PainAssessment = ({ setActive, next }) => {
                 <Radio.Group
                   onChange={(e) => handleChange1("pain_swelling", e.target.value)}
                   name="pain_swelling"
-                 // style={{ paddingLeft: "60px" }}
                 >
                  <Radio value={"Pitting"}>Pitting</Radio>
                     <Radio value={"Non-pitting"}>Non-pitting</Radio>

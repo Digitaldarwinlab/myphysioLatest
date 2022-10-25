@@ -330,7 +330,7 @@ const Navigationbar = (props) => {
 
         <div
           className="d-inline-flex p-2 mt-3  navigationMenu topScheduleIcon"
-          style={{ position: "absolute",bottom:'7px' }}
+          style={{ position: "absolute",bottom:'2px' }}
         >
           {userInfo.role !== "admin" &&
           userInfo.role !== "physio" &&

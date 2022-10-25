@@ -1327,14 +1327,14 @@ const Assesment1 = ({ back, next }) => {
       content: "Please Select a Patient",
     });
   }
-  const [videoBtn ,setVideoBtn] = useState(localStorage.getItem("OnAssessmentScreen")=="true"?true:false)
+  const [videoBtn, setVideoBtn] = useState(localStorage.getItem("OnAssessmentScreen") == "true" ? true : false)
   const videoConChecked = (checked) => {
     // console.log(typeof localStorage.getItem("OnAssessmentScreen"))
     // console.log(typeof checked)
-    if(localStorage.getItem("OnAssessmentScreen")=="true"){
+    if (localStorage.getItem("OnAssessmentScreen") == "true") {
       localStorage.setItem("OnAssessmentScreen", 'false');
       setVideoBtn(false)
-    }else{
+    } else {
       localStorage.setItem("OnAssessmentScreen", 'true');
       setVideoBtn(true)
     }
@@ -1620,14 +1620,7 @@ const Assesment1 = ({ back, next }) => {
             <Switch
               checkedChildren="On"
               unCheckedChildren="Off"
-               checked={videoBtn}
-              // ? true
-              // : false}
-              // value={
-              //   localStorage.getItem("OnAssessmentScreen") == "true"
-              //     ? true
-              //     : false
-              // }
+              checked={videoBtn}
               onChange={videoConChecked}
             />
           </Col>
@@ -1671,29 +1664,29 @@ const Assesment1 = ({ back, next }) => {
                     >
                       <h4>Occupation</h4>
                       {dropdownValue.Occupation !== undefined &&
-                      <select
-                        className="form-select w-100"
-                        name={"occupation" + index}
-                        id={occupation}
-                        data-id={index}
-                        aria-label="Default select example"
-                        value={
-                          state.FirstAssesment.subjective[index].occupation
-                        }
-                        // value={state.FirstAssesment.subjective[index].occupation}
-                        onChange={(e) =>
-                          handleChange("occupation", e.target.value, index)
-                        }
-                      >
-                        <option selected></option>
-                        {dropdownValue.Occupation.map(i=><option value={i}>{i}</option>)}
-                        {/* <option value="Desk Job">Desk Job</option>
+                        <select
+                          className="form-select w-100"
+                          name={"occupation" + index}
+                          id={occupation}
+                          data-id={index}
+                          aria-label="Default select example"
+                          value={
+                            state.FirstAssesment.subjective[index].occupation
+                          }
+                          // value={state.FirstAssesment.subjective[index].occupation}
+                          onChange={(e) =>
+                            handleChange("occupation", e.target.value, index)
+                          }
+                        >
+                          <option selected></option>
+                          {dropdownValue.Occupation.map(i => <option value={i}>{i}</option>)}
+                          {/* <option value="Desk Job">Desk Job</option>
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
                         <option value="Home Maker">Home Maker</option>
                         <option value="Retired">Retired</option>
                         <option value="Sports">Sports</option> */}
-                      </select>
+                        </select>
                       }
                     </Col>
                     {/* <Col md={12} lg={12} sm={12} xs={12}> */}
@@ -2303,11 +2296,6 @@ const Assesment1 = ({ back, next }) => {
           <div className="  mb-3 mt-3">
             <Row gutter={[10, 10]}>
               <Col md={24} lg={24} sm={24} xs={24}>
-                {/* <Row className="border1">
-            <Col md={24} lg={24} sm={24} xs={24}>
-              <h4 className="p-2">Pain Assessment</h4>
-            </Col>
-          </Row> */}
                 <Descriptions title={<Col className="border1" md={24} lg={24} sm={24} xs={24}>
                   <h4 className="p-2">Pain Assessment</h4>
                 </Col>} bordered>
@@ -2817,10 +2805,6 @@ const Assesment1 = ({ back, next }) => {
                 </Col>
               </Row>
             </Col>
-            {/* <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
-         <h5 className="p-2">Left side</h5><br/>
-             <Table pagination={false} columns={columns} dataSource={tableDataL} />
-         </Col> */}
             <Col
               style={{ display: RomVisibilityR }}
               md={12}
@@ -2844,21 +2828,6 @@ const Assesment1 = ({ back, next }) => {
           </Row>
         </div>
       </div>
-      {/* <Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
-        </Col>
-        <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
-          <div>
-          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'15px',margin:0}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'112px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'105px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'90px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
-          </div>
-        </Col>
-        <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-  </Row> */}
       <Row>
         <Col
           style={{ paddingTop: "23px" }}
@@ -2868,30 +2837,6 @@ const Assesment1 = ({ back, next }) => {
           xs={20}
         ></Col>
       </Row>
-      {/* <Row>
-      <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-        <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
-        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
-        <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>
-        }
-     
-                {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
-                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
-                }
-                {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                }
-                {state.FirstAssesment.pose?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>:
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-                }
-                {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">Rom Assessment</Button>:
-                <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Rom Assessment</Button>
-                }
-        </Col>
-        <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-      </Row> */}
       <Row gutter={[10, 10]}>
         {/* <Space> */}
         <Col md={8} lg={8} sm={24} xs={24}>
@@ -2911,12 +2856,7 @@ const Assesment1 = ({ back, next }) => {
                 }}
                 disabled={state.FirstAssesment.pain1}
                 onClick={() => {
-                  // if (localStorage.getItem("OnAssessmentScreen") == "true") {
-                    goPain();
-                  //   OnAssesmentPage();
-                  // } else {
-                  //   goPain();
-                  // }
+                  goPain();
                 }}
               >
                 Pain Assessment
