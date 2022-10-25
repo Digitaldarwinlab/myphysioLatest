@@ -213,6 +213,7 @@ import Loading from "./components/UtilityComponents/Loading.js";
 import PatientAiMain from "./PatientComponents/PatientAI/PatientAiMain";
 import PhysioVideoCall from "./components/video-call-screens/PhysioVideoCall";
 import PatientVideoCall from "./PatientComponents/Patient-video-call/PatientVideoCall"
+import Careplan1 from "./components/care-plan/Careplan1";
 // import Pain from "./components/Assesment/Pain";
 // import Physical from "./components/Assesment/Physical";
 // import PostureMain from "./components/Assesment/PostureMain";
@@ -603,6 +604,7 @@ const App = () => {
                 />
 
                 <PrivateRoute exact path="/care-plan" component={Careplan} />
+                <PrivateRoute exact path="/care-plan1" component={Careplan1} />
                 <PrivateRoute
                   exact
                   path="/enterprise/care-plan"
