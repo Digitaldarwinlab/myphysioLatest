@@ -583,7 +583,7 @@ const Assessment2 = () => {
                 <Col span={24} className="bg-theme-1x mb-3 div-border-1x">
                     <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
                 </Col>
-                {state.FirstAssesment.physicalSubmit && <Col span={24} className="mb-3 bg-theme-1x div-border-1x">
+                {state.FirstAssesment.physicalSubmit && <Col span={24} className="mb-3 physical-report bg-theme-1x div-border-1x">
                     <H2 title={'Physical Assessment'} />
                     <Physical data={state.FirstAssesment} />
                 </Col>}

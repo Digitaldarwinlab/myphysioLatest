@@ -1,7 +1,7 @@
 /*eslint no-unused-vars:"off" */
 /*eslint array-callback-return:"off" */
 import Switch from "react-switch";
-import React, { useState, useEffect ,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CarePlanCard from "../care-plan-card/Card";
 import {
   Row,
@@ -14,8 +14,10 @@ import {
   Input,
   Radio,
   notification,
+  DatePicker,
 } from "antd";
 import FormDate from "../../UI/antInputs/FormDate";
+import BackSave from '../../Assesment/components/BackSave'
 import { useSelector, useDispatch } from "react-redux";
 import {
   CARE_PLAN_ROM_CHANGE,
@@ -28,6 +30,7 @@ import {
   EditCarePlanAllocation,
   postCarePlanAllocation,
 } from "../../../API/care-plan/care-plan-api";
+import template from '../../../assets/template.webp'
 import { FaCheck } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import TimePickerComp from "./TimePickerComp";
@@ -40,9 +43,12 @@ import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
 import "./CareAllocation.css";
 import { AddTemplates } from "../../../API/Template/template";
+import { IconContext } from "react-icons";
+import { FiCamera } from "react-icons/fi";
+import { RiCameraFill, RiCameraOffFill } from "react-icons/ri";
 //import { Switch } from "react-router-dom";
 
-const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView }) => {
+const CareAllocatePlan = ({ scrlRef, Exercise, items, searchBar, handleChangeView, setAllocatePlan }) => {
   const [startDate, setStartDate] = useState("");
   const [aiState, setAIState] = useState(false);
   const [endDate, setEndDate] = useState("");
@@ -85,12 +91,12 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       let timepick = document.getElementsByName("startDate");
       console.log("timepick ", timepick);
     }
-    
-    
+
+
     let timeSlots = changeTimeSlots(state.count_time_slots);
     if (state.time_slot_edit == 1) {
-    console.log("not replicate")
-    }else{
+      console.log("not replicate")
+    } else {
       dispatch({
         type: CARE_PLAN_STATE_CHANGE,
         payload: {
@@ -364,13 +370,13 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
   //OnFinish
   const warn = (msg) => {
     notification.warn({
-         placement: 'bottomLeft',
-         top: 50,
-         message: msg,
-         duration: 3,
-         // description:
-         //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-       });
+      placement: 'bottomLeft',
+      top: 50,
+      message: msg,
+      duration: 3,
+      // description:
+      //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
   };
   const onFinish = async () => {
     if (state.template_flag) {
@@ -379,11 +385,11 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
         //   type: VALIDATION,
         //   payload: { error: },
         // });
-       warn("Template name is required" )
+        warn("Template name is required")
         // setTimeout(() => {
         //   dispatch({ type: VALIDATION, payload: { error: "" } });
         // }, 3000);
-        return 
+        return
       }
       let arr = [
         {
@@ -420,7 +426,7 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       // setTimeout(() => {
       //   dispatch({ type: VALIDATION, payload: { error: "" } });
       // }, 3000);
-      return 
+      return
     }
     let checkJoint = false;
     state.exercises_cart.map((item) => {
@@ -443,7 +449,7 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       // setTimeout(() => {
       //   dispatch({ type: VALIDATION, payload: { error: "" } });
       // }, 3000);
-      return 
+      return
     }
     console.log(" joints array", state.exercises_cart);
     for (let i = 0; i < state.exercises_cart.length; i++) {
@@ -580,19 +586,19 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       } else {
         if (state.template_flag) {
           const res = await AddTemplates(state, dispatch);
-          if(res.status_code&&res.status_code==100){
-            console.log("template response ",res)
+          if (res.status_code && res.status_code == 100) {
+            console.log("template response ", res)
             warn(res.message)
             //dispatch({ type: VALIDATION, payload: { error: res.message } });
             return
-          }else if(res.status_code&&res.status_code==200){
+          } else if (res.status_code && res.status_code == 200) {
             result = await postCarePlanAllocation(state, dispatch);
-            dispatch({ type: CARE_PLAN_SUCCESS , payload:{key :'updated',value:"Care Plan and Template Added Successfully"} });
+            dispatch({ type: CARE_PLAN_SUCCESS, payload: { key: 'updated', value: "Care Plan and Template Added Successfully" } });
             setTimeout(() => {
-             console.log("wait 1 second")
-            }, 1000);  
+              console.log("wait 1 second")
+            }, 1000);
           }
-        }else{
+        } else {
           result = await postCarePlanAllocation(state, dispatch);
         }
       }
@@ -645,6 +651,21 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
     }
   };
   const changeToggle = () => {
+    if (state.status_flag) {
+      notification.warn({
+        placement: 'topRight',
+        top: 50,
+        message: "Camera Usage Inactive State",
+        duration: 3,
+      });
+    } else {
+      notification.success({
+        placement: 'topRight',
+        top: 50,
+        message: "Camera Usage Active State",
+        duration: 3,
+      });
+    }
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
       payload: {
@@ -654,6 +675,14 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
     });
   };
   const AddTemplate = () => {
+    if (!state.template_flag) {
+      notification.warn({
+        placement: 'topRight',
+        top: 50,
+        message: "Please enter template name",
+        duration: 3,
+      });
+    }
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
       payload: {
@@ -662,10 +691,12 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       },
     });
   };
+
   const [repcheck, setRepCheck] = useState(false);
   return (
     <Form
       form={form}
+
       layout="vertical"
       onFinish={onFinish}
       className="px-1 py-1"
@@ -677,7 +708,7 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
       {validationState.error && <Error error={validationState.error} />}
 
       {/* <Switch defaultChecked /> */}
-      <Row>
+      {/* <Row>
         <Col className="Use_of_camera" md={12} lg={12} sm={24} xs={24}>
           <Space size={"large"}>
             <b>
@@ -721,10 +752,79 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
             </Space>
           </Col>
         )}
+      </Row> */}
+      {/* <Switch
+           // uncheckedIcon={<AiOutlineClose size={20}/>}
+           // checkedIcon={<FaCheck size={20}/>}
+             onColor="#2d7ecb" 
+             checked={state.status_flag} 
+             onChange={()=>changeToggle()} />
+               {state.status_flag?  <span>Active {"  "}</span>:
+                <span>Inactive {"  "}</span>} */}
+      <div style={{ minHeight: "10px" }}></div>
+      <Row gutter={[10, 10]}>
+        <Col lg={6} md={12} sm={12} xs={24}>
+          <FormDate
+            disabled={state.edit_flag}
+            label="Start Dates"
+            name="Start Date"
+            className="input-field"
+            required={true}
+            placeholder="Start Date"
+            value={startDate}
+            onChange={handleChange}
+            disabledDate={true}
+          />
+        </Col>
+        <Col lg={6} md={12} sm={12} xs={24}>
+          <FormDate
+            label="End Date"
+            className="input-field"
+            name="End Date"
+            required={true}
+            placeholder="End Date"
+            value={endDate}
+            onChange={handleChange}
+            disabledDate={true}
+          />
+        </Col>
+        <Col lg={6} md={12} sm={12} xs={12}>
+          <Space className="care-plan-allocation-controls-space" size={"large"}>
+            <b>
+              {" "}
+              <span className="care-plan-allocation-controls-text">
+                Save to Templates
+              </span>{" "}
+              <img className='care-plan-icon-1x' src={template} />{" : "}
+            </b>
+            <Checkbox
+              className="AI_selection_checkbox"
+              style={{ paddingLeft: "5px" }}
+              checked={state.template_flag}
+              onChange={() => AddTemplate()}
+            ></Checkbox>
+          </Space>
+        </Col>
+        <Col lg={6} md={12} sm={12} xs={12}>
+          <Space className="care-plan-allocation-controls-space" size={"large"}>
+            <b onClick={() => changeToggle()} style={{ cursor: 'pointer' }}>
+              <span className="care-plan-allocation-controls-text">Use Camera {" : "}</span>{" "}
+              {state.status_flag ? (
+                <IconContext.Provider value={{ color: "green", className: 'icons-1x' }} >
+                  <RiCameraFill size={55} /> <span style={{ color: 'green' }}>- Active</span>
+                </IconContext.Provider>
+              ) : (
+                <IconContext.Provider value={{ color: "red", className: 'icons-1x' }} >
+                  <RiCameraOffFill size={55} />  <span style={{ color: 'red' }}>- In-active</span>
+                </IconContext.Provider>
+              )}
+            </b>
+          </Space>
+        </Col>
       </Row>
       <Row>
-        <Col md={12} lg={12} sm={24} xs={24}></Col>
-        <Col md={12} lg={12} sm={24} xs={24}>
+        <Col lg={12} md={12} sm={12} xs={24}></Col>
+        <Col lg={12} md={12} sm={12} xs={24}>
           {state.template_flag && (
             <Input
               value={state.template_name}
@@ -742,44 +842,12 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
           )}
         </Col>
       </Row>
-      {/* <Switch
-           // uncheckedIcon={<AiOutlineClose size={20}/>}
-           // checkedIcon={<FaCheck size={20}/>}
-             onColor="#2d7ecb" 
-             checked={state.status_flag} 
-             onChange={()=>changeToggle()} />
-               {state.status_flag?  <span>Active {"  "}</span>:
-                <span>Inactive {"  "}</span>} */}
       <div style={{ minHeight: "10px" }}></div>
       <Row gutter={[10, 10]}>
-        <Col lg={12} md={12} sm={12} xs={24}>
-          <FormDate
-            disabled={state.edit_flag}
-            label="Start Dates"
-            name="startDate"
-            className="input-field"
-            required={true}
-            placeholder="Start Date"
-            value={startDate}
-            onChange={handleChange}
-            disabledDate={true}
-          />
-        </Col>
-        <Col lg={12} md={12} sm={12} xs={24}>
-          <FormDate
-            label="End Date"
-            className="input-field"
-            name="endDate"
-            required={true}
-            placeholder="End Date"
-            value={endDate}
-            onChange={handleChange}
-            disabledDate={true}
-          />
-        </Col>
+
         {state.exercises_cart.map((exercise, index) => {
           return (
-            <Col key={exercise.ex_em_id} md={12} lg={8} sm={12} xs={24}>
+            <Col key={exercise.ex_em_id} md={12} lg={6} sm={12} xs={24}>
               <CarePlanCard
                 cartState={
                   items ? items.indexOf(exercise.ex_em_id) !== -1 : false
@@ -819,7 +887,7 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
               defaultValue={state.count_time_slots}
               onChange={(value) => handleChange("count_time_slots", value)}
               style={{ width: "100%" }}
-              // className="w-75 m-1"
+            // className="w-75 m-1"
             />
           </Form.Item>
         </Col>
@@ -829,6 +897,7 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
           countArray.map((val, index) => {
             return (
               <Button
+                className=" button-solid bg-theme-1x btn-1x"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -847,15 +916,29 @@ const CareAllocatePlan = ({scrlRef, Exercise, items, searchBar, handleChangeView
             );
           })}
       </Row>
+      <Row gutter={[10, 10]}>
+        <Col span={24}>
+          <div style={{ float: 'right' }}>
+            <Button
+              style={{ marginTop: "22px", color: '#2d7ecb' }}
+              size="large"
+              className=" button-solid bg-theme-1x btn-1x"
+              onClick={() => setAllocatePlan(false)}
+            >
+              Back
+            </Button>
 
-      <Button
-        style={{ marginTop: "22px" }}
-        size="large"
-        className="mb-3 btncolor"
-        htmlType="submit"
-      >
-        {state.edit_flag ? "Update " : "Submit"}
-      </Button>
+            <Button
+              style={{ marginTop: "22px", marginLeft: "10px", color: '#2d7ecb' }}
+              size="large"
+              className=" button-solid bg-theme-1x btn-1x"
+              htmlType="submit"
+            >
+              {state.edit_flag ? "Update " : "Submit"}
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </Form>
   );
 };

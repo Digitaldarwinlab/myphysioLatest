@@ -14,7 +14,8 @@ import { useHistory } from 'react-router-dom';
 import { useMemo } from 'react';
 import { STATECHANGE } from '../../contextStore/actions/Assesment';
 import { CARE_PLAN_STATE_CHANGE } from '../../contextStore/actions/care-plan-action';
-import BackSave from './components/BackSave';
+import BackSave from './components/BackSave.jsx';
+import BackReset from './components/BackReset';
 const { Option } = Select
 
 const anteriorAngles = {
@@ -206,7 +207,7 @@ class AromClass extends Component {
         angles: angles,
         dir: 1,
         minAmp: 30,
-        primaryAngles: [...leftAngles[this.state.selectedPrimary].angles[0].name[1],...leftAngles[this.state.selectedPrimary].angles[0].name[1]],
+        primaryAngles: [...leftAngles[this.state.selectedPrimary].angles[0].name[1], ...leftAngles[this.state.selectedPrimary].angles[0].name[1]],
         ROMs: [
           [30, 160],
           [30, 160],
@@ -232,7 +233,7 @@ class AromClass extends Component {
         angles: angles,
         dir: 1,
         minAmp: 30,
-        primaryAngles: [...rightAngles[this.state.selectedPrimary].angles[0].name[1],...rightAngles[this.state.selectedPrimary].angles[0].name[1]],
+        primaryAngles: [...rightAngles[this.state.selectedPrimary].angles[0].name[1], ...rightAngles[this.state.selectedPrimary].angles[0].name[1]],
         ROMs: [
           [30, 160],
           [30, 160],
@@ -725,6 +726,24 @@ class AromClass extends Component {
       angles: value,
     });
   }
+  Reset = () => {
+    console.log("resetting")
+    this.setState({ value: 'Anterior' })
+    this.setState({ launch: "start" })
+    this.setState({ anterior: anteriorAngles })
+    this.setState({ left: leftAngles })
+    this.setState({ primary: anteriorAngles })
+    this.setState({ selectedPrimary: 'not-selected' })
+    this.setState({ selectedAngles: [] })
+    this.setState({ currentJointsValues: [] })
+    this.setState({ aiStart: false })
+    notification.success({
+      placement: 'topRight',
+      top: 50,
+      message: "Resetting done",
+      duration: 3,
+    })
+  }
   render() {
     return (
       <>{this.props.carePlanReducer.patient_main_code.length > 0 ? <Row justify='space-between' style={{ marginTop: '5px' }} className='main-container-1x'>
@@ -947,14 +966,17 @@ class AromClass extends Component {
             </div></>)}</center>)}
           </div>
         </Col>
-        {this.AiModelProps()}
+        {/* {this.AiModelProps()} */}
         <Col className='arom-controls-1x div-border-1x' xs={24} sm={24} md={4} lg={4}>
           <div className='arom-btn-grp-wrapper'>
+            Step : 1 <br />
             <div className='arom-btn-grp'>
-              {this.state.value == 'Anterior' && <Select
+              {this.state.value == 'Anterior' && <div style={{ border: '1px solid' }}><Select
                 style={{
                   width: 100,
+                  borderRadius: '10px'
                 }}
+                placeholder="Primary joint"
                 disabled={this.state.aiStart}
                 onChange={(e) => {
                   let temp = { ...anteriorAngles }
@@ -979,11 +1001,12 @@ class AromClass extends Component {
                 }}
               >
                 {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select>}
-              {this.state.value == 'Left' && <Select
+              </Select></div>}
+              {this.state.value == 'Left' && <div style={{ border: '1px solid' }}><Select
                 style={{
                   width: 100,
                 }}
+                placeholder="Primary joint"
                 disabled={this.state.aiStart}
                 onChange={(e) => {
                   let temp = { ...leftAngles }
@@ -1004,11 +1027,12 @@ class AromClass extends Component {
                 }}
               >
                 {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select>}
-              {this.state.value == 'Right' && <Select
+              </Select></div>}
+              {this.state.value == 'Right' && <div style={{ border: '1px solid' }}><Select
                 style={{
                   width: 100,
                 }}
+                placeholder="Primary joint"
                 disabled={this.state.aiStart}
                 onChange={(e) => {
                   let temp = { ...rightAngles }
@@ -1029,7 +1053,7 @@ class AromClass extends Component {
                 }}
               >
                 {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select>}
+              </Select></div>}
               <button onClick={this.state.aiStart ? this.stopAi : this.StartAI} ><img className='icons-1x' src={this.state.aiStart ? close : play} /></button>
             </div>
           </div>
@@ -1040,7 +1064,7 @@ class AromClass extends Component {
                 <Radio disabled={this.state.aiStart} value={'Left'}>Left</Radio>
                 <Radio disabled={this.state.aiStart} value={'Right'}>Right</Radio>
               </Space>
-              <BackSave submitDisplay={'none'} />
+              <BackReset Reset={this.Reset} />
             </Radio.Group>
             {/* {graphs.map(e => <div className='arom-analytics-tab-item-1x'> <ReactSpeedometer
            needleTransitionDuration={1000}

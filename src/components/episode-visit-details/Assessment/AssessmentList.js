@@ -1406,7 +1406,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                       </Col>
                                       <Descriptions title="">
                                         {
-                                          Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
+                                          data.posture.Posterial_view.checkbox&&Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
                                             <>
                                               {data.posture.Posterial_view.checkbox[ob] == 1 && (
                                                 <Descriptions.Item label="">
@@ -1465,7 +1465,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     </Col>
                                     <Descriptions title="">
                                       {
-                                        Object.keys(data.posture.lateral_view.checkbox).map(ob => (
+                                        data.posture.lateral_view.checkbox&&Object.keys(data.posture.lateral_view.checkbox).map(ob => (
                                           <>
                                             {data.posture.lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
@@ -1572,7 +1572,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </>
                                         ))} */}
                                         {
-                                          Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
+                                          data.posture.sitting_Posterial_view.checkbox&&Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
                                             <>
                                               {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
                                                 <Descriptions.Item label="">
@@ -1631,7 +1631,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                     </Col>
                                     <Descriptions title="">
                                       {
-                                        Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
+                                        data.posture.Sitting_lateral_view.checkbox&&Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
                                           <>
                                             {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
@@ -2661,7 +2661,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </>
                                         ))} */}
                                     {
-                                      Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
+                                      data.posture.Posterial_view.checkbox&&Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
                                         <>
                                           {data.posture.Posterial_view.checkbox[ob] == 1 && (
                                             <Descriptions.Item label="">
@@ -2720,7 +2720,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                 </Col>
                                 <Descriptions title="">
                                   {
-                                    Object.keys(data.posture.lateral_view.checkbox).map(ob => (
+                                    data.posture.lateral_view.checkbox&&Object.keys(data.posture.lateral_view.checkbox).map(ob => (
                                       <>
                                         {data.posture.lateral_view.checkbox[ob] == 1 && (
                                           <Descriptions.Item label="">
@@ -2840,7 +2840,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </>
                                         ))} */}
                                     {
-                                      Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
+                                      data.posture.sitting_Posterial_view.checkbox&&Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
                                         <>
                                           {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
                                             <Descriptions.Item label="">
@@ -2906,7 +2906,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                 </Col>
                                 <Descriptions title="">
                                   {
-                                    Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
+                                    data.posture.Sitting_lateral_view.checkbox&&Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
                                       <>
                                         {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
                                           <Descriptions.Item label="">

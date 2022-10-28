@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router
 // import Login from "./components/userAuth/Login.js";
 // import Signup from "./components/userAuth/Signup.js";
 import Roles from "./components/Role Management/Roles";
+import '../src/components/Assesment/Assesment2.css'
 import RolesRegisteration from "./components/Role Management/AddRoles/RolesRegisteration";
 const Login = lazy(() => import('./components/userAuth/Login.js'));
 const Signup = lazy(() => import('./components/userAuth/Signup.js'));
@@ -603,8 +604,8 @@ const App = () => {
                   component={EpisodeVisitDetails}
                 />
 
-                <PrivateRoute exact path="/care-plan" component={Careplan} />
-                <PrivateRoute exact path="/care-plan1" component={Careplan1} />
+                <PrivateRoute exact path="/care-plan" component={Careplan1} />
+                {/* <PrivateRoute exact path="/care-plan1" component={Careplan1} /> */}
                 <PrivateRoute
                   exact
                   path="/enterprise/care-plan"
