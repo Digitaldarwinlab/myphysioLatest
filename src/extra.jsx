@@ -11,7 +11,7 @@ const admin_password_reset_ep=async(detail)=>{
         "Accept": 'application/json',
         "Content-type": "application/json",
         "Access-Control-Allow-Origin" : "*",
-        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.bdfW8B6lG7RhPmHCtO6rPgf3IYlDwAJc7LUKtfTE2eU"
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.bdfW8B6lG7RhPmHCtO6rPgf3IYlDwAJc7LUKtfTE2eU"
     }
     
     try {

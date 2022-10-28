@@ -35,6 +35,7 @@ import { ImPlus } from "react-icons/im";
 
 const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
   const episodeState = useSelector((state) => state.episodeReducer);
+
   const [dropdownValue, setDropdownValue] = useState([]);
   useEffect(() => {
     async function getData() {
@@ -228,7 +229,7 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
 
   //radio ant design
   const { Option } = Select;
-
+  console.log(reducerData.date)
   const showModal = () => {
     dispatch({ type: "NAME", payload: { name: "" } });
     dispatch({ type: "EPISODE_ID", payload: { episode: "" } });
@@ -678,7 +679,8 @@ const Model = ({ isVisible, setIsVisible, setError, setSuccess }) => {
                     format="MM/DD/YYYY HH:mm "
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
-                    value={reducerData.date}
+                    defaultValue={reducerData.date}
+                    // value={reducerData.date}
                     showTime={true}
                   />
                 </Space>

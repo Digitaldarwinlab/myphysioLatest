@@ -43,6 +43,7 @@ const PhysioRegisteration1 = (props) => {
   }, []);
   const history = useHistory();
   const state = useSelector((state) => state);
+  console.log(state)
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [phsiodata, Setphsiodata] = useState([]);
@@ -55,7 +56,7 @@ const PhysioRegisteration1 = (props) => {
     form.setFieldsValue({ mobile_no: data.mobile_no });
     form.setFieldsValue({ landline: data.landline });
     form.setFieldsValue({ whatsapp_no: data.whatsapp_no });
-    form.setFieldsValue({ Doctor_type: data.Doctor_type });
+    form.setFieldsValue({ Doctor_type: data.Doctor_type === 0 ? "" :data.Doctor_type   });
     form.setFieldsValue({ gender: data.gender });
     form.setFieldsValue({ Clinic: data.clinic });
     dispatch({ type: "NOERROR" });
@@ -431,7 +432,7 @@ const PhysioRegisteration1 = (props) => {
                       handleChange("Doctor_type", value);
                     }}
                     value={state.physioRegisterReducer.Doctor_type}
-                    //  defaultValue={state.physioRegisterReducer.Doctor_type}
+                     defaultValue={state.physioRegisterReducer.Doctor_type}
                   >
                     {dropdownValue.DoctorType.map((item, index) => (
                       <Option key={item} value={index + 1}>

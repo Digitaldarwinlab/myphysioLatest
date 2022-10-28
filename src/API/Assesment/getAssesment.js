@@ -2,7 +2,8 @@ export const getAssesment =async (patient_id) =>{
 
     const headers = {
         Accept: 'application/json',
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        
     }
     try{
         const response = await fetch(process.env.REACT_APP_API+"/get_patient_assessment_v1/",{

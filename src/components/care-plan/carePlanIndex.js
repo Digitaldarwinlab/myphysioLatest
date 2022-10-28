@@ -1432,12 +1432,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       )}
 
       <div className="CarePlan">
-        {!allocatePlan && searchBar && (
+        {/* {!allocatePlan && searchBar && (
           <ActiveSearch
             carePlan={true}
             handleActiveSearchResult={handleActiveSearchResult}
           />
-        )}
+        )} */}
         {!allocatePlan ? (
           <Row className="mt-4 border">
             <Col

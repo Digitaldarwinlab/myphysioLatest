@@ -597,6 +597,7 @@ const PhysioRegisteration2 = (props) => {
                     className="input-field w-100"
                     onChange={(value) => handleChange("expertise_1", value)}
                     value={state.physioRegisterReducer.expertise_1}
+                    defaultValue={state.physioRegisterReducer.expertise_1}
                     //  defaultValue={state.physioRegisterReducer.Doctor_type}
                   >
                     {dropdownValue.Expertise.map((item) => (
@@ -639,6 +640,7 @@ const PhysioRegisteration2 = (props) => {
                         className="input-field w-100"
                         onChange={(value) => handleChange("expertise_2", value)}
                         value={state.physioRegisterReducer.expertise_2}
+                        defaultValue={state.physioRegisterReducer.expertise_2}
                       >
                         {dropdownValue.Expertise.map((item) => (
                           <Select.Option value={item}>{item}</Select.Option>
@@ -684,6 +686,7 @@ const PhysioRegisteration2 = (props) => {
                     placeholder="Expertise 3"
                     className="input-field"
                     value={state.physioRegisterReducer.expertise_3}
+                    defaultValue={state.physioRegisterReducer.expertise_3}
                     onChange={handleChange}
                     //   onBlur={handleBlur}
                     //  required={true}

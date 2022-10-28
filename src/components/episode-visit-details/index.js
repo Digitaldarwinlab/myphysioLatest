@@ -330,11 +330,11 @@ const EpisodeVisitDetails = () => {
             </h3>
           </Col>
           <Col lg={6} md={10} sm={10} xs={24}>
-            <ActiveSearch
+            {/* <ActiveSearch
               carePlan={false}
               updatePatientState={updatePatientState}
               prescreption={false}
-            />
+            /> */}
           </Col>
         </Row>
       </React.Fragment>

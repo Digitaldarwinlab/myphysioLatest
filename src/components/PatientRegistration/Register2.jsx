@@ -33,25 +33,28 @@ const Register2 = (props) => {
   useEffect(() => {
     const data = state.BasicDetails;
     form.setFieldsValue({ Address: data.Address });
-    form.setFieldsValue({ pincode: data.pincode });
+    form.setFieldsValue({ pincode: data.pincode === 0 ? "" : data.pincode });
     form.setFieldsValue({ City: data.City });
     form.setFieldsValue({ State: data.State });
-    form.setFieldsValue({ EmergencyContact: data.EmergencyContact });
+    form.setFieldsValue({
+      EmergencyContact:
+        data.EmergencyContact === 0 ? "" : data.EmergencyContact,
+    });
     form.setFieldsValue({ State: data.State });
     form.setFieldsValue({ Country: data.Country });
     form.setFieldsValue({ Email: data.Email });
     form.setFieldsValue({ Facebook: data.Facebook });
     form.setFieldsValue({ LinkedIn: data.LinkedIn });
-    if(data.Country==='India'){
-        const dataState = Object.keys(StateCity);
-        setStateList(dataState);
-        // if (data.State) {
-        //   if (StateCity[data.State]) {
-        //     setCityList(StateCity[data.State]);
-        //   } else {
-        //     setCityList([]);
-        //   }
-        // }
+    if (data.Country === "India") {
+      const dataState = Object.keys(StateCity);
+      setStateList(dataState);
+      // if (data.State) {
+      //   if (StateCity[data.State]) {
+      //     setCityList(StateCity[data.State]);
+      //   } else {
+      //     setCityList([]);
+      //   }
+      // }
     }
   }, [props.clearState]);
   const handleChange = (key, value) => {
@@ -62,15 +65,14 @@ const Register2 = (props) => {
         value,
       },
     });
-    if (value === "India" && key === 'Country') {
+    if (value === "India" && key === "Country") {
       setIndia(true);
       const dataState = Object.keys(StateCity);
       setStateList(dataState);
-    }
-    else if(value !== "India" && key === 'Country') {
-        setIndia(false);
-        setStateList([]);
-        setCityList([])
+    } else if (value !== "India" && key === "Country") {
+      setIndia(false);
+      setStateList([]);
+      setCityList([]);
     }
     dispatch({ type: "NOERROR" });
   };
@@ -158,7 +160,7 @@ const Register2 = (props) => {
     //     }
     // }
   };
-console.log(state.BasicDetails.City)
+  console.log(state.BasicDetails.City);
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -360,10 +362,10 @@ console.log(state.BasicDetails.City)
                 required={false}
                 name="pincode"
                 className="input-field w-100"
-                value={state.BasicDetails.pincode}
+                value={state.BasicDetails.pincode === 0 ? "": state.BasicDetails.pincode}
                 onChange={handleChange}
                 //  onBlur={handleBlur}
-                defaultValue={state.BasicDetails.pincode}
+                defaultValue={state.BasicDetails.pincode === 0 ? "": state.BasicDetails.pincode}
               />
             </Col>
             <Col md={24} lg={8} sm={24} xs={24}>
@@ -422,10 +424,10 @@ console.log(state.BasicDetails.City)
                 required={false}
                 name="EmergencyContact"
                 className="input-field w-100"
-                value={state.BasicDetails.EmergencyContact}
+                value={state.BasicDetails.EmergencyContact === 0 ? "": state.BasicDetails.EmergencyContact}
                 onChange={handleChange}
                 //  onBlur={handleBlur}
-                defaultValue={state.BasicDetails.EmergencyContact}
+                defaultValue={state.BasicDetails.EmergencyContact === 0 ? "": state.BasicDetails.EmergencyContact}
               />
             </Col>
           </Row>

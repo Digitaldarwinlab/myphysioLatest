@@ -1277,7 +1277,10 @@ console.log(reduxState.episodeReducer.employee_code);
         </ul>
                         {}
                     </Col></Row>
-               : <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />)}
+               : 
+            //    <ActiveSearch carePlan={true} handleActiveSearchResult={handleActiveSearchResult} />
+            null
+               )}
             {
                 !allocatePlan ? (
                     <Row className="mt-4 border">
