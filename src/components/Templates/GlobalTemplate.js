@@ -290,9 +290,6 @@ const GlobalTemplate = () => {
                     }}
                     role="button"
                   ></i>
-                  {/* <Button onClick={()=>{
-                setTempEx([])
-              }}>Back</Button> */}
                 </Col>
 
                 {loadArr.length > 0 ? (
@@ -376,7 +373,6 @@ const GlobalTemplate = () => {
                     )
                   }
                   title={<Link>{item.template_name}</Link>}
-                // description={item.email}
                 />
                 <span className="template_badge">
                   <center>
@@ -388,11 +384,7 @@ const GlobalTemplate = () => {
           />
         </>
       )}
-      {/* <Modal title="Load exercises" visible={visible} onOk={handleOk} onCancel={()=>setVisible(false)}>
-        <p>Exercises will be added to cart</p>
-      </Modal> */}
     </>
-    // </div>
   );
 };
 

@@ -300,7 +300,7 @@ export default function CarePlanCardView({ data, carePlanView, handleChange }) {
       <Row gutter={[10, 10]}>
         {data.exercise_details.map((exercise, index) => {
           return (
-            <Col key={index} md={12} lg={8} sm={12} xs={24}>
+            <Col key={index} md={12} lg={6} sm={12} xs={24}>
               <CarePlanCard
                 cartState={false}
                 id={exercise.ex_em_id}

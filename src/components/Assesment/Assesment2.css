@@ -22,7 +22,9 @@
 .assesment-list-icons-1x {
     width: 45%;
 }
-
+.physical-report .ant-descriptions-item-content {
+    background: white !important;
+}
 .assesment-list-wrap-1x {
     margin: 0.5rem 0px 0.5rem 0px;
     width: 100%;

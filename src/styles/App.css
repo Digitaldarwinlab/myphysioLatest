@@ -1248,19 +1248,23 @@ button.ant-btn {
 .ant-switch-checked {
   border-radius: 24px !important;
 }
-.ant-btn:hover,
+/* .ant-btn:hover,
 .ant-btn:focus {
   color: #1bbc9b !important;
   border-color: #fff !important;
   background: #fff !important;
-}
+} */
 .CarePlan svg {
   top: 35px !important;
   left: 26px !important;
 }
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
 .ant-tabs-tab:hover {
-  color: #1bbc9b !important;
+  color: #1890ff !important;
+}
+.button-solid{
+  border: 1px solid #1890ff !important;
+  color: #1890ff !important;;
 }
 .ant-tabs-ink-bar {
   background-color: #1bbc9b !important;
@@ -1511,6 +1515,9 @@ i.fas.fa-user-plus {
     width: 100% !important;
     margin: 15px 0px !important;
   }
+  .cart-plan-item-count {
+    right: 8px;
+  }
   ul.daysName li {
     width: 11.45% !important;
     margin: 9px 0.5% 0px !important;
@@ -1625,13 +1632,13 @@ i.fas.fa-user-plus {
 button {
   color: #fff !important;
 }
-.ant-btn:hover,
+/* .ant-btn:hover,
 .ant-btn:focus,
 .ant-btn:active {
   text-decoration: none;
   background: #2d7ecb  !important;
   color: #fff !important;
-}
+} */
 .main-content {
   padding: 0px 15px !important;
 }
