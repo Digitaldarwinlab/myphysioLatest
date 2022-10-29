@@ -238,7 +238,7 @@ const SchduleForm = (props) => {
             role="button"></i><strong> Add Episode </strong></h3>
               </Col>
               <Col span={8} style={{position:'relative',bottom:'0px', right:'0'}}>
-              <ActiveSearch  />
+              {/* <ActiveSearch  /> */}
               {props.state.isLoading && <Loading />}
               </Col>
           </Row>

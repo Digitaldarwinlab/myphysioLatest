@@ -1514,7 +1514,7 @@ const Assesment1 = ({ back, next }) => {
             <Error error={state.Validation.msg} />
           )}
           <Col md={12} lg={12} sm={24} xs={24}>
-            <ActiveSearch />
+            {/* <ActiveSearch /> */}
           </Col>
         </Row>
 

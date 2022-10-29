@@ -189,10 +189,8 @@ const EmployeeDashborad = lazy(() =>
 const ExerDetail = lazy(() =>
   import("./PatientComponents/PatientSchedule/ExerDetail.jsx")
 );
-const Assessment2 = lazy(() =>
-  import("./components/Assesment/Assessment2")
-);
-//./components/Assesment/Assessment2
+import extra from "./extra";
+
 // import Assesment1 from "./components/Assesment/Assesment1";
 // import Assesment2 from "./components/Assesment/AddQuestions";
 // import SideNavBar from './components/Layout/SideNavBar';
@@ -219,7 +217,7 @@ import Careplan1 from "./components/care-plan/Careplan1";
 // import Physical from "./components/Assesment/Physical";
 // import PostureMain from "./components/Assesment/PostureMain";
 // import AROMNEW from "./components/Assesment/AROMNEW";
-// import Assessment2 from "./components/Assesment/Assessment2";
+import Assessment2 from "./components/Assesment/Assessment2";
 // import "./styles/App.css";
 // import "./styles/Layout/Navbar.css";
 // import ActiveSearch from "./components/UtilityComponents/ActiveSearch.js";

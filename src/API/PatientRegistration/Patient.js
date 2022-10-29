@@ -140,15 +140,15 @@ export const getPatientList = async () => {
     try {
         const headers = {
             Accept: 'application/json',
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            token:JSON.parse(localStorage.getItem("jwt"))
         }
         const id = JSON.parse(localStorage.getItem("userId"))
         const encodedData = Encode({ id: id })
         // console.log('Id:',id);
         const response = await fetch(process.env.REACT_APP_API + "/get-patient_v1/", {
-            method: "POST",
+            method: "GET",
             headers: headers,
-            body: JSON.stringify(encodedData)
         });
 
         const responseData = await response.json();
@@ -172,14 +172,15 @@ export const searchPatient = async (value) => {
     try {
         const headers = {
             Accept: 'application/json',
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            token:JSON.parse(localStorage.getItem("jwt"))
         }
        
 
         const response = await fetch(process.env.REACT_APP_API + "/search-patient/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id, query: value})
+            body: JSON.stringify({  query: value})
         });
         // console.log(response)
         const data = await response.json();

@@ -52,7 +52,7 @@ const InvoiceForm = ({
   return (
     <div className="invoice">
       <div className="invoice-search">
-        <ActiveSearch />
+        {/* <ActiveSearch /> */}
       </div>
       <div ref={inoviceRef}>
         <div className="client" style={{ marginTop: "3rem" }}>

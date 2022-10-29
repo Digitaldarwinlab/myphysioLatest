@@ -288,32 +288,37 @@ const Navigationbar = (props) => {
             )}
           </Menu>
         ) : null}
-        {location.pathname === "/physio/list" ||
-        location.pathname === "/clinic-list" ||
-        location.pathname === "/pateints" ? (
+
+        {userInfo.role !== "patient" && (
           <>
-            <BsSearch
-              // style={{ position: "absolute", top: "17px", left: "36px" }}
-              className='navIcon-x1'
-            />
-            <input
-              className="px-4 py-2 searchInputNav-x1"
-              placeholder={
-                location.pathname === "/clinic-list"
-                  ? "Search Clinic"
-                  : location.pathname === "/physio/list"
-                  ? "Search Physio"
-                  : "Search Patients"
-              }
-              onChange={onSearch}
-              defaultValue={clinics}
-              value={clinics}
-              loading={loading}
-              // style={{ width: "30%", borderRadius: "30px" }}
-            />
+            {location.pathname === "/physio/list" ||
+            location.pathname === "/clinic-list" ||
+            location.pathname === "/pateints" ? (
+              <>
+                <BsSearch
+                  // style={{ position: "absolute", top: "17px", left: "36px" }}
+                  className="navIcon-x1"
+                />
+                <input
+                  className="px-4 py-2 searchInputNav-x1"
+                  placeholder={
+                    location.pathname === "/clinic-list"
+                      ? "Search Clinic"
+                      : location.pathname === "/physio/list"
+                      ? "Search Physio"
+                      : "Search Patients"
+                  }
+                  onChange={onSearch}
+                  defaultValue={clinics}
+                  value={clinics}
+                  loading={loading}
+                  // style={{ width: "30%", borderRadius: "30px" }}
+                />
+              </>
+            ) : (
+              <ActiveSearch />
+            )}
           </>
-        ) : (
-          <ActiveSearch />
         )}
 
         {/* <Link
@@ -330,7 +335,7 @@ const Navigationbar = (props) => {
 
         <div
           className="d-inline-flex p-2 mt-3  navigationMenu topScheduleIcon"
-          style={{ position: "absolute",bottom:'2px' }}
+          style={{ position: "absolute", bottom: "7px" }}
         >
           {userInfo.role !== "admin" &&
           userInfo.role !== "physio" &&

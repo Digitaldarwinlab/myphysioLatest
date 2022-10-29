@@ -348,7 +348,7 @@ const Prescription = ({ dashboard = false, eid }) => {
           </Col>
         
           <Col md={12} lg={12} sm={24} xs={24}>
-          <ActiveSearch  />
+          {/* <ActiveSearch  /> */}
           </Col>
           </Row>
              {/* <Row  gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>

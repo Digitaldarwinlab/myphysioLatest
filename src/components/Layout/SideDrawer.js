@@ -246,6 +246,7 @@ const SideDrawer = ({ visState, setVisState }) => {
               ))}
             </SubMenu>
           </SubMenu>
+          {userInfo.role === "admin"&&
           <Menu.Item
             onClick={() => {
               history.push("/roleManagement");
@@ -255,6 +256,7 @@ const SideDrawer = ({ visState, setVisState }) => {
           >
             Role Management
           </Menu.Item>
+          }
           <Menu.Item
             icon={<AiOutlineLogout className="iconClass2" />}
             onClick={() => {

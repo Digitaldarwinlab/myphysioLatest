@@ -47,8 +47,8 @@ const Register1 = (props) => {
     form.setFieldsValue({ FirstName: data.FirstName });
     form.setFieldsValue({ MiddleName: data.MiddleName });
     form.setFieldsValue({ LastName: data.LastName });
-    form.setFieldsValue({ Gender: data.Gender });
-    form.setFieldsValue({ bloodType: data.bloodType });
+    form.setFieldsValue({ Gender: data.Gender === 0 ? "" : data.Gender });
+    form.setFieldsValue({ bloodType: data.bloodType === 0 ? "" : data.bloodType });
     form.setFieldsValue({ MobileNo: data.MobileNo });
     form.setFieldsValue({ LandlineNo: data.LandlineNo });
     form.setFieldsValue({ WhatsAppNo: data.WhatsAppNo });

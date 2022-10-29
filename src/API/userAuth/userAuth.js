@@ -17,9 +17,10 @@ export const signup = async (user, dispatch) => {
     dispatch({ type: SIGNUP_REQUEST });
     const headers = {
         "Accept": 'application/json',
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        token:JSON.parse(localStorage.getItem("jwt"))
     }
-    user["id"] = JSON.parse(localStorage.getItem("userId"));
+    // user["id"] = JSON.parse(localStorage.getItem("userId"));
     try {
         const response = await fetch(process.env.REACT_APP_API + "/reset-password/", {
             method: "POST",
@@ -249,7 +250,8 @@ export const admin_password_reset_ep=async(detail)=>{
     // console.log(detail)
     const newdata={
         uid:detail.temp_uid,
-        new_password:detail.new_password
+        new_password:detail.new_password,
+        token:JSON.parse(localStorage.getItem("jwt"))
     }
     // console.log(newdata)
     const headers = {
