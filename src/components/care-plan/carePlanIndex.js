@@ -1543,17 +1543,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 style={{ top: "50px" }}
                 width={"70%"}
               >
-                {/* {reduxState.carePlanRedcucer.exercises_cart.length !== 0 && (
-                  <Cart
-                    Exercise={reduxState.carePlanRedcucer.exercises_cart}
-                    items={reduxState.carePlanRedcucer.exercises_cart.map(
-                      (item) => item.ex_em_id
-                    )}
-                    fullExer={fullExer}
-                    UpdateCart={UpdateCart}
-                    ChangePageToAllocatePlan={ChangePageToAllocatePlan}
-                  />
-                )} */}
                 <Cart
                   Exercise={reduxState.carePlanRedcucer.exercises_cart}
                   items={reduxState.carePlanRedcucer.exercises_cart.map(

@@ -41,7 +41,7 @@ const SideNavBar = ({
   getCurrentPath,
 }) => {
   const [pateintItemActive, setPatientItemActive] = useState(
-    pathName.includes("pateints")
+    pathName.includes("patients")
   );
   const [SchedulingItemActive, setSchedulingItemActive] = useState(
     pathName.includes("appointments")
@@ -80,7 +80,7 @@ const SideNavBar = ({
   const handleClick = (listItem) => {
     if (listItem === "patients") {
       setPatientItemActive(!pateintItemActive);
-      getCurrentPath("pateints");
+      getCurrentPath("patients");
     } else if (listItem === "Scheduling") {
       setSchedulingItemActive(!SchedulingItemActive);
       getCurrentPath("appointments");
@@ -111,7 +111,7 @@ const SideNavBar = ({
       <SubMenu
         key="link2"
         // className={
-        //   pathName.includes("pateints") || pathName.includes("dashboard")
+        //   pathName.includes("patients") || pathName.includes("dashboard")
         //     ? "active text-decoration-none"
         //     : "text-decoration-none"
         // }
@@ -144,7 +144,7 @@ const SideNavBar = ({
         </MenuItem>
         <MenuItem
           key="link3"
-          active={path === "/pateints/new" ? true : false}
+          active={path === "/patients/new" ? true : false}
           icon={
             <HiUserAdd
               size={22}
@@ -154,13 +154,13 @@ const SideNavBar = ({
           }
           className="text-decoration-none"
         >
-          <Link to="/pateints/new" style={{ color: "black" }}>
+          <Link to="/patients/new" style={{ color: "black" }}>
             New Patient
           </Link>
         </MenuItem>
         <MenuItem
           key="link4"
-          active={path === "/pateints" ? true : false}
+          active={path === "/patients" ? true : false}
           icon={
             <i
               className="fas fa-clipboard-list"
@@ -169,7 +169,7 @@ const SideNavBar = ({
           }
           className="text-decoration-none"
         >
-          <Link to="/pateints" style={{ color: "black" }}>
+          <Link to="/patients" style={{ color: "black" }}>
             Patient List
           </Link>
         </MenuItem>

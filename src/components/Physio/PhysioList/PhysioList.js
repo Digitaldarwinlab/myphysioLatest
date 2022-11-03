@@ -61,7 +61,7 @@ export let keyMapping = {
   start_date: "Start Date",
   gender: "Gender",
   clinic: "Clinic",
-  uid: "User id",
+  uid: "Physio Code",
   clinic_code: "Clinic Code",
   zip: "Zip",
   estab_date: "Establishment Date",
@@ -321,19 +321,7 @@ const PhysioList = () => {
         {success && <Success success={success} />}
         <Row justify="end">
           <Col>
-            <Button
-              className="flex-end"
-              size={"medium"}
-              icon={<MailOutlined style={{ fontSize: "20px" }} />}
-              disabled={buttondisable}
-              style={{
-                marginBottom: "10px",
-                marginTop: "5px",
-                backgroundColor: buttondisable ? "white" : "red",
-                borderRadius: "5px",
-              }}
-              onClick={() => Sendpasswordemail(temp_uid)}
-            ></Button>
+          <MailOutlined  onClick={() => Sendpasswordemail(temp_uid)} style={{cursor:'pointer'}} size={55} />
           </Col>
         </Row>
 
@@ -354,6 +342,7 @@ const PhysioList = () => {
             onChange={(key, value, id) => setNewPassword(value)}
             required={true}
           />
+          <br/>
           <FormPassword
             className="formInput"
             label={"Confirm Password"}
@@ -390,7 +379,7 @@ const PhysioList = () => {
         footer={null}
         closable
         onCancel={() => setVisible(false)}
-        title=""
+        title="Physiotherapist"
         centered
       >
         <Table

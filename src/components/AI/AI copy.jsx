@@ -902,6 +902,7 @@ class AI extends Component {
                     <row>
                       <Col>
                         <select
+                        placeholder="Select"
                           className="w-50 mx-2 my-3"
                           style={{ marginTop: 5 }}
                           name="ex"

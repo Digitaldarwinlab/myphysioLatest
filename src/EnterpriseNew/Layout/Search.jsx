@@ -123,7 +123,7 @@ const SearchPatient = () => {
     const handleEdit = (val) => {
         console.log(val)
         UpdateState(state, val, dispatch);
-        history.push("/pateints/update");
+        history.push("/patients/update");
     }
     const handleSubmitForm = async () =>{
         var format =  /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
@@ -298,7 +298,7 @@ const SearchPatient = () => {
                 </Col> 
                 <Col>
                 <h4 className="text-end">
-                    <NavLink to="pateints/new" className="navlink">
+                    <NavLink to="patients/new" className="navlink">
                         New Patient <HiUserAdd size={20} style={{position:'relative',top:'0px'}} />
                     </NavLink>
                 </h4>

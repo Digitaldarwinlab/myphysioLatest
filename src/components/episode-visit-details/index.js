@@ -205,6 +205,15 @@ const EpisodeVisitDetails = () => {
       FamilyHistory: val.patient_Family_History,
     });
   };
+  useEffect(async() => {
+    console.log("found1 ",state.basic_details)
+   if(state.basic_details){
+    // console.log("working ",res)
+    console.log("found2 ",state.basic_details)
+    updatePatientState(state.basic_details);
+   }
+  }, [state.basic_details]);
+  
   useEffect(async () => {
     localStorage.setItem("care-plan-cart", JSON.stringify([]));
     let state = { ...history.location.state };
@@ -249,7 +258,7 @@ const EpisodeVisitDetails = () => {
           // window.history.location.state = {}
         }
     }
-  }, []);
+  }, [state.patient_main_code]);
   const episodeClick = () => {
     history.push({
       pathname: "/add-episode",
@@ -324,7 +333,7 @@ const EpisodeVisitDetails = () => {
                 className="fas fa-arrow-left"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  history.push("/pateints");
+                  history.push("/patients");
                 }}
                 title="Go Back"
                 role="button"
@@ -353,13 +362,12 @@ const EpisodeVisitDetails = () => {
             Patient Details
           </h3>
         </Col>
+        
         <Col lg={6} md={6} sm={12} xs={24}>
           <p className="fw-bold">
             <strong>Patient Code : </strong> {state.patient_main_code}
           </p>
-          {/* <div className="border rounded " style={{maxHeight:'45px'}}>
-                    
-                    </div> */}
+
         </Col>
         <Col lg={6} md={6} sm={12} xs={24}>
           <p className="fw-bold">
@@ -507,7 +515,7 @@ const EpisodeVisitDetails = () => {
         )}
         {/* aswin 11/15/2021 start */}
         {/* <div style={{ minHeight: "20px" }}></div> */}
-        {PatientDetails()}
+        {state.patient_main_code.length>0&&PatientDetails()}
         <div style={{ minHeight: "20px" }}></div>
         {DetailTabs()}
       </div>

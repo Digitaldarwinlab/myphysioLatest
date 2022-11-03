@@ -43,6 +43,7 @@ const ActiveSearch = (props) => {
 
     // console.log(PatientData)
     const handleChange = (text) => {
+        console.log("Search value ",text)
         Setinputtextvalue(text)
         let matches = [];
         if (text.length >= 2) {
@@ -51,6 +52,7 @@ const ActiveSearch = (props) => {
                 return user.match(regex);
             })
         }
+        console.log("Search value ",matches)
         setSuggestions(matches);
         setText(text);
     }
@@ -67,6 +69,7 @@ const ActiveSearch = (props) => {
     }
 
     const SuggestionHandler = (text) => {
+        console.log('selected patient ',props)
         dispatch({ type: "EPISODE_FULL_CLEAR_STATE" })
         //  dispatch({type: CARE_PLAN_CLEAR_STATE})
         let pdata = PatientData.filter((val, ind) => {
@@ -78,6 +81,14 @@ const ActiveSearch = (props) => {
         Setinputtextvalue('')
         // aswin start 10/30/2021 start 
         sessionStorage.removeItem('patient_code')
+        console.log('selected patient ',pdata)
+        dispatch({
+            type: EPISODE_STATECHANGE, payload: {
+                key: "basic_details",
+                value: pdata[0]
+            }
+        })
+        //basic_details
         // const checkEpisode = await getEpisode(pdata[0].pp_patm_id)
         // console.log("check episode",checkEpisode)
         // aswin start 10/30/2021

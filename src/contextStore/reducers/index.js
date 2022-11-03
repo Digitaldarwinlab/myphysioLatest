@@ -8,7 +8,7 @@ import { labsAndMedicRedu } from './Episode/addLabsMedication';
 import { SearchReg } from "./search-reducer.js";
 import { FirstAssesment } from "./Assesment/Assesment1"
 import { carePlanRedcucer } from './care-plan/care-plan-reducer';
-import { patCurrentEpisode } from './PatientSchedule/PateintSchedule';
+import { patCurrentEpisode } from './PatientSchedule/PatientSchedule';
 import jointReducer from "./joint-reducer.js";
 import questionAnswerReducer from "./question-reducer";
 import organizationReducer from "./organization-reducer";

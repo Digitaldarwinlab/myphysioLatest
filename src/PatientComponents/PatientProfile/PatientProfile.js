@@ -442,7 +442,7 @@ const PatientProfile = () => {
       if (JSON.parse(localStorage.getItem("user")).role == "patient") {
         window.location.href = "/patient/dashboard";
       } else {
-        window.location.href = "/pateints";
+        window.location.href = "/patients";
       }
     } else {
       dispatch({ type: PATIENT_REG_FAILURE });

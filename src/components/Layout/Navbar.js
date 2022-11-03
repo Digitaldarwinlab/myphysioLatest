@@ -106,6 +106,7 @@ const Navigationbar = (props) => {
   };
   const onSearch = async (e) => {
     let val = e.target.value;
+    console.log("search value ",val)
     setLoading(true);
     setClinics(e.target.value);
     const data =
@@ -293,7 +294,7 @@ const Navigationbar = (props) => {
           <>
             {location.pathname === "/physio/list" ||
             location.pathname === "/clinic-list" ||
-            location.pathname === "/pateints" ? (
+            location.pathname === "/patients" ? (
               <>
                 <BsSearch
                   // style={{ position: "absolute", top: "17px", left: "36px" }}

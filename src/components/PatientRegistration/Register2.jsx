@@ -227,7 +227,7 @@ const Register2 = (props) => {
                 <Select
                   showSearch
                   optionFilterProp="children"
-                  placeholder="plaese select country"
+                  placeHolder="plaese select country"
                   value={state.BasicDetails.Country}
                   onChange={(value) => {
                     handleChange("Country", value);
@@ -404,7 +404,7 @@ const Register2 = (props) => {
               <FormInput
                 label={
                   <span style={{ fontSize: "18px", fontWeight: "600" }}>
-                    {"Linkedin"}
+                    {"LinkedIn"}
                   </span>
                 }
                 name="LinkedIn"
@@ -449,7 +449,7 @@ const Register2 = (props) => {
               <Button
                 //  className="my-3 me-2 "
                 onClick={handleReset}
-                style={{ borderRadius: "10px" }}
+                style={{ borderRadius: "10px",backgroundColor: "#2d7ecb" }}
               >
                 Reset
               </Button>
@@ -458,7 +458,7 @@ const Register2 = (props) => {
               {" "}
               <Button
                 //  className="my-3  me-2"
-                style={{ backgroundColor: "#41A0A2", borderRadius: "10px" }}
+                style={{ backgroundColor: "#2d7ecb", borderRadius: "10px" }}
                 onClick={Back}
               >
                 Back
@@ -468,6 +468,7 @@ const Register2 = (props) => {
               {" "}
               <Button
                 type="primary"
+                style={{ backgroundColor: "#2d7ecb" }}
                 // className="my-3  me-2 btncolor"
                 htmlType="submit"
               >

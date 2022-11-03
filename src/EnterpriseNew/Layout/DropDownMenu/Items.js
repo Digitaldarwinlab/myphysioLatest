@@ -17,18 +17,18 @@ export const Items = [
     },
     {
         isHidden: false,
-        currentPath: "pateints",
+        currentPath: "patients",
         Icon: <HiUserAdd className="iconClass1" />,
-        path: "/pateints/new",
+        path: "/patients/new",
         name: "New Patient",
         isDivider: false,
         role: "physio"
     },
     {
         isHidden: true,
-        currentPath: "pateints",
+        currentPath: "patients",
         Icon: <GrGroup className="iconClass1" />,
-        path: "/pateints",
+        path: "/patients",
         name: "Patients List",
         isDivider: true,
         role: "physio"

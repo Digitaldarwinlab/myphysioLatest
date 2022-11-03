@@ -1129,7 +1129,7 @@ class AromClass extends Component {
           extra={
             <Button onClick={() => {
               console.log(this.props)
-              window.location.href = "/pateints"
+              window.location.href = "/patients"
             }} type="primary" key="console">
               Go To Patient List
             </Button>

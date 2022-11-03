@@ -679,7 +679,7 @@ const AROMNEW = ({ setIsSideNavbarCollapsed, Setsidebarshow }) => {
                     status="warning"
                     title="You have not selected any patient. Please select"
                     extra={
-                        <Button onClick={() => history.push("/pateints")} type="primary" key="console">
+                        <Button onClick={() => history.push("/patients")} type="primary" key="console">
                             Go To Patient List
                         </Button>
                     }

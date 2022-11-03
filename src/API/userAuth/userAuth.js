@@ -85,7 +85,7 @@ export const signin = async (user, dispatch) => {
             return [true];
         }
     } catch (err) {
-        return [false, err.message + " ,please try after some time."];
+        return [false, "Network Error. Please try after some time."];
     }
     // dispatch({type:LOGIN_SUCCESS});
     // AddUserInfo("12344",{role:1,email:user.email});  //(jwtToken,userInfo)

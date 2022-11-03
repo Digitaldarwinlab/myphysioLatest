@@ -148,7 +148,7 @@ const SideDrawer = ({ visState, setVisState }) => {
             <Menu.Item
               icon={<HiUserAdd size={22} style={{ position: 'relative', top: "1px" }} className="iconClass1" />}
               onClick={() => {
-                history.push("/pateints/new");
+                history.push("/patients/new");
                 setVisState(false);
               }}
               key="22"
@@ -158,7 +158,7 @@ const SideDrawer = ({ visState, setVisState }) => {
             <Menu.Item
               icon={<i className="fas fa-clipboard-list" style={{ position: 'relative', top: "1px", fontSize: '18px' }} />}
               onClick={() => {
-                history.push("/pateints");
+                history.push("/patients");
                 setVisState(false);
               }}
               key="23"

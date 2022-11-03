@@ -12,7 +12,7 @@ import { HiUserAdd } from "react-icons/hi";
 import { AiFillCalendar, AiFillCamera, AiFillMedicineBox } from "react-icons/ai";
 
 const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getCurrentPath }) => {
-    const [pateintItemActive, setPatientItemActive] = useState(pathName.includes("pateints"));
+    const [pateintItemActive, setPatientItemActive] = useState(pathName.includes("patients"));
     const [SchedulingItemActive, setSchedulingItemActive] = useState(pathName.includes("appointments"));
     const [episodeItemActive, setEpisodeItemActive] = useState(pathName.includes("episode"));
     const [visitItemActive, setVisitItemActive] = useState(pathName.includes("care"));
@@ -23,7 +23,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const handleClick = listItem => {
         if (listItem === "patients") {
             setPatientItemActive(!pateintItemActive);
-            getCurrentPath("pateints");
+            getCurrentPath("patients");
         } else if (listItem === "Scheduling") {
             setSchedulingItemActive(!SchedulingItemActive);
             getCurrentPath("appointments");
@@ -54,7 +54,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
     const pateintItems = () => {
         return (
             <Menu.SubMenu key="link2"
-                className={(pathName.includes("pateints") || pathName.includes("dashboard")) ? "active text-decoration-none" : "text-decoration-none"}
+                className={(pathName.includes("patients") || pathName.includes("dashboard")) ? "active text-decoration-none" : "text-decoration-none"}
                 onClick={() => handleClick("patients")}
                 icon={<i className="fas fa-user iconClass1"></i>}
                 title="Patients">
@@ -72,7 +72,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<HiUserAdd size={22} style={{position:'relative',top:"1px"}} className="iconClass1" />}
                     className="text-decoration-none"
                 >
-                    <Link to="/pateints/new"
+                    <Link to="/patients/new"
                         style={{ color: "black" }}
                     >New Patient</Link>
                 </Menu.Item>
@@ -80,7 +80,7 @@ const SideNavBar = ({ isSideNavbarCollpased, SideNavbarCollpased, pathName, getC
                     icon={<i className="fas fa-clipboard-list" style={{position:'relative',top:"1px",fontSize:'18px'}}  />}
                     className="text-decoration-none"
                 >
-                    <Link to="/pateints"
+                    <Link to="/patients"
                         style={{ color: "black" }}
                     >Patient List</Link>
                 </Menu.Item>

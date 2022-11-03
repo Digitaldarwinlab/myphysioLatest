@@ -70,7 +70,8 @@ const checkNameValidation = (value) => {
     // else if (!value || value.length < 4)
     //     error["error"] = "Name must contain atleast 4 characters.";
      if (!validName.test(value)) {
-        error["error"] = "Name must not contain any Special Symbol or Numbers. (Ex: @,:,;,},0-9 etc.)"
+        // error["error"] = "Name must not contain any Special Symbol or Numbers. (Ex: @,:,;,},0-9 etc.)"
+        error["error"] = "name is not valid. Please enter a valid name (remove: @,:,;,},0-9 etc.)"
     }
 } 
     }
@@ -97,7 +98,7 @@ const checkPasswordValidation = (value) => {
     let error = {};
     const validPass = new RegExp('^[a-zA-Z0-9!@#$%^&*]{6,16}$');
     if (!value || value.length < 4) {
-        error["error"] = "Password must contain atleast 4 characters."
+        error["error"] = "Please enter a valid password."
         return error;
     }
     if (!validPass.test(value)) {

@@ -83,7 +83,7 @@ const Prescreptions = ({ prescriptionClick }) => {
     <Col span={24} className="px-3 py-3">
       <Row className="m-2">
         <Col lg={18} md={18} sm={18} xs={24}>
-          <h4 className="fw-bold">Prescreptions</h4>
+          <h4 className="fw-bold">Prescription</h4>
         </Col>
         <Col lg={6} md={6} sm={6} xs={24} className="text-end">
           {/* Dipsikha start 23/10 */}

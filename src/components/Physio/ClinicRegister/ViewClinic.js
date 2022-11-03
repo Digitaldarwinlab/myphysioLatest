@@ -37,7 +37,7 @@ const ViewClinic = () => {
   const [cityList, setCityList] = useState([]);
   const location = useLocation()
   const [clinicDetails, setClinicDetails] = useState([]);
-  let status_flag = state.clinicReg.status_flag
+  let status_flag = true
   useEffect(() => {
     console.log("clinic details keys : ",location);
     dispatch({ type: "NOERROR" });

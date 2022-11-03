@@ -1842,7 +1842,7 @@ class AI extends Component {
                 status="warning"
                 title="You have not selected any patient. Please select"
                 extra={
-                  <Button onClick={() => this.props.history.push("/pateints")} type="primary" key="console">
+                  <Button onClick={() => this.props.history.push("/patients")} type="primary" key="console">
                     Go To Patient List
                   </Button>
                 }

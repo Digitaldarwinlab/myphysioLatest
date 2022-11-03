@@ -12,15 +12,26 @@ const FormInput = (props) => {
     }
     getData();
   }, []);
-  const [title, setTitle] = useState("title");
+  const [title, setTitle] = useState("");
+  let rules = []
+  if (props.space_validation) {
+    rules.push({ required: props.required, message: `${props.name} must be filled!` })
+    rules.push({
+      validator: (_, value) =>
+        !value.includes(" ")
+          ? Promise.resolve()
+          : Promise.reject(new Error("No spaces allowed"))
+    })
+  }else{
+    rules.push({ required: props.required, message: `${props.name} must be filled!` }) 
+  }
 
   return (
     <Form.Item
       label={props.label}
       name={props.name}
-      rules={[
-        { required: props.required, message: `${props.name} must be filled!` },
-      ]}
+      rules={rules}
+      normalize={(value, prevVal, prevVals) => value.trim()}
     >
       <div style={{ display: "flex" }}>
         {props.title === true && (
@@ -38,6 +49,7 @@ const FormInput = (props) => {
           <>
             {dropdownValue["Title"] !== undefined && (
               <Select
+                placeholder="Select"
                 value={props.titleValue ? props.titleValue : title}
                 name={props.titleName}
                 onChange={(e) => {
@@ -49,7 +61,6 @@ const FormInput = (props) => {
                 }}
               >
                 <Option
-                  value="title"
                   disabled
                   style={{ display: "none" }}
                 ></Option>

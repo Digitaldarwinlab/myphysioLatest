@@ -397,15 +397,15 @@ const App = () => {
                 />
                 <PrivateRoute
                   exact
-                  path="/pateints/new"
+                  path="/patients/new"
                   component={PatientIndex}
                 />
                 <PrivateRoute
                   exact
-                  path="/pateints/update"
+                  path="/patients/update"
                   component={PatientIndex}
                 />
-                <PrivateRoute exact path="/pateints" component={patients} />
+                <PrivateRoute exact path="/patients" component={patients} />
                 <PrivateRoute
                   exact
                   path="/physio/register"
@@ -491,9 +491,9 @@ const App = () => {
                 <PrivateRoute exact path="/roles/add" component={RolesRegisteration} />
                 <PrivateRoute exact path="/roles/update" component={RolesRegisteration} />
                 <PrivateRoute exact path="/enterprise/dashboard" component={EmployeeDashborad} />
-                <PrivateRoute exact path="/pateints/new" component={PatientIndex} />
-                <PrivateRoute exact path="/pateints/update" component={PatientIndex} />
-                <PrivateRoute exact path="/pateints" component={patients} />
+                <PrivateRoute exact path="/patients/new" component={PatientIndex} />
+                <PrivateRoute exact path="/patients/update" component={PatientIndex} />
+                <PrivateRoute exact path="/patients" component={patients} />
                 <PrivateRoute exact path="/physio/register" component={PhysioIndex} />
                 <PrivateRoute exact path="/physio/update" component={PhysioIndex} />
                 <PrivateRoute exact path="/clinic/register" component={PhysioClinic} />

@@ -90,15 +90,18 @@ const Register1 = (props) => {
       });
       setNewAge(Age);
     } else if (key === "FirstName" || key === "LastName") {
+      let result = value.replace(/^\s+|\s+$/gm,'');
+      console.log(key," ",result.length)
+      if(result.length==0) return ;
       dispatch({
         type: STATECHANGE,
         payload: {
           key,
           value:
             value.length > 1
-              ? value[0].toUpperCase() + value.slice(1, value.length)
-              : value.length === 1
-                ? value.toUpperCase()
+              ? result[0].toUpperCase() + result.slice(1, result.length)
+              : result.length === 1
+                ? result.toUpperCase()
                 : "",
         },
       });
@@ -158,23 +161,23 @@ const Register1 = (props) => {
       if (window.confirm("Confirm, Do You want to Cancel Update?")) {
         // dispatch({ type: CLEAR_STATE });
         if (JSON.parse(localStorage.getItem("user")).role == "patient") {
-          history.push("/pateint/profile");
+          history.push("/patients/profile");
         } else {
-          history.push("/pateints");
+          history.push("/patients");
         }
       }
     } else {
       if (window.confirm("Confirm, Do You want to Reset all fieldsss?")) {
         // dispatch({ type: CLEAR_STATE });
         form.resetFields();
-        history.push("/pateints/new");
+        history.push("/patients/new");
       }
     }
   };
 
   const onFinish = () => {
     let data = state.BasicDetails;
-    // console.log(data)
+    console.log(data)
     //  console.log(validation.checkNameValidation(data.FirstName).error+': error is')
     if (validation.checkNameValidation(data.FirstName).error) {
       dispatch({
@@ -255,7 +258,7 @@ const Register1 = (props) => {
         >
           <Row justify="end">
 
-            <Link to="/pateints" className="text-blue navlink "
+            <Link to="/patients" className="text-blue navlink "
             //id="navlink"
             >
               <i className="fa fa-users"></i> Patients
@@ -305,17 +308,18 @@ const Register1 = (props) => {
                     {"First Name"}
                   </span>
                 }
+                space_validation={true}
                 patientTitle={true}
                 titleName='Title'
                 titleValue={state.BasicDetails.Title}
                 name="FirstName"
                 className="input-field w-100 text-capitalize"
-                //  value={state.BasicDetails.FirstName}
+                value={state.BasicDetails.FirstName}
                 placeholder="Enter Patient First Name"
                 required={true}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                defaultValue={state.BasicDetails.FirstName}
+                // defaultValue={state.BasicDetails.FirstName}
               />
             </Col>
             <Col md={24} lg={8} sm={24} xs={24}>
@@ -344,7 +348,7 @@ const Register1 = (props) => {
                 }
                 name="LastName"
                 className="input-field w-100 text-capitalize"
-                //  value={state.BasicDetails.LastName}
+                value={state.BasicDetails.LastName}
                 placeholder="Enter Patient Last Name"
                 required={true}
                 onChange={handleChange}
@@ -397,14 +401,14 @@ const Register1 = (props) => {
               >
                 {dropdownValue.Gender !== undefined && (
                   <Select
-                  placeholder="Gender"
+                  placeHolder="Gender"
                   className="input-field w-100"
                   onChange={(value) => handleChange("Gender", value)}
                   value={state.BasicDetails.Gender}
                   defaultValue={state.BasicDetails.Gender}
                   >
                     {dropdownValue.Gender.map((item, index) => (
-                      <Option key={item} value={index + 1}>
+                      <Option key={item} value={item}>
                         {item}
                       </Option>
                     ))}
@@ -442,7 +446,7 @@ const Register1 = (props) => {
                   defaultValue={state.BasicDetails.bloodType}
                   >
                     {dropdownValue['Blood Type'].map((item, index) => (
-                      <Option key={item} value={index + 1}>
+                      <Option key={item} value={item}>
                         {item}
                       </Option>
                     ))}
@@ -542,7 +546,7 @@ const Register1 = (props) => {
                 {" "}
                 <Button
                 //  className="me-2 "
-                //  style={{ borderRadius: '10px' }}
+                  style={{ backgroundColor: "#2d7ecb" }}
                 >
                   Cancel
                 </Button>
@@ -551,7 +555,8 @@ const Register1 = (props) => {
             <Col span={2}>
               {" "}
               <Button
-                //className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }}
+                //className="me-2" 
+                style={{ backgroundColor: "#2d7ecb" , borderRadius: "10px" }}
                 onClick={handleReset}
               >
                 Reset
@@ -560,6 +565,7 @@ const Register1 = (props) => {
             <Col span={2}>
               {" "}
               <Button
+              style={{ backgroundColor: "#2d7ecb" }}
                 //className="button1" id="bnid" style={{ color: "white" }}
                 htmlType="submit"
               >

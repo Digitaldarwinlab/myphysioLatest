@@ -12,6 +12,7 @@ const { Panel } = Collapse;
 
 export default function Patient({ viewState }) {
     let age = calculate(new Date(viewState.dob), new Date());
+    console.log("Patients details ",viewState)
     //Basic Information 
     const BasicInfo = () => {
         return (
@@ -22,26 +23,29 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="First Name"
                                     name="FirstName"
+                                    value={viewState.FirstName}
                                     className="input-field  bold w-100 text-capitalize"
-                                    placeholder={viewState.FirstName?viewState.FirstName:"Yours First Name"}
+                                    placeholder={"First Name"}
                                     disabled={true}
                                     
                                 /> 
 
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
-                                <FormInput label="Middle Names"
+                                <FormInput label="Middle Name"
                                     name="MiddleName"
+                                    value={viewState.MiddleName}
                                     className="input-field w-100"
-                                    placeholder={viewState.MiddleName ? viewState.MiddleName : "Your Middle Name"}
+                                    placeholder={"Middle Name"}
                                     disabled={true}
                                 />
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Last Name"
+                                value={viewState.LastName}
                                     name="LastName"
                                     className="input-field w-100"
-                                    placeholder={viewState.LastName?viewState.LastName:"Your Last Name"}
+                                    placeholder={viewState.LastName?viewState.LastName:"Last Name"}
                                     disabled={true}
                                 />
                             </Col>
@@ -51,18 +55,20 @@ export default function Patient({ viewState }) {
                         <Row gutter={[20, 20]} className="pt-4">
                             {viewState.dob && (
                             <Col md={12} lg={8} sm={24} xs={24}>
-                                <FormDate label="DOB"
+                                <FormInput label="DOB"
                                     name="DOB"
+                                    value={viewState.dob}
                                     className="input-field w-100"
                                     disabled={true}
-                                    defaultValue={moment(viewState.dob,"YYYY-MM-DD")}
+                                    defaultValue={viewState.dob}
                                 />
                             </Col>
                             )}
                             {!viewState.dob && (
                             <Col md={12} lg={8} sm={24} xs={24}>
-                                <FormDate label="DOB"
+                                <FormInput label="DOB"
                                     name="DOB"
+                                    value={viewState.dob}
                                     className="input-field w-100"
                                     disabled={true}
                                 />
@@ -71,27 +77,44 @@ export default function Patient({ viewState }) {
                             <Col md={12} lg={3} sm={24} xs={24}>
                                 <FormInput label="Age"
                                     name="Age"
+                                    value={viewState.age}
                                     className="input-field w-100"
                                     disabled={true}
-                                    placeholder={age?age:"Age"}
+                                    placeholder={"Age"}
                                 />
                             </Col>
                             <Col md={12} lg={5} sm={24} xs={24}>
-                                <Form.Item label="Gender" name="Gender">
-                                    <Select
+                                {/* <Form.Item label="Gender" name="Gender"> */}
+                                <FormInput label="Gender"
+                                    name="Gender"
+                                    value={viewState.Gender}
+                                    className="input-field w-100"
+                                    disabled={true}
+                                    placeholder={viewState.Gender?viewState.Gender:"Gender"}
+                                />
+                                    {/* <Select
                                         className="input-field w-100"
                                         disabled={true}
+                                        value={viewState.Gender}
                                         placeholder={viewState.Gender?viewState.Gender:"Gender"}
                                     >
                                         <Option value="Male">Male</Option>
                                         <Option value="Female">Female</Option>
                                         <Option value="Other">Other</Option>
-                                    </Select>
-                                </Form.Item>
+                                    </Select> */}
+                                {/* </Form.Item> */}
                             </Col>
                             <Col md={12} lg={8} sm={24} xs={24}>
-                                <Form.Item label="Blood Type" name="bloodType">
+                            <FormInput label="Blood Type"
+                                    name="Blood Type"
+                                    value={viewState.bloodType}
+                                    className="input-field w-100"
+                                    disabled={true}
+                                    placeholder={"Blood Type"}
+                                />
+                                {/* <Form.Item label="Blood Type" name="bloodType">
                                     <Select
+                                     value={viewState.bloodType}
                                         className="input-field w-100"
                                         disabled={true}
                                         placeholder={viewState.bloodType?viewState.bloodType:"Blood Type"}
@@ -105,7 +128,7 @@ export default function Patient({ viewState }) {
                                         <Option value="O+">O+</Option>
                                         <Option value="O-">O-</Option>
                                     </Select>
-                                </Form.Item>
+                                </Form.Item> */}
                             </Col>
                         </Row>
 
@@ -113,24 +136,27 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Mobile No"
                                     name="MobileNo"
+                                    value={viewState.MobileNo}
                                     className="input-field w-100"
-                                    placeholder={viewState.MobileNo?viewState.MobileNo:"Your Mobile Number"}
+                                    placeholder={viewState.MobileNo?viewState.MobileNo:"Mobile Number"}
                                     disabled={true}
                                 />
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Landline No"
                                     name="LandlineNo"
+                                    value={viewState.landline}
                                     className="input-field w-100"
                                     disabled={true}
-                                    placeholder={viewState.landline ? viewState.landline : "Your Landline Number"}
+                                    placeholder={viewState.landline ? viewState.landline : "Landline Number"}
                                 />
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="WhatsApp No"
                                     name="WhatsAppNo"
+                                    value={viewState.WhatsAppNo}
                                     className="input-field w-100"
-                                    placeholder={viewState.WhatsAppNo?viewState.WhatsAppNo:"Your WhatsApp Number"}
+                                    placeholder={viewState.WhatsAppNo?viewState.WhatsAppNo:"WhatsApp Number"}
                                     disabled={true}
                                 />
                             </Col>
@@ -149,8 +175,9 @@ export default function Patient({ viewState }) {
                     <div className="border p-3">
                         <Row gutter={[20, 20]}>
                             <Col md={24} lg={24} sm={24} xs={24}>
-                                <FormTextArea label="Address"
+                            <FormInput label="Address"
                                     required="true"
+                                    value={viewState.Address}
                                     name="Address"
                                     className="input-field w-100"
                                     defaultValue={viewState.Address}
@@ -161,48 +188,74 @@ export default function Patient({ viewState }) {
 
                         <Row gutter={[20, 20]}>
                             <Col md={24} lg={8} sm={24} xs={24}>
-                                <Form.Item
+                            <FormInput  label="Country"
+                                    value={viewState.Country}
+                                    name="Country"
+                                    className="input-field w-100"
+                                    placeholder="Country"
+                                    disabled={true}
+                                />
+                                {/* <Form.Item
                                     label="Country"
                                     name="Country"
                                     className="input-field w-100"
                                 >
                                     <Select
+                                     value={viewState.Country}
                                         defaultValue={viewState.Country}
                                         disabled={true}
                                     >
                                         <Select.Option value="India">India</Select.Option>
                                     </Select>
-                                </Form.Item>
+                                </Form.Item> */}
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
-                                <Form.Item
+                                <FormInput  
+                                    value={viewState.State}
+                                    label="State"
+                                    name="State"
+                                    className="input-field w-100"
+                                    placeholder="State"
+                                    disabled={true}
+                                />
+                                {/* <Form.Item
                                     label="State"
                                     name="State"
                                     className="input-field w-100"
                                     disabled={true}
                                 >
                                     <Select
+                                     value={viewState.State}
                                         defaultValue={viewState.State}
                                         disabled={true}
                                     >
                                         <Select.Option value="ky">ky</Select.Option>
 
                                     </Select>
-                                </Form.Item>
+                                </Form.Item> */}
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
-                                <Form.Item
+                            <FormInput  
+                                    value={viewState.City}
+                                    label="City"
+                                    name="City"
+                                    disabled={true}
+                                    className="input-field w-100"
+                                    placeholder="City"
+                                />
+                                {/* <Form.Item
                                     label="City"
                                     name="City"
                                     disabled={true}
                                 >
                                     <Select
+                                     value={viewState.City}
                                         defaultValue={viewState.City}
                                         disabled={true}
                                     >
                                         <Select.Option value="ky">ky</Select.Option>
                                     </Select>
-                                    </Form.Item>
+                                    </Form.Item> */}
                             </Col>
                         </Row>
 
@@ -211,22 +264,28 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Pincode"
                                     name="pincode"
+                                    placeholder="Pincode"
+                                    value={viewState.pincode!==0?viewState.pincode:''}
                                     className="input-field w-100"
-                                    defaultValue={viewState.pincode}
                                     disabled={true}
                                 />
                             </Col>
                         <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Email"
                                     name="Email"
+                                    placeholder="Email"
+                                    value={viewState.Email}
                                     className="input-field w-100"
                                     defaultValue={viewState.Email}
                                     disabled={true}
                                 />
                             </Col>
                             <Col md={24} lg={8} sm={24} xs={24}>
-                                <FormInput label="Facebook"
+                                <FormInput 
+                                    label="Facebook"
+                                    placeholder="Facebook"
                                     name="Facebook"
+                                    value={viewState.Facebook}
                                     className="input-field w-100"
                                     defaultValue={viewState.Facebook}
                                     disabled={true}
@@ -238,6 +297,8 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="LinkedIn"
                                     name="LinkedIn"
+                                    placeholder="LinkedIn"
+                                    value={viewState.LinkedIn}
                                     className="input-field w-100"
                                     defaultValue={viewState.LinkedIn}
                                     disabled={true}
@@ -246,6 +307,8 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={8} sm={24} xs={24}>
                                 <FormInput label="Emergency Contact"
                                     name="EmergencyContact"
+                                    placeholder="EmergencyContact"
+                                    value={viewState.EmergencyContact!==0?viewState.EmergencyContact:''}
                                     className="input-field w-100"
                                     defaultValue={viewState.EmergencyContact}
                                     disabled={true}
@@ -268,9 +331,10 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={24} sm={24} xs={24}>
                                 <FormInput label="Allergies"
                                     name="Allergies"
+                                    value={viewState.LastName}
                                     className="input-field w-100"
                                     disabled={true}
-                                    placeholder={viewState.Allergies?viewState.Allergies:"Allergies"}
+                                    placeholder={"Allergies"}
                                 />
                             </Col>
                         </Row>
@@ -279,9 +343,10 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={24} sm={24} xs={24}>
                                 <FormTextArea label="Medical History"
                                     name="MedicalHistory"
+                                    value={viewState.MedicalHistory}
                                     className="input-field w-100"
                                     disabled={true}
-                                    placeholder={viewState.MedicalHistory?viewState.MedicalHistory:"MedicalHistory"}
+                                    placeholder={"MedicalHistory"}
                                 />
                             </Col>
                         </Row>
@@ -290,9 +355,10 @@ export default function Patient({ viewState }) {
                             <Col md={24} lg={24} sm={24} xs={24}>
                                 <FormTextArea label="Family History"
                                     name="FamilyHistory"
+                                    value={viewState.FamilyHistory}
                                     className="input-field w-100"
                                     disabled={true}
-                                    placeholder={viewState.FamilyHistory?viewState.FamilyHistory:"FamilyHistory"}
+                                    placeholder={"FamilyHistory"}
                                 />
                             </Col>
                         </Row>
