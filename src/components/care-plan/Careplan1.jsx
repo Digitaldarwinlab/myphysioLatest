@@ -1502,7 +1502,9 @@ const Careplan1 = ({ searchBar = true, handleChangeView }) => {
                         items={cartItems}
                         setAllocatePlan={setAllocatePlan}
                         searchBar={searchBar}
-                    /> </>}
+                    />
+                    
+                     </>}
         </Row>
 
     )

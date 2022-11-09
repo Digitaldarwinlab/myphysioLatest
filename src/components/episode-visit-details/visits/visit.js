@@ -55,9 +55,9 @@ const Visits = ({ handleClick, patId }) => {
             okText={<span onClick={() => {
               history.push("/assessment/1")
               localStorage.setItem("OnAssessmentScreen", 'true')
-              window.open(`${process.env.REACT_APP_EXERCISE_URL}/physio${link}`)
+              window.open(`${process.env.REACT_APP_EXERCISE_URL}physio${link}`)
             }}>Assessment</span>}
-            cancelText={<span onClick={() => window.open(`${process.env.REACT_APP_EXERCISE_URL}/physio${link}`)}>Normal</span>}
+            cancelText={<span onClick={() => window.open(`${process.env.REACT_APP_EXERCISE_URL}physio${link}`)}>Normal</span>}
           >
             <a href={"/physio" + link} target="_blank" rel="noopener noreferrer">
               {link}

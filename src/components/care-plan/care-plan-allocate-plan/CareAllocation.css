@@ -16,6 +16,9 @@
 .care-plan-allocation-controls-text{
   font-size:16px
 }
+.careplanForm{
+  width: 100% !important;
+}
 
 @media only screen and (max-width: 650px) {
   .care-plan-allocation-controls-space {

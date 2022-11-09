@@ -49,6 +49,7 @@ import { RiCameraFill, RiCameraOffFill } from "react-icons/ri";
 //import { Switch } from "react-router-dom";
 
 const CareAllocatePlan = ({ scrlRef, Exercise, items, searchBar, handleChangeView, setAllocatePlan }) => {
+  console.log('careplanForm')
   const [startDate, setStartDate] = useState("");
   const [aiState, setAIState] = useState(false);
   const [endDate, setEndDate] = useState("");
@@ -696,10 +697,9 @@ const CareAllocatePlan = ({ scrlRef, Exercise, items, searchBar, handleChangeVie
   return (
     <Form
       form={form}
-
       layout="vertical"
       onFinish={onFinish}
-      className="px-1 py-1"
+      className="px-1 py-1 careplanForm"
     >
       <div ref={scrlRef}></div>
       {state.isLoading && <Loading />}
@@ -767,7 +767,7 @@ const CareAllocatePlan = ({ scrlRef, Exercise, items, searchBar, handleChangeVie
           <FormDate
             disabled={state.edit_flag}
             label="Start Dates"
-            name="Start Date"
+            name="startDate"
             className="input-field"
             required={true}
             placeholder="Start Date"
@@ -780,7 +780,7 @@ const CareAllocatePlan = ({ scrlRef, Exercise, items, searchBar, handleChangeVie
           <FormDate
             label="End Date"
             className="input-field"
-            name="End Date"
+            name="endDate"
             required={true}
             placeholder="End Date"
             value={endDate}

@@ -966,7 +966,7 @@ class AromClass extends Component {
             </div></>)}</center>)}
           </div>
         </Col>
-        {/* {this.AiModelProps()} */}
+        {this.AiModelProps()}
         <Col className='arom-controls-1x div-border-1x' xs={24} sm={24} md={4} lg={4}>
           <div className='arom-btn-grp-wrapper'>
             Step : 1 <br />
