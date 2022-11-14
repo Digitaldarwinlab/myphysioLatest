@@ -622,7 +622,7 @@ body {
   font-size: 1rem !important;
 }
 .skip-button {
-  background-color: #00022e !important;
+  background-color: #2d7ecb !important;
   color: white !important;
   border: none !important;
   cursor: pointer !important;
@@ -1125,7 +1125,7 @@ ol {
 .exercises-cards p {
   width: 100%;
   margin: 0px;
-}>
+}
 button.ant-modal-close .ant-modal-close-x {
   line-height: 35px;
   color: #fff;
@@ -5076,7 +5076,7 @@ background-color: white;
     height: 40px;
    
   float:right;
-    background-color: #00022e;
+    background-color: #2d7ecb;
 }
 
 .list-item{

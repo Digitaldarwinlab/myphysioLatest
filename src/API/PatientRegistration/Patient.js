@@ -136,6 +136,34 @@ export const Patient_Update = async (user, dispatch) => {
     }
 }
 //get-patient List
+// export const getPatientList = async () => {
+//     try {
+//         const headers = {
+//             Accept: 'application/json',
+//             "Content-type": "application/json"
+//         }
+//         const id = JSON.parse(localStorage.getItem("userId"))
+//         const encodedData = Encode({ id: id })
+//         // console.log('Id:',id);
+//         const response = await fetch(process.env.REACT_APP_API + "/get-patient_v1/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify(encodedData)
+//         });
+
+//         const responseData = await response.json();
+//         console.log("listing data ",responseData)
+//         const data = Decode(responseData)
+//         console.log("listing data ",data)
+//         if (response.status !== 200 && response.status !== 201) {
+//             return [];
+//         }
+//         return data;
+//     } catch (err) {
+//         // console.log(err);
+//         return [];
+//     }
+// }
 export const getPatientList = async () => {
     try {
         const headers = {
@@ -165,6 +193,35 @@ export const getPatientList = async () => {
     }
 }
 //search-patient
+// export const searchPatient = async (value) => {
+//     const id = JSON.parse(localStorage.getItem("userId"))
+//     // console.log(JSON.stringify({ id: id, query: value}))
+    
+//     try {
+//         const headers = {
+//             Accept: 'application/json',
+//             "Content-type": "application/json"
+//         }
+       
+
+//         const response = await fetch(process.env.REACT_APP_API + "/search-patient/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify({ id: id, query: value})
+//         });
+//         // console.log(response)
+//         const data = await response.json();
+//         // console.log(data)
+       
+//         if (response.status !== 200 && response.status !== 201) {
+//             return [];
+//         }
+//         return data;
+//     } catch (err) {
+//         // console.log(err);
+//         return [];
+//     }
+// }
 export const searchPatient = async (value) => {
     const id = JSON.parse(localStorage.getItem("userId"))
     // console.log(JSON.stringify({ id: id, query: value}))

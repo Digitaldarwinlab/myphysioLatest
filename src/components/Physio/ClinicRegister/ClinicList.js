@@ -226,13 +226,13 @@ const ClinicList = () => {
       <div style={{ minHeight: "20px" }}></div>
       <Row justify="space-between">
         <Col md={12} sm={12} xs={12}>
-          <input
+          {/* <input
               className="px-4 py-2"
             placeholder="Search Clinic.."
             onChange={onSearch}
             loading={loading}
             style={{ width: "100%" }}
-          />
+          /> */}
         </Col>
 
         {getUserData() === "admin" && (

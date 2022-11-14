@@ -144,6 +144,56 @@ export const physioUpdate = async (details, dispatch) => {
 };
 //search-physio
 // Physio Name Value
+// export const searchPhysio = async (value) => {
+//   try {
+//       const headers = {
+//           Accept: 'application/json',
+//           "Content-type": "application/json"
+//       }
+//       const encodedData = Encode({ query: value });
+//       const response = await fetch(process.env.REACT_APP_API + "/physio-filter_v1/", {
+//           method: "POST",
+//           headers: headers,
+//           body: JSON.stringify(encodedData)
+//       });
+//       const responseData = await response.json();
+//       const data = Decode(responseData)
+//       if (response.status !== 200 && response.status !== 201) {
+//           return [];
+//       }
+//       return data;
+//   } catch (err) {
+//       // console.log(err);
+//       return [];
+//   }
+// }
+// ////get-physio
+// export const getPhysioList = async () => {
+//   try {
+//       const headers = {
+//           Accept: 'application/json',
+//           "Content-type": "application/json"
+//       }
+//       const id = JSON.parse(localStorage.getItem("userId"))
+// const encodedData = Encode({ id: id })
+//       const response = await fetch(process.env.REACT_APP_API + "/get_physio_v1/", {
+//           method: "POST",
+//           headers: headers,
+//           body: JSON.stringify(encodedData)
+//       });
+//       const responseData = await response.json();
+ 
+//      const data = Decode(responseData);
+
+//       if (response.status !== 200 && response.status !== 201) {
+//           return [];
+//       }
+//       return data;
+//   } catch (err) {
+//       // console.log(err);
+//       return [];
+//   }
+// }
 export const searchPhysio = async (value) => {
   try {
     const headers = {

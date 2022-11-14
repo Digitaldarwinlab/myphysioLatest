@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { Row, Col, Card } from "antd";
+import {Empty } from "antd";
 import "./PatientPrescription.css";
 import { GetPatientCurrentEpisode } from "../../PatientAPI/PatientDashboardApi";
 import { get_prescription } from "../../API/Prescription/PresriptionApi";
@@ -18,7 +18,9 @@ const PatientPrescription = () => {
   }, []);
   return (
     <>
-      {allprescriptions.map((i) => (
+    {allprescriptions.length>0 ?
+    <>
+    {allprescriptions.map((i) => (
         <div className="p-2" id="presCard">
           {i && Object.keys(i).length > 0 && (
             <div className="p-2 " id="prescriptionBox">
@@ -102,6 +104,16 @@ const PatientPrescription = () => {
           )}
         </div>
       ))}
+    </>
+    :
+    <>
+    <Empty
+          description="No Prescription Available"
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+    </>
+    }
+      
     </>
   );
 };

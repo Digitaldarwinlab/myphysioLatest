@@ -162,6 +162,7 @@ class AromClass extends Component {
   }
   StartAI = () => {
     console.log(this.state.value)
+    
     console.log('start ', this.state.selectedAngles)
     if (this.state.value == "Anterior") {
       let angles = []
@@ -302,6 +303,7 @@ class AromClass extends Component {
   }
   componentDidMount() {
     this.props.Setsidebarshow(false)
+    console.log(this.props.carePlanReducer)
     if (this.props.carePlanReducer.patient_main_code.length > 0) {
       const canvas = document.getElementById("output");
       const video = document.getElementById("video");
@@ -340,6 +342,7 @@ class AromClass extends Component {
     this.setState({ value: e.target.value })
   };
   AiModel = () => {
+    console.log(window.darwin)
     try {
       window.darwin.sendAngleToUICallback((angle) => {
         console.log("status ", angle);
@@ -746,396 +749,408 @@ class AromClass extends Component {
   }
   render() {
     return (
-      <>{this.props.carePlanReducer.patient_main_code.length > 0 ? <Row justify='space-between' style={{ marginTop: '5px' }} className='main-container-1x'>
-        <Col className='arom-joints-list-wrapper-container-1x' xs={24} sm={24} md={4} lg={4}>
-          <div className="arom-joints-list-wrapper-1x div-border-1x">
-            <center><b><h3>{this.state.value}</h3></b></center>
-            {this.state.value == 'Anterior' && Object.keys(this.state.anterior).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`} anterior`}><p>{e}</p>{this.state.anterior[e].angles.map(a => <><div
-              onClick={() => {
-                if (!(e == this.state.selectedPrimary)) {
-                  if (this.state.selectedPrimary == 'not-selected') {
-                    return notification.warning({
-                      message: "Please select primary joint",
-                      placement: "bottomLeft",
-                      duration: 5,
-                    });
-                  }
-                  if (a.enabled == 1) {
-                    let temp = this.state.anterior[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 0
-                        temp[i].ranges = {}
-                      }
+      <>
+      {
+        this.props.carePlanReducer.patient_main_code!==undefined &&
+        <>
+        {this.props.carePlanReducer.patient_main_code.length > 0 ? 
+        <Row justify='space-between' style={{ marginTop: '5px' }} className='main-container-1x'>
+          <Col className='arom-joints-list-wrapper-container-1x' xs={24} sm={24} md={4} lg={4}>
+            <div className="arom-joints-list-wrapper-1x div-border-1x">
+              <center><b><h3>{this.state.value}</h3></b></center>
+              {this.state.value == 'Anterior' && Object.keys(this.state.anterior).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`} anterior`}><p>{e}</p>{this.state.anterior[e].angles.map(a => <><div
+                onClick={() => {
+                  if (!(e == this.state.selectedPrimary)) {
+                    if (this.state.selectedPrimary == 'not-selected') {
+                      return notification.warning({
+                        message: "Please select primary joint",
+                        placement: "bottomLeft",
+                        duration: 5,
+                      });
                     }
-                    this.setState(prev => ({
-                      anterior: {
-                        ...prev.anterior,
-                        [e]: {
-                          'angles': temp
+                    if (a.enabled == 1) {
+                      let temp = this.state.anterior[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 0
+                          temp[i].ranges = {}
                         }
                       }
-                    }))
-                    let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
-                    tempjoint.filter(joint => joint != temp[0].name[1][1])
-                    this.setState({ currentJointsValues: tempjoint })
-                    this.setAngles(tempjoint)
-                    this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
-                    return
-                  }
-                  if (this.state.anterior[e].angles.length >= 1) {
-                    let temp = anteriorAngles[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 1
-                      }
+                      this.setState(prev => ({
+                        anterior: {
+                          ...prev.anterior,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
+                      tempjoint.filter(joint => joint != temp[0].name[1][1])
+                      this.setState({ currentJointsValues: tempjoint })
+                      this.setAngles(tempjoint)
+                      this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
+                      return
                     }
-                    this.setState(prev => ({
-                      anterior: {
-                        ...prev.anterior,
-                        [e]: {
-                          'angles': temp
+                    if (this.state.anterior[e].angles.length >= 1) {
+                      let temp = anteriorAngles[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 1
                         }
                       }
-                    }))
+                      this.setState(prev => ({
+                        anterior: {
+                          ...prev.anterior,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    } else {
+                      this.setState(prev => ({
+                        anterior: {
+                          ...prev.anterior,
+                          [e]: {
+                            'angles': [{
+                              ...prev.anterior[e].angles[0],
+                              enabled: 1
+                            }]
+                          }
+                        }
+                      }))
+                      this.setAngles([...this.state.currentJointsValues, ...this.state.anterior[e].angles[0].name[1]])
+                      this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.anterior[e].angles[0].name[1]] })
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    }
+                  }
+                }}
+                className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
+                {Object.keys(a.ranges).length > 0 && <span>L : min:{a.ranges.L.min} , max:{a.ranges.L.max} <br /> R : min:{a.ranges.L.min} ,max:{a.ranges.R.max} </span>}
+              </div></>)}</center>)}
+              {this.state.value == 'Left' && Object.keys(this.state.left).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`}`}><p>{e}</p>{this.state.left[e].angles.map(a => <>{console.log(a.enabled)}<div
+                onClick={() => {
+                  if (!(e == this.state.selectedPrimary)) {
+                    if (this.state.selectedPrimary == 'not-selected') {
+                      return notification.warning({
+                        message: "Please select primary joint",
+                        placement: "bottomLeft",
+                        duration: 5,
+                      });
+                    }
+                    if (a.enabled == 1) {
+                      let temp = this.state.left[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 0
+                          temp[i].ranges = {}
+                        }
+                      }
+                      this.setState(prev => ({
+                        left: {
+                          ...prev.left,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
+                      this.setState({ currentJointsValues: tempjoint })
+                      this.setAngles(tempjoint)
+                      this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
+                      return
+                    }
+                    if (this.state.left[e].angles.length >= 1) {
+                      let temp = leftAngles[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 1
+                        }
+                      }
+                      this.setState(prev => ({
+                        left: {
+                          ...prev.left,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    } else {
+                      this.setState(prev => ({
+                        left: {
+                          ...prev.left,
+                          [e]: {
+                            'angles': [{
+                              ...prev.left[e].angles[0],
+                              enabled: 1
+                            }]
+                          }
+                        }
+                      }))
+                      this.setAngles([...this.state.currentJointsValues, ...this.state.left[e].angles[0].name[1]])
+                      this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.left[e].angles[0].name[1]] })
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    }
+                  }
+                }}
+                className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
+                {Object.keys(a.ranges).length > 0 && <span>L : min:{a.ranges.L.min} , max:{a.ranges.L.max}</span>}
+              </div></>)}</center>)}
+              {this.state.value == 'Right' && Object.keys(this.state.right).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`}`}><p>{e}</p>{this.state.right[e].angles.map(a => <>{console.log(a.enabled)}<div
+                onClick={() => {
+                  if (!(e == this.state.selectedPrimary)) {
+                    if (this.state.selectedPrimary == 'not-selected') {
+                      return notification.warning({
+                        message: "Please select primary joint",
+                        placement: "bottomLeft",
+                        duration: 5,
+                      });
+                    }
+                    if (a.enabled == 1) {
+                      let temp = this.state.right[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 0
+                          temp[i].ranges = {}
+                        }
+                      }
+                      this.setState(prev => ({
+                        right: {
+                          ...prev.right,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
+                      this.setState({ currentJointsValues: tempjoint })
+                      this.setAngles(tempjoint)
+                      this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
+                      return
+                    }
+                    if (this.state.right[e].angles.length >= 1) {
+                      let temp = rightAngles[e]['angles']
+                      for (let i = 0; i < temp.length; i++) {
+                        if (temp[i].name[0] == a.name[0]) {
+                          temp[i].enabled = 1
+                        }
+                      }
+                      this.setState(prev => ({
+                        right: {
+                          ...prev.right,
+                          [e]: {
+                            'angles': temp
+                          }
+                        }
+                      }))
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    } else {
+                      this.setState(prev => ({
+                        right: {
+                          ...prev.right,
+                          [e]: {
+                            'angles': [{
+                              ...prev.right[e].angles[0],
+                              enabled: 1
+                            }]
+                          }
+                        }
+                      }))
+                      this.setAngles([...this.state.currentJointsValues, ...this.state.right[e].angles[0].name[1]])
+                      this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.right[e].angles[0].name[1]] })
+                      this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
+                      console.log(temp)
+                    }
+                  }
+                }}
+                className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
+                {Object.keys(a.ranges).length > 0 && <span>R : min:{a.ranges.L.min} ,max:{a.ranges.R.max} </span>}
+              </div></>)}</center>)}
+            </div>
+          </Col>
+          {this.AiModelProps()}
+          <Col className='arom-controls-1x div-border-1x' xs={24} sm={24} md={4} lg={4}>
+            <div className='arom-btn-grp-wrapper'>
+              Step : 1 <br />
+              <div className='arom-btn-grp'>
+                {this.state.value == 'Anterior' && <div style={{ border: '1px solid' }}><Select
+                  style={{
+                    width: 100,
+                    borderRadius: '10px'
+                  }}
+                  placeholder="Primary joint"
+                  disabled={this.state.aiStart}
+                  onChange={(e) => {
+                    let temp = { ...anteriorAngles }
+                    this.setState({ selectedPrimary: e })
+                    this.setState({ currentJointsValues: [] })
                     this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  } else {
+                    console.log(this.state.anterior)
                     this.setState(prev => ({
                       anterior: {
-                        ...prev.anterior,
+                        ...temp,
                         [e]: {
-                          'angles': [{
-                            ...prev.anterior[e].angles[0],
+                          angles: [{
+                            ...temp[e].angles[0],
                             enabled: 1
                           }]
                         }
                       }
                     }))
-                    this.setAngles([...this.state.currentJointsValues, ...this.state.anterior[e].angles[0].name[1]])
-                    this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.anterior[e].angles[0].name[1]] })
+                    // setTimeout(() => {
+                    //   setState(temp)
+                    // }, 10);
+                  }}
+                >
+                  {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
+                </Select></div>}
+                {this.state.value == 'Left' && <div style={{ border: '1px solid' }}><Select
+                  style={{
+                    width: 100,
+                  }}
+                  placeholder="Primary joint"
+                  disabled={this.state.aiStart}
+                  onChange={(e) => {
+                    let temp = { ...leftAngles }
+                    this.setState({ currentJointsValues: [] })
                     this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  }
-                }
-              }}
-              className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
-              {Object.keys(a.ranges).length > 0 && <span>L : min:{a.ranges.L.min} , max:{a.ranges.L.max} <br /> R : min:{a.ranges.L.min} ,max:{a.ranges.R.max} </span>}
-            </div></>)}</center>)}
-            {this.state.value == 'Left' && Object.keys(this.state.left).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`}`}><p>{e}</p>{this.state.left[e].angles.map(a => <>{console.log(a.enabled)}<div
-              onClick={() => {
-                if (!(e == this.state.selectedPrimary)) {
-                  if (this.state.selectedPrimary == 'not-selected') {
-                    return notification.warning({
-                      message: "Please select primary joint",
-                      placement: "bottomLeft",
-                      duration: 5,
-                    });
-                  }
-                  if (a.enabled == 1) {
-                    let temp = this.state.left[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 0
-                        temp[i].ranges = {}
-                      }
-                    }
+                    this.setState({ selectedPrimary: e })
                     this.setState(prev => ({
                       left: {
-                        ...prev.left,
+                        ...temp,
                         [e]: {
-                          'angles': temp
-                        }
-                      }
-                    }))
-                    let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
-                    this.setState({ currentJointsValues: tempjoint })
-                    this.setAngles(tempjoint)
-                    this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
-                    return
-                  }
-                  if (this.state.left[e].angles.length >= 1) {
-                    let temp = leftAngles[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 1
-                      }
-                    }
-                    this.setState(prev => ({
-                      left: {
-                        ...prev.left,
-                        [e]: {
-                          'angles': temp
-                        }
-                      }
-                    }))
-                    this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  } else {
-                    this.setState(prev => ({
-                      left: {
-                        ...prev.left,
-                        [e]: {
-                          'angles': [{
-                            ...prev.left[e].angles[0],
+                          angles: [{
+                            ...temp[e].angles[0],
                             enabled: 1
                           }]
                         }
                       }
                     }))
-                    this.setAngles([...this.state.currentJointsValues, ...this.state.left[e].angles[0].name[1]])
-                    this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.left[e].angles[0].name[1]] })
+                  }}
+                >
+                  {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
+                </Select></div>}
+                {this.state.value == 'Right' && <div style={{ border: '1px solid' }}><Select
+                  style={{
+                    width: 100,
+                  }}
+                  placeholder="Primary joint"
+                  disabled={this.state.aiStart}
+                  onChange={(e) => {
+                    let temp = { ...rightAngles }
+                    this.setState({ selectedPrimary: e })
+                    this.setState({ currentJointsValues: [] })
                     this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  }
-                }
-              }}
-              className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
-              {Object.keys(a.ranges).length > 0 && <span>L : min:{a.ranges.L.min} , max:{a.ranges.L.max}</span>}
-            </div></>)}</center>)}
-            {this.state.value == 'Right' && Object.keys(this.state.right).map(e => <center className={`${e == this.state.selectedPrimary && `primary-selected`}`}><p>{e}</p>{this.state.right[e].angles.map(a => <>{console.log(a.enabled)}<div
-              onClick={() => {
-                if (!(e == this.state.selectedPrimary)) {
-                  if (this.state.selectedPrimary == 'not-selected') {
-                    return notification.warning({
-                      message: "Please select primary joint",
-                      placement: "bottomLeft",
-                      duration: 5,
-                    });
-                  }
-                  if (a.enabled == 1) {
-                    let temp = this.state.right[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 0
-                        temp[i].ranges = {}
-                      }
-                    }
                     this.setState(prev => ({
                       right: {
-                        ...prev.right,
+                        ...temp,
                         [e]: {
-                          'angles': temp
-                        }
-                      }
-                    }))
-                    let tempjoint = this.state.currentJointsValues.filter(joint => joint != temp[0].name[1][0])
-                    this.setState({ currentJointsValues: tempjoint })
-                    this.setAngles(tempjoint)
-                    this.setState({ selectedAngles: this.state.selectedAngles.filter(angle => angle != e) })
-                    return
-                  }
-                  if (this.state.right[e].angles.length >= 1) {
-                    let temp = rightAngles[e]['angles']
-                    for (let i = 0; i < temp.length; i++) {
-                      if (temp[i].name[0] == a.name[0]) {
-                        temp[i].enabled = 1
-                      }
-                    }
-                    this.setState(prev => ({
-                      right: {
-                        ...prev.right,
-                        [e]: {
-                          'angles': temp
-                        }
-                      }
-                    }))
-                    this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  } else {
-                    this.setState(prev => ({
-                      right: {
-                        ...prev.right,
-                        [e]: {
-                          'angles': [{
-                            ...prev.right[e].angles[0],
+                          angles: [{
+                            ...temp[e].angles[0],
                             enabled: 1
                           }]
                         }
                       }
                     }))
-                    this.setAngles([...this.state.currentJointsValues, ...this.state.right[e].angles[0].name[1]])
-                    this.setState({ currentJointsValues: [...this.state.currentJointsValues, ...this.state.right[e].angles[0].name[1]] })
-                    this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                    console.log(temp)
-                  }
-                }
-              }}
-              className={`${a.enabled == 1 ? `borderRed` : a.enabled == 2 ? 'borderGrey' : ''} arom-joints-list-item-1x`}>{a.name[0]}<br />
-              {Object.keys(a.ranges).length > 0 && <span>R : min:{a.ranges.L.min} ,max:{a.ranges.R.max} </span>}
-            </div></>)}</center>)}
-          </div>
-        </Col>
-        {this.AiModelProps()}
-        <Col className='arom-controls-1x div-border-1x' xs={24} sm={24} md={4} lg={4}>
-          <div className='arom-btn-grp-wrapper'>
-            Step : 1 <br />
-            <div className='arom-btn-grp'>
-              {this.state.value == 'Anterior' && <div style={{ border: '1px solid' }}><Select
-                style={{
-                  width: 100,
-                  borderRadius: '10px'
-                }}
-                placeholder="Primary joint"
-                disabled={this.state.aiStart}
-                onChange={(e) => {
-                  let temp = { ...anteriorAngles }
-                  this.setState({ selectedPrimary: e })
-                  this.setState({ currentJointsValues: [] })
-                  this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                  console.log(this.state.anterior)
-                  this.setState(prev => ({
-                    anterior: {
-                      ...temp,
-                      [e]: {
-                        angles: [{
-                          ...temp[e].angles[0],
-                          enabled: 1
-                        }]
-                      }
-                    }
-                  }))
-                  // setTimeout(() => {
-                  //   setState(temp)
-                  // }, 10);
-                }}
-              >
-                {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select></div>}
-              {this.state.value == 'Left' && <div style={{ border: '1px solid' }}><Select
-                style={{
-                  width: 100,
-                }}
-                placeholder="Primary joint"
-                disabled={this.state.aiStart}
-                onChange={(e) => {
-                  let temp = { ...leftAngles }
-                  this.setState({ currentJointsValues: [] })
-                  this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                  this.setState({ selectedPrimary: e })
-                  this.setState(prev => ({
-                    left: {
-                      ...temp,
-                      [e]: {
-                        angles: [{
-                          ...temp[e].angles[0],
-                          enabled: 1
-                        }]
-                      }
-                    }
-                  }))
-                }}
-              >
-                {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select></div>}
-              {this.state.value == 'Right' && <div style={{ border: '1px solid' }}><Select
-                style={{
-                  width: 100,
-                }}
-                placeholder="Primary joint"
-                disabled={this.state.aiStart}
-                onChange={(e) => {
-                  let temp = { ...rightAngles }
-                  this.setState({ selectedPrimary: e })
-                  this.setState({ currentJointsValues: [] })
-                  this.setState({ selectedAngles: [...this.state.selectedAngles, e] })
-                  this.setState(prev => ({
-                    right: {
-                      ...temp,
-                      [e]: {
-                        angles: [{
-                          ...temp[e].angles[0],
-                          enabled: 1
-                        }]
-                      }
-                    }
-                  }))
-                }}
-              >
-                {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
-              </Select></div>}
-              <button onClick={this.state.aiStart ? this.stopAi : this.StartAI} ><img className='icons-1x' src={this.state.aiStart ? close : play} /></button>
+                  }}
+                >
+                  {Object.keys(this.state.primary).map(e => <Option value={e}>{e}</Option>)}
+                </Select></div>}
+                <button onClick={this.state.aiStart ? this.stopAi : this.StartAI} ><img className='icons-1x' src={this.state.aiStart ? close : play} /></button>
+              </div>
             </div>
-          </div>
-          <div className='arom-analytics-tab-wrapper-1x '>
-            <Radio.Group onChange={this.onChange} value={this.state.value}>
-              <Space direction="vertical">
-                <Radio disabled={this.state.aiStart} value={'Anterior'}>Anterior</Radio>
-                <Radio disabled={this.state.aiStart} value={'Left'}>Left</Radio>
-                <Radio disabled={this.state.aiStart} value={'Right'}>Right</Radio>
-              </Space>
-              <BackReset Reset={this.Reset} />
-            </Radio.Group>
-            {/* {graphs.map(e => <div className='arom-analytics-tab-item-1x'> <ReactSpeedometer
-           needleTransitionDuration={1000}
-           needleTransition="easeElastic"
-           currentValueText={`${e} : 60`}
-           value={60}
-           width={180}
-           maxSegmentLabels={5}
-           maxValue={100}
-           segments={100}
-        /></div>)} */}
-          </div>
-        </Col >
-        {/* <div className="arom-analytics-tab-wrapper-onmobile-1x">
-    {joints.map(e => <div className="item">{e.joint}</div>)}
-</div>
-<div className='arom-btn-grp-wrapper-mobile-1x'>
-    <div className='arom-btn-grp-mobile-1x'>
-        <button><img className='icons-1x' src={play} /></button><br />
-        <button><img className='icons-1x' src={play} /></button><br />
-        <button><img className='icons-1x' src={play} /></button><br />
-        <button><img className='icons-1x' onClick={() => setOpen(!open)} src={graph} /></button><br />
-    </div>
-</div> */}
-
-        {/* <Portal>
-    <Sheet
-        style={{ height: '30vh' }}
-        ref={ref}
-        open={open}
-        onDismiss={() => setOpen(false)}
-        onClose={() => {
-            console.log('Component unmounted')
-        }}
-        selectedDetent={detents.large}
-        detents={props => [
-            detents.large(props),
-            detents.fit(props)
-        ]}
-        useDarkMode={false}
-        useModal={false}
-        scrollingExpands={true}
-    >
-        <Content>
-            <div className="arom-analytics-tab-wrapper-onmobile-1x">
-                {joints.map(e => <div className="item">{e.joint}</div>)}
+            <div className='arom-analytics-tab-wrapper-1x '>
+              <Radio.Group onChange={this.onChange} value={this.state.value}>
+                <Space direction="vertical">
+                  <Radio disabled={this.state.aiStart} value={'Anterior'}>Anterior</Radio>
+                  <Radio disabled={this.state.aiStart} value={'Left'}>Left</Radio>
+                  <Radio disabled={this.state.aiStart} value={'Right'}>Right</Radio>
+                </Space>
+                <BackReset Reset={this.Reset} />
+              </Radio.Group>
+              {/* {graphs.map(e => <div className='arom-analytics-tab-item-1x'> <ReactSpeedometer
+             needleTransitionDuration={1000}
+             needleTransition="easeElastic"
+             currentValueText={`${e} : 60`}
+             value={60}
+             width={180}
+             maxSegmentLabels={5}
+             maxValue={100}
+             segments={100}
+          /></div>)} */}
             </div>
-            <div className="arom-analytics-tab-wrapper-motion-onmobile-container-1x arom-analytics-tab-wrapper-motion-onmobile-flex-1x">
-                <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
-                <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
-                <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
-                <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
-                <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
-            </div>
-        </Content>
-    </Sheet>
-</Portal> */}
-      </Row > : <Modal headers={false} footer={false} title="Basic Modal" visible={true}>
-        <Result
-          status="warning"
-          title="You have not selected any patient. Please select"
-          extra={
-            <Button onClick={() => {
-              console.log(this.props)
-              window.location.href = "/patients"
-            }} type="primary" key="console">
-              Go To Patient List
-            </Button>
-          }
-        />
-      </Modal>}</>
+          </Col >
+          {/* <div className="arom-analytics-tab-wrapper-onmobile-1x">
+      {joints.map(e => <div className="item">{e.joint}</div>)}
+  </div>
+  <div className='arom-btn-grp-wrapper-mobile-1x'>
+      <div className='arom-btn-grp-mobile-1x'>
+          <button><img className='icons-1x' src={play} /></button><br />
+          <button><img className='icons-1x' src={play} /></button><br />
+          <button><img className='icons-1x' src={play} /></button><br />
+          <button><img className='icons-1x' onClick={() => setOpen(!open)} src={graph} /></button><br />
+      </div>
+  </div> */}
+  
+          {/* <Portal>
+      <Sheet
+          style={{ height: '30vh' }}
+          ref={ref}
+          open={open}
+          onDismiss={() => setOpen(false)}
+          onClose={() => {
+              console.log('Component unmounted')
+          }}
+          selectedDetent={detents.large}
+          detents={props => [
+              detents.large(props),
+              detents.fit(props)
+          ]}
+          useDarkMode={false}
+          useModal={false}
+          scrollingExpands={true}
+      >
+          <Content>
+              <div className="arom-analytics-tab-wrapper-onmobile-1x">
+                  {joints.map(e => <div className="item">{e.joint}</div>)}
+              </div>
+              <div className="arom-analytics-tab-wrapper-motion-onmobile-container-1x arom-analytics-tab-wrapper-motion-onmobile-flex-1x">
+                  <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
+                  <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
+                  <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
+                  <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
+                  <div className="arom-analytics-tab-wrapper-motion-onmobile-item-1x arom-analytics-tab-wrapper-motion-onmobile-flex-item-1x"></div>
+              </div>
+          </Content>
+      </Sheet>
+  </Portal> */}
+        </Row >
+         : 
+        <Modal headers={false} footer={false} title="Basic Modal" visible={true}>
+          <Result
+            status="warning"
+            title="You have not selected any patient. Please select"
+            extra={
+              <Button onClick={() => {
+                console.log(this.props)
+                window.location.href = "/patients"
+              }} type="primary" key="console">
+                Go To Patient List
+              </Button>
+            }
+          />
+        </Modal>
+        }
+        </>
+      }
+      
+      </>
       // :
       //}
 

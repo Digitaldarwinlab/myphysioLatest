@@ -178,13 +178,11 @@ const AuthForm = (props) => {
                 {/* {props.isSignin ? (
                     <ForgotPassword />)
                     : null} */}
-                <Form.Item>
                     <Button
                         disabled={disableState}
                         type="primary" htmlType="submit" className="userAuthbtn">
                         {props.isSignin ? "Login" : "Change Password"}
                     </Button>
-                </Form.Item>
             </Form>
         </React.Fragment>
     )

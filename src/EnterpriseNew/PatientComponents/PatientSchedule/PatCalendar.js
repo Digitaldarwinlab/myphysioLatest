@@ -591,7 +591,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                         ...btnStyle,
                         ...{
                           cursor: buttonDisabled ? "not-allowed" : "pointer",
-                          backgroundColor: buttonDisabled ? "gray" : "#00022e",
+                          backgroundColor: buttonDisabled ? "gray" : "#2d7ecb",
                         },
                       }
                     : selectedTime === index
@@ -701,7 +701,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                     ? "not-allowed"
                     : "pointer",
                 backgroundColor:
-                  customisedDate !== convert(new Date()) ? "gray" : "#00022e",
+                  customisedDate !== convert(new Date()) ? "gray" : "#2d7ecb",
               },
             }}
             disabled={customisedDate !== convert(new Date()) ? true : false}

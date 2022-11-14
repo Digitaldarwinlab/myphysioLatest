@@ -12,6 +12,39 @@ import axios  from 'axios'
 //@param user Info
 //@return- signup success Message.
 // async () => async
+// export const signup = async (user, dispatch) => {
+//     // console.log(user,dispatch);
+//     dispatch({ type: SIGNUP_REQUEST });
+//     const headers = {
+//         "Accept": 'application/json',
+//         "Content-type": "application/json"
+//     }
+//     user["id"] = JSON.parse(localStorage.getItem("userId"));
+//     try {
+//         const response = await fetch(process.env.REACT_APP_API + "/reset-password/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify(user)
+//         });
+        
+//         const data = await response.json();
+//         if (response.status !== 200 && response.status !== 201) {
+//             if (data && data.detail) {
+//                 return [false, data.detail];
+//             } else {
+//                 return [false, "Error " + response.status + response.statusText];
+//             }
+//         } else {
+//             if (data && data.message.includes("incorrect,"))
+//                 return [false, data.message];
+//             dispatch({ type: SIGNUP_SUCCESS });
+//             return [true];
+//         }
+//     } catch (err) {
+//         return [false, "Error 403: " + err.message];
+
+//     }
+// }
 export const signup = async (user, dispatch) => {
     // console.log(user,dispatch);
     dispatch({ type: SIGNUP_REQUEST });
@@ -92,10 +125,43 @@ export const signin = async (user, dispatch) => {
 }
 //Forgot Password
 //@param username  
+// export const forgotPassword = async (user) => {
+//     const headers = {
+//         "Accept": 'application/json',
+//         "Content-type": "application/json"
+//     }
+//     // console.log(user)
+//     const encodedData = Encode({ uid: user });
+//     try {
+//         const response = await fetch(process.env.REACT_APP_API + "/password_reset_v1/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify(encodedData)
+//         });
+
+//         const responseData = await response.json();
+//         const data = Decode(responseData);
+//         if (response.status !== 200 && response.status !== 201) {
+//             if (data && data.detail) {
+//                 return [false, "Email Doesn't Exist."];
+//             } else {
+//                 return [false, "Error " + response.status + response.statusText];
+//             }
+//         } else if (data && data.message) {
+//             return [true];
+//         }
+//         return [false, "Error " + response.status + response.statusText];
+//     } catch (err) {
+//         return [false, err.message];
+//     }
+//     // dispatch({type:LOGIN_SUCCESS});
+//     // AddUserInfo("12344",{role:1,email:user.email});  //(jwtToken,userInfo)
+// }
 export const forgotPassword = async (user) => {
     const headers = {
         "Accept": 'application/json',
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        token:JSON.parse(localStorage.getItem("jwt"))
     }
     // console.log(user)
     const encodedData = Encode({ uid: user });
@@ -157,6 +223,47 @@ export const postNewPassword = async (user) => {
     }
 }
 
+// export const admin_password_reset=async(detail)=>{
+//     // console.log(detail)
+//     const newdata={
+//         id:detail.userid,
+//         uid:detail.temp_uid,
+//         new_password:detail.new_password
+//     }
+//     // console.log(newdata)
+//     const headers = {
+//         "Accept": 'application/json',
+//         "Content-type": "application/json"
+//     }
+//     const encodedData = Encode(newdata);
+//     try {
+//         const response = await fetch(process.env.REACT_APP_API + "/password_reset_by_admin_v1/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify(encodedData)
+//         });
+        
+//         const responseData = await response.json();
+//         const data = Decode(responseData);
+//         // console.log(data)
+//         if (response.status !== 200 && response.status !== 201) {
+            
+//             if (data && data.detail) {
+                
+//                 return [false, "Error " + response.status + response.statusText];
+//             } else {
+//                 return [false, "Error " + response.status + response.statusText];
+//             }
+//         } else if (data && data.message) {
+//             // console.log('true returning')
+//             return [true];
+//         }
+//         return [false, "Error " + response.status + response.statusText];
+//     } catch (err) {
+//         return [false, err.message];
+//     }
+
+// }
 export const admin_password_reset=async(detail)=>{
     // console.log(detail)
     const newdata={
@@ -167,7 +274,8 @@ export const admin_password_reset=async(detail)=>{
     // console.log(newdata)
     const headers = {
         "Accept": 'application/json',
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        token:JSON.parse(localStorage.getItem("jwt"))
     }
     const encodedData = Encode(newdata);
     try {
@@ -249,43 +357,38 @@ const RemoveCookie = (key) => {
 export const admin_password_reset_ep=async(detail)=>{
     // console.log(detail)
     const newdata={
+        id:detail.userid,
         uid:detail.temp_uid,
-        new_password:detail.new_password,
-        token:JSON.parse(localStorage.getItem("jwt"))
+        new_password:detail.new_password
     }
     // console.log(newdata)
     const headers = {
         "Accept": 'application/json',
-        "Content-type": "application/json",
-        "jwt-tok":JSON.parse(localStorage.getItem('jwt'))
+        "Content-type": "application/json"
     }
     
     try {
-        const abc = await axios.post(process.env.REACT_APP_API + "/emp_password_reset/",newdata,{
-            headers: headers
-          })
-          console.log(abc)
-        // const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
-        //     method: "POST",
-        //     headers: headers,
-        //     body: JSON.stringify(newdata)
-        // });
+        const response = await fetch(process.env.REACT_APP_API + "/emp_password_reset/", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(newdata)
+        });
         
-        // const data = await response.json();
+        const data = await response.json();
        
-        // // console.log(data)
-        // if (response.status !== 200 && response.status !== 201) {
+        // console.log(data)
+        if (response.status !== 200 && response.status !== 201) {
             
-        //     if (data && data.detail) {
+            if (data && data.detail) {
                 
-        //         return [false, "Error " + response.status + response.statusText];
-        //     } else {
-        //         return [false, "Error " + response.status + response.statusText];
-        //     }
-        // } else if (data && data.message) {
-        //     // console.log('true returning')
-        //     return [true];
-        // }
+                return [false, "Error " + response.status + response.statusText];
+            } else {
+                return [false, "Error " + response.status + response.statusText];
+            }
+        } else if (data && data.message) {
+            // console.log('true returning')
+            return [true];
+        }
         return [false, "Error " + response.status + response.statusText];
     } catch (err) {
         return [false, err.message];

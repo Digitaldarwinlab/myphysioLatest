@@ -586,7 +586,7 @@ const SearchPatient = () => {
       <div style={{ minHeight: "20px" }}></div>
       <Row justify="space-between">
         <Col md={12} sm={12} xs={12}>
-          <input
+          {/* <input
             //   className="p-2 input-field my-3"
 
             placeholder="Search Patient.."
@@ -594,7 +594,7 @@ const SearchPatient = () => {
             onChange={onSearch}
             loading={loading}
             style={{ width: "100%" }}
-          />
+          /> */}
         </Col>
         <Row justify="end">
           <Col md={24} sm={24} xs={24}>

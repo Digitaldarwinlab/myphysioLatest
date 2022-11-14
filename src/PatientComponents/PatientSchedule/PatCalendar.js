@@ -627,7 +627,7 @@ const PatCalendar = ({ onChangeVideoUrl }) => {
                         ...btnStyle,
                         ...{
                           cursor: buttonDisabled ? "not-allowed" : "pointer",
-                          backgroundColor: buttonDisabled ? "gray" : "#00022e",
+                          backgroundColor: buttonDisabled ? "gray" : "#2d7ecb",
                         },
                       }
                     : selectedTime === index
