@@ -6,7 +6,7 @@ import { signupReducer } from "./auth/authReducer";
 import {loginReducer,Validation} from "./auth/authReducer";
 import {episodeReducer} from "./Episode/addEpisode"
 import { labsAndMedicRedu } from "./Episode/addLabsMedication";
-import {patCurrentEpisode} from "./reducers/PatientSchedule/PateintSchedule";
+import {patCurrentEpisode} from "./reducers/PatientSchedule/PatientSchedule";
 import {scheduleReducer} from "./reducers/Scheduling/scheduleReducer";
 import {physioRegisterReducer} from "./reducers/Physio/regiReducer";
 import {FirstAssesment} from "./reducers/Assesment/Assesment1";

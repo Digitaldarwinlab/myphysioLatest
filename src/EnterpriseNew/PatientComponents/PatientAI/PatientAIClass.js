@@ -5,6 +5,7 @@ import VideoScreen from './../shared/VideScreen';
 import BackButton from './../shared/BackButton';
 import { FaMedal, FaStopwatch } from "react-icons/fa";
 import AchievedResult from './../shared/AchievedResult';
+import PainMeter from "../../../PatientComponents/PainMeter/PainMeter";
 import { Avatar,Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
@@ -438,18 +439,24 @@ const dispatch = useDispatch();
       };
     
     // Pain Meter
-    const PainMeter = () => {
+    const Painmeter = () => {
 
         return (
-                <div className="painmeter" style={{width:'60%',marginLeft:'auto',marginRight:'auto'}} > 
-                <Slider marks={marks1} min={0} max={3} step={1}
-                  onChange={(value) => handleChange1("PainMeter", value)}
-                  defaultValue={state.FirstAssesment.PainMeter}
-                  style={{ width: '100%' }}
-                />
-
-        
-                </div>
+            <div
+            className="painmeter"
+            style={{ width: "100%",height:'fit-content', marginLeft: "auto", marginRight: "auto",marginBottom:'20px' }}
+          >
+            {/* <Slider
+              marks={marks1}
+              min={0}
+              max={5}
+              step={2}
+              onChange={(value) => setPain(value)}
+              defaultValue={0}
+              style={{ width: "100%" }}
+            /> */}
+            <PainMeter handleChange={handleChange1} />
+          </div>
         );
     };
     //Ai Model
@@ -579,7 +586,10 @@ const dispatch = useDispatch();
             >
                 <h3 className="fw-bold text-center">Congratulation</h3>
                 <p className="p text-center mt-2">You have successfully completed the session.</p>
-                {PainMeter()}
+                <h6 className="p text-center mt-2 mb-1">
+          What is your Pain Level after doing the exercises?
+        </h6>
+                {Painmeter()}
 
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: 20 }}>
                     <AchievedResult icon={<FaMedal size={25} color="black" />}

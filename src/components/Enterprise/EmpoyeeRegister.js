@@ -6,7 +6,7 @@ import validation from "./../Validation/authValidation/authValidation";
 import StateCity from "./../UtilityComponents/dummyData/state_city.json";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from './../UtilityComponents/StepBar';
-import svg from "././../../assets/step1.png";
+import svg from "././../../assets/step1.webp";
 import "../../styles/Layout/Episode.css";
 import FormInput from '../UI/antInputs/FormInput';
 import FormDate from "../UI/antInputs/FormDate"
@@ -18,7 +18,7 @@ import {Employee_Registration} from "../../API/Enterprise/Enterprise";
 import { Employee_Update } from '../../API/Enterprise/Enterprise';
 import axios from "axios";
 import { PATIENT_REG_FAILURE } from '../../contextStore/actions/authAction';
-
+import {country} from '../Physio/ClinicRegister/Country.js'
 const { Option } = Select;
 const { Title } = Typography;
 
@@ -640,7 +640,7 @@ const EmployeeRegister = (props) => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Select.Option value="India">India</Select.Option>
+                                    {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>
@@ -806,7 +806,7 @@ const EmployeeRegister = (props) => {
             <Col span={2}> <Button type="primary"  
                     // className="my-3  me-2 btncolor"  
                      htmlType="submit">Next</Button></Col> */}
-                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 btncolor" >
+                       <Col span={2}><Button htmlType="submit" className="me-3 my-2 " >
                         {state.BasicDetails.pp_em_id ? "Update" : "Submit"}
                     </Button></Col>
                 </Row>

@@ -12,7 +12,7 @@ export const  newAdminItems = [
         isHidden: false,
         currentPath: "pateints",
         Icon: <HiUserAdd className="iconClass1" />,
-        path: "/pateints/new",
+        path: "/patients/new",
         name: "New Patient",
         isDivider: false,
         role: "physio"

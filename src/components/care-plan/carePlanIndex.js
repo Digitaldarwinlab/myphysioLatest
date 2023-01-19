@@ -20,7 +20,7 @@ import CarePlanCard from "./care-plan-card/Card";
 import Filter from "./care-plan-Filters/Filter";
 import "antd/dist/antd.css";
 import { GrClose } from "react-icons/gr";
-import EpisodeDetail from "./../patientEpisode/Prescription/EpisodeDetail";
+import EpisodeDetail from "../patientEpisode/Prescription/EpisodeDetail";
 import Cart from "./care-plan-cart/Cart";
 import { FaRunning, FaYoutube, FaPlus } from "react-icons/fa";
 import { IconContext } from "react-icons";
@@ -31,19 +31,19 @@ import {
   GetExerciseList,
   getFiteredExercistData,
   GetJoint,
-} from "./../../API/care-plan/care-plan-api";
+} from "../../API/care-plan/care-plan-api";
 import { useSelector, useDispatch } from "react-redux";
 import {
   CARE_PLAN_ADD_TO_CART,
   CARE_PLAN_EXERCISE_CHANGE,
   CARE_PLAN_STATE_CHANGE,
   RECEIVED_DATA,
-} from "./../../contextStore/actions/care-plan-action";
+} from "../../contextStore/actions/care-plan-action";
 import TopScroll from "../Scroll/TopScroll";
 import CareAllocatePlan from "./care-plan-allocate-plan/CareAllocatePlan";
-import ActiveSearch from "./../UtilityComponents/ActiveSearch";
+import ActiveSearch from "../UtilityComponents/ActiveSearch";
 import { getEpisode } from "../../API/Episode/EpisodeApi";
-import { CARE_PLAN_CLEAR_STATE } from "./../../contextStore/actions/care-plan-action";
+import { CARE_PLAN_CLEAR_STATE } from "../../contextStore/actions/care-plan-action";
 import { Patient_profile } from "../../API/PatientRegistration/Patient";
 import Exercise from "../episode-visit-details/ExerciseDetail/Exercise";
 {
@@ -214,6 +214,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   });
   const reduxState = useSelector((state) => state);
   const [firstTotalEx, setFirstTotalEx] = useState([]);
+  const [filterDatarequired, setFilterDatarequired] = useState();
   const locatoin = useLocation();
   const scrlRef = useRef(null);
   console.log("careplanStarted", reduxState.carePlanRedcucer);
@@ -394,6 +395,49 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     reduxState.carePlanRedcucer.patient_code,
     reduxState.episodeReducer.patient_main_code,
   ]);
+  useEffect(async () => {
+    // const callJoints = async () => {
+      const romJoint = await GetJoint();
+      console.log("joints are ",romJoint)
+      let temp = romJoint.reverse();
+      let obj = {};
+      temp.filter((item) => {
+        if (
+          item.ex_jm_id !== 1 &&
+          item.ex_jm_id !== 2 &&
+          item.ex_jm_id !== 3 &&
+          item.ex_jm_id !== 4 &&
+          item.ex_jm_id !== 5
+        ) {
+          if (item.JointType == "Neck") {
+            let temp = {
+              joint: item.joint_name,
+              min: item.MinAngle,
+              max: item.MaxAngle,
+            };
+            obj["Cervical"] = temp;
+          } else {
+            console.log("joints are ",item)
+            let temp = {
+              joint: item.joint_name,
+              min: item.MinAngle,
+              max: item.MaxAngle,
+            };
+            obj[item.JointType] = temp;
+          }
+        }
+      });
+      console.log("joints are ",obj)
+      dispatch({
+        type: CARE_PLAN_STATE_CHANGE,
+        payload: {
+          key: "romJoints",
+          value: obj,
+        },
+      });
+    // }
+    // callJoints()
+  }, []);
   useEffect(() => {
     dispatch({ type: "NOERROR" });
   }, []);
@@ -503,6 +547,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       return {
         ex_em_id: val.ex_em_id,
         name: val.title ? val.title : "Exercise",
+        instruction_array: val.instruction_array ? val.instruction_array : [],
         Rep: {
           set: 1,
           rep_count: 10,
@@ -616,6 +661,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -661,6 +707,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -839,13 +886,13 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       } else {
         newData[type].splice(index, 1);
       }
+      console.log('newdata',newData)
       const data = await getFiteredExercistData(
         newData,
         dispatch,
         Pagination1.pageSize,
         1
       );
-
       // if (!data['total_exercise with applied filter']) {
       //     data['total_exercise with applied filter'] = data.length
       // }
@@ -873,6 +920,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -895,13 +943,14 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         };
       });
       setExerciseList(tempdata);
+      setFilterDatarequired(tempdata)
       setCheckedList(newData);
-      // setLength(cartActualData.length);
     } else {
       console.log("filter inside not checked");
       const newData = { ...checkedList };
       let index = newData[type].indexOf(name);
       newData[type].splice(index, 1);
+      console.log('newdata',newData)
       const data = await getFiteredExercistData(
         newData,
         dispatch,
@@ -944,6 +993,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
         return {
           ex_em_id: val.ex_em_id,
           name: val.title ? val.title : "Exercise",
+          instruction_array: val.instruction_array ? val.instruction_array : [],
           Rep: {
             set: 1,
             rep_count: 10,
@@ -967,6 +1017,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       });
       setExerciseList(tempdata);
       setCheckedList(newData);
+      setFilterDatarequired(tempdata)
       //    setLength(cartActualData.length);
     }
     dispatch({ type: RECEIVED_DATA });
@@ -1040,6 +1091,7 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       (it) => it.ex_em_id == id
     );
     if (test) {
+      console.log(test)
       let temp = reduxState.carePlanRedcucer.exercises_cart.filter(
         (it) => it.ex_em_id !== id
       );
@@ -1087,16 +1139,23 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const handleSearch = (value) => {
     setSearchVal(value);
   };
+  console.log(filterDatarequired);
   const searchExercise = async (search_query) => {
     const newData = { ...checkedList };
     newData["search_query"] = search_query;
-    const data = await getFiteredExercistData(
-      newData,
-      dispatch,
-      Pagination1.pageSize,
-      1
-    );
-    console.log("filter full exercise ", data);
+    // const data = await getFiteredExercistData(
+    //   newData,
+    //   dispatch,
+    //   Pagination1.pageSize,
+    //   1
+    // );
+    console.log('newdata',newData)
+    const data =   await getFiteredExercistData(
+        newData,
+        dispatch,
+        Pagination1.pageSize,
+        1
+      );
     if (data.total_exercise) {
       data["total_exercise with applied filter"] = data.total_exercise;
     }
@@ -1108,7 +1167,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
     let tempdata = data.data.map((val) => {
       return {
         ex_em_id: val.ex_em_id,
-        name: val.title ? val.title : "Exercise",
+        name: val.title ? val.title : val.name,
+        instruction_array: val.instruction_array ? val.instruction_array : [],
         Rep: {
           set: 1,
           rep_count: 10,
@@ -1126,10 +1186,11 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
             : " ",
         },
         difficulty_level: val.difficulty_level,
-        image_url: val.image_path,
-        video_url: val.video_path,
+        image_url: val.image_path ? val.image_path : val.image_url,
+        video_url: val.video_path ? val.video_path : val.video_url ,
       };
     });
+    console.log(tempdata)
     setExerciseList(tempdata);
     dispatch({
       type: CARE_PLAN_STATE_CHANGE,
@@ -1172,7 +1233,12 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
               setCheckedList({ ...checkedList, search_query: e.target.value });
               console.log("search ", e.target.value);
             }}
-            onSearch={(e) => console.log("search ", e.target.value)}
+            onSearch={(e) =>  {
+              searchExercise(e);
+              setCheckedList({ ...checkedList, search_query: e });
+              console.log("search ", e);
+              }
+            }
           />
         </Col>
         <Col span={24}>
@@ -1316,7 +1382,8 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   const refreshHtml = () => {};
   //handleActiveSearch
   const handleActiveSearchResult = async (pData) => {
-    await getEpisodeDetails(pData, dispatch);
+   let a = await getEpisodeDetails(pData, dispatch);
+   console.log(a)
   };
   const AddYouTube = () => {
     let obj = {
@@ -1343,7 +1410,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
   };
   return (
     <React.Fragment ref={scrlRef}>
-      {searchBar && <div style={{ minHeight: "20px" }}></div>}
       <h3 className="fw-bold">
         <i
           className="fas fa-arrow-left"
@@ -1365,14 +1431,14 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
       )}
 
       <div className="CarePlan">
-        {!allocatePlan && searchBar && (
+        {/* {!allocatePlan && searchBar && (
           <ActiveSearch
             carePlan={true}
             handleActiveSearchResult={handleActiveSearchResult}
           />
-        )}
+        )} */}
         {!allocatePlan ? (
-          <Row className="mt-4 border">
+          <Row className="border">
             <Col
               md={6}
               lg={5}
@@ -1477,17 +1543,6 @@ const Careplan = ({ searchBar = true, handleChangeView }) => {
                 style={{ top: "50px" }}
                 width={"70%"}
               >
-                {/* {reduxState.carePlanRedcucer.exercises_cart.length !== 0 && (
-                  <Cart
-                    Exercise={reduxState.carePlanRedcucer.exercises_cart}
-                    items={reduxState.carePlanRedcucer.exercises_cart.map(
-                      (item) => item.ex_em_id
-                    )}
-                    fullExer={fullExer}
-                    UpdateCart={UpdateCart}
-                    ChangePageToAllocatePlan={ChangePageToAllocatePlan}
-                  />
-                )} */}
                 <Cart
                   Exercise={reduxState.carePlanRedcucer.exercises_cart}
                   items={reduxState.carePlanRedcucer.exercises_cart.map(

@@ -23,7 +23,7 @@ export  const drp1 = [
     "Golfer's Elbow Test",
   ];
 
-  export const drp3 = ["Finketsein's Test", "Sweater Finger Test", "Phalen's Test","Reverse Phalen's Test"];
+  export const drp3 = ["Finkelstein Test", "Sweater Finger Test", "Phalen's Test","Reverse Phalen's Test"];
   export  const drp4 = [
     "Thomas Test",
     "Rectus Femoris Contracture Test",

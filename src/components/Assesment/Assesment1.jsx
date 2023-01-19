@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 import { AiFillMedicineBox } from "react-icons/ai";
+import ClipLoader from "react-spinners/ClipLoader";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 import {
   Select,
   Row,
@@ -16,7 +18,8 @@ import {
   Radio,
   Tabs,
   Badge,
-  Switch
+  Switch,
+  Spin,
 } from "antd";
 import {
   ASSESMENT_CLEARSTATE,
@@ -51,40 +54,42 @@ import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { notification, Descriptions, Table } from "antd";
 import "./Assesment1.css";
 // aswin 10/24/2021 stop
-import TrapsLeft from "./../../assets/Crops/08TrapsLeft.png";
-import Trapsright from "./../../assets/Crops/08.-TrapsRight.png";
-import DeltoidsA from "./../../assets/Crops/07.A-Deltoids.png";
-import DeltoidsB from "./../../assets/Crops/07.B-Deltoids.png";
-import Pecs from "./../../assets/Crops/06.-Pecs.png";
-import bicepsA from "./../../assets/Crops/05.A-Biceps.png";
-import bicepsB from "./../../assets/Crops/05.B-Biceps.png";
-import forearmA from "./../../assets/Crops/14.A-Forearms.png";
-import forearmB from "./../../assets/Crops/14.B-Forearms.png";
-import obliques from "./../../assets/Crops/04.-Obliques.png";
-import quadsA from "./../../assets/Crops/01.A-Quads.png";
-import quadsB from "./../../assets/Crops/01.B-Quads.png";
-import calvesA from "./../../assets/Crops/13.A-Calves.png";
-import calvesB from "./../../assets/Crops/13.B-Calves.png";
-import backtrapsA from "./../../assets/Crops/08.B-Traps.png";
-import backtrapsB from "./../../assets/Crops/08.C-Traps.png";
-import backshouldersA from "./../../assets/Crops/07.C-Deltoids.png";
-import backshouldersB from "./../../assets/Crops/07.D-Deltoids.png";
-import tricepsA from "./../../assets/Crops/09.A-Triceps.png";
-import tricepsB from "./../../assets/Crops/09.B-Triceps.png";
-import backLatsA from "./../../assets/Crops/10.A-Lats.png";
-import backLatsB from "./../../assets/Crops/10.B-Lats.png";
-import backlower from "./../../assets/Crops/15.-Lower-Back.png";
-import backforearmsA from "./../../assets/Crops/14.C-Forearms.png";
-import backforearmsB from "./../../assets/Crops/14.D-Forearms.png";
-import backglutes from "./../../assets/Crops/11.-Glutes.png";
-import backhamstringsA from "./../../assets/Crops/12.A-Hamstrings.png";
-import backhamstringsB from "./../../assets/Crops/12.B-Hamstrings.png";
-import backcalvesA from "./../../assets/Crops/13.C-Calves.png";
-import backcalvesB from "./../../assets/Crops/13.D-Calves.png";
-import background from "./../../assets/Crops/00.-Blank-Figures.png";
-import MobBackground from "./../../assets/Crops//mobilebg.png";
+import TrapsLeft from "./../../assets/Crops/08TrapsLeft.webp";
+import Trapsright from "./../../assets/Crops/08.-TrapsRight.webp";
+import DeltoidsA from "./../../assets/Crops/07.A-Deltoids.webp";
+import DeltoidsB from "./../../assets/Crops/07.B-Deltoids.webp";
+import Pecs from "./../../assets/Crops/06.-Pecs.webp";
+import bicepsA from "./../../assets/Crops/05.A-Biceps.webp";
+import bicepsB from "./../../assets/Crops/05.B-Biceps.webp";
+import forearmA from "./../../assets/Crops/14.A-Forearms.webp";
+import forearmB from "./../../assets/Crops/14.B-Forearms.webp";
+import obliques from "./../../assets/Crops/04.-Obliques.webp";
+import quadsA from "./../../assets/Crops/01.A-Quads.webp";
+import quadsB from "./../../assets/Crops/01.B-Quads.webp";
+import calvesA from "./../../assets/Crops/13.A-Calves.webp";
+import calvesB from "./../../assets/Crops/13.B-Calves.webp";
+import backtrapsA from "./../../assets/Crops/08.B-Traps.webp";
+import backtrapsB from "./../../assets/Crops/08.C-Traps.webp";
+import backshouldersA from "./../../assets/Crops/07.C-Deltoids.webp";
+import backshouldersB from "./../../assets/Crops/07.D-Deltoids.webp";
+import tricepsA from "./../../assets/Crops/09.A-Triceps.webp";
+import tricepsB from "./../../assets/Crops/09.B-Triceps.webp";
+import backLatsA from "./../../assets/Crops/10.A-Lats.webp";
+import backLatsB from "./../../assets/Crops/10.B-Lats.webp";
+import backlower from "./../../assets/Crops/15.-Lower-Back.webp";
+import backforearmsA from "./../../assets/Crops/14.C-Forearms.webp";
+import backforearmsB from "./../../assets/Crops/14.D-Forearms.webp";
+import backglutes from "./../../assets/Crops/11.-Glutes.webp";
+import backhamstringsA from "./../../assets/Crops/12.A-Hamstrings.webp";
+import backhamstringsB from "./../../assets/Crops/12.B-Hamstrings.webp";
+import backcalvesA from "./../../assets/Crops/13.C-Calves.webp";
+import backcalvesB from "./../../assets/Crops/13.D-Calves.webp";
+import background from "./../../assets/Crops/00.-Blank-Figures.webp";
+import MobBackground from "./../../assets/Crops//mobilebg.webp";
 import { useRef } from "react";
-import { tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
+import { tableLabelLateral, tableLabels } from "../episode-visit-details/Assessment/AssessmentList";
+import Loading from "../UtilityComponents/Loading";
+import { SpinnerCircularSplit } from 'spinners-react';
 
 const muscle = [
   "TrapsA",
@@ -118,6 +123,12 @@ const muscle = [
   "HamstringsA",
   "HamstringsB",
 ];
+
+// const override =  React.CSSProperties({
+//   display: "block",
+//   margin: "0 auto",
+//   borderColor: "red",
+// })
 
 const marks1 = {
   0: <SmileOutlined id="smile" style={{ fontSize: 25 }} />,
@@ -158,6 +169,15 @@ darwin.addProgressListener((setCount, repCount) => {
 */
 
 const Assesment1 = ({ back, next }) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Assesment");
+      console.log(data)
+      setDropdownValue(data.Assesment)
+    }
+    getData();
+  }, []);
   const assesmentRef = useRef(null);
   const state = useSelector((state) => state);
   const [form] = Form.useForm();
@@ -202,13 +222,14 @@ const Assesment1 = ({ back, next }) => {
     const unblock = history.block((location, action) => {
       if (
         location.pathname != "/assesment/Questions" &&
-        location.pathname != "/care-plan" &&
+        location.pathname != "/assessment/AI" &&
         location.pathname != "/assesment/PainAssessment" &&
         location.pathname != "/assesment/SpecialTest" &&
         location.pathname != "/assesment/PoseTest" &&
         location.pathname != "/assessment/AROM" &&
         state.FirstAssesment.episode_id != ""
       ) {
+        console.log("not cleared");
         //aswin 11/11/2021 start
         if (sessionStorage.getItem("submit")) {
           sessionStorage.removeItem("submit");
@@ -219,6 +240,30 @@ const Assesment1 = ({ back, next }) => {
           dispatch({ type: ASSESMENT_CLEARSTATE });
           dispatch({ type: "JOINT_CLEARSTATE" });
           console.log("Assesment data cleared");
+          localStorage.setItem("OnAssessmentScreen", false);
+          localStorage.removeItem("AI_Data");
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key: "Anterior_AI_Data",
+              value: "",
+            },
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key: "LeftLateral_AI_Data",
+              value: "",
+            },
+          });
+          dispatch({
+            type: STATECHANGE,
+            payload: {
+              key: "RightLateral_AI_Data",
+              value: "",
+            },
+          });
+          localStorage.removeItem("Posture_Data");
           return true;
         } else {
           console.log("not cleared");
@@ -242,7 +287,13 @@ const Assesment1 = ({ back, next }) => {
       unblock();
     };
   }, [history, state.FirstAssesment.episode_id]);
-
+  const OnAssesmentPage = () => {
+    notification.error({
+      message: "Please switch off video conf button to move to other pages",
+      placement: "bottomLeft",
+      duration: 2,
+    });
+  };
   const setJoints = useCallback(
     (joints) => {
       console.log(joints);
@@ -263,7 +314,7 @@ const Assesment1 = ({ back, next }) => {
   useEffect(() => {
     console.log("assesment state is printing");
     console.log(state.FirstAssesment.Type);
-  }, [state.FirstAssesment]);
+  }, []);
 
   const [tempstate, setTemp] = useState(true);
   useEffect(() => {
@@ -500,7 +551,7 @@ const Assesment1 = ({ back, next }) => {
   const [QuestionVisibility, setQuestionVisibility] = useState("block");
 
   const [posture, setPosture] = useState(false);
-
+  const [submitLoading, setSubmitLoading] = useState(false)
   const [RomVisibility, setRomVisibility] = useState("none");
   const [RomVisibilityM, setRomVisibilityM] = useState("none");
   const [RomVisibilityL, setRomVisibilityL] = useState("none");
@@ -710,309 +761,323 @@ const Assesment1 = ({ back, next }) => {
   // },
   // ]
 
-const setAnteriorData=()=>{
-  let data = state.FirstAssesment.Anterior_AI_Data;
-  setRomVisibility("contents");
-  let TEMP = {};
-  TEMP["AROM"] = data[Object.keys(data)[0]];
-  console.log(TEMP);
-  let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-    (item, index) => {
-      let t = {};
-      t["key"] = index;
-      t["angles"] = tableLabels[item]
-        ? tableLabels[item]
-        : "Not Available";
-      t["min"] = Math.round(
-        data[Object.keys(data)[0]]["angles"][item].min
+  const setAnteriorData = (data) => {
+    console.log("anterior ", data)
+    if (Object.keys(data).length > 0) {
+      // let data = state.FirstAssesment.Anterior_AI_Data;
+      setRomVisibility("contents");
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabels[item] ? tableLabels[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
+        }
       );
-      t["max"] = Math.round(
-        data[Object.keys(data)[0]]["angles"][item].max
-      );
-      return t;
+      setTableData1(tempData.slice(0, 6));
+      if (tempData.length > 6) {
+        setTableData2(tempData.slice(6, tempData.length));
+      }
     }
-  );
-  setTableData1(tempData.slice(0, 6));
-  if (tempData.length > 6) {
-    setTableData2(tempData.slice(6, tempData.length));
-  }
-}
+  };
 
-const setLeftLateralData=()=>{
-    let data = state.FirstAssesment.LeftLateral_AI_Data;
-    setRomVisibilityM("inline");
-    setRomVisibilityL("inline");
-    let TEMP = {};
-    TEMP["AROM"] = data[Object.keys(data)[0]];
-    console.log(TEMP);
-    let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-      (item, index) => {
-        let t = {};
-        t["key"] = index;
-        t["angles"] = tableLabels[item]
-          ? tableLabels[item]
-          : "Not Available";
-        t["min"] = Math.round(
-          data[Object.keys(data)[0]]["angles"][item].min
-        );
-        t["max"] = Math.round(
-          data[Object.keys(data)[0]]["angles"][item].max
-        );
-        return t;
-      }
-    );
-    setLatL(tempData);
-}
+  const setLeftLateralData = (data) => {
+    console.log("left ", data)
+    if (Object.keys(data).length > 0) {
+      //  let data = state.FirstAssesment.LeftLateral_AI_Data;
+      setRomVisibilityM("inline");
+      setRomVisibilityL("inline");
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabelLateral[item] ? tableLabelLateral[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
+        }
+      );
+      setLatL(tempData);
+    }
+  };
 
-const setRightLateralData=()=>{
-    setRomVisibilityM("inline");
-        setRomVisibilityR("inline");
-        let data = state.FirstAssesment.RightLateral_AI_Data;
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatR(tempData);
-}
-
-  //To detect change in localStorage
-  useEffect(() => {
-    function checkDataReceived() {
-      var romData=localStorage.getItem("AI_Data")
-      var postureData=localStorage.getItem("Posture_Data")
-      if(romData!="" && romData!=null ){
-        var romdatajson=JSON.parse(romData)
-        console.log(romdatajson.Anterior)
-        if(romdatajson.Anterior!=undefined){
-        state.FirstAssesment.Anterior_AI_Data=romdatajson.Anterior
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'Anterior_AI_Data',
-        //     value:romdatajson.Anterior,
-        //   },
-        // });
-        setAnteriorData();
+  const setRightLateralData = (data) => {
+    console.log("right ", data)
+    if (Object.keys(data).length > 0) {
+      setRomVisibilityM("inline");
+      setRomVisibilityR("inline");
+      // let data = state.FirstAssesment.RightLateral_AI_Data;
+      let TEMP = {};
+      TEMP["AROM"] = data[Object.keys(data)[0]];
+      console.log(TEMP);
+      let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+        (item, index) => {
+          let t = {};
+          t["key"] = index;
+          t["angles"] = tableLabelLateral[item] ? tableLabelLateral[item] : "Not Available";
+          t["min"] = Math.round(data[Object.keys(data)[0]]["angles"][item].min);
+          t["max"] = Math.round(data[Object.keys(data)[0]]["angles"][item].max);
+          return t;
         }
-        if(romdatajson.leftLateral!=undefined){
-        state.FirstAssesment.LeftLateral_AI_Data=romdatajson.leftLateral
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'LeftLateral_AI_Data',
-        //     value:romdatajson.leftLateral,
-        //   },
-        // });
-        setLeftLateralData();
-        }
-        if(romdatajson.rightLateral!=undefined){
-        state.FirstAssesment.RightLateral_AI_Data=romdatajson.rightLateral
-        // dispatch({
-        //   type: STATECHANGE,
-        //   payload: {
-        //     key:'RightLateral_AI_Data',
-        //     value:romdatajson.rightLateral,
-        //   },
-        // });
-        setRightLateralData();
-        }
-        localStorage.setItem("AI_Data","");
-      }
-      else if(postureData!="" && postureData!=null){
-        var posturedatajson=JSON.parse(postureData)
-        console.log(posturedatajson)
+      );
+      setLatR(tempData);
+    }
+  };
+  function checkDataReceived() {
+    var romData = localStorage.getItem("AI_Data");
+    var postureData = localStorage.getItem("Posture_Data");
+    if (romData != "" && romData != null) {
+      console.log("Arom data")
+      var romdatajson = JSON.parse(romData);
+      console.log(romdatajson.Anterior);
+      if (romdatajson.Anterior != undefined && romdatajson.Anterior !== '' && Object.keys(romdatajson.Anterior)[0] != '0') {
+        //  state.FirstAssesment.Anterior_AI_Data = romdatajson.Anterior;
         dispatch({
-            type: STATECHANGE,
-            payload: {
-              key:'posture',
-              value:posturedatajson,
-            },
-          });
-          setPosture(true)
-        localStorage.setItem("Posture_Data","");
+          type: STATECHANGE,
+          payload: {
+            key: 'Anterior_AI_Data',
+            value: romdatajson.Anterior,
+          },
+        });
+        setAnteriorData(romdatajson.Anterior);
       }
-      else{
-      console.log(postureData,romData)
+      if (romdatajson.leftLateral != undefined && romdatajson.leftLateral !== '' && Object.keys(romdatajson.leftLateral)[0] != '0') {
+        console.log()
+        // state.FirstAssesment.LeftLateral_AI_Data = romdatajson.leftLateral;
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key: 'LeftLateral_AI_Data',
+            value: romdatajson.leftLateral,
+          },
+        });
+        setLeftLateralData(romdatajson.leftLateral);
       }
+      if (romdatajson.rightLateral != undefined && romdatajson.rightLateral !== '' && Object.keys(romdatajson.rightLateral)[0] != '0') {
+        // state.FirstAssesment.RightLateral_AI_Data = romdatajson.rightLateral;
+        dispatch({
+          type: STATECHANGE,
+          payload: {
+            key: 'RightLateral_AI_Data',
+            value: romdatajson.rightLateral,
+          },
+        });
+        setRightLateralData(romdatajson.rightLateral);
+      }
+      localStorage.removeItem("AI_Data");
     }
-    window.addEventListener('storage', checkDataReceived)
-    return () => {
-      window.removeEventListener('storage', checkDataReceived)
-    }
-  }, [])
+    if (postureData != "" && postureData != null) {
+      console.log("Posture data")
+      var posturedatajson = JSON.parse(postureData);
+      console.log(posturedatajson);
 
-  useEffect(() => {
-    const question = document.getElementById("question");
-    const rom = document.getElementById("rom");
-    const rom_manual = document.getElementById("rom_manual");
-    const posture_btn = document.getElementById("posture-btn");
-
-    if (state.FirstAssesment.KOOS === "") {
-      question.innerHTML = "Scales & Index";
-      //  question.innerHTML = " "
-      setQuestionVisibility("none");
-    } else {
-      question.innerHTML = "Scales & Index";
-      // question.innerHTML = " "
-      question.style.backgroundColor = "honeydew";
-      question.style.borderColor = "limegreen";
-      setQuestionVisibility("inline");
-    }
-    // setQuestionVisibility('none')
-    if (Object.keys(state.FirstAssesment.posture).length > 0) {
-      posture_btn.innerHTML = "Posture Done";
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "posture",
+          value: posturedatajson,
+        },
+      });
       setPosture(true);
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "FrontCheck",
+          value: JSON.parse(localStorage.getItem("FrontCheck")),
+        },
+      });
+      dispatch({
+        type: STATECHANGE,
+        payload: {
+          key: "SideCheck",
+          value: JSON.parse(localStorage.getItem("SideCheck")),
+        },
+      });
+      setPosture(true);
+      localStorage.removeItem("Posture_Data");
+    } else {
+      console.log(postureData, romData);
     }
-    // Check if AI_Data
-    if (
-      (state.FirstAssesment.Anterior_AI_Data &&
-        Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) ||
-      Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
-      Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
-    ) {
-      if (state.FirstAssesment.Arom_M) {
-        rom_manual.innerHTML = "AROM calculated";
+  }
+  //To detect change in localStorage
+  // window.addEventListener("storage", checkDataReceived);
+  useEffect(() => {
+    // checkDataReceived()
+    window.addEventListener("storage", checkDataReceived);
+    return () => {
+      window.removeEventListener("storage", checkDataReceived);
+    };
+  }, []);
+  window.addEventListener('load', () => localStorage.setItem("OnAssessmentScreen", false))
+  useEffect(
+    () => {
+      const question = document.getElementById("question");
+      const rom = document.getElementById("rom");
+      const rom_manual = document.getElementById("rom_manual");
+      const posture_btn = document.getElementById("posture-btn");
+
+      if (state.FirstAssesment.KOOS === "") {
+        question.innerHTML = "Scales & Index";
+        //  question.innerHTML = " "
+        setQuestionVisibility("none");
       } else {
-        rom_manual.innerHTML = "AROM";
+        question.innerHTML = "Scales & Index";
+        // question.innerHTML = " "
+        question.style.backgroundColor = "honeydew";
+        question.style.borderColor = "limegreen";
+        setQuestionVisibility("inline");
       }
-      if (state.FirstAssesment.Arom_Ai) {
-        rom.innerHTML = "AROM calculated";
-      } else {
-        rom.innerHTML = "AROM (using AI)";
+      // setQuestionVisibility('none')
+      if (Object.keys(state.FirstAssesment.posture).length > 0) {
+        posture_btn.innerHTML = "Posture Done";
+        setPosture(true);
       }
-     // rom.innerHTML = "AROM Assesment";
-      // setRomVisibility('contents')
-      if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
-        let data = state.FirstAssesment.Anterior_AI_Data;
-        setRomVisibility("contents");
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
+      // Check if AI_Data
+      if (
+        (state.FirstAssesment.Anterior_AI_Data &&
+          Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) ||
+        Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0 ||
+        Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0
+      ) {
+        if (state.FirstAssesment.Arom_M) {
+          rom_manual.innerHTML = "AROM calculated";
+        } else {
+          rom_manual.innerHTML = "AROM (Manual)";
+        }
+        if (state.FirstAssesment.Arom_Ai) {
+          rom.innerHTML = "AROM calculated";
+        } else {
+          rom.innerHTML = "AROM (using AI)";
+        }
+        // rom.innerHTML = "AROM Assesment";
+        // setRomVisibility('contents')
+        if (Object.keys(state.FirstAssesment.Anterior_AI_Data).length > 0) {
+          let data = state.FirstAssesment.Anterior_AI_Data;
+          setRomVisibility("contents");
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabels[item]
+                ? tableLabels[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setTableData1(tempData.slice(0, 6));
+          if (tempData.length > 6) {
+            setTableData2(tempData.slice(6, tempData.length));
           }
-        );
-        setTableData1(tempData.slice(0, 6));
-        if (tempData.length > 6) {
-          setTableData2(tempData.slice(6, tempData.length));
+
+          //   setAngleValues(preValues => ({
+          //     ...preValues,
+          //     ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
+          //     ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
+          //     ['leftElbow']: Anterior_AI_Data["leftElbow"],
+          //     ['rightElbow']: Anterior_AI_Data["rightElbow"],
+          //     ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
+          //     ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
+          //     ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
+          //     ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
+          //     ['leftNeck']: Anterior_AI_Data["leftNeck"],
+          //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
+          // }))
+        }
+        if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0) {
+          let data = state.FirstAssesment.LeftLateral_AI_Data;
+          setRomVisibilityM("inline");
+          setRomVisibilityL("inline");
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabelLateral[item]
+                ? tableLabelLateral[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setLatL(tempData);
+          //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
+          //   setAngleValuesL(preValues => ({
+          //     ...preValues,
+          //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
+          //     ['leftHip']: LeftLateral_AI_Data["leftHip"],
+          //     ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
+          //     ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
+          //     ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
+          //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
+          // }))
+        }
+        if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0) {
+          setRomVisibilityM("inline");
+          setRomVisibilityR("inline");
+          let data = state.FirstAssesment.RightLateral_AI_Data;
+          let TEMP = {};
+          TEMP["AROM"] = data[Object.keys(data)[0]];
+          console.log(TEMP);
+          let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
+            (item, index) => {
+              let t = {};
+              t["key"] = index;
+              t["angles"] = tableLabelLateral[item]
+                ? tableLabelLateral[item]
+                : "Not Available";
+              t["min"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].min
+              );
+              t["max"] = Math.round(
+                data[Object.keys(data)[0]]["angles"][item].max
+              );
+              return t;
+            }
+          );
+          setLatR(tempData);
+          // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
+          //   setAngleValuesR(preValues => ({
+          //     ...preValues,
+          //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
+          //     ['rightHip']: RightLateral_AI_Data["rightHip"],
+          //     ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
+          //     ['rightKnee']: RightLateral_AI_Data["rightKnee"],
+          //     ['rightWrist']: RightLateral_AI_Data["rightWrist"],
+          //     ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
+          // }))
         }
 
-        //   setAngleValues(preValues => ({
-        //     ...preValues,
-        //     ['leftShoulder']: Anterior_AI_Data["leftShoulder"],
-        //     ['rightShoulder']: Anterior_AI_Data["rightShoulder"],
-        //     ['leftElbow']: Anterior_AI_Data["leftElbow"],
-        //     ['rightElbow']: Anterior_AI_Data["rightElbow"],
-        //     ['leftHipAdductionAdbuction']: Anterior_AI_Data["leftHipAdductionAbduction"],
-        //     ['rightHipAdductionAdbuction']: Anterior_AI_Data["rightHiAdductionAbduction"],
-        //     ['leftPelvic']: Anterior_AI_Data["leftPelvic"],
-        //     ['rightPelvic']: Anterior_AI_Data["rightPelvic"],
-        //     ['leftNeck']: Anterior_AI_Data["leftNeck"],
-        //     ['rightNeck']: Anterior_AI_Data["rightNeck"],
-        // }))
+        rom.style.backgroundColor = "honeydew";
+        rom.style.borderColor = "limegreen";
       }
-      if (Object.keys(state.FirstAssesment.LeftLateral_AI_Data).length > 0) {
-        let data = state.FirstAssesment.LeftLateral_AI_Data;
-        setRomVisibilityM("inline");
-        setRomVisibilityL("inline");
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatL(tempData);
-        //  setAngleValuesL(state.FirstAssesment.LeftLateral_AI_Data);
-        //   setAngleValuesL(preValues => ({
-        //     ...preValues,
-        //     ['leftShoulder']: LeftLateral_AI_Data["leftShoulder"],
-        //     ['leftHip']: LeftLateral_AI_Data["leftHip"],
-        //     ['cervicalForwardFlexion']: LeftLateral_AI_Data["cervicalForwardFlexion"],
-        //     ['leftKnee']: LeftLateral_AI_Data["leftKnee"],
-        //     ['leftWrist']: LeftLateral_AI_Data["leftWrist"],
-        //     ['leftAnkle']: LeftLateral_AI_Data["leftAnkle"],
-        // }))
-      }
-      if (Object.keys(state.FirstAssesment.RightLateral_AI_Data).length > 0) {
-        setRomVisibilityM("inline");
-        setRomVisibilityR("inline");
-        let data = state.FirstAssesment.RightLateral_AI_Data;
-        let TEMP = {};
-        TEMP["AROM"] = data[Object.keys(data)[0]];
-        console.log(TEMP);
-        let tempData = Object.keys(data[Object.keys(data)[0]]["angles"]).map(
-          (item, index) => {
-            let t = {};
-            t["key"] = index;
-            t["angles"] = tableLabels[item]
-              ? tableLabels[item]
-              : "Not Available";
-            t["min"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].min
-            );
-            t["max"] = Math.round(
-              data[Object.keys(data)[0]]["angles"][item].max
-            );
-            return t;
-          }
-        );
-        setLatR(tempData);
-        // setAngleValuesR(state.FirstAssesment.RightLateral_AI_Data);
-        //   setAngleValuesR(preValues => ({
-        //     ...preValues,
-        //     ['rightShoulder']: RightLateral_AI_Data["rightShoulder"],
-        //     ['rightHip']: RightLateral_AI_Data["rightHip"],
-        //     ['cervicalForwardFlexion']: RightLateral_AI_Data["cervicalForwardFlexion"],
-        //     ['rightKnee']: RightLateral_AI_Data["rightKnee"],
-        //     ['rightWrist']: RightLateral_AI_Data["rightWrist"],
-        //     ['rightAnkle']: RightLateral_AI_Data["rightAnkle"]
-        // }))
-      }
-
-      rom.style.backgroundColor = "honeydew";
-      rom.style.borderColor = "limegreen";
-    }
-  }, angleValues,state.FirstAssesment);
+    },
+    angleValues,
+    state.FirstAssesment
+  );
   // NOTE: Above useEffect does same thing, repeated code
   // useEffect(() => {
   //     function checkUserData() {
@@ -1148,10 +1213,10 @@ const setRightLateralData=()=>{
 
   const RomAI = () => {
     console.log(!state.jointReducer.joints);
-    if (!state.jointReducer.joints.length > 0) {
-      warningJoint();
-      return false;
-    }
+    // if (!state.jointReducer.joints.length > 0) {
+    //   warningJoint();
+    //   return false;
+    // }
     let temp = [];
     state.jointReducer.joints.map((jo) => {
       temp.push(...jo.joint);
@@ -1161,12 +1226,12 @@ const setRightLateralData=()=>{
     console.log("values ", MuscleJoint);
     console.log("values ", BodyParts);
     history.push({
-      pathname: "/care-plan",
-      state: {
-        Joints: temp,
-        Muscles: BodyParts,
-        prevpath: "/assesment",
-      },
+      pathname: "/assessment/AI",
+      // state: {
+      //   Joints: temp,
+      //   Muscles: BodyParts,
+      //   prevpath: "/assesment",
+      // },
     });
     //  console.log(Object.keys(MuscleJoint));
   };
@@ -1262,18 +1327,26 @@ const setRightLateralData=()=>{
       content: "Please Select a Patient",
     });
   }
+  const [videoBtn, setVideoBtn] = useState(localStorage.getItem("OnAssessmentScreen") == "true" ? true : false)
+  const videoConChecked = (checked) => {
+    // console.log(typeof localStorage.getItem("OnAssessmentScreen"))
+    // console.log(typeof checked)
+    if (localStorage.getItem("OnAssessmentScreen") == "true") {
+      localStorage.setItem("OnAssessmentScreen", 'false');
+      setVideoBtn(false)
+    } else {
+      localStorage.setItem("OnAssessmentScreen", 'true');
+      setVideoBtn(true)
+    }
+    if (checked) {
+      notification.success({
+        message: "Please move to the video con screen and start assesment!",
+        placement: "bottomLeft",
+        duration: 5,
+      });
+    }
+  };
 
-  const videoConChecked=(checked)=>{
-    localStorage.setItem("OnAssessmentScreen", checked);
-    if(checked){
-  notification.success({
-    message: "Please move to the video con screen and start assesment!",
-    placement: "bottomLeft",
-    duration: 5,
-  });
-}
-  }
-  
   const checkEpisodeId = async () => {
     if (state.episodeReducer.patient_code) {
       const res = await getEpisode(state.episodeReducer.patient_code);
@@ -1348,7 +1421,7 @@ const setRightLateralData=()=>{
             dispatch({ type: ASSESMENT_CLEARSTATE });
             dispatch({ type: "JOINT_CLEARSTATE" });
           }, 1000);
-
+          setSubmitLoading(false)
           notification.success({
             message: "Assessment successfully submitted!",
             placement: "bottomLeft",
@@ -1357,17 +1430,21 @@ const setRightLateralData=()=>{
 
           history.push("/dashboard");
         } else {
+          setSubmitLoading(false)
           notification.error({
             message: "Form was not submitted",
             placement: "bottomLeft",
             duration: 2,
           });
         }
+      } else {
+        setSubmitLoading(false)
       }
       // aswin 11/13/2021 stop
     } else {
+      setSubmitLoading(false)
       return notification.warning({
-        message: "Patient don't have an open episode1",
+        message: "Patient don't have an open episode",
         placement: "bottomRight",
         duration: 2,
       });
@@ -1375,6 +1452,7 @@ const setRightLateralData=()=>{
   };
   const Submit = async () => {
     let video = screenShotRef.current;
+    setSubmitLoading(true)
     console.log("divvvv ", video);
     console.log(video.id);
     let url = "";
@@ -1412,7 +1490,7 @@ const setRightLateralData=()=>{
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}
-        // form={form} name="control-hooks"
+      // form={form} name="control-hooks"
       >
         <Row>
           <Col md={12} lg={12} sm={24} xs={24}>
@@ -1436,7 +1514,7 @@ const setRightLateralData=()=>{
             <Error error={state.Validation.msg} />
           )}
           <Col md={12} lg={12} sm={24} xs={24}>
-            <ActiveSearch />
+            {/* <ActiveSearch /> */}
           </Col>
         </Row>
 
@@ -1538,8 +1616,13 @@ const setRightLateralData=()=>{
             </Form.Item>
           </Col>
           <Col>
-          <label class="mr-2">VideoCon </label>
-          <Switch checkedChildren="On" unCheckedChildren="Off" onChange={videoConChecked} defaultChecked={localStorage.getItem("OnAssessmentScreen")}/>
+            <label class="mr-2">VideoCon </label>
+            <Switch
+              checkedChildren="On"
+              unCheckedChildren="Off"
+              checked={videoBtn}
+              onChange={videoConChecked}
+            />
           </Col>
         </Row>
       </Form>
@@ -1580,28 +1663,31 @@ const setRightLateralData=()=>{
                       style={{ paddingLeft: "0px" }}
                     >
                       <h4>Occupation</h4>
-                      <select
-                        className="form-select w-100"
-                        name={"occupation" + index}
-                        id={occupation}
-                        data-id={index}
-                        aria-label="Default select example"
-                        value={
-                          state.FirstAssesment.subjective[index].occupation
-                        }
-                        // value={state.FirstAssesment.subjective[index].occupation}
-                        onChange={(e) =>
-                          handleChange("occupation", e.target.value, index)
-                        }
-                      >
-                        <option selected></option>
-                        <option value="Desk Job">Desk Job</option>
+                      {dropdownValue.Occupation !== undefined &&
+                        <select
+                          className="form-select w-100"
+                          name={"occupation" + index}
+                          id={occupation}
+                          data-id={index}
+                          aria-label="Default select example"
+                          value={
+                            state.FirstAssesment.subjective[index].occupation
+                          }
+                          // value={state.FirstAssesment.subjective[index].occupation}
+                          onChange={(e) =>
+                            handleChange("occupation", e.target.value, index)
+                          }
+                        >
+                          <option selected></option>
+                          {dropdownValue.Occupation.map(i => <option value={i}>{i}</option>)}
+                          {/* <option value="Desk Job">Desk Job</option>
                         <option value="Standing">Standing</option>
                         <option value="Field Work">Field Work</option>
                         <option value="Home Maker">Home Maker</option>
                         <option value="Retired">Retired</option>
-                        <option value="Sports">Sports</option>
-                      </select>
+                        <option value="Sports">Sports</option> */}
+                        </select>
+                      }
                     </Col>
                     {/* <Col md={12} lg={12} sm={12} xs={12}> */}
                     {/* </Col> */}
@@ -1610,7 +1696,7 @@ const setRightLateralData=()=>{
                       md={24}
                       lg={
                         state.FirstAssesment.subjective[index].occupation ===
-                        "Sports"
+                          "Sports"
                           ? 5
                           : 12
                       }
@@ -1634,34 +1720,34 @@ const setRightLateralData=()=>{
                     </Col>
                     {state.FirstAssesment.subjective[index].occupation ===
                       "Sports" && (
-                      <Col md={24} lg={6} sm={24} xs={24}>
-                        <h4>Sports Type</h4>
-                        <input
-                          class="mx-3 p-2"
-                          onChange={(e) => {
-                            handleChange(
-                              "Sports_type",
-                              e.target.value.length > 1
-                                ? e.target.value[0].toUpperCase() +
-                                    e.target.value.slice(
-                                      1,
-                                      e.target.value.length
-                                    )
-                                : e.target.value.length === 1
-                                ? e.target.value.toUpperCase()
-                                : "",
-                              index
-                            );
-                          }}
-                          value={
-                            state.FirstAssesment.subjective[index].Sports_type
-                          }
-                          type="text"
-                          name={"sports_type" + index}
-                          placeholder="Sports Type"
-                        />
-                      </Col>
-                    )}
+                        <Col md={24} lg={6} sm={24} xs={24}>
+                          <h4>Sports Type</h4>
+                          <input
+                            class="mx-3 p-2"
+                            onChange={(e) => {
+                              handleChange(
+                                "Sports_type",
+                                e.target.value.length > 1
+                                  ? e.target.value[0].toUpperCase() +
+                                  e.target.value.slice(
+                                    1,
+                                    e.target.value.length
+                                  )
+                                  : e.target.value.length === 1
+                                    ? e.target.value.toUpperCase()
+                                    : "",
+                                index
+                              );
+                            }}
+                            value={
+                              state.FirstAssesment.subjective[index].Sports_type
+                            }
+                            type="text"
+                            name={"sports_type" + index}
+                            placeholder="Sports Type"
+                          />
+                        </Col>
+                      )}
                   </Row>
                 </div>
               );
@@ -1701,7 +1787,7 @@ const setRightLateralData=()=>{
                 <input
                   type="text"
                   className="p-2 w-50"
-                  placeholder="Cheif Complaint"
+                  placeholder="Chief Complaint"
                   name="chiefCom"
                   value={state.FirstAssesment.chiefCom}
                   onChange={(e) => {
@@ -1709,10 +1795,10 @@ const setRightLateralData=()=>{
                       "chiefCom",
                       e.target.value.length > 1
                         ? e.target.value[0].toUpperCase() +
-                            e.target.value.slice(1, e.target.value.length)
+                        e.target.value.slice(1, e.target.value.length)
                         : e.target.value.length === 1
-                        ? e.target.value.toUpperCase()
-                        : ""
+                          ? e.target.value.toUpperCase()
+                          : ""
                     );
                   }}
                 />
@@ -1778,7 +1864,7 @@ const setRightLateralData=()=>{
                     handleChange("Medication1", e.target.checked);
                   }}
                   value={"Medication"}
-                  // options={['Medication']}
+                // options={['Medication']}
                 >
                   <input
                     class="mx-3 p-2"
@@ -1790,10 +1876,10 @@ const setRightLateralData=()=>{
                         "Medication",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     name="medText"
@@ -1819,10 +1905,10 @@ const setRightLateralData=()=>{
                         "Others",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     value={state.FirstAssesment.Others}
@@ -1854,10 +1940,10 @@ const setRightLateralData=()=>{
                         "Surgical_History_Notes",
                         e.target.value.length > 1
                           ? e.target.value[0].toUpperCase() +
-                              e.target.value.slice(1, e.target.value.length)
+                          e.target.value.slice(1, e.target.value.length)
                           : e.target.value.length === 1
-                          ? e.target.value.toUpperCase()
-                          : ""
+                            ? e.target.value.toUpperCase()
+                            : ""
                       );
                     }}
                     value={state.FirstAssesment.Surgical_History_Notes}
@@ -1906,10 +1992,10 @@ const setRightLateralData=()=>{
                       "any_other_details",
                       e.target.value.length > 1
                         ? e.target.value[0].toUpperCase() +
-                            e.target.value.slice(1, e.target.value.length)
+                        e.target.value.slice(1, e.target.value.length)
                         : e.target.value.length === 1
-                        ? e.target.value.toUpperCase()
-                        : ""
+                          ? e.target.value.toUpperCase()
+                          : ""
                     );
                   }}
                 />
@@ -1926,7 +2012,7 @@ const setRightLateralData=()=>{
       >
         <>
           <h1 style={{ margin: 0, padding: 0 }}>
-            <b>Cheif Complaint Area</b>
+            <b>Chief Complaint Area</b>
           </h1>
           <Body executeScroll={executeScroll} screenShotRef={screenShotRef} />
         </>
@@ -1981,9 +2067,16 @@ const setRightLateralData=()=>{
                 </Descriptions>
               </Col>
             </Row>
-            <Row gutter={[10, 10]} className="px-4 py-2">
+            <Row>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h2>Degree of Deviation</h2>
+                {(state.FirstAssesment.posture.Posterial_view || state.FirstAssesment.posture.lateral_view) && <h3> <Badge color="#000000" />Standing</h3>}
+              </Col>
+            </Row>
+            {state.FirstAssesment.posture.Posterial_view && Object.keys(state.FirstAssesment.posture["Posterial_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Anterior</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions title="Anterior" bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Nasal Bridge">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[0]}
@@ -2005,7 +2098,7 @@ const setRightLateralData=()=>{
                       state.FirstAssesment.posture["Posterial_view"].Angles[4]}
                   </Descriptions.Item>
                   <Descriptions.Item label="Line of Gravity">
-                  {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["Posterial_view"].Angles[5]}
                   </Descriptions.Item>
                 </Descriptions>
@@ -2018,22 +2111,28 @@ const setRightLateralData=()=>{
                   }
                 />
               </Col>
-              {state.FirstAssesment.FrontCheck.length > 0 && (
-                <Col md={24} lg={24} sm={24} xs={24}>
-                  <Descriptions title="">
-                    {state.FirstAssesment.FrontCheck.map((ob) => (
-                      <Descriptions.Item label="">
-                        <Badge color="#000000" />
-                        {ob}
-                      </Descriptions.Item>
-                    ))}
-                  </Descriptions>
-                </Col>
-              )}
-            </Row>
-            <Row gutter={[10, 10]} className="px-4 py-2">
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["Posterial_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["Posterial_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
+            {state.FirstAssesment.posture.lateral_view && Object.keys(state.FirstAssesment.posture["lateral_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Lateral</h5></Col>
               <Col md={24} lg={18} sm={24} xs={24}>
-                <Descriptions title="Lateral" bordered>
+                <Descriptions bordered>
                   <Descriptions.Item label="Head deviation">
                     {Object.keys(state.FirstAssesment.posture).length > 0 &&
                       state.FirstAssesment.posture["lateral_view"].Angles[0]}
@@ -2060,26 +2159,146 @@ const setRightLateralData=()=>{
                   }
                 />
               </Col>
-              {state.FirstAssesment.SideCheck.length > 0 && (
-                <Col md={24} lg={24} sm={24} xs={24}>
-                  <Descriptions title="">
-                    {state.FirstAssesment.SideCheck.map((ob) => (
-                      <Descriptions.Item label="">
-                        <Badge color="#000000" />
-                        {ob}
-                      </Descriptions.Item>
-                    ))}
-                  </Descriptions>
-                </Col>
-              )}
-            </Row>
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["lateral_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["lateral_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
+            {(state.FirstAssesment.posture.sitting_Posterial_view || state.FirstAssesment.posture.Sitting_lateral_view) && <Row>
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <h3>  <Badge color="#000000" />Sitting</h3>
+              </Col>
+            </Row>}
+            {state.FirstAssesment.posture.sitting_Posterial_view && Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Anterior</h5></Col>
+              <Col md={24} lg={18} sm={24} xs={24}>
+                <Descriptions bordered>
+                  <Descriptions.Item label="Nasal Bridge">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Shoulder levels(Acrimion)">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Umbilicus">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Knees">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[3]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Ankle/Foot">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[4]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Line of Gravity">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["sitting_Posterial_view"].Angles[5]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["sitting_Posterial_view"]
+                      .posterial_view_image
+                  }
+                />
+              </Col>
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["sitting_Posterial_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["sitting_Posterial_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
+            {state.FirstAssesment.posture.Sitting_lateral_view && Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"]).length > 0 && <Row gutter={[10, 10]} className="px-4 py-2">
+              <Col span={24}><h5>Lateral</h5></Col>
+              <Col md={24} lg={18} sm={24} xs={24}>
+                <Descriptions bordered>
+                  <Descriptions.Item label="Shoulder">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[0]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Hip">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[1]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Ankle">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[2]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Opposite Knee">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[3]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Elbow">
+                    {Object.keys(state.FirstAssesment.posture).length > 0 &&
+                      state.FirstAssesment.posture["Sitting_lateral_view"].Angles[4]}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col md={24} lg={6} sm={24} xs={24}>
+                <img
+                  src={
+                    state.FirstAssesment.posture["Sitting_lateral_view"]
+                      .posterial_view_image
+                  }
+                />
+              </Col>
+
+              <Col md={24} lg={24} sm={24} xs={24}>
+                <Descriptions title="">
+                  {Object.keys(state.FirstAssesment.posture["Sitting_lateral_view"].checkbox).map((ob) => {
+                    if (state.FirstAssesment.posture["Sitting_lateral_view"].checkbox[ob] == 1) {
+                      return (
+                        <Descriptions.Item label="">
+                          <Badge color="#000000" />
+                          {ob}
+                        </Descriptions.Item>
+                      )
+                    }
+                  }
+                  )}
+                </Descriptions>
+              </Col>
+
+            </Row>}
           </div>
         )}
         {state.FirstAssesment.pain_state && (
           <div className="  mb-3 mt-3">
             <Row gutter={[10, 10]}>
               <Col md={24} lg={24} sm={24} xs={24}>
-                <Descriptions title="Pain Assessment" bordered>
+                <Descriptions title={<Col className="border1" md={24} lg={24} sm={24} xs={24}>
+                  <h4 className="p-2">Pain Assessment</h4>
+                </Col>} bordered>
                   <Descriptions.Item label="Nature Of Pain">
                     {state.FirstAssesment.nature_of_pain_here}
                   </Descriptions.Item>
@@ -2130,14 +2349,14 @@ const setRightLateralData=()=>{
             <Row className="border1">
               <Col lg={18} md={18} sm={18} xs={24}>
                 {state.FirstAssesment.shoulder ||
-                state.FirstAssesment.Ankle ||
-                state.FirstAssesment.Cervical_Spine ||
-                state.FirstAssesment.Thoracic_Spine ||
-                state.FirstAssesment.Lumbar_Spine ||
-                state.FirstAssesment.Forearm_wrist_Hand ||
-                state.FirstAssesment.Hip ||
-                state.FirstAssesment.Knee ||
-                state.FirstAssesment.Elbow ? (
+                  state.FirstAssesment.Ankle ||
+                  state.FirstAssesment.Cervical_Spine ||
+                  state.FirstAssesment.Thoracic_Spine ||
+                  state.FirstAssesment.Lumbar_Spine ||
+                  state.FirstAssesment.Forearm_wrist_Hand ||
+                  state.FirstAssesment.Hip ||
+                  state.FirstAssesment.Knee ||
+                  state.FirstAssesment.Elbow ? (
                   <h4 className="p-2">
                     <u>Special Test</u>
                   </h4>
@@ -2537,8 +2756,8 @@ const setRightLateralData=()=>{
         }
         <div className=" border mb-3 mt-3">
           <Row style={{ display: RomVisibility }}>
-            <Row className="border">
-              <Col md={24} lg={24} sm={24} xs={24}>
+            <Row >
+              <Col className="border1" md={24} lg={24} sm={24} xs={24}>
                 <h4 className="p-2">Anterior ROM Assesment</h4>
               </Col>
             </Row>
@@ -2560,8 +2779,8 @@ const setRightLateralData=()=>{
             </Row>
           </Row>
 
-          <Row style={{ display: RomVisibilityM }} className="border">
-            <Col md={24} lg={24} sm={24} xs={24}>
+          <Row style={{ display: RomVisibilityM }}>
+            <Col md={24} lg={24} sm={24} xs={24} className="border1">
               <h4 className="p-2">Lateral ROM Assesment</h4>
             </Col>
           </Row>
@@ -2586,10 +2805,6 @@ const setRightLateralData=()=>{
                 </Col>
               </Row>
             </Col>
-            {/* <Col style={{ display: RomVisibilityL }} md={12} lg={12} sm={24} xs={24}>
-         <h5 className="p-2">Left side</h5><br/>
-             <Table pagination={false} columns={columns} dataSource={tableDataL} />
-         </Col> */}
             <Col
               style={{ display: RomVisibilityR }}
               md={12}
@@ -2613,21 +2828,6 @@ const setRightLateralData=()=>{
           </Row>
         </div>
       </div>
-      {/* <Row>
-      <Col md={2} lg={2} sm={2} xs={2}>
-        </Col>
-        <Col style={{paddingLeft:'50px'}} md={21} lg={21} sm={21} xs={21}>
-          <div>
-          <Checkbox checked={!state.FirstAssesment.quest} style={{paddingLeft:'15px',margin:0}} onChange={(e)=>handleChange('quest',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pain1} style={{paddingLeft:'112px'}} onChange={(e)=>handleChange('pain1',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.special} style={{paddingLeft:'105px'}} onChange={(e)=>handleChange('special',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.pose} style={{paddingLeft:'90px'}} onChange={(e)=>handleChange('pose',!e.target.checked)}></Checkbox>
-          <Checkbox checked={!state.FirstAssesment.romAss} style={{paddingLeft:'100px'}} onChange={(e)=>handleChange('romAss',!e.target.checked)}></Checkbox>
-          </div>
-        </Col>
-        <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-  </Row> */}
       <Row>
         <Col
           style={{ paddingTop: "23px" }}
@@ -2637,65 +2837,9 @@ const setRightLateralData=()=>{
           xs={20}
         ></Col>
       </Row>
-      {/* <Row>
-      <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-        <Col className="text-center" md={20} lg={20} sm={20} xs={20}>
-        {state.FirstAssesment.quest?<Button type="text" disabled={state.FirstAssesment.quest} className="btn-new-check" style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button> :
-        <Button type="text" disabled={state.FirstAssesment.quest} style={{backgroundColor:state.FirstAssesment.quest?'grey':'#2d7ecb'}} onClick={Questions} id="question"></Button>
-        }
-     
-                {state.FirstAssesment.pain1?<Button  className="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>:
-                <Button  className="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pain1?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.pain1} onClick={() => history.push('/assesment/PainAssessment')} ant-click-animating-without-extra-node="false">Pain Assessment</Button>
-                }
-                {state.FirstAssesment.special?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>:
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.special?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.special} onClick={() => history.push('/assesment/SpecialTest')} ant-click-animating-without-extra-node="false">Special Test</button>
-                }
-                {state.FirstAssesment.pose?<button class="btn-new-check ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>:
-                <button class="ant-btn ms-3" style={{backgroundColor:state.FirstAssesment.pose?'grey':'#2d7ecb'}} id="posture-btn" disabled={state.FirstAssesment.pose} onClick={() => history.push('/assesment/PoseTest')} ant-click-animating-without-extra-node="false">Pose Test</button>
-                }
-                {state.FirstAssesment.romAss?<Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3 btn-new-check" onClick={Rom} id="rom">Rom Assessment</Button>:
-                <Button htmlType="submit" style={{backgroundColor:state.FirstAssesment.romAss?'grey':'#2d7ecb'}} disabled={state.FirstAssesment.romAss} className="ms-3" onClick={Rom} id="rom">Rom Assessment</Button>
-                }
-        </Col>
-        <Col md={1} lg={1} sm={1} xs={1}>
-        </Col>
-      </Row> */}
       <Row gutter={[10, 10]}>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          <Checkbox
-            checked={!state.FirstAssesment.quest}
-            onChange={(e) => handleChange("quest", !e.target.checked)}
-          >
-            {state.FirstAssesment.quest ? (
-              <Button
-                className="btn-new-check"
-                disabled={state.FirstAssesment.quest}
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.quest
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                onClick={Questions}
-                id="question"
-              ></Button>
-            ) : (
-              <Button
-                type="text"
-                disabled={state.FirstAssesment.quest}
-                style={{
-                  backgroundColor: state.FirstAssesment.quest
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                onClick={Questions}
-                id="question"
-              ></Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
+        {/* <Space> */}
+        <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
           <Checkbox
             checked={!state.FirstAssesment.pain1}
@@ -2703,69 +2847,41 @@ const setRightLateralData=()=>{
           >
             {state.FirstAssesment.pain1 ? (
               <Button
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={goPain}
+                onClick={() => {
+                  goPain();
+                }}
               >
                 Pain Assessment
               </Button>
             ) : (
               <Button
+                className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pain1
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.pain1}
-                onClick={goPain}
+                onClick={() => {
+                  goPain();
+                }}
               >
                 Pain Assessment
               </Button>
             )}
           </Checkbox>
         </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
-          {" "}
-          <Checkbox
-            checked={!state.FirstAssesment.special}
-            onChange={(e) => handleChange("special", !e.target.checked)}
-          >
-            {state.FirstAssesment.special ? (
-              <Button
-                className="btn-new-check"
-                style={{
-                  backgroundColor: state.FirstAssesment.special
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.special}
-                onClick={() => history.push("/assesment/SpecialTest")}
-              >
-                Special Test
-              </Button>
-            ) : (
-              <Button
-                type="text"
-                style={{
-                  backgroundColor: state.FirstAssesment.special
-                    ? "grey"
-                    : "#2d7ecb",
-                }}
-                disabled={state.FirstAssesment.special}
-                onClick={() => history.push("/assesment/SpecialTest")}
-              >
-                Special Test
-              </Button>
-            )}
-          </Checkbox>
-        </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
+        <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
           <Checkbox
             checked={!state.FirstAssesment.pose}
@@ -2773,36 +2889,44 @@ const setRightLateralData=()=>{
           >
             {state.FirstAssesment.pose ? (
               <Button
-                className="btn-new-check"
+                className="btn-new-check btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px',
+                  borderRadius: '5px !important'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
-                onClick={() => history.push("/assesment/PoseTest")}
+                onClick={() => {
+                  history.push("/assesment/PoseTest");
+                }}
               >
                 Posture Test
               </Button>
             ) : (
               <Button
+                className="btn-Assesment"
                 type="text"
                 style={{
                   backgroundColor: state.FirstAssesment.pose
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 id="posture-btn"
                 disabled={state.FirstAssesment.pose}
-                onClick={() => history.push("/assesment/PoseTest")}
+                onClick={() => {
+                  history.push("/assesment/PoseTest");
+                }}
               >
                 Posture Test
               </Button>
             )}
           </Checkbox>
         </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
+        <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
           <Checkbox
             checked={!state.FirstAssesment.romAssAi}
@@ -2814,24 +2938,31 @@ const setRightLateralData=()=>{
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
-                className="btn-new-check"
-                onClick={RomAI}
+                className="btn-new-check btn-Assesment"
+                onClick={() => {
+                  RomAI();
+                }}
                 id="rom"
               >
                 AROM (using AI)
               </Button>
             ) : (
               <Button
+                className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAssAi
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAssAi}
                 type="text"
-                onClick={RomAI}
+                onClick={() => {
+                  RomAI();
+                }}
                 id="rom"
               >
                 AROM (using AI)
@@ -2839,7 +2970,89 @@ const setRightLateralData=()=>{
             )}
           </Checkbox>
         </Col>
-        <Col md={8} lg={4} sm={12} xs={12}>
+        <Col md={8} lg={8} sm={24} xs={24}>
+          <Checkbox
+            checked={!state.FirstAssesment.quest}
+            onChange={(e) => handleChange("quest", !e.target.checked)}
+          >
+            {state.FirstAssesment.quest ? (
+              <Button
+                className="btn-new-check btn-Assesment"
+                disabled={state.FirstAssesment.quest}
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.quest
+                    ? "grey"
+                    : "#2d7ecb",
+                  width: '138px'
+                }}
+                onClick={() => {
+                  Questions();
+                }}
+                id="question"
+              ></Button>
+            ) : (
+              <Button
+                className="btn-Assesment"
+                type="text"
+                disabled={state.FirstAssesment.quest}
+                style={{
+                  backgroundColor: state.FirstAssesment.quest
+                    ? "grey"
+                    : "#2d7ecb",
+                  width: '138px'
+                }}
+                onClick={() => {
+                  Questions();
+                }}
+                id="question"
+              ></Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={8} sm={24} xs={24}>
+          {" "}
+          <Checkbox
+            checked={!state.FirstAssesment.special}
+            onChange={(e) => handleChange("special", !e.target.checked)}
+          >
+            {state.FirstAssesment.special ? (
+              <Button
+                className="btn-new-check btn-Assesment"
+                style={{
+                  backgroundColor: state.FirstAssesment.special
+                    ? "grey"
+                    : "#2d7ecb",
+                  width: '138px'
+                }}
+                disabled={state.FirstAssesment.special}
+                onClick={() => {
+                  history.push("/assesment/SpecialTest");
+                }}
+              >
+                Special Test
+              </Button>
+            ) : (
+              <Button
+                className="btn-Assesment"
+                type="text"
+                style={{
+                  backgroundColor: state.FirstAssesment.special
+                    ? "grey"
+                    : "#2d7ecb",
+                  width: '138px'
+                }}
+                disabled={state.FirstAssesment.special}
+                onClick={() => {
+                  history.push("/assesment/SpecialTest");
+                }}
+              >
+                Special Test
+              </Button>
+            )}
+          </Checkbox>
+        </Col>
+        <Col md={8} lg={8} sm={24} xs={24}>
           {" "}
           <Checkbox
             checked={!state.FirstAssesment.romAss}
@@ -2851,31 +3064,39 @@ const setRightLateralData=()=>{
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
-                className="btn-new-check"
-                onClick={Rom}
+                className="btn-new-check btn-Assesment"
+                onClick={() => {
+                  Rom();
+                }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             ) : (
               <Button
+                className="btn-Assesment"
                 style={{
                   backgroundColor: state.FirstAssesment.romAss
                     ? "grey"
                     : "#2d7ecb",
+                  width: '138px'
                 }}
                 disabled={state.FirstAssesment.romAss}
                 type="text"
-                onClick={Rom}
+                onClick={() => {
+                  Rom();
+                }}
                 id="rom_manual"
               >
-                AROM
+                AROM (Manual)
               </Button>
             )}
           </Checkbox>
         </Col>
+        {/* </Space> */}
       </Row>
 
       {/* <Row justify='space-between'>
@@ -2937,7 +3158,9 @@ const setRightLateralData=()=>{
                 }
         </Col>
      </Row> */}
+      {submitLoading && <Loading />}
 
+      {/* <ClipLoader color={"#ffffff"} loading={submitLoading}  size={150} /> */}
       <div className="text-center m-3">
         <Button
           htmlType="submit"

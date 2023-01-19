@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import logoImg from "./../../assets/newlogo.png";
+import logoImg from "./../../assets/newlogo1.webp";
+import logoImg1 from "./../../assets/newlogo1.png";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import './logo.css'
 export default function MyPhysioLogo(props) {
     var style 
@@ -21,8 +23,8 @@ export default function MyPhysioLogo(props) {
     return (
         <> 
          <div className={"logo" + props.page=='login' ? 'initial-login' : props.page=='dashboard' ? 'initial-dashboard' : null}  >
-            <img src={logoImg} alt="logo" className={props.page=='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null} id={props.page=='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null}   />
-            <div id="PhysioAi" style={style} className={`${props.text} fw-bold text-white`} >PHYSIOAI</div>
+            <LazyLoadImage width={250} height={250}  src={logoImg} alt="logo"  className={props.page=='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null}  id={props.page==='dashboard' ? 'dashboard-logo' : props.page=='login' ? 'login-logo' : null}   />
+            <div id="PhysioAi" style={style} className={`${props.text} fw-bold text-dark`} >PHYSIOAI</div>
             </div> 
         </>
     )

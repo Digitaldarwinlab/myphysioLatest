@@ -1,0 +1,119 @@
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #e9e9e9;
+  background-color: #2d7ecb;
+  color: white;
+}
+.canvasjs-chart-credit{
+  display: none;
+}
+.graphBox{
+  padding: 10px;
+}
+.canvasjs-chart-toolbar button{
+  background-color: #fff !important;
+}
+.canvasjs-chart-toolbar button:hover{
+  background-color: #2d7ecb !important;
+}
+.table td,
+.table th {
+  padding:1rem 0.75rem !important;
+  vertical-align: middle !important;
+  border-top: 1px solid #dee2e6;
+  border-left: 2px solid #dee2e6;
+  border-right: 2px solid #dee2e6;
+  border-bottom: 2px solid #dee2e6;
+}
+.table tbody th {
+  vertical-align: top !important;
+}
+.icon-btn2 {
+  cursor: pointer;
+  font-size: 20px !important;
+  /* width: 70px !important; */
+  background-color: #2d7ecb !important;
+  color: white !important;
+  padding-bottom: 10px !important;
+
+}
+
+.logo {
+  width: 350px;
+  font-size: 17px;
+}
+.logo img {
+  width: 80%;
+  margin-left: 12%;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.number {
+  margin-top: 1%;
+  padding: 5px 12px;
+  background-color: #2d7ecb;
+  color: white;
+  border-radius: 50%;
+}
+.table::-webkit-scrollbar {
+  width: 23px !important;
+}
+.table::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
+.table::-webkit-scrollbar-thumb {
+  background-color: #d6dee1 !important;
+}
+.table::-webkit-scrollbar-thumb {
+  background-color: #d6dee1 !important;
+  border-radius: 20px !important;
+}
+.table::-webkit-scrollbar-thumb {
+  background-color: #d6dee1 !important;
+  border-radius: 20px !important;
+  border: 6px solid transparent !important;
+  background-clip: content-box !important;
+}
+.tableclass {
+  width: 90% !important;
+  margin: auto;
+  min-width: 80%;
+  overflow-x: auto;
+}
+.rs-picker-date .rs-picker-toggle.rs-btn .rs-picker-toggle-clean,
+.rs-picker-daterange .rs-picker-toggle.rs-btn .rs-picker-toggle-clean {
+  right: 30px;
+  display: none;
+}
+
+@media only screen and (max-width: 1150px) {
+  .tableclass {
+    display: block;
+    width: 100% !important;
+    overflow-x: auto;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .graphBox{
+    padding: 0px;
+  }
+}
+.completed {
+  padding: 10px 15px;
+  background-color: #7ccb2d;
+  color: white;
+  border-radius: 50%;
+}
+.pending{
+  padding: 10px 15px;
+  background-color: #dd5029;
+  color: white;
+  border-radius: 50%;
+}
+.remaining{
+  padding: 10px 15px;
+  background-color: #FFBF00;
+  color: white;
+  border-radius: 50%;
+}

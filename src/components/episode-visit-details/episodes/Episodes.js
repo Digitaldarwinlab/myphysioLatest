@@ -33,6 +33,7 @@ const Episodes = ({ handleClick2 }) => {
     useEffect(async () => {
         setLoading(true);
         const data = await getEpisode(state.patient_code);
+        console.log("episode ",data)
         setEpisodeData(data);
 
         setLoading(false);
@@ -244,12 +245,18 @@ const Episodes = ({ handleClick2 }) => {
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
                                         <Button className="button1" id="bnid" style={{color:"white", marginLeft:"15px"}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
                                     </div> */}
-                                    <Space size="middle">
                                       <Row justify="center">
-                     <Col span={2}>  <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button></Col>
-                     <Col span={2}>  <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button></Col>
+                                      <Col span={8}>   
+                                      <Space size="middle">
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => GotoPrescreption(episode.episode_number, episode.primary_complaint, episode.start_date, episode.pp_ed_id,episode.end_)}><b>Prescription</b></Button>
+                     <Button className="button1" id='bnid' style={{color:"white", marginLeft:"15px" ,width:'103px'}} onClick={() => Assesment(episode.pp_ed_id, episode.primary_complaint, episode.start_date)}><b>Assesment</b></Button>
+                     </Space>
+                     </Col>
+                     {/* <Col span={2}>  
+                     </Col>
+                     <Col span={2}>  
+                     </Col> */}
                 </Row>
-                </Space>
                                 </div>
                             </div>)
                     })}

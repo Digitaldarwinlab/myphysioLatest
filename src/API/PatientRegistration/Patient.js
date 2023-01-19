@@ -4,13 +4,14 @@ import {
     PATIENT_UPD_SUCCESS
 } from "../../contextStore/actions/authAction";
 import fetch from "isomorphic-fetch";
-import { STATECHANGE } from './../../contextStore/actions/authAction';
+import { STATECHANGE } from '../../contextStore/actions/authAction';
 import { Decode, Encode } from "../../Encode/hashing";
 
 export const Patient_Register = async (user, dispatch) => {
     dispatch({ type: PATIENT_REG_REQUEST });
     let patientDetails = {};
     patientDetails["first_name"] = user.FirstName;
+    patientDetails["title"] = user.Title;
     patientDetails["last_name"] = user.LastName;
     patientDetails["middle_name"] = user.MiddleName;
     patientDetails["mobile_no"] = user.MobileNo;
@@ -33,7 +34,7 @@ export const Patient_Register = async (user, dispatch) => {
     patientDetails["patient_medical_history"] = user.MedicalHistory;
     patientDetails["patient_Family_History"] = user.FamilyHistory;
     patientDetails["pp_pm"] = JSON.parse(localStorage.getItem("userId"));
-    //patientDetails["is_enterprise"] = user.is_enterprise;
+    patientDetails["auto_episode"] = 1;
 
     if (patientDetails['middle_name'] === "")
         delete patientDetails["middle_name"];
@@ -135,19 +136,47 @@ export const Patient_Update = async (user, dispatch) => {
     }
 }
 //get-patient List
+// export const getPatientList = async () => {
+//     try {
+//         const headers = {
+//             Accept: 'application/json',
+//             "Content-type": "application/json"
+//         }
+//         const id = JSON.parse(localStorage.getItem("userId"))
+//         const encodedData = Encode({ id: id })
+//         // console.log('Id:',id);
+//         const response = await fetch(process.env.REACT_APP_API + "/get-patient_v1/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify(encodedData)
+//         });
+
+//         const responseData = await response.json();
+//         console.log("listing data ",responseData)
+//         const data = Decode(responseData)
+//         console.log("listing data ",data)
+//         if (response.status !== 200 && response.status !== 201) {
+//             return [];
+//         }
+//         return data;
+//     } catch (err) {
+//         // console.log(err);
+//         return [];
+//     }
+// }
 export const getPatientList = async () => {
     try {
         const headers = {
             Accept: 'application/json',
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            token:JSON.parse(localStorage.getItem("jwt"))
         }
         const id = JSON.parse(localStorage.getItem("userId"))
         const encodedData = Encode({ id: id })
         // console.log('Id:',id);
         const response = await fetch(process.env.REACT_APP_API + "/get-patient_v1/", {
-            method: "POST",
+            method: "GET",
             headers: headers,
-            body: JSON.stringify(encodedData)
         });
 
         const responseData = await response.json();
@@ -164,6 +193,35 @@ export const getPatientList = async () => {
     }
 }
 //search-patient
+// export const searchPatient = async (value) => {
+//     const id = JSON.parse(localStorage.getItem("userId"))
+//     // console.log(JSON.stringify({ id: id, query: value}))
+    
+//     try {
+//         const headers = {
+//             Accept: 'application/json',
+//             "Content-type": "application/json"
+//         }
+       
+
+//         const response = await fetch(process.env.REACT_APP_API + "/search-patient/", {
+//             method: "POST",
+//             headers: headers,
+//             body: JSON.stringify({ id: id, query: value})
+//         });
+//         // console.log(response)
+//         const data = await response.json();
+//         // console.log(data)
+       
+//         if (response.status !== 200 && response.status !== 201) {
+//             return [];
+//         }
+//         return data;
+//     } catch (err) {
+//         // console.log(err);
+//         return [];
+//     }
+// }
 export const searchPatient = async (value) => {
     const id = JSON.parse(localStorage.getItem("userId"))
     // console.log(JSON.stringify({ id: id, query: value}))
@@ -171,14 +229,15 @@ export const searchPatient = async (value) => {
     try {
         const headers = {
             Accept: 'application/json',
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            token:JSON.parse(localStorage.getItem("jwt"))
         }
        
 
         const response = await fetch(process.env.REACT_APP_API + "/search-patient/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id, query: value})
+            body: JSON.stringify({  query: value})
         });
         // console.log(response)
         const data = await response.json();
@@ -419,6 +478,13 @@ export const UpdateState = (state, val, dispatch) => {
         payload: {
             key: "pp_patm_id",
             value: val.pp_patm_id ? val.pp_patm_id : ""
+        }
+    })
+    dispatch({
+        type: STATECHANGE,
+        payload: {
+            key: "Title",
+            value: val.title ? val.title : ""
         }
     })
 }

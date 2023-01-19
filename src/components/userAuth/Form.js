@@ -43,9 +43,9 @@ const AuthForm = (props) => {
     const handleBlur = e => {
         const key = e.target.name;
         let error = {};
-        if (key === "email") {
+        if (key === "Username") {
             if (e.target.value === "")
-                error["error"] = "Username must be filled."
+                error["error"] = "Please enter a valid username"
             // let verifyEmail = apiValidation.checkEmailValid({type:"email",value:e.target.value});
             // if(!verifyEmail) dispatch({type:VALIDATION,payload:{error:"Email id is already present."}})
         }
@@ -54,6 +54,9 @@ const AuthForm = (props) => {
         }
         if (error.error)
             dispatch({ type: VALIDATION, payload: { error: error.error } });
+        setTimeout(() => {
+            dispatch({ type: VALIDATION, payload: { error: "" } });
+        }, 3000);
     }
 
     const handleSubmitForm = async (value) => {
@@ -62,12 +65,15 @@ const AuthForm = (props) => {
             if (props.isSignin) {
                 const number = state.loginReducer.login_attempt >= 10 ? 1 : 0;
                 const user = {
-                    uid: state.loginReducer.email,
-                    password: state.loginReducer.password,
+                    uid: state.loginReducer.Username,
+                    password: state.loginReducer.Password,
                     blocked: number
                 }
                 result = await signin(user, dispatch);
                 // console.log(result);
+                setTimeout(() => {
+                    dispatch({ type: VALIDATION, payload: { error: "" } });
+                }, 3000);
                 if (result && result[0])
                     window.location.href = "/dashboard";
                 else {
@@ -90,7 +96,7 @@ const AuthForm = (props) => {
                 // signin(user,dispatch);
             } else {
                 if (state.signupReducer.new_password !== state.signupReducer.confirm_password) {
-                    dispatch({ type: VALIDATION, payload: { error: "New and Old Paswword should be same." } })
+                    dispatch({ type: VALIDATION, payload: { error: "New and Old Password should be same." } })
                 } else {
                     const user = {
                         new_password: state.signupReducer.new_password
@@ -122,10 +128,10 @@ const AuthForm = (props) => {
                         className="formInput userNameLogin"
                         label="Username"
                         placeholder="Username"
-                        value={props.isSignin ? state.loginReducer.email : state.signupReducer.email}
-                        name="email"
+                        value={props.isSignin ? state.loginReducer.Username : state.signupReducer.Username}
+                        name="Username"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         required={true}
                         disabled={disableState}
                     />
@@ -136,7 +142,7 @@ const AuthForm = (props) => {
                         label={props.isSignin ? "Password" : "Old Password"}
                         placeholder={props.isSignin ? "Password" : "Enter Old Password"}
                         value={props.isSignin ? state.loginReducer.password : state.signupReducer.old_password}
-                        name={props.isSignin ? "password" : "old_password"}
+                        name={props.isSignin ? "Password" : "old_password"}
                         onChange={handleChange}
                         required={true}
                         disabled={disableState}
@@ -172,13 +178,11 @@ const AuthForm = (props) => {
                 {/* {props.isSignin ? (
                     <ForgotPassword />)
                     : null} */}
-                <Form.Item>
                     <Button
                         disabled={disableState}
                         type="primary" htmlType="submit" className="userAuthbtn">
                         {props.isSignin ? "Login" : "Change Password"}
                     </Button>
-                </Form.Item>
             </Form>
         </React.Fragment>
     )

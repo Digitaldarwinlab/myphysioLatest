@@ -5,6 +5,7 @@ import VideoScreen from '../shared/VideScreen';
 import BackButton from '../shared/BackButton';
 import { FaMedal, FaStopwatch } from "react-icons/fa";
 import AchievedResult from '../shared/AchievedResult';
+import PainMeter from "../../../PatientComponents/PainMeter/PainMeter";
 import { Button } from 'antd';
 import React, { Component } from 'react';
 import { connect } from "react-redux";
@@ -145,18 +146,24 @@ class PatientAI extends Component {
             pain, exerciseTime, careplanId)
     }
     // Pain Meter
-    PainMeter = () => {
+    Painmeter = () => {
 
         return (
-            <div className="painmeter" style={{ width: '50%', marginLeft: 'auto', marginRight: 'auto' }} >
-                <Slider marks={marks1} min={0} max={5} step={2}
-                    onChange={(value) => this.handleChange1("PainMeter", value)}
-                    defaultValue={this.props.FirstAssesment.PainMeter}
-                    style={{ width: '100%' }}
-                />
-
-
-            </div>
+          <div
+          className="painmeter"
+          style={{ width: "100%",height:'fit-content', marginLeft: "auto", marginRight: "auto",marginBottom:'20px' }}
+        >
+          {/* <Slider
+            marks={marks1}
+            min={0}
+            max={5}
+            step={2}
+            onChange={(value) => setPain(value)}
+            defaultValue={0}
+            style={{ width: "100%" }}
+          /> */}
+          <PainMeter handleChange={this.handleChange1} />
+        </div>
         );
     };
     //Ai Model
@@ -286,7 +293,7 @@ class PatientAI extends Component {
     }
     finish = async (id) => {
         console.log('pain meter ',this.props.history.location.state.exercises[0].pp_cp_id, " ",this.props.FirstAssesmentReducer.PainMeter)
-            await updatePainMeter(this.props.history.location.state.exercises[0].pp_cp_id,this.props.FirstAssesmentReducer.PainMeter)
+            await updatePainMeter(this.props.history.location.state.exercises[0].pp_cp_id,this.props.FirstAssesmentReducer.PainMeter,this.props.history.location.state.exercises[0].ChoosenTime)
             window.darwin.stop();
             const video = document.getElementById('video');
             const mediaStream = video.srcObject;
@@ -642,7 +649,10 @@ class PatientAI extends Component {
             <p className="p text-center mt-2">
               You have successfully completed the session.
             </p>
-            {this.PainMeter()}
+            <h6 className="p text-center mt-2 mb-1">
+          What is your Pain Level after doing the exercises?
+        </h6>
+            {this.Painmeter()}
 
             {/* <div style={{ marginTop: 20 }}>
               <h4 className="fw-bold">Notes-</h4>

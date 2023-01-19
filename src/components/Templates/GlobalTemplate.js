@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { temp } from "./temp";
 import CarePlanCard from "../care-plan/care-plan-card/Card";
+import ReactPlayer from "react-player";
 import { useDispatch, useSelector } from "react-redux";
 import { CARE_PLAN_STATE_CHANGE } from "../../contextStore/actions/care-plan-action";
 import { getTemplates } from "../../API/Template/template";
@@ -27,6 +28,9 @@ const { confirm } = Modal;
 const { Text, Link } = Typography;
 const GlobalTemplate = () => {
   const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+  const [video, setVideo] = useState('');
+  const [video1, setVideo1] = useState('');
   const [tempEx, setTempEx] = useState([]);
   const [loadArr, setLoadArr] = useState([]);
   const [tempName, setTempName] = useState("");
@@ -116,7 +120,88 @@ const GlobalTemplate = () => {
       });
     }
   }
-
+  const ModalPopUp = ({ ex }) => {
+    const [stateVisible ,setStateVisible] = useState(false)
+    return (
+      <>
+      <Card
+        className="px-1 py-1 ant-card-style"
+        // hoverable
+        title={
+          <Row justify="space-between">
+            <Col span={20}></Col>
+            <Col span={4}>
+              <Checkbox
+                checked={
+                  loadArr
+                    .map((item) => item.ex_em_id)
+                    .indexOf(ex.ex_em_id) !== -1
+                    ? true
+                    : false
+                }
+                onClick={() => UpdateEx(ex)}
+              />
+            </Col>
+          </Row>
+        }
+        cover={
+          ex.name == "YouTube" ? <ReactPlayer
+            controls={true}
+            className="react-player"
+            url={ex.youtube_link}
+            width="100%"
+            height={180}
+          /> :<>
+           <img
+            onClick={() => {
+              setStateVisible(true)
+              //console.log(`${process.env.REACT_APP_EXERCISE_URL}/${ex.video_url}`)
+            }}
+            alt="example"
+            className="px-2 py-3 w-100"
+            style={{ height: "180px", cursor: "pointer" }}
+            src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.image_url}`}
+          />
+          <Modal
+        footer={null}
+        visible={stateVisible}
+        title="Video"
+        // onOk={onOk}
+        onCancel={() => setStateVisible(false)}
+        centered
+      >
+        {ex.video_url ? (
+          <video controls  id='template_video_modal' autoplay="autoplay" loop width="100%">
+            <source
+              id="template_video_modal_video_source"
+              src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.video_url}`}
+              type="video/mp4"
+            />
+          </video>
+        ) : (
+          <p>No Video Present...</p>
+        )}
+      </Modal>
+          </>
+        }
+      >
+        {console.log("temp array ", ex)}
+        <Row>
+          <Col span={24}>
+            <Card.Meta title={<p>{ex.name}</p>} />
+          </Col>
+          <Col span={12}>
+            <b>Sets : {ex["Rep"].set} </b>{" "}
+          </Col>
+          <Col span={12}>
+            <b>Reps : {ex["Rep"].rep_count} </b>
+          </Col>
+        </Row>
+      </Card>
+      </>
+    )
+    
+  }
   useEffect(async () => {
     const res = await getTemplates();
     console.log("templates ", res);
@@ -186,7 +271,7 @@ const GlobalTemplate = () => {
       setLoadArr([...loadArr, exercise]);
     }
   };
-  const handleOk = () => {};
+  const handleOk = () => { };
   return (
     <>
       {tempEx.length > 0 ? (
@@ -205,9 +290,6 @@ const GlobalTemplate = () => {
                     }}
                     role="button"
                   ></i>
-                  {/* <Button onClick={()=>{
-                setTempEx([])
-              }}>Back</Button> */}
                 </Col>
 
                 {loadArr.length > 0 ? (
@@ -243,48 +325,7 @@ const GlobalTemplate = () => {
                 {tempEx.map((ex) => (
                   <>
                     <Col lg={8} md={12} sm={12} xs={24}>
-                      <Card
-                        className="px-1 py-1 ant-card-style"
-                        // hoverable
-                        title={
-                          <Row justify="space-between">
-                            <Col span={20}></Col>
-                            <Col span={4}>
-                              <Checkbox
-                                checked={
-                                  loadArr
-                                    .map((item) => item.ex_em_id)
-                                    .indexOf(ex.ex_em_id) !== -1
-                                    ? true
-                                    : false
-                                }
-                                onClick={() => UpdateEx(ex)}
-                              />
-                            </Col>
-                          </Row>
-                        }
-                        cover={
-                          <img
-                            alt="example"
-                            className="px-2 py-3 w-100"
-                            style={{ height: "180px", cursor: "pointer" }}
-                            src={`${process.env.REACT_APP_EXERCISE_URL}/${ex.image_url}`}
-                          />
-                        }
-                      >
-                        {console.log("temp array ", ex)}
-                        <Row>
-                          <Col span={24}>
-                            <Card.Meta title={<p>{ex.name}</p>} />
-                          </Col>
-                          <Col span={12}>
-                            <b>Sets : {ex["Rep"].set} </b>{" "}
-                          </Col>
-                          <Col span={12}>
-                            <b>Reps : {ex["Rep"].rep_count} </b>
-                          </Col>
-                        </Row>
-                      </Card>
+                      <ModalPopUp ex={ex} />
                     </Col>
                   </>
                 ))}
@@ -332,7 +373,6 @@ const GlobalTemplate = () => {
                     )
                   }
                   title={<Link>{item.template_name}</Link>}
-                  // description={item.email}
                 />
                 <span className="template_badge">
                   <center>
@@ -344,11 +384,7 @@ const GlobalTemplate = () => {
           />
         </>
       )}
-      {/* <Modal title="Load exercises" visible={visible} onOk={handleOk} onCancel={()=>setVisible(false)}>
-        <p>Exercises will be added to cart</p>
-      </Modal> */}
     </>
-    // </div>
   );
 };
 

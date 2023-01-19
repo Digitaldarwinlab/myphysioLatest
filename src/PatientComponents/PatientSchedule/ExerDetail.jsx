@@ -9,8 +9,10 @@ import {
   Modal,
   Button,
   Tooltip,
+  Radio
 } from "antd";
 import React, { useEffect, useState } from "react";
+import PainMeter from "../PainMeter/PainMeter";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
 import AchievedResult from "../shared/AchievedResult";
@@ -25,13 +27,14 @@ import {
   submitManuelAi,
   updatePainMeter,
   update_careplan,
+  update_careplan_Nno_AI,
 } from "../../PatientAPI/PatientShedule";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 
 const ExerDetail = () => {
   const [exercises, setExercises] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [pain, setPain] = useState(0);
+  const [pain, setPain] = useState(1);
   const [comp, setComp] = useState([]);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -71,20 +74,45 @@ const ExerDetail = () => {
     const res = await exercise_detail(location.state.exNameList);
     console.log("exercises ", location.state.exercises);
     let yt_temp = [];
-    location.state.exercises.map((ex) => {
-      if (ex.name == "YouTube") {
-        let a = {
-          title: ex.name,
-          video_path: ex.youtube_link,
-        };
-        yt_temp.push(a);
+    let tempExercise = location.state.exercises
+    res.map((ex) => {
+      for(let i =0;i<tempExercise.length;i++){
+        if(ex.ex_em_id==tempExercise[i].ex_em_id){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['instruction_array'] = ex.instruction_array
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
+        if(tempExercise[i].ex_em_id==262){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+          tempExercise[i]['Rep'] = ex.Rep
+        }
       }
     });
-    console.log("exercises ", res);
-    console.log("exercises ", yt_temp);
-    setExercises([...res, ...yt_temp]);
-  }, []);
+    tempExercise.map((ex,idx)=>{
+      ex['Rep'] = location.state.repArr[idx]
+    })
+    console.log("exercises ", tempExercise);
+    setExercises(tempExercise)
+    // console.log("exercises ", re
 
+    // location.state.exercises.map((ex) => {
+    //   let te = [...yt_temp, ...res].find((e) => {
+    //     if (e.title == ex.name) {
+    //       console.log("exercise array1 ", ex);
+    //       let temp_E = e;
+    //       temp_E["Rep"] = ex.Rep;
+    //       return temp_E;
+    //     }
+    //   });
+    //   // console.log("exercise array1 ", te)
+    //   temp.push(te);
+    // });
+    // console.log("  ", temp);
+    // setExercises([...res, ...yt_temp]);
+  }, []);
+  console.log(location.state.exercises[0])
   const finish = async () => {
     let tempId = [];
     comp.map((item) => {
@@ -92,8 +120,14 @@ const ExerDetail = () => {
     });
     let tempName = [];
     comp.map((item) => {
-      tempName.push(location.state.exercises[item].name);
+      tempName.push({
+        name: location.state.exercises[item].name,
+        Rep: location.state.exercises[item].Rep,
+      });
     });
+    console.log("exercises ",comp);
+    console.log("exercises ",tempName);
+    console.log("exercises ",tempId);
     // console.log(location.state.exercises);
     // console.log(location.state.exercises[0].ChoosenTime);
     // console.log(location.state.exercises[0].pp_cp_id);
@@ -104,6 +138,7 @@ const ExerDetail = () => {
     //   time_slot: location.state.exercises[0].ChoosenTime,
     //   exercise: temp,
     // });
+    
     let ChoosenTime = location.state.exercises[0].ChoosenTime;
     const date = new Date();
     let pp_cp_id = location.state.exercises[0].pp_cp_id;
@@ -117,18 +152,37 @@ const ExerDetail = () => {
     // };
     let ch = {};
     tempName.map((item) => {
-      ch[item] = {};
+      ch[item.name] = {
+        set: item.Rep.set,
+        rep: item.Rep.rep_count,
+      };
     });
-    // data.output_json[ChoosenTime] = ch;
-    // console.log(data);
-    let res = await update_careplan(ch, [tempId[0]], 2, ChoosenTime, pp_cp_id);
+    console.log(ch);
+    //ch['output_json']=ch
+    // if (typeof ChoosenTime == "string") {
+    //   json_data.output_json[ChoosenTime] = object;
+    // } else {
+    //   json_data.output_json[JSON.parse(ChoosenTime)] = object;
+    // }
+    // let tempData = {}
+    // // tempData["output_json"] = JSON.parse(ChoosenTime)
+    // tempData.output_json[ChoosenTime] = ch
+    //  tempData[ChoosenTime] = "output_json"
+    //   tempData['output_json']=ch
+    //   tempData['id']= location.state.exercises[0].pp_cp_id
+    await update_careplan_Nno_AI(
+      ch,
+      ChoosenTime,
+      location.state.exercises[0].pp_cp_id
+    );
+    console.log(ChoosenTime)
     // temp.map( async (id) => {
     //   let res =  await update_careplan({},[id],2,ChoosenTime,pp_cp_id)
     // });
     // await submitManuelAi(location.state.exercises[0].pp_cp_id,location.state.exercises[0].ChoosenTime,temp)
-    await updatePainMeter(location.state.exercises[0].pp_cp_id, pain);
-    window.location.href = "/patient/schedule";
-    //window.location.reload();
+    console.log("pain ", location.state.exercises[0].pp_cp_id, pain);
+    await updatePainMeter(location.state.exercises[0].pp_cp_id, pain,ChoosenTime);
+    window.location.href = "/patient/careplan";
   };
 
   const upDel = (index) => {
@@ -148,7 +202,7 @@ const ExerDetail = () => {
       },
     });
   };
-console.log("final ",exercises)
+  console.log("final ", exercises);
   return (
     <div className="exercise-detail" id="exercise-detail">
       <h3 className="fw-bold mt-2 ms-2">
@@ -160,12 +214,20 @@ console.log("final ",exercises)
             <Row className="main-container p-1" id="main-container">
               <Col className="left-box m-1">
                 <div className="top-heading" id="top-heading">
-                  <h2 className="heading" id="heading">
+                  <h2
+                    style={{ fontSize: "20px" }}
+                    className="heading"
+                    id="heading"
+                  >
                     <b>{exercise.title}</b>
                   </h2>
 
                   {index == 0 && (
-                    <h3 className="subtext" id="subtext">
+                    <h3
+                      style={{ fontSize: "20px" }}
+                      className="subtext"
+                      id="subtext"
+                    >
                       <b style={{ color: "teal" }}>
                         {" "}
                         Find the Fun in Exercise and Track your Progress.......
@@ -182,7 +244,7 @@ console.log("final ",exercises)
                       className="react-player"
                       url={exercise.video_path}
                       width="100%"
-                    //  height="auto"
+                      //  height="auto"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">
@@ -235,14 +297,21 @@ console.log("final ",exercises)
                   <p></p>
                   <Descriptions
                     column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                    title={<h3>Step By Step Instructions</h3>}
+                    title={
+                      <h3 style={{ fontSize: "20px" }}>
+                        Step By Step Instructions
+                      </h3>
+                    }
                   >
-                    <Descriptions.Item label="1">
-                      <h5>{exercise.instruction1}</h5>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="2">
-                      <h5>{exercise.instruction2}</h5>
-                    </Descriptions.Item>
+                    {exercise.instruction_array !== undefined && (
+                      <>
+                        {exercise.instruction_array.map((i, index) => (
+                          <Descriptions.Item label={index + 1}>
+                            <h5 style={{ fontSize: "16px" }}>{i}</h5>
+                          </Descriptions.Item>
+                        ))}
+                      </>
+                    )}
                   </Descriptions>
                   {/* <p>Set : {location.state.repArr[index].set}</p>
                       {"       "}
@@ -284,11 +353,14 @@ console.log("final ",exercises)
         <p className="p text-center mt-2">
           You have successfully completed the session.
         </p>
+        <h6 className="p text-center mt-2 mb-1">
+          What is your Pain Level after doing the exercises?
+        </h6>
         <div
           className="painmeter"
-          style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }}
+          style={{ width: "100%",height:'fit-content', marginLeft: "auto", marginRight: "auto",marginBottom:'20px' }}
         >
-          <Slider
+          {/* <Slider
             marks={marks1}
             min={0}
             max={5}
@@ -296,7 +368,8 @@ console.log("final ",exercises)
             onChange={(value) => setPain(value)}
             defaultValue={0}
             style={{ width: "100%" }}
-          />
+          /> */}
+          <PainMeter setPain={setPain} />
         </div>
         <div className="text-end">
           <Button className="okay" onClick={finish}>

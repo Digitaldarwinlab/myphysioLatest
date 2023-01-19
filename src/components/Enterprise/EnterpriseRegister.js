@@ -21,6 +21,7 @@ import { ItemDragging } from 'devextreme-react/list';
 import { EnterpriseOrganization } from "../../API/Enterprise/Enterprise"
 import { useForm } from 'antd/lib/form/Form';
 import { UpdateOrganization } from '../../API/Enterprise/Enterprise';
+import {country} from '../Physio/ClinicRegister/Country.js'
 const { Title } = Typography;
 
 
@@ -125,7 +126,7 @@ const EnterpriseRegister = () => {
             // let verifyEmail = apiValidation.checkEmailValid({type:"email",value:e.target.value});
             // if(!verifyEmail) dispatch({type:VALIDATION,payload:{error:"Email is already registered."}});
         }
-        else if (name === 'name') {
+        else if (name === 'org_name') {
             if (value) {
                 if (value.length < 4) {
                     error["error"] = "Name must contain atleast 4 characters.";
@@ -254,7 +255,7 @@ const EnterpriseRegister = () => {
                         <Col md={24} lg={12} sm={24} xs={24}>
                             {/* {handleNameAndWebsite("name","Name","text","Clinic Name",state.clinicReg.name)} */}
                             <FormInput name="org_name" label={<span style={{ fontSize: '14px', fontWeight: '600' }}>{'Name'}</span>}
-                                value={state.clinicReg.name}
+                                value={state.clinicReg.org_name}
                                 placeholder="Name"
                                 onChange={handleChange}
                                 className="input-field"
@@ -324,7 +325,7 @@ const EnterpriseRegister = () => {
                                         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                     }
                                 >
-                                    <Select.Option value="India">India</Select.Option>
+                                   {country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                                 </Select>
                             </Form.Item>
                         </Col>

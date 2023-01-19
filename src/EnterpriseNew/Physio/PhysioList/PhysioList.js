@@ -77,6 +77,7 @@ const PhysioList = () => {
         async function getPhysioData() {
             setLoading(true);
             const data = await getPhysioList();
+            console.log(data)
             setLoading(false);
             setPhysios(data);
             setPaginationState({

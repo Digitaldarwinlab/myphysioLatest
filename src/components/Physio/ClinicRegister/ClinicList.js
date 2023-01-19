@@ -8,10 +8,13 @@ import { getUserData } from "../../../API/userAuth/userAuth";
 import { getClincList, searchClinic } from "../../../API/Physio/PhysioRegister";
 import { useDispatch } from "react-redux";
 import { CLINIC_STATE_CHANGE } from "../../../contextStore/actions/ClinicRegister";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { keyMapping } from "../PhysioList/PhysioList";
 const ClinicList = () => {
-  const [clinics, setClinics] = useState([]);
+  const searchState = useSelector((state) => state.SearchReg);
+  console.log(searchState);
+  const [clinics, setClinics] = useState(searchState.data);
   const [loading, setLoading] = useState(false);
   const [clinicData, setClinicData] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -36,6 +39,9 @@ const ClinicList = () => {
     }
     getClinicData();
   }, []);
+  useEffect(() => {
+    setClinics(searchState.data)
+  }, [searchState.data]);
   const handleView = (val) => {
     console.log(val);
     let tempData = [];
@@ -220,14 +226,13 @@ const ClinicList = () => {
       <div style={{ minHeight: "20px" }}></div>
       <Row justify="space-between">
         <Col md={12} sm={12} xs={12}>
-          <input
-            //   className="p-2 input-field my-3"
-
+          {/* <input
+              className="px-4 py-2"
             placeholder="Search Clinic.."
             onChange={onSearch}
             loading={loading}
             style={{ width: "100%" }}
-          />
+          /> */}
         </Col>
 
         {getUserData() === "admin" && (
@@ -246,7 +251,7 @@ const ClinicList = () => {
           <Table
             locale={locale}
             scroll={{ x: 500 }}
-            pagination={{ pageSize: 8 }}
+            pagination={{ pageSize: 8,position:["none","bottomCenter"]  }}
             bordered
             columns={columns}
             dataSource={clinics}
@@ -262,7 +267,7 @@ const ClinicList = () => {
           <Table
             locale={locale}
             scroll={{ x: 500 }}
-            pagination={{ pageSize: 8, size: "small" }}
+            pagination={{ pageSize: 8, size: "small",position:["none","bottomCenter"] }}
             bordered
             columns={columns}
             dataSource={clinics}

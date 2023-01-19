@@ -1,5 +1,5 @@
 import AuthForm from './Form';
-import signupImage from "./../../assets/signupImage.JPG";
+import signupImage from "./../../assets/signupImage.webp";
 import MyPhysioLogo from './../UtilityComponents/MyPhysioLogo';
 import "../../styles/userAuth/userAuth.css"; 
 import { Row,Col} from 'antd';

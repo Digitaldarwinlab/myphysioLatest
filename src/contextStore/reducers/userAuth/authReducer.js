@@ -25,8 +25,8 @@ const signupInitialState = {
 }
 
 const loginInitialState = {
-    email: "",
-    password: "",
+    Username: "",
+    Password: "",
     isLoading: false,
     success: "",
     login_attempt: 0
@@ -34,6 +34,7 @@ const loginInitialState = {
 
 const basicDetailsInitialState = {
     MiddleName: "",
+    Title:"",
     FirstName: "",
     LastName: "",
     MobileNo: "",

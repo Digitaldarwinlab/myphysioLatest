@@ -1,6 +1,7 @@
 import { RRule } from "rrule";
 import fetch from "isomorphic-fetch";
 import { Decode, Encode } from "../../Encode/hashing";
+import { getUserData } from "../userAuth/userAuth";
 
 
 //Recurrence Rule Logic 
@@ -132,6 +133,7 @@ export const GetVisit = async () => {
         }
         const responseData = await response.json();
         const data = Decode(responseData)
+        console.log(data)
         return data;
     } catch (error) {
         // console.log(error);
@@ -293,11 +295,13 @@ export   const delete_visit= async (id)=>{
             "Accept": 'application/json',
             "Content-type": "application/json"
         }
-
+        let body ={
+            id: getUserData() == "admin"?9999:id
+        }
         const response = await fetch(process.env.REACT_APP_API + "/get_visit_clinic/", {
             method: "POST",
             headers: headers,
-            body: JSON.stringify({ id: id })
+            body: JSON.stringify(body)
         });
         if (response.status !== 200 && response.status !== 201) {
             throw new Error(response.statusText);

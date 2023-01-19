@@ -1,99 +1,120 @@
-import React, { useState,useEffect } from 'react'
-import { Select, Row, Col, Button, Form, Collapse } from 'antd';
-import { AiFillMedicineBox } from 'react-icons/ai';
+import React, { useState, useEffect } from "react";
+import { Select, Row, Col, Button, Form, Collapse } from "antd";
+import { AiFillMedicineBox } from "react-icons/ai";
 import Questions from "./Questions";
 import Questions1 from "./Questions1";
-import { getQuestions, getTemplateName } from './../../API/Assesment/questionApi';
-import { STATECHANGE } from "../../contextStore/actions/Assesment"
+import {
+  getQuestions,
+  getTemplateName,
+} from "./../../API/Assesment/questionApi";
+import { STATECHANGE } from "../../contextStore/actions/Assesment";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 // aswin start 10/30/2021 start
 import { useDispatch, useSelector } from "react-redux";
-import BackButton from '../../PatientComponents/shared/BackButton';
-import { useHistory } from 'react-router-dom';
+import BackButton from "../../PatientComponents/shared/BackButton";
+import { useHistory } from "react-router-dom";
 // aswin start 10/30/2021 stop
-const AddQuestions = ({back,next}) => {
-
+const AddQuestions = ({ back, next }) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Assesment");
+      const data2 = await DropdownApi("Dashboard");
+      console.log(data2);
+      setDropdownValue(data.Assesment);
+    }
+    getData();
+  }, []);
   const { Option } = Select;
-  const [showQuestion, setShowQuestion] = useState(false)
-  const [templateName, setTemplateName] = useState([])
-  const [questLabel, setQuestLabel] = useState([])
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [templateName, setTemplateName] = useState([]);
+  const [questLabel, setQuestLabel] = useState([]);
   // aswin start 10/30/2021 start
-  const state = useSelector(state=>state)
+  const state = useSelector((state) => state);
   // aswin start 10/30/2021 stop
   const dispatch = useDispatch();
-  useEffect(async() => {
-  const res = await getTemplateName()
-    // console.log('template is ',res)
-  setTemplateName(res)
+  useEffect(async () => {
+    const res = await getTemplateName();
+    setTemplateName(res);
   }, []);
   async function handleChange(value) {
-    setShowQuestion(false)
+    setShowQuestion(false);
     let data = await getQuestions(value);
-    // console.log('res data ',data)
-    let temp = []
-    Object.keys(data.question).map((d,index)=>{
-      if(d!=='description'){
-        temp.push(d)
+    console.log("res data ", data);
+    let temp = [];
+    Object.keys(data.question).map((d, index) => {
+      if (d !== "description") {
+        temp.push(d);
         dispatch({
           type: STATECHANGE,
           payload: {
             key: d,
-            value: {score:[],question:[],answer:[]}
-          }
+            value: { score: [], question: [], answer: [] },
+          },
         });
       }
-  })
-  setQuestLabel(temp)
-  // console.log('calcu ',temp)
+    });
+    setQuestLabel(temp);
+    // console.log('calcu ',temp)
     //QUESTION_CLEARSTATE
     dispatch({
       type: STATECHANGE,
       payload: {
         key: "Questionnaire",
-        value: data
-      }
+        value: data,
+      },
     });
-    setShowQuestion(true)
+    setShowQuestion(true);
   }
 
   return (
     <>
       <Form className="p-3">
         <Row>
-        
-          <Col md={24} lg={24} sm={24} xs={24} className=""> 
-          <BackButton/>
-        <h3><b>Scales & Index</b></h3>
+          <Col md={24} lg={24} sm={24} xs={24} className="">
+            <BackButton />
+            <h3>
+              <b>Scales & Index</b>
+            </h3>
           </Col>
         </Row>
 
-        <Row gutter={[20,20]} style={{marginTop:'15px'}}>
-           <Col md={12} lg={12} sm={24} xs={24}>
-              <p className="border1 p-2">Episode No : {state.carePlanRedcucer.pp_ed_id} <br /><br />
-                Start Date : {state.carePlanRedcucer.episode_start_date} <br /><br />
-                Episode Type : {state.carePlanRedcucer.complaint}</p>
-            </Col>
+        <Row gutter={[20, 20]} style={{ marginTop: "15px" }}>
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <p className="border1 p-2">
+              Episode No : {state.carePlanRedcucer.pp_ed_id} <br />
+              <br />
+              Start Date : {state.carePlanRedcucer.episode_start_date} <br />
+              <br />
+              Episode Type : {state.carePlanRedcucer.complaint}
+            </p>
+          </Col>
 
-            <Col md={12} lg={12} sm={24} xs={24}>
-              <Form.Item label="Scales & Index" name="Episode" required="true" >
-                <Select placeholder="Select"
-                  className="" onChange={handleChange} >
-                    {templateName.map(data=>
-                  <Option value={data}>{data}</Option>
-                    )}
+          <Col md={12} lg={12} sm={24} xs={24}>
+            <Form.Item label="Scales & Index" name="Episode" required="true">
+              {dropdownValue.ScalesandIndex !== undefined && (
+                <Select
+                  placeholder="Select" className="" onChange={handleChange}
+                >
+                  {dropdownValue.ScalesandIndex.map(
+                    (item) => (
+                      <Option key={item} value={item}>
+                        {item}
+                      </Option>
+                    )
+                  )}
                 </Select>
-              </Form.Item>
-            </Col>
-          </Row>
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
 
         <div className="border mb-3">
-          {showQuestion ? <Questions1 questLabel={questLabel}/> : null}
-
-
+          {showQuestion ? <Questions1 questLabel={questLabel} /> : null}
         </div>
-
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default AddQuestions
+export default AddQuestions;

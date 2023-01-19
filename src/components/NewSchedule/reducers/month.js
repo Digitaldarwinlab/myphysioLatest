@@ -9,11 +9,13 @@ import {
     const { type, payload } = action;
     switch (type) {
        case CHANGE_MONTH:
+         console.log(payload)
         return {
           ...state,
           data: payload.MonthData,
         };
        case MONTH_VAL:
+        console.log(payload)
         return {
           ...state,
           data: payload.MonthVal,

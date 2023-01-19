@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation ,useHistory} from "react-router-dom";
 import React, { useEffect, useState,Profiler } from "react";
 import { Row, Col, Button } from "antd";
 import VideoScreen from './../shared/VideScreen';
@@ -20,6 +20,7 @@ const reloadCount = 0;
 // Main Component
 const PatientSchedule = () => {
     const location = useLocation();
+   const history = useHistory()
     const [VideoUrl, setVideoUrl] = useState("");
     const [reloadCount, setreloadCount] = useState(0);
     //Instructions 
@@ -94,7 +95,13 @@ return (
               }}
             >
     <>
-        <h3 className="fw-bold mt-2 ms-2"><BackButton /></h3>
+        <h3 className="fw-bold mt-2 ms-2"><i className="fas fa-arrow-left"
+        style={{ cursor: "pointer" }}
+        title="Go Back"
+        onClick={() => {
+            history.push('/patient/dashboard')
+        }} role="button"></i>
+    </h3>
         <Row className="m-0" justify="space-around">
 
             <Col span={24} className="text-center" >

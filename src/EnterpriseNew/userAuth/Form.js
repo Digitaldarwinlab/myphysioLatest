@@ -123,7 +123,7 @@ const AuthForm = (props) => {
                         label="Username"
                         placeholder="Username"
                         value={props.isSignin ? state.loginReducer.email : state.signupReducer.email}
-                        name="email"
+                        name="Username"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         required={true}

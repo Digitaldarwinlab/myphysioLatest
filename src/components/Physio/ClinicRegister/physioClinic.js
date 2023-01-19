@@ -26,6 +26,7 @@ import { useHistory } from "react-router-dom";
 import "../../../styles/Layout/Heading.css";
 import { ItemDragging } from "devextreme-react/list";
 import { useForm } from "antd/lib/form/Form";
+import { country } from "./Country";
 const { Title } = Typography;
 const PhysioClinic = () => {
   // const formRef = React.createRef();
@@ -35,6 +36,7 @@ const PhysioClinic = () => {
   const dispatch = useDispatch();
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
+  const [submitState, setSubmitState] = useState(false)
   const history = useHistory();
   useEffect(() => {
     dispatch({ type: "NOERROR" });
@@ -50,49 +52,107 @@ const PhysioClinic = () => {
     }
   }, []);
   useEffect(() => {
+    localStorage.removeItem('clinic_submit');
     const unblock = history.block((location, action) => {
+      if(localStorage.getItem('clinic_submit')) {
+        dispatch({ type: CLINIC_CLEAR_STATE });
+        form.setFieldsValue({ name: "" });
+        form.setFieldsValue({ address_1: "" });
+        form.setFieldsValue({ address_2: "" });
+        form.setFieldsValue({ address_3: "" });
+        form.setFieldsValue({ city: "" });
+        form.setFieldsValue({ state: "" });
+        form.setFieldsValue({ country: "" });
+        form.setFieldsValue({ zip: "" });
+        form.setFieldsValue({ estab_date: "" });
+        form.setFieldsValue({ mobile_no: "" });
+        form.setFieldsValue({ landline_no: "" });
+        form.setFieldsValue({ whatsapp_no: "" });
+        form.setFieldsValue({ email: "" });
+        form.setFieldsValue({ website_url: "" });
+        // setClearState(true);
+        dispatch({ type: VALIDATION, payload: { error: "" } });
+        return true;
+      }
+      // if (
+      //   state.clinicReg.name !== "" ||
+      //   state.clinicReg.address_1 !== "" ||
+      //   state.clinicReg.address_2 !== "" ||
+      //   state.clinicReg.address_3 !== "" ||
+      //   state.clinicReg.city !== "" ||
+      //   state.clinicReg.state !== "" ||
+      //   state.clinicReg.country !== "" ||
+      //   state.clinicReg.zip !== "" ||
+      //   state.clinicReg.estab_date !== "" ||
+      //   state.clinicReg.mobile_no !== "" ||
+      //   state.clinicReg.landline_no !== "" ||
+      //   state.clinicReg.whatsapp_no !== "" ||
+      //   state.clinicReg.email !== "" ||
+      //   state.clinicReg.website_url !== ""
+      // ) {
+      //   if (
+      //     window.confirm("You will lost your Form Data. Do You really wants?")
+      //   ) {
+      //     dispatch({ type: CLINIC_CLEAR_STATE });
+      //     form.setFieldsValue({ name: "" });
+      //     form.setFieldsValue({ address_1: "" });
+      //     form.setFieldsValue({ address_2: "" });
+      //     form.setFieldsValue({ address_3: "" });
+      //     form.setFieldsValue({ city: "" });
+      //     form.setFieldsValue({ state: "" });
+      //     form.setFieldsValue({ country: "" });
+      //     form.setFieldsValue({ zip: "" });
+      //     form.setFieldsValue({ estab_date: "" });
+      //     form.setFieldsValue({ mobile_no: "" });
+      //     form.setFieldsValue({ landline_no: "" });
+      //     form.setFieldsValue({ whatsapp_no: "" });
+      //     form.setFieldsValue({ email: "" });
+      //     form.setFieldsValue({ website_url: "" });
+      //     // setClearState(true);
+      //     dispatch({ type: VALIDATION, payload: { error: "" } });
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // } else {
+      //   console.log("nothing " +  state.clinicReg.name !== "" ,
+      //   state.clinicReg.address_1 !== "" ,
+      //   state.clinicReg.address_2 !== "" ,
+      //   state.clinicReg.address_3 !== "" ,
+      //   state.clinicReg.city !== "" ,
+      //   state.clinicReg.state !== "" ,
+      //   state.clinicReg.country !== "" ,
+      //   state.clinicReg.zip !== "" ,
+      //   state.clinicReg.estab_date !== "" ,
+      //   state.clinicReg.mobile_no !== "" ,
+      //   state.clinicReg.landline_no !== "" ,
+      //   state.clinicReg.whatsapp_no !== "" ,
+      //   state.clinicReg.email !== "" ,
+      //   state.clinicReg.website_url !== "");
+      // }
       if (
-        state.clinicReg.name !== "" ||
-        state.clinicReg.address_1 !== "" ||
-        state.clinicReg.address_2 !== "" ||
-        state.clinicReg.address_3 !== "" ||
-        state.clinicReg.city !== "" ||
-        state.clinicReg.state !== "" ||
-        state.clinicReg.country !== "" ||
-        state.clinicReg.zip !== "" ||
-        state.clinicReg.estab_date !== "" ||
-        state.clinicReg.mobile_no !== "" ||
-        state.clinicReg.landline_no !== "" ||
-        state.clinicReg.whatsapp_no !== "" ||
-        state.clinicReg.email !== "" ||
-        state.clinicReg.website_url !== ""
+        window.confirm("You will lost your Form Data. Do You really wants?")
       ) {
-        if (
-          window.confirm("You will lost your Form Data. Do You really wants?")
-        ) {
-          dispatch({ type: CLINIC_CLEAR_STATE });
-          form.setFieldsValue({ name: "" });
-          form.setFieldsValue({ address_1: "" });
-          form.setFieldsValue({ address_2: "" });
-          form.setFieldsValue({ address_3: "" });
-          form.setFieldsValue({ city: "" });
-          form.setFieldsValue({ state: "" });
-          form.setFieldsValue({ country: "" });
-          form.setFieldsValue({ zip: "" });
-          form.setFieldsValue({ estab_date: "" });
-          form.setFieldsValue({ mobile_no: "" });
-          form.setFieldsValue({ landline_no: "" });
-          form.setFieldsValue({ whatsapp_no: "" });
-          form.setFieldsValue({ email: "" });
-          form.setFieldsValue({ website_url: "" });
-          // setClearState(true);
-          dispatch({ type: VALIDATION, payload: { error: "" } });
-          return true;
-        } else {
-          return false;
-        }
+        dispatch({ type: CLINIC_CLEAR_STATE });
+        form.setFieldsValue({ name: "" });
+        form.setFieldsValue({ address_1: "" });
+        form.setFieldsValue({ address_2: "" });
+        form.setFieldsValue({ address_3: "" });
+        form.setFieldsValue({ city: "" });
+        form.setFieldsValue({ state: "" });
+        form.setFieldsValue({ country: "" });
+        form.setFieldsValue({ zip: "" });
+        form.setFieldsValue({ estab_date: "" });
+        form.setFieldsValue({ mobile_no: "" });
+        form.setFieldsValue({ landline_no: "" });
+        form.setFieldsValue({ whatsapp_no: "" });
+        form.setFieldsValue({ email: "" });
+        form.setFieldsValue({ website_url: "" });
+        // setClearState(true);
+        dispatch({ type: VALIDATION, payload: { error: "" } });
+        return true;
       } else {
-        console.log("nothing " + state.clinicReg);
+        return false;
       }
     });
 
@@ -173,7 +233,10 @@ const PhysioClinic = () => {
       error = Validation.checkEmailValidation(value);
       // let verifyEmail = apiValidation.checkEmailValid({type:"email",value:e.target.value});
       // if(!verifyEmail) dispatch({type:VALIDATION,payload:{error:"Email is already registered."}});
-    } else if (name === "name") {
+    }else if(name==="mobile_no"){
+      error = Validation.checkMobNoValidation(e.target.value);
+    } 
+    else if (name === "name") {
       const validName = new RegExp("^[a-zA-Z0-9_]{2,20}$");
       if (value) {
         if (value.length < 4) {
@@ -221,35 +284,42 @@ const PhysioClinic = () => {
     }
   };
   const handleSubmit = async (value) => {
-    await clinicRegisterApi(state.clinicReg, dispatch);
-    form.resetFields();
-    //     if(Validation.checkNameValidation(state.clinicReg.name))
-    //     {
-    //         error=Validation.checkNameValidation(state.clinicReg.name)
+    localStorage.setItem('clinic_submit',true)
+    setSubmitState(true)
+    let error={}
+         if(Validation.checkMobNoValidation(state.clinicReg.mobile_no).error){
+          error = Validation.checkMobNoValidation(state.clinicReg.mobile_no);
+        }else if(Validation.checkAddrValidation(state.clinicReg.address_1).error || Validation.checkAddrValidation(state.clinicReg.address_2).error || Validation.checkAddrValidation(state.clinicReg.address_3).error)
+        {
+            error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
+        }
+        else if(Validation.checkPincodeValidation(state.clinicReg.zip).error)
+        {
+            error= Validation.checkPincodeValidation(state.clinicReg.zip)
+        }
 
-    //     }else if(Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3))
-    //     {
-    //         error=Validation.checkAddrValidation(state.clinicReg.address_1) || Validation.checkAddrValidation(state.clinicReg.address_2) || Validation.checkAddrValidation(state.clinicReg.address_3)
-    //     }
-    //     else if(Validation.checkPincodeValidation(state.clinicReg.zip))
-    //     {
-    //         error= Validation.checkPincodeValidation(state.clinicReg.zip)
-    //     }
+        else if(Validation.checkEmailValidation(state.clinicReg.email).error)
+        {
+            error=Validation.checkEmailValidation(state.clinicReg.email)
+        }
 
-    //     else if(Validation.checkEmailValidation(state.clinicReg.email))
-    //     {
-    //         error=Validation.checkEmailValidation(state.clinicReg.email)
-    //     }
-
-    //     else if(Validation.isValidURL(state.clinicReg.url))
-    //     {
-    //         error=Validation.isValidURL(state.clinicReg.url)
-    //     }
-    // if(error.error)
-    // {
-    //     dispatch({ type: VALIDATION, payload: { error: error.error } });
-    //     return false
-    // }
+        else if(Validation.isValidURL(state.clinicReg.url).error)
+        {
+            error=Validation.isValidURL(state.clinicReg.url)
+        }
+    if(error.error)
+    {
+        dispatch({ type: VALIDATION, payload: { error: error.error } });
+        localStorage.removeItem('clinic_submit')
+        return false
+    }
+    console.log("details ",state.clinicReg)
+    console.log("details ",error)
+    let res = await clinicRegisterApi(state.clinicReg, dispatch);
+    if(res){
+      form.resetFields();
+      history.push('/clinic-list')
+    }
 
     // else if(state.Validation.error)
     // {
@@ -269,10 +339,12 @@ const PhysioClinic = () => {
 
   const handleUpdate = async () => {
     let res = await clinicUpdateApi(state.clinicReg, dispatch);
-    if (res) {
-      window.location.href = "/clinic-list";
-    }
-    executeScroll()
+    setTimeout(() => {
+      if (res) {
+        window.location.href = "/clinic-list";
+      }
+      executeScroll()
+    }, 500);
   };
 
   const handleNameAndWebsite = (htmlfor, title, type, place, value) => {
@@ -324,7 +396,7 @@ const PhysioClinic = () => {
                 placeholder="Name"
                 onChange={handleChange}
                 className="input-field"
-                //  onBlur = {handleBlur}
+               // onBlur = {handleBlur}
                 required={true}
               />
             </Col>
@@ -340,7 +412,7 @@ const PhysioClinic = () => {
                 placeholder="Address 1"
                 className="input-field"
                 onChange={handleChange}
-                //   onBlur = {handleBlur}
+                onBlur = {handleBlur}
                 required={true}
               />
             </Col>
@@ -359,7 +431,7 @@ const PhysioClinic = () => {
                 placeholder="Address 2"
                 className="input-field"
                 onChange={handleChange}
-                // onBlur = {handleBlur}
+               // onBlur = {handleBlur}
                 required={false}
               />
             </Col>
@@ -375,7 +447,7 @@ const PhysioClinic = () => {
                 placeholder="Address 3"
                 className="input-field"
                 onChange={handleChange}
-                // onBlur = {handleBlur}
+                //onBlur = {handleBlur}
                 required={false}
               />
             </Col>
@@ -402,7 +474,7 @@ const PhysioClinic = () => {
                 //  rules={[{ required: true, message: `Please Select Country.` }]}
               >
                 <Select
-                  //showSearch
+                  showSearch
                   optionFilterProp="children"
                   placeholder="please select country"
                   value={state.clinicReg.country}
@@ -415,8 +487,7 @@ const PhysioClinic = () => {
                       .toLowerCase()
                       .indexOf(input.toLowerCase()) >= 0
                   }
-                >
-                  <Select.Option value="India">India</Select.Option>
+                >{country.map(item=><Select.Option value={item}>{item}</Select.Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -522,7 +593,7 @@ const PhysioClinic = () => {
                 placeholder="Pin Code"
                 onChange={handleChange}
                 className="input-field"
-                //  onBlur = {handleBlur}
+                onBlur = {handleBlur}
                 //  required={true}
               />
             </Col>
@@ -538,7 +609,7 @@ const PhysioClinic = () => {
                 className="input-field"
                 placeholder="Mobile No."
                 onChange={handleChange}
-                //   onBlur = {handleBlur}
+                onBlur = {handleBlur}
                 required="true"
               />
             </Col>
@@ -605,7 +676,7 @@ const PhysioClinic = () => {
                 value={state.clinicReg.email}
                 placeholder="Email"
                 onChange={handleChange}
-                //  onBlur = {handleBlur}
+                  onBlur = {handleBlur}
                 required="true"
               />
             </Col>

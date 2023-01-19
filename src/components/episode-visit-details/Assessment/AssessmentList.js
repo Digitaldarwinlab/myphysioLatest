@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ReactToPrint from "react-to-print";
-import {jsPDF} from "jspdf";
+import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import html2pdf from "html2pdf.js"
+// import html2pdf from "html2pdf.js"
 import {
   Button,
   Row,
@@ -33,25 +33,46 @@ import moment from "moment";
 export const tableLabels = {
   leftShoulder: "L Shoulder Abd/Add",
   rightShoulder: "R Shoulder Abd/Add",
-  leftElbow: "L Elbow Flex",
-  rightElbow: "R Elbow Flex",
-  leftHipAdductionAbduction: "L Hip Fwd Flex",
-  rightHipAdductionAbduction: "R Hip Fwd Flex",
+  leftElbow: "L Elbow Flex/Ext",
+  rightElbow: "R Elbow Flex/Ext",
+  leftHipAdductionAbduction: "L Hip Abd/Add",
+  rightHipAdductionAbduction: "R Hip Abd/Add",
   leftKnee: "L Knee Flex/Ext",
   rightKnee: "R Knee Flex/Ext",
   leftNeck: "L Cervical Side flex",
   rightNeck: "R Cervical Side Flex",
-  leftPelvic: "L Lateral Side Flex",
-  rightPelvic: "R Lateral Side Flex",
-  leftWrist: "L Wrist",
-  rightWrist: "R Wrist",
-  leftAnkle: "L Ankle",
-  rightAnkle: "R Ankle",
-  leftHip: "L Hip Abd/Add",
-  rightHip: "R Hip Abd/Add",
-  cervicalForwardFlexion: "Cervical Fwd Flex",
+  leftPelvic: "L Lumbar Side Flex",
+  rightPelvic: "R Lumbar Side Flex",
+  leftWrist: "L Wrist Flex/Ext",
+  rightWrist: "R Wrist Flex/Ext",
+  leftAnkle: "L Ankle Dorsi/Planter Flex",
+  rightAnkle: "R Ankle Dorsi/Planter Flex",
+  leftHip: "L Hip Flex/Ext",
+  rightHip: "R Hip Flex/Ext",
+  cervicalForwardFlexion: "Cervical Flex/Ext",
 };
 
+export const tableLabelLateral = {
+  leftShoulder: "L Shoulder Flex/Ext",
+  rightShoulder: "R Shoulder Flex/Ext",
+  leftElbow: "L Elbow Flex/Ext",
+  rightElbow: "R Elbow Flex/Ext",
+  leftHipAdductionAbduction: "L Hip Abd/Add",
+  rightHipAdductionAbduction: "R Hip Abd/Add",
+  leftKnee: "L Knee Flex/Ext",
+  rightKnee: "R Knee Flex/Ext",
+  leftNeck: "L Cervical Side flex",
+  rightNeck: "R Cervical Side Flex",
+  leftPelvic: "L Lumbar Side Flex",
+  rightPelvic: "R Lumbar Side Flex",
+  leftWrist: "L Wrist Flex/Ext",
+  rightWrist: "R Wrist Flex/Ext",
+  leftAnkle: "L Ankle Dorsi/Planter Flex",
+  rightAnkle: "R Ankle Dorsi/Planter Flex",
+  leftHip: "L Hip Flex/Ext",
+  rightHip: "R Hip Flex/Ext",
+  cervicalForwardFlexion: "Cervical Flex/Ext",
+};
 const { Panel } = Collapse;
 const AssessmentList = ({ assesmentClick }) => {
   {
@@ -74,7 +95,7 @@ const AssessmentList = ({ assesmentClick }) => {
   const [kSports, setKsports] = useState([]);
   const [kQOL, setKQOL] = useState([]);
   const [itemArray, SetitemArray] = useState([]);
-  const [showAssesment,setShowAssesment] = useState(false);
+  const [showAssesment, setShowAssesment] = useState(false);
   const [paginationState, setPaginationState] = React.useState({
     totalPage: 5,
     current: 1,
@@ -411,24 +432,24 @@ const AssessmentList = ({ assesmentClick }) => {
   };
 
   const make_pdf = () => {
-  //   html2canvas(document.getElementById("assesmentPrint")).then(canvas => {
-  //     document.body.appendChild(canvas);  // if you want see your screenshot in body.
-  //     const imgData = canvas.toDataURL('image/png');
-  //     const pdf = new jsPDF();
-  //     pdf.setFontSize(10);
-  //     pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-  //     pdf.save("Patient-Data.pdf"); 
+    //   html2canvas(document.getElementById("assesmentPrint")).then(canvas => {
+    //     document.body.appendChild(canvas);  // if you want see your screenshot in body.
+    //     const imgData = canvas.toDataURL('image/png');
+    //     const pdf = new jsPDF();
+    //     pdf.setFontSize(10);
+    //     pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+    //     pdf.save("Patient-Data.pdf"); 
 
-  // })
-  setShowAssesment(true);
-  const input = document.getElementById("assesmentPrint");
-  //  const pdf = new jsPDF({ unit: "px", format: "letter", userUnit: "px" });
-  //  pdf.html(input, { html2canvas: { scale: 0.57 } }).then(() => {
-  //    pdf.save("test.pdf");
-  //  });
-  html2pdf(input);
-  setTimeout(() => setShowAssesment(false),1000)
- 
+    // })
+    setShowAssesment(true);
+    const input = document.getElementById("assesmentPrint");
+    //  const pdf = new jsPDF({ unit: "px", format: "letter", userUnit: "px" });
+    //  pdf.html(input, { html2canvas: { scale: 0.57 } }).then(() => {
+    //    pdf.save("test.pdf");
+    //  });
+    // html2pdf(input);
+    setTimeout(() => setShowAssesment(false), 1000)
+
   }
 
   useEffect(async () => {
@@ -587,8 +608,8 @@ const AssessmentList = ({ assesmentClick }) => {
   }
   return (
     <React.Fragment>
-      <div  className="divvv">
-        <Col span={24} className="px-3 py-3 mb-3">
+      <div className="divvv">
+        <Col span={24} className="">
           <Row>
             <Col lg={18} md={18} sm={18} xs={24}>
               <h4 className="fw-bold">
@@ -608,7 +629,7 @@ const AssessmentList = ({ assesmentClick }) => {
               </Button>
             </Col>
           </Row>
-
+          {AssesmentData.length === 0 && <Col span={24} className="px-3"> <p className="fw-bold">No Assesment Present..</p></Col>}
           {AssesmentData.map(
             (data, index) =>
               //aswin 10/30/2021 start
@@ -624,226 +645,467 @@ const AssessmentList = ({ assesmentClick }) => {
                   <Col span={24} className="px-3">
                     {loading && <Loading />}
                     {/* {AssesmentData === null ||AssesmentData === undefined||AssesmentData.length<0 && <p className="fw-bold">No Assesment Present..</p>} */}
-                    {AssesmentData.length === 0 ? (
+                    {/* {AssesmentData.length === 0 ? (
                       <p className="fw-bold">No Assesment Present..</p>
-                    ) : (
-                      <>
-                        <Collapse defaultActiveKey={["1"]}>
-                          {data.body_image && (
-                            <Panel header="Areas of Pain/Impairment" key="1">
+                    ) : ( */}
+                    <>
+                      <Collapse defaultActiveKey={["1"]}>
+                        {data.body_image && (
+                          <Panel header="Areas of Pain/Impairment" key="1">
+                            <div className=" border mb-3 mt-3">
+                              <h4 className="p-2">Areas of Pain/Impairment </h4>
+                              <Row>
+                                <img width="100%" src={data.body_image} />
+                              </Row>
+                            </div>
+                          </Panel>
+                        )}
+                        {(data.physical_assessement.Built.length > 0 ||
+                          data.physical_assessement.History.length > 0 ||
+                          data.physical_assessement.chiefCom.length > 0 ||
+                          data.physical_assessement.past_medical_history
+                            .length > 0 ||
+                          (data.physical_assessement.Subjective[0].occupation
+                            .length > 0 &&
+                            data.physical_assessement.Subjective[0].duration
+                              .length > 0)) && (
+                            <Panel header="Physical Assesment" key="2">
                               <div className=" border mb-3 mt-3">
-                                <h4 className="p-2">Areas of Pain/Impairment </h4>
-                                <Row>
-                                  <img width="100%" src={data.body_image} />
+                                {/* <Row className="border">
+                                                    <Col lg={18} md={18} sm={18} xs={24}>
+                                                        <h4 className="p-2">Physical Assesment</h4>
+                                                    </Col>
+                                                    <Col lg={6} md={6} sm={6} xs={24} className="text-end">
+                                                    </Col>
+                                                </Row> */}
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Descriptions>
+                                    <Descriptions.Item label="Assesment Date">
+                                      {data.assesmentdate.slice(0, 10)}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Built">
+                                      {data.physical_assessement.Built}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="History">
+                                      {data.physical_assessement.History}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Cheif Complaint">
+                                      {" "}
+                                      {data.physical_assessement.chiefCom}
+                                    </Descriptions.Item>
+
+                                    <Descriptions.Item
+                                      label="Past Medical History"
+                                      span={3}
+                                    >
+                                      {" "}
+                                      {data.physical_assessement
+                                        .past_medical_history &&
+                                        data.physical_assessement
+                                          .past_medical_history.length > 0 &&
+                                        data.physical_assessement.past_medical_history.map(
+                                          (p) => `${p + " ,"}`
+                                        )}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Any Other details ">
+                                      {" "}
+                                      {
+                                        data.physical_assessement
+                                          .any_other_details
+                                      }
+                                    </Descriptions.Item>
+                                    {/* any_other_details */}
+                                  </Descriptions>
+                                </Row>
+                              </div>
+
+                              {/* <div className=" border mb-3 mt-3"> */}
+                              {data.physical_assessement.Subjective &&
+                                data.physical_assessement.Subjective.length >
+                                0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>
+                                        <u>Subjective </u>
+                                      </b>
+                                    </Descriptions.Item>
+                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                      <table
+                                        style={{ width: "50%" }}
+                                      //style={{ width: `${screen.width / 2}px` }}
+                                      >
+                                        <tr>
+                                          <td style={{ width: "33%" }}>
+                                            <b>Occupation</b>
+                                          </td>
+                                          <td style={{ width: "33%" }}>
+                                            <b>Duration</b>
+                                          </td>
+                                          <td style={{ width: "33%" }}>
+                                            <b>Sports-type</b>
+                                          </td>
+                                        </tr>
+                                        {data.physical_assessement.Subjective.map(
+                                          (data) => (
+                                            <tr>
+                                              <td>{data.occupation}</td>
+                                              <td>{data.duration}</td>
+                                              {data.occupation === "Sports" && (
+                                                <td>{data.Sports_type}</td>
+                                              )}
+                                            </tr>
+                                          )
+                                        )}
+                                      </table>
+                                    </Row>
+                                  </>
+                                )}
+                            </Panel>
+                          )}
+                        {/* </div> */}
+                        {(data.nature_of_pain.length > 0 ||
+                          data.pain_scale > 0 ||
+                          data.pain_scars.length > 0 ||
+                          (data.pain_aggravating !== undefined &&
+                            data.pain_aggravating.length > 0) ||
+                          (data.pain_relieving !== undefined &&
+                            data.pain_relieving.length > 0) ||
+                          data.sensory_input["superficial"].length > 0 ||
+                          data.sensory_input["deep"].length > 0 ||
+                          data.sensory_input["cortial"].length > 0) && (
+                            <Panel header="Pain Assesment" key="3">
+                              <div className=" border mb-3 mt-3">
+                                {/* <Row className="border">
+                                                    <Col lg={18} md={18} sm={18} xs={24}>
+                                                        <h4 className="p-2">Pain Assesment</h4>
+                                                    </Col>
+                                                </Row> */}
+
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Descriptions>
+                                    <Descriptions.Item label="Nature Of Pain">
+                                      {data.nature_of_pain
+                                        ? JSON.stringify(data.nature_of_pain).replace('[', '').replace(']', '').replaceAll('"', '')
+                                        : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Pain Scale">
+                                      {data.pain_scale
+                                        ? data.pain_scale
+                                        : data.pain_scale === 0
+                                          ? 0
+                                          : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Scar">
+                                      {data.pain_scars
+                                        ? data.pain_scars
+                                        : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Swelling">
+                                      {data.pain_swelling
+                                        ? data.pain_swelling
+                                        : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Pain Aggravating">
+                                      {data.pain_aggravating !== undefined
+                                        ? data.pain_aggravating.length > 0 &&
+                                        data.pain_aggravating.map(
+                                          (d) => d + " "
+                                        )
+                                        : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item
+                                      label="Pain Relieving"
+                                      span={3}
+                                    >
+                                      {" "}
+                                      {data.pain_relieving !== undefined
+                                        ? data.pain_relieving.length > 0 &&
+                                        data.pain_relieving.map((d) => d + " ")
+                                        : "not available"}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>
+                                        <u>Sensory Inputs </u>
+                                      </b>
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Superficial">
+                                      {data.sensory_input.superficial}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Deep">
+                                      {data.sensory_input.deep}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Cortial">
+                                      {data.sensory_input.cortial}
+                                    </Descriptions.Item>
+                                  </Descriptions>
                                 </Row>
                               </div>
                             </Panel>
                           )}
-                          {(data.physical_assessement.Built.length > 0 ||
-                            data.physical_assessement.History.length > 0 ||
-                            data.physical_assessement.chiefCom.length > 0 ||
-                            data.physical_assessement.past_medical_history
-                              .length > 0 ||
-                            (data.physical_assessement.Subjective[0].occupation
-                              .length > 0 &&
-                              data.physical_assessement.Subjective[0].duration
-                                .length > 0)) && (
-                              <Panel header="Physical Assesment" key="2">
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                                    <Col lg={18} md={18} sm={18} xs={24}>
-                                                        <h4 className="p-2">Physical Assesment</h4>
-                                                    </Col>
-                                                    <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                                                    </Col>
-                                                </Row> */}
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Descriptions>
-                                      <Descriptions.Item label="Assesment Date">
-                                        {data.assesmentdate.slice(0, 10)}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Built">
-                                        {data.physical_assessement.Built}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="History">
-                                        {data.physical_assessement.History}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Cheif Complaint">
-                                        {" "}
-                                        {data.physical_assessement.chiefCom}
-                                      </Descriptions.Item>
-
-                                      <Descriptions.Item
-                                        label="Past Medical History"
-                                        span={3}
-                                      >
-                                        {" "}
-                                        {data.physical_assessement
-                                          .past_medical_history &&
-                                          data.physical_assessement
-                                            .past_medical_history.length > 0 &&
-                                          data.physical_assessement.past_medical_history.map(
-                                            (p) => `${p + " ,"}`
-                                          )}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Any Other details ">
-                                        {" "}
-                                        {
-                                          data.physical_assessement
-                                            .any_other_details
-                                        }
-                                      </Descriptions.Item>
-                                      {/* any_other_details */}
-                                    </Descriptions>
-                                  </Row>
-                                </div>
-
-                                {/* <div className=" border mb-3 mt-3"> */}
-                                {data.physical_assessement.Subjective &&
-                                  data.physical_assessement.Subjective.length >
-                                  0 && (
-                                    <>
-                                      <Descriptions.Item label="" span={3}>
-                                        <b>
-                                          <u>Subjective </u>
-                                        </b>
-                                      </Descriptions.Item>
-                                      <Row gutter={[10, 10]} className="px-4 py-2">
-                                        <table
-                                          style={{ width: "50%" }}
-                                        //style={{ width: `${screen.width / 2}px` }}
-                                        >
-                                          <tr>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Occupation</b>
-                                            </td>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Duration</b>
-                                            </td>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Sports-type</b>
-                                            </td>
-                                          </tr>
-                                          {data.physical_assessement.Subjective.map(
-                                            (data) => (
-                                              <tr>
-                                                <td>{data.occupation}</td>
-                                                <td>{data.duration}</td>
-                                                {data.occupation === "Sports" && (
-                                                  <td>{data.Sports_type}</td>
-                                                )}
-                                              </tr>
-                                            )
-                                          )}
-                                        </table>
-                                      </Row>
-                                    </>
-                                  )}
-                              </Panel>
-                            )}
-                          {/* </div> */}
-                          {(data.nature_of_pain.length > 0 ||
-                            data.pain_scale > 0 ||
-                            data.pain_scars.length > 0 ||
-                            (data.pain_aggravating !== undefined &&
-                              data.pain_aggravating.length > 0) ||
-                            (data.pain_relieving !== undefined &&
-                              data.pain_relieving.length > 0) ||
-                            data.sensory_input["superficial"].length > 0 ||
-                            data.sensory_input["deep"].length > 0 ||
-                            data.sensory_input["cortial"].length > 0) && (
-                              <Panel header="Pain Assesment" key="3">
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                                    <Col lg={18} md={18} sm={18} xs={24}>
-                                                        <h4 className="p-2">Pain Assesment</h4>
-                                                    </Col>
-                                                </Row> */}
-
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Descriptions>
-                                      <Descriptions.Item label="Nature Of Pain">
-                                        {data.nature_of_pain
-                                          ? data.nature_of_pain
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Pain Scale">
-                                        {data.pain_scale
-                                          ? data.pain_scale
-                                          : data.pain_scale === 0
-                                            ? 0
-                                            : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Scar">
-                                        {data.pain_scars
-                                          ? data.pain_scars
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Swelling">
-                                        {data.pain_swelling
-                                          ? data.pain_swelling
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Pain Aggravating">
-                                        {data.pain_aggravating !== undefined
-                                          ? data.pain_aggravating.length > 0 &&
-                                          data.pain_aggravating.map(
-                                            (d) => d + " "
-                                          )
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item
-                                        label="Pain Relieving"
-                                        span={3}
-                                      >
-                                        {" "}
-                                        {data.pain_relieving !== undefined
-                                          ? data.pain_relieving.length > 0 &&
-                                          data.pain_relieving.map((d) => d + " ")
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="" span={3}>
-                                        <b>
-                                          <u>Sensory Inputs </u>
-                                        </b>
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Superficial">
-                                        {data.sensory_input.superficial}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Deep">
-                                        {data.sensory_input.deep}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Cortial">
-                                        {data.sensory_input.cortial}
-                                      </Descriptions.Item>
-                                    </Descriptions>
-                                  </Row>
-                                </div>
-                              </Panel>
-                            )}
-                          {(data.shoulder ||
-                            data.Ankle ||
-                            data.Cervical_Spine ||
-                            data.Thoracic_Spine ||
-                            data.Lumbar_Spine ||
-                            data.Forearm_wrist_Hand ||
-                            data.Hip ||
-                            data.Knee ||
-                            data.Others ||
-                            data.Elbow) && (
-                              <Panel header="Special Test" key="4">
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
+                        {(data.shoulder ||
+                          data.Ankle ||
+                          data.Cervical_Spine ||
+                          data.Thoracic_Spine ||
+                          data.Lumbar_Spine ||
+                          data.Forearm_wrist_Hand ||
+                          data.Hip ||
+                          data.Knee ||
+                          data.Others ||
+                          data.Elbow) && (
+                            <Panel header="Special Test" key="4">
+                              <div className=" border mb-3 mt-3">
+                                {/* <Row className="border">
                                                     <Col lg={18} md={18} sm={18} xs={24}>
                                                         {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
                                                     </Col>
                                                 </Row> */}
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.shoulder && data.shoulder.length > 0 && (
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.shoulder && data.shoulder.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Shoulder </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.shoulder.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Ankle && data.Ankle.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Ankle </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.Ankle.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Elbow && data.Elbow.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Elbow </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.Elbow.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Hip && data.Hip.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Hip </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.Hip.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Knee && data.Knee.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Knee </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.Knee.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Others && data.Others.length > 0 && (
+                                      <>
+                                        <Descriptions.Item label="" span={3}>
+                                          <b>Others </b>
+                                        </Descriptions.Item>
+                                        <table
+                                          style={{
+                                            width: `${screen.width / 2}px`,
+                                          }}
+                                          border="1px"
+                                        >
+                                          <tr>
+                                            <td>
+                                              {" "}
+                                              <center>Questions</center>
+                                            </td>
+                                            <td style={{ width: "30%" }}>
+                                              <center>Positive/Negative</center>
+                                            </td>
+                                          </tr>
+                                          {data.Others.map((an) => (
+                                            <tr>
+                                              <td>{an[0]}</td>
+                                              <td>
+                                                <center>
+                                                  {an[1] == 1
+                                                    ? " Positive "
+                                                    : " Negative "}
+                                                </center>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </>
+                                    )}
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Cervical_Spine &&
+                                      data.Cervical_Spine.length > 0 && (
                                         <>
                                           <Descriptions.Item label="" span={3}>
-                                            <b>Shoulder </b>
+                                            <b>Cervical Spine </b>
                                           </Descriptions.Item>
                                           <table
                                             style={{
@@ -860,7 +1122,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <center>Positive/Negative</center>
                                               </td>
                                             </tr>
-                                            {data.shoulder.map((an) => (
+                                            {data.Cervical_Spine.map((an) => (
                                               <tr>
                                                 <td>{an[0]}</td>
                                                 <td>
@@ -875,15 +1137,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </table>
                                         </>
                                       )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Ankle && data.Ankle.length > 0 && (
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Thoracic_Spine &&
+                                      data.Thoracic_Spine.length > 0 && (
                                         <>
                                           <Descriptions.Item label="" span={3}>
-                                            <b>Ankle </b>
+                                            <b>Thoracic Spine </b>
                                           </Descriptions.Item>
                                           <table
                                             style={{
@@ -900,7 +1163,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <center>Positive/Negative</center>
                                               </td>
                                             </tr>
-                                            {data.Ankle.map((an) => (
+                                            {data.Thoracic_Spine.map((an) => (
                                               <tr>
                                                 <td>{an[0]}</td>
                                                 <td>
@@ -915,15 +1178,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </table>
                                         </>
                                       )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Elbow && data.Elbow.length > 0 && (
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Lumbar_Spine &&
+                                      data.Lumbar_Spine.length > 0 && (
                                         <>
                                           <Descriptions.Item label="" span={3}>
-                                            <b>Elbow </b>
+                                            <b>Lumbar Spine </b>
                                           </Descriptions.Item>
                                           <table
                                             style={{
@@ -940,7 +1204,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <center>Positive/Negative</center>
                                               </td>
                                             </tr>
-                                            {data.Elbow.map((an) => (
+                                            {data.Lumbar_Spine.map((an) => (
                                               <tr>
                                                 <td>{an[0]}</td>
                                                 <td>
@@ -955,15 +1219,16 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </table>
                                         </>
                                       )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Hip && data.Hip.length > 0 && (
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
+                                </Row>
+                                <Row gutter={[10, 10]} className="px-4 py-2">
+                                  <Col lg={12} md={18} sm={12} xs={12}>
+                                    {data.Forearm_wrist_Hand &&
+                                      data.Forearm_wrist_Hand.length > 0 && (
                                         <>
                                           <Descriptions.Item label="" span={3}>
-                                            <b>Hip </b>
+                                            <b>Forearm_wrist_Hand </b>
                                           </Descriptions.Item>
                                           <table
                                             style={{
@@ -980,7 +1245,7 @@ const AssessmentList = ({ assesmentClick }) => {
                                                 <center>Positive/Negative</center>
                                               </td>
                                             </tr>
-                                            {data.Hip.map((an) => (
+                                            {data.Forearm_wrist_Hand.map((an) => (
                                               <tr>
                                                 <td>{an[0]}</td>
                                                 <td>
@@ -995,1459 +1260,142 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </table>
                                         </>
                                       )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Knee && data.Knee.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Knee </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Knee.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Others && data.Others.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Others </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Others.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Cervical_Spine &&
-                                        data.Cervical_Spine.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Cervical Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Cervical_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Thoracic_Spine &&
-                                        data.Thoracic_Spine.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Thoracic Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Thoracic_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Lumbar_Spine &&
-                                        data.Lumbar_Spine.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Lumbar Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Lumbar_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Forearm_wrist_Hand &&
-                                        data.Forearm_wrist_Hand.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Forearm_wrist_Hand </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Forearm_wrist_Hand.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                </div>
-                              </Panel>
-                            )}
-                          {Object.keys(data.questionnaires).length > 0 &&
-                            data.questionnaires[
-                              Object.keys(data.questionnaires)[0]
-                            ][0].length > 0 && (
-                              <Panel header="Scales & Index" key="5">
-                                <div className=" border mb-3 mt-3">
-                                  <Row className="border">
-                                    <Col md={24} lg={24} sm={24} xs={24}>
-                                      {/* <h4 className="p-2">Questionnaire </h4> */}
-                                      <Descriptions size="small" bordered>
-                                        {Object.keys(data.questionnaires).map(
-                                          (label) => (
-                                            <>
-                                              {data.questionnaires[label][0]
-                                                .length > 0 && (
-                                                  <Descriptions.Item
-                                                    label={`KOOS ${label}`}
-                                                  >
-                                                    {data.questionnaires[
-                                                      label
-                                                    ][3] &&
-                                                      data.questionnaires[
-                                                        label
-                                                      ][3].toFixed(0)}
-                                                  </Descriptions.Item>
-                                                )}
-                                            </>
-                                          )
-                                        )}
-                                        {/* <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3] && data.questionnaires.DailyLiving[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3] && data.questionnaires.Sports[3].toFixed(0)}</Descriptions.Item>
-                                                            <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3] && data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item> */}
-                                      </Descriptions>
-                                    </Col>
-                                  </Row>
-                                  <Row
-                                    gutter={[10, 10]}
-                                    className="px-4 py-2"
-                                  ></Row>
-                                </div>
-                              </Panel>
-                            )}
-                          {data.posture &&
-                            (data.posture["Posterial_view"] ||
-                              data.posture["lateral_view"]) && (
-                              <Panel header="Posture Analysis" key="6">
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                               <Col md={24} lg={24} sm={24} xs={24}>
-                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
-                                               </Col>
-                                             </Row> */}
-                                  {data.posture["Posterial_view"] && (
-                                    <Row gutter={[10, 10]} className="px-4 py-2">
-                                      <Col md={24} lg={24} sm={24} xs={24}>
-                                        <Descriptions title="">
-                                          <Descriptions.Item label="Notes ">
-                                            {Object.keys(data.posture).length >
-                                              0 && data.posture["Notes"]}
-                                          </Descriptions.Item>
-                                        </Descriptions>
-                                      </Col>
-                                      <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h1>Degree of Deviation</h1>
-                                      </Col>
-
-                                      <Col md={24} lg={18} sm={24} xs={24}>
-                                        <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
-                                          {
-                                            <Descriptions.Item label="Nasal Bridge">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[0]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Shoulder levels(Acrimion)">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[1]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label=" Umbilicus">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[2]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Knees">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[3]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Ankle/Foot">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[4]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Line of Gravity">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[5]}
-                                            </Descriptions.Item>
-                                          }
-                                        </Descriptions>
-                                      </Col>
-                                      <Col md={24} lg={6} sm={24} xs={24}>
-                                        <img
-                                          src={
-                                            data.posture["Posterial_view"]
-                                              .posterial_view_image
-                                          }
-                                        />
-                                      </Col>
-                                      <Descriptions title="">
-                                        {data.posture[
-                                          "Posterial_view"
-                                        ].checkBox.map((ob) => (
-                                          <>
-                                            {ob[1] == 1 && (
-                                              <Descriptions.Item label="">
-                                                <Badge color="#000000" />
-                                                {ob[0]}
-                                              </Descriptions.Item>
-                                            )}
-                                          </>
-                                        ))}
-                                      </Descriptions>
-                                    </Row>
-                                  )}
-                                  {data.posture["lateral_view"] && (
-                                    <Row gutter={[10, 10]} className="px-4 py-2">
-                                      <Col md={24} lg={18} sm={24} xs={24}>
-                                        <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
-                                          <Descriptions.Item label="Head deviation">
-                                            {Object.keys(data.posture).length >
-                                              0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
-                                                .Angles[0]}
-                                          </Descriptions.Item>
-                                          <Descriptions.Item label="Shoulder">
-                                            {Object.keys(data.posture).length >
-                                              0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
-                                                .Angles[1]}
-                                          </Descriptions.Item>
-                                          <Descriptions.Item label="Hip/Pelvic Deviation">
-                                            {Object.keys(data.posture).length >
-                                              0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
-                                                .Angles[2]}
-                                          </Descriptions.Item>
-                                          <Descriptions.Item label="Knees Deviation">
-                                            {Object.keys(data.posture).length >
-                                              0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
-                                                .Angles[3]}
-                                          </Descriptions.Item>
-                                        </Descriptions>
-                                      </Col>
-                                      <Col md={24} lg={6} sm={24} xs={24}>
-                                        <img
-                                          src={
-                                            data.posture["lateral_view"]
-                                              .posterial_view_image
-                                          }
-                                        />
-                                      </Col>
-                                      <Descriptions title="">
-                                        {data.posture[
-                                          "lateral_view"
-                                        ].checkBox.map((ob) => (
-                                          <>
-                                            {ob[1] == 1 && (
-                                              <Descriptions.Item label="">
-                                                <Badge color="#000000" />
-                                                {ob[0]}
-                                              </Descriptions.Item>
-                                            )}
-                                          </>
-                                        ))}
-                                      </Descriptions>
-                                    </Row>
-                                  )}
-                                </div>
-                              </Panel>
-                            )}
-                          {console.log("rom data is ", data)}
-                          {(data.AI_data != null ||
-                            (data.LeftLateral_AI_Data &&
-                              data.LeftLateral_AI_Data != null) ||
-                            (data.RightLateral_AI_Data &&
-                              data.RightLateral_AI_Data != null)) && (
-                              <Panel header="AROM Assessment" key="7">
-                                {" "}
-                                <div className=" border mb-3 mt-3">
-                                  <div className=" border mb-3 mt-3">
-                                    <Row gutter={[10, 10]}>
-                                      {data.AI_data != null && (
-                                        <>
-                                          <Row className="border">
-                                            <Col md={24} lg={24} sm={24} xs={24}>
-                                              <h4 className="p-2">
-                                                Anterior ROM Assesment
-                                              </h4>
-                                            </Col>
-                                          </Row>
-                                          <Col md={24} lg={24} sm={24} xs={24}>
-                                            <Table
-                                              scroll={{ y: 300 }}
-                                              pagination={false}
-                                              columns={columns}
-                                              dataSource={
-                                                data.AI_data && data.AI_data != null
-                                                  ? Object.keys(
-                                                    data.AI_data[
-                                                    Object.keys(data.AI_data)[0]
-                                                    ]["angles"]
-                                                  ).map((item, index) => {
-                                                    let t = {};
-                                                    t["key"] = index;
-                                                    t["angles"] = tableLabels[
-                                                      item
-                                                    ]
-                                                      ? tableLabels[item]
-                                                      : "Not Available";
-                                                    t["min"] = Math.round(
-                                                      data.AI_data[
-                                                        Object.keys(
-                                                          data.AI_data
-                                                        )[0]
-                                                      ]["angles"][item].min
-                                                    );
-                                                    t["max"] = Math.round(
-                                                      data.AI_data[
-                                                        Object.keys(
-                                                          data.AI_data
-                                                        )[0]
-                                                      ]["angles"][item].max
-                                                    );
-                                                    return t;
-                                                  })
-                                                  : []
-                                              }
-                                            />
-                                          </Col>
-                                        </>
-                                      )}
-                                      {((data.LeftLateral_AI_Data &&
-                                        data.LeftLateral_AI_Data != null) ||
-                                        (data.RightLateral_AI_Data &&
-                                          data.RightLateral_AI_Data != null)) && (
-                                          <>
-                                            {/* <Row className="border">
-                                        <Col md={24} lg={24} sm={24} xs={24}>
-                                          <h4 className="p-2">
-                                            Lateral ROM Assesment
-                                          </h4>
-                                        </Col>
-                                      </Row>
-                                      <Row className="border">
-                                        <Col md={24} lg={24} sm={24} xs={24}>
-                                          <h4 className="p-2">
-                                          <h5 className="p-2">Left side</h5>
-                                          </h4>
-                                        </Col>
-                                      </Row> */}
-                                            <Col md={24} lg={24} sm={24} xs={24}>
-                                              <Row className="border">
-                                                <Col md={24} lg={24} sm={24} xs={24}>
-                                                  <h4 className="p-2">
-                                                    Lateral ROM Assesment
-                                                  </h4>
-                                                </Col>
-                                              </Row>
-                                              <Row gutter={[10, 10]}>
-                                                {data.LeftLateral_AI_Data != null && (
-                                                  <Col
-                                                    md={12}
-                                                    lg={12}
-                                                    sm={24}
-                                                    xs={24}
-                                                  >
-                                                    <h5 className="p-2">Left side</h5>
-                                                    <Table
-                                                      pagination={false}
-                                                      columns={columns}
-                                                      dataSource={
-                                                        data.LeftLateral_AI_Data !=
-                                                          null
-                                                          ? Object.keys(
-                                                            data
-                                                              .LeftLateral_AI_Data[
-                                                            Object.keys(
-                                                              data.LeftLateral_AI_Data
-                                                            )[0]
-                                                            ]["angles"]
-                                                          ).map((item, index) => {
-                                                            let t = {};
-                                                            t["key"] = index;
-                                                            t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
-                                                                : "Not Available";
-                                                            t["min"] = Math.round(
-                                                              data
-                                                                .LeftLateral_AI_Data[
-                                                                Object.keys(
-                                                                  data.LeftLateral_AI_Data
-                                                                )[0]
-                                                              ]["angles"][item].min
-                                                            );
-                                                            t["max"] = Math.round(
-                                                              data
-                                                                .LeftLateral_AI_Data[
-                                                                Object.keys(
-                                                                  data.LeftLateral_AI_Data
-                                                                )[0]
-                                                              ]["angles"][item].max
-                                                            );
-                                                            return t;
-                                                          })
-                                                          : []
-                                                      }
-                                                    />
-                                                  </Col>
-                                                )}
-
-                                                {data.RightLateral_AI_Data !=
-                                                  null && (
-                                                    <Col
-                                                      md={12}
-                                                      lg={12}
-                                                      sm={24}
-                                                      xs={24}
-                                                    >
-                                                      <h5 className="p-2">
-                                                        Right side
-                                                      </h5>
-                                                      <Table
-                                                        pagination={false}
-                                                        columns={columns}
-                                                        dataSource={
-                                                          data.RightLateral_AI_Data !=
-                                                            null
-                                                            ? Object.keys(
-                                                              data
-                                                                .RightLateral_AI_Data[
-                                                              Object.keys(
-                                                                data.RightLateral_AI_Data
-                                                              )[0]
-                                                              ]["angles"]
-                                                            ).map((item, index) => {
-                                                              let t = {};
-                                                              t["key"] = index;
-                                                              t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
-                                                                  : "Not Available";
-                                                              t["min"] = Math.round(
-                                                                data
-                                                                  .RightLateral_AI_Data[
-                                                                  Object.keys(
-                                                                    data.RightLateral_AI_Data
-                                                                  )[0]
-                                                                ]["angles"][item].min
-                                                              );
-                                                              t["max"] = Math.round(
-                                                                data
-                                                                  .RightLateral_AI_Data[
-                                                                  Object.keys(
-                                                                    data.RightLateral_AI_Data
-                                                                  )[0]
-                                                                ]["angles"][item].max
-                                                              );
-                                                              return t;
-                                                            })
-                                                            : []
-                                                        }
-                                                      />
-                                                    </Col>
-                                                  )}
-                                              </Row>
-                                            </Col>
-                                          </>
-                                        )}
-                                    </Row>
-                                  </div>
-                                </div>{" "}
-                              </Panel>
-                            )}
-                          {/* {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="AROM Assessment" key="7"> <div className=" border mb-3 mt-3" >
-
-                                                <div className=" border mb-3 mt-3">
-                                                    <Row gutter={[10, 10]} className="px-4 py-2">
-                                                        <Col md={12} lg={12} sm={24} xs={24}>
-                                                            <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} /> */}
-                          {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
-                          {/* </Col>
-                                                        <Col md={12} lg={12} sm={24} xs={24}>
-                                                            <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table2 ? dataArray[paginationState.current - 1].table2 : tableNOdata2 : tableNOdata2} />' */}
-                          {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
-                          {/* </Col>
-                                                    </Row>
-
-                                                </div>
-
-
-                                            </div> </Panel> } */}
-                        </Collapse>
-                        <center>
-                          <div className="pag_large">
-                            <Pagination
-                              pageSize={paginationState.pageSize}
-                              current={paginationState.current}
-                              total={AssesmentData.length}
-                              onChange={PaginationChange}
-                              style={{ marginBottom: "10px" }}
-                            />
-                          </div>
-                        </center>
-                        <div style={{ display: "none" }} className="pag_mob">
-                          <center>
-                            <Pagination
-                              size="small"
-                              pageSize={paginationState.pageSize}
-                              current={paginationState.current}
-                              total={AssesmentData.length}
-                              onChange={PaginationChange}
-                              style={{ marginBottom: "10px" }}
-                            />
-                          </center>
-                        </div>
-                      </>
-                    )}
-                    { <div id="assesmentPrint" className={showAssesment ? "":"assesmentPrint"} ref={assessmentRef}>
-                       
-                          {data.body_image && (
-                           
-                              <div className=" border mb-3 mt-3">
-                                <h4 className="p-2">Areas of Pain/Impairment </h4>
-                                <Row>
-                                  <img width="100%" src={data.body_image} />
+                                  </Col>
+                                  <Col lg={12} md={18} sm={12} xs={12}></Col>
                                 </Row>
                               </div>
-                          
+                            </Panel>
                           )}
-                          {(data.physical_assessement.Built.length > 0 ||
-                            data.physical_assessement.History.length > 0 ||
-                            data.physical_assessement.chiefCom.length > 0 ||
-                            data.physical_assessement.past_medical_history
-                              .length > 0 ||
-                            (data.physical_assessement.Subjective[0].occupation
-                              .length > 0 &&
-                              data.physical_assessement.Subjective[0].duration
-                                .length > 0)) && (
-                              < >
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                                    <Col lg={18} md={18} sm={18} xs={24}>
-                                                        <h4 className="p-2">Physical Assesment</h4>
-                                                    </Col>
-                                                    <Col lg={6} md={6} sm={6} xs={24} className="text-end">
-                                                    </Col>
-                                                </Row> */}
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Descriptions>
-                                      <Descriptions.Item label="Assesment Date">
-                                        {data.assesmentdate.slice(0, 10)}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Built">
-                                        {data.physical_assessement.Built}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="History">
-                                        {data.physical_assessement.History}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Cheif Complaint">
-                                        {" "}
-                                        {data.physical_assessement.chiefCom}
-                                      </Descriptions.Item>
-
-                                      <Descriptions.Item
-                                        label="Past Medical History"
-                                        span={3}
-                                      >
-                                        {" "}
-                                        {data.physical_assessement
-                                          .past_medical_history &&
-                                          data.physical_assessement
-                                            .past_medical_history.length > 0 &&
-                                          data.physical_assessement.past_medical_history.map(
-                                            (p) => `${p + " ,"}`
-                                          )}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Any Other details ">
-                                        {" "}
-                                        {
-                                          data.physical_assessement
-                                            .any_other_details
-                                        }
-                                      </Descriptions.Item>
-                                      {/* any_other_details */}
-                                    </Descriptions>
-                                  </Row>
-                                </div>
-
-                                {/* <div className=" border mb-3 mt-3"> */}
-                                {data.physical_assessement.Subjective &&
-                                  data.physical_assessement.Subjective.length >
-                                  0 && (
-                                    <>
-                                      <Descriptions.Item label="" span={3}>
-                                        <b>
-                                          <u>Subjective </u>
-                                        </b>
-                                      </Descriptions.Item>
-                                      <Row gutter={[10, 10]} className="px-4 py-2">
-                                        <table
-                                          style={{ width: "50%" }}
-                                        //style={{ width: `${screen.width / 2}px` }}
-                                        >
-                                          <tr>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Occupation</b>
-                                            </td>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Duration</b>
-                                            </td>
-                                            <td style={{ width: "33%" }}>
-                                              <b>Sports-type</b>
-                                            </td>
-                                          </tr>
-                                          {data.physical_assessement.Subjective.map(
-                                            (data) => (
-                                              <tr>
-                                                <td>{data.occupation}</td>
-                                                <td>{data.duration}</td>
-                                                {data.occupation === "Sports" && (
-                                                  <td>{data.Sports_type}</td>
-                                                )}
-                                              </tr>
-                                            )
-                                          )}
-                                        </table>
-                                      </Row>
-                                    </>
-                                  )}
-                              </>
-                            )}
-                          {/* </div> */}
-                          {(data.nature_of_pain.length > 0 ||
-                            data.pain_scale > 0 ||
-                            data.pain_scars.length > 0 ||
-                            (data.pain_aggravating !== undefined &&
-                              data.pain_aggravating.length > 0) ||
-                            (data.pain_relieving !== undefined &&
-                              data.pain_relieving.length > 0) ||
-                            data.sensory_input["superficial"].length > 0 ||
-                            data.sensory_input["deep"].length > 0 ||
-                            data.sensory_input["cortial"].length > 0) && (
-                            
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                                    <Col lg={18} md={18} sm={18} xs={24}>
-                                                        <h4 className="p-2">Pain Assesment</h4>
-                                                    </Col>
-                                                </Row> */}
-
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Descriptions>
-                                      <Descriptions.Item label="Nature Of Pain">
-                                        {data.nature_of_pain
-                                          ? data.nature_of_pain
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Pain Scale">
-                                        {data.pain_scale
-                                          ? data.pain_scale
-                                          : data.pain_scale === 0
-                                            ? 0
-                                            : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Scar">
-                                        {data.pain_scars
-                                          ? data.pain_scars
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Swelling">
-                                        {data.pain_swelling
-                                          ? data.pain_swelling
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Pain Aggravating">
-                                        {data.pain_aggravating !== undefined
-                                          ? data.pain_aggravating.length > 0 &&
-                                          data.pain_aggravating.map(
-                                            (d) => d + " "
-                                          )
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item
-                                        label="Pain Relieving"
-                                        span={3}
-                                      >
-                                        {" "}
-                                        {data.pain_relieving !== undefined
-                                          ? data.pain_relieving.length > 0 &&
-                                          data.pain_relieving.map((d) => d + " ")
-                                          : "not available"}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="" span={3}>
-                                        <b>
-                                          <u>Sensory Inputs </u>
-                                        </b>
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Superficial">
-                                        {data.sensory_input.superficial}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Deep">
-                                        {data.sensory_input.deep}
-                                      </Descriptions.Item>
-                                      <Descriptions.Item label="Cortial">
-                                        {data.sensory_input.cortial}
-                                      </Descriptions.Item>
-                                    </Descriptions>
-                                  </Row>
-                                </div>
-                           
-                            )}
-                          {(data.shoulder ||
-                            data.Ankle ||
-                            data.Cervical_Spine ||
-                            data.Thoracic_Spine ||
-                            data.Lumbar_Spine ||
-                            data.Forearm_wrist_Hand ||
-                            data.Hip ||
-                            data.Knee ||
-                            data.Others ||
-                            data.Elbow) && (
-                          
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
-                                                    <Col lg={18} md={18} sm={18} xs={24}>
-                                                        {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
-                                                    </Col>
-                                                </Row> */}
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.shoulder && data.shoulder.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Shoulder </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.shoulder.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Ankle && data.Ankle.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Ankle </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Ankle.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Elbow && data.Elbow.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Elbow </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Elbow.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Hip && data.Hip.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Hip </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Hip.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Knee && data.Knee.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Knee </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Knee.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Others && data.Others.length > 0 && (
-                                        <>
-                                          <Descriptions.Item label="" span={3}>
-                                            <b>Others </b>
-                                          </Descriptions.Item>
-                                          <table
-                                            style={{
-                                              width: `${screen.width / 2}px`,
-                                            }}
-                                            border="1px"
-                                          >
-                                            <tr>
-                                              <td>
-                                                {" "}
-                                                <center>Questions</center>
-                                              </td>
-                                              <td style={{ width: "30%" }}>
-                                                <center>Positive/Negative</center>
-                                              </td>
-                                            </tr>
-                                            {data.Others.map((an) => (
-                                              <tr>
-                                                <td>{an[0]}</td>
-                                                <td>
-                                                  <center>
-                                                    {an[1] == 1
-                                                      ? " Positive "
-                                                      : " Negative "}
-                                                  </center>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </table>
-                                        </>
-                                      )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Cervical_Spine &&
-                                        data.Cervical_Spine.length > 0 && (
+                        {Object.keys(data.questionnaires).length > 0 &&
+                          data.questionnaires[
+                            Object.keys(data.questionnaires)[0]
+                          ][0].length > 0 && (
+                            <Panel header="Scales & Index" key="5">
+                              <div className=" border mb-3 mt-3">
+                                <Row className="border">
+                                  <Col md={24} lg={24} sm={24} xs={24}>
+                                    {/* <h4 className="p-2">Questionnaire </h4> */}
+                                    <Descriptions size="small" bordered>
+                                      {Object.keys(data.questionnaires).map(
+                                        (label) => (
                                           <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Cervical Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Cervical_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Thoracic_Spine &&
-                                        data.Thoracic_Spine.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Thoracic Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Thoracic_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Lumbar_Spine &&
-                                        data.Lumbar_Spine.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Lumbar Spine </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Lumbar_Spine.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                  <Row gutter={[10, 10]} className="px-4 py-2">
-                                    <Col lg={12} md={18} sm={12} xs={12}>
-                                      {data.Forearm_wrist_Hand &&
-                                        data.Forearm_wrist_Hand.length > 0 && (
-                                          <>
-                                            <Descriptions.Item label="" span={3}>
-                                              <b>Forearm_wrist_Hand </b>
-                                            </Descriptions.Item>
-                                            <table
-                                              style={{
-                                                width: `${screen.width / 2}px`,
-                                              }}
-                                              border="1px"
-                                            >
-                                              <tr>
-                                                <td>
-                                                  {" "}
-                                                  <center>Questions</center>
-                                                </td>
-                                                <td style={{ width: "30%" }}>
-                                                  <center>Positive/Negative</center>
-                                                </td>
-                                              </tr>
-                                              {data.Forearm_wrist_Hand.map((an) => (
-                                                <tr>
-                                                  <td>{an[0]}</td>
-                                                  <td>
-                                                    <center>
-                                                      {an[1] == 1
-                                                        ? " Positive "
-                                                        : " Negative "}
-                                                    </center>
-                                                  </td>
-                                                </tr>
-                                              ))}
-                                            </table>
-                                          </>
-                                        )}
-                                    </Col>
-                                    <Col lg={12} md={18} sm={12} xs={12}></Col>
-                                  </Row>
-                                </div>
-                            
-                            )}
-                          {Object.keys(data.questionnaires).length > 0 &&
-                            data.questionnaires[
-                              Object.keys(data.questionnaires)[0]
-                            ][0].length > 0 && (
-                            
-                                <div className=" border mb-3 mt-3">
-                                  <Row className="border">
-                                    <Col md={24} lg={24} sm={24} xs={24}>
-                                      {/* <h4 className="p-2">Questionnaire </h4> */}
-                                      <Descriptions size="small" bordered>
-                                        {Object.keys(data.questionnaires).map(
-                                          (label) => (
-                                            <>
-                                              {data.questionnaires[label][0]
-                                                .length > 0 && (
-                                                  <Descriptions.Item
-                                                    label={`KOOS ${label}`}
-                                                  >
-                                                    {data.questionnaires[
+                                            {data.questionnaires[label][0]
+                                              .length > 0 && (
+                                                <Descriptions.Item
+                                                  label={`KOOS ${label}`}
+                                                >
+                                                  {data.questionnaires[
+                                                    label
+                                                  ][3] &&
+                                                    data.questionnaires[
                                                       label
-                                                    ][3] &&
-                                                      data.questionnaires[
-                                                        label
-                                                      ][3].toFixed(0)}
-                                                  </Descriptions.Item>
-                                                )}
-                                            </>
-                                          )
-                                        )}
-                                        {/* <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
+                                                    ][3].toFixed(0)}
+                                                </Descriptions.Item>
+                                              )}
+                                          </>
+                                        )
+                                      )}
+                                      {/* <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3] && data.questionnaires.DailyLiving[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3] && data.questionnaires.Sports[3].toFixed(0)}</Descriptions.Item>
                                                             <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3] && data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item> */}
-                                      </Descriptions>
-                                    </Col>
-                                  </Row>
-                                  <Row
-                                    gutter={[10, 10]}
-                                    className="px-4 py-2"
-                                  ></Row>
-                                </div>
-                            
-                            )}
-                          {data.posture &&
-                            (data.posture["Posterial_view"] ||
-                              data.posture["lateral_view"]) && (
-                             
-                                <div className=" border mb-3 mt-3">
-                                  {/* <Row className="border">
+                                    </Descriptions>
+                                  </Col>
+                                </Row>
+                                <Row
+                                  gutter={[10, 10]}
+                                  className="px-4 py-2"
+                                ></Row>
+                              </div>
+                            </Panel>
+                          )}
+                        {data.posture &&
+                          (data.posture["Posterial_view"] ||
+                            data.posture["lateral_view"] || data.posture["sitting_Posterial_view"]
+                            || data.posture["Sitting_lateral_view"]
+                          ) && (
+                            <Panel header="Posture Analysis" key="6">
+                              <div className=" border mb-3 mt-3">
+                                {/* <Row className="border">
                                                <Col md={24} lg={24} sm={24} xs={24}>
                                                {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
                                                </Col>
                                              </Row> */}
-                                  {data.posture["Posterial_view"] && (
-                                    <Row gutter={[10, 10]} className="px-4 py-2">
-                                      <Col md={24} lg={24} sm={24} xs={24}>
-                                        <Descriptions title="">
-                                          <Descriptions.Item label="Notes ">
+                                {data.posture["Posterial_view"] && (
+                                  <Row gutter={[10, 10]} className="px-4 py-2">
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <Descriptions title="">
+                                        <Descriptions.Item label="Notes ">
+                                          {Object.keys(data.posture).length >
+                                            0 && data.posture["Notes"]}
+                                        </Descriptions.Item>
+                                      </Descriptions>
+                                    </Col>
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <h1>Degree of Deviation</h1>
+                                    </Col>
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <h2>Standing</h2>
+                                    </Col>
+                                    {Object.keys(data.posture["Posterial_view"]).length > 0 && <><Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                        {
+                                          <Descriptions.Item label="Nasal Bridge">
                                             {Object.keys(data.posture).length >
-                                              0 && data.posture["Notes"]}
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[0]}
                                           </Descriptions.Item>
-                                        </Descriptions>
-                                      </Col>
-                                      <Col md={24} lg={24} sm={24} xs={24}>
-                                        <h1>Degree of Deviation</h1>
-                                      </Col>
-
-                                      <Col md={24} lg={18} sm={24} xs={24}>
-                                        <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
-                                          {
-                                            <Descriptions.Item label="Nasal Bridge">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[0]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Shoulder levels(Acrimion)">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[1]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label=" Umbilicus">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[2]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Knees">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[3]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Ankle/Foot">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[4]}
-                                            </Descriptions.Item>
-                                          }
-                                          {
-                                            <Descriptions.Item label="Line of Gravity">
-                                              {Object.keys(data.posture).length >
-                                                0 &&
-                                                data.posture["Posterial_view"] &&
-                                                data.posture["Posterial_view"]
-                                                  .Angles[5]}
-                                            </Descriptions.Item>
-                                          }
-                                        </Descriptions>
-                                      </Col>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Shoulder levels(Acrimion)">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[1]}
+                                          </Descriptions.Item>
+                                        }
+                                        {
+                                          <Descriptions.Item label=" Umbilicus">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[2]}
+                                          </Descriptions.Item>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Knees">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[3]}
+                                          </Descriptions.Item>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Ankle/Foot">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[4]}
+                                          </Descriptions.Item>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Line of Gravity">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["Posterial_view"] &&
+                                              data.posture["Posterial_view"]
+                                                .Angles[5]}
+                                          </Descriptions.Item>
+                                        }
+                                      </Descriptions>
+                                    </Col>
                                       <Col md={24} lg={6} sm={24} xs={24}>
                                         <img
                                           src={
@@ -2457,67 +1405,163 @@ const AssessmentList = ({ assesmentClick }) => {
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
-                                          "Posterial_view"
-                                        ].checkBox.map((ob) => (
+                                        {
+                                          data.posture.Posterial_view.checkbox&&Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
+                                            <>
+                                              {data.posture.Posterial_view.checkbox[ob] == 1 && (
+                                                <Descriptions.Item label="">
+                                                  <Badge color="#000000" />
+                                                  {ob}
+                                                </Descriptions.Item>
+                                              )}
+                                            </>
+                                          ))
+                                        }
+                                      </Descriptions>
+                                    </>}
+                                  </Row>
+                                )}
+                                {data.posture.lateral_view && Object.keys(data.posture["lateral_view"]).length > 0 && (
+                                  <Row gutter={[10, 10]} className="px-4 py-2">
+                                    <Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                        <Descriptions.Item label="Head deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["lateral_view"] &&
+                                            data.posture["lateral_view"]
+                                              .Angles[0]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Shoulder">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["lateral_view"] &&
+                                            data.posture["lateral_view"]
+                                              .Angles[1]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Hip/Pelvic Deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["lateral_view"] &&
+                                            data.posture["lateral_view"]
+                                              .Angles[2]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Knees Deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["lateral_view"] &&
+                                            data.posture["lateral_view"]
+                                              .Angles[3]}
+                                        </Descriptions.Item>
+                                      </Descriptions>
+                                    </Col>
+                                    <Col md={24} lg={6} sm={24} xs={24}>
+                                      <img
+                                        src={
+                                          data.posture["lateral_view"]
+                                            .posterial_view_image
+                                        }
+                                      />
+                                    </Col>
+                                    <Descriptions title="">
+                                      {
+                                        data.posture.lateral_view.checkbox&&Object.keys(data.posture.lateral_view.checkbox).map(ob => (
                                           <>
-                                            {ob[1] == 1 && (
+                                            {data.posture.lateral_view.checkbox[ob] == 1 && (
                                               <Descriptions.Item label="">
                                                 <Badge color="#000000" />
-                                                {ob[0]}
+                                                {ob}
                                               </Descriptions.Item>
                                             )}
                                           </>
-                                        ))}
+                                        ))
+                                      }
+                                    </Descriptions>
+                                  </Row>
+                                )}
+                                {data.posture["sitting_Posterial_view"] && (
+                                  <Row gutter={[10, 10]} className="px-4 py-2">
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <Descriptions title="">
+                                        <Descriptions.Item label="Notes ">
+                                          {Object.keys(data.posture).length >
+                                            0 && data.posture["Notes"]}
+                                        </Descriptions.Item>
                                       </Descriptions>
-                                    </Row>
-                                  )}
-                                  {data.posture["lateral_view"] && (
-                                    <Row gutter={[10, 10]} className="px-4 py-2">
-                                      <Col md={24} lg={18} sm={24} xs={24}>
-                                        <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
-                                          <Descriptions.Item label="Head deviation">
+                                    </Col>
+                                    <Col md={24} lg={24} sm={24} xs={24}>
+                                      <h2>Sitting</h2>
+                                    </Col>
+                                    {data.posture.sitting_Posterial_view && Object.keys(data.posture["sitting_Posterial_view"]).length > 0 && <><Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                        {
+                                          <Descriptions.Item label="Nasal Bridge">
                                             {Object.keys(data.posture).length >
                                               0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
                                                 .Angles[0]}
                                           </Descriptions.Item>
-                                          <Descriptions.Item label="Shoulder">
+                                        }
+                                        {
+                                          <Descriptions.Item label="Shoulder levels(Acrimion)">
                                             {Object.keys(data.posture).length >
                                               0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
                                                 .Angles[1]}
                                           </Descriptions.Item>
-                                          <Descriptions.Item label="Hip/Pelvic Deviation">
+                                        }
+                                        {
+                                          <Descriptions.Item label=" Umbilicus">
                                             {Object.keys(data.posture).length >
                                               0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
                                                 .Angles[2]}
                                           </Descriptions.Item>
-                                          <Descriptions.Item label="Knees Deviation">
+                                        }
+                                        {
+                                          <Descriptions.Item label="Knees">
                                             {Object.keys(data.posture).length >
                                               0 &&
-                                              data.posture["lateral_view"] &&
-                                              data.posture["lateral_view"]
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
                                                 .Angles[3]}
                                           </Descriptions.Item>
-                                        </Descriptions>
-                                      </Col>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Ankle/Foot">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
+                                                .Angles[4]}
+                                          </Descriptions.Item>
+                                        }
+                                        {
+                                          <Descriptions.Item label="Line of Gravity">
+                                            {Object.keys(data.posture).length >
+                                              0 &&
+                                              data.posture["sitting_Posterial_view"] &&
+                                              data.posture["sitting_Posterial_view"]
+                                                .Angles[5]}
+                                          </Descriptions.Item>
+                                        }
+                                      </Descriptions>
+                                    </Col>
                                       <Col md={24} lg={6} sm={24} xs={24}>
                                         <img
                                           src={
-                                            data.posture["lateral_view"]
+                                            data.posture["sitting_Posterial_view"]
                                               .posterial_view_image
                                           }
                                         />
                                       </Col>
                                       <Descriptions title="">
-                                        {data.posture[
-                                          "lateral_view"
-                                        ].checkBox.map((ob) => (
+                                        {/* {data.posture&&data.posture.Posterial_view.checkbox&&data.posture[
+                                          "Posterial_view"
+                                        ].checkbox.map((ob) => (
                                           <>
                                             {ob[1] == 1 && (
                                               <Descriptions.Item label="">
@@ -2526,80 +1570,151 @@ const AssessmentList = ({ assesmentClick }) => {
                                               </Descriptions.Item>
                                             )}
                                           </>
-                                        ))}
+                                        ))} */}
+                                        {
+                                          data.posture.sitting_Posterial_view.checkbox&&Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
+                                            <>
+                                              {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
+                                                <Descriptions.Item label="">
+                                                  <Badge color="#000000" />
+                                                  {ob}
+                                                </Descriptions.Item>
+                                              )}
+                                            </>
+                                          ))
+                                        }
                                       </Descriptions>
-                                    </Row>
-                                  )}
-                                </div>
-                            
-                            )}
-                          {console.log("rom data is ", data)}
-                          {(data.AI_data != null ||
-                            (data.LeftLateral_AI_Data &&
-                              data.LeftLateral_AI_Data != null) ||
-                            (data.RightLateral_AI_Data &&
-                              data.RightLateral_AI_Data != null)) && (
-                              <>
-                                {" "}
-                                <div className=" border mb-3 mt-3">
-                                  <div className=" border mb-3 mt-3">
-                                    <Row gutter={[10, 10]}>
-                                      {data.AI_data != null && (
-                                        <>
-                                          <Row className="border">
-                                            <Col md={24} lg={24} sm={24} xs={24}>
-                                              <h4 className="p-2">
-                                                Anterior ROM Assesment
-                                              </h4>
-                                            </Col>
-                                          </Row>
-                                          <Col md={24} lg={24} sm={24} xs={24}>
-                                            <Table
-                                           
-                                              pagination={false}
-                                              columns={columns}
-                                              dataSource={
-                                                data.AI_data && data.AI_data != null
-                                                  ? Object.keys(
-                                                    data.AI_data[
-                                                    Object.keys(data.AI_data)[0]
-                                                    ]["angles"]
-                                                  ).map((item, index) => {
-                                                    let t = {};
-                                                    t["key"] = index;
-                                                    t["angles"] = tableLabels[
-                                                      item
-                                                    ]
-                                                      ? tableLabels[item]
-                                                      : "Not Available";
-                                                    t["min"] = Math.round(
-                                                      data.AI_data[
-                                                        Object.keys(
-                                                          data.AI_data
-                                                        )[0]
-                                                      ]["angles"][item].min
-                                                    );
-                                                    t["max"] = Math.round(
-                                                      data.AI_data[
-                                                        Object.keys(
-                                                          data.AI_data
-                                                        )[0]
-                                                      ]["angles"][item].max
-                                                    );
-                                                    return t;
-                                                  })
-                                                  : []
-                                              }
-                                            />
-                                          </Col>
-                                        </>
-                                      )}
-                                      {((data.LeftLateral_AI_Data &&
-                                        data.LeftLateral_AI_Data != null) ||
-                                        (data.RightLateral_AI_Data &&
-                                          data.RightLateral_AI_Data != null)) && (
+                                    </>}
+                                  </Row>
+                                )}
+                                {data.posture.Sitting_lateral_view && Object.keys(data.posture["Sitting_lateral_view"]).length > 0 && (
+                                  <Row gutter={[10, 10]} className="px-4 py-2">
+                                    <Col md={24} lg={18} sm={24} xs={24}>
+                                      <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                        <Descriptions.Item label="Head deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["Sitting_lateral_view"] &&
+                                            data.posture["Sitting_lateral_view"]
+                                              .Angles[0]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Shoulder">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["Sitting_lateral_view"] &&
+                                            data.posture["Sitting_lateral_view"]
+                                              .Angles[1]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Hip/Pelvic Deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["Sitting_lateral_view"] &&
+                                            data.posture["Sitting_lateral_view"]
+                                              .Angles[2]}
+                                        </Descriptions.Item>
+                                        <Descriptions.Item label="Knees Deviation">
+                                          {Object.keys(data.posture).length >
+                                            0 &&
+                                            data.posture["Sitting_lateral_view"] &&
+                                            data.posture["Sitting_lateral_view"]
+                                              .Angles[3]}
+                                        </Descriptions.Item>
+                                      </Descriptions>
+                                    </Col>
+                                    <Col md={24} lg={6} sm={24} xs={24}>
+                                      <img
+                                        src={
+                                          data.posture["Sitting_lateral_view"]
+                                            .posterial_view_image
+                                        }
+                                      />
+                                    </Col>
+                                    <Descriptions title="">
+                                      {
+                                        data.posture.Sitting_lateral_view.checkbox&&Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
                                           <>
-                                            {/* <Row className="border">
+                                            {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                        ))
+                                      }
+                                    </Descriptions>
+                                  </Row>
+                                )}
+                              </div>
+                            </Panel>
+                          )}
+                        {console.log("rom data is ", data)}
+                        {(data.AI_data != null ||
+                          (data.LeftLateral_AI_Data &&
+                            data.LeftLateral_AI_Data != null) ||
+                          (data.RightLateral_AI_Data &&
+                            data.RightLateral_AI_Data != null)) && (
+                            <Panel header="AROM Assessment" key="7">
+                              {" "}
+                              <div className=" border mb-3 mt-3">
+                                <div className=" border mb-3 mt-3">
+                                  <Row gutter={[10, 10]}>
+                                    {data.AI_data != null && (
+                                      <>
+                                        <Row className="border">
+                                          <Col md={24} lg={24} sm={24} xs={24}>
+                                            <h4 className="p-2">
+                                              Anterior ROM Assesment
+                                            </h4>
+                                          </Col>
+                                        </Row>
+                                        <Col md={24} lg={24} sm={24} xs={24}>
+                                          <Table
+                                            scroll={{ y: 300 }}
+                                            pagination={false}
+                                            columns={columns}
+                                            dataSource={
+                                              data.AI_data && data.AI_data != null && Object.keys(data.AI_data).length > 0
+                                                ? Object.keys(
+                                                  data.AI_data[
+                                                  Object.keys(data.AI_data)[0]
+                                                  ]["angles"]
+                                                ).map((item, index) => {
+                                                  let t = {};
+                                                  t["key"] = index;
+                                                  t["angles"] = tableLabels[
+                                                    item
+                                                  ]
+                                                    ? tableLabels[item]
+                                                    : "Not Available";
+                                                  t["min"] = Math.round(
+                                                    data.AI_data[
+                                                      Object.keys(
+                                                        data.AI_data
+                                                      )[0]
+                                                    ]["angles"][item].min
+                                                  );
+                                                  t["max"] = Math.round(
+                                                    data.AI_data[
+                                                      Object.keys(
+                                                        data.AI_data
+                                                      )[0]
+                                                    ]["angles"][item].max
+                                                  );
+                                                  return t;
+                                                })
+                                                : []
+                                            }
+                                          />
+                                        </Col>
+                                      </>
+                                    )}
+                                    {((data.LeftLateral_AI_Data &&
+                                      data.LeftLateral_AI_Data != null) ||
+                                      (data.RightLateral_AI_Data &&
+                                        data.RightLateral_AI_Data != null)) && (
+                                        <>
+                                          {/* <Row className="border">
                                         <Col md={24} lg={24} sm={24} xs={24}>
                                           <h4 className="p-2">
                                             Lateral ROM Assesment
@@ -2613,56 +1728,109 @@ const AssessmentList = ({ assesmentClick }) => {
                                           </h4>
                                         </Col>
                                       </Row> */}
-                                            <Col md={24} lg={24} sm={24} xs={24}>
-                                              <Row className="border">
-                                                <Col md={24} lg={24} sm={24} xs={24}>
-                                                  <h4 className="p-2">
-                                                    Lateral ROM Assesment
-                                                  </h4>
+                                          <Col md={24} lg={24} sm={24} xs={24}>
+                                            <Row className="border">
+                                              <Col md={24} lg={24} sm={24} xs={24}>
+                                                <h4 className="p-2">
+                                                  Lateral ROM Assesment
+                                                </h4>
+                                              </Col>
+                                            </Row>
+                                            <Row gutter={[10, 10]}>
+                                              {data.LeftLateral_AI_Data != null && (
+                                                <Col
+                                                  md={12}
+                                                  lg={12}
+                                                  sm={24}
+                                                  xs={24}
+                                                >
+                                                  <h5 className="p-2">Left side</h5>
+                                                  <Table
+                                                    pagination={false}
+                                                    columns={columns}
+                                                    dataSource={
+                                                      data.LeftLateral_AI_Data && Object.keys(data.LeftLateral_AI_Data).length > 0
+                                                        ? Object.keys(
+                                                          data
+                                                            .LeftLateral_AI_Data[
+                                                          Object.keys(
+                                                            data.LeftLateral_AI_Data
+                                                          )[0]
+                                                          ]["angles"]
+                                                        ).map((item, index) => {
+                                                          let t = {};
+                                                          t["key"] = index;
+                                                          t["angles"] =
+                                                            tableLabelLateral[item]
+                                                              ? tableLabelLateral[item]
+                                                              : "Not Available";
+                                                          t["min"] = Math.round(
+                                                            data
+                                                              .LeftLateral_AI_Data[
+                                                              Object.keys(
+                                                                data.LeftLateral_AI_Data
+                                                              )[0]
+                                                            ]["angles"][item].min
+                                                          );
+                                                          t["max"] = Math.round(
+                                                            data
+                                                              .LeftLateral_AI_Data[
+                                                              Object.keys(
+                                                                data.LeftLateral_AI_Data
+                                                              )[0]
+                                                            ]["angles"][item].max
+                                                          );
+                                                          return t;
+                                                        })
+                                                        : []
+                                                    }
+                                                  />
                                                 </Col>
-                                              </Row>
-                                              <Row gutter={[10, 10]}>
-                                                {data.LeftLateral_AI_Data != null && (
+                                              )}
+
+                                              {data.RightLateral_AI_Data !=
+                                                null && (
                                                   <Col
                                                     md={12}
                                                     lg={12}
                                                     sm={24}
                                                     xs={24}
                                                   >
-                                                    <h5 className="p-2">Left side</h5>
+                                                    <h5 className="p-2">
+                                                      Right side
+                                                    </h5>
                                                     <Table
                                                       pagination={false}
                                                       columns={columns}
                                                       dataSource={
-                                                        data.LeftLateral_AI_Data !=
-                                                          null
+                                                        data.RightLateral_AI_Data && Object.keys(data.RightLateral_AI_Data)
                                                           ? Object.keys(
                                                             data
-                                                              .LeftLateral_AI_Data[
+                                                              .RightLateral_AI_Data[
                                                             Object.keys(
-                                                              data.LeftLateral_AI_Data
+                                                              data.RightLateral_AI_Data
                                                             )[0]
                                                             ]["angles"]
                                                           ).map((item, index) => {
                                                             let t = {};
                                                             t["key"] = index;
                                                             t["angles"] =
-                                                              tableLabels[item]
-                                                                ? tableLabels[item]
+                                                              tableLabelLateral[item]
+                                                                ? tableLabelLateral[item]
                                                                 : "Not Available";
                                                             t["min"] = Math.round(
                                                               data
-                                                                .LeftLateral_AI_Data[
+                                                                .RightLateral_AI_Data[
                                                                 Object.keys(
-                                                                  data.LeftLateral_AI_Data
+                                                                  data.RightLateral_AI_Data
                                                                 )[0]
                                                               ]["angles"][item].min
                                                             );
                                                             t["max"] = Math.round(
                                                               data
-                                                                .LeftLateral_AI_Data[
+                                                                .RightLateral_AI_Data[
                                                                 Object.keys(
-                                                                  data.LeftLateral_AI_Data
+                                                                  data.RightLateral_AI_Data
                                                                 )[0]
                                                               ]["angles"][item].max
                                                             );
@@ -2673,113 +1841,1334 @@ const AssessmentList = ({ assesmentClick }) => {
                                                     />
                                                   </Col>
                                                 )}
-
-                                                {data.RightLateral_AI_Data !=
-                                                  null && (
-                                                    <Col
-                                                      md={12}
-                                                      lg={12}
-                                                      sm={24}
-                                                      xs={24}
-                                                    >
-                                                      <h5 className="p-2">
-                                                        Right side
-                                                      </h5>
-                                                      <Table
-                                                        pagination={false}
-                                                        columns={columns}
-                                                        dataSource={
-                                                          data.RightLateral_AI_Data !=
-                                                            null
-                                                            ? Object.keys(
-                                                              data
-                                                                .RightLateral_AI_Data[
-                                                              Object.keys(
-                                                                data.RightLateral_AI_Data
-                                                              )[0]
-                                                              ]["angles"]
-                                                            ).map((item, index) => {
-                                                              let t = {};
-                                                              t["key"] = index;
-                                                              t["angles"] =
-                                                                tableLabels[item]
-                                                                  ? tableLabels[item]
-                                                                  : "Not Available";
-                                                              t["min"] = Math.round(
-                                                                data
-                                                                  .RightLateral_AI_Data[
-                                                                  Object.keys(
-                                                                    data.RightLateral_AI_Data
-                                                                  )[0]
-                                                                ]["angles"][item].min
-                                                              );
-                                                              t["max"] = Math.round(
-                                                                data
-                                                                  .RightLateral_AI_Data[
-                                                                  Object.keys(
-                                                                    data.RightLateral_AI_Data
-                                                                  )[0]
-                                                                ]["angles"][item].max
-                                                              );
-                                                              return t;
-                                                            })
-                                                            : []
-                                                        }
-                                                      />
-                                                    </Col>
-                                                  )}
-                                              </Row>
-                                            </Col>
-                                          </>
-                                        )}
-                                    </Row>
-                                  </div>
-                                </div>{" "}
-                              </>
-                            )}
-                          {/* {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="AROM Assessment" key="7"> <div className=" border mb-3 mt-3" >
+                                            </Row>
+                                          </Col>
+                                        </>
+                                      )}
+                                  </Row>
+                                </div>
+                              </div>{" "}
+                            </Panel>
+                          )}
+                        {/* {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="AROM Assessment" key="7"> <div className=" border mb-3 mt-3" >
 
                                                 <div className=" border mb-3 mt-3">
                                                     <Row gutter={[10, 10]} className="px-4 py-2">
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} /> */}
-                          {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
-                          {/* </Col>
+                        {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
+                        {/* </Col>
                                                         <Col md={12} lg={12} sm={24} xs={24}>
                                                             <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table2 ? dataArray[paginationState.current - 1].table2 : tableNOdata2 : tableNOdata2} />' */}
-                          {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
-                          {/* </Col>
+                        {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
+                        {/* </Col>
                                                     </Row>
 
                                                 </div>
 
 
                                             </div> </Panel> } */}
-                      
-                        <center>
-                          <div className="pag_large">
-                            <Pagination
-                              pageSize={paginationState.pageSize}
-                              current={paginationState.current}
-                              total={AssesmentData.length}
-                              onChange={PaginationChange}
-                              style={{ marginBottom: "10px" }}
-                            />
-                          </div>
-                        </center>
-                        <div style={{ display: "none" }} className="pag_mob">
-                          <center>
-                            <Pagination
-                              size="small"
-                              pageSize={paginationState.pageSize}
-                              current={paginationState.current}
-                              total={AssesmentData.length}
-                              onChange={PaginationChange}
-                              style={{ marginBottom: "10px" }}
-                            />
-                          </center>
+                      </Collapse>
+                      <center>
+                        <div className="pag_large">
+                          <Pagination
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
                         </div>
-                      </div>}
+                      </center>
+                      <div style={{ display: "none" }} className="pag_mob">
+                        <center>
+                          <Pagination
+                            size="small"
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
+                        </center>
+                      </div>
+                    </>
+
+                    {<div id="assesmentPrint" className={showAssesment ? "" : "assesmentPrint"} ref={assessmentRef}>
+
+                      {data.body_image && (
+
+                        <div className=" border mb-3 mt-3">
+                          <h4 className="p-2">Areas of Pain/Impairment </h4>
+                          <Row>
+                            <img width="100%" src={data.body_image} />
+                          </Row>
+                        </div>
+
+                      )}
+                      {(data.physical_assessement.Built.length > 0 ||
+                        data.physical_assessement.History.length > 0 ||
+                        data.physical_assessement.chiefCom.length > 0 ||
+                        data.physical_assessement.past_medical_history
+                          .length > 0 ||
+                        (data.physical_assessement.Subjective[0].occupation
+                          .length > 0 &&
+                          data.physical_assessement.Subjective[0].duration
+                            .length > 0)) && (
+                          < >
+                            <div className=" border mb-3 mt-3">
+                              {/* <Row className="border">
+                                                    <Col lg={18} md={18} sm={18} xs={24}>
+                                                        <h4 className="p-2">Physical Assesment</h4>
+                                                    </Col>
+                                                    <Col lg={6} md={6} sm={6} xs={24} className="text-end">
+                                                    </Col>
+                                                </Row> */}
+                              <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Descriptions>
+                                  <Descriptions.Item label="Assesment Date">
+                                    {data.assesmentdate.slice(0, 10)}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label="Built">
+                                    {data.physical_assessement.Built}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label="History">
+                                    {data.physical_assessement.History}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label="Cheif Complaint">
+                                    {" "}
+                                    {data.physical_assessement.chiefCom}
+                                  </Descriptions.Item>
+
+                                  <Descriptions.Item
+                                    label="Past Medical History"
+                                    span={3}
+                                  >
+                                    {" "}
+                                    {data.physical_assessement
+                                      .past_medical_history &&
+                                      data.physical_assessement
+                                        .past_medical_history.length > 0 &&
+                                      data.physical_assessement.past_medical_history.map(
+                                        (p) => `${p + " ,"}`
+                                      )}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label="Any Other details ">
+                                    {" "}
+                                    {
+                                      data.physical_assessement
+                                        .any_other_details
+                                    }
+                                  </Descriptions.Item>
+                                  {/* any_other_details */}
+                                </Descriptions>
+                              </Row>
+                            </div>
+
+                            {/* <div className=" border mb-3 mt-3"> */}
+                            {data.physical_assessement.Subjective &&
+                              data.physical_assessement.Subjective.length >
+                              0 && (
+                                <>
+                                  <Descriptions.Item label="" span={3}>
+                                    <b>
+                                      <u>Subjective </u>
+                                    </b>
+                                  </Descriptions.Item>
+                                  <Row gutter={[10, 10]} className="px-4 py-2">
+                                    <table
+                                      style={{ width: "50%" }}
+                                    //style={{ width: `${screen.width / 2}px` }}
+                                    >
+                                      <tr>
+                                        <td style={{ width: "33%" }}>
+                                          <b>Occupation</b>
+                                        </td>
+                                        <td style={{ width: "33%" }}>
+                                          <b>Duration</b>
+                                        </td>
+                                        <td style={{ width: "33%" }}>
+                                          <b>Sports-type</b>
+                                        </td>
+                                      </tr>
+                                      {data.physical_assessement.Subjective.map(
+                                        (data) => (
+                                          <tr>
+                                            <td>{data.occupation}</td>
+                                            <td>{data.duration}</td>
+                                            {data.occupation === "Sports" && (
+                                              <td>{data.Sports_type}</td>
+                                            )}
+                                          </tr>
+                                        )
+                                      )}
+                                    </table>
+                                  </Row>
+                                </>
+                              )}
+                          </>
+                        )}
+                      {/* </div> */}
+                      {(data.nature_of_pain.length > 0 ||
+                        data.pain_scale > 0 ||
+                        data.pain_scars.length > 0 ||
+                        (data.pain_aggravating !== undefined &&
+                          data.pain_aggravating.length > 0) ||
+                        (data.pain_relieving !== undefined &&
+                          data.pain_relieving.length > 0) ||
+                        data.sensory_input["superficial"].length > 0 ||
+                        data.sensory_input["deep"].length > 0 ||
+                        data.sensory_input["cortial"].length > 0) && (
+
+                          <div className=" border mb-3 mt-3">
+                            {/* <Row className="border">
+                                                    <Col lg={18} md={18} sm={18} xs={24}>
+                                                        <h4 className="p-2">Pain Assesment</h4>
+                                                    </Col>
+                                                </Row> */}
+
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Descriptions>
+                                <Descriptions.Item label="Nature Of Pain">
+                                  {data.nature_of_pain
+                                    ? JSON.stringify(data.nature_of_pain).replace('[', '').replace(']', '').replaceAll('"', '')
+                                    : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Pain Scale">
+                                  {data.pain_scale
+                                    ? data.pain_scale
+                                    : data.pain_scale === 0
+                                      ? 0
+                                      : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Scar">
+                                  {data.pain_scars
+                                    ? data.pain_scars
+                                    : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Swelling">
+                                  {data.pain_swelling
+                                    ? data.pain_swelling
+                                    : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Pain Aggravating">
+                                  {data.pain_aggravating !== undefined
+                                    ? data.pain_aggravating.length > 0 &&
+                                    data.pain_aggravating.map(
+                                      (d) => d + " "
+                                    )
+                                    : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item
+                                  label="Pain Relieving"
+                                  span={3}
+                                >
+                                  {" "}
+                                  {data.pain_relieving !== undefined
+                                    ? data.pain_relieving.length > 0 &&
+                                    data.pain_relieving.map((d) => d + " ")
+                                    : "not available"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="" span={3}>
+                                  <b>
+                                    <u>Sensory Inputs </u>
+                                  </b>
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Superficial">
+                                  {data.sensory_input.superficial}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Deep">
+                                  {data.sensory_input.deep}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Cortial">
+                                  {data.sensory_input.cortial}
+                                </Descriptions.Item>
+                              </Descriptions>
+                            </Row>
+                          </div>
+
+                        )}
+                      {(data.shoulder ||
+                        data.Ankle ||
+                        data.Cervical_Spine ||
+                        data.Thoracic_Spine ||
+                        data.Lumbar_Spine ||
+                        data.Forearm_wrist_Hand ||
+                        data.Hip ||
+                        data.Knee ||
+                        data.Others ||
+                        data.Elbow) && (
+
+                          <div className=" border mb-3 mt-3">
+                            {/* <Row className="border">
+                                                    <Col lg={18} md={18} sm={18} xs={24}>
+                                                        {data.shoulder||data.Ankle||data.Cervical_Spine||data.Thoracic_Spine||data.Lumbar_Spine||data.Forearm_wrist_Hand||data.Hip||data.Knee||data.Elbow?<h4 className="p-2"><u>Special Test</u></h4>:''}
+                                                    </Col>
+                                                </Row> */}
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.shoulder && data.shoulder.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Shoulder </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.shoulder.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Ankle && data.Ankle.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Ankle </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.Ankle.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Elbow && data.Elbow.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Elbow </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.Elbow.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Hip && data.Hip.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Hip </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.Hip.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Knee && data.Knee.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Knee </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.Knee.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Others && data.Others.length > 0 && (
+                                  <>
+                                    <Descriptions.Item label="" span={3}>
+                                      <b>Others </b>
+                                    </Descriptions.Item>
+                                    <table
+                                      style={{
+                                        width: `${screen.width / 2}px`,
+                                      }}
+                                      border="1px"
+                                    >
+                                      <tr>
+                                        <td>
+                                          {" "}
+                                          <center>Questions</center>
+                                        </td>
+                                        <td style={{ width: "30%" }}>
+                                          <center>Positive/Negative</center>
+                                        </td>
+                                      </tr>
+                                      {data.Others.map((an) => (
+                                        <tr>
+                                          <td>{an[0]}</td>
+                                          <td>
+                                            <center>
+                                              {an[1] == 1
+                                                ? " Positive "
+                                                : " Negative "}
+                                            </center>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </>
+                                )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Cervical_Spine &&
+                                  data.Cervical_Spine.length > 0 && (
+                                    <>
+                                      <Descriptions.Item label="" span={3}>
+                                        <b>Cervical Spine </b>
+                                      </Descriptions.Item>
+                                      <table
+                                        style={{
+                                          width: `${screen.width / 2}px`,
+                                        }}
+                                        border="1px"
+                                      >
+                                        <tr>
+                                          <td>
+                                            {" "}
+                                            <center>Questions</center>
+                                          </td>
+                                          <td style={{ width: "30%" }}>
+                                            <center>Positive/Negative</center>
+                                          </td>
+                                        </tr>
+                                        {data.Cervical_Spine.map((an) => (
+                                          <tr>
+                                            <td>{an[0]}</td>
+                                            <td>
+                                              <center>
+                                                {an[1] == 1
+                                                  ? " Positive "
+                                                  : " Negative "}
+                                              </center>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </table>
+                                    </>
+                                  )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Thoracic_Spine &&
+                                  data.Thoracic_Spine.length > 0 && (
+                                    <>
+                                      <Descriptions.Item label="" span={3}>
+                                        <b>Thoracic Spine </b>
+                                      </Descriptions.Item>
+                                      <table
+                                        style={{
+                                          width: `${screen.width / 2}px`,
+                                        }}
+                                        border="1px"
+                                      >
+                                        <tr>
+                                          <td>
+                                            {" "}
+                                            <center>Questions</center>
+                                          </td>
+                                          <td style={{ width: "30%" }}>
+                                            <center>Positive/Negative</center>
+                                          </td>
+                                        </tr>
+                                        {data.Thoracic_Spine.map((an) => (
+                                          <tr>
+                                            <td>{an[0]}</td>
+                                            <td>
+                                              <center>
+                                                {an[1] == 1
+                                                  ? " Positive "
+                                                  : " Negative "}
+                                              </center>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </table>
+                                    </>
+                                  )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Lumbar_Spine &&
+                                  data.Lumbar_Spine.length > 0 && (
+                                    <>
+                                      <Descriptions.Item label="" span={3}>
+                                        <b>Lumbar Spine </b>
+                                      </Descriptions.Item>
+                                      <table
+                                        style={{
+                                          width: `${screen.width / 2}px`,
+                                        }}
+                                        border="1px"
+                                      >
+                                        <tr>
+                                          <td>
+                                            {" "}
+                                            <center>Questions</center>
+                                          </td>
+                                          <td style={{ width: "30%" }}>
+                                            <center>Positive/Negative</center>
+                                          </td>
+                                        </tr>
+                                        {data.Lumbar_Spine.map((an) => (
+                                          <tr>
+                                            <td>{an[0]}</td>
+                                            <td>
+                                              <center>
+                                                {an[1] == 1
+                                                  ? " Positive "
+                                                  : " Negative "}
+                                              </center>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </table>
+                                    </>
+                                  )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                            <Row gutter={[10, 10]} className="px-4 py-2">
+                              <Col lg={12} md={18} sm={12} xs={12}>
+                                {data.Forearm_wrist_Hand &&
+                                  data.Forearm_wrist_Hand.length > 0 && (
+                                    <>
+                                      <Descriptions.Item label="" span={3}>
+                                        <b>Forearm_wrist_Hand </b>
+                                      </Descriptions.Item>
+                                      <table
+                                        style={{
+                                          width: `${screen.width / 2}px`,
+                                        }}
+                                        border="1px"
+                                      >
+                                        <tr>
+                                          <td>
+                                            {" "}
+                                            <center>Questions</center>
+                                          </td>
+                                          <td style={{ width: "30%" }}>
+                                            <center>Positive/Negative</center>
+                                          </td>
+                                        </tr>
+                                        {data.Forearm_wrist_Hand.map((an) => (
+                                          <tr>
+                                            <td>{an[0]}</td>
+                                            <td>
+                                              <center>
+                                                {an[1] == 1
+                                                  ? " Positive "
+                                                  : " Negative "}
+                                              </center>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </table>
+                                    </>
+                                  )}
+                              </Col>
+                              <Col lg={12} md={18} sm={12} xs={12}></Col>
+                            </Row>
+                          </div>
+
+                        )}
+                      {Object.keys(data.questionnaires).length > 0 &&
+                        data.questionnaires[
+                          Object.keys(data.questionnaires)[0]
+                        ][0].length > 0 && (
+
+                          <div className=" border mb-3 mt-3">
+                            <Row className="border">
+                              <Col md={24} lg={24} sm={24} xs={24}>
+                                {/* <h4 className="p-2">Questionnaire </h4> */}
+                                <Descriptions size="small" bordered>
+                                  {Object.keys(data.questionnaires).map(
+                                    (label) => (
+                                      <>
+                                        {data.questionnaires[label][0]
+                                          .length > 0 && (
+                                            <Descriptions.Item
+                                              label={`KOOS ${label}`}
+                                            >
+                                              {data.questionnaires[
+                                                label
+                                              ][3] &&
+                                                data.questionnaires[
+                                                  label
+                                                ][3].toFixed(0)}
+                                            </Descriptions.Item>
+                                          )}
+                                      </>
+                                    )
+                                  )}
+                                  {/* <Descriptions.Item label="KOOS Stiffness">{data.questionnaires.Stiffness[3] && data.questionnaires.Stiffness[3].toFixed(0)}</Descriptions.Item>
+                                                            <Descriptions.Item label="KOOS Pain">{data.questionnaires.pain[3] && data.questionnaires.pain[3].toFixed(0)}</Descriptions.Item>
+                                                            <Descriptions.Item label="KOOS Daily Life">{data.questionnaires.DailyLiving[3] && data.questionnaires.DailyLiving[3].toFixed(0)}</Descriptions.Item>
+                                                            <Descriptions.Item label="KOOS Sports">{data.questionnaires.Sports[3] && data.questionnaires.Sports[3].toFixed(0)}</Descriptions.Item>
+                                                            <Descriptions.Item label="KOOS Quality of Life">{data.questionnaires.Life[3] && data.questionnaires.Life[3].toFixed(0)}</Descriptions.Item> */}
+                                </Descriptions>
+                              </Col>
+                            </Row>
+                            <Row
+                              gutter={[10, 10]}
+                              className="px-4 py-2"
+                            ></Row>
+                          </div>
+
+                        )}
+                      {data.posture &&
+                        (data.posture["Posterial_view"] ||
+                          data.posture["lateral_view"] || data.posture["sitting_Posterial_view"]
+                          || data.posture["Sitting_lateral_view"]
+                        ) && (
+
+                          <div className=" border mb-3 mt-3">
+                            {/* <Row className="border">
+                                               <Col md={24} lg={24} sm={24} xs={24}>
+                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
+                                               </Col>
+                                             </Row> */}
+                            {data.posture["Posterial_view"] && (
+                              <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Col md={24} lg={24} sm={24} xs={24}>
+                                  <Descriptions title="">
+                                    <Descriptions.Item label="Notes ">
+                                      {Object.keys(data.posture).length >
+                                        0 && data.posture["Notes"]}
+                                    </Descriptions.Item>
+                                  </Descriptions>
+                                </Col>
+                                <Col md={24} lg={24} sm={24} xs={24}>
+                                  <h1>Degree of Deviation</h1>
+                                </Col>
+                                {Object.keys(data.posture["Posterial_view"]).length > 0 && <><Col md={24} lg={18} sm={24} xs={24}>
+                                  <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                    {
+                                      <Descriptions.Item label="Nasal Bridge">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[0]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Shoulder levels(Acrimion)">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[1]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label=" Umbilicus">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[2]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Knees">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[3]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Ankle/Foot">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[4]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Line of Gravity">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["Posterial_view"] &&
+                                          data.posture["Posterial_view"]
+                                            .Angles[5]}
+                                      </Descriptions.Item>
+                                    }
+                                  </Descriptions>
+                                </Col>
+                                  <Col md={24} lg={6} sm={24} xs={24}>
+                                    <img
+                                      src={
+                                        data.posture["Posterial_view"]
+                                          .posterial_view_image
+                                      }
+                                    />
+                                  </Col>
+                                  <Descriptions title="">
+                                    {/* {data.posture&&data.posture.Posterial_view.checkbox&&data.posture[
+                                          "Posterial_view"
+                                        ].checkbox.map((ob) => (
+                                          <>
+                                            {ob[1] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob[0]}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                        ))} */}
+                                    {
+                                      data.posture.Posterial_view.checkbox&&Object.keys(data.posture.Posterial_view.checkbox).map(ob => (
+                                        <>
+                                          {data.posture.Posterial_view.checkbox[ob] == 1 && (
+                                            <Descriptions.Item label="">
+                                              <Badge color="#000000" />
+                                              {ob}
+                                            </Descriptions.Item>
+                                          )}
+                                        </>
+                                      ))
+                                    }
+                                  </Descriptions>
+                                </>}
+                              </Row>
+                            )}
+                            {data.posture.lateral_view && Object.keys(data.posture["lateral_view"]).length > 0 && (
+                              <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Col md={24} lg={18} sm={24} xs={24}>
+                                  <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                    <Descriptions.Item label="Head deviation">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["lateral_view"] &&
+                                        data.posture["lateral_view"]
+                                          .Angles[0]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Shoulder">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["lateral_view"] &&
+                                        data.posture["lateral_view"]
+                                          .Angles[1]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Hip/Pelvic Deviation">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["lateral_view"] &&
+                                        data.posture["lateral_view"]
+                                          .Angles[2]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Knees Deviation">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["lateral_view"] &&
+                                        data.posture["lateral_view"]
+                                          .Angles[3]}
+                                    </Descriptions.Item>
+                                  </Descriptions>
+                                </Col>
+                                <Col md={24} lg={6} sm={24} xs={24}>
+                                  <img
+                                    src={
+                                      data.posture["lateral_view"]
+                                        .posterial_view_image
+                                    }
+                                  />
+                                </Col>
+                                <Descriptions title="">
+                                  {
+                                    data.posture.lateral_view.checkbox&&Object.keys(data.posture.lateral_view.checkbox).map(ob => (
+                                      <>
+                                        {data.posture.lateral_view.checkbox[ob] == 1 && (
+                                          <Descriptions.Item label="">
+                                            <Badge color="#000000" />
+                                            {ob}
+                                          </Descriptions.Item>
+                                        )}
+                                      </>
+                                    ))
+                                  }
+                                </Descriptions>
+                              </Row>
+                            )}
+                          </div>
+
+                        )}
+                      {data.posture &&
+                        (data.posture["sitting_Posterial_view"] ||
+                          data.posture["Sitting_lateral_view"]) && (
+
+                          <div className=" border mb-3 mt-3">
+                            {/* <Row className="border">
+                                               <Col md={24} lg={24} sm={24} xs={24}>
+                                               {(data.posture['Posterial_view']||data.posture['lateral_view'])&&<h4 className="p-2">Posture Analysis</h4>}
+                                               </Col>
+                                             </Row> */}
+                            {data.posture["sitting_Posterial_view"] && (
+                              <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Col md={24} lg={24} sm={24} xs={24}>
+                                  <Descriptions title="">
+                                    <Descriptions.Item label="Notes ">
+                                      {Object.keys(data.posture).length >
+                                        0 && data.posture["Notes"]}
+                                    </Descriptions.Item>
+                                  </Descriptions>
+                                </Col>
+                                <Col md={24} lg={24} sm={24} xs={24}>
+                                  <h1>Degree of Deviation</h1>
+                                </Col>
+                                {data.posture.sitting_Posterial_view && Object.keys(data.posture["sitting_Posterial_view"]).length > 0 && <><Col md={24} lg={18} sm={24} xs={24}>
+                                  <Descriptions title="Anterior" bordered column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }} >
+                                    {
+                                      <Descriptions.Item label="Nasal Bridge">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[0]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Shoulder levels(Acrimion)">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[1]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label=" Umbilicus">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[2]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Knees">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[3]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Ankle/Foot">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[4]}
+                                      </Descriptions.Item>
+                                    }
+                                    {
+                                      <Descriptions.Item label="Line of Gravity">
+                                        {Object.keys(data.posture).length >
+                                          0 &&
+                                          data.posture["sitting_Posterial_view"] &&
+                                          data.posture["sitting_Posterial_view"]
+                                            .Angles[5]}
+                                      </Descriptions.Item>
+                                    }
+                                  </Descriptions>
+                                </Col>
+                                  <Col md={24} lg={6} sm={24} xs={24}>
+                                    <img
+                                      src={
+                                        data.posture["sitting_Posterial_view"]
+                                          .sitting_Posterial_view_image
+                                      }
+                                    />
+                                  </Col>
+                                  <Descriptions title="">
+                                    {/* {data.posture&&data.posture.sitting_Posterial_view.checkbox&&data.posture[
+                                          "sitting_Posterial_view"
+                                        ].checkbox.map((ob) => (
+                                          <>
+                                            {ob[1] == 1 && (
+                                              <Descriptions.Item label="">
+                                                <Badge color="#000000" />
+                                                {ob[0]}
+                                              </Descriptions.Item>
+                                            )}
+                                          </>
+                                        ))} */}
+                                    {
+                                      data.posture.sitting_Posterial_view.checkbox&&Object.keys(data.posture.sitting_Posterial_view.checkbox).map(ob => (
+                                        <>
+                                          {data.posture.sitting_Posterial_view.checkbox[ob] == 1 && (
+                                            <Descriptions.Item label="">
+                                              <Badge color="#000000" />
+                                              {ob}
+                                            </Descriptions.Item>
+                                          )}
+                                        </>
+                                      ))
+                                    }
+                                  </Descriptions>
+                                </>}
+                              </Row>
+                            )}
+                            {data.posture.Sitting_lateral_view && Object.keys(data.posture["Sitting_lateral_view"]).length > 0 && (
+                              <Row gutter={[10, 10]} className="px-4 py-2">
+                                <Col md={24} lg={18} sm={24} xs={24}>
+                                  <Descriptions title="Lateral" bordered column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}>
+                                    <Descriptions.Item label="Shoulder">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["Sitting_lateral_view"] &&
+                                        data.posture["Sitting_lateral_view"]
+                                          .Angles[0]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Hip">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["Sitting_lateral_view"] &&
+                                        data.posture["Sitting_lateral_view"]
+                                          .Angles[1]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Ankle">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["Sitting_lateral_view"] &&
+                                        data.posture["Sitting_lateral_view"]
+                                          .Angles[2]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Opposite Knee">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["Sitting_lateral_view"] &&
+                                        data.posture["Sitting_lateral_view"]
+                                          .Angles[3]}
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Elbow">
+                                      {Object.keys(data.posture).length >
+                                        0 &&
+                                        data.posture["Sitting_lateral_view"] &&
+                                        data.posture["Sitting_lateral_view"]
+                                          .Angles[4]}
+                                    </Descriptions.Item>
+                                  </Descriptions>
+                                </Col>
+                                <Col md={24} lg={6} sm={24} xs={24}>
+                                  <img
+                                    src={
+                                      data.posture["Sitting_lateral_view"]
+                                        .posterial_view_image
+                                    }
+                                  />
+                                </Col>
+                                <Descriptions title="">
+                                  {
+                                    data.posture.Sitting_lateral_view.checkbox&&Object.keys(data.posture.Sitting_lateral_view.checkbox).map(ob => (
+                                      <>
+                                        {data.posture.Sitting_lateral_view.checkbox[ob] == 1 && (
+                                          <Descriptions.Item label="">
+                                            <Badge color="#000000" />
+                                            {ob}
+                                          </Descriptions.Item>
+                                        )}
+                                      </>
+                                    ))
+                                  }
+                                </Descriptions>
+                              </Row>
+                            )}
+                          </div>
+
+                        )}
+                      {console.log("rom data is ", data)}
+                      {(data.AI_data != null ||
+                        (data.LeftLateral_AI_Data &&
+                          data.LeftLateral_AI_Data != null) ||
+                        (data.RightLateral_AI_Data &&
+                          data.RightLateral_AI_Data != null)) && (
+                          <>
+                            {" "}
+                            <div className=" border mb-3 mt-3">
+                              <div className=" border mb-3 mt-3">
+                                <Row gutter={[10, 10]}>
+                                  {data.AI_data != null && Object.keys(data.AI_data).length > 0 && (
+                                    <>
+                                      <Row className="border">
+                                        <Col md={24} lg={24} sm={24} xs={24}>
+                                          <h4 className="p-2">
+                                            Anterior ROM Assesment
+                                          </h4>
+                                        </Col>
+                                      </Row>
+                                      <Col md={24} lg={24} sm={24} xs={24}>
+                                        <Table
+                                          pagination={false}
+                                          columns={columns}
+                                          dataSource={
+                                            data.AI_data && data.AI_data != null && Object.keys(data.AI_data).length > 0
+                                              ? Object.keys(
+                                                data.AI_data[
+                                                Object.keys(data.AI_data)[0]
+                                                ]["angles"]
+                                              ).map((item, index) => {
+                                                let t = {};
+                                                t["key"] = index;
+                                                t["angles"] = tableLabels[
+                                                  item
+                                                ]
+                                                  ? tableLabels[item]
+                                                  : "Not Available";
+                                                t["min"] = Math.round(
+                                                  data.AI_data[
+                                                    Object.keys(
+                                                      data.AI_data
+                                                    )[0]
+                                                  ]["angles"][item].min
+                                                );
+                                                t["max"] = Math.round(
+                                                  data.AI_data[
+                                                    Object.keys(
+                                                      data.AI_data
+                                                    )[0]
+                                                  ]["angles"][item].max
+                                                );
+                                                return t;
+                                              })
+                                              : []
+                                          }
+                                        />
+                                      </Col>
+                                    </>
+                                  )}
+                                  {((data.LeftLateral_AI_Data &&
+                                    data.LeftLateral_AI_Data != null) ||
+                                    (data.RightLateral_AI_Data &&
+                                      data.RightLateral_AI_Data != null)) && (
+                                      <>
+                                        {/* <Row className="border">
+                                        <Col md={24} lg={24} sm={24} xs={24}>
+                                          <h4 className="p-2">
+                                            Lateral ROM Assesment
+                                          </h4>
+                                        </Col>
+                                      </Row>
+                                      <Row className="border">
+                                        <Col md={24} lg={24} sm={24} xs={24}>
+                                          <h4 className="p-2">
+                                          <h5 className="p-2">Left side</h5>
+                                          </h4>
+                                        </Col>
+                                      </Row> */}
+                                        <Col md={24} lg={24} sm={24} xs={24}>
+                                          <Row className="border">
+                                            <Col md={24} lg={24} sm={24} xs={24}>
+                                              <h4 className="p-2">
+                                                Lateral ROM Assesment
+                                              </h4>
+                                            </Col>
+                                          </Row>
+                                          <Row gutter={[10, 10]}>
+                                            {data.LeftLateral_AI_Data != null && (
+                                              <Col
+                                                md={12}
+                                                lg={12}
+                                                sm={24}
+                                                xs={24}
+                                              >
+                                                <h5 className="p-2">Left side</h5>
+                                                <Table
+                                                  pagination={false}
+                                                  columns={columns}
+                                                  dataSource={
+                                                    data.LeftLateral_AI_Data !=
+                                                      null && Object.keys(data.LeftLateral_AI_Data).length > 0
+                                                      ? Object.keys(
+                                                        data
+                                                          .LeftLateral_AI_Data[
+                                                        Object.keys(
+                                                          data.LeftLateral_AI_Data
+                                                        )[0]
+                                                        ]["angles"]
+                                                      ).map((item, index) => {
+                                                        let t = {};
+                                                        t["key"] = index;
+                                                        t["angles"] =
+                                                          tableLabelLateral[item]
+                                                            ? tableLabelLateral[item]
+                                                            : "Not Available";
+                                                        t["min"] = Math.round(
+                                                          data
+                                                            .LeftLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.LeftLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].min
+                                                        );
+                                                        t["max"] = Math.round(
+                                                          data
+                                                            .LeftLateral_AI_Data[
+                                                            Object.keys(
+                                                              data.LeftLateral_AI_Data
+                                                            )[0]
+                                                          ]["angles"][item].max
+                                                        );
+                                                        return t;
+                                                      })
+                                                      : []
+                                                  }
+                                                />
+                                              </Col>
+                                            )}
+
+                                            {data.RightLateral_AI_Data !=
+                                              null && (
+                                                <Col
+                                                  md={12}
+                                                  lg={12}
+                                                  sm={24}
+                                                  xs={24}
+                                                >
+                                                  <h5 className="p-2">
+                                                    Right side
+                                                  </h5>
+                                                  <Table
+                                                    pagination={false}
+                                                    columns={columns}
+                                                    dataSource={
+                                                      data.RightLateral_AI_Data !=
+                                                        null && Object.keys(data.RightLateral_AI_Data).length > 0
+                                                        ? Object.keys(
+                                                          data
+                                                            .RightLateral_AI_Data[
+                                                          Object.keys(
+                                                            data.RightLateral_AI_Data
+                                                          )[0]
+                                                          ]["angles"]
+                                                        ).map((item, index) => {
+                                                          let t = {};
+                                                          t["key"] = index;
+                                                          t["angles"] =
+                                                            tableLabelLateral[item]
+                                                              ? tableLabelLateral[item]
+                                                              : "Not Available";
+                                                          t["min"] = Math.round(
+                                                            data
+                                                              .RightLateral_AI_Data[
+                                                              Object.keys(
+                                                                data.RightLateral_AI_Data
+                                                              )[0]
+                                                            ]["angles"][item].min
+                                                          );
+                                                          t["max"] = Math.round(
+                                                            data
+                                                              .RightLateral_AI_Data[
+                                                              Object.keys(
+                                                                data.RightLateral_AI_Data
+                                                              )[0]
+                                                            ]["angles"][item].max
+                                                          );
+                                                          return t;
+                                                        })
+                                                        : []
+                                                    }
+                                                  />
+                                                </Col>
+                                              )}
+                                          </Row>
+                                        </Col>
+                                      </>
+                                    )}
+                                </Row>
+                              </div>
+                            </div>{" "}
+                          </>
+                        )}
+                      {/* {dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data"&&   <Panel header="AROM Assessment" key="7"> <div className=" border mb-3 mt-3" >
+
+                                                <div className=" border mb-3 mt-3">
+                                                    <Row gutter={[10, 10]} className="px-4 py-2">
+                                                        <Col md={12} lg={12} sm={24} xs={24}>
+                                                            <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table ? dataArray[paginationState.current - 1].table : tableNOdata1 : tableNOdata1} /> */}
+                      {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table &&dataArray[paginationState.current - 1].table[0].max!=="No Data" && dataArray[paginationState.current - 1].table } /> */}
+                      {/* </Col>
+                                                        <Col md={12} lg={12} sm={24} xs={24}>
+                                                            <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] ? dataArray[paginationState.current - 1].table2 ? dataArray[paginationState.current - 1].table2 : tableNOdata2 : tableNOdata2} />' */}
+                      {/* <Table pagination={false} columns={columns} dataSource={dataArray[paginationState.current - 1] && dataArray[paginationState.current - 1].table2 && dataArray[paginationState.current - 1].table2 } />' */}
+                      {/* </Col>
+                                                    </Row>
+
+                                                </div>
+
+
+                                            </div> </Panel> } */}
+
+                      <center>
+                        <div className="pag_large">
+                          <Pagination
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
+                        </div>
+                      </center>
+                      <div style={{ display: "none" }} className="pag_mob">
+                        <center>
+                          <Pagination
+                            size="small"
+                            pageSize={paginationState.pageSize}
+                            current={paginationState.current}
+                            total={AssesmentData.length}
+                            onChange={PaginationChange}
+                            style={{ marginBottom: "10px" }}
+                          />
+                        </center>
+                      </div>
+                    </div>}
                   </Col>
                 </div>
               )

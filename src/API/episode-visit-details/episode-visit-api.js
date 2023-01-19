@@ -74,11 +74,14 @@ const filterCarePlanData = (data) => {
     console.log("check data 5 ", el);
     console.log("check data 6 ", keyObject[el].length - 1);
     console.log("check data 7 ", keyObject[el][keyObject[el].length - 1].date);
-    console.log("check data 8 ", keyObject[el][keyObject[el].length - 1].end_date);
+    console.log(
+      "check data 8 ",
+      keyObject[el][keyObject[el].length - 1].end_date
+    );
     keyObject[el].length - 1;
     element["start_date"] = element.date;
     delete element["date"];
-    element["end_date"] =  keyObject[el][keyObject[el].length - 1].end_date;
+    element["end_date"] = keyObject[el][keyObject[el].length - 1].end_date;
     newData.push(element);
   });
   return newData;
@@ -124,7 +127,7 @@ const newFilterCarePlanData = (data) => {
   });
 
   console.log("data is coming ", Object.values(keyObj));
-  return Object.values(keyObj)
+  return Object.values(keyObj);
 };
 export const CarePlan = async (eid) => {
   try {
@@ -160,8 +163,8 @@ export const CarePlan = async (eid) => {
 //@param -
 //@return - Fetched History.
 export const fetchHistory = () => {
-    // console.log("Fetched History");
-}
+  // console.log("Fetched History");
+};
 
 const filterCarePlanDataEnterprise = (data) => {
   console.log("check data  ", data);
@@ -187,40 +190,180 @@ const filterCarePlanDataEnterprise = (data) => {
     console.log("check data 5 ", el);
     console.log("check data 6 ", keyObject[el].length - 1);
     console.log("check data 7 ", keyObject[el][keyObject[el].length - 1].date);
-    console.log("check data 8 ", keyObject[el][keyObject[el].length - 1].end_date);
+    console.log(
+      "check data 8 ",
+      keyObject[el][keyObject[el].length - 1].end_date
+    );
     keyObject[el].length - 1;
-    element["start_date"] =  keyObject[el][keyObject[el].length - 1].start_date;
+    element["start_date"] = keyObject[el][keyObject[el].length - 1].start_date;
     delete element["date"];
-    element["end_date"] =  keyObject[el][keyObject[el].length - 1].end_date;
+    element["end_date"] = keyObject[el][keyObject[el].length - 1].end_date;
     newData.push(element);
   });
   return newData;
 };
 
 export const fetchCarePlanEmp = async (eid) => {
-    try {
-        const headers = {
-            Accept: 'application/json',
-            "Content-type": "application/json"
-        }
-        // const encodedData = Encode();
-        const response = await fetch(process.env.REACT_APP_API + "/get_emp_all_careplan/", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify({ id: eid })
-        });
-        const data = await response.json();
-           console.log("data is coming ",data);
-        // const data = Decode(responseData);
-        // console.log(data);
-      
-        if (response.status !== 200 && response.status !== 201) {
-            throw new Error("Error: " + response.status + response.statusText);
-        }
-        return filterCarePlanDataEnterprise(data);
-        // return data;
-    } catch (err) {
-        // console.log(err, "Error in Fetching Patient Care Plan");
-        return [];
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+    // const encodedData = Encode();
+    const response = await fetch(
+      process.env.REACT_APP_API + "/get_emp_all_careplan/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({ id: eid }),
+      }
+    );
+    const data = await response.json();
+    console.log("data is coming ", data);
+    // const data = Decode(responseData);
+    // console.log(data);
+
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
     }
-}
+    return filterCarePlanDataEnterprise(data);
+    // return data;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Care Plan");
+    return [];
+  }
+};
+
+export const fetchSummaryDetails = async (patId, startDate, endDate) => {
+  const encodedData = {
+    id: patId,
+    start_date: startDate,
+    end_date: endDate,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(
+      process.env.REACT_APP_API + "/pain_meter_chart",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(encodedData),
+      }
+    );
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(response)
+    const responseData = await response.json();
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return responseData;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};
+export const fetchDashboardDetails = async (patId, startDate, endDate) => {
+  const encodedData = {
+    id: patId,
+    start_date: startDate,
+    end_date: endDate,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(
+      process.env.REACT_APP_API + "/exercise_chart/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(encodedData),
+      }
+    );
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(response)
+    const responseData = await response.json();
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return responseData;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};
+export const fetchAromDetails = async (patId, startDate, endDate) => {
+  const encodedData = {
+    id: patId,
+    start_date: startDate,
+    end_date: endDate,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(
+      process.env.REACT_APP_API + "/arom_angle/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(encodedData),
+      }
+    );
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(response)
+    const responseData = await response.json();
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return responseData;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};
+
+export const CarePlanPdf = async (html) => {
+  const encodedData = {
+    payload: html,
+  };
+  try {
+    const headers = {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    };
+
+    const response = await fetch(process.env.REACT_APP_API + "/html_to_pdf/", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(encodedData),
+    });
+    // console.log('inside patient visit api')
+    // console.log(patId)
+    // console.log(await response.blob())
+    const responseData = await response.blob();
+    const url = window.URL.createObjectURL(responseData);
+    // console.log(data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error("Error: " + response.status + response.statusText);
+    }
+    return url;
+  } catch (err) {
+    // console.log(err, "Error in Fetching Patient Visits");
+    return [];
+  }
+};

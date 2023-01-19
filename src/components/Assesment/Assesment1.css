@@ -10,6 +10,9 @@
     background: #2d7ecb !important;
     color: #fff !important;
 } */
+.btn-Assesment{
+  border-radius: 5px !important;
+}
 .btn-new-check:hover {
   background: grey !important;
 }
@@ -25,7 +28,7 @@
      padding: 0; 
     border-right: 1px solid #f0f0f0;
 }
-.special_test_new1  table, th {
+.special_test_new1  table  {
   width:100% !important;
 }
 

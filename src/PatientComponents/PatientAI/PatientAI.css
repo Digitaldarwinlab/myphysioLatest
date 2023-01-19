@@ -7,6 +7,13 @@
     margin: 0 0 0 15px ;
 }
 
+.painmodel .ant-modal-header {
+    display: none;
+}
+
+.painmodel .ant-modal-close {
+    display: none;
+}
 
 
 @media only screen and (max-width: 650px) {

@@ -3,7 +3,28 @@
   /* border: 1px solid black;
   background-color: black; */
 }
-.Use_of_camera .ant-checkbox{
+
+.Use_of_camera .ant-checkbox {
   border: 0.5px solid black !important;
   border-radius: 3px !important;
+}
+
+.care-plan-allocation-controls-space {
+  margin: 35px;
+}
+
+.care-plan-allocation-controls-text{
+  font-size:16px
+}
+.careplanForm{
+  width: 100% !important;
+}
+
+@media only screen and (max-width: 650px) {
+  .care-plan-allocation-controls-space {
+    margin: 0px;
+  }
+  .care-plan-allocation-controls-text{
+    display: none;
+  }
 }

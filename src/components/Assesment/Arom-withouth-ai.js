@@ -8,6 +8,7 @@ import { render } from "react-dom";
 import "antd/dist/antd.css";
 import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import Error from "../UtilityComponents/ErrorHandler";
+import './Arom-without-ai.css'
 const { Option } = Select;
 const { Panel } = Collapse;
 let MinMax = {
@@ -23,11 +24,11 @@ let MinMax = {
       min:0,
       max:60
   } ,
-  "L Lateral Side Flex":{
+  "L Lumbar Side Flex":{
       min:0,
       max:30
   } ,
-  "R Lateral Side Flex":{
+  "R Lumbar Side Flex":{
       min:0,
       max:30
   } ,
@@ -40,26 +41,34 @@ let MinMax = {
       max:45
   } ,
   "L Shoulder Abd/Add":{
-      min:0,
-      max:180
-  } ,
+    min:0,
+    max:180
+} ,
   "R Shoulder Abd/Add":{
-      min:0,
-      max:180
-  } ,
-  "L Elbow Flex":{
+    min:0,
+    max:180
+} ,
+  "L Shoulder Flex/Ext":{
+    min:0,
+    max:180
+} ,
+"R Shoulder Flex/Ext":{
+    min:0,
+    max:180
+} ,
+  "L Elbow Flex/Ext":{
       min:0,
       max:150
   } ,
-  "R Elbow Flex":{
+  "R Elbow Flex/Ext":{
       min:0,
       max:150
   } ,
-  "L Hip Fwd Flex":{
+  "L Hip Flex/Ext":{
       min:0,
       max:180
   } ,
-  "R Hip Fwd Flex":{
+  "R Hip Flex/Ext":{
       min:0,
       max:180
   } ,
@@ -71,23 +80,23 @@ let MinMax = {
       min:0,
       max:120
   } ,
-  "L Wrist":{
+  "L Wrist Flex/Ext":{
       min:0,
       max:90
   } ,
-  "R Wrist":{
+  "R Wrist Flex/Ext":{
       min:0,
       max:90
   } ,
-  "L Ankle":{
+  "L Ankle Dorsi/Planter Flex":{
       min:0,
       max:45
   } ,
-  "R Ankle":{
+  "R Ankle Dorsi/Planter Flex":{
       min:0,
       max:45
   } ,
-  "Cervical Fwd Flex":{
+  "Cervical Flex/Ext":{
       min:0,
       max:45
   } ,
@@ -95,51 +104,53 @@ let MinMax = {
 const labels = [
   "L Shoulder Abd/Add",
   "R Shoulder Abd/Add",
-  "L Elbow Flex",
-  "R Elbow Flex",
+  "L Elbow Flex/Ext",
+  "R Elbow Flex/Ext",
   "L Cervical Side Flex",
   "R Cervical Side Flex",
-  "L Lateral Side Flex",
-  "R Lateral Side Flex",
+  "L Lumbar Side Flex",
+  "R Lumbar Side Flex",
   "L Hip Abd/Add",
   "R Hip Abd/Add",
 ];
 const labelsL = [
-  "L Shoulder Abd/Add",
-  "L Hip Fwd Flex",
+  "L Shoulder Flex/Ext",
+  "L Hip Flex/Ext",
   "L Knee Flex/Ext",
-  "L Wrist",
-  "L Ankle",
-  "Cervical Fwd Flex"
+  "L Wrist Flex/Ext",
+  "L Ankle Dorsi/Planter Flex",
+  "Cervical Flex/Ext"
 ];
 const labelsR = [
-  "R Shoulder Abd/Add",
-  "R Hip Fwd Flex",
+  "R Shoulder Flex/Ext",
+  "R Hip Flex/Ext",
   "R Knee Flex/Ext",
-  "R Wrist",
-  "R Ankle",
-  "Cervical Fwd Flex",
+  "R Wrist Flex/Ext",
+  "R Ankle Dorsi/Planter Flex",
+  "Cervical Flex/Ext",
 ];
 const allNewJoints = {
   "L Shoulder Abd/Add": "leftShoulder",
   "R Shoulder Abd/Add": "rightShoulder",
-  "L Elbow Flex": "leftElbow",
-  "R Elbow Flex": "rightElbow",
-  "L Hip Fwd Flex": "leftHip",
-  "R Hip Fwd Flex": "rightHip",
+  "L Shoulder Flex/Ext": "leftShoulder",
+  "R Shoulder Flex/Ext": "rightShoulder",
+  "L Elbow Flex/Ext": "leftElbow",
+  "R Elbow Flex/Ext": "rightElbow",
+  "L Hip Flex/Ext": "leftHip",
+  "R Hip Flex/Ext": "rightHip",
   "L Knee Flex/Ext": "leftKnee",
   "R Knee Flex/Ext": "rightKnee",
   "L Cervical Side Flex": "leftNeck",
   "R Cervical Side Flex": "rightNeck",
-  "L Lateral Side Flex": "leftPelvic",
-  "R Lateral Side Flex": "rightPelvic",
-  "L Wrist": "leftWrist",
-  "R Wrist": "rightWrist",
-  "L Ankle": "leftAnkle",
-  "R Ankle": "rightAnkle",
+  "L Lumbar Side Flex": "leftPelvic",
+  "R Lumbar Side Flex": "rightPelvic",
+  "L Wrist Flex/Ext": "leftWrist",
+  "R Wrist Flex/Ext": "rightWrist",
+  "L Ankle Dorsi/Planter Flex": "leftAnkle",
+  "R Ankle Dorsi/Planter Flex": "rightAnkle",
   "L Hip Abd/Add": "leftHipAdductionAbduction",
   "R Hip Abd/Add": "rightHipAdductionAbduction",
-  "Cervical Fwd Flex": "cervicalForwardFlexion",
+  "Cervical Flex/Ext": "cervicalForwardFlexion",
 };
 const text = `
   A dog is a type of domesticated animal.
@@ -201,7 +212,7 @@ const AromWithouthAi = () => {
   const [checkState1 ,setCheckState1] = useState(true)
   const [checkState2 ,setCheckState2] = useState(true)
   const [checkState3 ,setCheckState3] = useState(true)
-  const [visible ,setVisible] = useState(false)
+  const [visible ,setVisible] = useState(true)
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const history = useHistory();
@@ -404,7 +415,6 @@ const AromWithouthAi = () => {
   };
   useEffect(() => {
     // Set totals on initial render
-    setVisible(true)
     const newData = [...tableData1];
     for (let index = 0; index < tableData1.length; index++) {
       setTotal(newData, index);
@@ -627,7 +637,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow1(record.id)} type="link">
+          <Button className="delete_arom_btn" onClick={() => deleteRow1(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>
@@ -691,7 +701,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow2(record.id)} type="link">
+          <Button  className="delete_arom_btn" onClick={() => deleteRow2(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>
@@ -755,7 +765,7 @@ const AromWithouthAi = () => {
       title: "actions",
       render: (text, record, index) => (
         <>
-          <Button onClick={() => deleteRow3(record.id)} type="link">
+          <Button  className="delete_arom_btn" onClick={() => deleteRow3(record.id)} type="link">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </Button>
         </>

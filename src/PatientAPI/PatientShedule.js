@@ -1,5 +1,5 @@
 import fetch from "isomorphic-fetch";
-import { Encode } from "../Encode/hashing";
+import { Decode, Encode } from "../Encode/hashing";
 //@get Care plan Data
 //@Input - Episode Id, date
 
@@ -10,18 +10,19 @@ export const GetPatientCarePlan = async (episodeId, date) => {
     Accept: "application/json",
     "Content-type": "application/json",
   };
-
+  let bdy = Encode({ id: episodeId, date })
   try {
     const response = await fetch(
-      process.env.REACT_APP_API + "/get-care-plan/",
+      process.env.REACT_APP_API + "/get-care-plan_v1/",
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({ id: episodeId, date }),
+        body: JSON.stringify(bdy),
       }
     );
     //  console.log(response)
-    const data = await response.json();
+    const responseData = await response.json();
+    const data = Decode(responseData);
     console.log("get careplan ", data);
     //  console.log(data, "Information")
     if (response.status !== 200 && response.status !== 201) {
@@ -34,10 +35,11 @@ export const GetPatientCarePlan = async (episodeId, date) => {
   }
 };
 
-export const updatePainMeter = async (id, pain) => {
+export const updatePainMeter = async (id, pain,time) => {
   let body = {
     id: id,
     pain_meter: pain,
+    time_slot:time
   };
   console.log("pain meter ", body);
   const headers = {
@@ -131,6 +133,49 @@ export const update_careplan = async (
 
     const data = await response.json();
 
+    console.log(data);
+    console.log(data, "Information");
+    if (response.status !== 200 && response.status !== 201) {
+      return [false, "Error " + response.status + response.statusText];
+    } else {
+      return [true, data];
+    }
+  } catch (err) {
+    return [false, "Error 403: " + err.message];
+  }
+};
+
+export const update_careplan_Nno_AI = async (
+  object,exerciseTime,id
+) => {
+console.log(exerciseTime)
+  const json_data = {
+    id: id,
+    output_json: {},
+  };
+
+  if (typeof exerciseTime == "string") {
+    json_data.output_json[exerciseTime] = object;
+  } else {
+    json_data.output_json[JSON.parse(exerciseTime)] = object;
+  }
+
+const headers = {
+  Accept: "application/json",
+  "Content-type": "application/json",
+};
+  try {
+    const response = await fetch(
+      process.env.REACT_APP_API + "/update-care-plan-status/",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(json_data),
+      }
+    );
+
+    const data = await response.json();
+    console.log('tempdata ',tempData)
     console.log(data);
     console.log(data, "Information");
     if (response.status !== 200 && response.status !== 201) {

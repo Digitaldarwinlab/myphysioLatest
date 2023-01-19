@@ -1,0 +1,141 @@
+.canvas {
+    background-color: #d2ebf6;
+    height: 88vh;
+    margin: 0px 5px 0px 5px;
+    border-radius: 5px !important;
+}
+
+.posture-btn-grp {
+    display: flex;
+    justify-content: space-around;
+}
+
+.posture-btn-grp .ant-btn {
+    width: 5rem !important;
+    height: 2rem !important;
+    border-radius: 5px !important;
+    background: #16A9Fc !important;
+}
+.posture-save .ant-btn {
+    width: 5rem !important;
+    height: 2rem !important;
+    border-radius: 5px !important;
+    background: #16A9Fc !important;
+}
+
+.Stop{
+    background: #ff0000 !important;
+}
+
+.posture-analytics-tab {
+    background-color: #F9F9FC;
+    padding: 5px;
+}
+.posture-pose-tab {
+    display: flex;
+}
+.posture-notes-tab{
+    margin: 15px;
+}
+.posture-pose-tab-item {
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+    height: 2rem !important;
+    margin: 5px;
+    border-radius: 5px;
+    background: #c2cfd6;
+}
+
+.posture-pose-tab .active-posture-tab {
+    background-color: #16A9Fc !important;
+    color: #fff;
+}
+
+.posture-position-tab {
+    display: flex;
+    width: 100%;
+    padding: 5px;
+}
+
+.posture-position-tab text {
+    padding: 5px;
+}
+
+.posture-position-tab-item {
+    width: 2rem;
+    height: 2rem;
+    margin: 5px;
+    border-radius: 15px;
+    background: #c2cfd6;
+}
+
+.posture-angles-tab {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.posture-image-tab {
+    background: #d2ebf6;
+    border-radius: 5px;
+}
+
+
+.posture-img-center {
+   width: 100%;
+}
+
+.posture-angles-list-tab {
+    background: #d2ebf6;
+    border-radius: 5px;
+    display: grid;
+}
+
+.posture-angles-list-tab div {
+    width: 95%;
+    height: 2rem;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+/* @media only screen and (max-width: 767px) {
+    .posture-img-center {
+        width: 50% !important;
+    }
+} */
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    .posture-angles-list-tab {
+        grid-gap: 0rem !important;
+    }
+
+    /* .posture-img-center {
+        margin: 5px;
+        width: 95%;
+    } */
+
+    .posture-btn-grp .ant-btn {
+        width: 4rem !important;
+    }
+}
+
+
+@media only screen and (max-width: 426px) {
+    .posture-angles-list-tab {
+        grid-gap: 0rem !important;
+    }
+    /* .posture-img-center {
+        margin: 5px;
+        width: 97% !important;
+    } */
+    /* repeat(1, 1fr) */
+    .posture-angles-tab {
+        grid-gap: 0px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .posture-checkbox-grp{
+        margin: 0 !important;
+    }
+}

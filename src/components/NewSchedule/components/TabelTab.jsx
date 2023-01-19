@@ -7,12 +7,13 @@ import Week from "./Week"
 import { Tabs } from 'antd';
 import { DayDatePicker, WeekDatePicker, MonthDatePicker } from './datePicker/DatePicker';
 
-import moment from 'moment'
+import moment from 'moment-timezone';
 
 const { TabPane } = Tabs;
 
 
 export default function TabelTab({ setIsVisible }) {
+  moment.tz.setDefault("Asia/Kolkata")
   const [tab, setTab] = useState("1")
 //state lifting  and prop drilling
 const [day, setDay] = useState(moment());
@@ -33,7 +34,7 @@ const [week, setWeek] = useState(moment())
           <Week setIsVisible={setIsVisible} currentWeek={week}/>
         </TabPane>
         <TabPane tab="Month" key="3">
-          <Month setIsVisible={setIsVisible} month={month} />
+          <Month setIsVisible={setIsVisible} month={month} setMonth={setMonth} />
         </TabPane>
       </Tabs>
     </div>

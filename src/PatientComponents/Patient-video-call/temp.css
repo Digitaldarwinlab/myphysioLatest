@@ -1,0 +1,243 @@
+.holder {
+    position: relative !important;
+    display: flex;
+    padding: 0 !important;
+    height: 480px !important;
+}
+
+.patient-video-call-main {
+    margin: 10px 10px 10px 10px !important;
+}
+
+#local div:first-child {
+    border-radius: 5px !important;
+}
+
+.end-btn-big {
+    background: red !important;
+    /* color: red !important; */
+}
+
+.rotate-screen-180 {
+    transform: rotateY(180deg) !important;
+}
+
+.holder video {
+    position: relative !important;
+    display: block;
+    transform: rotateY(180deg);
+    object-fit: cover;
+}
+
+.remote {
+    transform: rotateY(180deg);
+}
+
+#user_name {
+    position: absolute;
+    z-index: 1000;
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+@media only screen and (min-width:650px) {
+    .holder-local .agora_video_player {
+        object-fit: contain !important;
+    }
+}
+
+#scanvas {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid;
+    display: none;
+}
+
+@media only screen and (max-width: 1024px) {
+    #scanvasrow {
+        position: absolute !important;
+    }
+    #scanvas {
+       height: 80vh;
+    }
+}
+
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    #scanvas {
+       height: 84vh;
+    }
+}
+
+.change_view {
+    position: absolute !important;
+    left: 0.5rem !important;
+    top: 0.5rem !important;
+    width: 200px !important;
+    height: 200px !important;
+    overflow: hidden !important;
+    border: 3px solid #fff !important;
+    border-radius: 15px !important;
+    background: #3d4041 !important;
+    display: flow-root !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-style: italic !important;
+}
+
+.no-patient-icon {
+    /* transform: rotateY(180deg) !important; */
+    font-size: 50px;
+    color: white;
+    z-index: 1;
+}
+
+.no-physio-icon {
+    /* transform: rotateY(180deg) !important; */
+    font-size: 50px;
+    color: white;
+    z-index: 1;
+}
+
+#physio-mic-video {
+    display: none;
+    color: white;
+    align-items: center;
+    column-gap: 1rem;
+    background-color: #1f1f1f8e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    z-index: 1;
+    font-size: 18px;
+    margin: 0;
+}
+
+#no-physio-view {
+    display: none;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+#no-user-view {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.patient-mic-video {
+    display: none;
+    color: white;
+    align-items: center;
+    column-gap: 1rem;
+    background-color: #1f1f1f8e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    z-index: 1;
+    font-size: 18px;
+    margin: 0;
+}
+
+#no-physio-view {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+#no-patient-icon {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    /* transform: rotateY(180deg); */
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.holder-local {
+    width: 100%;
+    /* padding-left: 5px ; */
+    border: 3px solid white;
+    height: 85vh;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#local {
+    padding: 0 !important;
+    z-index: 20;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.holder-remote1 {
+    height: 85vh;
+    border: 3px solid white;
+    border-radius: 15px !important;
+}
+
+.holder-remote1 .agora_video_player {
+    object-fit: contain !important;
+}
+
+.remote-width {
+    width: 200px !important;
+    height: 200px !important;
+}
+
+@media only screen and (max-width:650px) {
+
+    /* .holder-remote{
+        width:100px;
+        height:100px;
+    } */
+    .holder-remote1 .agora_video_player {
+        object-fit: cover !important;
+    }
+
+    .display-none-sm {
+        visibility: hidden !important;
+    }
+
+    .change_view {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .holder-remote1 {
+        position: absolute !important;
+        left: 0.5rem !important;
+        top: 0.5rem !important;
+        width: 100px !important;
+        height: 100px !important;
+        overflow: hidden !important;
+        border: 3px solid #fff !important;
+        border-radius: 15px !important;
+        background: #3d4041 !important;
+        display: flow-root !important;
+        justify-content: center !important;
+        align-items: center !important;
+        font-style: italic !important;
+    }
+}

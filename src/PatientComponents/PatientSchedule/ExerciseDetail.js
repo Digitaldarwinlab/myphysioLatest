@@ -1,4 +1,4 @@
-import { Col, Row, Descriptions, Space, Checkbox, Divider } from "antd";
+import { Col, Row, Descriptions, Space, Checkbox, Divider, Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import BackButton from "../shared/BackButton";
 import { exercise_detail } from "../../PatientAPI/PatientDashboardApi";
@@ -18,26 +18,65 @@ const ExerciseDetailsClass = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const history = useHistory();
-  useEffect(async () => {
-    console.log(location.state);
+  const CallDetails = async () => {
     const res = await exercise_detail(location.state.exNameList);
-    //  console.log("exercises ", this.props.location.state.repArr);
+    console.log("Unique ", res)
+    console.log("Unique ", location.state.exercises)
+    // console.log("exercise array ",location.state.exercises)
     let yt_temp = [];
-    location.state.exercises.map((ex) => {
-      if (ex.name == "YouTube") {
+    let tempExercise = location.state.exercises
+    res.map(ex=>{
+      for(let i =0;i<tempExercise.length;i++){
+        if(ex.ex_em_id==tempExercise[i].ex_em_id){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['instruction_array'] = ex.instruction_array
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+        }
+        if(tempExercise[i].ex_em_id==262){
+          tempExercise[i]['title'] = tempExercise[i].name 
+          tempExercise[i]['video_path'] = tempExercise[i].video_url
+        }
+      }
+    })
+    console.log("Unique ",tempExercise)
+    setExercises(tempExercise);
+    location.state.exercises.map((ex, index) => {
+      if (ex.ex_em_id == 262) {
         let a = {
           title: ex.name,
+          name: ex.name,
           video_path: ex.youtube_link,
+          hold : "none"
         };
         yt_temp.push(a);
       }
+      res.map(e => {
+        if (ex.ex_em_id == e.ex_em_id) {
+          console.log("check hold",e)
+          if (e.hold_flag) {
+            ex.hold = e.hold_flag
+          } else {
+            ex.hold = "none"
+          }
+        }else if(ex.ex_em_id===262){
+          ex.hold = "none"
+        }
+      })
     });
-    setExercises([...res, ...yt_temp]);
-    // location.state.exercises.map((item) => {
-    //   if (item.name == "YouTube") {
-    //     setExercises([...exercises, item]);
-    //   }
-    // });
+    // // setExercises([...yt_temp,...res]);
+    // let temp = []
+    // console.log("exercise ", [...yt_temp, ...res])
+    // location.state.exercises.map(ex => {
+    //   let te = [...yt_temp, ...res].find(e => e.title == ex.name)
+    //   console.log("exercise array1 ", te)
+    //   temp.push(te)
+    // })
+    // setExercises(temp)
+    console.log("exercise array ", res)
+    console.log("exercise array ", location.state.exercises)
+  }
+  useEffect(() => {
+    CallDetails()
   }, []);
 
   // componentWillUnmount(){
@@ -90,12 +129,12 @@ const ExerciseDetailsClass = () => {
     <div className="exercise-detail" id="exercise-detail">
       <h3 className="fw-bold mt-2 ms-2">
         <BackButton />
+        <Alert message="Please scroll down and review all the exercise materials before starting the exercise" type="info" showIcon closable />
       </h3>
       <button
         style={{ float: "right" }}
         className="skip-button"
         id="skip-button"
-        // disabled={location.state.status_flag}
         onClick={handleClick}
       >
         Skip
@@ -103,25 +142,25 @@ const ExerciseDetailsClass = () => {
       {exercises.length > 0 &&
         exercises.map((exercise, index) => (
           <>
-            {/* {exercise.title != "YouTube" ? ( */}
-              <Row className="main-container p-1" id="main-container">
-                <Col className="left-box m-1">
-                  <div className="top-heading" id="top-heading">
-                    <h2 className="heading" id="heading">
-                      <b>{exercise.title}</b>
-                    </h2>
 
-                    {index == 0 && (
-                      <h3 className="subtext" id="subtext">
-                        <b style={{ color: "teal" }}>
-                          {" "}
-                          Find the Fun in Exercise and Track your
-                          Progress.......
-                        </b>{" "}
-                      </h3>
-                    )}
-                  </div>
-                  <div className="video">
+            <Row className="main-container p-1" id="main-container">
+              <Col className="left-box m-1">
+                <div className="top-heading" id="top-heading">
+                  <h2 style={{ fontSize: '28px' }} className="heading" id="heading">
+                    <b>{exercise.title}</b>
+                  </h2>
+
+                  {index == 0 && (
+                    <h3 style={{ fontSize: '20px' }} className="subtext" id="subtext">
+                      <b style={{ color: "teal" }}>
+                        {" "}
+                        Find the Fun in Exercise and Track your
+                        Progress.......
+                      </b>{" "}
+                    </h3>
+                  )}
+                </div>
+                <div className="video">
                   {exercise.title == "YouTube" ? (
                     <ReactPlayer
                       playing={true}
@@ -130,7 +169,6 @@ const ExerciseDetailsClass = () => {
                       className="react-player"
                       url={exercise.video_path}
                       width="100%"
-                    //  height="auto"
                     />
                   ) : (
                     <video controls autoPlay loop id="video1" width="100%">
@@ -141,38 +179,41 @@ const ExerciseDetailsClass = () => {
                     </video>
                   )}
                 </div>
-                </Col>
-                <Col className="right-box">
-                  <div className="instructions" id="instructions">
-                    <p></p>
-                    <Descriptions
-                      bordered
-                      column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
-                    >
-                      <Descriptions.Item label={<h5>Sets</h5>}>
-                        <h5>{location.state.repArr[index].set}</h5>
-                      </Descriptions.Item>
-                      <Descriptions.Item label={<h5>Reps</h5>}>
-                        <h5>{location.state.repArr[index].rep_count}</h5>
-                      </Descriptions.Item>
-                    </Descriptions>
-                    <p></p>
-                    <Descriptions
-                      column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-                      title={<h3>Step By Step Instructions</h3>}
-                    >
-                      <Descriptions.Item label="1">
-                        <h5>{exercise.instruction1}</h5>
-                      </Descriptions.Item>
-                      <Descriptions.Item label="2">
-                        <h5>{exercise.instruction2}</h5>
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </div>
-                </Col>
-                <Divider />
-              </Row>
-            ) 
+              </Col>
+              <Col className="right-box">
+                <div className="instructions" id="instructions">
+                  <p></p>
+                  <Descriptions
+                    bordered
+                    column={{ xxl: 4, xl: 2, lg: 2, md: 2, sm: 1, xs: 1 }}
+                  >
+                    <Descriptions.Item label={<h5>Sets</h5>}>
+                      <h5>{location.state.repArr[index].set}</h5>
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<h5>Reps</h5>}>
+                      <h5>{location.state.repArr[index].rep_count}</h5>
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <p></p>
+                  <Descriptions
+                    column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+                    title={<h3 style={{ fontSize: '20px' }}>Step By Step Instructions</h3>}
+                  >
+                    {exercise.instruction_array !== undefined &&
+                      <>
+                        {exercise.instruction_array.map((i, index) =>
+                          <Descriptions.Item label={index + 1}>
+                            <h5 style={{ fontSize: '16px' }}>{i}</h5>
+                          </Descriptions.Item>
+                        )}
+                      </>
+                    }
+                  </Descriptions>
+                </div>
+              </Col>
+              <Divider />
+            </Row>
+
             {/* : (
               <Row className="main-container p-1" id="main-container">
                 <Col className="left-box m-1">

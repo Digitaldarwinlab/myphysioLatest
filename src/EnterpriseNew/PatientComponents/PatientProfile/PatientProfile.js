@@ -95,7 +95,7 @@ const PatientProfile = () => {
                 }
                 else
                 {
-                    window.location.href = "/pateints";
+                    window.location.href = "/patients";
                 }
            
         } else {

@@ -23,8 +23,9 @@ import {
   CARE_PLAN_ROM_JOINT_YOUTUBE_CHANGE,
   CARE_PLAN_STATE_CHANGE,
 } from "../../../contextStore/actions/care-plan-action";
-import yt from "../../../assets/YouTube.PNG";
+import yt from "../../../assets/YouTube.webp";
 import ReactPlayer from "react-player";
+import { GetJoint } from "../../../API/care-plan/care-plan-api";
 const { Option } = Select;
 const { Meta } = Card;
 const joints = {
@@ -86,10 +87,7 @@ export default function CarePlanCard({
   const handleClick1 = () => {
     setVisible(true);
   };
-
-  useEffect(() => {
-   
-  }, []);
+  
 
   const handleChange1 = (key, value, id = 0) => {
     const reg = /^-?\d*(\.\d*)?$/;
@@ -136,9 +134,9 @@ export default function CarePlanCard({
   };
 
   return (
-    <>
+    <div className="bg-theme-1x"  style={{padding:'5px', margin:'5px'}}>
       <Card
-        className="px-1 py-1 ant-card-style"
+        // className="px-1 py-1 ant-card-style"
         cover={
           Name === "YouTube" ? (
             <div>
@@ -229,9 +227,6 @@ export default function CarePlanCard({
                   <div className="border m-1">
                     <Row>
                       <h4 className="border">Repitition</h4>
-                      {/* {Name =="YouTube" &&  <Select>
-                          {Object.keys(joints).map(item=><Option value={item}>{item}</Option>)}
-                      </Select>} */}
                     </Row>
                     <Row gutter={[10, 10]}>
                       <Col
@@ -353,78 +348,8 @@ export default function CarePlanCard({
                         </Col>
                       )}
                     </Row>
-                    {/* <Row gutter={[10,10]}>
-                            <Col lg={24} md={24} sm={24} xs={24}>
-                                    <Form.Item name={"hold_time" + index} label="Hold Time(sec)" required={true}>
-                                       <Select 
-                                        onChange={(value) => handleChange("hold_time", value, index)}
-                                        //value={state.exercises_cart[index].Rep.hold_time}
-                                        disabled={carePlanView}
-                                        value={(data && data.Rep) ? data.Rep.hold_time :
-                                            (state.exercises_cart.length > 0 && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 10}
-                                        defaultValue={(data && data.Rep) ? data.Rep.hold_time :
-                                            (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rep"]["hold_time"] : 10}
-                                       >
-                                           <Select.Option value={5}>5</Select.Option>
-                                           <Select.Option value={10}>10</Select.Option>
-                                           <Select.Option value={15}>15</Select.Option>
-                                       </Select>
-                                    </Form.Item>
-                                </Col>
-                                </Row> */}
                   </div>
                 </>,
-                // <>
-                //     <div className="border m-1">
-                //         <h4 className="border">Rom</h4>
-
-                //         <Form.Item name={"joint" + index} label="Joint" required={true}>
-                //         <Select
-                //    disabled={carePlanView}
-                //     defaultValue={state.exercises_cart.length>0?state.exercises_cart[index]&&state.exercises_cart[index]["Rom"]&&state.exercises_cart[index]["Rom"]["joint"]:data?data.Rom.joint:''}
-                //     style={{ width: 120 }}
-                //     onChange={(e)=>changeRom(index,e)}
-                //   >
-                //     {state.exercises_cart.length>0?
-                //     Object.keys(state.exercises_cart[index].angle).map((item, index) => (
-                //       <Option value={item}>{item}</Option>
-                //     )): <Option value={data?data.Rom.joint:''}>{data?data.Rom.joint:''}</Option>}
-                //   </Select>
-                //         </Form.Item>
-                //         <Row gutter={[10, 10]}>
-                //             <Col lg={12} md={12} sm={12} xs={12}>
-                //                 <Form.Item name={"min" + index} label="min" required={true}>
-                //                     {console.log('printing default danglse')}
-
-                //                     <Input
-                //                         disabled={carePlanView}
-                //                         onChange={(e) => handleChange1("min", e.target.value, index)}
-                //                         min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 1}
-                //                         max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : 10}
-                //                         value={(data && data.Rom) ? data.Rom.min :
-                //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 6}
-                //                         defaultValue={(data && data.Rom) ? data.Rom.min :
-                //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']:8}
-                //                         className="w-75 m-1" />
-                //                 </Form.Item>
-                //             </Col>
-                //             <Col lg={12} md={12} sm={12} xs={12}>
-                //             <Form.Item name={"max" + index} label="max" required={true}>
-                //                     {console.log("Hello")}
-                //                     <Input
-                //                         disabled={carePlanView}
-                //                         onChange={(e) => handleChange1("max", e.target.value, index)}
-                //                         value={(data && data.Rom) ? data.Rom.max :
-                //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :  80}
-                //                         min={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["min"] : 90}
-                //                         max={(state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] : state.exercises_cart && state.exercises_cart[index] ? state.exercises_cart[index]['angle'][Object.keys(state.exercises_cart[index]['angle'])[0]]['min']: 360}
-                //                         defaultValue={(data && data.Rom) ? data.Rom.max :
-                //                             (state.exercises_cart && state.exercises_cart[index]) ? state.exercises_cart[index]["Rom"]["max"] :80} className="w-75 m-1" />
-                //                 </Form.Item>
-                //             </Col>
-                //         </Row>
-                //     </div>
-                // </>
               ]
         }
       >
@@ -447,9 +372,7 @@ export default function CarePlanCard({
                           value: e.target.value,
                         },
                       });
-                    //  setUrl(e.target.value);
                     }}
-                    // style={{ width: "100%" }}
                     placeholder="Paste youtube link here..."
                   />
                 </Col>
@@ -496,6 +419,6 @@ export default function CarePlanCard({
           height="250px"
         />
       </Modal>
-    </>
+    </div>
   );
 }

@@ -25,8 +25,8 @@ import {
   SwapOutlined,
   RollbackOutlined,
 } from "@ant-design/icons";
-import bodyImage from '../.././assets/lateral.jpg'
-import side_img from '../.././assets/sideways-vector.jpg'
+import bodyImage from '../../../src/assets/lateral.webp'
+import side_img from '../.././assets/sideways-vector.webp'
 import { STATECHANGE } from "../../contextStore/actions/Assesment";
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -329,7 +329,7 @@ console.log("checks ",sideChecks)
 
         <Col md={16} lg={16} sm={24} xs={16}>
           <Col id="Ai_vid" className="Ad_vid">
-            <img src="../../assets/webcam.png" />
+            <img src="../../assets/webcam.webp" />
             <video
              
               id="video"

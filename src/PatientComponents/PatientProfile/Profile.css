@@ -1,92 +1,340 @@
-.profile-col{
-    margin-bottom:20px
+.profile-col {
+  margin-bottom: 20px;
+}
+.ant-radio-button-wrapper:not(:first-child)::before {
+  width: 0px !important;
+}
+.main-container {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 10px 10px 10px;
+  width: 100%;
 }
 
+.lefting-box {
+  padding: 9px 20px 20px 20px;
+  width: 50%;
+}
 
-.main-container{
+.current-therapy-col {
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.current-therapy {
+  width: 60%;
+}
+.righting-box {
+  width: 50%;
+}
+
+.left-row {
+  width: 100%;
+}
+.report {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 5px 10px 18px #888888;
+  -webkit-box-shadow: 5px 10px 18px #888888;
+  -moz-box-shadow: 5px 10px 18px #888888;
+}
+.dashboardvisit {
+  width: 100%;
+  min-width: 350px;
+  margin: 10px 0;
+  margin-top: 20px;
+  margin-right: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 5px 10px 18px #888888;
+  -webkit-box-shadow: 5px 10px 18px #888888;
+  -moz-box-shadow: 5px 10px 18px #888888;
+}
+
+.careplanDashboard {
+  width: 100%;
+  min-width: 350px;
+  margin-right: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 5px 10px 18px #888888;
+  -webkit-box-shadow: 5px 10px 18px #888888;
+  -moz-box-shadow: 5px 10px 18px #888888;
+}
+
+.right-row {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+}
+
+.previous-therapy {
+  margin-top: 20px;
+}
+
+.space-div {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.detail-row {
+  width: 100%;
+  margin: 10px 10px 10px 10px;
+}
+
+.outer-box {
     display: flex;
-    flex-direction: row;
-    padding: 10px 10px 10px 10px;
-   
-
-    width:100%
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
 }
 
-.lefting-box{
-    padding: 9px 20px 20px 20px;
-    width:35%;
-   ;
-
+.edit-btn {
+  float: right;
+  margin-left: 10px;
 }
 
-.current-therapy-col{
-    width:100%;
-    text-align: center;
+.input-text {
+  border-radius: 10px;
+  width: 50px;
+}
 
-display: flex;
-flex-direction: column;
-justify-content: space-around;
+.buttons {
+  float: right;
+  display: flex;
+  margin-right: 30px;
+  padding: 10px 10px 10px 10px;
+  justify-content: space-around;
+  flex-direction: row;
 }
-.current-therapy{
-    width: 60%;
+.react-player {
+  width: 100% !important;
 }
-.righting-box{
-    width: 60%;
+#cancel {
+  border-radius: 10px !important;
+  background-color: rgb(218, 99, 99);
+}
+.reportBox,
+.dashboardvisitBox {
+  display: flex;
+  width: 100%;
+}
+.reportHeading {
+  padding: 12px 0;
+}
+.reportRadio {
+  margin-left: auto;
+}
+.dashboardvisitButton {
+  position: absolute;
+  right: 8px;
+  border-radius: 20px !important;
+  margin-top: 10px !important;
+}
+.dashboardcareplanButton {
+  position: absolute;
+  right: 18px;
+  color:#2d7ecb !important;
+  font-weight: 700;
+  border: 2px solid #2d7ecb !important;
+  border-radius: 20px !important;
+  margin-top: 10px !important;
+}
+.dashboardcareplanButton:hover{
+  color:#fff !important;
+  background-color:#2d7ecb !important ;
+  font-weight: 700;
+  border: 2px solid #2d7ecb !important;
+}
+@media only screen and (max-width: 1000px) {
  
+  .report {
+    margin: auto;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .reportBox {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .dashboardvisitBox {
+    margin-bottom: 10px;
+  }
+  .reportHeading {
+    padding: 0;
+  }
+  .reportRadio {
+    margin-left: 0;
+  }
+  .dashboardvisitButton {
+    margin-top: 0 !important;
+  }
+  .main-container {
+    padding: 0;
+  }
 }
 
-.left-row{
-    width: 100%;
+/* Visit */
+#dashboardvisitCard {
+  width: 90%;
+  display: flex;
+  /* flex-direction: column; */
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+  outline: #888888;
 }
 
-.right-row{
-    width: 100%;
-    padding :10px 10px 10px 10px
-   
+.dashboardvisitDetails {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+  text-align: left;
+}
+.ant-radio-button-wrapper:not(:first-child)::before {
+  width: 0px !important;
 }
 
-.previous-therapy{
-    margin-top: 20px;
+.dashboardvisitImage {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
 }
-
-.space-div{
-    margin-top: 20px;
-    margin-bottom: 20px;
+.doctorName {
+  font-size: 24px;
 }
-
-.detail-row{
-   
- 
-    width:100%;
-   margin :10px 10px 10px 10px
+.dashboardcolRight {
+  float: right;
 }
-
-.outer-box{
-    margin-top: 40px;
-    width: 100%;
-    padding: 10px 10px 10px 10px;
-
+.dashboardvisitCol {
+  font-size: 15px;
+  margin-bottom: 12px;
 }
-
-.edit-btn{
-    float:right;
+.dashboardchannelButton {
+  width: 55%;
+  margin-top: 10px;
+  float: right;
+}
+.disablechannelButton {
+  float: right;
+  margin-top: 10px;
+}
+@media only screen and (max-width: 1200px) {
+  .dashboardvisit,
+.careplanDashboard {
+  min-width: 300px;}
+  #dashboardvisitCard {
+    width: 80%;
+  }
+  .dashboardchannelButton {
+    width: 65%;
+  }
+  .dashboardcolRight {
+    float: none;
+    display: block;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  #dashboardvisitCard {
+    width: 90%;
+  }
+  .dashboardcolRight {
+    float: none;
+    display: block;
+  }
+  .dashboardchannelButton {
+    width: 45%;
+  }
+}
+.card {
+    width:30%;
+  border-radius: 10px;
+  border-right: 1px solid #ccc;
+}
+.cardRight{
     margin-left: 10px;
+    width: 100%;
 }
 
-.input-text{
-    border-radius: 10px;
-    width:50px
+.card .card-header .profile_img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin: 10px auto;
+  border: 2px solid #ccc;
+  border-radius: 50%;
 }
 
-.buttons{
+.card h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card p {
+  font-size: 16px;
+  color: #000;
+}
+
+@media only screen and (max-width: 800px) {
+    .outer-box {
+    flex-direction: column;
+}
+  .card {
+    width:100%;
+    margin: auto;
+  border-radius: 10px;
+  border-right: 1px solid #ccc;
+}
+.cardRight{
+    margin-left: 10px;
+    width: 100%;
+}
+}
+
+@media only screen and (max-width: 600px) {
+  .dashboardvisit,
+.careplanDashboard {
+  min-width: 250px;
+}
+  #dashboardvisitCard {
+    width: 98%;
+  }
+  .dashboardvisitImage {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+  }
+  .doctorName {
+    font-size: 20px;
+  }
+  .dashboardcolRight {
+    float: none;
+    display: block;
+  }
+  .dashboardchannelButton {
+    width: 72%;
     float: right;
-    display: flex;
-    padding: 10px 10px 10px 10px;
-    justify-content: space-around;
-    flex-direction: row;
+  }
 }
+@media only screen and (max-width: 600px) {
+  .dashboardvisit,
+.careplanDashboard {
+  min-width: 200px;
+}}
 
-#cancel{
-    border-radius: 10px;
-    background-color: rgb(218, 99, 99);
-}
+@media screen and (max-width: 500px) {
+    .columnDash {
+      flex: 100% !important; /* !important so that it overrides the inline style because by default it has higher priority */
+      justify-content: center;
+      text-align: center;
+    }
+  }

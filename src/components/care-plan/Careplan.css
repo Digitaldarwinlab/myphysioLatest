@@ -1,9 +1,52 @@
+.careplan-1x .ant-input-group-addon {
+  display: none;
+}
+.care-plan-search-filter-main-1x {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px;
+}
+.care-plan-search-filter-item-1x{
+  flex: 45%;
+  margin: 5px;
+}
+.care-plan-filter-main-1x {
+  display: flex;
+   justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px;
+}
+.care-plan-filter-item-1x{
+  flex: 30%;
+  margin: 5px;
+}
+.care-plan-icon-1x{
+  width:30px;
+  height: 24px;
+}
+.care-plan-accordion-1x {
+  width: 100%;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.care-plan-panel-1x {
+  padding: 0 18px;
+  background-color: #F9F9Fc;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
 @media only screen and (max-width: 650px) {
   .careplan_mobile_view_tabs {
     display: flex !important;
     flex-wrap: nowrap !important;
   }
-  .careplan_mobile_view_tabs ,.car_btn1 {
+.care-plan-search{
+  width: 165% !important;
+}
+  .careplan_mobile_view_tabs,
+  .car_btn1 {
     background-color: #fff !important;
     /*
     width: 30px;
@@ -13,51 +56,66 @@
     margin-left: 13px !important; */
 
   }
-  .CarePlan{
-    padding:8px !important;
+
+  .CarePlan {
+    padding: 8px !important;
   }
-  .careplan_mobile_view_tabs ,.car_btn2 {
+
+  .careplan_mobile_view_tabs,
+  .car_btn2 {
     background-color: #fff !important;
 
   }
-  .careplan_mobile_view_tabs >.car_btn3 {
+
+  .careplan_mobile_view_tabs>.car_btn3 {
     background-color: #ffb7c5 !important;
     border-radius: 25px !important;
   }
- .careplan_drawer >.ant-drawer-body{
-  padding: 0 !important;
-}
-.ant-drawer-close{
-  padding: 15px 20px 40px 20px !important
+
+  .careplan_drawer>.ant-drawer-body {
+    padding: 0 !important;
   }
+
+  .ant-drawer-close {
+    padding: 15px 20px 40px 20px !important
+  }
+
   .careplan_new_tabs,
   .ant-tabs-nav-wrap {
     display: contents;
   }
+
   .careplan_plan_button {
-    background-color: #ffb7c5 !important ;
+    background-color: #ffb7c5 !important;
   }
+
   .careplan_mobile_view_tabs {
     display: contents !important;
   }
+
   .careplan_mobile.ant-row {
     flex-flow: row !important;
     justify-content: space-between !important;
   }
+
   .col_careplan1.ant-col {
     margin-left: 150px !important;
   }
+
   .col_careplan2.ant-col {
     margin-left: 20px !important;
   }
+
   .careplan_mobile.ant-row {
     /* position: absolute !important;
         display: flex; */
     justify-content: start;
   }
+
   .careplan_large_view {
     display: none !important;
   }
+
   .cart-plan-item-count_new {
     position: absolute !important;
     top: 10px !important;
@@ -68,8 +126,8 @@
     background: black !important;
     color: white !important;
   }
- 
-  .ant-card-body {
+
+  /* .ant-card-body {
     display: none;
-  }
+  } */
 }

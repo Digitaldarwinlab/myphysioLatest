@@ -1,0 +1,191 @@
+
+
+.btn-1x {
+    border-radius: 5px !important;
+}
+
+.bg-theme-1x {
+    background-color: #F9F9FC !important;
+}
+
+.div-border-1x {
+    border-radius: 5px;
+}
+
+.div-border-1x div {
+    border-radius: 5px;
+}
+.assessment-report > .h2-1x{
+    color: #000000;
+}
+
+.assesment-list-icons-1x {
+    width: 45%;
+}
+.physical-report .ant-descriptions-item-content {
+    background: white !important;
+}
+.assesment-list-wrap-1x {
+    margin: 0.5rem 0px 0.5rem 0px;
+    width: 100%;
+    min-height: 40px;
+}
+
+/*  .assesment-list-1x .icons-1x{
+    width: 4rem;
+    height: 4rem
+}
+.assesment-list-1x div {
+    background-color: #fff !important;
+    margin: 0.5rem;
+    width: 45%;
+    height: 7rem
+} */
+
+.patient-details-1x {
+    width: 100%;
+    color: #4E4949;
+    margin: 10px 0px 0px 0px;
+    display: flex !important;
+    justify-content: space-between;
+    min-height: 30px;
+}
+
+.patient-details-1x span {
+    padding: 5px !important;
+    font-weight: 500;
+}
+
+.create-patient-btn-1x {
+    float: right;
+    background-color: #F9F9FC !important;
+    color: #0A7BE7 !important;
+    font-weight: 800;
+    height: 40px;
+}
+
+.create-patient-btn-1x:hover {
+    border: 1px solid #0A7BE7 !important;
+    background-color: #F9F9FC !important;
+    color: #0A7BE7 !important;
+
+}
+
+.h3-font-1x {
+    color: #4E4949;
+    font-size: 13px;
+}
+
+.assesment-list-item-1x {
+    background-color: rgb(255, 255, 255);
+    padding: 1rem;
+    margin: 0.5rem 0 0.5rem 0;
+    height: 7rem;
+    cursor: pointer;
+
+}
+
+.assesment-list-item-1x:hover {
+    border: 1px solid #0A7BE7 !important;
+    color: #0A7BE7;
+}
+
+.assesment-list-1x {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 1rem;
+}
+
+.assesment-list-1x:first-child {
+    margin-left: 0.5rem;
+}
+
+.assesment-list-1x:last-child {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .assesment-list-1x {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* .assesment-list-item-1x {
+        background-color: rgb(255, 255, 255);
+        padding: 1rem;
+        margin: 0.5rem 0 0 0;
+        height: 8rem;
+        cursor: pointer;
+    
+      } */
+    .assesment-list-icons-1x {
+        margin: 0 !important;
+        width: 35%;
+    }
+
+    .assesment-list-1x :first-child {
+        margin-top: 0.5rem !important
+    }
+
+    .assesment-list-1x :nth-child(2) {
+        margin-top: 0.5rem !important
+    }
+
+    .assesment-list-item-1x {
+        margin: 0 !important;
+        padding: 0 !important
+    }
+
+    .assesment-list-1x {
+        margin-top: 0 !important
+    }
+}
+
+/* Screen larger than 600px? 7 column */
+@media (min-width: 600px) {
+    .assesment-list-1x {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+/* Screen larger than 900px? 7 columns */
+@media (min-width: 900px) {
+    .assesment-list-1x {
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 1rem;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+    .h2-p-1x{
+        padding: 5px;
+    }
+    .h1-1x {
+        size: 10px !important;
+        margin-bottom: 0 !important;
+        font-size: 22px;
+    }
+
+    .only-icons-sm-1x {
+        display: none !important
+    }
+
+    .create-patient-btn-1x {
+        border: 1px solid #0A7BE7 !important;
+        padding: 0px !important;
+        min-width: 0 !important;
+        width: 40px;
+    }
+
+    .patient-details-1x {
+        width: 100%;
+        background-color: #F9F9FC !important;
+        margin: 10px 0px 10px 0px;
+        display: grid !important;
+        grid-template-columns: auto;
+    }
+}

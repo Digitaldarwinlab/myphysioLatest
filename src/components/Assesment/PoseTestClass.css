@@ -1,0 +1,74 @@
+.ant-modal-header{
+  display: none;
+}
+.ant-modal-close{
+  display: none;
+}
+.assesment-1{
+    margin-left: auto;
+    margin-right: auto;
+    width: 110%;
+    
+    overflow-x: hidden;
+    
+    height: auto;
+    border: 1px solid #000000;
+}
+.assesment-0{
+    margin-left: auto;
+    margin-right: auto;
+    
+    overflow-x: hidden;
+    height: auto;
+    margin-bottom: 20px;
+    border: 1px solid #000000;
+}
+/* .spacing{
+    padding: 10px;
+} */
+.scrollable-container {
+    height: 100%;
+    width: 100%; 
+    border: 1px solid #000000;
+  }
+  .ant-tabs-card .ant-tabs-tab-active,
+  [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-tab-active {
+    background: #2d7ecb !important;
+    border: 1px solid gray;
+  }
+  .ant-tabs-card .ant-tabs-btn {
+    width: 8.85714vw!important;
+    text-align: center;
+    min-width: 100px;
+  }
+/* .background{
+    height: 400px;
+   width: 640px; 
+} */
+
+/*
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  .container {
+    padding: 2px 16px;
+  } */
+  .Ad_vid{
+    height: 480px;
+    width: 98%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 30px solid #111;
+    margin-bottom: 20px;
+    margin-top: 8px;
+  }
+  .ant-tabs-tab{
+    font-size: 13px;
+  }

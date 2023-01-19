@@ -5,13 +5,14 @@ import { STATECHANGE, VALIDATION } from "../../contextStore/actions/authAction";
 import validation from "./../Validation/authValidation/authValidation";
 import Error from "./../UtilityComponents/ErrorHandler.js";
 import StepBar from "./../UtilityComponents/StepBar";
-import svg from "././../../assets/step1.png";
+import svg from "././../../assets/step1.webp";
 import "../../styles/Layout/Episode.css";
 import FormInput from "../UI/antInputs/FormInput";
 import FormDate from "../UI/antInputs/FormDate";
 import { Typography, Select, Row, Col, Button, Form, Space } from "antd";
 import moment from "moment";
 import "../../styles/Layout/Heading.css";
+import { DropdownApi } from "../../API/Dropdown/Dropdown";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -23,6 +24,15 @@ export const calculate = (dt2, dt1) => {
 };
 
 const Register1 = (props) => {
+  const [dropdownValue, setDropdownValue] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const data = await DropdownApi("Registration");
+      console.log(data);
+      setDropdownValue(data.Registration);
+    }
+    getData();
+  }, []);
   const [startDateState, setStartDateState] = useState("");
 
   const [NewAge, setNewAge] = useState("");
@@ -34,12 +44,11 @@ const Register1 = (props) => {
 
   useEffect(() => {
     const data = state.BasicDetails;
-
     form.setFieldsValue({ FirstName: data.FirstName });
     form.setFieldsValue({ MiddleName: data.MiddleName });
     form.setFieldsValue({ LastName: data.LastName });
-    form.setFieldsValue({ Gender: data.Gender });
-    form.setFieldsValue({ bloodType: data.bloodType });
+    form.setFieldsValue({ Gender: data.Gender === 0 ? "" : data.Gender });
+    form.setFieldsValue({ bloodType: data.bloodType === 0 ? "" : data.bloodType });
     form.setFieldsValue({ MobileNo: data.MobileNo });
     form.setFieldsValue({ LandlineNo: data.LandlineNo });
     form.setFieldsValue({ WhatsAppNo: data.WhatsAppNo });
@@ -81,16 +90,19 @@ const Register1 = (props) => {
       });
       setNewAge(Age);
     } else if (key === "FirstName" || key === "LastName") {
+      let result = value.replace(/^\s+|\s+$/gm,'');
+      console.log(key," ",result.length)
+      if(result.length==0) return ;
       dispatch({
         type: STATECHANGE,
         payload: {
           key,
           value:
             value.length > 1
-              ? value[0].toUpperCase() + value.slice(1, value.length)
-              : value.length === 1
-              ? value.toUpperCase()
-              : "",
+              ? result[0].toUpperCase() + result.slice(1, result.length)
+              : result.length === 1
+                ? result.toUpperCase()
+                : "",
         },
       });
     } else {
@@ -149,23 +161,23 @@ const Register1 = (props) => {
       if (window.confirm("Confirm, Do You want to Cancel Update?")) {
         // dispatch({ type: CLEAR_STATE });
         if (JSON.parse(localStorage.getItem("user")).role == "patient") {
-          history.push("/pateint/profile");
+          history.push("/patients/profile");
         } else {
-          history.push("/pateints");
+          history.push("/patients");
         }
       }
     } else {
       if (window.confirm("Confirm, Do You want to Reset all fieldsss?")) {
         // dispatch({ type: CLEAR_STATE });
         form.resetFields();
-        history.push("/pateints/new");
+        history.push("/patients/new");
       }
     }
   };
 
   const onFinish = () => {
     let data = state.BasicDetails;
-    // console.log(data)
+    console.log(data)
     //  console.log(validation.checkNameValidation(data.FirstName).error+': error is')
     if (validation.checkNameValidation(data.FirstName).error) {
       dispatch({
@@ -189,6 +201,8 @@ const Register1 = (props) => {
             "Middle" + validation.checkNameValidation(data.MiddleName).error,
         },
       });
+    } else if (validation.checkMobNoValidation(data.MobileNo).error) {
+      dispatch({ type: VALIDATION, payload: { error: "Mobile " + validation.checkMobNoValidation(data.MobileNo).error } });
     } else {
       props.next();
     }
@@ -239,17 +253,17 @@ const Register1 = (props) => {
           md={8}
           sm={8}
           xs={8}
-       //   className="text-right"
+          //   className="text-right"
           justify="right"
         >
-            <Row justify="end">
-                
-          <Link to="/pateints" className="text-blue navlink " 
-          //id="navlink"
-          >
-            <i className="fa fa-users"></i> Patients
-          </Link>
-            </Row>
+          <Row justify="end">
+
+            <Link to="/patients" className="text-blue navlink "
+            //id="navlink"
+            >
+              <i className="fa fa-users"></i> Patients
+            </Link>
+          </Row>
         </Col>
       </Row>
       <StepBar src={svg} />
@@ -294,14 +308,18 @@ const Register1 = (props) => {
                     {"First Name"}
                   </span>
                 }
+                space_validation={true}
+                patientTitle={true}
+                titleName='Title'
+                titleValue={state.BasicDetails.Title}
                 name="FirstName"
                 className="input-field w-100 text-capitalize"
-                //  value={state.BasicDetails.FirstName}
+                value={state.BasicDetails.FirstName}
                 placeholder="Enter Patient First Name"
                 required={true}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                defaultValue={state.BasicDetails.FirstName}
+                // defaultValue={state.BasicDetails.FirstName}
               />
             </Col>
             <Col md={24} lg={8} sm={24} xs={24}>
@@ -330,7 +348,7 @@ const Register1 = (props) => {
                 }
                 name="LastName"
                 className="input-field w-100 text-capitalize"
-                //  value={state.BasicDetails.LastName}
+                value={state.BasicDetails.LastName}
                 placeholder="Enter Patient Last Name"
                 required={true}
                 onChange={handleChange}
@@ -352,9 +370,8 @@ const Register1 = (props) => {
                 reverse="true"
                 className="input-field w-100"
                 value={startDateState}
-                required={true}
                 onChange={handleChange}
-                // onBlur={handleBlur}
+              // onBlur={handleBlur}
               />
             </Col>
             <Col md={12} lg={3} sm={24} xs={24}>
@@ -380,9 +397,24 @@ const Register1 = (props) => {
                   </span>
                 }
                 name="Gender"
-                //rules={[{ required: true, message: `Please Select Gender.` }]}
+              //rules={[{ required: true, message: `Please Select Gender.` }]}
               >
-                <Select
+                {dropdownValue.Gender !== undefined && (
+                  <Select
+                  placeHolder="Gender"
+                  className="input-field w-100"
+                  onChange={(value) => handleChange("Gender", value)}
+                  value={state.BasicDetails.Gender}
+                  defaultValue={state.BasicDetails.Gender}
+                  >
+                    {dropdownValue.Gender.map((item, index) => (
+                      <Option key={item} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                {/* <Select
                   placeholder="Gender"
                   className="input-field w-100"
                   onChange={(value) => handleChange("Gender", value)}
@@ -392,7 +424,7 @@ const Register1 = (props) => {
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
                   <Option value="Other">Other</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
             <Col md={12} lg={8} sm={24} xs={24}>
@@ -403,9 +435,24 @@ const Register1 = (props) => {
                   </span>
                 }
                 name="bloodType"
-                //rules={[{ required: true, message: `Please Select Blood Type.` }]}
+              //rules={[{ required: true, message: `Please Select Blood Type.` }]}
               >
-                <Select
+                {dropdownValue['Blood Type'] !== undefined && (
+                  <Select
+                  className="input-field w-100"
+                  placeholder="Select Blood Type"
+                  onChange={(value) => handleChange("bloodType", value)}
+                  value={state.BasicDetails.bloodType}
+                  defaultValue={state.BasicDetails.bloodType}
+                  >
+                    {dropdownValue['Blood Type'].map((item, index) => (
+                      <Option key={item} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
+                {/* <Select
                   className="input-field w-100"
                   placeholder="Select Blood Type"
                   onChange={(value) => handleChange("bloodType", value)}
@@ -420,7 +467,7 @@ const Register1 = (props) => {
                   <Option value="AB">AB-</Option>
                   <Option value="O+">O+</Option>
                   <Option value="O-">O-</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>
@@ -439,7 +486,7 @@ const Register1 = (props) => {
                 placeholder="Enter Patient Mobile Number"
                 required={true}
                 onChange={handleChange}
-                //  onBlur={handleBlur}
+                  onBlur={handleBlur}
                 defaultValue={state.BasicDetails.MobileNo}
               />
             </Col>
@@ -492,37 +539,39 @@ const Register1 = (props) => {
                     </Col>
                 </Row> */}
         <Row justify="center">
-            <Space size={"middle"}>
-          <Col span={2}>
-            {" "}
-            <Link to="/dashboard">
+          <Space size={"middle"}>
+            <Col span={2}>
+              {" "}
+              <Link to="/dashboard">
+                {" "}
+                <Button
+                //  className="me-2 "
+                  style={{ backgroundColor: "#2d7ecb" }}
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </Col>
+            <Col span={2}>
               {" "}
               <Button
-              //  className="me-2 "
-              //  style={{ borderRadius: '10px' }}
+                //className="me-2" 
+                style={{ backgroundColor: "#2d7ecb" , borderRadius: "10px" }}
+                onClick={handleReset}
               >
-                Cancel
+                Reset
               </Button>
-            </Link>
-          </Col>
-          <Col span={2}>
-            {" "}
-            <Button
-              //className="me-2" style={{ backgroundColor: '#41A0A2', borderRadius: "10px" }}
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </Col>
-          <Col span={2}>
-            {" "}
-            <Button
-              //className="button1" id="bnid" style={{ color: "white" }}
-              htmlType="submit"
-            >
-              Next
-            </Button>
-          </Col>
+            </Col>
+            <Col span={2}>
+              {" "}
+              <Button
+              style={{ backgroundColor: "#2d7ecb" }}
+                //className="button1" id="bnid" style={{ color: "white" }}
+                htmlType="submit"
+              >
+                Next
+              </Button>
+            </Col>
           </Space>
         </Row>
       </Form>

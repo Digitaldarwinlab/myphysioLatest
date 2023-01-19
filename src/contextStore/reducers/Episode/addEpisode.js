@@ -27,7 +27,8 @@ const episodeInitialState = {
     Closure_Notes: "",
     episode_id: "",
     isLoading: false,
-    success: ""
+    success: "",
+    basic_details:{}
 }
 
 const consentFormState = {

@@ -2,7 +2,7 @@
 /*eslint array-callback-return:"off" */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import svg from "./../../assets/step3.png";
+import svg from "./../../assets/step3.webp";
 import StepBar from './../UtilityComponents/StepBar';
 import { physioRegister, physioUpdate } from './../../API/Physio/PhysioRegister';
 import { Typography, Row, Modal, Button, Col, Form, Table ,Space } from 'antd';
@@ -237,7 +237,7 @@ const PhysioRegisteration3 = (props) => {
                     {state.physioRegisterReducer.id ? "Cancel" : "Reset"}
                 </Button> */}
                 {/* aswin 10/15/2021 end */}
-                <Button onClick={showModal} className=" me-3 btncolor" >
+                <Button onClick={showModal} className=" me-3 " >
                     {state.physioRegisterReducer.id ? "Update" : "Submit"}
                 </Button>
                 <Modal title="Confirm All Details?" visible={isModalVisible} onOk={handleSubmit} onCancel={handleCancel}>
